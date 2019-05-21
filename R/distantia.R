@@ -1,0 +1,74 @@
+#' Multivariate and irregular time series with pollen counts.
+#'
+#' A dataframe with 9 columns representing pollen types (betula, pinus, corylus, empetrum, cypera, artemisia, rumex) and 49 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978).
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name sequenceA
+#' @usage data(sequenceA)
+#' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
+#' @format Dataframe 9 columns and 49 rows
+"sequenceA"
+
+#' Multivariate and irregular time series with pollen counts.
+#'
+#' A dataframe with 9 columns representing pollen types (betula, pinus, corylus, empetrum, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978).
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name sequenceB
+#' @usage data(sequenceB)
+#' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
+#' @format Dataframe 9 columns and 41 rows
+"sequenceB"
+
+#' Dataframe with palaeoclimatic data.
+#'
+#' A dataframe containing 800 simulated samples of palaeoclimate data at 1 ky temporal resolution with the following columns:
+#'
+#' \itemize{
+#'   \item \emph{age} in kiloyears before present (ky BP).
+#'   \item \emph{temperatureAverage} average annual temperature in Celsius degrees.
+#'   \item \emph{rainfallAverage} average annual precipitation in milimetres per day (mm/day).
+#'   \item \emph{temperatureWarmestMonth} average temperature of the warmest month, in Celsius degrees.
+#'   \item \emph{temperatureColdestMonth} average temperature of the coldest month, in Celsius degrees.
+#'   \item \emph{oxigenIsotope} delta O18, global ratio of stable isotopes in the sea floor, see \url{http://lorraine-lisiecki.com/stack.html} for further details.
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name climateLong
+#' @usage data(climateLong)
+#' @format dataframe with 6 columns and 800 rows.
+"climateLong"
+
+
+#' Dataframe with palaeoclimatic data.
+#'
+#' A dataframe containing 11 simulated samples of palaeoclimate data at 1 ky temporal resolution with the following columns:
+#'
+#' \itemize{
+#'   \item \emph{temperatureAverage} average annual temperature in Celsius degrees.
+#'   \item \emph{rainfallAverage} average annual precipitation in milimetres per day (mm/day).
+#'   \item \emph{temperatureWarmestMonth} average temperature of the warmest month, in Celsius degrees.
+#'   \item \emph{temperatureColdestMonth} average temperature of the coldest month, in Celsius degrees.
+#'   \item \emph{oxigenIsotope} delta O18, global ratio of stable isotopes in the sea floor, see \url{http://lorraine-lisiecki.com/stack.html} for further details.
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name climateShort
+#' @usage data(climateShort)
+#' @format dataframe with 5 columns and 11 rows.
+"climateShort"
+
+#' Dataframe with pollen counts for different MIS stages.
+#'
+#' A dataframe with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
+#'
+#' @docType data
+#' @keywords datasets
+#' @name sequencesMIS
+#' @usage data(sequencesMIS)
+#' @format dataframe with 7 columns and 427 rows.
+"sequencesMIS"

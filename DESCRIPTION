@@ -1,11 +1,25 @@
 Package: distantia
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Computation of dissimilarity between multivariate time series
+Version: 1.0.0
+Author: Blas M. Benito
+Maintainer: Blas M. Benito <blasbenito@gmail.com>
+Description: This R package provides tools to assess the dissimilarity between multivariate time series by using the psi measure described in "Numerical methods in Quaternary pollen analysis" (Birks and Gordon, 1985 <doi:10.1002/jqs.3390020110>). The algorithm computes a matrix of distances (euclidean, manhattan, chi) between all sample pairs, and minimizes the sum of distances while respecting the sample order.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+Depends: R (>= 2.10)
+Imports: 
+  ggplot2,
+  cowplot,
+  viridis, 
+  tidyr
+Suggests: 
+  devtools,
+  formatR,
+  kableExtra,
+  magrittr,
+  knitr,
+  rmarkdown
