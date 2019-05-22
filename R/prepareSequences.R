@@ -2,14 +2,29 @@
 #'
 #' @description Takes two dataframes containing multivariate time-series (\code{sequence.A} and \code{sequence.B}), checks the integrity of both datasets, and tries to adapt \code{sequence.B} to the characteristics of\code{sequence.A} by matching number of columns, column names, and missing data. Missing data can be handled in two ways: 1) setting NA to zero; 2) deleting rows with NA or empty cases.
 #'
-#' @usage
+#' @usage prepareSequences(
+#' sequence.A = NULL,
+#' sequence.A.name = "A",
+#' sequence.B = NULL,
+#' sequence.B.name = "B",
+#' merge.mode = "complete",
+#' sequences = NULL,
+#' grouping.column = NULL,
+#' time.column = NULL,
+#' exclude.columns = NULL,
+#' if.empty.cases = "zero",
+#' transformation = "none",
+#' silent = FALSE
+#' )
 #'
 #' @param sequence.A dataframe containing a multivariate time-series.
 #' @param sequence.A.name character string with the name of the sequence.
 #' @param sequence.B dataframe containing a multivariate time-series. Must have same column names and units as \code{sequence.A}.
 #' @param sequence.B.name character string with the name of the sequence.
+#' @param merge.mode character string, one of: "overlap", "complete" (default optiion). If "overlap", \code{sequence.A} and \code{sequence.B} are merged by their common columns, and non-common columns are removed. If "complete", columns absent in one dataset but present in the other are added, with values equal to 0. This argument is ignored if \code{sequence.A} and \code{sequence.B} are not provided.
 #' @param sequences dataframe with multiple sequences identified by a grouping column.
-#' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file.
+#' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
+#' @param time.colum character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
 #' @param transformation character string. Defines what data transformations to apply to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".
@@ -29,8 +44,10 @@ prepareSequences=function(sequence.A = NULL,
                           sequence.A.name = "A",
                           sequence.B = NULL,
                           sequence.B.name = "B",
+                          merge.mode = "complete",
                           sequences = NULL,
                           grouping.column = NULL,
+                          time.column = NULL,
                           exclude.columns = NULL,
                           if.empty.cases = "zero",
                           transformation = "none",
@@ -39,19 +56,31 @@ prepareSequences=function(sequence.A = NULL,
   #INTERNAL PARAMETERS
   input.mode <- NULL
 
-
-  #CHECKING if.empty.cases
-  ##############################################################
-  if (!(if.empty.cases) %in% c("zero", "ZERO", "Zero", "omit", "Omit", "OMIT")){
-    stop("if.empty.cases' must be one of: 'zero', 'omit'.")
-    }
-
-
   #CHECKING transformation
   ##############################################################
   if (!(transformation %in% c("none", "None", "NONE", "percentage", "Percentage", "PERCENTAGE", "percent", "Percent", "PERCENT", "proportion", "Proportion", "PROPORTION", "hellinger", "Hellinger", "HELLINGER"))){
     stop("Argument 'transformation' must be one of: 'none', 'percentage', 'proportion', 'hellinger'.")
+  } else {
+    if(transformation %in% c("none", "None", "NONE")){transformation <- "none"}
+    if(transformation %in% c("Percentage", "PERCENTAGE", "percent", "Percent", "PERCENT")){transformation <- "percentage"}
+    if(transformation %in% c("proportion", "Proportion", "PROPORTION")){transformation <- "proportion"}
+    if(transformation %in% c("hellinger", "Hellinger", "HELLINGER")){transformation <- "hellinger"}
   }
+
+  #CHECKING merge.mode
+  ##############################################################
+  if(!(merge.mode %in% c("overlap", "Overlap", "OVERLAP", "complete", "Complete", "COMPLETE", "completed", "Completed", "COMPLETED"))){
+    stop("Argument 'merge.mode' must be one of: 'overlap', 'complete'.")
+  } else {
+    if(merge.mode %in%  c("overlap", "Overlap", "OVERLAP")){merge.mode <- "overlap"}
+    if(merge.mode %in%  c("complete", "Complete", "COMPLETE", "completed", "Completed", "COMPLETED")){merge.mode <- "complete"}
+  }
+
+  #CHECKING exclude.columns
+  ##############################################################
+  if(!is.null(exclude.columns) & !is.character(exclude.columns)){
+    stop("Argument 'exclude.columns' must be of type character.")
+    }
 
   #SILENT?
   ##############################################################
@@ -65,6 +94,8 @@ prepareSequences=function(sequence.A = NULL,
   if(!is.null(sequence.A) & !is.null(sequence.B) & is.null(sequences)){
     if(is.data.frame(sequence.A) & is.data.frame(sequence.B)){
       input.mode <- "two.sequences"
+      if(!is.character(sequence.A.name)){warning("Argument 'sequence.A.name' must be character. Setting it to 'A'")}
+      if(!is.character(sequence.B.name)){warning("Argument 'sequence.B.name' must be character. Setting it to 'B'")}
     } else {
       stop("sequence.A and sequence.B must be dataframes.")
     }
@@ -79,162 +110,120 @@ prepareSequences=function(sequence.A = NULL,
   }
 
 
-  if(input.mode == "many.sequences"){
-
-  }
-
+  #sequence.A and sequence.B are provided
+  #######################################
   if(input.mode == "two.sequences"){
 
-  }
+    #CHECKING TIME COLUMN
+    if(!(is.null(time.column))){
+      if(!(time.column %in% colnames(sequence.A))){
+        warning("I couldn't find 'time.column' in 'sequenceA'. The time column will be ignored.")
+      }
+      if(!(time.column %in% colnames(sequence.B))){
+        warning("I couldn't find 'time.column' in 'sequenceB'. The time column will be ignored.")
+      }
+    }
 
-  #TESTING DATASETS AND SUBSETTING COLUMNS
-  ##############################################################
-  ##############################################################
-  if (silent == FALSE){cat("Checking input datasets...", sep="\n")}
+    #ADDING ID COLUMN TO BOTH SEQUENCES
+    sequence.A <- data.frame(id=rep(sequence.A.name, nrow(sequence.A)), sequence.A, stringsAsFactors = FALSE)
+    sequence.B <- data.frame(id=rep(sequence.B.name, nrow(sequence.B)), sequence.B, stringsAsFactors = FALSE)
+    grouping.column <- "id"
 
-  #OVERLAP OF COMMON COLUMN NAMES
-  common.column.names=intersect(colnames(sequence.A), colnames(sequence.B))
+    #MERGING MODE overlap
+    if(merge.mode == "overlap"){
 
+      #getting common column names
+      common.column.names <- intersect(colnames(sequence.A), colnames(sequence.B))
 
-  #ORIGINAL DIMENSIONS OF THE DATAFRAMES
-  sequence.A[is.na(sequence.A == "")]=NA
-  sequence.B[is.na(sequence.B == "")]=NA
-  original.na.sequence.A=sum(is.na(sequence.A))
-  original.na.sequence.B <- sum(is.na(sequence.B))
-  original.nrow.sequence.A <- nrow(sequence.A)
-  original.nrow.sequence.B <- nrow(sequence.B)
-  original.ncol.sequence.A <- ncol(sequence.A)
-  original.ncol.sequence.B <- ncol(sequence.B)
+      #SUBSET BY COMMON COLUMN NAMES
+      sequence.A <- sequence.A[, common.column.names]
+      sequence.B <- sequence.B[, common.column.names]
 
+    }
 
-  #WHAT COLUMNS WERE REMOVED FROM THE TARGET DATASET?
-  removed.column.names.sequence.A <- setdiff(colnames(sequence.A), common.column.names)
-  removed.column.names.sequence.B <- setdiff(colnames(sequence.B), common.column.names)
+    #RBIND both sequences
+    sequences <- plyr::rbind.fill(sequence.A, sequence.B)
 
-
-  if (length(removed.column.names.sequence.A) == 0){
-    removed.column.names.sequence.A <- ""
-  }
-
-  if (length(removed.column.names.sequence.B) == 0){
-    removed.column.names.sequence.B <- ""
   }
 
 
-  #SUBSET BY COMMON COLUMN NAMES
-  sequence.A <- sequence.A[, common.column.names]
-  sequence.B <- sequence.B[, common.column.names]
+  #from here, everything goes as is only "sequences" was provided
+  #MANY SEQUENCES ARE PROVIDED (only checks on grouping.column are required)
+  if(input.mode == "many.sequences"){
 
-
-  #messages
-  if (silent  ==  FALSE){
-    if (length(removed.column.names.sequence.A) == 1){
-      message(paste("WARNING: the column", removed.column.names.sequence.A, "was removed from the sequence A.", sep=" "))
+    #CHECKING IF grouping.column EXISTS
+    if(!(grouping.column %in% colnames(sequences))){
+      stop("The argument 'grouping.column' must be a column name of the 'sequences' dataset.")
     }
 
-    if (length(removed.column.names.sequence.A)>1){
-      message(paste("WARNING: the columns", removed.column.names.sequence.A, "were removed from the sequence A.", sep=" "))
-    }
-
-    if (length(removed.column.names.sequence.B) == 1){
-      message(paste("WARNING: the column", removed.column.names.sequence.B, "was removed from the sequence B.", sep=" "))
-    }
-
-    if (length(removed.column.names.sequence.B)>1){
-      message(paste("WARNING: the columns", removed.column.names.sequence.B, "were removed from the sequence B.", sep=" "))
+    #CHECKING IF THERE IS MORE THAN ONE GROUP
+    if(length(unique(sequences[, grouping.column])) < 2){
+      stop("According to 'grouping.column' there is only one sequence in the 'sequences' dataset. At least two sequences are required!")
     }
   }
 
 
-  #HANDLING NA DATA
-  ##############################################################
-  ##############################################################
-  sequence.A <- HandleNACases(sequence = sequence.A, sequence.name = sequence.A.name, if.empty.cases = if.empty.cases, silent = silent)
-  sequence.B <- HandleNACases(sequence = sequence.B, sequence.name = sequence.B.name, if.empty.cases = if.empty.cases, silent = silent)
+  #HANDLING NA
+  #############################
+  sequences <- handleNA(
+    sequence = sequences,
+    if.empty.cases = if.empty.cases
+    )
 
-  #counting NAs again for the metadata table
-  final.na.sequence.A <- sum(is.na(sequence.A))
-  final.na.sequence.B <- sum(is.na(sequence.B))
+  #REMOVING EXCLUDED COLUMNS
+  #############################
+  sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+
 
   #APPLYING TRANSFORMATIONS "none", "percentage", "proportion", "hellinger"
   ##############################################################
   ##############################################################
 
+  #removing grouping.column (it's non-numeric)
+  id.column <- sequences[, grouping.column]
+  sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
+
+  #removing time column
+  if(!(is.null(time.column))){
+    time.column.data <- sequences[, time.column]
+    sequences <- sequences[, !(colnames(sequences) %in% time.column)]
+  }
+
+
   #COMPUTING PROPORTION
   #############################
-  if (transformation %in% c("proportion", "prop", "Proportion", "Prop", "PROPORTION", "PROP")){
-
-    sequence.A <- sweep(sequence.A, 1, rowSums(sequence.A), FUN = "/")
-    sequence.B <- sweep(sequence.B, 1, rowSums(sequence.B), FUN = "/")
-
+  if (transformation == "proportion"){
+    sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")
   }
 
   #COMPUTING PERCENTAGE
   ############################
-  if (transformation %in% c("percentage", "percent", "Percentage", "Percent", "PERCENTAGE", "PERCENT")){
-
-    sequence.A <- sweep(sequence.A, 1, rowSums(sequence.A), FUN = "/")*100
-    sequence.B <- sweep(sequence.B, 1, rowSums(sequence.B), FUN = "/")*100
-
+  if (transformation == "percentage"){
+    sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")*100
   }
 
   #COMPUTING HELLINGER TRANSFORMATION
   #############################
-  if (transformation %in% c("hellinger", "Hellinger", "HELLINGER", "Hell", "hell", "HELL")){
-
-    sequence.A <- sqrt(sweep(sequence.A, 1, rowSums(sequence.A), FUN = "/"))
-    sequence.B <- sqrt(sweep(sequence.B, 1, rowSums(sequence.B), FUN = "/"))
-
+  if (transformation == "hellinger"){
+    sequences <- sqrt(sweep(sequences, 1, rowSums(sequences), FUN = "/"))
   }
 
+  #adding the time column
+  #removing time column
+  if(!(is.null(time.column))){
+    sequences <- data.frame(time=time.column.data, sequences, stringsAsFactors = FALSE)
+    colnames(sequences)[1] <- time.column
+  }
 
-  #WRAPPING UP RESULT
-  ###################
-  #CREATING ROWNAMES FOR DATAFRAMES (to be used for the matrixes also)
-  rownames.sequence.A <- 1:nrow(sequence.A)
-  rownames.sequence.B <- 1:nrow(sequence.B)
+  #adding the grouping.column back
+  sequences <- data.frame(id=id.column, sequences, stringsAsFactors = FALSE)
 
-  #COERCING INTO MATRIX
-  sequence.A <- as.matrix(sequence.A)
-  sequence.B <- as.matrix(sequence.B)
+  #change the name if required
+  if(grouping.column != "id"){
+    colnames(sequences)[1] <- grouping.column
+  }
 
-  #NAMES TO COLS AND ROWS
-  colnames(sequence.A) <- common.column.names
-  colnames(sequence.B) <- common.column.names
-  rownames(sequence.A) <- rownames.sequence.A
-  rownames(sequence.B) <- rownames.sequence.B
-
-
-  #PREPARING RESULTS
-  ##################
-  #filling metadata
-  metadata <- data.frame(detail = character(10),sequence.A = character(10), sequence.B = character(10), stringsAsFactors = FALSE)
-  metadata[1,1:3] <- c("name", sequence.A.name, sequence.B.name)
-  metadata[2,1:3] <- c("initial.rows", original.nrow.sequence.A, original.nrow.sequence.B)
-  metadata[3,1:3] <- c("final.rows", nrow(sequence.A), nrow(sequence.B))
-  metadata[4,1:3] <- c("initial.columns", original.ncol.sequence.A, original.ncol.sequence.B)
-  metadata[5,1:3] <- c("final.columns", ncol(sequence.A), ncol(sequence.B))
-  metadata[6,1:3] <- c("excluded.columns", removed.column.names.sequence.A, removed.column.names.sequence.B)
-  metadata[7,1:3] <- c("initial.empty.cases", original.na.sequence.A, original.na.sequence.B)
-  metadata[8,1:3] <- c("if.empty.cases", if.empty.cases, if.empty.cases)
-  metadata[9,1:3] <- c("final.empty.cases", final.na.sequence.A, final.na.sequence.B)
-  metadata[10,1:3] <- c("transformation", transformation, transformation)
-
-  #list
-  result <- list()
-  result[[1]] <- common.column.names
-  result[[2]] <- metadata
-  result[[3]] <- sequence.A
-  result[[4]] <- sequence.B
-  result[[5]] <- NA
-  result[[6]] <- NA
-  result[[7]] <- NA
-  result[[8]] <- NA
-  result[[9]] <- NA
-
-  names(result) <- c("taxa", "metadata", "sequence.A", "sequence.B", "distance.matrix", "sum.distances.sequence.A", "sum.distances.sequence.B", "psi", "p.value")
-
-  return(result)
+  return(sequences)
 
 }
 

@@ -70,11 +70,25 @@ follows:
 
 ``` r
 sequences <- prepareSequences(
-  sequence.A = NULL,
+  sequence.A = sequenceA,
   sequence.A.name = "A",
-  sequence.B = NULL,
+  sequence.B = sequenceB,
   sequence.B.name = "B",
-  exclude.columns = NULL,
+  merge.mode = "complete",
+  if.empty.cases = "zero",
+  transformation = "hellinger"
+)
+```
+
+It allows to merge two multivariate time-series
+
+# Workflow to compare multiple sequences
+
+``` r
+data(sequencesMIS)
+sequences <- prepareSequences(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
   if.empty.cases = "zero",
   transformation = "hellinger"
 )

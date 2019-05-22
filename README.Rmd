@@ -65,11 +65,25 @@ The function **prepareSequences** gets them ready for analysis as follows:
 
 ```{r, eval=FALSE}
 sequences <- prepareSequences(
-  sequence.A = NULL,
+  sequence.A = sequenceA,
   sequence.A.name = "A",
-  sequence.B = NULL,
+  sequence.B = sequenceB,
   sequence.B.name = "B",
-  exclude.columns = NULL,
+  merge.mode = "complete",
+  if.empty.cases = "zero",
+  transformation = "hellinger"
+)
+```
+
+It allows to merge two multivariate time-series
+
+# Workflow to compare multiple sequences
+
+```{r, eval=FALSE}
+data(sequencesMIS)
+sequences <- prepareSequences(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
   if.empty.cases = "zero",
   transformation = "hellinger"
 )

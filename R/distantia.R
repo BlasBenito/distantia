@@ -13,7 +13,7 @@
 
 #' Multivariate and irregular time series with pollen counts.
 #'
-#' A dataframe with 9 columns representing pollen types (betula, pinus, corylus, empetrum, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978).
+#' A dataframe with 8 columns (the column \code{empetr} is missing with respect to \code{\link{sequenceA}}) representing pollen types (betula, pinus, corylus, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978). Several NA values have been introduced in the dataset to demonstrate the data-handling capabilities of \code{\link{prepareSequences}}.
 #'
 #'
 #' @docType data
@@ -72,3 +72,6 @@
 #' @usage data(sequencesMIS)
 #' @format dataframe with 7 columns and 427 rows.
 "sequencesMIS"
+
+#' @import plyr
+NULL
