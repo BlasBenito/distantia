@@ -84,8 +84,14 @@ It allows to merge two multivariate time-series
 
 # Workflow to compare multiple sequences
 
+The dataset *sequencesMIS*…
+
 ``` r
 data(sequencesMIS)
+kable(head(sequencesMIS, n=15))
+```
+
+``` r
 sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",

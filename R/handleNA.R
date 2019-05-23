@@ -1,13 +1,26 @@
 #' Handles emtpy and NA data in a multivariate time series.
 #'
-#' @description Handles empty and NA data in a multivariate time-series in two possible ways ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
+#' @description Handles empty and NA data in a multivariate time-series in two possible ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
 #'
-#' @usage
+#' @usage handleNA(
+#'   sequence = NULL,
+#'   if.empty.cases = "zero"
+#'   )
 #'
-#' @param sequence A multivariate time-series.
+#' @param sequence Dataframe, a multivariate time-series.
 #' @param if.empty.cases character, one of: "omit" (default), "zero". When "omit", the function removes every row with at least one empty/NA record. When "zero", empty/NA data is replaced with zeros.
+#'
 #' @return A dataframe with the same columns as \code{sequence}.
+#'
 #' @author Blas Benito <blasbenito@gmail.com>
+#'
+#' @examples
+#' data(sequenceB)
+#' sequenceB.noNA <- handleNA(
+#'   sequence = sequenceB,
+#'   if.empty.cases = "zero"
+#'   )
+#'
 #' @export
 handleNA <- function(sequence = NULL,
                      if.empty.cases = "zero"){

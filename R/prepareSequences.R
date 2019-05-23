@@ -38,7 +38,31 @@
 #' }
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @examples
-#' data(InputDataExample)
+#'
+#'#two sequences as inputs
+#'data(sequenceA)
+#'data(sequenceB)
+#'
+#'sequences <- prepareSequences(
+#'  sequence.A = sequenceA,
+#'  sequence.A.name = "A",
+#'  sequence.B = sequenceB,
+#'  sequence.B.name = "B",
+#'  merge.mode = "complete",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
+#'
+#'#several sequences in a single dataframe
+#'data(sequencesMIS)
+#'sequences <- prepareSequences(
+#'  sequences = sequencesMIS,
+#'  grouping.column = "MIS",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
 #' @export
 prepareSequences=function(sequence.A = NULL,
                           sequence.A.name = "A",
@@ -175,8 +199,16 @@ prepareSequences=function(sequence.A = NULL,
   sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
 
 
+  #REMOVING GROUPS IF THEY HAVE LESS THAN 3 CASES
+  #############################
+  groups.to.remove <- names(which(table(sequences[, grouping.column]) < 3))
+  if(length(groups.to.remove) > 0){
+    message(paste("The groups ", paste(groups.to.remove, sep="", collapse=", "), " have less than 3 samples, and will be removed from the data.", sep=""))
+    sequences <- sequences[!(sequences[, grouping.column] %in% groups.to.remove), ]
+  }
+
+
   #APPLYING TRANSFORMATIONS "none", "percentage", "proportion", "hellinger"
-  ##############################################################
   ##############################################################
 
   #removing grouping.column (it's non-numeric)
