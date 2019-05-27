@@ -65,10 +65,12 @@ kable(sequenceA, caption = "Sequence A")
 kable(sequenceB, caption = "Sequence B")
 ```
 
-The function **prepareSequences** gets them ready for analysis as
-follows:
+The function **prepareSequences** gets them ready for analysis by
+matching colum names and handling empty data, as follows:
 
 ``` r
+help(prepareSequences)
+
 sequences <- prepareSequences(
   sequence.A = sequenceA,
   sequence.A.name = "A",
@@ -80,7 +82,37 @@ sequences <- prepareSequences(
 )
 ```
 
-It allows to merge two multivariate time-series
+The function allows to merge two multivariate time-series into a single
+table ready for the computation of dissimilarity between sequences.
+
+### Computation of dissimilarity: psi
+
+The computation of **psi**, proposed by Birks and Gordon (1985) requires
+the following steps:
+
+**1.** Computation of a **distance matrix** among the samples of both
+sequences.
+
+``` r
+distance.matrix <- distanceMatrix(
+  sequences = sequences,
+  method = "manhattan"
+)
+
+image(distance.matrix)
+```
+
+**2.** Computation of the least cost matrix.
+
+``` r
+least.cost.matrix <- leastCostMatrix(
+  distance.matrix = distance.matrix
+)
+
+image(least.cost.matrix)
+```
+
+**3.**
 
 # Workflow to compare multiple sequences
 
@@ -91,6 +123,8 @@ data(sequencesMIS)
 kable(head(sequencesMIS, n=15))
 ```
 
+Preparing the sequences
+
 ``` r
 sequences <- prepareSequences(
   sequences = sequencesMIS,
@@ -98,4 +132,19 @@ sequences <- prepareSequences(
   if.empty.cases = "zero",
   transformation = "hellinger"
 )
+```
+
+Computing the distance matrices
+
+``` r
+sequences.D <- distanceMatrix(
+  sequences = sequences,
+  grouping.column = "MIS"
+)
+
+names(sequences.D)
+
+image(sequences.D[[1]], main=names(sequences.D)[1])
+image(sequences.D[[2]], main=names(sequences.D)[2])
+image(sequences.D[[3]], main=names(sequences.D)[3])
 ```

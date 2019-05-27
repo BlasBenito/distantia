@@ -73,5 +73,5 @@
 #' @format dataframe with 7 columns and 427 rows.
 "sequencesMIS"
 
-#' @import plyr
+#' @import plyr parallel doParallel foreach
 NULL

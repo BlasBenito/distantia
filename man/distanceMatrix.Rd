@@ -5,29 +5,28 @@
 \title{Computes distance matrix among the samples of two multivariate time-series.}
 \usage{
 distanceMatrix <- function(
-  sequence.A = NULL,
-  sequence.B = NULL,
+  sequences = NULL,
+  grouping.column = NULL,
   time.column = NULL,
-  exclude.columns = NULL,
   method = "manhattan"
   )
 }
 \arguments{
-\item{sequence.A}{dataframe, a multivariate time-series.}
+\item{sequences}{dataframe with multiple sequences identified by a grouping column.}
 
-\item{sequence.B}{dataframe, a multivariate time-series.}
-
-\item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
+\item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
 
 \item{time.colum}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
+
+\item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 }
 \value{
-A matrix with the distances among samples of both sequences.
+A matrix with the distances among samples of both sequences if there are only two groups in \code{sequences} according to \code{grouping.column}. A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.
 }
 \description{
-Computes a distance matrix among the samples of two multivariate time-series. Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
+Computes a distance matrix among the samples of two or several multivariate time-series provided in a single dataframe, identified by a grouping column. Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}. The function uses the packages \code{\link[parallel]{parallel}} and \code{\link[doParallel]{doParallel}} to compute distances matrices among different sequences in parallel.
 }
 \details{
 Distances are computed as:
@@ -44,12 +43,11 @@ Distances are computed as:
 Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
 }
 \examples{
-
 #loading data
 data(sequenceA)
 data(sequenceB)
 
-#matching datasets
+#preparing datasets
 sequences <- prepareSequences(
  sequence.A = sequenceA,
  sequence.A.name = "A",
@@ -60,18 +58,15 @@ sequences <- prepareSequences(
  transformation = "hellinger"
  )
 
-#separating them again
-#(not actually required in a normal workflow)
-A <- sequences[sequences$id == "A", ]
-B <- sequences[sequences$id == "B", ]
-
 #computing distance matrix
 D <- distanceMatrix(
- sequence.A = A,
- sequence.B = B,
- time.column = NULL,
- exclude.columns = "id",
- method = "manhattan")
+ sequences = sequences,
+ grouping.column = "id",
+ method = "manhattan"
+ )
+
+#plot
+image(D)
 
 }
 \seealso{
