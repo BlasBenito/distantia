@@ -16,7 +16,9 @@ Imports:
   plyr,
   parallel,
   doParallel,
-  foreach
+  foreach,
+  fields,
+  grDevices
 Suggests: 
   devtools,
   formatR,

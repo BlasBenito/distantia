@@ -67,7 +67,7 @@ handleNA <- function(sequence = NULL,
     #IF if.empty.cases="zero"
     if (if.empty.cases == "zero"){
 
-      #remove rows with NA
+      #replace NA by 0
       sequence[is.na(sequence)] <- 0
 
       return(sequence)

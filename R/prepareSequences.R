@@ -125,11 +125,12 @@ prepareSequences=function(sequence.A = NULL,
     }
   }
 
+  #checking sequences
   if(!is.null(sequences)){
     if(is.data.frame(sequences)){
       input.mode <- "many.sequences"
     } else {
-      stop("sequences must be a dataframe with multiple sequences identified by different values in a grouping.column.")
+      stop("Argument 'sequences' must be a dataframe with multiple sequences identified by different values in a grouping.column.")
     }
   }
 
@@ -184,6 +185,7 @@ prepareSequences=function(sequence.A = NULL,
     if(length(unique(sequences[, grouping.column])) < 2){
       stop("According to 'grouping.column' there is only one sequence in the 'sequences' dataset. At least two sequences are required!")
     }
+
   }
 
 
@@ -196,7 +198,11 @@ prepareSequences=function(sequence.A = NULL,
 
   #REMOVING EXCLUDED COLUMNS
   #############################
-  sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+  if(!is.null(exclude.columns)){
+     sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+  }
+
+
 
 
   #REMOVING GROUPS IF THEY HAVE LESS THAN 3 CASES
@@ -211,33 +217,42 @@ prepareSequences=function(sequence.A = NULL,
   #APPLYING TRANSFORMATIONS "none", "percentage", "proportion", "hellinger"
   ##############################################################
 
-  #removing grouping.column (it's non-numeric)
-  id.column <- sequences[, grouping.column]
-  sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
+  #if transformation is not "none"
+  if(!(transformation %in% c("none", "None", "NONE", "nope", "Nope", "NOPE", "no", "No", "NO", "hell no!"))){
 
-  #removing time column
-  if(!(is.null(time.column))){
-    time.column.data <- sequences[, time.column]
-    sequences <- sequences[, !(colnames(sequences) %in% time.column)]
-  }
+    #SETTING 0 TO 0.0001 TO AVOID
+    ##############################
+    sequences[sequences==0] <- 0.0001
+
+    #removing grouping.column (it's non-numeric)
+    id.column <- sequences[, grouping.column]
+    sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
+
+    #removing time column
+    if(!(is.null(time.column))){
+      time.column.data <- sequences[, time.column]
+      sequences <- sequences[, !(colnames(sequences) %in% time.column)]
+    }
 
 
-  #COMPUTING PROPORTION
-  #############################
-  if (transformation == "proportion"){
-    sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")
-  }
+    #COMPUTING PROPORTION
+    #############################
+    if (transformation == "proportion"){
+      sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")
+    }
 
-  #COMPUTING PERCENTAGE
-  ############################
-  if (transformation == "percentage"){
-    sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")*100
-  }
+    #COMPUTING PERCENTAGE
+    ############################
+    if (transformation == "percentage"){
+      sequences <- sweep(sequences, 1, rowSums(sequences), FUN = "/")*100
+    }
 
-  #COMPUTING HELLINGER TRANSFORMATION
-  #############################
-  if (transformation == "hellinger"){
-    sequences <- sqrt(sweep(sequences, 1, rowSums(sequences), FUN = "/"))
+    #COMPUTING HELLINGER TRANSFORMATION
+    #############################
+    if (transformation == "hellinger"){
+      sequences <- sqrt(sweep(sequences, 1, rowSums(sequences), FUN = "/"))
+    }
+
   }
 
   #adding the time column

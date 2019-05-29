@@ -7,74 +7,69 @@
 #'   diagonal = FALSE
 #'   )
 #'
-#' @param distance.matrix numeric matrix, a distance matrix produced by \code{\link{distanceMatrix}}.
+#' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
 #' @return A matrix with the same dimensions as \code{distance.matrix}.
 #' @examples
-#'#loading data
-#'data(sequenceA)
-#'data(sequenceB)
-#'
-#'#preparing datasets
-#'sequences <- prepareSequences(
-#'  sequence.A = sequenceA,
-#'  sequence.A.name = "A",
-#'  sequence.B = sequenceB,
-#'  sequence.B.name = "B",
-#'  merge.mode = "complete",
-#'  if.empty.cases = "zero",
-#'  transformation = "hellinger"
-#'  )
-#'
-#'#computing distance matrix
-#'D <- distanceMatrix(
-#'  sequences = sequences,
-#'  grouping.column = "id",
-#'  method = "manhattan"
-#'  )
-#'
-#'#plot
-#'image(D)
-#'
-#'#computing least cost matrix
-#'L <- leastCostMatrix(
-#'  distance.matrix = D,
-#'  diagonal = TRUE
-#'  )
-#'
-#'#plot
-#'image(L)
 #'
 #' @export
 leastCostMatrix <- function(distance.matrix, diagonal = FALSE){
 
+  #if input is matrix, get it into list
+  if(inherits(distance.matrix, "matrix") == TRUE | is.matrix(distance.matrix) == TRUE){
+    temp <- list()
+    temp[[1]] <- distance.matrix
+    distance.matrix <- temp
+    names(distance.matrix) <- ""
+  }
+
+  if(inherits(distance.matrix, "list") == TRUE){
+    n.elements <- length(distance.matrix)
+  }
+
   #setting diagonal if it's empty
   if(is.null(diagonal)){diagonal <- FALSE}
 
-  #stopping if it is not a matrix
-  if(is.matrix(distance.matrix) == FALSE){
-    stop("This is not a distance matrix.")
-  }
+
+  #creating cluster
+  n.cores <- parallel::detectCores() - 1
+  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+  doParallel::registerDoParallel(my.cluster)
+
+  #exporting cluster variables
+  parallel::clusterExport(cl = my.cluster,
+                          varlist = c('n.elements',
+                                    'distance.matrix',
+                                    'diagonal'),
+                          envir = environment()
+                          )
+
+
+  least.cost.matrices <- foreach::foreach(i=1:n.elements) %dopar% {
+
+  #getting distance matrix
+  distance.matrix.i <- distance.matrix[[i]]
 
   #dimensions
-  least.cost.columns <- ncol(distance.matrix)
-  least.cost.rows <- nrow(distance.matrix)
+  least.cost.columns <- ncol(distance.matrix.i)
+  least.cost.rows <- nrow(distance.matrix.i)
 
   #matrix to store least cost
   least.cost.matrix <- matrix(nrow = least.cost.rows, ncol = least.cost.columns)
-  rownames(least.cost.matrix) <- rownames(distance.matrix)
-  colnames(least.cost.matrix) <- colnames(distance.matrix)
+  rownames(least.cost.matrix) <- rownames(distance.matrix.i)
+  colnames(least.cost.matrix) <- colnames(distance.matrix.i)
+
 
   #first value
-  least.cost.matrix[1,1] <- distance.matrix[1,1]
-  rownames(least.cost.matrix) <- rownames(distance.matrix)
-  colnames(least.cost.matrix) <- colnames(distance.matrix)
+  least.cost.matrix[1,1] <- distance.matrix.i[1,1]
+  rownames(least.cost.matrix) <- rownames(distance.matrix.i)
+  colnames(least.cost.matrix) <- colnames(distance.matrix.i)
 
   #initiating first column
-  least.cost.matrix[1, ] <-cumsum(distance.matrix[1, ])
+  least.cost.matrix[1, ] <-cumsum(distance.matrix.i[1, ])
 
   #initiating the first row
-  least.cost.matrix[, 1] <- cumsum(distance.matrix[, 1])
+  least.cost.matrix[, 1] <- cumsum(distance.matrix.i[, 1])
 
   #compute least cost if diagonal is TRUE
   if(diagonal == TRUE){
@@ -84,7 +79,7 @@ leastCostMatrix <- function(distance.matrix, diagonal = FALSE){
         next.row <- row+1
         next.column <- column+1
 
-        least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column], least.cost.matrix[row, column]) + distance.matrix[next.row, next.column]
+        least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column], least.cost.matrix[row, column]) + distance.matrix.i[next.row, next.column]
 
       }
     }
@@ -98,14 +93,31 @@ leastCostMatrix <- function(distance.matrix, diagonal = FALSE){
         next.row <- row+1
         next.column <- column+1
 
-          least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column]) + distance.matrix[next.row, next.column]
+          least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column]) + distance.matrix.i[next.row, next.column]
 
       }
     }
   }
 
   return(least.cost.matrix)
+
+  } #end of %dopar%
+
+  #stopping cluster
+  parallel::stopCluster(my.cluster)
+
+  #list names
+  names(least.cost.matrices) <- names(distance.matrix)
+
+#unlist if there is only one combination
+if(n.elements == 1){
+  least.cost.matrices <- least.cost.matrices[[1]]
 }
+
+#return output
+return(least.cost.matrices)
+
+} #end of function
 
 
 

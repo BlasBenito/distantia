@@ -4,7 +4,7 @@
 \alias{distanceMatrix}
 \title{Computes distance matrix among the samples of two multivariate time-series.}
 \usage{
-distanceMatrix <- function(
+distanceMatrix(
   sequences = NULL,
   grouping.column = NULL,
   time.column = NULL,

@@ -5,14 +5,17 @@
 \title{Computes sum of distances between samples in a multivariate time-series.}
 \usage{
 autosum <- function(
-  sequence = NULL,
+  sequences = NULL,
+  grouping.column = NULL,
   time.column = NULL,
   exclude.columns = NULL,
   method = "manhattan"
   )
 }
 \arguments{
-\item{sequence}{dataframe, a multivariate time-series.}
+\item{sequences}{dataframe with one or several multivariate time-series identified by a grouping column.}
+
+\item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
 
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
@@ -21,7 +24,7 @@ autosum <- function(
 \item{time.colum}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 }
 \value{
-A matrix with the distances among samples of both sequences.
+A list with slots named according \code{grouping.column} if there are several sequences in \code{sequences} or a number if there is only one sequence.
 }
 \description{
 Computes the autosum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi}. Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
@@ -46,7 +49,7 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 data(sequenceA)
 
 #computing sum of distances between samples
-autosum(sequence = sequenceA, method = "manhattan")
+autosum(sequences = sequenceA, method = "manhattan")
 
 }
 \seealso{

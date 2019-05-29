@@ -37,6 +37,8 @@ devtools::install_github("BlasBenito/distantia")
 Loading the library, plus other helper libraries:
 
 ```{r, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
+library(foreach)
+library(parallel)
 library(distantia)
 library(kableExtra)
 ```
@@ -66,7 +68,7 @@ The function **prepareSequences** gets them ready for analysis by matching colum
 ```{r, eval=FALSE}
 help(prepareSequences)
 
-sequences <- prepareSequences(
+AB.sequences <- prepareSequences(
   sequence.A = sequenceA,
   sequence.A.name = "A",
   sequence.B = sequenceB,
@@ -75,6 +77,8 @@ sequences <- prepareSequences(
   if.empty.cases = "zero",
   transformation = "hellinger"
 )
+
+str(AB.sequences)
 ```
 
 The function allows to merge two multivariate time-series into a single table ready for the computation of dissimilarity between sequences.
@@ -86,26 +90,64 @@ The computation of **psi**, proposed by Birks and Gordon (1985) requires the fol
 **1.** Computation of a **distance matrix** among the samples of both sequences.
 
 ```{r, eval=FALSE}
-distance.matrix <- distanceMatrix(
-  sequences = sequences,
+AB.distance.matrix <- distanceMatrix(
+  sequences = AB.sequences,
   method = "manhattan"
 )
 
-image(distance.matrix)
+image(AB.distance.matrix)
 ```
 
 **2.** Computation of the least cost matrix.
 
 ```{r, eval=FALSE}
-least.cost.matrix <- leastCostMatrix(
-  distance.matrix = distance.matrix
+AB.least.cost.matrix <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix
 )
 
-image(least.cost.matrix)
+image(AB.least.cost.matrix)
+```
+
+**Optional** Get least cost path
+
+```{r, eval=FALSE}
+AB.least.cost.path <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix
+  )
+
+
+
+```
+
+```{r, eval=FALSE}
+plotMatrix(distance.matrix = AB.distance.matrix,
+           least.cost.path = AB.least.cost.path,
+           figure.margins = c(5,5,5,5),
+           legend = FALSE)
 ```
 
 
-**3.** 
+**3.** Getting the least cost value.
+
+```{r, eval=FALSE}
+AB.least.cost <- leastCost(least.cost.matrix = AB.least.cost.matrix)
+
+AB.least.cost
+```
+
+
+**4.** Autosum, or sum of the distances among adjacent samples on each sequence.
+
+```{r, eval=FALSE}
+AB.autosum <- autosum(
+  sequences = AB.sequences,
+  method = "manhattan"
+  )
+
+AB.autosum
+```
+
 
 # Workflow to compare multiple sequences
 
@@ -119,26 +161,83 @@ kable(head(sequencesMIS, n=15))
 Preparing the sequences
 
 ```{r, eval=FALSE}
-sequences <- prepareSequences(
+MIS.sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",
   if.empty.cases = "zero",
   transformation = "hellinger"
 )
+
+str(MIS.sequences)
 ```
 
-Computing the distance matrices
+**1.** Computing the distance matrices
 
-```{r, eval=FALSE}
-sequences.D <- distanceMatrix(
-  sequences = sequences,
+```{r, eval=FALSE, fig.width=12, fig.height=22}
+MIS.distance.matrix <- distanceMatrix(
+  sequences = MIS.sequences,
   grouping.column = "MIS"
 )
 
-names(sequences.D)
-
-image(sequences.D[[1]], main=names(sequences.D)[1])
-image(sequences.D[[2]], main=names(sequences.D)[2])
-image(sequences.D[[3]], main=names(sequences.D)[3])
+par(mfrow=c(11, 6), mar=c(1,2,4,1))
+for(i in 1:length(names(MIS.distance.matrix))){
+image(MIS.distance.matrix[[i]], main=names(MIS.distance.matrix)[i])
+}
 ```
 
+
+**2.** Computing least cost.
+
+```{r, fig.width=12, fig.height=22, eval=FALSE}
+MIS.least.cost.matrix <- leastCostMatrix(
+  distance.matrix = MIS.distance.matrix
+)
+
+par(mfrow=c(11, 6), mar=c(1,2,4,1))
+for(i in 1:length(names(MIS.least.cost.matrix))){
+image(MIS.least.cost.matrix[[i]], main=names(MIS.least.cost.matrix)[i])
+}
+```
+
+**Optional** computing least cost path
+
+```{r, eval=FALSE}
+MIS.least.cost.path <- leastCostPath(
+  distance.matrix = MIS.distance.matrix,
+  least.cost.matrix = MIS.least.cost.matrix
+  )
+```
+
+Plotting it
+
+```{r, fig.width=12, fig.height=22, eval=FALSE}
+plotMatrix(distance.matrix = MIS.distance.matrix,
+           least.cost.path = NULL,
+           margins = c(1,2,4,1),
+           legend = FALSE,
+           plot.columns = 6,
+           plot.rows = 11
+)
+```
+
+
+**3.** Getting the least cost value
+
+```{r, eval=FALSE}
+MIS.least.cost <- leastCost(least.cost.matrix = MIS.least.cost.matrix)
+
+MIS.least.cost
+```
+
+
+**4.** Computing autosums
+
+```{r, eval=FALSE}
+MIS.autosum <- autosum(
+  sequences = MIS.sequences,
+  grouping.column = "MIS",
+  method = "manhattan"
+  )
+
+MIS.autosum
+```

@@ -62,10 +62,19 @@ distanceMatrix <- function(sequences = NULL,
                            method = "manhattan"
                            ){
 
+  #checking sequences
+  if(is.data.frame(sequences) == FALSE){
+    stop("Argument 'sequences' must be a dataframe with at least two ordered multivariate sequences identified by a 'grouping.column'.")
+  }
+
 
   #grouping.column
   if(is.null(grouping.column)){
+    if("id" %in% colnames(sequences)){
     grouping.column = "id" #default behavior of prepareSequences
+    } else {
+      stop("Argument grouping.column must be a column of the dataframe 'sequences'.")
+    }
   }
 
   #CHECKING IF grouping.column EXISTS
@@ -102,7 +111,7 @@ distanceMatrix <- function(sequences = NULL,
                 envir=environment()
                 )
 
-
+  #parallelized loop
   distance.matrices <- foreach::foreach(i=1:n.combinations) %dopar% {
 
     #getting combination
@@ -130,6 +139,7 @@ distanceMatrix <- function(sequences = NULL,
     }
 
     return(distance.matrix)
+
   } #end of dopar
 
   #stopping cluster
