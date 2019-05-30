@@ -1,6 +1,6 @@
-#' Computes multivariate distance between two vectors
+#' Computes a multivariate distance between two vectors.
 #'
-#' @description Takes two vectors and computes a multivariate distance between them.
+#' @description Computes a multivariate distance (one of: "manhattan", "euclidean", "chi", and "hellinger") between two vectors of the same length. It is used internally by \code{\link{distanceMatrix}} and \code{\link{autosum}}. This function has no buit-in error trapping procedures in order to speed up execution.
 #'
 #' @usage distance(x, y, method = "manhattan")
 #'

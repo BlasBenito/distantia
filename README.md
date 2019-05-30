@@ -33,8 +33,6 @@ devtools::install_github("BlasBenito/distantia")
 Loading the library, plus other helper libraries:
 
 ``` r
-library(foreach)
-library(parallel)
 library(distantia)
 library(kableExtra)
 ```
@@ -89,31 +87,36 @@ str(AB.sequences)
 The function allows to merge two multivariate time-series into a single
 table ready for the computation of dissimilarity between sequences.
 
-### Computation of dissimilarity: psi
+### Computation of dissimilarity
 
-The computation of **psi**, proposed by Birks and Gordon (1985) requires
-the following steps:
+The computation of dissimlarity between two sequences goes as follows:
 
 **1.** Computation of a **distance matrix** among the samples of both
 sequences.
 
 ``` r
+
+#computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
   method = "manhattan"
 )
 
-image(AB.distance.matrix)
+#plotting distance matrix
+plotMatrix(distance.matrix = AB.distance.matrix)
 ```
 
-**2.** Computation of the least cost matrix.
+**2.** Computation of the least cost matrix. The value of the
+upper-right cell in the plotted matrix (actually, the lower-right cell
+in the actual data matrix, the matrix is rotated in the plot) is the sum
+of the minimum distance across all samples of both time-series.
 
 ``` r
 AB.least.cost.matrix <- leastCostMatrix(
   distance.matrix = AB.distance.matrix
 )
 
-image(AB.least.cost.matrix)
+plotMatrix(distance.matrix = AB.least.cost.matrix)
 ```
 
 **Optional** Get least cost path
@@ -127,9 +130,8 @@ AB.least.cost.path <- leastCostPath(
 
 ``` r
 plotMatrix(distance.matrix = AB.distance.matrix,
-           least.cost.path = AB.least.cost.path,
-           figure.margins = c(5,5,5,5),
-           legend = FALSE)
+           least.cost.path = AB.least.cost.path
+           )
 ```
 
 **3.** Getting the least cost value.
@@ -144,12 +146,25 @@ AB.least.cost
 sequence.
 
 ``` r
-AB.autosum <- autosum(
+AB.autosum <- autoSum(
   sequences = AB.sequences,
   method = "manhattan"
   )
 
 AB.autosum
+```
+
+**5.** Compute Psi
+
+``` r
+AB.psi <- psi(least.cost = AB.least.cost,
+              distance.matrix = AB.distance.matrix,
+              autosum = AB.autosum)
+AB.psi
+```
+
+``` r
+AB.psi.matrix <- psiToMatrix(psi.values = AB.psi)
 ```
 
 # Workflow to compare multiple sequences
@@ -182,10 +197,12 @@ MIS.distance.matrix <- distanceMatrix(
   grouping.column = "MIS"
 )
 
-par(mfrow=c(11, 6), mar=c(1,2,4,1))
-for(i in 1:length(names(MIS.distance.matrix))){
-image(MIS.distance.matrix[[i]], main=names(MIS.distance.matrix)[i])
-}
+plotMatrix(
+  distance.matrix = MIS.distance.matrix,
+  plot.columns = 6,
+  plot.rows = 11,
+  legend = FALSE
+  )
 ```
 
 **2.** Computing least cost.
@@ -195,10 +212,12 @@ MIS.least.cost.matrix <- leastCostMatrix(
   distance.matrix = MIS.distance.matrix
 )
 
-par(mfrow=c(11, 6), mar=c(1,2,4,1))
-for(i in 1:length(names(MIS.least.cost.matrix))){
-image(MIS.least.cost.matrix[[i]], main=names(MIS.least.cost.matrix)[i])
-}
+plotMatrix(
+  distance.matrix = MIS.least.cost.matrix,
+  plot.columns = 6,
+  plot.rows = 11,
+  legend = FALSE
+  )
 ```
 
 **Optional** computing least cost path
@@ -208,19 +227,17 @@ MIS.least.cost.path <- leastCostPath(
   distance.matrix = MIS.distance.matrix,
   least.cost.matrix = MIS.least.cost.matrix
   )
+
+plotMatrix(
+  distance.matrix = MIS.distance.matrix,
+  least.cost.path = MIS.least.cost.path,
+  plot.columns = 6,
+  plot.rows = 11,
+  legend = FALSE
+  )
 ```
 
 Plotting it
-
-``` r
-plotMatrix(distance.matrix = MIS.distance.matrix,
-           least.cost.path = NULL,
-           margins = c(1,2,4,1),
-           legend = FALSE,
-           plot.columns = 6,
-           plot.rows = 11
-)
-```
 
 **3.** Getting the least cost value
 
@@ -233,11 +250,24 @@ MIS.least.cost
 **4.** Computing autosums
 
 ``` r
-MIS.autosum <- autosum(
+MIS.autosum <- autoSum(
   sequences = MIS.sequences,
   grouping.column = "MIS",
   method = "manhattan"
   )
 
 MIS.autosum
+```
+
+**5.** Computing psi
+
+``` r
+MIS.psi <- psi(least.cost = MIS.least.cost,
+               distance.matrix = MIS.distance.matrix,
+               autosum = MIS.autosum)
+MIS.psi
+```
+
+``` r
+MIS.psi.matrix <- psiToMatrix(psi.values = MIS.psi)
 ```

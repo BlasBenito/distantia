@@ -1,6 +1,11 @@
-#' Prepare input sequences.
+#' Prepare sequences for a comparison analysis.
 #'
-#' @description Takes two dataframes containing multivariate time-series (\code{sequence.A} and \code{sequence.B}), checks the integrity of both datasets, and tries to adapt \code{sequence.B} to the characteristics of\code{sequence.A} by matching number of columns, column names, and missing data. Missing data can be handled in two ways: 1) setting NA to zero; 2) deleting rows with NA or empty cases.
+#' @description This function prepares two or more multivariate time-series that are to be compared. It can work on two different scenarios:
+#' \itemize{
+#' \item \emph{Two dataframes}: The user provides two separated dataframes, each containing a multivariate time series. These time-series can be regular or irregular, aligned or unaligned, but must have at least a few columns with the same names (pay attention to differences in case between column names representing the same entity) and units. This mode uses exclusively the following arguments: \code{sequence.A}, \code{sequence.A.name} (optional), \code{sequence.B}, \code{sequence.B.name} (optional), and \code{merge.model}.
+#' \item \emph{One long dataframe}: The user provides a single dataframe, through the \code{sequences} argument, with two or more multivariate time-series identified by a \code{grouping.column}.
+#' }
+#'
 #'
 #' @usage prepareSequences(
 #' sequence.A = NULL,
@@ -13,29 +18,21 @@
 #' time.column = NULL,
 #' exclude.columns = NULL,
 #' if.empty.cases = "zero",
-#' transformation = "none",
-#' silent = FALSE
-#' )
+#' transformation = "none")
 #'
 #' @param sequence.A dataframe containing a multivariate time-series.
-#' @param sequence.A.name character string with the name of the sequence.
-#' @param sequence.B dataframe containing a multivariate time-series. Must have same column names and units as \code{sequence.A}.
-#' @param sequence.B.name character string with the name of the sequence.
-#' @param merge.mode character string, one of: "overlap", "complete" (default optiion). If "overlap", \code{sequence.A} and \code{sequence.B} are merged by their common columns, and non-common columns are removed. If "complete", columns absent in one dataset but present in the other are added, with values equal to 0. This argument is ignored if \code{sequence.A} and \code{sequence.B} are not provided.
+#' @param sequence.A.name character string with the name of \code{sequence.A}. Will be used as identificator in the \code{id} column of the output dataframe.
+#' @param sequence.B dataframe containing a multivariate time-series. Must have overlapping columns with \code{sequence.A} with same column names and units.
+#' @param sequence.B.name character string with the name of \code{sequence.B}. Will be used as identificator in the \code{id} column of the output dataframe.
+#' @param merge.mode character string, one of: "overlap", "complete" (default option). If "overlap", \code{sequence.A} and \code{sequence.B} are merged by their common columns, and non-common columns are dropped If "complete", columns absent in one dataset but present in the other are added, with values equal to 0. This argument is ignored if \code{sequences} is provided instead of \code{sequence.A} and \code{sequence.B}.
 #' @param sequences dataframe with multiple sequences identified by a grouping column.
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
-#' @param time.colum character string, name of the column with time/depth/rank data. The data in this column is not modified.
-#' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
+#' @param time.colum character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.
+#' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B}, to be excluded from the transformation.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
-#' @param transformation character string. Defines what data transformations to apply to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".
-#' @param silent boolean, set to TRUE to hide all messages, and set to FALSE otherwise.
-#' @return A list with four slots:
-#' \itemize{
-#' \item \emph{taxa} Common column names of the sequences, listing the taxa included in them.
-#' \item \emph{metadata} A dataframe with details about the processing of the sequences.
-#' \item \emph{sequence.A} Dataframe, a processed pollen sequence.
-#' \item \emph{sequence.B} Dataframe, a processed pollen sequence.
-#' }
+#' @param transformation character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".
+#' @return A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.
+#'
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @examples
 #'
@@ -43,7 +40,7 @@
 #'data(sequenceA)
 #'data(sequenceB)
 #'
-#'sequences <- prepareSequences(
+#'AB.sequences <- prepareSequences(
 #'  sequence.A = sequenceA,
 #'  sequence.A.name = "A",
 #'  sequence.B = sequenceB,
@@ -56,7 +53,7 @@
 #'
 #'#several sequences in a single dataframe
 #'data(sequencesMIS)
-#'sequences <- prepareSequences(
+#'MIS.sequences <- prepareSequences(
 #'  sequences = sequencesMIS,
 #'  grouping.column = "MIS",
 #'  if.empty.cases = "zero",
@@ -74,8 +71,7 @@ prepareSequences=function(sequence.A = NULL,
                           time.column = NULL,
                           exclude.columns = NULL,
                           if.empty.cases = "zero",
-                          transformation = "none",
-                          silent = FALSE){
+                          transformation = "none"){
 
   #INTERNAL PARAMETERS
   input.mode <- NULL
@@ -105,10 +101,6 @@ prepareSequences=function(sequence.A = NULL,
   if(!is.null(exclude.columns) & !is.character(exclude.columns)){
     stop("Argument 'exclude.columns' must be of type character.")
     }
-
-  #SILENT?
-  ##############################################################
-  if (is.null(silent)){silent=FALSE}
 
 
   #DETECTING MODE

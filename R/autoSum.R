@@ -1,8 +1,8 @@
-#' Computes sum of distances between samples in a multivariate time-series.
+#' Computes sum of distances between consecutive samples in a multivariate time-series.
 #'
-#' @description Computes the autosum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi}. Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
+#' @description Computes the sum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
 #'
-#' @usage autosum <- function(
+#' @usage autoSum <- function(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -29,11 +29,35 @@
 #' }
 #' Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
 #' @author Blas Benito <blasbenito@gmail.com>
+#'
+#' \itemize{
+#' \item Birks, H.J.B.  and Gordon, A.D. (1985) Numerical Methods in Quaternary Pollen Analysis. Academic Press.
+#' }
 #' @seealso \code{\link{distance}}
 #' @examples
+#'data(sequenceA)
+#'data(sequenceB)
+#'
+#'#preparing datasets
+#'AB.sequences <- prepareSequences(
+#'  sequence.A = sequenceA,
+#'  sequence.A.name = "A",
+#'  sequence.B = sequenceB,
+#'  sequence.B.name = "B",
+#'  merge.mode = "complete",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
+#'#autosum
+#'AB.autoSum <- autosum(
+#'  sequences = AB.sequences,
+#'  grouping.column = "id"
+#'  )
+#'AB.autosum
 #'
 #'@export
-autosum <- function(sequences = NULL,
+autoSum <- function(sequences = NULL,
                     time.column = NULL,
                     grouping.column = NULL,
                     exclude.columns = NULL,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distance.R
 \name{distance}
 \alias{distance}
-\title{Computes multivariate distance between two vectors}
+\title{Computes a multivariate distance between two vectors.}
 \usage{
 distance(x, y, method = "manhattan")
 }
@@ -17,7 +17,7 @@ distance(x, y, method = "manhattan")
 A number representing the distance between both vectors.
 }
 \description{
-Takes two vectors and computes a multivariate distance between them.
+Computes a multivariate distance (one of: "manhattan", "euclidean", "chi", and "hellinger") between two vectors of the same length. It is used internally by \code{\link{distanceMatrix}} and \code{\link{autosum}}. This function has no buit-in error trapping procedures in order to speed up execution.
 }
 \details{
 Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distances are computed as:

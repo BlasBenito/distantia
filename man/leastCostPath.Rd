@@ -2,19 +2,69 @@
 % Please edit documentation in R/leastCostPath.R
 \name{leastCostPath}
 \alias{leastCostPath}
-\title{Extracts the least cost from a least cost matrix.}
+\title{Find the least cost path in a least cost matrix.}
 \usage{
-leastCost(least.cost.matrix = NULL)
+leastCostPath(distance.matrix = NULL,
+  least.cost.matrix = NULL,
+  diagonal = FALSE)
 }
 \arguments{
+\item{distance.matrix}{numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.}
+
 \item{least.cost.matrix}{numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.}
+
+\item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
 }
 \value{
-A list if \code{least.cost.matrix} is a list, or a numeric vector if \code{least.cost.matrix} is a matrix.
+Alist of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:
+\itemize{
+\item \emph{A} row/sample of one of the sequences.
+\item \emph{B} row/sample of one the other sequence.
+\item \emph{distance} distance between both samples, extracted from \code{distance.matrix}.
+\item \emph{cumulative.distance} cumulative distance at the samples \code{A} and \code{B}.
+}
 }
 \description{
-Extracts the minimum cost (cell in the lower right corner) of a least cost matrix.
+Uses the original distance matrix created by \code{\link{distanceMatrix}} and the least cost path matrix created by \code{\link{leastCostMatrix}} to find the least cost path between the first and the last cells of the matrix. If \code{diagonal} was \code{TRUE} in \code{\link{leastCostMatrix}}, then it must be \code{TRUE} when using this function. Otherwise, the default is \code{FALSE} in both.
 }
 \examples{
+
+#loading data
+data(sequenceA)
+data(sequenceB)
+
+#preparing datasets
+AB.sequences <- prepareSequences(
+ sequence.A = sequenceA,
+ sequence.A.name = "A",
+ sequence.B = sequenceB,
+ sequence.B.name = "B",
+ merge.mode = "complete",
+ if.empty.cases = "zero",
+ transformation = "hellinger"
+ )
+
+#computing distance matrix
+AB.distance.matrix <- distanceMatrix(
+ sequences = sequences,
+ grouping.column = "id",
+ method = "manhattan"
+ )
+
+#computing least cost matrix
+AB.least.cost.matrix <- leastCostMatrix(
+ distance.matrix = AB.distance.matrix,
+ diagonal = FALSE
+ )
+
+AB.least.cost.path <- leastCostPath(
+ distance.matrix = AB.distance.matrix,
+ least.cost.matrix = AB.least.cost.matrix
+ )
+
+#plot
+plotMatrix(distance.matrix = AB.distance.matrix,
+ least.cost.path = AB.least.cost.path
+ )
 
 }

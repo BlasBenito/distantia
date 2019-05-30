@@ -1,6 +1,6 @@
 #' Handles emtpy and NA data in a multivariate time series.
 #'
-#' @description Handles empty and NA data in a multivariate time-series in two possible ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
+#' @description This function is used internally by \code{\link{prepareSequences}}. Handles empty and NA data in a multivariate time-series in two possible ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
 #'
 #' @usage handleNA(
 #'   sequence = NULL,
@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' data(sequenceB)
-#' sequenceB.noNA <- handleNA(
+#' B.sequence <- handleNA(
 #'   sequence = sequenceB,
 #'   if.empty.cases = "zero"
 #'   )

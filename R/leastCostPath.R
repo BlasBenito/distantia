@@ -1,13 +1,15 @@
-#' Extracts the least cost path from a least cost matrix.
+#' Find the least cost path in a least cost matrix.
 #'
-#' @description Extracts the least cost path from a least cost matrix.
+#' @description Uses the original distance matrix created by \code{\link{distanceMatrix}} and the least cost path matrix created by \code{\link{leastCostMatrix}} to find the least cost path between the first and the last cells of the matrix. If \code{diagonal} was \code{TRUE} in \code{\link{leastCostMatrix}}, then it must be \code{TRUE} when using this function. Otherwise, the default is \code{FALSE} in both.
 #'
-#' @usage leastCostPath(least.cost.matrix = NULL)
+#' @usage leastCostPath(distance.matrix = NULL,
+#'   least.cost.matrix = NULL,
+#'   diagonal = FALSE)
 #'
-#' #' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
+#' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param least.cost.matrix numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
-#' @return A list of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:
+#' @return Alist of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:
 #' \itemize{
 #' \item \emph{A} row/sample of one of the sequences.
 #' \item \emph{B} row/sample of one the other sequence.
@@ -16,10 +18,48 @@
 #' }
 #' @examples
 #'
+#'#loading data
+#'data(sequenceA)
+#'data(sequenceB)
+#'
+#'#preparing datasets
+#'AB.sequences <- prepareSequences(
+#'  sequence.A = sequenceA,
+#'  sequence.A.name = "A",
+#'  sequence.B = sequenceB,
+#'  sequence.B.name = "B",
+#'  merge.mode = "complete",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
+#'#computing distance matrix
+#'AB.distance.matrix <- distanceMatrix(
+#'  sequences = sequences,
+#'  grouping.column = "id",
+#'  method = "manhattan"
+#'  )
+#'
+#'#computing least cost matrix
+#'AB.least.cost.matrix <- leastCostMatrix(
+#'  distance.matrix = AB.distance.matrix,
+#'  diagonal = FALSE
+#'  )
+#'
+#'AB.least.cost.path <- leastCostPath(
+#'  distance.matrix = AB.distance.matrix,
+#'  least.cost.matrix = AB.least.cost.matrix
+#'  )
+#'
+#'#plot
+#'plotMatrix(distance.matrix = AB.distance.matrix,
+#'  least.cost.path = AB.least.cost.path
+#'  )
+#'
 #' @export
 leastCostPath <- function(distance.matrix = NULL,
                           least.cost.matrix = NULL,
-                          diagonal = NULL){
+                          diagonal = FALSE){
 
   #if input is matrix, get it into list
   if(inherits(least.cost.matrix, "matrix") == TRUE | is.matrix(least.cost.matrix) == TRUE){

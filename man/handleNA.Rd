@@ -18,11 +18,11 @@ handleNA(
 A dataframe with the same columns as \code{sequence}.
 }
 \description{
-Handles empty and NA data in a multivariate time-series in two possible ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
+This function is used internally by \code{\link{prepareSequences}}. Handles empty and NA data in a multivariate time-series in two possible ways: 1) deleting rows with NA or empty cases; 2) replacing NA data with zeros.
 }
 \examples{
 data(sequenceB)
-sequenceB.noNA <- handleNA(
+B.sequence <- handleNA(
   sequence = sequenceB,
   if.empty.cases = "zero"
   )

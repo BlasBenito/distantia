@@ -15,11 +15,54 @@ leastCostMatrix <- function(
 \item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
 }
 \value{
-A matrix with the same dimensions as \code{distance.matrix}.
+A list of matrices with the same dimensions as \code{distance.matrix} with the cumulative least cost among samples. The value of the lower-right cell (in the actual data matrix, not in the plotted version!) represents the sum of the least cost path across all samples.
+
+\itemize{
+\item Birks, H.J.B.  and Gordon, A.D. (1985) Numerical Methods in Quaternary Pollen Analysis. Academic Press.
+\item Clark, R.M., (1985) A FORTRAN program for constrained sequence-slotting based on minimum combined path length. Computers & Geosciences, Volume 11, Issue 5, Pages 605-617. Doi: https://doi.org/10.1016/0098-3004(85)90089-5.
+\item Thompson, R., Clark, R.M. (1989) Sequence slotting for stratigraphic correlation between cores: theory and practice. Journal of Paleolimnology, Volume 2, Issue 3, pp 173–184
+}
 }
 \description{
-Computes a least cost matrix from a distance matrix, constrained by the order of the samples in the two sequences used to compute the distance matrix.
+Computes the constrained (by sample order) minimum sum of distances among samples in two multivariate time-series by finding the least cost path between the first and last samples in a distance matrix computed by \code{\link{distanceMatrix}}. The minimum distance is found trough an efficient dynamic programming algorithm that first solves the local least cost path between adjacent samples, and uses the partial solutions to find the global solution.
+
+The algorithm is based on the sequence slotting algorithm described by Birks and Gordon (1985). In its original version, the algorithm searches for the least cost path between a given sample of one sequence (A) and the samples of the other sequence (B) in orthogonal directions (either one step in the x axis or one step in the y axis), which allows to locate the two samples in B between which the target sample in A "belongs" (has the least distance to). Therefore, the algorithm is in fact ordering the samples in both sequences to virtually create a single sequence (as in \code{B1, A1, A2, B2, etc}) with the samples ordered in the way that minimizes the global distance among them.
+
+This function provides an additional option that allows to include the diagonals in the search of the least cost path through the \code{diagonal} argument (which is \code{FALSE} by default). This modification allows to find, for each sample in A, the most similar sample in B, and align them together, if the distance among them is lower than the one found in the orthogonal directions. Both options give highly correlated least cost distances for the same matrices, but have different applications.
 }
 \examples{
+
+#'#loading data
+data(sequenceA)
+data(sequenceB)
+
+#preparing datasets
+AB.sequences <- prepareSequences(
+ sequence.A = sequenceA,
+ sequence.A.name = "A",
+ sequence.B = sequenceB,
+ sequence.B.name = "B",
+ merge.mode = "complete",
+ if.empty.cases = "zero",
+ transformation = "hellinger"
+ )
+
+#computing distance matrix
+AB.distance.matrix <- distanceMatrix(
+ sequences = sequences,
+ grouping.column = "id",
+ method = "manhattan"
+ )
+
+#computing least cost matrix
+AB.least.cost.matrix <- leastCostMatrix(
+ distance.matrix = AB.distance.matrix,
+ diagonal = FALSE
+ )
+
+#plot
+par(mfrow=c(1,2))
+plotMatrix(distance.matrix = AB.distance.matrix)
+plotMatrix(distance.matrix = AB.least.cost.matrix)
 
 }
