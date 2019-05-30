@@ -10,34 +10,10 @@
 #' @export
 psiToMatrix <- function(psi.values){
 
-  #computing number of elements
-  if(inherits(psi.values, "list") == TRUE){
-    n.elements <- length(psi.values)
-  } else {
-    temp <- list()
-    temp[[1]] <- psi.values
-    psi.values <- temp
-    names(psi.values) <- "A|B"
-    n.elements <- 1
-  }
-
-  #generate dataframe to store psi values
-  nas <- rep(NA, n.elements)
-  psi.dataframe <- data.frame(A = nas, B = nas, psi = nas)
-
-  #iterating through list
-  for(i in 1:n.elements){
-
-    #getting psi
-    psi.dataframe[i, "psi"] <- psi.values[[i]]
-
-    #parsing and getting sequence names
-    psi.dataframe[i, c("A", "B")] <- unlist(strsplit(names(psi.values)[i], split='|', fixed=TRUE))
-
-  }
+  #psi to dataframe
+  psi.dataframe <- psiToDataframe(psi.values = psi.values)
 
   #dataframe to matrix
-
   #row and colnames
   row.col.names <- unique(c(psi.dataframe$A, psi.dataframe$B))
 

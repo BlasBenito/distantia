@@ -269,5 +269,9 @@ MIS.psi
 ```
 
 ``` r
+MIS.psi.dataframe <- psiToDataframe(psi.values = MIS.psi)
+kable(MIS.psi.dataframe)
+
 MIS.psi.matrix <- psiToMatrix(psi.values = MIS.psi)
+kable(MIS.psi.matrix)
 ```
