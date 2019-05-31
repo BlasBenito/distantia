@@ -2,16 +2,15 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
 #'
-#' @usage autoSum <- function(
-#'   sequences = NULL,
-#'   grouping.column = NULL,
+#' @usage autoSum(sequences = NULL,
 #'   time.column = NULL,
+#'   grouping.column = NULL,
 #'   exclude.columns = NULL,
 #'   method = "manhattan"
 #'   )
 #'
 #' @param sequences dataframe with one or several multivariate time-series identified by a grouping column.
-#' @param time.colum character string, name of the column with time/depth/rank data. The data in this column is not modified.
+#' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
@@ -35,6 +34,8 @@
 #' }
 #' @seealso \code{\link{distance}}
 #' @examples
+#'
+#' \dontrun{
 #'data(sequenceA)
 #'data(sequenceB)
 #'
@@ -50,11 +51,13 @@
 #'  )
 #'
 #'#autosum
-#'AB.autoSum <- autosum(
+#'AB.autoSum <- autoSum(
 #'  sequences = AB.sequences,
 #'  grouping.column = "id"
 #'  )
 #'AB.autosum
+#'
+#'}
 #'
 #'@export
 autoSum <- function(sequences = NULL,

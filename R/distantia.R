@@ -75,3 +75,6 @@
 
 #' @import plyr parallel doParallel foreach fields grDevices viridis
 NULL
+
+#' @import utils
+utils::globalVariables(c("i"))

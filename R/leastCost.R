@@ -1,12 +1,11 @@
 #' Extracts the least cost from a least cost matrix.
 #'
-#' @description Extracts the minimum cost (cell in the lower right corner) of a least cost matrix.
+#' @description Extracts the minimum cost (cell in the lower right corner) of a least cost matrix. this function is for internal use of other functions in the package.
 #'
 #' @usage leastCost(least.cost.matrix = NULL)
 #'
 #' @param least.cost.matrix numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.
 #' @return A list if \code{least.cost.matrix} is a list, or a numeric vector if \code{least.cost.matrix} is a matrix.
-#' @examples
 #'
 #' @export
 leastCost <- function(least.cost.matrix = NULL){

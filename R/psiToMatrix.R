@@ -8,7 +8,7 @@
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @export
-psiToMatrix <- function(psi.values){
+psiToMatrix <- function(psi.values = NULL){
 
   #psi to dataframe
   psi.dataframe <- psiToDataframe(psi.values = psi.values)

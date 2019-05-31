@@ -4,10 +4,9 @@
 \alias{autoSum}
 \title{Computes sum of distances between consecutive samples in a multivariate time-series.}
 \usage{
-autoSum <- function(
-  sequences = NULL,
-  grouping.column = NULL,
+autoSum(sequences = NULL,
   time.column = NULL,
+  grouping.column = NULL,
   exclude.columns = NULL,
   method = "manhattan"
   )
@@ -15,13 +14,13 @@ autoSum <- function(
 \arguments{
 \item{sequences}{dataframe with one or several multivariate time-series identified by a grouping column.}
 
+\item{time.column}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
+
 \item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
 
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
-
-\item{time.colum}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 }
 \value{
 A list with slots named according \code{grouping.column} if there are several sequences in \code{sequences} or a number if there is only one sequence.
@@ -44,6 +43,8 @@ Distances are computed as:
 Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
 }
 \examples{
+
+\dontrun{
 data(sequenceA)
 data(sequenceB)
 
@@ -59,11 +60,13 @@ AB.sequences <- prepareSequences(
  )
 
 #autosum
-AB.autoSum <- autosum(
+AB.autoSum <- autoSum(
  sequences = AB.sequences,
  grouping.column = "id"
  )
 AB.autosum
+
+}
 
 }
 \seealso{

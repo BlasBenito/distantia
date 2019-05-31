@@ -57,7 +57,7 @@ handleNA <- function(sequence = NULL,
     if (if.empty.cases == "omit"){
 
       #remove rows with NA
-      sequence=sequence[complete.cases(sequence), ]
+      sequence=sequence[stats::complete.cases(sequence), ]
 
       return(sequence)
 

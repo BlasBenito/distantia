@@ -7,13 +7,14 @@
 #' This function provides an additional option that allows to include the diagonals in the search of the least cost path through the \code{diagonal} argument (which is \code{FALSE} by default). This modification allows to find, for each sample in A, the most similar sample in B, and align them together, if the distance among them is lower than the one found in the orthogonal directions. Both options give highly correlated least cost distances for the same matrices, but have different applications.
 #'
 #'
-#' @usage leastCostMatrix <- function(
+#' @usage leastCostMatrix(
 #'   distance.matrix = NULL,
 #'   diagonal = FALSE
 #'   )
 #'
 #' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
+#'
 #' @return A list of matrices with the same dimensions as \code{distance.matrix} with the cumulative least cost among samples. The value of the lower-right cell (in the actual data matrix, not in the plotted version!) represents the sum of the least cost path across all samples.
 #'
 #' \itemize{
@@ -24,7 +25,9 @@
 #'
 #' @examples
 #'
-#' #'#loading data
+#' \dontrun{
+#'
+#'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
 #'
@@ -57,8 +60,11 @@
 #'plotMatrix(distance.matrix = AB.distance.matrix)
 #'plotMatrix(distance.matrix = AB.least.cost.matrix)
 #'
+#'}
+#'
 #' @export
-leastCostMatrix <- function(distance.matrix, diagonal = FALSE){
+leastCostMatrix <- function(distance.matrix = NULL,
+                            diagonal = FALSE){
 
   if(inherits(distance.matrix, "list") == TRUE){
     n.elements <- length(distance.matrix)
@@ -140,6 +146,9 @@ leastCostMatrix <- function(distance.matrix, diagonal = FALSE){
       }
     }
   }
+
+  #adding the value of the first cell to the last cell (it is not counted by the algorithm)
+  least.cost.matrix[least.cost.rows, least.cost.columns] <- least.cost.matrix[least.cost.rows, least.cost.columns] + least.cost.matrix[1, 1]
 
   return(least.cost.matrix)
 

@@ -29,6 +29,8 @@ Uses the original distance matrix created by \code{\link{distanceMatrix}} and th
 }
 \examples{
 
+\dontrun{
+
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -66,5 +68,7 @@ AB.least.cost.path <- leastCostPath(
 plotMatrix(distance.matrix = AB.distance.matrix,
  least.cost.path = AB.least.cost.path
  )
+
+}
 
 }

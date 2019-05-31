@@ -4,7 +4,7 @@
 \alias{leastCostMatrix}
 \title{Computes a least cost matrix from a distance matrix.}
 \usage{
-leastCostMatrix <- function(
+leastCostMatrix(
   distance.matrix = NULL,
   diagonal = FALSE
   )
@@ -32,7 +32,9 @@ This function provides an additional option that allows to include the diagonals
 }
 \examples{
 
-#'#loading data
+\dontrun{
+
+#loading data
 data(sequenceA)
 data(sequenceB)
 
@@ -64,5 +66,7 @@ AB.least.cost.matrix <- leastCostMatrix(
 par(mfrow=c(1,2))
 plotMatrix(distance.matrix = AB.distance.matrix)
 plotMatrix(distance.matrix = AB.least.cost.matrix)
+
+}
 
 }

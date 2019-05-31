@@ -12,7 +12,7 @@
 #'
 #' @param sequences dataframe with multiple sequences identified by a grouping column. Generally the ouput of \code{\link{prepareSequences}}.
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
-#' @param time.colum character string, name of the column with time/depth/rank data. The data in this column is not modified.
+#' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @return A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.
@@ -31,6 +31,8 @@
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @seealso \code{\link{distance}}
 #' @examples
+#'
+#' \dontrun{
 #'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
@@ -48,13 +50,14 @@
 #'
 #'#computing distance matrix
 #'AB.distance.matrix <- distanceMatrix(
-#'  sequences = sequences,
+#'  sequences = AB.sequences,
 #'  grouping.column = "id",
 #'  method = "manhattan"
 #'  )
 #'
 #'#plot
 #'plotMatrix(distance.matrix = AB.distance.matrix)
+#'}
 #'
 #' @export
 distanceMatrix <- function(sequences = NULL,
@@ -104,7 +107,7 @@ distanceMatrix <- function(sequences = NULL,
   }
 
   #generate combinations of groups for subsetting
-  combinations <- combn(unique(sequences[, grouping.column]), m=2)
+  combinations <- utils::combn(unique(sequences[, grouping.column]), m=2)
 
   #number of combinations
   n.combinations <- dim(combinations)[2]

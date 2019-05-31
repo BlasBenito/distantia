@@ -4,7 +4,7 @@
 \alias{psi}
 \title{Computes sum of distances between consecutive samples in a multivariate time-series.}
 \usage{
-
+psi(least.cost = NULL, autosum = NULL)
 }
 \arguments{
 \item{least.cost}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
@@ -17,7 +17,12 @@ A list with named slots, each one with a psi value.
 \description{
 Computes the sum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
 }
+\details{
+The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
+}
 \examples{
+
+\dontrun{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -65,7 +70,7 @@ AB.psi <- psi(
  )
 AB.psi
 
-
+}
 
 }
 \author{

@@ -17,11 +17,11 @@ distanceMatrix(
 
 \item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
 
+\item{time.column}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
+
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
-
-\item{time.colum}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 }
 \value{
 A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.
@@ -44,6 +44,8 @@ Distances are computed as:
 Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
 }
 \examples{
+
+\dontrun{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -61,13 +63,14 @@ AB.sequences <- prepareSequences(
 
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
- sequences = sequences,
+ sequences = AB.sequences,
  grouping.column = "id",
  method = "manhattan"
  )
 
 #plot
 plotMatrix(distance.matrix = AB.distance.matrix)
+}
 
 }
 \seealso{

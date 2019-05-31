@@ -1,6 +1,6 @@
 Package: distantia
 Type: Package
-Title: Computation of dissimilarity between multivariate time series
+Title: Computation of Dissimilarity Between Multivariate Time Series
 Version: 1.0.0
 Author: Blas M. Benito
 Maintainer: Blas M. Benito <blasbenito@gmail.com>
@@ -9,17 +9,17 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-VignetteBuilder: knitr
-Depends: R (>= 2.10),
+Depends: R (>= 2.10)
+Imports: 
+  plyr,
+  grDevices,
   foreach,
   parallel,
   doParallel,
   fields,
   viridis,
-  viridisLite
-Imports: 
-  plyr,
-  grDevices
+  viridisLite,
+  RColorBrewer
 Suggests: 
   devtools,
   formatR,

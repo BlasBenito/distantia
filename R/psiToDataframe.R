@@ -8,7 +8,7 @@
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @export
-psiToDataframe <- function(psi.values){
+psiToDataframe <- function(psi.values = NULL){
 
   #computing number of elements
   if(inherits(psi.values, "list") == TRUE){

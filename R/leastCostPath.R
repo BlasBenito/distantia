@@ -18,6 +18,8 @@
 #' }
 #' @examples
 #'
+#' \dontrun{
+#'
 #'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
@@ -55,6 +57,8 @@
 #'plotMatrix(distance.matrix = AB.distance.matrix,
 #'  least.cost.path = AB.least.cost.path
 #'  )
+#'
+#'}
 #'
 #' @export
 leastCostPath <- function(distance.matrix = NULL,
@@ -150,7 +154,7 @@ leastCostPath <- function(distance.matrix = NULL,
 
         #removing neighbors with coordinates lower than 1 (out of bounds)
         neighbors[neighbors<1] <- NA
-        neighbors <- na.omit(neighbors)
+        neighbors <- stats::na.omit(neighbors)
         if(nrow(neighbors) == 0){break}
 
         #computing cost and cumulative cost values for the neighbors
@@ -201,7 +205,7 @@ leastCostPath <- function(distance.matrix = NULL,
 
         #removing neighbors with coordinates lower than 1 (out of bounds)
         neighbors[neighbors<1] <- NA
-        neighbors <- na.omit(neighbors)
+        neighbors <- stats::na.omit(neighbors)
         if(nrow(neighbors) == 0){break}
 
         #computing cost and cumulative cost values for the neighbors
@@ -248,11 +252,6 @@ leastCostPath <- function(distance.matrix = NULL,
 
   #list names
   names(least.cost.paths) <- names(least.cost.matrix)
-
-  #unlist if there is only one combination
-  if(n.elements == 1){
-    least.cost.paths <- least.cost.paths[[1]]
-  }
 
   #return output
   return(least.cost.paths)

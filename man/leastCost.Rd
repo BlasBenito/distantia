@@ -13,8 +13,5 @@ leastCost(least.cost.matrix = NULL)
 A list if \code{least.cost.matrix} is a list, or a numeric vector if \code{least.cost.matrix} is a matrix.
 }
 \description{
-Extracts the minimum cost (cell in the lower right corner) of a least cost matrix.
-}
-\examples{
-
+Extracts the minimum cost (cell in the lower right corner) of a least cost matrix. this function is for internal use of other functions in the package.
 }
