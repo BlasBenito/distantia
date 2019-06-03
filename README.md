@@ -292,4 +292,17 @@ climate.pairwise.distances <- distancePairedSamples(
   exclude.columns = NULL,
   method = "manhattan"
   )
+
+#the output is a list
+str(climate.pairwise.distances)
+
+#names are the combinations of sequences used to compute the distances
+names(climate.pairwise.distances)
+
+#individual vectors can be extracted
+d1 <- climate.pairwise.distances[[1]]
+d1
+
+#vector positions are named according to the time.column values
+names(d1)
 ```

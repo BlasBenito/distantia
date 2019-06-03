@@ -15,7 +15,7 @@
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
-#' @return A list with named slots containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.
+#' @return A list with named slots (names of the sequences separated by a vertical line, as in "A|B") containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.
 #' @details Distances are computed as:
 #' \itemize{
 #' \item \code{manhattan}: \code{d <- sum(abs(x - y))}
@@ -183,6 +183,9 @@
 
     #stopping cluster
     parallel::stopCluster(my.cluster)
+
+    #combination names
+    names(distance.vectors) <- paste(combinations[1, 1:n.combinations], combinations[2, 1:n.combinations], sep="|")
 
     return(distance.vectors)
 

@@ -45,6 +45,27 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
+#loading data
+data(climate)
+
+#preparing sequences
+#notice the argument paired.samples
+seq <- prepareSequences(
+  sequences = climate,
+  grouping.column = "sequenceId",
+  time.column = "time",
+  paired.samples = TRUE
+  )
+
+#compute pairwise distances between paired samples
+seq.distances <- distancePairedSamples(
+  sequences = climate.prepared,
+  grouping.column = "sequenceId",
+  time.column = "time",
+  exclude.columns = NULL,
+  method = "manhattan"
+  )
+
 }
 \seealso{
 \code{\link{distance}}
