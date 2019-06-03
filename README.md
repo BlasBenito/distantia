@@ -284,6 +284,7 @@ Each vector position is named according the values of the samples
 according to *time.column*.
 
 ``` r
+
 climate.pairwise.distances <- distancePairedSamples(
   sequences = climate.prepared,
   grouping.column = "sequenceId",

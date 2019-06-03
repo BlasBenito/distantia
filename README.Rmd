@@ -23,20 +23,20 @@ The package **distantia** implements the *sequence slotting* method proposed des
 
 You can install the released version of distantia from [CRAN](https://CRAN.R-project.org) with:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # install.packages("distantia")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # install.packages("devtools")
 # devtools::install_github("BlasBenito/distantia")
 ```
 
 Loading the library, plus other helper libraries:
 
-```{r, message=FALSE, warning=FALSE, error=FALSE, eval=TRUE}
+```{r, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 library(distantia)
 library(kableExtra)
 ```
@@ -50,7 +50,7 @@ The only restrictions are that any given entity represented by a column must hav
 
 The package provides two example datasets based on the Abernethy pollen core (Birks and Mathewes (1978):
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 data(sequenceA)
 data(sequenceB)
 
@@ -65,7 +65,7 @@ Notice that **sequenceB** has a few NA values.
 
 The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data, as follows:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 help(prepareSequences)
 
 AB.sequences <- prepareSequences(
@@ -89,7 +89,7 @@ The computation of dissimlarity between two sequences goes as follows:
 
 **1.** Computation of a **distance matrix** among the samples of both sequences. The image below shows the matrix of distances between pairs of samples in both sequences. Blue colors indicate low distances, while red colors indicate larger distances.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE}
+```{r, fig.width = 7, fig.height = 4, eval=FALSE}
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
@@ -104,7 +104,7 @@ plotMatrix(distance.matrix = AB.distance.matrix)
 
 The value of the upper-right cell in the plotted matrix (actually, the lower-right cell in the actual data matrix, the matrix is rotated in the plot) is the sum of the minimum distance across all samples of both time-series.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE}
+```{r, fig.width = 7, fig.height = 4, eval=FALSE}
 AB.least.cost.matrix <- leastCostMatrix(
   distance.matrix = AB.distance.matrix
 )
@@ -114,7 +114,7 @@ plotMatrix(distance.matrix = AB.least.cost.matrix)
 
 **Optional** In this optional step the function **leastCostPath** finds the least cost path in the matrix above. It returns a dataframe with the coordinates of the cells within the path, the distance between consecutive cells, and the cumulative distance of any given step in the path. It can be used to plot the path, which helps to better understand the alignmnet between both sequences.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE}
+```{r, fig.width = 7, fig.height = 4, eval=FALSE}
 AB.least.cost.path <- leastCostPath(
   distance.matrix = AB.distance.matrix,
   least.cost.matrix = AB.least.cost.matrix
@@ -136,7 +136,7 @@ plotMatrix(distance.matrix = AB.least.cost.matrix,
 
 **3.** Getting the least cost value. The Upper right cell of the matrix in the image of the least cost matrix (lower right cell in the actual data-matrix) holds the cumulative sum of the least cost path. This value will be used later on to compute dissimilarity.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 AB.least.cost <- leastCost(least.cost.matrix = AB.least.cost.matrix)
 AB.least.cost
 ```
@@ -144,7 +144,7 @@ AB.least.cost
 
 **4.** Autosum, or sum of the distances among adjacent samples on each sequence. This is another requirement to compute a normalized measure of dissimilarity. It just computes the distance between adjacent samples and sums them up.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 AB.autosum <- autoSum(
   sequences = AB.sequences,
   method = "manhattan"
@@ -165,7 +165,7 @@ where:
 
 Which basically is the least cost normalizado by the autosum of both sequences.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 AB.psi <- psi(least.cost = AB.least.cost,
               autosum = AB.autosum)
 AB.psi
@@ -173,7 +173,7 @@ AB.psi
 
 All the steps required to compute **psi** are included in the function **workflowPsi**, that works as follows:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 AB.psi <- workflowPsi(
   sequences = AB.sequences,
   grouping.column = "id",
@@ -190,7 +190,7 @@ The package can work seamlessly with any given number of sequences, as long as t
 
 The dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages. 
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 data(sequencesMIS)
 kable(head(sequencesMIS, n=15))
 unique(sequencesMIS$MIS)
@@ -198,7 +198,7 @@ unique(sequencesMIS$MIS)
 
 The sequences can be prepared with **prepareSequences** (note the change in the argument *grouping.column*).
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 MIS.sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",
@@ -211,7 +211,7 @@ str(MIS.sequences)
 And **psi** can be computed through **workflowPsi** as follows. Note the argument *output* that allows to select either "dataframe" or "matrix" to obtain an output with a given structure.
 
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 MIS.psi <- workflowPsi(
   sequences = MIS.sequences,
   grouping.column = "MIS",
@@ -229,7 +229,7 @@ kable(head(MIS.psi, 20))
 
 In this particular case, distances are computed only between samples that have the same order, depth, or age (as defined by the *time.column* argument). The function **prepareSequences** checks if the sequences have the same number of rows and, if *time.column* is provided, it subsets the cases that have valid time/depth columns for every sequence in the dataset.
 
-```{r}
+```{r, eval=FALSE}
 #loading sample data
 data(climate)
 
@@ -244,7 +244,8 @@ climate.prepared <- prepareSequences(
 
 Computing distances between paired samples. The result is a list, each slot named as the id of the given sequence according to *grouping.columns*, and containing a vector with pairwise distances. Each vector position is named according the values of the samples according to *time.column*.
 
-```{r}
+```{r, eval=FALSE}
+
 climate.pairwise.distances <- distancePairedSamples(
   sequences = climate.prepared,
   grouping.column = "sequenceId",
@@ -252,5 +253,6 @@ climate.pairwise.distances <- distancePairedSamples(
   exclude.columns = NULL,
   method = "manhattan"
   )
+
 ```
 
