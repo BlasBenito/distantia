@@ -3,6 +3,7 @@
 export(autoSum)
 export(distance)
 export(distanceMatrix)
+export(distancePairedSamples)
 export(handleNA)
 export(leastCost)
 export(leastCostMatrix)

@@ -30,7 +30,8 @@
 #' @param time.column character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B}, to be excluded from the transformation.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
-#' @param transformation character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".
+#' @param transformation character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).
+#' @param paired.samples boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. The default setting is \code{FALSE}.
 #' @return A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
@@ -71,20 +72,22 @@ prepareSequences=function(sequence.A = NULL,
                           time.column = NULL,
                           exclude.columns = NULL,
                           if.empty.cases = "zero",
-                          transformation = "none"){
+                          transformation = "none",
+                          paired.samples = FALSE){
 
   #INTERNAL PARAMETERS
   input.mode <- NULL
 
   #CHECKING transformation
   ##############################################################
-  if (!(transformation %in% c("none", "None", "NONE", "percentage", "Percentage", "PERCENTAGE", "percent", "Percent", "PERCENT", "proportion", "Proportion", "PROPORTION", "hellinger", "Hellinger", "HELLINGER"))){
-    stop("Argument 'transformation' must be one of: 'none', 'percentage', 'proportion', 'hellinger'.")
+  if (!(transformation %in% c("none", "percentage", "proportion", "hellinger", "scale", "PERCENTAGE", "percent", "Percent", "PERCENT", "proportion", "Proportion", "PROPORTION", "hellinger", "Hellinger", "HELLINGER", "scale", "Scale", "SCALE", "center", "Center", "CENTER"))){
+    stop("Argument 'transformation' must be one of: 'none', 'percentage', 'proportion', 'hellinger', 'scale'.")
   } else {
     if(transformation %in% c("none", "None", "NONE")){transformation <- "none"}
     if(transformation %in% c("Percentage", "PERCENTAGE", "percent", "Percent", "PERCENT")){transformation <- "percentage"}
     if(transformation %in% c("proportion", "Proportion", "PROPORTION")){transformation <- "proportion"}
     if(transformation %in% c("hellinger", "Hellinger", "HELLINGER")){transformation <- "hellinger"}
+    if(transformation %in% c("scale", "Scale", "SCALE", "center", "Center", "CENTER")){transformation <- "scale"}
   }
 
   #CHECKING merge.mode
@@ -194,9 +197,6 @@ prepareSequences=function(sequence.A = NULL,
      sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
   }
 
-
-
-
   #REMOVING GROUPS IF THEY HAVE LESS THAN 3 CASES
   #############################
   groups.to.remove <- names(which(table(sequences[, grouping.column]) < 3))
@@ -245,21 +245,56 @@ prepareSequences=function(sequence.A = NULL,
       sequences <- sqrt(sweep(sequences, 1, rowSums(sequences), FUN = "/"))
     }
 
+    #SCALING
+    #############################
+    if (transformation == "scale"){
+      sequences <- scale(x=sequences, center = TRUE, scale = TRUE)
+    }
+
+    #adding the time column
+    #removing time column
+    if(!(is.null(time.column))){
+      sequences <- data.frame(time=time.column.data, sequences, stringsAsFactors = FALSE)
+      colnames(sequences)[1] <- time.column
+    }
+
+    #adding the grouping.column back
+    sequences <- data.frame(id=id.column, sequences, stringsAsFactors = FALSE)
+
+    #change the name if required
+    if(grouping.column != "id"){
+      colnames(sequences)[1] <- grouping.column
+    }
+
   }
 
-  #adding the time column
-  #removing time column
-  if(!(is.null(time.column))){
-    sequences <- data.frame(time=time.column.data, sequences, stringsAsFactors = FALSE)
-    colnames(sequences)[1] <- time.column
-  }
 
-  #adding the grouping.column back
-  sequences <- data.frame(id=id.column, sequences, stringsAsFactors = FALSE)
 
-  #change the name if required
-  if(grouping.column != "id"){
-    colnames(sequences)[1] <- grouping.column
+  #checks if paired.samples is TRUE
+  if(paired.samples == TRUE){
+
+    #if time.column is true
+    if(!is.null(time.column)){
+
+      #counts number of time each "time" value appears
+      temp.table.time <- table(sequences[, time.column])
+      temp.table.time <- data.frame(value=names(temp.table.time), frequency=as.vector(temp.table.time), stringsAsFactors = FALSE)
+
+      #selecting these that have the same number in frequency as number of sequences we are working with
+      valid.time.values <- as.numeric(temp.table.time[temp.table.time$frequency == length(unique(sequences[, grouping.column])), "value"])
+
+      #subsetting sequences
+      sequences <- sequences[sequences[, time.column] %in% valid.time.values, ]
+
+    }
+
+    #checking if groups have the same number of rows
+    temp.table.rows <- table(sequences[, grouping.column])
+    if(length(unique(temp.table.rows)) > 1){
+      warning("The argument 'paired.samples' was set to TRUE, but at least one of the sequences don't have the same number of rows than the others. Please, check what is wrong here.")
+      print(data.frame(id=names(temp.table.rows), rows=as.vector(temp.table.rows)))
+    }
+
   }
 
   return(sequences)

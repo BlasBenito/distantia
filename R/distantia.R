@@ -73,6 +73,26 @@
 #' @format dataframe with 7 columns and 427 rows.
 "sequencesMIS"
 
+#' Dataframe with palaeoclimatic data.
+#'
+#' A dataframe containing palaeoclimate data at 1 ky temporal resolution with the following columns:
+#'
+#' \itemize{
+#'   \item \emph{time} in kiloyears before present (ky BP).
+#'   \item \emph{sequenceId} numeric identifier of sequences of 200ky within the main sequence, useful to test some functions of the package, such as \code{\link{distancePairedSamples}}
+#'   \item \emph{temperatureAverage} average annual temperature in Celsius degrees.
+#'   \item \emph{rainfallAverage} average annual precipitation in milimetres per day (mm/day).
+#'   \item \emph{temperatureWarmestMonth} average temperature of the warmest month, in Celsius degrees.
+#'   \item \emph{temperatureColdestMonth} average temperature of the coldest month, in Celsius degrees.
+#' }
+#' @author Blas M. Benito  <blasbenito@gmail.com>
+#' @docType data
+#' @keywords datasets
+#' @name climate
+#' @usage data(climate)
+#' @format dataframe with 6 columns and 800 rows.
+"climate"
+
 #' @import plyr parallel doParallel foreach fields grDevices viridis
 NULL
 

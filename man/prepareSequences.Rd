@@ -38,7 +38,9 @@ transformation = "none")
 
 \item{if.empty.cases}{character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.}
 
-\item{transformation}{character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".}
+\item{transformation}{character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).}
+
+\item{paired.samples}{boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. The default setting is \code{FALSE}.}
 }
 \value{
 A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.

@@ -224,3 +224,33 @@ MIS.psi <- workflowPsi(
 
 kable(head(MIS.psi, 20))
 ```
+
+# Working with aligned multivariate time-series (same number of samples/rows and rows with same time/depth/order)
+
+In this particular case, distances are computed only between samples that have the same order, depth, or age (as defined by the *time.column* argument). The function **prepareSequences** checks if the sequences have the same number of rows and, if *time.column* is provided, it subsets the cases that have valid time/depth columns for every sequence in the dataset.
+
+```{r}
+#loading sample data
+data(climate)
+
+#preparing sequences
+climate.prepared <- prepareSequences(
+  sequences = climate,
+  grouping.column = "sequenceId",
+  time.column = "time",
+  paired.samples = TRUE
+  )
+```
+
+Computing distances between paired samples. The result is a list, each slot named as the id of the given sequence according to *grouping.columns*, and containing a vector with pairwise distances. Each vector position is named according the values of the samples according to *time.column*.
+
+```{r}
+climate.pairwise.distances <- distancePairedSamples(
+  sequences = climate.prepared,
+  grouping.column = "sequenceId",
+  time.column = "time",
+  exclude.columns = NULL,
+  method = "manhattan"
+  )
+```
+

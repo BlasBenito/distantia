@@ -136,7 +136,7 @@ distanceMatrix <- function(sequences = NULL,
     sequence.A <- as.matrix(sequences[sequences[, grouping.column] %in% combination[1], target.columns])
     sequence.B <- as.matrix(sequences[sequences[, grouping.column] %in% combination[2], target.columns])
 
-    #computing row size
+    #computing number of rows
     nrow.sequence.A <- nrow(sequence.A)
     nrow.sequence.B <- nrow(sequence.B)
 
