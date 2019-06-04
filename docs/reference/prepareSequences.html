@@ -169,7 +169,11 @@ One long dataframe: The user provides a single dataframe, through the sequences 
     </tr>
     <tr>
       <th>transformation</th>
-      <td><p>character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", and "hellinger".</p></td>
+      <td><p>character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the <code><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></code> function).</p></td>
+    </tr>
+    <tr>
+      <th>paired.samples</th>
+      <td><p>boolean. If <code>TRUE</code>, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the <code>time.column</code> must have the same values in every dataset. The default setting is <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

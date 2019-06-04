@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Computes the dissimilarity measure <em>psi</em> on two or more sequences. — workflowPsi • distantia</title>
+<title>Computes the dissimilarity measure <em>psi</em> on two or more sequences with paired samples. — workflowPsiPairedSamples • distantia</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,11 @@
 
 
 
-<meta property="og:title" content="Computes the dissimilarity measure <em>psi</em> on two or more sequences. — workflowPsi" />
+<meta property="og:title" content="Computes the dissimilarity measure <em>psi</em> on two or more sequences with paired samples. — workflowPsiPairedSamples" />
 
 <meta property="og:description" content="This function executes the following steps:
 Computes the autosum of the sequences with autoSum.
-Computes the distance matrix with distanceMatrix.
-Uses the distance matrix to compute the least cost matrix with leastCostMatrix.
-Extracts the cost of the least cost path with leastCost.
+Computes the distance between paired samples and sums it with distancePairedSamples.
 Computes the dissimilarity measure psi with the function psi.
 Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or &quot;matrix&quot;, depending on the user input, through either psiToDataframe or psiToMatrix.
 " />
@@ -101,25 +99,23 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Computes the dissimilarity measure <em>psi</em> on two or more sequences.</h1>
+    <h1>Computes the dissimilarity measure <em>psi</em> on two or more sequences with paired samples.</h1>
     
-    <div class="hidden name"><code>workflowPsi.Rd</code></div>
+    <div class="hidden name"><code>workflowPsiPairedSamples.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
     <p>This function executes the following steps:</p><ul>
 <li><p>Computes the autosum of the sequences with <code><a href='autoSum.html'>autoSum</a></code>.</p></li>
-<li><p>Computes the distance matrix with <code><a href='distanceMatrix.html'>distanceMatrix</a></code>.</p></li>
-<li><p>Uses the distance matrix to compute the least cost matrix with <code><a href='leastCostMatrix.html'>leastCostMatrix</a></code>.</p></li>
-<li><p>Extracts the cost of the least cost path with <code><a href='leastCost.html'>leastCost</a></code>.</p></li>
+<li><p>Computes the distance between paired samples and sums it with <code><a href='distancePairedSamples.html'>distancePairedSamples</a></code>.</p></li>
 <li><p>Computes the dissimilarity measure <em>psi</em> with the function <code><a href='psi.html'>psi</a></code>.</p></li>
 <li><p>Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through either <code>psiToDataframe</code> or <code>psiToMatrix</code>.</p></li>
 </ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>workflowPsi</span>(
+    <pre class="usage"><span class='fu'>workflowPsiPairedSamples</span>(
   <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -153,12 +149,8 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <td><p>character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.</p></td>
     </tr>
     <tr>
-      <th>diagonal</th>
-      <td><p>boolean, if <code>TRUE</code>, diagonals are included in the computation of the least cost path. Defaults to <code>FALSE</code>, as the original algorithm did not include diagonals in the computation of the least cost path.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>string, type of output. One of: "data.frame", "matrix". If <code>NULL</code> or empty, a list is returned.</p></td>
+      <th>output</th>
+      <td><p>string, type of output. One of: "list" (default), "data.frame", "matrix"</p></td>
     </tr>
     </table>
     
@@ -169,30 +161,9 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sequencesMIS"</span>)
-<span class='co'>#prepare sequences</span>
-<span class='no'>MIS.sequences</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSequences.html'>prepareSequences</a></span>(
-  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>sequencesMIS</span>,
-  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
-  <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
-  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
-  )
-
-<span class='co'>#execute workflow to compute psi</span>
-<span class='no'>MIS.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>workflowPsi</span>(
- <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>MIS.sequences</span>,
- <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
- <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
- <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>
- )
-
-<span class='no'>MIS.psi</span>
-
-<span class='co'># }</span><div class='input'>
+</div># NOT RUN {
+# }
+<div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
