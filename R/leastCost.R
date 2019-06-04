@@ -23,7 +23,8 @@ leastCost <- function(least.cost.matrix = NULL){
     n.elements <- length(least.cost.matrix)
   }
 
-
+  #making sure %dopar% gets recognized
+  `%dopar%` <- foreach::`%dopar%`
 
   #creating cluster
   n.cores <- parallel::detectCores() - 1

@@ -112,6 +112,9 @@ distanceMatrix <- function(sequences = NULL,
   #number of combinations
   n.combinations <- dim(combinations)[2]
 
+  #making sure %dopar% gets recognized
+  `%dopar%` <- foreach::`%dopar%`
+
   #creating cluster
   n.cores <- parallel::detectCores() - 1
   my.cluster <- parallel::makeCluster(n.cores, type="FORK")

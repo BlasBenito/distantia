@@ -99,6 +99,9 @@ autoSum <- function(sequences = NULL,
     sequences <- sequences[, !(colnames(sequences) %in% exclude.columns)]
   }
 
+  #making sure %dopar% gets recognized
+  `%dopar%` <- foreach::`%dopar%`
+
   #creating cluster
   n.cores <- parallel::detectCores() - 1
   my.cluster <- parallel::makeCluster(n.cores, type="FORK")

@@ -84,6 +84,9 @@ psi <- function(least.cost = NULL,
     n.elements <- 1
   }
 
+  #making sure %dopar% gets recognized
+  `%dopar%` <- foreach::`%dopar%`
+
   #iterating to compute psi on each element
   #creating cluster
   n.cores <- parallel::detectCores() - 1

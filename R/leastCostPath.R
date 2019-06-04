@@ -102,6 +102,9 @@ leastCostPath <- function(distance.matrix = NULL,
   #setting diagonal if it's empty
   if(is.null(diagonal)){diagonal <- FALSE}
 
+  #making sure %dopar% gets recognized
+  `%dopar%` <- foreach::`%dopar%`
+
   #creating cluster
   n.cores <- parallel::detectCores() - 1
   my.cluster <- parallel::makeCluster(n.cores, type="FORK")

@@ -9,7 +9,8 @@ distancePairedSamples(
   grouping.column = NULL,
   time.column = NULL,
   exclude.columns = NULL,
-  method = "manhattan"
+  method = "manhattan",
+  sum.distances = FALSE
   )
 }
 \arguments{
@@ -22,9 +23,11 @@ distancePairedSamples(
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
+
+\item{sum.distances}{boolean, if \code{TRUE} (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument \code{least.cost} in the function \code{\link{psi}}.}
 }
 \value{
-A list with named slots containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.
+A list with named slots (names of the sequences separated by a vertical line, as in "A|B") containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.
 }
 \description{
 Computes the distance (one of: "manhattan", "euclidean", "chi", or "hellinger") between pairs of aligned samples (same order/depth/age) in two or more multivariate time-series.
@@ -63,7 +66,8 @@ seq.distances <- distancePairedSamples(
   grouping.column = "sequenceId",
   time.column = "time",
   exclude.columns = NULL,
-  method = "manhattan"
+  method = "manhattan",
+  sum.distances = FALSE
   )
 
 }

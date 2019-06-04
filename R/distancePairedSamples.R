@@ -7,7 +7,8 @@
 #'   grouping.column = NULL,
 #'   time.column = NULL,
 #'   exclude.columns = NULL,
-#'   method = "manhattan"
+#'   method = "manhattan",
+#'   sum.distances = FALSE
 #'   )
 #'
 #' @param sequences dataframe with multiple sequences identified by a grouping column. Generally the ouput of \code{\link{prepareSequences}}.
@@ -15,6 +16,7 @@
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
+#' @param sum.distances boolean, if \code{TRUE} (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument \code{least.cost} in the function \code{\link{psi}}.
 #' @return A list with named slots (names of the sequences separated by a vertical line, as in "A|B") containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.
 #' @details Distances are computed as:
 #' \itemize{
@@ -50,7 +52,8 @@
 #'   grouping.column = "sequenceId",
 #'   time.column = "time",
 #'   exclude.columns = NULL,
-#'   method = "manhattan"
+#'   method = "manhattan",
+#'   sum.distances = FALSE
 #'   )
 #'
 #' @export
@@ -59,7 +62,8 @@
     grouping.column = NULL,
     time.column = NULL,
     exclude.columns = NULL,
-    method = "manhattan"
+    method = "manhattan",
+    sum.distances = FALSE
   ){
 
     #checking sequences
@@ -134,6 +138,9 @@
     #number of combinations
     n.combinations <- dim(combinations)[2]
 
+    #making sure %dopar% gets recognized
+    `%dopar%` <- foreach::`%dopar%`
+
     #creating cluster
     n.cores <- parallel::detectCores() - 1
     my.cluster <- parallel::makeCluster(n.cores, type="FORK")
@@ -141,7 +148,10 @@
 
     #exporting cluster variables
     parallel::clusterExport(cl=my.cluster,
-                            varlist=c('combinations', 'sequences', 'distance'),
+                            varlist=c('combinations',
+                                      'sequences',
+                                      'distance',
+                                      'sum.distances'),
                             envir=environment()
     )
 
@@ -169,15 +179,20 @@
       #creating results vector
       distance.vector <- vector()
 
-      #distance matrix
+      #computing distances between pairs of samples
       for (i in 1:nrow.sequence.A){
         distance.vector[i] <- distance(x = sequence.A[i,], y = sequence.B[i,], method=method)
       }
 
-      #vector names
-      names(distance.vector) <- order(unique(time.column.values))
-      return(distance.vector)
+      #if sum.distances is true
+      if(sum.distances == TRUE){
+        distance.vector <- sum(distance.vector)
+      } else {
+        #vector names
+        names(distance.vector) <- order(unique(time.column.values))
+      }
 
+      return(distance.vector)
 
     } #end of dopar
 

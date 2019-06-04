@@ -1,16 +1,14 @@
-#' Computes the dissimilarity measure \emph{psi} on two or more sequences.
+#' Computes the dissimilarity measure \emph{psi} on two or more sequences with paired samples.
 #'
 #' @description This function executes the following steps:
 #' \itemize{
 #' \item Computes the autosum of the sequences with \code{\link{autoSum}}.
-#' \item Computes the distance matrix with \code{\link{distanceMatrix}}.
-#' \item Uses the distance matrix to compute the least cost matrix with \code{\link{leastCostMatrix}}.
-#' \item Extracts the cost of the least cost path with \code{\link{leastCost}}.
+#' \item Computes the distance between paired samples and sums it with \code{\link{distancePairedSamples}}.
 #' \item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
 #' \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through either \code{\link{psiToDataframe}} or \code{\link{psiToMatrix}}.
 #' }
 #'
-#' @usage workflowPsi(
+#' @usage workflowPsiPairedSamples(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -25,8 +23,7 @@
 #' @param time.column character string, name of the column with time/depth/rank data.
 #' @param exclude.columns character string or character vector with column names in \code{sequences} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
-#' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
-#' @param format string, type of output. One of: "data.frame", "matrix". If \code{NULL} or empty, a list is returned.
+#' @param output string, type of output. One of: "list" (default), "data.frame", "matrix"
 #'
 #' @return A list, matrix, or dataframe, with sequence names and psi values.
 #'
@@ -35,38 +32,15 @@
 #' @examples
 #'
 #' \dontrun{
-#' data("sequencesMIS")
-#' #prepare sequences
-#' MIS.sequences <- prepareSequences(
-#'   sequences = sequencesMIS,
-#'   grouping.column = "MIS",
-#'   if.empty.cases = "zero",
-#'   transformation = "hellinger"
-#'   )
-#'
-#'#execute workflow to compute psi
-#'MIS.psi <- workflowPsi(
-#'  sequences = MIS.sequences,
-#'  grouping.column = "MIS",
-#'  time.column = NULL,
-#'  exclude.columns = NULL,
-#'  method = "manhattan",
-#'  diagonal = FALSE,
-#'  output = "dataframe"
-#'  )
-#'
-#'MIS.psi
-#'
 #'}
 #'
 #' @export
-workflowPsi <- function(sequences = NULL,
+workflowPsiPairedSamples <- function(sequences = NULL,
                         grouping.column = NULL,
                         time.column = NULL,
                         exclude.columns = NULL,
                         method = "manhattan",
-                        diagonal = FALSE,
-                        format = NULL){
+                        format = "dataframe"){
 
   #autosum
   autosum.sequences <- autoSum(
@@ -77,29 +51,18 @@ workflowPsi <- function(sequences = NULL,
     method = method
   )
 
-  #computing distance matrix
-  D <- distanceMatrix(
+  sum.distances <- distancePairedSamples(
     sequences = sequences,
     grouping.column = grouping.column,
     time.column = time.column,
     exclude.columns = exclude.columns,
-    method = method
-  )
-
-  #computing least cost matrix
-  LC.matrix <- leastCostMatrix(
-    distance.matrix = D,
-    diagonal = diagonal
-  )
-
-  #getting least cost
-  LC.value <- leastCost(
-    least.cost.matrix = LC.matrix
+    method = method,
+    sum.distances = TRUE
   )
 
   #computing psi
   psi.value <- psi(
-    least.cost = LC.value,
+    least.cost = sum.distances,
     autosum = autosum.sequences
     )
 
