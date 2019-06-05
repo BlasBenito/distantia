@@ -4,11 +4,13 @@
 #'
 #' @usage leastCostPath(distance.matrix = NULL,
 #'   least.cost.matrix = NULL,
-#'   diagonal = FALSE)
+#'   diagonal = FALSE,
+#'   parallel.execution = TRUE)
 #'
 #' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param least.cost.matrix numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
+#' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #' @return Alist of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:
 #' \itemize{
 #' \item \emph{A} row/sample of one of the sequences.
@@ -63,7 +65,8 @@
 #' @export
 leastCostPath <- function(distance.matrix = NULL,
                           least.cost.matrix = NULL,
-                          diagonal = FALSE){
+                          diagonal = FALSE,
+                          parallel.execution = TRUE){
 
   #if input is matrix, get it into list
   if(inherits(least.cost.matrix, "matrix") == TRUE | is.matrix(least.cost.matrix) == TRUE){
@@ -82,19 +85,19 @@ leastCostPath <- function(distance.matrix = NULL,
   }
 
   if(inherits(least.cost.matrix, "list") == TRUE){
-    n.elements <- length(least.cost.matrix)
+    n.iterations <- length(least.cost.matrix)
   }
 
   if(inherits(distance.matrix, "list") == TRUE){
     m.elements <- length(distance.matrix)
   }
 
-  if(n.elements != m.elements){
+  if(n.iterations != m.elements){
     stop("Arguments 'distance.matrix' and 'least.cost.matrix' don't have the same number of slots.")
   }
 
-  if(n.elements > 1){
-    if(sum(names(distance.matrix) %in% names(least.cost.matrix)) != n.elements){
+  if(n.iterations > 1){
+    if(sum(names(distance.matrix) %in% names(least.cost.matrix)) != n.iterations){
       stop("Elements in arguments 'distance.matrix' and 'least.cost.matrix' don't have the same names.")
     }
   }
@@ -102,26 +105,30 @@ leastCostPath <- function(distance.matrix = NULL,
   #setting diagonal if it's empty
   if(is.null(diagonal)){diagonal <- FALSE}
 
-  #making sure %dopar% gets recognized
-  `%dopar%` <- foreach::`%dopar%`
-
-  #creating cluster
-  n.cores <- parallel::detectCores() - 1
-  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
-  doParallel::registerDoParallel(my.cluster)
+  #parallel execution = TRUE
+  if(parallel.execution == TRUE){
+    `%dopar%` <- foreach::`%dopar%`
+    n.cores <- parallel::detectCores() - 1
+    if(n.iterations < n.cores){n.cores <- n.iterations}
+    my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+    doParallel::registerDoParallel(my.cluster)
 
   #exporting cluster variables
   parallel::clusterExport(cl = my.cluster,
-                          varlist = c('n.elements',
+                          varlist = c('n.iterations',
                                     'least.cost.matrix',
                                     'distance.matrix',
                                     'diagonal'),
                           envir = environment()
                           )
+  } else {
+    #replaces dopar (parallel) by do (serial)
+    `%dopar%` <- foreach::`%do%`
+  }
 
 
   #parallelized loop
-  least.cost.paths <- foreach::foreach(i=1:n.elements) %dopar% {
+  least.cost.paths <- foreach::foreach(i=1:n.iterations) %dopar% {
 
     #getting distance matrix
     least.cost.matrix.i <- least.cost.matrix[[i]]
@@ -251,7 +258,12 @@ leastCostPath <- function(distance.matrix = NULL,
   } #end of %dopar%
 
   #stopping cluster
-  parallel::stopCluster(my.cluster)
+  if(parallel.execution == TRUE){
+    parallel::stopCluster(my.cluster)
+  } else {
+    #creating the correct alias again
+    `%dopar%` <- foreach::`%dopar%`
+  }
 
   #list names
   names(least.cost.paths) <- names(least.cost.matrix)

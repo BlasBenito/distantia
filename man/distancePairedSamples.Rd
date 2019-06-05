@@ -10,7 +10,8 @@ distancePairedSamples(
   time.column = NULL,
   exclude.columns = NULL,
   method = "manhattan",
-  sum.distances = FALSE
+  sum.distances = FALSE,
+  parallel.execution = TRUE
   )
 }
 \arguments{
@@ -25,6 +26,8 @@ distancePairedSamples(
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
 
 \item{sum.distances}{boolean, if \code{TRUE} (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument \code{least.cost} in the function \code{\link{psi}}.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list with named slots (names of the sequences separated by a vertical line, as in "A|B") containing numeric vectors with the distance between paired samples of every possible combination of sequences according to \code{grouping.column}.

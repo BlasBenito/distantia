@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Computes the dissimilarity measure <em>psi</em> on two or more sequences. — workflowPsi • distantia</title>
+<title>Computes the contribution to <code>psi</code> of each variable. — workflowImportance • distantia</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,15 @@
 
 
 
-<meta property="og:title" content="Computes the dissimilarity measure <em>psi</em> on two or more sequences. — workflowPsi" />
+<meta property="og:title" content="Computes the contribution to <code>psi</code> of each variable. — workflowImportance" />
 
 <meta property="og:description" content="This workflow executes the following steps:
-Computes the autosum of the sequences with autoSum.
-Computes the distance matrix with distanceMatrix.
-Uses the distance matrix to compute the least cost matrix with leastCostMatrix.
-Extracts the cost of the least cost path with leastCost.
-Computes the dissimilarity measure psi with the function psi.
-Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or &quot;matrix&quot;, depending on the user input, through either psiToDataframe or psiToMatrix.
+computes psi as done by workflowPsi workflowPsiPairedSamples.
+computes psi as many times as numeric variables in sequences, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.
+Delivers an output of type &quot;list&quot; with two slots:
+psi a dataframe with the columns &quot;A&quot; and &quot;B&quot; with the respective names of the sequences compared, a column named &quot;All variables&quot; with the psi values of each pair of sequences computed by considering all variables, and then one column per variable, indicating the psi value when that variable is removed.
+psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then one column per numeric variable in sequences indicating the percentage of drop in psi (as indicated by the &quot;All variables&quot; column in the psi dataframe) when the given variable is removed. Positive values indicate that the given variable reduces dissimilarity when removed, making the sequences more similar, while negative values indicate that the variable increases dissimilarity when removed, making the sequences more different.
+
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -101,32 +101,32 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Computes the dissimilarity measure <em>psi</em> on two or more sequences.</h1>
+    <h1>Computes the contribution to <code>psi</code> of each variable.</h1>
     
-    <div class="hidden name"><code>workflowPsi.Rd</code></div>
+    <div class="hidden name"><code>workflowImportance.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
     <p>This workflow executes the following steps:</p><ul>
-<li><p>Computes the autosum of the sequences with <code><a href='autoSum.html'>autoSum</a></code>.</p></li>
-<li><p>Computes the distance matrix with <code><a href='distanceMatrix.html'>distanceMatrix</a></code>.</p></li>
-<li><p>Uses the distance matrix to compute the least cost matrix with <code><a href='leastCostMatrix.html'>leastCostMatrix</a></code>.</p></li>
-<li><p>Extracts the cost of the least cost path with <code><a href='leastCost.html'>leastCost</a></code>.</p></li>
-<li><p>Computes the dissimilarity measure <em>psi</em> with the function <code><a href='psi.html'>psi</a></code>.</p></li>
-<li><p>Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through either <code>psiToDataframe</code> or <code>psiToMatrix</code>.</p></li>
+<li><p>computes <code>psi</code> as done by <code>workflowPsi</code> <code>workflowPsiPairedSamples</code>.</p></li>
+<li><p>computes <code>psi</code> as many times as numeric variables in <code>sequences</code>, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.</p></li>
+<li><p>Delivers an output of type "list" with two slots:</p><ul>
+<li><p><code>psi</code> a dataframe with the columns "A" and "B" with the respective names of the sequences compared, a column named "All variables" with the psi values of each pair of sequences computed by considering all variables, and then one column per variable, indicating the <code>psi</code> value when that variable is removed.</p></li>
+<li><p><code>psi.drop</code> a dataframe with the columns "A" and "B", and then one column per numeric variable in <code>sequences</code> indicating the percentage of drop in <code>psi</code> (as indicated by the "All variables" column in the psi dataframe) when the given variable is removed. Positive values indicate that the given variable reduces dissimilarity when removed, making the sequences more similar, while negative values indicate that the variable increases dissimilarity when removed, making the sequences more different.</p></li>
+</ul></li>
 </ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>workflowPsi</span>(
+    <pre class="usage"><span class='fu'>workflowImportance</span>(
   <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
   <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
+  <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
@@ -158,8 +158,8 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <td><p>boolean, if <code>TRUE</code>, diagonals are included in the computation of the least cost path. Defaults to <code>FALSE</code>, as the original algorithm did not include diagonals in the computation of the least cost path.</p></td>
     </tr>
     <tr>
-      <th>format</th>
-      <td><p>string, type of output. One of: "data.frame", "matrix". If <code>NULL</code> or empty, a list is returned.</p></td>
+      <th>paired.samples</th>
+      <td><p>boolean, if <code>TRUE</code>, the sequences are assumed to be aligned, and <code><a href='workflowPsiPairedSamples.html'>workflowPsiPairedSamples</a></code> is used to compute <code>psi</code>. Default value is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>
@@ -171,31 +171,42 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 
     <p>A list, matrix, or dataframe, with sequence names and psi values.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If we consider the question "what variable contributes the most to the dissimilarity between two sequences?" the answer "the one dropping dissimilarity the most when excluded from the analysis" sounds like a reasonable answer. This workflow attempts to reach that answer by computing <code>psi</code> while removing one variable at a time.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sequencesMIS"</span>)
-<span class='co'>#prepare sequences</span>
-<span class='no'>MIS.sequences</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSequences.html'>prepareSequences</a></span>(
-  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>sequencesMIS</span>,
-  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
-  <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
-  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
-  )
+<span class='co'>#getting example data</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequencesMIS</span>)
+
+<span class='co'>#reducing number of groups to simplify the output</span>
+<span class='no'>sequences</span> <span class='kw'>&lt;-</span> <span class='no'>sequencesMIS</span>[<span class='no'>sequencesMIS</span>$<span class='no'>MIS</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"MIS-1"</span>, <span class='st'>"MIS-2"</span>, <span class='st'>"MIS-3"</span>), ]
+<span class='co'>#preparing sequences</span>
+<span class='no'>sequences</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSequences.html'>prepareSequences</a></span>(
+ <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>sequences</span>,
+ <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
+ <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+ <span class='kw'>merge.mode</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
+ <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+ )
 
 <span class='co'>#execute workflow to compute psi</span>
-<span class='no'>MIS.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>workflowPsi</span>(
+<span class='no'>MIS.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>workflowImportance</span>(
  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>MIS.sequences</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
  <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
  <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>
+ <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
  )
 
-<span class='no'>MIS.psi</span>
+<span class='co'>#output</span>
+<span class='no'>MIS.psi</span>$<span class='no'>psi</span>
+<span class='no'>MIS.psi</span>$<span class='no'>psi.drop</span>
 
 <span class='co'># }</span><div class='input'>
 </div></pre>
@@ -206,6 +217,8 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -6,7 +6,8 @@
 \usage{
 leastCostPath(distance.matrix = NULL,
   least.cost.matrix = NULL,
-  diagonal = FALSE)
+  diagonal = FALSE,
+  parallel.execution = TRUE)
 }
 \arguments{
 \item{distance.matrix}{numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.}
@@ -14,6 +15,8 @@ leastCostPath(distance.matrix = NULL,
 \item{least.cost.matrix}{numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.}
 
 \item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 Alist of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:

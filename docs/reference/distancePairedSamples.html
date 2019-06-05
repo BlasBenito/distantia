@@ -111,7 +111,8 @@
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
-  <span class='kw'>sum.distances</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>sum.distances</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -140,6 +141,10 @@
     <tr>
       <th>sum.distances</th>
       <td><p>boolean, if <code>TRUE</code> (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument <code>least.cost</code> in the function <code><a href='psi.html'>psi</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

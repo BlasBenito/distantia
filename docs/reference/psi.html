@@ -105,7 +105,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>psi</span>(<span class='kw'>least.cost</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>autosum</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>psi</span>(
+  <span class='kw'>least.cost</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>autosum</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -117,6 +120,10 @@
     <tr>
       <th>autosum</th>
       <td><p>dataframe with one or several multivariate time-series identified by a grouping column.</p></td>
+    </tr>
+    <tr>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

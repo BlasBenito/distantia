@@ -9,11 +9,13 @@
 #'
 #' @usage leastCostMatrix(
 #'   distance.matrix = NULL,
-#'   diagonal = FALSE
+#'   diagonal = FALSE,
+#'   parallel.execution = TRUE
 #'   )
 #'
 #' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
+#' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A list of matrices with the same dimensions as \code{distance.matrix} with the cumulative least cost among samples. The value of the lower-right cell (in the actual data matrix, not in the plotted version!) represents the sum of the least cost path across all samples.
 #'
@@ -64,10 +66,12 @@
 #'
 #' @export
 leastCostMatrix <- function(distance.matrix = NULL,
-                            diagonal = FALSE){
+                            diagonal = FALSE,
+                            parallel.execution = TRUE
+                            ){
 
   if(inherits(distance.matrix, "list") == TRUE){
-    n.elements <- length(distance.matrix)
+    n.iterations <- length(distance.matrix)
   } else {
     temp <- list()
     temp[[1]] <- distance.matrix
@@ -81,21 +85,28 @@ leastCostMatrix <- function(distance.matrix = NULL,
   #making sure %dopar% gets recognized
   `%dopar%` <- foreach::`%dopar%`
 
-  #creating cluster
-  n.cores <- parallel::detectCores() - 1
-  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
-  doParallel::registerDoParallel(my.cluster)
+  #parallel execution = TRUE
+  if(parallel.execution == TRUE){
+    `%dopar%` <- foreach::`%dopar%`
+    n.cores <- parallel::detectCores() - 1
+    if(n.iterations < n.cores){n.cores <- n.iterations}
+    my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+    doParallel::registerDoParallel(my.cluster)
 
   #exporting cluster variables
   parallel::clusterExport(cl = my.cluster,
-                          varlist = c('n.elements',
+                          varlist = c('n.iterations',
                                     'distance.matrix',
                                     'diagonal'),
                           envir = environment()
                           )
+  } else {
+    #replaces dopar (parallel) by do (serial)
+    `%dopar%` <- foreach::`%do%`
+    }
 
 
-  least.cost.matrices <- foreach::foreach(i=1:n.elements) %dopar% {
+  least.cost.matrices <- foreach::foreach(i=1:n.iterations) %dopar% {
 
   #getting distance matrix
   distance.matrix.i <- distance.matrix[[i]]
@@ -157,7 +168,12 @@ leastCostMatrix <- function(distance.matrix = NULL,
   } #end of %dopar%
 
   #stopping cluster
-  parallel::stopCluster(my.cluster)
+  if(parallel.execution == TRUE){
+    parallel::stopCluster(my.cluster)
+  } else {
+    #creating the correct alias again
+    `%dopar%` <- foreach::`%dopar%`
+  }
 
   #list names
   names(least.cost.matrices) <- names(distance.matrix)

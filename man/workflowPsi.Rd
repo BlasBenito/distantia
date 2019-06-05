@@ -11,7 +11,8 @@ workflowPsi(
   exclude.columns = NULL,
   method = "manhattan",
   diagonal = FALSE,
-  format = "dataframe"
+  format = "dataframe",
+  parallel.execution = TRUE
   )
 }
 \arguments{
@@ -28,12 +29,14 @@ workflowPsi(
 \item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
 
 \item{format}{string, type of output. One of: "data.frame", "matrix". If \code{NULL} or empty, a list is returned.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list, matrix, or dataframe, with sequence names and psi values.
 }
 \description{
-This function executes the following steps:
+This workflow executes the following steps:
 \itemize{
 \item Computes the autosum of the sequences with \code{\link{autoSum}}.
 \item Computes the distance matrix with \code{\link{distanceMatrix}}.

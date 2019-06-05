@@ -4,12 +4,17 @@
 \alias{psi}
 \title{Computes sum of distances between consecutive samples in a multivariate time-series.}
 \usage{
-psi(least.cost = NULL, autosum = NULL)
+psi(
+  least.cost = NULL,
+  autosum = NULL,
+  parallel.execution = TRUE)
 }
 \arguments{
 \item{least.cost}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 
 \item{autosum}{dataframe with one or several multivariate time-series identified by a grouping column.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list with named slots, each one with a psi value.

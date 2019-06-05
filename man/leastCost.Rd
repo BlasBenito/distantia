@@ -4,10 +4,15 @@
 \alias{leastCost}
 \title{Extracts the least cost from a least cost matrix.}
 \usage{
-leastCost(least.cost.matrix = NULL)
+leastCost(
+  least.cost.matrix = NULL,
+  parallel.execution = TRUE
+  )
 }
 \arguments{
 \item{least.cost.matrix}{numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list if \code{least.cost.matrix} is a list, or a numeric vector if \code{least.cost.matrix} is a matrix.

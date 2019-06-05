@@ -6,7 +6,8 @@
 #'   time.column = NULL,
 #'   grouping.column = NULL,
 #'   exclude.columns = NULL,
-#'   method = "manhattan"
+#'   method = "manhattan",
+#'   parallel.execution = TRUE
 #'   )
 #'
 #' @param sequences dataframe with one or several multivariate time-series identified by a grouping column.
@@ -14,6 +15,7 @@
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
+#' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #' @return A list with slots named according \code{grouping.column} if there are several sequences in \code{sequences} or a number if there is only one sequence.
 #' @details Distances are computed as:
 #' \itemize{
@@ -64,7 +66,8 @@ autoSum <- function(sequences = NULL,
                     time.column = NULL,
                     grouping.column = NULL,
                     exclude.columns = NULL,
-                    method = "manhattan"){
+                    method = "manhattan",
+                    parallel.execution = TRUE){
 
   #checking sequences
   if(is.data.frame(sequences) == FALSE){
@@ -87,7 +90,7 @@ autoSum <- function(sequences = NULL,
   groups <- unique(sequences[, grouping.column])
 
   #number of sequences to compute the autosum of
-  n.sequences <- length(groups)
+  n.iterations <- length(groups)
 
   #removing time column
   if(!is.null(time.column)){
@@ -99,26 +102,30 @@ autoSum <- function(sequences = NULL,
     sequences <- sequences[, !(colnames(sequences) %in% exclude.columns)]
   }
 
-  #making sure %dopar% gets recognized
+  #parallel execution = TRUE
+  if(parallel.execution == TRUE){
   `%dopar%` <- foreach::`%dopar%`
-
-  #creating cluster
   n.cores <- parallel::detectCores() - 1
+  if(n.iterations < n.cores){n.cores <- n.iterations}
   my.cluster <- parallel::makeCluster(n.cores, type="FORK")
   doParallel::registerDoParallel(my.cluster)
 
   #exporting cluster variables
   parallel::clusterExport(cl=my.cluster,
-                          varlist=c('n.sequences',
+                          varlist=c('n.iterations',
                                     'sequences',
                                     'distance',
                                     'groups'),
                           envir=environment()
   )
+  } else {
+    #replaces dopar (parallel) by do (serial)
+    `%dopar%` <- foreach::`%do%`
+  }
 
 
   #parallelized loop
-  autosum.sequences <- foreach::foreach(i=1:n.sequences) %dopar% {
+  autosum.sequences <- foreach::foreach(i=1:n.iterations) %dopar% {
 
     #getting sequence
     sequence <- sequences[sequences[,grouping.column] == groups[i], ]
@@ -127,25 +134,48 @@ autoSum <- function(sequences = NULL,
     sequence <- sequence[,sapply(sequence, is.numeric)]
 
     #removing grouping column
-    sequence[,grouping.column] <- NULL
+    if(grouping.column %in% colnames(sequence)){
+      sequence[,grouping.column] <- NULL
+    }
 
-    #number of rows
-    nrow.sequence <- nrow(sequence)
-
-    #output vectors
+    #output vector
     distances <- vector()
 
-    #computing distance
+    #number of rows
+    ncol.sequence <- ncol(sequence)
+
+    #if the sequence has one column only (a vector)
+    if(is.null(ncol.sequence)){
+
+      #number of elements
+      nrow.sequence <- length(sequence)
+
+      #computing distances
+      for (i in 1:(nrow.sequence-1)){
+        distances[i] <- distance(x = sequence[i], y = sequence[i+1], method = method)
+      }
+    } else {
+
+      #number of elements
+      nrow.sequence <- nrow(sequence)
+
       for (i in 1:(nrow.sequence-1)){
         distances[i] <- distance(x = sequence[i, ], y = sequence[i+1, ], method = method)
       }
+    }
 
+    #returning sum of distances
     return(sum(distances))
 
 } #end of parallel execution
 
   #stopping cluster
-  parallel::stopCluster(my.cluster)
+  if(parallel.execution == TRUE){
+    parallel::stopCluster(my.cluster)
+  } else {
+    #creating the correct alias again
+    `%dopar%` <- foreach::`%dopar%`
+  }
 
   #naming slots in list
   names(autosum.sequences) <- groups

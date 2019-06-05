@@ -82,7 +82,8 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(viridis)</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(kableExtra)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(qgraph)</a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(qgraph)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyr)</a></code></pre></div>
 </div>
 <div id="working-with-two-irregular-and-unaligned-sequences" class="section level2">
 <h2 class="hasAnchor">
@@ -6968,43 +6969,154 @@ Least-cost path plotted on top of the least-cost matrix.
 <p>Which basically is the least-cost normalizado by the autosum of both sequences. The <strong>psi</strong> function only requires the least cost, and the autosum of both sequences, as follows. Notice that in the output list, the slot with the psi value is named after the two sequences separated by a vertical line (“A|B”). This convention will be followed by any function in the package that returns objects resulting from comparing two sequences.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/psi.html">psi</a></span>(</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">least.cost =</span> AB.least.cost,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">autosum =</span> AB.autosum)</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">AB.psi</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; $`A|B`</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; [1] 2.308914</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">autosum =</span> AB.autosum</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  )</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">AB.psi</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; $`A|B`</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; [1] 2.308914</span></a></code></pre></div>
 <p>The output of <strong>psi</strong> is a list, that can be transformed to a dataframe or a matrix by using the <strong>formatPsi</strong> function.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#to dataframe</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
 <a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">AB.psi.dataframe</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;   A B      psi</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 1 A B 2.308914</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+psi
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+</tr></tbody>
+</table>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">#to matrix</span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
 <a class="sourceLine" id="cb16-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
 <a class="sourceLine" id="cb16-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span>)</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">AB.psi.matrix</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt;          A        B</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; A 0.000000 2.308914</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; B 2.308914 0.000000</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+</tr>
+</tbody>
+</table>
 <p>Or can also be transformed from matrix to dataframe, or from dataframe to matrix, as convenient.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">#from matrix to dataframe again</span></a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
 <a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.matrix,</a>
 <a class="sourceLine" id="cb17-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">AB.psi.dataframe</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt;   A B      psi</span></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; 1 A B 2.308914</span></a></code></pre></div>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+psi
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+</tr></tbody>
+</table>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#or from dataframe to matrix</span></a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
 <a class="sourceLine" id="cb18-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.dataframe,</a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">AB.psi.matrix</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt;          A        B</span></a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; A 0.000000 2.308914</span></a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co">#&gt; B 2.308914 0.000000</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+2.308914
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+</tr>
+</tbody>
+</table>
 <p>All the steps required to compute <strong>psi</strong>, including the format options provided by <strong>formatPsi</strong> are wrapped together in the function <strong>workflowPsi</strong>, that works as follows:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2">  <span class="dt">sequences =</span> AB.sequences,</a>
@@ -8602,7 +8714,316 @@ psi
 <div id="variable-contribution-to-dissimilarity" class="section level1">
 <h1 class="hasAnchor">
 <a href="#variable-contribution-to-dissimilarity" class="anchor"></a>Variable contribution to dissimilarity</h1>
-<p>The dissimilarity measure <em>psi</em> is computed from the common columns of two datasets. But the partial contribution of given columns to <em>psi</em> can be computed, in order to answer questions such as “what columns/variables make the sequences more similar/different?”</p>
+<p><em>What variables are more important in explaining the dissimilarity between two sequences?</em>, or in other words, <em>what variables contribute the most to the dissimilarity between two sequences?</em> One reasonable answer is: the one that reduces dissimilarity the most when removed from the data.</p>
+<p>This section explains how to use the function <strong>workflowImportance</strong> to evaluate the importance of given variables in explaining differences between sequences.</p>
+<p>First, we prepare the data. It is again <em>sequencesMIS</em>, but with only three groups selected (MIS 4 to 6) to simplify the analysis.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co">#getting example data</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">sequences &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#preparing sequences</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">  <span class="dt">sequences =</span> sequences,</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb31-10" data-line-number="10">  <span class="dt">merge.mode =</span> <span class="st">"complete"</span>,</a>
+<a class="sourceLine" id="cb31-11" data-line-number="11">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12">)</a></code></pre></div>
+<p>The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between <strong>workflowPsi</strong> and <strong>workflowPsiPairedSamples</strong> as requested by the user through the argument <em>paired.samples</em>. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of <em>psi</em> on combinations of columns, removing one column each time.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="dt">sequences =</span> sequences,</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb32-8" data-line-number="8">  <span class="dt">parallel.execution =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb32-10" data-line-number="10">  )</a></code></pre></div>
+<p>The output is a list with two slots named <em>psi</em> and <em>psi.drop</em>.</p>
+<p>The dataframe <strong>psi</strong> contains psi values for each combination of variables (named in the coluns <em>A</em> and <em>B</em>) computed for all columns in the column <em>All variables</em>, and one column per variable named <em>Without variable_name</em> containing the psi value when that variable is removed from the compared sequences.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+All variables
+</th>
+<th style="text-align:right;">
+Without Carpinus
+</th>
+<th style="text-align:right;">
+Without Tilia
+</th>
+<th style="text-align:right;">
+Without Alnus
+</th>
+<th style="text-align:right;">
+Without Pinus
+</th>
+<th style="text-align:right;">
+Without Betula
+</th>
+<th style="text-align:right;">
+Without Quercus
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:right;">
+2.2093189
+</td>
+<td style="text-align:right;">
+2.2259252
+</td>
+<td style="text-align:right;">
+2.2257251
+</td>
+<td style="text-align:right;">
+2.2785647
+</td>
+<td style="text-align:right;">
+2.8885304
+</td>
+<td style="text-align:right;">
+2.2504687
+</td>
+<td style="text-align:right;">
+0.9185784
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+0.7144578
+</td>
+<td style="text-align:right;">
+0.7070218
+</td>
+<td style="text-align:right;">
+0.7139409
+</td>
+<td style="text-align:right;">
+0.6954575
+</td>
+<td style="text-align:right;">
+0.7377049
+</td>
+<td style="text-align:right;">
+0.7044718
+</td>
+<td style="text-align:right;">
+0.6032934
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+1.4622262
+</td>
+<td style="text-align:right;">
+1.4546153
+</td>
+<td style="text-align:right;">
+1.4713855
+</td>
+<td style="text-align:right;">
+1.4857865
+</td>
+<td style="text-align:right;">
+1.7097289
+</td>
+<td style="text-align:right;">
+1.5019596
+</td>
+<td style="text-align:right;">
+0.7573137
+</td>
+</tr>
+</tbody>
+</table>
+<p>This table can be plotted as a bar plot as follows:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">psi.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">psi.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.df))</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb34-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb34-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-unnamed-chunk-32-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
+Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences.
+</p>
+</div>
+<p>The second table, named <strong>psi.drop</strong> contains the drop in psi values, in percentage, when the given variable is removed from the analysis. Large positive numbers indicate that dissimilarity drops (increase in similarity) when the given variable is removed, confirming that the variable is important to explain the dissimilarity between both sequences. Negative values indicate an increase in dissimilarity between the sequences when the variable is dropped.</p>
+<p>In summary:</p>
+<ul>
+<li>High psi-drop value: variable contributes to dissimilarity.</li>
+<li>Low or negative psi-drop value: variable contributes to similarity.</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi.drop)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+Carpinus
+</th>
+<th style="text-align:right;">
+Tilia
+</th>
+<th style="text-align:right;">
+Alnus
+</th>
+<th style="text-align:right;">
+Pinus
+</th>
+<th style="text-align:right;">
+Betula
+</th>
+<th style="text-align:right;">
+Quercus
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:right;">
+-0.75
+</td>
+<td style="text-align:right;">
+-0.74
+</td>
+<td style="text-align:right;">
+-3.13
+</td>
+<td style="text-align:right;">
+-30.74
+</td>
+<td style="text-align:right;">
+-1.86
+</td>
+<td style="text-align:right;">
+58.42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+2.66
+</td>
+<td style="text-align:right;">
+-3.25
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+15.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+-0.63
+</td>
+<td style="text-align:right;">
+-1.61
+</td>
+<td style="text-align:right;">
+-16.93
+</td>
+<td style="text-align:right;">
+-2.72
+</td>
+<td style="text-align:right;">
+48.21
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">psi.drop.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi.drop</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">psi.drop.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.drop.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.drop.df))</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb36-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb36-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-unnamed-chunk-34-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
+Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
+</p>
+</div>
 </div>
 <div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence" class="section level1">
 <h1 class="hasAnchor">

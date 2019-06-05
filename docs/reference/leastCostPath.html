@@ -107,7 +107,8 @@
 
     <pre class="usage"><span class='fu'>leastCostPath</span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,6 +124,10 @@
     <tr>
       <th>diagonal</th>
       <td><p>boolean, if <code>TRUE</code>, diagonals are included in the computation of the least cost path. Defaults to <code>FALSE</code>, as the original algorithm did not include diagonals in the computation of the least cost path.</p></td>
+    </tr>
+    <tr>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

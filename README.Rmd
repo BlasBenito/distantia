@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 
 #installing required libraries
-list.of.packages <- c("ggplot2", "viridis", "fields", "foreach", "parallel", "doParallel", "qgraph")
+list.of.packages <- c("ggplot2", "viridis", "fields", "foreach", "parallel", "doParallel", "qgraph", "tidyr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, dep=TRUE)
 
@@ -50,6 +50,7 @@ library(ggplot2)
 library(viridis)
 library(kableExtra)
 library(qgraph)
+library(tidyr)
 ```
 
 
@@ -187,7 +188,8 @@ Which basically is the least-cost normalizado by the autosum of both sequences. 
 ```{r, eval=TRUE}
 AB.psi <- psi(
   least.cost = AB.least.cost,
-  autosum = AB.autosum)
+  autosum = AB.autosum
+  )
 AB.psi
 ```
 
@@ -198,7 +200,7 @@ The output of **psi** is a list, that can be transformed to a dataframe or a mat
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi,
   to = "dataframe")
-AB.psi.dataframe
+kable(AB.psi.dataframe)
 ```
 
 ```{r}
@@ -206,7 +208,7 @@ AB.psi.dataframe
 AB.psi.matrix <- formatPsi(
   psi.values = AB.psi,
   to = "matrix")
-AB.psi.matrix
+kable(AB.psi.matrix)
 ```
 
 Or can also be transformed from matrix to dataframe, or from dataframe to matrix, as convenient.
@@ -216,7 +218,7 @@ Or can also be transformed from matrix to dataframe, or from dataframe to matrix
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi.matrix,
   to = "dataframe")
-AB.psi.dataframe
+kable(AB.psi.dataframe)
 ```
 
 ```{r}
@@ -225,7 +227,7 @@ AB.psi.matrix <- formatPsi(
   psi.values = AB.psi.dataframe,
   to = "matrix"
 )
-AB.psi.matrix
+kable(AB.psi.matrix)
 ```
 
 
@@ -411,12 +413,104 @@ kable(climate.psi)
 
 # Variable contribution to dissimilarity
 
-The dissimilarity measure *psi* is computed from the common columns of two datasets. But the partial contribution of given columns to *psi* can be computed, in order to answer questions such as "what columns/variables make the sequences more similar/different?"
+*What variables are more important in explaining the dissimilarity between two sequences?*, or in other words, *what variables contribute the most to the dissimilarity between two sequences?* One reasonable answer is: the one that reduces dissimilarity the most when removed from the data. 
+
+This section explains how to use the function **workflowImportance** to evaluate the importance of given variables in explaining differences between sequences.
+
+First, we prepare the data. It is again *sequencesMIS*, but with only three groups selected (MIS 4 to 6) to simplify the analysis.
 
 ```{r}
+#getting example data
+data(sequencesMIS)
+sequences <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
 
+#preparing sequences
+sequences <- prepareSequences(
+  sequences = sequences,
+  grouping.column = "MIS",
+  time.column = NULL,
+  merge.mode = "complete",
+  exclude.columns = NULL
+)
 ```
 
+The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between **workflowPsi** and **workflowPsiPairedSamples** as requested by the user through the argument *paired.samples*. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of *psi* on combinations of columns, removing one column each time.
+
+```{r}
+psi.importance <- workflowImportance(
+  sequences = sequences,
+  grouping.column = "MIS",
+  time.column = NULL,
+  exclude.columns = NULL,
+  method = "manhattan",
+  diagonal = FALSE,
+  parallel.execution = TRUE,
+  paired.samples = FALSE
+  )
+```
+
+The output is a list with two slots named *psi* and *psi.drop*.
+
+The dataframe **psi** contains psi values for each combination of variables (named in the coluns *A* and *B*) computed for all columns in the column *All variables*, and one column per variable named *Without variable_name* containing the psi value when that variable is removed from the compared sequences.
+
+```{r}
+kable(psi.importance$psi)
+```
+
+This table can be plotted as a bar plot as follows: 
+
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences."}
+#extracting object
+psi.df <- psi.importance$psi
+
+#to long format
+psi.df.long <- tidyr::gather(psi.df, variable, psi, 3:ncol(psi.df))
+
+#creating column with names of the sequences
+psi.df.long$name <- paste(psi.df.long$A, psi.df.long$B, sep=" - ")
+
+#plot
+ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  facet_wrap("name") +
+  scale_fill_viridis() +
+  ggtitle("Contribution of separated variables to dissimilarity.") +
+  labs(fill = "Psi")
+```
+
+The second table, named **psi.drop** contains the drop in psi values, in percentage, when the given variable is removed from the analysis. Large positive numbers indicate that dissimilarity drops (increase in similarity) when the given variable is removed, confirming that the variable is important to explain the dissimilarity between both sequences. Negative values indicate an increase in dissimilarity between the sequences when the variable is dropped.
+
+In summary:
+
+
++  High psi-drop value: variable contributes to dissimilarity.
++  Low or negative psi-drop value: variable contributes to similarity.
+
+```{r}
+kable(psi.importance$psi.drop)
+```
+
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
+#extracting object
+psi.drop.df <- psi.importance$psi.drop
+
+#to long format
+psi.drop.df.long <- tidyr::gather(psi.drop.df, variable, psi, 3:ncol(psi.drop.df))
+
+#creating column with names of the sequences
+psi.drop.df.long$name <- paste(psi.drop.df.long$A, psi.drop.df.long$B, sep=" - ")
+
+#plot
+ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  facet_wrap("name") +
+  scale_fill_viridis(direction = -1) +
+  ggtitle("Drop in dissimilarity when variables are removed.") +
+  ylab("Drop in dissimilarity (%)") +
+  labs(fill = "Psi drop (%)")
+```
 
 
 # Finding the section in a long sequence more similar to a given short sequence

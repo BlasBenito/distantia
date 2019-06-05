@@ -7,7 +7,8 @@
 #'   grouping.column = NULL,
 #'   time.column = NULL,
 #'   exclude.columns = NULL,
-#'   method = "manhattan"
+#'   method = "manhattan",
+#'   parallel.execution = TRUE
 #'   )
 #'
 #' @param sequences dataframe with multiple sequences identified by a grouping column. Generally the ouput of \code{\link{prepareSequences}}.
@@ -15,6 +16,7 @@
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
+#' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #' @return A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.
 #' @details Distances are computed as:
 #' \itemize{
@@ -64,7 +66,8 @@ distanceMatrix <- function(sequences = NULL,
                            grouping.column = NULL,
                            time.column = NULL,
                            exclude.columns = NULL,
-                           method = "manhattan"
+                           method = "manhattan",
+                           parallel.execution = TRUE
                            ){
 
   #checking sequences
@@ -110,24 +113,28 @@ distanceMatrix <- function(sequences = NULL,
   combinations <- utils::combn(unique(sequences[, grouping.column]), m=2)
 
   #number of combinations
-  n.combinations <- dim(combinations)[2]
+  n.iterations <- dim(combinations)[2]
 
-  #making sure %dopar% gets recognized
-  `%dopar%` <- foreach::`%dopar%`
-
-  #creating cluster
-  n.cores <- parallel::detectCores() - 1
-  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
-  doParallel::registerDoParallel(my.cluster)
+  #parallel execution = TRUE
+  if(parallel.execution == TRUE){
+    `%dopar%` <- foreach::`%dopar%`
+    n.cores <- parallel::detectCores() - 1
+    if(n.iterations < n.cores){n.cores <- n.iterations}
+    my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+    doParallel::registerDoParallel(my.cluster)
 
   #exporting cluster variables
   parallel::clusterExport(cl=my.cluster,
                 varlist=c('combinations', 'sequences', 'distance'),
                 envir=environment()
                 )
+  } else {
+    #replaces dopar (parallel) by do (serial)
+    `%dopar%` <- foreach::`%do%`
+  }
 
   #parallelized loop
-  distance.matrices <- foreach::foreach(i=1:n.combinations) %dopar% {
+  distance.matrices <- foreach::foreach(i=1:n.iterations) %dopar% {
 
     #getting combination
     combination <- c(combinations[, i])
@@ -158,10 +165,15 @@ distanceMatrix <- function(sequences = NULL,
   } #end of dopar
 
   #stopping cluster
-  parallel::stopCluster(my.cluster)
+  if(parallel.execution == TRUE){
+    parallel::stopCluster(my.cluster)
+  } else {
+    #creating the correct alias again
+    `%dopar%` <- foreach::`%dopar%`
+  }
 
   #combination names
-  names(distance.matrices) <- paste(combinations[1, 1:n.combinations], combinations[2, 1:n.combinations], sep="|")
+  names(distance.matrices) <- paste(combinations[1, 1:n.iterations], combinations[2, 1:n.iterations], sep="|")
 
   #return output
   return(distance.matrices)

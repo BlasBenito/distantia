@@ -105,7 +105,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>leastCost</span>(<span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>leastCost</span>(
+  <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -113,6 +116,10 @@
     <tr>
       <th>least.cost.matrix</th>
       <td><p>numeric matrix or list of numeric matrices produced by <code><a href='leastCostMatrix.html'>leastCostMatrix</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

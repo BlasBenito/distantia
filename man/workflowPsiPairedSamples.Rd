@@ -11,7 +11,8 @@ workflowPsiPairedSamples(
   exclude.columns = NULL,
   method = "manhattan",
   diagonal = FALSE,
-  format = "dataframe"
+  format = "dataframe",
+  parallel.execution = TRUE
   )
 }
 \arguments{
@@ -25,13 +26,15 @@ workflowPsiPairedSamples(
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
 
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
+
 \item{output}{string, type of output. One of: "list" (default), "data.frame", "matrix"}
 }
 \value{
 A list, matrix, or dataframe, with sequence names and psi values.
 }
 \description{
-This function executes the following steps:
+This workflow executes the following steps:
 \itemize{
 \item Computes the autosum of the sequences with \code{\link{autoSum}}.
 \item Computes the distance between paired samples and sums it with \code{\link{distancePairedSamples}}.

@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Computes the dissimilarity measure <em>psi</em> on two or more sequences with paired samples. — workflowPsiPairedSamples" />
 
-<meta property="og:description" content="This function executes the following steps:
+<meta property="og:description" content="This workflow executes the following steps:
 Computes the autosum of the sequences with autoSum.
 Computes the distance between paired samples and sums it with distancePairedSamples.
 Computes the dissimilarity measure psi with the function psi.
@@ -106,7 +106,7 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 
     <div class="ref-description">
     
-    <p>This function executes the following steps:</p><ul>
+    <p>This workflow executes the following steps:</p><ul>
 <li><p>Computes the autosum of the sequences with <code><a href='autoSum.html'>autoSum</a></code>.</p></li>
 <li><p>Computes the distance between paired samples and sums it with <code><a href='distancePairedSamples.html'>distancePairedSamples</a></code>.</p></li>
 <li><p>Computes the dissimilarity measure <em>psi</em> with the function <code><a href='psi.html'>psi</a></code>.</p></li>
@@ -122,7 +122,8 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
   <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>
+  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,6 +148,10 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
     <tr>
       <th>method</th>
       <td><p>character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.</p></td>
+    </tr>
+    <tr>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>output</th>

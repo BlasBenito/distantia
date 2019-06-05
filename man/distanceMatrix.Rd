@@ -9,7 +9,8 @@ distanceMatrix(
   grouping.column = NULL,
   time.column = NULL,
   exclude.columns = NULL,
-  method = "manhattan"
+  method = "manhattan",
+  parallel.execution = TRUE
   )
 }
 \arguments{
@@ -22,6 +23,8 @@ distanceMatrix(
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.

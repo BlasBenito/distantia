@@ -6,13 +6,16 @@
 \usage{
 leastCostMatrix(
   distance.matrix = NULL,
-  diagonal = FALSE
+  diagonal = FALSE,
+  parallel.execution = TRUE
   )
 }
 \arguments{
 \item{distance.matrix}{numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.}
 
 \item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list of matrices with the same dimensions as \code{distance.matrix} with the cumulative least cost among samples. The value of the lower-right cell (in the actual data matrix, not in the plotted version!) represents the sum of the least cost path across all samples.

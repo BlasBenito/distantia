@@ -8,7 +8,8 @@ autoSum(sequences = NULL,
   time.column = NULL,
   grouping.column = NULL,
   exclude.columns = NULL,
-  method = "manhattan"
+  method = "manhattan",
+  parallel.execution = TRUE
   )
 }
 \arguments{
@@ -21,6 +22,8 @@ autoSum(sequences = NULL,
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
+
+\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
 A list with slots named according \code{grouping.column} if there are several sequences in \code{sequences} or a number if there is only one sequence.

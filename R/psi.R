@@ -2,10 +2,14 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
 #'
-#' @usage psi(least.cost = NULL, autosum = NULL)
+#' @usage psi(
+#'   least.cost = NULL,
+#'   autosum = NULL,
+#'   parallel.execution = TRUE)
 #'
 #' @param autosum dataframe with one or several multivariate time-series identified by a grouping column.
 #' @param least.cost character string, name of the column with time/depth/rank data. The data in this column is not modified.
+#' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @details The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
 #'
@@ -70,39 +74,43 @@
 #'
 #'@export
 psi <- function(least.cost = NULL,
-                autosum = NULL){
+                autosum = NULL,
+                parallel.execution = TRUE){
 
 
   #computing number of elements
   if(inherits(least.cost, "list") == TRUE){
-    n.elements <- length(least.cost)
+    n.iterations <- length(least.cost)
   } else {
     temp <- list()
     temp[[1]] <- least.cost
     least.cost <- temp
     names(least.cost) <- "A|B"
-    n.elements <- 1
+    n.iterations <- 1
   }
 
-  #making sure %dopar% gets recognized
-  `%dopar%` <- foreach::`%dopar%`
-
-  #iterating to compute psi on each element
-  #creating cluster
-  n.cores <- parallel::detectCores() - 1
-  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
-  doParallel::registerDoParallel(my.cluster)
+  #parallel execution = TRUE
+  if(parallel.execution == TRUE){
+    `%dopar%` <- foreach::`%dopar%`
+    n.cores <- parallel::detectCores() - 1
+    if(n.iterations < n.cores){n.cores <- n.iterations}
+    my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+    doParallel::registerDoParallel(my.cluster)
 
   #exporting cluster variables
   parallel::clusterExport(cl = my.cluster,
-                          varlist = c('n.elements',
+                          varlist = c('n.iterations',
                                       'least.cost',
                                       'autosum'),
                           envir = environment()
   )
+  } else {
+    #replaces dopar (parallel) by do (serial)
+    `%dopar%` <- foreach::`%do%`
+  }
 
   #parallelized loop
-  psi.values <- foreach::foreach(i=1:n.elements) %dopar% {
+  psi.values <- foreach::foreach(i=1:n.iterations) %dopar% {
 
     #cost of the best solution
     optimal.cost <- least.cost[[i]] * 2
@@ -126,7 +134,12 @@ psi <- function(least.cost = NULL,
   }
 
   #stopping cluster
-  parallel::stopCluster(my.cluster)
+  if(parallel.execution == TRUE){
+    parallel::stopCluster(my.cluster)
+  } else {
+    #creating the correct alias again
+    `%dopar%` <- foreach::`%dopar%`
+  }
 
   #naming slots in list
   names(psi.values) <- names(least.cost)

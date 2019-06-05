@@ -45,6 +45,7 @@ library(ggplot2)
 library(viridis)
 library(kableExtra)
 library(qgraph)
+library(tidyr)
 ```
 
 ## Working with two irregular and unaligned sequences
@@ -13771,7 +13772,8 @@ two sequences.
 ``` r
 AB.psi <- psi(
   least.cost = AB.least.cost,
-  autosum = AB.autosum)
+  autosum = AB.autosum
+  )
 AB.psi
 #> $`A|B`
 #> [1] 2.308914
@@ -13785,21 +13787,148 @@ or a matrix by using the **formatPsi** function.
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi,
   to = "dataframe")
-AB.psi.dataframe
-#>   A B      psi
-#> 1 A B 2.308914
+kable(AB.psi.dataframe)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+psi
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ``` r
 #to matrix
 AB.psi.matrix <- formatPsi(
   psi.values = AB.psi,
   to = "matrix")
-AB.psi.matrix
-#>          A        B
-#> A 0.000000 2.308914
-#> B 2.308914 0.000000
+kable(AB.psi.matrix)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:right;">
+
+A
+
+</th>
+
+<th style="text-align:right;">
+
+B
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+0.000000
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+<td style="text-align:right;">
+
+0.000000
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 Or can also be transformed from matrix to dataframe, or from dataframe
 to matrix, as convenient.
@@ -13809,10 +13938,64 @@ to matrix, as convenient.
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi.matrix,
   to = "dataframe")
-AB.psi.dataframe
-#>   A B      psi
-#> 1 A B 2.308914
+kable(AB.psi.dataframe)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+psi
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ``` r
 #or from dataframe to matrix
@@ -13820,11 +14003,84 @@ AB.psi.matrix <- formatPsi(
   psi.values = AB.psi.dataframe,
   to = "matrix"
 )
-AB.psi.matrix
-#>          A        B
-#> A 0.000000 2.308914
-#> B 2.308914 0.000000
+kable(AB.psi.matrix)
 ```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:right;">
+
+A
+
+</th>
+
+<th style="text-align:right;">
+
+B
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+0.000000
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+2.308914
+
+</td>
+
+<td style="text-align:right;">
+
+0.000000
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 All the steps required to compute **psi**, including the format options
 provided by **formatPsi** are wrapped together in the function
@@ -16908,10 +17164,596 @@ psi
 
 # Variable contribution to dissimilarity
 
-The dissimilarity measure *psi* is computed from the common columns of
-two datasets. But the partial contribution of given columns to *psi* can
-be computed, in order to answer questions such as “what
-columns/variables make the sequences more
-similar/different?”
+*What variables are more important in explaining the dissimilarity
+between two sequences?*, or in other words, *what variables contribute
+the most to the dissimilarity between two sequences?* One reasonable
+answer is: the one that reduces dissimilarity the most when removed from
+the data.
+
+This section explains how to use the function **workflowImportance** to
+evaluate the importance of given variables in explaining differences
+between sequences.
+
+First, we prepare the data. It is again *sequencesMIS*, but with only
+three groups selected (MIS 4 to 6) to simplify the analysis.
+
+``` r
+#getting example data
+data(sequencesMIS)
+sequences <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+
+#preparing sequences
+sequences <- prepareSequences(
+  sequences = sequences,
+  grouping.column = "MIS",
+  time.column = NULL,
+  merge.mode = "complete",
+  exclude.columns = NULL
+)
+```
+
+The workflow function is pretty similar to the ones explained above. It
+allows to work with paired samples (aligned time-series) or with
+unaligned ones by switching between **workflowPsi** and
+**workflowPsiPairedSamples** as requested by the user through the
+argument *paired.samples*. Unlike the other functions in the package,
+that parallelize the execution of combinations of sequences, this one
+parallelizes the computation of *psi* on combinations of columns,
+removing one column each time.
+
+``` r
+psi.importance <- workflowImportance(
+  sequences = sequences,
+  grouping.column = "MIS",
+  time.column = NULL,
+  exclude.columns = NULL,
+  method = "manhattan",
+  diagonal = FALSE,
+  parallel.execution = TRUE,
+  paired.samples = FALSE
+  )
+```
+
+The output is a list with two slots named *psi* and *psi.drop*.
+
+The dataframe **psi** contains psi values for each combination of
+variables (named in the coluns *A* and *B*) computed for all columns in
+the column *All variables*, and one column per variable named *Without
+variable\_name* containing the psi value when that variable is removed
+from the compared sequences.
+
+``` r
+kable(psi.importance$psi)
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+All variables
+
+</th>
+
+<th style="text-align:right;">
+
+Without Carpinus
+
+</th>
+
+<th style="text-align:right;">
+
+Without Tilia
+
+</th>
+
+<th style="text-align:right;">
+
+Without Alnus
+
+</th>
+
+<th style="text-align:right;">
+
+Without Pinus
+
+</th>
+
+<th style="text-align:right;">
+
+Without Betula
+
+</th>
+
+<th style="text-align:right;">
+
+Without Quercus
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+2.2093189
+
+</td>
+
+<td style="text-align:right;">
+
+2.2259252
+
+</td>
+
+<td style="text-align:right;">
+
+2.2257251
+
+</td>
+
+<td style="text-align:right;">
+
+2.2785647
+
+</td>
+
+<td style="text-align:right;">
+
+2.8885304
+
+</td>
+
+<td style="text-align:right;">
+
+2.2504687
+
+</td>
+
+<td style="text-align:right;">
+
+0.9185784
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.7144578
+
+</td>
+
+<td style="text-align:right;">
+
+0.7070218
+
+</td>
+
+<td style="text-align:right;">
+
+0.7139409
+
+</td>
+
+<td style="text-align:right;">
+
+0.6954575
+
+</td>
+
+<td style="text-align:right;">
+
+0.7377049
+
+</td>
+
+<td style="text-align:right;">
+
+0.7044718
+
+</td>
+
+<td style="text-align:right;">
+
+0.6032934
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.4622262
+
+</td>
+
+<td style="text-align:right;">
+
+1.4546153
+
+</td>
+
+<td style="text-align:right;">
+
+1.4713855
+
+</td>
+
+<td style="text-align:right;">
+
+1.4857865
+
+</td>
+
+<td style="text-align:right;">
+
+1.7097289
+
+</td>
+
+<td style="text-align:right;">
+
+1.5019596
+
+</td>
+
+<td style="text-align:right;">
+
+0.7573137
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+This table can be plotted as a bar plot as follows:
+
+``` r
+#extracting object
+psi.df <- psi.importance$psi
+
+#to long format
+psi.df.long <- tidyr::gather(psi.df, variable, psi, 3:ncol(psi.df))
+
+#creating column with names of the sequences
+psi.df.long$name <- paste(psi.df.long$A, psi.df.long$B, sep=" - ")
+
+#plot
+ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  facet_wrap("name") +
+  scale_fill_viridis() +
+  ggtitle("Contribution of separated variables to dissimilarity.") +
+  labs(fill = "Psi")
+```
+
+<img src="man/figures/README-unnamed-chunk-32-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
+
+The second table, named **psi.drop** contains the drop in psi values, in
+percentage, when the given variable is removed from the analysis. Large
+positive numbers indicate that dissimilarity drops (increase in
+similarity) when the given variable is removed, confirming that the
+variable is important to explain the dissimilarity between both
+sequences. Negative values indicate an increase in dissimilarity between
+the sequences when the variable is dropped.
+
+In summary:
+
+  - High psi-drop value: variable contributes to dissimilarity.
+  - Low or negative psi-drop value: variable contributes to similarity.
+
+<!-- end list -->
+
+``` r
+kable(psi.importance$psi.drop)
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+Carpinus
+
+</th>
+
+<th style="text-align:right;">
+
+Tilia
+
+</th>
+
+<th style="text-align:right;">
+
+Alnus
+
+</th>
+
+<th style="text-align:right;">
+
+Pinus
+
+</th>
+
+<th style="text-align:right;">
+
+Betula
+
+</th>
+
+<th style="text-align:right;">
+
+Quercus
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.75
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.74
+
+</td>
+
+<td style="text-align:right;">
+
+\-3.13
+
+</td>
+
+<td style="text-align:right;">
+
+\-30.74
+
+</td>
+
+<td style="text-align:right;">
+
+\-1.86
+
+</td>
+
+<td style="text-align:right;">
+
+58.42
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.04
+
+</td>
+
+<td style="text-align:right;">
+
+0.07
+
+</td>
+
+<td style="text-align:right;">
+
+2.66
+
+</td>
+
+<td style="text-align:right;">
+
+\-3.25
+
+</td>
+
+<td style="text-align:right;">
+
+1.40
+
+</td>
+
+<td style="text-align:right;">
+
+15.56
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.52
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.63
+
+</td>
+
+<td style="text-align:right;">
+
+\-1.61
+
+</td>
+
+<td style="text-align:right;">
+
+\-16.93
+
+</td>
+
+<td style="text-align:right;">
+
+\-2.72
+
+</td>
+
+<td style="text-align:right;">
+
+48.21
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+``` r
+#extracting object
+psi.drop.df <- psi.importance$psi.drop
+
+#to long format
+psi.drop.df.long <- tidyr::gather(psi.drop.df, variable, psi, 3:ncol(psi.drop.df))
+
+#creating column with names of the sequences
+psi.drop.df.long$name <- paste(psi.drop.df.long$A, psi.drop.df.long$B, sep=" - ")
+
+#plot
+ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  facet_wrap("name") +
+  scale_fill_viridis(direction = -1) +
+  ggtitle("Drop in dissimilarity when variables are removed.") +
+  ylab("Drop in dissimilarity (%)") +
+  labs(fill = "Psi drop (%)")
+```
+
+<img src="man/figures/README-unnamed-chunk-34-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 # Finding the section in a long sequence more similar to a given short sequence
