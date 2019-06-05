@@ -13,7 +13,8 @@
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @export
-formatPsi <- function(psi.values, to = "dataframe"){
+formatPsi <- function(psi.values = NULL,
+                      to = "dataframe"){
 
   #string options
   to.dataframe.options <- c("dataframe", "Dataframe", "DATAFRAME", "data.frame", "Data.frame", "DATA.FRAME", "df")
@@ -88,7 +89,7 @@ formatPsi <- function(psi.values, to = "dataframe"){
     if(to %in% to.dataframe.options){
 
       #removing the lower triangle
-      psi.values.dist <- as.dist(psi.values)
+      psi.values.dist <- stats::as.dist(psi.values)
 
       #getting dimensions and names
       dimensions <- attr(psi.values.dist, "Size")

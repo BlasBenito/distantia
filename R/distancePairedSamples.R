@@ -36,12 +36,13 @@
 #' @seealso \code{\link{distance}}
 #' @examples
 #'
+#' \dontrun{
 #' #loading data
 #' data(climate)
 #'
 #' #preparing sequences
 #' #notice the argument paired.samples
-#' seq <- prepareSequences(
+#' climate.prepared <- prepareSequences(
 #'   sequences = climate,
 #'   grouping.column = "sequenceId",
 #'   time.column = "time",
@@ -49,7 +50,7 @@
 #'   )
 #'
 #' #compute pairwise distances between paired samples
-#' seq.distances <- distancePairedSamples(
+#' climate.prepared.distances <- distancePairedSamples(
 #'   sequences = climate.prepared,
 #'   grouping.column = "sequenceId",
 #'   time.column = "time",
@@ -57,6 +58,7 @@
 #'   method = "manhattan",
 #'   sum.distances = FALSE
 #'   )
+#'}
 #'
 #' @export
   distancePairedSamples <- function(

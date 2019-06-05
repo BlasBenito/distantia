@@ -18,7 +18,8 @@
 #' time.column = NULL,
 #' exclude.columns = NULL,
 #' if.empty.cases = "zero",
-#' transformation = "none")
+#' transformation = "none",
+#' paired.samples = FALSE)
 #'
 #' @param sequence.A dataframe containing a multivariate time-series.
 #' @param sequence.A.name character string with the name of \code{sequence.A}. Will be used as identificator in the \code{id} column of the output dataframe.

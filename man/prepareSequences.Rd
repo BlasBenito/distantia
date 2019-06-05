@@ -15,7 +15,8 @@ grouping.column = NULL,
 time.column = NULL,
 exclude.columns = NULL,
 if.empty.cases = "zero",
-transformation = "none")
+transformation = "none",
+paired.samples = FALSE)
 }
 \arguments{
 \item{sequence.A}{dataframe containing a multivariate time-series.}

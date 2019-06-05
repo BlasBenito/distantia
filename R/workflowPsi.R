@@ -7,7 +7,7 @@
 #' \item Uses the distance matrix to compute the least cost matrix with \code{\link{leastCostMatrix}}.
 #' \item Extracts the cost of the least cost path with \code{\link{leastCost}}.
 #' \item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
-#' \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through either \code{\link{psiToDataframe}} or \code{\link{psiToMatrix}}.
+#' \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through \code{\link{formatPsi}}.
 #' }
 #'
 #' @usage workflowPsi(
@@ -68,7 +68,7 @@ workflowPsi <- function(sequences = NULL,
                         exclude.columns = NULL,
                         method = "manhattan",
                         diagonal = FALSE,
-                        format = NULL,
+                        format = "dataframe",
                         parallel.execution = TRUE){
 
   #autosum

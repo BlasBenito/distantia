@@ -36,7 +36,7 @@
 Computes the autosum of the sequences with autoSum.
 Computes the distance between paired samples and sums it with distancePairedSamples.
 Computes the dissimilarity measure psi with the function psi.
-Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or &quot;matrix&quot;, depending on the user input, through either psiToDataframe or psiToMatrix.
+Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or &quot;matrix&quot;, depending on the user input, through formatPsi.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -110,7 +110,7 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
 <li><p>Computes the autosum of the sequences with <code><a href='autoSum.html'>autoSum</a></code>.</p></li>
 <li><p>Computes the distance between paired samples and sums it with <code><a href='distancePairedSamples.html'>distancePairedSamples</a></code>.</p></li>
 <li><p>Computes the dissimilarity measure <em>psi</em> with the function <code><a href='psi.html'>psi</a></code>.</p></li>
-<li><p>Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through either <code>psiToDataframe</code> or <code>psiToMatrix</code>.</p></li>
+<li><p>Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through <code><a href='formatPsi.html'>formatPsi</a></code>.</p></li>
 </ul>
     
     </div>
@@ -121,7 +121,6 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
-  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
@@ -150,12 +149,12 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <td><p>character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.</p></td>
     </tr>
     <tr>
-      <th>parallel.execution</th>
-      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
+      <th>format</th>
+      <td><p>string, type of output. One of: "data.frame", "matrix". If <code>NULL</code> or empty, a list is returned.</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p>string, type of output. One of: "list" (default), "data.frame", "matrix"</p></td>
+      <th>parallel.execution</th>
+      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
@@ -164,12 +163,6 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
     <p>A list, matrix, or dataframe, with sequence names and psi values.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-</div># NOT RUN {
-# }
-<div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -177,9 +170,7 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
     <h2>Author</h2>
     <p>Blas Benito &lt;blasbenito@gmail.com&gt;</p>

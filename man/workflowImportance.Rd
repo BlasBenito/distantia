@@ -2,7 +2,7 @@
 % Please edit documentation in R/workflowImportance.R
 \name{workflowImportance}
 \alias{workflowImportance}
-\title{Computes the contribution to \code{psi} of each variable.}
+\title{Computes the contribution to dissimilarity of each variable.}
 \usage{
 workflowImportance(
   sequences = NULL,
@@ -38,7 +38,7 @@ A list, matrix, or dataframe, with sequence names and psi values.
 \description{
 This workflow executes the following steps:
 \itemize{
-\item computes \code{psi} as done by \link{\code{workflowPsi}} \link{\code{workflowPsiPairedSamples}}.
+\item computes \code{psi} as done by \code{\link{workflowPsi}} and \code{\link{workflowPsiPairedSamples}}.
 \item computes \code{psi} as many times as numeric variables in \code{sequences}, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.
 \item Delivers an output of type "list" with two slots:
 \itemize{
@@ -49,41 +49,6 @@ This workflow executes the following steps:
 }
 \details{
 If we consider the question "what variable contributes the most to the dissimilarity between two sequences?" the answer "the one dropping dissimilarity the most when excluded from the analysis" sounds like a reasonable answer. This workflow attempts to reach that answer by computing \code{psi} while removing one variable at a time.
-}
-\examples{
-
-\dontrun{
-#getting example data
-data(sequencesMIS)
-
-#reducing number of groups to simplify the output
-sequences <- sequencesMIS[sequencesMIS$MIS \%in\% c("MIS-1", "MIS-2", "MIS-3"), ]
-#preparing sequences
-sequences <- prepareSequences(
- sequences = sequences,
- grouping.column = "MIS",
- time.column = NULL,
- merge.mode = "complete",
- exclude.columns = NULL
- )
-
-#execute workflow to compute psi
-MIS.psi <- workflowImportance(
- sequences = MIS.sequences,
- grouping.column = "MIS",
- time.column = NULL,
- exclude.columns = NULL,
- method = "manhattan",
- diagonal = FALSE,
- paired.samples = FALSE
- )
-
-#output
-MIS.psi$psi
-MIS.psi$psi.drop
-
-}
-
 }
 \author{
 Blas Benito <blasbenito@gmail.com>

@@ -51,12 +51,13 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
+\dontrun{
 #loading data
 data(climate)
 
 #preparing sequences
 #notice the argument paired.samples
-seq <- prepareSequences(
+climate.prepared <- prepareSequences(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
@@ -64,7 +65,7 @@ seq <- prepareSequences(
   )
 
 #compute pairwise distances between paired samples
-seq.distances <- distancePairedSamples(
+climate.prepared.distances <- distancePairedSamples(
   sequences = climate.prepared,
   grouping.column = "sequenceId",
   time.column = "time",
@@ -72,6 +73,7 @@ seq.distances <- distancePairedSamples(
   method = "manhattan",
   sum.distances = FALSE
   )
+}
 
 }
 \seealso{

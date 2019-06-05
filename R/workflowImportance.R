@@ -1,8 +1,8 @@
-#' Computes the contribution to \code{psi} of each variable.
+#' Computes the contribution to dissimilarity of each variable.
 #'
 #' @description This workflow executes the following steps:
 #' \itemize{
-#' \item computes \code{psi} as done by \link{\code{workflowPsi}} \link{\code{workflowPsiPairedSamples}}.
+#' \item computes \code{psi} as done by \code{\link{workflowPsi}} and \code{\link{workflowPsiPairedSamples}}.
 #' \item computes \code{psi} as many times as numeric variables in \code{sequences}, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.
 #' \item Delivers an output of type "list" with two slots:
 #' \itemize{
@@ -36,42 +36,6 @@
 #' @return A list, matrix, or dataframe, with sequence names and psi values.
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
-#'
-#' @examples
-#'
-#' \dontrun{
-#'#getting example data
-#'data(sequencesMIS)
-#'
-#'#reducing number of groups to simplify the output
-#'sequences <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-1", "MIS-2", "MIS-3"), ]
-
-#'#preparing sequences
-#'sequences <- prepareSequences(
-#'  sequences = sequences,
-#'  grouping.column = "MIS",
-#'  time.column = NULL,
-#'  merge.mode = "complete",
-#'  exclude.columns = NULL
-#'  )
-#'
-#'#execute workflow to compute psi
-#'MIS.psi <- workflowImportance(
-#'  sequences = MIS.sequences,
-#'  grouping.column = "MIS",
-#'  time.column = NULL,
-#'  exclude.columns = NULL,
-#'  method = "manhattan",
-#'  diagonal = FALSE,
-#'  paired.samples = FALSE
-#'  )
-#'
-#'#output
-#'MIS.psi$psi
-#'MIS.psi$psi.drop
-#'
-#'}
-#'
 #' @export
 workflowImportance <- function(
   sequences = NULL,
@@ -80,7 +44,7 @@ workflowImportance <- function(
   exclude.columns = NULL,
   method = "manhattan",
   diagonal = FALSE,
-  paired.samples = TRUE,
+  paired.samples = FALSE,
   parallel.execution = TRUE
 ){
 
@@ -92,7 +56,7 @@ workflowImportance <- function(
     psi.df <- workflowPsi(
       sequences = sequences,
       grouping.column = grouping.column,
-      time.colum = time.column,
+      time.column = time.column,
       exclude.columns = exclude.columns,
       method = method,
       diagonal = diagonal,
@@ -104,7 +68,7 @@ workflowImportance <- function(
     psi.df <- workflowPsiPairedSamples(
       sequences = sequences,
       grouping.column = grouping.column,
-      time.colum = time.column,
+      time.column = time.column,
       exclude.columns = exclude.columns,
       method = method,
       format = "dataframe",
@@ -172,7 +136,7 @@ workflowImportance <- function(
       psi.i <- workflowPsi(
         sequences = sequences,
         grouping.column = grouping.column,
-        time.colum = time.column,
+        time.column = time.column,
         exclude.columns = target.columns[i],
         method = method,
         diagonal = diagonal,
@@ -183,7 +147,7 @@ workflowImportance <- function(
         psi.i <- workflowPsiPairedSamples(
           sequences = sequences,
           grouping.column = grouping.column,
-          time.colum = time.column,
+          time.column = time.column,
           exclude.columns = target.columns[i],
           method = method,
           format = "dataframe",
