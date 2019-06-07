@@ -198,14 +198,6 @@ prepareSequences=function(sequence.A = NULL,
      sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
   }
 
-  #REMOVING GROUPS IF THEY HAVE LESS THAN 3 CASES
-  #############################
-  groups.to.remove <- names(which(table(sequences[, grouping.column]) < 3))
-  if(length(groups.to.remove) > 0){
-    message(paste("The groups ", paste(groups.to.remove, sep="", collapse=", "), " have less than 3 samples, and will be removed from the data.", sep=""))
-    sequences <- sequences[!(sequences[, grouping.column] %in% groups.to.remove), ]
-  }
-
 
   #APPLYING TRANSFORMATIONS "none", "percentage", "proportion", "hellinger"
   ##############################################################
@@ -213,13 +205,12 @@ prepareSequences=function(sequence.A = NULL,
   #if transformation is not "none"
   if(!(transformation %in% c("none", "None", "NONE", "nope", "Nope", "NOPE", "no", "No", "NO", "hell no!"))){
 
-    #SETTING 0 TO 0.0001 TO AVOID
-    ##############################
-    sequences[sequences==0] <- 0.0001
-
     #removing grouping.column (it's non-numeric)
     id.column <- sequences[, grouping.column]
     sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
+
+    #SETTING 0 TO 0.00001 TO AVOID ISSUES WITH DISTANCE COMPUTATION
+    sequences[sequences==0] <- 0.00001
 
     #removing time column
     if(!(is.null(time.column))){

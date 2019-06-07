@@ -125,18 +125,18 @@ autoSum <- function(sequences = NULL,
 
 
   #parallelized loop
-  autosum.sequences <- foreach::foreach(i=1:n.iterations) %dopar% {
+  autosum.sequences <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
     #getting sequence
     sequence <- sequences[sequences[,grouping.column] == groups[i], ]
-
-    #getting numeric columns only
-    sequence <- sequence[,sapply(sequence, is.numeric)]
 
     #removing grouping column
     if(grouping.column %in% colnames(sequence)){
       sequence[,grouping.column] <- NULL
     }
+
+    #getting numeric columns only
+    sequence <- sequence[,sapply(sequence, is.numeric)]
 
     #output vector
     distances <- vector()
@@ -151,16 +151,19 @@ autoSum <- function(sequences = NULL,
       nrow.sequence <- length(sequence)
 
       #computing distances
-      for (i in 1:(nrow.sequence-1)){
-        distances[i] <- distance(x = sequence[i], y = sequence[i+1], method = method)
+      for (j in 1:(nrow.sequence-1)){
+        distances[j] <- distance(x = sequence[j], y = sequence[j+1], method = method)
       }
     } else {
 
       #number of elements
       nrow.sequence <- nrow(sequence)
-
-      for (i in 1:(nrow.sequence-1)){
-        distances[i] <- distance(x = sequence[i, ], y = sequence[i+1, ], method = method)
+      if(nrow.sequence == 1){
+        distances[1] <- 0
+      } else {
+        for (j in 1:(nrow.sequence-1)){
+          distances[j] <- distance(x = sequence[j, ], y = sequence[j+1, ], method = method)
+        }
       }
     }
 

@@ -105,7 +105,7 @@ leastCostMatrix <- function(distance.matrix = NULL,
     `%dopar%` <- foreach::`%do%`
     }
 
-
+  #parallelized loop
   least.cost.matrices <- foreach::foreach(i=1:n.iterations) %dopar% {
 
   #getting distance matrix
@@ -114,6 +114,7 @@ leastCostMatrix <- function(distance.matrix = NULL,
   #dimensions
   least.cost.columns <- ncol(distance.matrix.i)
   least.cost.rows <- nrow(distance.matrix.i)
+
 
   #matrix to store least cost
   least.cost.matrix <- matrix(nrow = least.cost.rows, ncol = least.cost.columns)
@@ -127,10 +128,13 @@ leastCostMatrix <- function(distance.matrix = NULL,
   colnames(least.cost.matrix) <- colnames(distance.matrix.i)
 
   #initiating first column
-  least.cost.matrix[1, ] <-cumsum(distance.matrix.i[1, ])
+  least.cost.matrix[1, ] <- cumsum(distance.matrix.i[1, ])
 
   #initiating the first row
   least.cost.matrix[, 1] <- cumsum(distance.matrix.i[, 1])
+
+  #if both sequences have more than one sample
+  if(least.cost.columns != 1 & least.cost.rows != 1){
 
   #compute least cost if diagonal is TRUE
   if(diagonal == TRUE){
@@ -158,6 +162,21 @@ leastCostMatrix <- function(distance.matrix = NULL,
 
       }
     }
+  }
+  } else {
+    #both sequences have one sample
+    if(least.cost.columns == 1 & least.cost.rows == 1){
+      least.cost.matrix <- as.matrix(distance.matrix.i)
+    }
+
+    if(least.cost.columns == 1 & least.cost.rows > 1){
+      least.cost.matrix <- as.matrix(cumsum(distance.matrix.i))
+    }
+
+    if(least.cost.columns > 1 & least.cost.rows == 1){
+      least.cost.matrix <- t(as.matrix(cumsum(distance.matrix.i)))
+    }
+
   }
 
   #adding the value of the first cell to the last cell (it is not counted by the algorithm)

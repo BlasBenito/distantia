@@ -110,7 +110,7 @@ psi <- function(least.cost = NULL,
   }
 
   #parallelized loop
-  psi.values <- foreach::foreach(i=1:n.iterations) %dopar% {
+  psi.values <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
     #cost of the best solution
     optimal.cost <- least.cost[[i]] * 2
@@ -127,11 +127,12 @@ psi <- function(least.cost = NULL,
       psi.value <- 0
       } else {
         psi.value <- (optimal.cost - sum.autosum) / sum.autosum
+        if(is.na(psi.value)){print(i)}
       }
 
     return(psi.value)
 
-  }
+  } #end of parallelized loop
 
   #stopping cluster
   if(parallel.execution == TRUE){
