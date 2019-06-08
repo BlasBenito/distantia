@@ -17758,3 +17758,83 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
 <img src="man/figures/README-unnamed-chunk-34-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 # Finding the section in a long sequence more similar to a given short sequence
+
+In this scenario the user has one short and one long sequence, and the
+goal is to find the section in the long sequence that better matches the
+short one. To recreate this scenario we will use the dataset
+*sequencesMIS*. We will extract one of the *MIS* groups as short
+sequence, and keep the complete dataset as long sequence. The code below
+prepares the data.
+
+``` r
+#loading the data
+data(sequencesMIS)
+
+#subsetting to get the short sequence
+MIS.short <- sequencesMIS[sequencesMIS$MIS == "MIS-5", ]
+#removing grouping column
+MIS.short$MIS <- NULL
+#number of observations
+nrow(MIS.short)
+#> [1] 78
+
+#renaming the long sequence
+MIS.long <- sequencesMIS
+#removing grouping column
+MIS.long$MIS <- NULL
+#number of observations
+nrow(MIS.long)
+#> [1] 427
+```
+
+The sequences have to be prepared and transformed.
+
+``` r
+MIS.sequences <- prepareSequences(
+  sequence.A = MIS.short,
+  sequence.A.name = "short",
+  sequence.B = MIS.long,
+  sequence.B.name = "long",
+  transformation = "hellinger"
+)
+str(MIS.sequences)
+#> 'data.frame':    505 obs. of  7 variables:
+#>  $ id      : chr  "short" "short" "short" "short" ...
+#>  $ Quercus : num  0.000439 0.220863 0.1066 0.213201 0.308607 ...
+#>  $ Betula  : num  0.240192 0.312347 0.1066 0.000674 0.288675 ...
+#>  $ Pinus   : num  0.941 0.87 0.989 0.953 0.893 ...
+#>  $ Alnus   : num  0.240192 0.312347 0.000337 0.213201 0.154303 ...
+#>  $ Tilia   : num  0.000439 0.000494 0.000337 0.000674 0.000345 ...
+#>  $ Carpinus: num  0.000439 0.000494 0.000337 0.000674 0.000345 ...
+```
+
+And the distance matrix has to be computed.
+
+``` r
+MIS.distance.matrix <- distanceMatrix(
+  sequences = MIS.sequences,
+  grouping.column = "id",
+  method = "manhattan",
+  parallel.execution = FALSE
+)
+
+plotMatrix(distance.matrix = MIS.distance.matrix,
+           color.palette = "viridis",
+           rotate = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-37-1.png" title="Distance matrix of the short and long sequences in MIS.sequences." alt="Distance matrix of the short and long sequences in MIS.sequences." width="100%" />
+
+**WORK IN PROGRESS FROM HERE**
+
+Once the distance matrix is computed, the goal is to find the section in
+the x axis (long sequence) that minimizes the distances with the samples
+in the y axis (short sequence). The algorithm to follow predates on the
+ability of the library to perform parallel computations to find by brute
+force the target segment in the long sequence. But first, the user has
+to define a minimum and maximum potential length for the matching
+segment in the long sequence.
+
+FROM HERE: algorithm to subset the rows of the long section of the
+matrix to generate smaller matrices named by the indexes of their
+begining and their end.

@@ -16,7 +16,8 @@ plotMatrix(distance.matrix = NULL,
   pdf.filename = NULL,
   pdf.width = 7,
   pdf.height = 4,
-  pdf.pointsize = 12
+  pdf.pointsize = 12,
+  rotate = FALSE
   )
 }
 \arguments{
@@ -45,6 +46,8 @@ plotMatrix(distance.matrix = NULL,
 \item{pdf.height}{height in inches of the output pdf. Default value is 4.}
 
 \item{pdf.pointsize}{base font size of the output pdf.}
+
+\item{rotate}{boolean, if \code{TRUE}, the matrix is rotated. Allows the user to plot the matrix axes in the desired direction.}
 }
 \value{
 A list of dataframes if \code{least.cost.matrix} is a list, or a dataframe if \code{least.cost.matrix} is a matrix. The dataframe/s have the following columns:

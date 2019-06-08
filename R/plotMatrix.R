@@ -14,7 +14,8 @@
 #'   pdf.filename = NULL,
 #'   pdf.width = 7,
 #'   pdf.height = 4,
-#'   pdf.pointsize = 12
+#'   pdf.pointsize = 12,
+#'   rotate = FALSE
 #'   )
 #'
 #' @param distance.matrix numeric matrix or list of numeric matrices either produced by \code{\link{distanceMatrix}} or \code{\link{leastCostMatrix}}.
@@ -31,6 +32,7 @@
 #' @param pdf.width with in inches of the output pdf. Default value is 7.
 #' @param pdf.height height in inches of the output pdf. Default value is 4.
 #' @param pdf.pointsize base font size of the output pdf.
+#' @param rotate boolean, if \code{TRUE}, the matrix is rotated. Allows the user to plot the matrix axes in the desired direction.
 #'
 #'
 #'
@@ -92,7 +94,8 @@ plotMatrix <- function(distance.matrix = NULL,
                        pdf.filename = NULL,
                        pdf.width = 7,
                        pdf.height = 4,
-                       pdf.pointsize = 12
+                       pdf.pointsize = 12,
+                       rotate = FALSE
                        ){
 
 
@@ -192,31 +195,69 @@ plotMatrix <- function(distance.matrix = NULL,
       path.i <- least.cost.path[[i]]
     }
 
+    #no rotation
+    if(rotate == FALSE){
 
-    #plot
-    if(legend == FALSE){
-    graphics::image(x = 1:nrow(distance.matrix.i),
-                     y = 1:ncol(distance.matrix.i),
-                     z = distance.matrix.i,
-                     xlab = ylab.name,
-                     ylab = xlab.name,
-                     main = title,
-                     col = color.palette)
-    }
+      #plot
+      if(legend == FALSE){
+      graphics::image(x = 1:nrow(distance.matrix.i),
+                       y = 1:ncol(distance.matrix.i),
+                       z = distance.matrix.i,
+                       xlab = ylab.name,
+                       ylab = xlab.name,
+                       main = title,
+                       col = color.palette)
+      }
 
-    if(legend == TRUE){
-      fields::image.plot(x = 1:nrow(distance.matrix.i),
-            y = 1:ncol(distance.matrix.i),
-            z = distance.matrix.i,
-            xlab = ylab.name,
-            ylab = xlab.name,
-            main = title,
-            col = color.palette)
-    }
+      if(legend == TRUE){
+        fields::image.plot(x = 1:nrow(distance.matrix.i),
+              y = 1:ncol(distance.matrix.i),
+              z = distance.matrix.i,
+              xlab = ylab.name,
+              ylab = xlab.name,
+              main = title,
+              col = color.palette)
+      }
 
-    #add path
-    if(!is.null(least.cost.path)){
-       graphics::lines(path.i$A, path.i$B, lwd=path.width, col = path.color)
+      #add path
+      if(!is.null(least.cost.path)){
+         graphics::lines(path.i$A, path.i$B, lwd=path.width, col = path.color)
+      }
+
+    } #enf of rotate = FALSE
+
+
+    #rotated plot
+    if(rotate == TRUE){
+
+      #plot
+      if(legend == FALSE){
+        graphics::image(y = 1:nrow(distance.matrix.i),
+                        x = 1:ncol(distance.matrix.i),
+                        z = t(distance.matrix.i),
+                        ylab = ylab.name,
+                        xlab = xlab.name,
+                        main = title,
+                        col = color.palette)
+      }
+
+      if(legend == TRUE){
+        fields::image.plot(y = 1:nrow(distance.matrix.i),
+                           x = 1:ncol(distance.matrix.i),
+                           z = t(distance.matrix.i),
+                           ylab = ylab.name,
+                           xlab = xlab.name,
+                           main = title,
+                           col = color.palette)
+      }
+
+      #add path
+      if(!is.null(least.cost.path)){
+        graphics::lines(path.i$B, path.i$A, lwd=path.width, col = path.color)
+      }
+
+
+
     }
 
   }#end of iterations
