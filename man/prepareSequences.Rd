@@ -31,7 +31,7 @@ paired.samples = FALSE)
 
 \item{sequences}{dataframe with multiple sequences identified by a grouping column.}
 
-\item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
+\item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. If two sequences are provided through the arguments \code{sequence.A} and \code{sequence.B}, this argument defines the name of the grouping column in the output dataframe. If two or several sequences are provided as a single dataframe through the argument \code{sequences}, then \code{grouping.column} must be a column in this dataset.}
 
 \item{time.column}{character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.}
 

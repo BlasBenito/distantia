@@ -6939,23 +6939,50 @@ least-cost path plotted on top of the distance matrix.
 Least-cost path plotted on top of the least-cost matrix.
 </p>
 </div>
+<p><strong>Optional: least cost path using diagonals</strong>.</p>
+<p>The least cost path can be computed also in diagonal, which allows to pair together these samples with the higher similarity that contribute to minimize the overall cost of the least cost path.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#computing the least cost using diagonals</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">diagonal.least.cost &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span>(</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">diagonal =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#computing least cost path using diagonals</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">diagonal.least.cost.path &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostPath.html">leastCostPath</a></span>(</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">  <span class="dt">least.cost.matrix =</span> AB.least.cost.matrix,</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">  <span class="dt">diagonal =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">  )</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">  <span class="dt">distance.matrix =</span> diagonal.least.cost,</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16">  <span class="dt">least.cost.path =</span> diagonal.least.cost.path,</a>
+<a class="sourceLine" id="cb12-17" data-line-number="17">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
+<a class="sourceLine" id="cb12-18" data-line-number="18">  )</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-unnamed-chunk-11-1.png" alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%"><p class="caption">
+Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences.
+</p>
+</div>
+<p>Using diagonals is useful when the goal is to transfer attributes (time, age, depth, etc) from one sequence with them to another sequence without them. This will be shown later <strong>NOTE: not implemented yet</strong>.</p>
 <p><strong>3. Getting the least-cost value.</strong> The Upper right cell of the least-cost matrix in the image of the least-cost matrix (lower right cell in the actual data-matrix) holds the cumulative sum of the least-cost path. This value will be used later to compute dissimilarity.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">AB.least.cost &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCost.html">leastCost</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">least.cost.matrix =</span> AB.least.cost.matrix</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  )</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">AB.least.cost</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; [1] 77.53981</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">AB.least.cost &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCost.html">leastCost</a></span>(</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">least.cost.matrix =</span> AB.least.cost.matrix</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  )</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">AB.least.cost</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; $`A|B`</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; [1] 77.53981</span></a></code></pre></div>
 <p><strong>4. Autosum, or sum of the distances among adjacent samples on each sequence.</strong> This is another requirement to compute a normalized measure of dissimilarity. It just computes the distance between adjacent samples of each sequence and sums them up. Notice that the output is a list with named slots. Lists are the main output device of this package, I’ll explain later why.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">AB.autosum &lt;-<span class="st"> </span><span class="kw"><a href="reference/autoSum.html">autoSum</a></span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">sequences =</span> AB.sequences,</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">method =</span> <span class="st">"manhattan"</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  )</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">AB.autosum</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; $A</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; [1] 22.6535</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; $B</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; [1] 24.20855</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">AB.autosum &lt;-<span class="st"> </span><span class="kw"><a href="reference/autoSum.html">autoSum</a></span>(</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">sequences =</span> AB.sequences,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">method =</span> <span class="st">"manhattan"</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  )</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">AB.autosum</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; $A</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; [1] 22.6535</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; $B</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; [1] 24.20855</span></a></code></pre></div>
 <p><strong>5. Compute dissimilarity.</strong> The dissimilarity measure used in this package is named <strong>psi</strong>, that was first described in the book <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406">“Numerical methods in Quaternary pollen analysis”</a> (Birks and Gordon, 1985). <strong>Psi</strong> is computed as follows:</p>
 <p><span class="math display">\[\psi = \frac{LC - (\sum{A_{i-j}} + \sum{B_{i-j}})}{\sum{A_{i-j}} + \sum{B_{i-j}}} \]</span></p>
 <p>where:</p>
@@ -6968,19 +6995,19 @@ Least-cost path plotted on top of the least-cost matrix.
 <span class="math inline">\(\sum{B_{i-j}}\)</span> is the autosum of the other sequence.</li>
 </ul>
 <p>Which basically is the least-cost normalizado by the autosum of both sequences. The <strong>psi</strong> function only requires the least cost, and the autosum of both sequences, as follows. Notice that in the output list, the slot with the psi value is named after the two sequences separated by a vertical line (“A|B”). This convention will be followed by any function in the package that returns objects resulting from comparing two sequences.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/psi.html">psi</a></span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">least.cost =</span> AB.least.cost,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">autosum =</span> AB.autosum</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  )</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">AB.psi</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; $`A|B`</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; [1] 2.309279</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/psi.html">psi</a></span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">least.cost =</span> AB.least.cost,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">autosum =</span> AB.autosum</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  )</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">AB.psi</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; $`A|B`</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; [1] 2.309279</span></a></code></pre></div>
 <p>The output of <strong>psi</strong> is a list, that can be transformed to a dataframe or a matrix by using the <strong>formatPsi</strong> function.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#to dataframe</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">#to dataframe</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -7005,11 +7032,11 @@ B
 </td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">#to matrix</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span>)</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">#to matrix</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi,</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span>)</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -7047,11 +7074,11 @@ B
 </tbody>
 </table>
 <p>Or can also be transformed from matrix to dataframe, or from dataframe to matrix, as convenient.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">#from matrix to dataframe again</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.matrix,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#from matrix to dataframe again</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">AB.psi.dataframe &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.matrix,</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"dataframe"</span>)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.dataframe)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -7076,12 +7103,12 @@ B
 </td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#or from dataframe to matrix</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.dataframe,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">#or from dataframe to matrix</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">AB.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="dt">psi.values =</span> AB.psi.dataframe,</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.psi.matrix)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -7119,15 +7146,17 @@ B
 </tbody>
 </table>
 <p>All the steps required to compute <strong>psi</strong>, including the format options provided by <strong>formatPsi</strong> are wrapped together in the function <strong>workflowPsi</strong>, that works as follows:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">  <span class="dt">sequences =</span> AB.sequences,</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7">AB.psi</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt;   A B      psi</span></a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; 1 A B 2.309279</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">AB.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">  <span class="dt">sequences =</span> AB.sequences,</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">AB.psi</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt;   A B      psi</span></a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 1 A B 2.309279</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)</a></code></pre></div>
 </div>
 </div>
 </div>
@@ -7139,8 +7168,8 @@ B
 <h2 class="hasAnchor">
 <a href="#preparing-the-data-1" class="anchor"></a>Preparing the data</h2>
 <p>The example dataset <em>sequencesMIS</em> contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named “MIS”. MIS stages with odd numbers are interglacials, while the odd ones are glacials.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(sequencesMIS, <span class="dt">n=</span><span class="dv">15</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(sequencesMIS, <span class="dt">n=</span><span class="dv">15</span>))</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -7513,29 +7542,29 @@ MIS-1
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt;  [1] "MIS-1"  "MIS-2"  "MIS-3"  "MIS-4"  "MIS-5"  "MIS-6"  "MIS-7" </span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt;  [8] "MIS-8"  "MIS-9"  "MIS-10" "MIS-11" "MIS-12"</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co">#&gt;  [1] "MIS-1"  "MIS-2"  "MIS-3"  "MIS-4"  "MIS-5"  "MIS-6"  "MIS-7" </span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt;  [8] "MIS-8"  "MIS-9"  "MIS-10" "MIS-11" "MIS-12"</span></a></code></pre></div>
 <p>The dataset is checked and prepared with <strong>prepareSequences</strong> (note the change in the argument <em>grouping.column</em>).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">MIS.sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">  <span class="dt">sequences =</span> sequencesMIS,</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">  <span class="dt">if.empty.cases =</span> <span class="st">"zero"</span>,</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">MIS.sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="dt">sequences =</span> sequencesMIS,</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">if.empty.cases =</span> <span class="st">"zero"</span>,</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">)</a></code></pre></div>
 <p>The dissimilarity measure <strong>psi</strong> can be computed for every combination of sequences through the function <strong>workflowPsi</strong> shown below. Note the argument <em>output</em> that allows to select either “dataframe” (ordered from lower to higher dissimilarity) or “matrix” to obtain an output with a given structure (if empty, the function returns a list).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.sequences,</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb23-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb23-8" data-line-number="8">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
-<a class="sourceLine" id="cb23-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb23-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb23-11" data-line-number="11"><span class="co">#ordered with lower psi on top</span></a>
-<a class="sourceLine" id="cb23-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/order">order</a></span>(MIS.psi<span class="op">$</span>psi), ])</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.sequences,</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb25-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb25-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb25-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb25-8" data-line-number="8">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
+<a class="sourceLine" id="cb25-9" data-line-number="9">)</a>
+<a class="sourceLine" id="cb25-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co">#ordered with lower psi on top</span></a>
+<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/order">order</a></span>(MIS.psi<span class="op">$</span>psi), ])</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -8478,46 +8507,48 @@ MIS-2
 </tbody>
 </table>
 <p>A dataframe like this can be plotted as an adjacency network with the <strong>qgraph</strong> package as follows:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co">#psi values to matrix</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">MIS.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dt">psi.values =</span> MIS.psi,</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#dissimilariy to distance</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8">MIS.distance &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>MIS.psi.matrix<span class="op">**</span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="co">#plotting network</span></a>
-<a class="sourceLine" id="cb24-11" data-line-number="11">qgraph<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/qgraph/topics/qgraph">qgraph</a></span>(MIS.distance, </a>
-<a class="sourceLine" id="cb24-12" data-line-number="12">       <span class="dt">layout=</span><span class="st">'spring'</span>, </a>
-<a class="sourceLine" id="cb24-13" data-line-number="13">       <span class="dt">vsize=</span><span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb24-14" data-line-number="14">       <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(MIS.distance),</a>
-<a class="sourceLine" id="cb24-15" data-line-number="15">       <span class="dt">colors =</span> viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">2</span>, <span class="dt">begin =</span> <span class="fl">0.3</span>, <span class="dt">end =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">direction =</span> <span class="dv">-1</span>)</a>
-<a class="sourceLine" id="cb24-16" data-line-number="16">       )</a>
-<a class="sourceLine" id="cb24-17" data-line-number="17"><span class="co">#&gt; Warning in qgraph::qgraph(MIS.distance, layout = "spring", vsize =</span></a>
-<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co">#&gt; 5, labels = colnames(MIS.distance), : The following arguments are not</span></a>
-<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt; documented and likely not arguments of qgraph and thus ignored: colors</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">#psi values to matrix</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">MIS.psi.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/formatPsi.html">formatPsi</a></span>(</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">psi.values =</span> MIS.psi,</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">to =</span> <span class="st">"matrix"</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#dissimilariy to distance</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8">MIS.distance &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>MIS.psi.matrix<span class="op">**</span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="co">#plotting network</span></a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">qgraph<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/qgraph/topics/qgraph">qgraph</a></span>(MIS.distance, </a>
+<a class="sourceLine" id="cb26-12" data-line-number="12">       <span class="dt">layout=</span><span class="st">'spring'</span>, </a>
+<a class="sourceLine" id="cb26-13" data-line-number="13">       <span class="dt">vsize=</span><span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb26-14" data-line-number="14">       <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(MIS.distance),</a>
+<a class="sourceLine" id="cb26-15" data-line-number="15">       <span class="dt">colors =</span> viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">2</span>, <span class="dt">begin =</span> <span class="fl">0.3</span>, <span class="dt">end =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">direction =</span> <span class="dv">-1</span>)</a>
+<a class="sourceLine" id="cb26-16" data-line-number="16">       )</a>
+<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="co">#&gt; Warning in qgraph::qgraph(MIS.distance, layout = "spring", vsize =</span></a>
+<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co">#&gt; 5, labels = colnames(MIS.distance), : The following arguments are not</span></a>
+<a class="sourceLine" id="cb26-19" data-line-number="19"><span class="co">#&gt; documented and likely not arguments of qgraph and thus ignored: colors</span></a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-22-1.png" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-24-1.png" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%"><p class="caption">
 Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green
 </p>
 </div>
 <p>Or as a matrix with <strong>ggplot2</strong>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co">#ordering factors to get a triangular matrix</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">MIS.psi<span class="op">$</span>A &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(MIS.psi<span class="op">$</span>A, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS))</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">MIS.psi<span class="op">$</span>B &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(MIS.psi<span class="op">$</span>B, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS))</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#plotting matrix</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(MIS.psi), <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>A, <span class="dt">y=</span>B, <span class="dt">size=</span>psi, <span class="dt">color=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_color_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">size =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co">#ordering factors to get a triangular matrix</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">MIS.psi<span class="op">$</span>A &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(MIS.psi<span class="op">$</span>A, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS))</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">MIS.psi<span class="op">$</span>B &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(MIS.psi<span class="op">$</span>B, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS))</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#plotting matrix</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(MIS.psi), <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>A, <span class="dt">y=</span>B, <span class="dt">size=</span>psi, <span class="dt">color=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_color_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">size =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-23-1.png" alt="Dissimilarity between MIS sequences." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-25-1.png" alt="Dissimilarity between MIS sequences." width="100%"><p class="caption">
 Dissimilarity between MIS sequences.
 </p>
 </div>
 <p>The dataframe of dissimilarities between pairs of sequences can be also used to analyze the drivers of dissimilarity. To do so, attributes such as differences in time (when sequences represent different times) or distance (when sequences represent different sites) between sequences, or differences between physical/climatic attributes between sequences such as topography or climate can be added to the table, so models such as <span class="math inline">\(psi = A + B + C\)</span> (were A, B, and C are these attributes) can be fitted.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(MIS.distance, MIS.psi, MIS.psi.matrix, MIS.sequences, sequencesMIS)</a></code></pre></div>
 </div>
 </div>
 <div id="working-with-aligned-multivariate-time-series" class="section level1">
@@ -8525,111 +8556,111 @@ Dissimilarity between MIS sequences.
 <a href="#working-with-aligned-multivariate-time-series" class="anchor"></a>Working with aligned multivariate time-series</h1>
 <p>This section assumes that the target multivariate time-series have the same number of samples/rows, and samples have the same time/depth/order if there is a time/age/depth column available. In this particular case, distances are computed only between samples with the same time/depth/order, and no distance matrix (nor least cost analysis) is required. When the argument <em>paired.samples</em> in <strong>prepareSequences</strong> is set to TRUE, the function checks if the sequences have the same number of rows, and, if <em>time.column</em> is provided, it selects the samples that have valid time/depth columns for every sequence in the dataset.</p>
 <p>Here we test these ideas with the <strong>climate</strong> dataset included in the library. It represents simulated palaeoclimate over 200 ky. at four sites identified by the column <em>sequenceId</em>. Note that this time the transformation applied is “scaled”, which uses the <strong>scale</strong> function of R base to center and scale the data.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">#loading sample data</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climate)</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#preparing sequences</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5">climate &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">sequences =</span> climate,</a>
-<a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
-<a class="sourceLine" id="cb26-8" data-line-number="8">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">transformation =</span> <span class="st">"scale"</span></a>
-<a class="sourceLine" id="cb26-11" data-line-number="11">  )</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co">#loading sample data</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climate)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#preparing sequences</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">climate &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">  <span class="dt">sequences =</span> climate,</a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
+<a class="sourceLine" id="cb29-8" data-line-number="8">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">  <span class="dt">transformation =</span> <span class="st">"scale"</span></a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">  )</a></code></pre></div>
 <p>The function <strong>distancePairedSamples</strong> computes the between paired samples</p>
 <p>The result is a list, each slot named as the id of the given sequence according to <em>grouping.columns</em>, and containing a vector with pairwise distances. Each vector position is named after <em>time.column</em> if available.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">climate.distances &lt;-<span class="st"> </span><span class="kw"><a href="reference/distancePairedSamples.html">distancePairedSamples</a></span>(</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb27-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb27-7" data-line-number="7">  <span class="dt">sum.distances =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(climate.distances)</a>
-<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="co">#&gt; List of 6</span></a>
-<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&gt;  $ 1|2: Named num [1:200] 6.13 6.15 5.76 4.97 4.04 ...</span></a>
-<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
-<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt;  $ 1|3: Named num [1:200] 2.354 1.681 1.404 0.906 1.043 ...</span></a>
-<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
-<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&gt;  $ 1|4: Named num [1:200] 6.56 6.82 6.79 6.07 5.04 ...</span></a>
-<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
-<a class="sourceLine" id="cb27-18" data-line-number="18"><span class="co">#&gt;  $ 2|3: Named num [1:200] 5.76 5.75 5.21 4.52 4.19 ...</span></a>
-<a class="sourceLine" id="cb27-19" data-line-number="19"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
-<a class="sourceLine" id="cb27-20" data-line-number="20"><span class="co">#&gt;  $ 2|4: Named num [1:200] 0.432 0.667 1.025 1.161 1.449 ...</span></a>
-<a class="sourceLine" id="cb27-21" data-line-number="21"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
-<a class="sourceLine" id="cb27-22" data-line-number="22"><span class="co">#&gt;  $ 3|4: Named num [1:200] 5.92 6.39 6.23 5.63 4.88 ...</span></a>
-<a class="sourceLine" id="cb27-23" data-line-number="23"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a></code></pre></div>
-<p>If the argument <em>sum.distances</em> is set to TRUE, it sums them up, doing in fact the same work done by <strong>distanceMatrix</strong>, <strong>leastCostMatrix</strong> and <strong>leastCost</strong> at once.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">climate.distances &lt;-<span class="st"> </span><span class="kw"><a href="reference/distancePairedSamples.html">distancePairedSamples</a></span>(</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb28-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb28-7" data-line-number="7">  <span class="dt">sum.distances =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb28-9" data-line-number="9">climate.distances</a>
-<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co">#&gt; $`1|2`</span></a>
-<a class="sourceLine" id="cb28-11" data-line-number="11"><span class="co">#&gt; [1] 859.1105</span></a>
-<a class="sourceLine" id="cb28-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb28-13" data-line-number="13"><span class="co">#&gt; $`1|3`</span></a>
-<a class="sourceLine" id="cb28-14" data-line-number="14"><span class="co">#&gt; [1] 712.0338</span></a>
-<a class="sourceLine" id="cb28-15" data-line-number="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb28-16" data-line-number="16"><span class="co">#&gt; $`1|4`</span></a>
-<a class="sourceLine" id="cb28-17" data-line-number="17"><span class="co">#&gt; [1] 1034.932</span></a>
-<a class="sourceLine" id="cb28-18" data-line-number="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb28-19" data-line-number="19"><span class="co">#&gt; $`2|3`</span></a>
-<a class="sourceLine" id="cb28-20" data-line-number="20"><span class="co">#&gt; [1] 819.8022</span></a>
-<a class="sourceLine" id="cb28-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb28-22" data-line-number="22"><span class="co">#&gt; $`2|4`</span></a>
-<a class="sourceLine" id="cb28-23" data-line-number="23"><span class="co">#&gt; [1] 669.1838</span></a>
-<a class="sourceLine" id="cb28-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb28-25" data-line-number="25"><span class="co">#&gt; $`3|4`</span></a>
-<a class="sourceLine" id="cb28-26" data-line-number="26"><span class="co">#&gt; [1] 755.5203</span></a></code></pre></div>
-<p>Computing <em>psi</em> from there only requires the autosum of each sequence, and the application of the <strong>psi</strong> function.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co">#computing autosum</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">climate.autosum &lt;-<span class="st"> </span><span class="kw"><a href="reference/autoSum.html">autoSum</a></span>(</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">  <span class="dt">sequences =</span> climate,</a>
-<a class="sourceLine" id="cb29-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
-<a class="sourceLine" id="cb29-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
-<a class="sourceLine" id="cb29-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#computing psi</span></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/psi.html">psi</a></span>(</a>
-<a class="sourceLine" id="cb29-11" data-line-number="11">  <span class="dt">least.cost =</span> climate.distances,</a>
-<a class="sourceLine" id="cb29-12" data-line-number="12">  <span class="dt">autosum =</span> climate.autosum</a>
-<a class="sourceLine" id="cb29-13" data-line-number="13">)</a>
-<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb29-15" data-line-number="15">climate.psi</a>
-<a class="sourceLine" id="cb29-16" data-line-number="16"><span class="co">#&gt; $`1|2`</span></a>
-<a class="sourceLine" id="cb29-17" data-line-number="17"><span class="co">#&gt; [1] 3.378791</span></a>
-<a class="sourceLine" id="cb29-18" data-line-number="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb29-19" data-line-number="19"><span class="co">#&gt; $`1|3`</span></a>
-<a class="sourceLine" id="cb29-20" data-line-number="20"><span class="co">#&gt; [1] 2.767909</span></a>
-<a class="sourceLine" id="cb29-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb29-22" data-line-number="22"><span class="co">#&gt; $`1|4`</span></a>
-<a class="sourceLine" id="cb29-23" data-line-number="23"><span class="co">#&gt; [1] 4.043498</span></a>
-<a class="sourceLine" id="cb29-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb29-25" data-line-number="25"><span class="co">#&gt; $`2|3`</span></a>
-<a class="sourceLine" id="cb29-26" data-line-number="26"><span class="co">#&gt; [1] 3.761143</span></a>
-<a class="sourceLine" id="cb29-27" data-line-number="27"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb29-28" data-line-number="28"><span class="co">#&gt; $`2|4`</span></a>
-<a class="sourceLine" id="cb29-29" data-line-number="29"><span class="co">#&gt; [1] 2.551667</span></a>
-<a class="sourceLine" id="cb29-30" data-line-number="30"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb29-31" data-line-number="31"><span class="co">#&gt; $`3|4`</span></a>
-<a class="sourceLine" id="cb29-32" data-line-number="32"><span class="co">#&gt; [1] 3.169788</span></a></code></pre></div>
-<p>These functions are wrapped together in the function <strong>workflowPsiPaired</strong>:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsiPairedSamples.html">workflowPsiPairedSamples</a></span>(</a>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">climate.distances &lt;-<span class="st"> </span><span class="kw"><a href="reference/distancePairedSamples.html">distancePairedSamples</a></span>(</a>
 <a class="sourceLine" id="cb30-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
 <a class="sourceLine" id="cb30-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
 <a class="sourceLine" id="cb30-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb30-6" data-line-number="6">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
-<a class="sourceLine" id="cb30-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi)</a></code></pre></div>
+<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb30-7" data-line-number="7">  <span class="dt">sum.distances =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(climate.distances)</a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt; List of 6</span></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt;  $ 1|2: Named num [1:200] 6.13 6.15 5.76 4.97 4.04 ...</span></a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
+<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt;  $ 1|3: Named num [1:200] 2.354 1.681 1.404 0.906 1.043 ...</span></a>
+<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
+<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt;  $ 1|4: Named num [1:200] 6.56 6.82 6.79 6.07 5.04 ...</span></a>
+<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
+<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt;  $ 2|3: Named num [1:200] 5.76 5.75 5.21 4.52 4.19 ...</span></a>
+<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
+<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt;  $ 2|4: Named num [1:200] 0.432 0.667 1.025 1.161 1.449 ...</span></a>
+<a class="sourceLine" id="cb30-21" data-line-number="21"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a>
+<a class="sourceLine" id="cb30-22" data-line-number="22"><span class="co">#&gt;  $ 3|4: Named num [1:200] 5.92 6.39 6.23 5.63 4.88 ...</span></a>
+<a class="sourceLine" id="cb30-23" data-line-number="23"><span class="co">#&gt;   ..- attr(*, "names")= chr [1:200] "1" "2" "3" "4" ...</span></a></code></pre></div>
+<p>If the argument <em>sum.distances</em> is set to TRUE, it sums them up, doing in fact the same work done by <strong>distanceMatrix</strong>, <strong>leastCostMatrix</strong> and <strong>leastCost</strong> at once.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">climate.distances &lt;-<span class="st"> </span><span class="kw"><a href="reference/distancePairedSamples.html">distancePairedSamples</a></span>(</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">  <span class="dt">sum.distances =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9">climate.distances</a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#&gt; $`1|2`</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co">#&gt; [1] 859.1105</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="co">#&gt; $`1|3`</span></a>
+<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="co">#&gt; [1] 712.0338</span></a>
+<a class="sourceLine" id="cb31-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-16" data-line-number="16"><span class="co">#&gt; $`1|4`</span></a>
+<a class="sourceLine" id="cb31-17" data-line-number="17"><span class="co">#&gt; [1] 1034.932</span></a>
+<a class="sourceLine" id="cb31-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-19" data-line-number="19"><span class="co">#&gt; $`2|3`</span></a>
+<a class="sourceLine" id="cb31-20" data-line-number="20"><span class="co">#&gt; [1] 819.8022</span></a>
+<a class="sourceLine" id="cb31-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-22" data-line-number="22"><span class="co">#&gt; $`2|4`</span></a>
+<a class="sourceLine" id="cb31-23" data-line-number="23"><span class="co">#&gt; [1] 669.1838</span></a>
+<a class="sourceLine" id="cb31-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb31-25" data-line-number="25"><span class="co">#&gt; $`3|4`</span></a>
+<a class="sourceLine" id="cb31-26" data-line-number="26"><span class="co">#&gt; [1] 755.5203</span></a></code></pre></div>
+<p>Computing <em>psi</em> from there only requires the autosum of each sequence, and the application of the <strong>psi</strong> function.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co">#computing autosum</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">climate.autosum &lt;-<span class="st"> </span><span class="kw"><a href="reference/autoSum.html">autoSum</a></span>(</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">  <span class="dt">sequences =</span> climate,</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span></a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="co">#computing psi</span></a>
+<a class="sourceLine" id="cb32-10" data-line-number="10">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/psi.html">psi</a></span>(</a>
+<a class="sourceLine" id="cb32-11" data-line-number="11">  <span class="dt">least.cost =</span> climate.distances,</a>
+<a class="sourceLine" id="cb32-12" data-line-number="12">  <span class="dt">autosum =</span> climate.autosum</a>
+<a class="sourceLine" id="cb32-13" data-line-number="13">)</a>
+<a class="sourceLine" id="cb32-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb32-15" data-line-number="15">climate.psi</a>
+<a class="sourceLine" id="cb32-16" data-line-number="16"><span class="co">#&gt; $`1|2`</span></a>
+<a class="sourceLine" id="cb32-17" data-line-number="17"><span class="co">#&gt; [1] 3.378791</span></a>
+<a class="sourceLine" id="cb32-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-19" data-line-number="19"><span class="co">#&gt; $`1|3`</span></a>
+<a class="sourceLine" id="cb32-20" data-line-number="20"><span class="co">#&gt; [1] 2.767909</span></a>
+<a class="sourceLine" id="cb32-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-22" data-line-number="22"><span class="co">#&gt; $`1|4`</span></a>
+<a class="sourceLine" id="cb32-23" data-line-number="23"><span class="co">#&gt; [1] 4.043498</span></a>
+<a class="sourceLine" id="cb32-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-25" data-line-number="25"><span class="co">#&gt; $`2|3`</span></a>
+<a class="sourceLine" id="cb32-26" data-line-number="26"><span class="co">#&gt; [1] 3.761143</span></a>
+<a class="sourceLine" id="cb32-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-28" data-line-number="28"><span class="co">#&gt; $`2|4`</span></a>
+<a class="sourceLine" id="cb32-29" data-line-number="29"><span class="co">#&gt; [1] 2.551667</span></a>
+<a class="sourceLine" id="cb32-30" data-line-number="30"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb32-31" data-line-number="31"><span class="co">#&gt; $`3|4`</span></a>
+<a class="sourceLine" id="cb32-32" data-line-number="32"><span class="co">#&gt; [1] 3.169788</span></a></code></pre></div>
+<p>These functions are wrapped together in the function <strong>workflowPsiPaired</strong>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsiPairedSamples.html">workflowPsiPairedSamples</a></span>(</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -8711,6 +8742,8 @@ psi
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#cleaning workspace for next example</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(climate, climate.autosum, climate.distances, climate.psi)</a></code></pre></div>
 </div>
 <div id="variable-contribution-to-dissimilarity" class="section level1">
 <h1 class="hasAnchor">
@@ -8718,32 +8751,32 @@ psi
 <p><em>What variables are more important in explaining the dissimilarity between two sequences?</em>, or in other words, <em>what variables contribute the most to the dissimilarity between two sequences?</em> One reasonable answer is: the one that reduces dissimilarity the most when removed from the data.</p>
 <p>This section explains how to use the function <strong>workflowImportance</strong> to evaluate the importance of given variables in explaining differences between sequences.</p>
 <p>First, we prepare the data. It is again <em>sequencesMIS</em>, but with only three groups selected (MIS 4 to 6) to simplify the analysis.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co">#getting example data</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">sequences &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#preparing sequences</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">  <span class="dt">sequences =</span> sequences,</a>
-<a class="sourceLine" id="cb31-8" data-line-number="8">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb31-9" data-line-number="9">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb31-10" data-line-number="10">  <span class="dt">merge.mode =</span> <span class="st">"complete"</span>,</a>
-<a class="sourceLine" id="cb31-11" data-line-number="11">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb31-12" data-line-number="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co">#getting example data</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">sequences &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co">#preparing sequences</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7">  <span class="dt">sequences =</span> sequences,</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">  <span class="dt">merge.mode =</span> <span class="st">"complete"</span>,</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12">)</a></code></pre></div>
 <p>The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between <strong>workflowPsi</strong> and <strong>workflowPsiPairedSamples</strong> as requested by the user through the argument <em>paired.samples</em>. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of <em>psi</em> on combinations of columns, removing one column each time.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="dt">sequences =</span> sequences,</a>
-<a class="sourceLine" id="cb32-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb32-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb32-8" data-line-number="8">  <span class="dt">parallel.execution =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb32-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb32-10" data-line-number="10">  )</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">  <span class="dt">sequences =</span> sequences,</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb36-8" data-line-number="8">  <span class="dt">parallel.execution =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb36-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10">  )</a></code></pre></div>
 <p>The output is a list with two slots named <em>psi</em> and <em>psi.drop</em>.</p>
 <p>The dataframe <strong>psi</strong> contains psi values for each combination of variables (named in the coluns <em>A</em> and <em>B</em>) computed for all columns in the column <em>All variables</em>, and one column per variable named <em>Without variable_name</em> containing the psi value when that variable is removed from the compared sequences.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -8865,25 +8898,25 @@ MIS-6
 </tbody>
 </table>
 <p>This table can be plotted as a bar plot as follows:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#extracting object</span></a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">psi.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co">#to long format</span></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">psi.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.df))</a>
-<a class="sourceLine" id="cb34-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
-<a class="sourceLine" id="cb34-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
-<a class="sourceLine" id="cb34-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb34-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">psi.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5">psi.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.df))</a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-32-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-36-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
 Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences.
 </p>
 </div>
@@ -8893,7 +8926,7 @@ Variable importance analysis of three combinations of sequences. The plot sugges
 <li>High psi-drop value: variable contributes to dissimilarity.</li>
 <li>Low or negative psi-drop value: variable contributes to similarity.</li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi.drop)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi.drop)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -9002,88 +9035,2272 @@ MIS-6
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">#extracting object</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">psi.drop.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi.drop</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="co">#to long format</span></a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">psi.drop.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.drop.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.drop.df))</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
-<a class="sourceLine" id="cb36-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
-<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb36-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb36-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb36-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb36-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">psi.drop.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi.drop</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">psi.drop.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.drop.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.drop.df))</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb40-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-34-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-38-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
 Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
 </p>
 </div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)</a></code></pre></div>
 </div>
 <div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence" class="section level1">
 <h1 class="hasAnchor">
 <a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence</h1>
-<p>In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset <em>sequencesMIS</em>. We will extract one of the <em>MIS</em> groups as short sequence, and keep the complete dataset as long sequence. The code below prepares the data.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co">#loading the data</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
-<a class="sourceLine" id="cb37-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="co">#subsetting to get the short sequence</span></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5">MIS.short &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">==</span><span class="st"> "MIS-5"</span>, ]</a>
-<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co">#removing grouping column</span></a>
-<a class="sourceLine" id="cb37-7" data-line-number="7">MIS.short<span class="op">$</span>MIS &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb37-8" data-line-number="8"><span class="co">#number of observations</span></a>
-<a class="sourceLine" id="cb37-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short)</a>
-<a class="sourceLine" id="cb37-10" data-line-number="10"><span class="co">#&gt; [1] 78</span></a>
-<a class="sourceLine" id="cb37-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb37-12" data-line-number="12"><span class="co">#renaming the long sequence</span></a>
-<a class="sourceLine" id="cb37-13" data-line-number="13">MIS.long &lt;-<span class="st"> </span>sequencesMIS</a>
-<a class="sourceLine" id="cb37-14" data-line-number="14"><span class="co">#removing grouping column</span></a>
-<a class="sourceLine" id="cb37-15" data-line-number="15">MIS.long<span class="op">$</span>MIS &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb37-16" data-line-number="16"><span class="co">#number of observations</span></a>
-<a class="sourceLine" id="cb37-17" data-line-number="17"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.long)</a>
-<a class="sourceLine" id="cb37-18" data-line-number="18"><span class="co">#&gt; [1] 427</span></a></code></pre></div>
-<p>The sequences have to be prepared and transformed.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">MIS.sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">  <span class="dt">sequence.A =</span> MIS.short,</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4">  <span class="dt">sequence.B =</span> MIS.long,</a>
-<a class="sourceLine" id="cb38-5" data-line-number="5">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
-<a class="sourceLine" id="cb38-6" data-line-number="6">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(MIS.sequences)</a>
-<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="co">#&gt; 'data.frame':    505 obs. of  7 variables:</span></a>
-<a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co">#&gt;  $ id      : chr  "short" "short" "short" "short" ...</span></a>
-<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="co">#&gt;  $ Quercus : num  0.000439 0.220863 0.1066 0.213201 0.308607 ...</span></a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="co">#&gt;  $ Betula  : num  0.240192 0.312347 0.1066 0.000674 0.288675 ...</span></a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="co">#&gt;  $ Pinus   : num  0.941 0.87 0.989 0.953 0.893 ...</span></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="co">#&gt;  $ Alnus   : num  0.240192 0.312347 0.000337 0.213201 0.154303 ...</span></a>
-<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="co">#&gt;  $ Tilia   : num  0.000439 0.000494 0.000337 0.000674 0.000345 ...</span></a>
-<a class="sourceLine" id="cb38-16" data-line-number="16"><span class="co">#&gt;  $ Carpinus: num  0.000439 0.000494 0.000337 0.000674 0.000345 ...</span></a></code></pre></div>
-<p>And the distance matrix has to be computed.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">MIS.distance.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/distanceMatrix.html">distanceMatrix</a></span>(</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.sequences,</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb39-5" data-line-number="5">  <span class="dt">parallel.execution =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb39-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb39-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(<span class="dt">distance.matrix =</span> MIS.distance.matrix,</a>
-<a class="sourceLine" id="cb39-9" data-line-number="9">           <span class="dt">color.palette =</span> <span class="st">"viridis"</span>,</a>
-<a class="sourceLine" id="cb39-10" data-line-number="10">           <span class="dt">rotate =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-37-1.png" alt="Distance matrix of the short and long sequences in MIS.sequences." width="100%"><p class="caption">
-Distance matrix of the short and long sequences in MIS.sequences.
-</p>
-</div>
-<p><strong>WORK IN PROGRESS FROM HERE</strong></p>
-<p>Once the distance matrix is computed, the goal is to find the section in the x axis (long sequence) that minimizes the distances with the samples in the y axis (short sequence). The algorithm to follow predates on the ability of the library to perform parallel computations to find by brute force the target segment in the long sequence. But first, the user has to define a minimum and maximum potential length for the matching segment in the long sequence.</p>
-<p>FROM HERE: algorithm to subset the rows of the long section of the matrix to generate smaller matrices named by the indexes of their begining and their end.</p>
+<p>In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset <em>sequencesMIS</em>. We will extract the first 10 samples as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.</p>
+<p>A more realistic example would be to select, for example, the group “MIS-5” as short sequence, and the complete sequence as long sequence, in order to find what segments in <em>sequencesMIS</em> is more similar to the “MIS-5” group.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">#loading the data</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co">#removing grouping column</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">sequencesMIS<span class="op">$</span>MIS &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="co">#subsetting to get the short sequence</span></a>
+<a class="sourceLine" id="cb42-8" data-line-number="8">MIS.short &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="co">#subsetting to get the long sequence</span></a>
+<a class="sourceLine" id="cb42-11" data-line-number="11">MIS.long &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">40</span>, ]</a></code></pre></div>
+<p>The sequences have to be prepared and transformed. For simplicity, the sequences are named <em>short</em> and <em>long</em>, and the grouping column is named <em>id</em>, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">MIS.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="dt">sequence.A =</span> MIS.short,</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">  <span class="dt">sequence.B =</span> MIS.long,</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb43-7" data-line-number="7">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.short.long)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+id
+</th>
+<th style="text-align:right;">
+Quercus
+</th>
+<th style="text-align:right;">
+Betula
+</th>
+<th style="text-align:right;">
+Pinus
+</th>
+<th style="text-align:right;">
+Alnus
+</th>
+<th style="text-align:right;">
+Tilia
+</th>
+<th style="text-align:right;">
+Carpinus
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8680004
+</td>
+<td style="text-align:right;">
+0.1170411
+</td>
+<td style="text-align:right;">
+0.2617120
+</td>
+<td style="text-align:right;">
+0.2027212
+</td>
+<td style="text-align:right;">
+0.2340823
+</td>
+<td style="text-align:right;">
+0.2617120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.7331439
+</td>
+<td style="text-align:right;">
+0.3622844
+</td>
+<td style="text-align:right;">
+0.4677072
+</td>
+<td style="text-align:right;">
+0.2236068
+</td>
+<td style="text-align:right;">
+0.0002500
+</td>
+<td style="text-align:right;">
+0.2500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.9097176
+</td>
+<td style="text-align:right;">
+0.3216337
+</td>
+<td style="text-align:right;">
+0.2348881
+</td>
+<td style="text-align:right;">
+0.0830455
+</td>
+<td style="text-align:right;">
+0.0002626
+</td>
+<td style="text-align:right;">
+0.0830455
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8854891
+</td>
+<td style="text-align:right;">
+0.3015113
+</td>
+<td style="text-align:right;">
+0.2611165
+</td>
+<td style="text-align:right;">
+0.1846372
+</td>
+<td style="text-align:right;">
+0.0753778
+</td>
+<td style="text-align:right;">
+0.1305582
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8930543
+</td>
+<td style="text-align:right;">
+0.2713294
+</td>
+<td style="text-align:right;">
+0.3229466
+</td>
+<td style="text-align:right;">
+0.1107698
+</td>
+<td style="text-align:right;">
+0.0783260
+</td>
+<td style="text-align:right;">
+0.0783260
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.9494253
+</td>
+<td style="text-align:right;">
+0.0002654
+</td>
+<td style="text-align:right;">
+0.2055566
+</td>
+<td style="text-align:right;">
+0.1678363
+</td>
+<td style="text-align:right;">
+0.1186782
+</td>
+<td style="text-align:right;">
+0.1186782
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.9021937
+</td>
+<td style="text-align:right;">
+0.0002411
+</td>
+<td style="text-align:right;">
+0.3323629
+</td>
+<td style="text-align:right;">
+0.2287478
+</td>
+<td style="text-align:right;">
+0.1524986
+</td>
+<td style="text-align:right;">
+0.0002411
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8767596
+</td>
+<td style="text-align:right;">
+0.0002608
+</td>
+<td style="text-align:right;">
+0.3194383
+</td>
+<td style="text-align:right;">
+0.2857143
+</td>
+<td style="text-align:right;">
+0.1166424
+</td>
+<td style="text-align:right;">
+0.1844278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8716019
+</td>
+<td style="text-align:right;">
+0.0002784
+</td>
+<td style="text-align:right;">
+0.4574957
+</td>
+<td style="text-align:right;">
+0.1245146
+</td>
+<td style="text-align:right;">
+0.1245146
+</td>
+<td style="text-align:right;">
+0.0002784
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+short
+</td>
+<td style="text-align:right;">
+0.8792663
+</td>
+<td style="text-align:right;">
+0.0916698
+</td>
+<td style="text-align:right;">
+0.3666794
+</td>
+<td style="text-align:right;">
+0.2425356
+</td>
+<td style="text-align:right;">
+0.1587768
+</td>
+<td style="text-align:right;">
+0.0002899
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8680004
+</td>
+<td style="text-align:right;">
+0.1170411
+</td>
+<td style="text-align:right;">
+0.2617120
+</td>
+<td style="text-align:right;">
+0.2027212
+</td>
+<td style="text-align:right;">
+0.2340823
+</td>
+<td style="text-align:right;">
+0.2617120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.7331439
+</td>
+<td style="text-align:right;">
+0.3622844
+</td>
+<td style="text-align:right;">
+0.4677072
+</td>
+<td style="text-align:right;">
+0.2236068
+</td>
+<td style="text-align:right;">
+0.0002500
+</td>
+<td style="text-align:right;">
+0.2500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9097176
+</td>
+<td style="text-align:right;">
+0.3216337
+</td>
+<td style="text-align:right;">
+0.2348881
+</td>
+<td style="text-align:right;">
+0.0830455
+</td>
+<td style="text-align:right;">
+0.0002626
+</td>
+<td style="text-align:right;">
+0.0830455
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8854891
+</td>
+<td style="text-align:right;">
+0.3015113
+</td>
+<td style="text-align:right;">
+0.2611165
+</td>
+<td style="text-align:right;">
+0.1846372
+</td>
+<td style="text-align:right;">
+0.0753778
+</td>
+<td style="text-align:right;">
+0.1305582
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8930543
+</td>
+<td style="text-align:right;">
+0.2713294
+</td>
+<td style="text-align:right;">
+0.3229466
+</td>
+<td style="text-align:right;">
+0.1107698
+</td>
+<td style="text-align:right;">
+0.0783260
+</td>
+<td style="text-align:right;">
+0.0783260
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9494253
+</td>
+<td style="text-align:right;">
+0.0002654
+</td>
+<td style="text-align:right;">
+0.2055566
+</td>
+<td style="text-align:right;">
+0.1678363
+</td>
+<td style="text-align:right;">
+0.1186782
+</td>
+<td style="text-align:right;">
+0.1186782
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9021937
+</td>
+<td style="text-align:right;">
+0.0002411
+</td>
+<td style="text-align:right;">
+0.3323629
+</td>
+<td style="text-align:right;">
+0.2287478
+</td>
+<td style="text-align:right;">
+0.1524986
+</td>
+<td style="text-align:right;">
+0.0002411
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8767596
+</td>
+<td style="text-align:right;">
+0.0002608
+</td>
+<td style="text-align:right;">
+0.3194383
+</td>
+<td style="text-align:right;">
+0.2857143
+</td>
+<td style="text-align:right;">
+0.1166424
+</td>
+<td style="text-align:right;">
+0.1844278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8716019
+</td>
+<td style="text-align:right;">
+0.0002784
+</td>
+<td style="text-align:right;">
+0.4574957
+</td>
+<td style="text-align:right;">
+0.1245146
+</td>
+<td style="text-align:right;">
+0.1245146
+</td>
+<td style="text-align:right;">
+0.0002784
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8792663
+</td>
+<td style="text-align:right;">
+0.0916698
+</td>
+<td style="text-align:right;">
+0.3666794
+</td>
+<td style="text-align:right;">
+0.2425356
+</td>
+<td style="text-align:right;">
+0.1587768
+</td>
+<td style="text-align:right;">
+0.0002899
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8501601
+</td>
+<td style="text-align:right;">
+0.1723455
+</td>
+<td style="text-align:right;">
+0.4667138
+</td>
+<td style="text-align:right;">
+0.1723455
+</td>
+<td style="text-align:right;">
+0.0003147
+</td>
+<td style="text-align:right;">
+0.0003147
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8601380
+</td>
+<td style="text-align:right;">
+0.0901670
+</td>
+<td style="text-align:right;">
+0.4131969
+</td>
+<td style="text-align:right;">
+0.1561738
+</td>
+<td style="text-align:right;">
+0.2385594
+</td>
+<td style="text-align:right;">
+0.0002851
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9170109
+</td>
+<td style="text-align:right;">
+0.0753778
+</td>
+<td style="text-align:right;">
+0.3535534
+</td>
+<td style="text-align:right;">
+0.0753778
+</td>
+<td style="text-align:right;">
+0.1507557
+</td>
+<td style="text-align:right;">
+0.0002384
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9358096
+</td>
+<td style="text-align:right;">
+0.0002433
+</td>
+<td style="text-align:right;">
+0.0769231
+</td>
+<td style="text-align:right;">
+0.2035193
+</td>
+<td style="text-align:right;">
+0.2773501
+</td>
+<td style="text-align:right;">
+0.0002433
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9620113
+</td>
+<td style="text-align:right;">
+0.0788110
+</td>
+<td style="text-align:right;">
+0.1114556
+</td>
+<td style="text-align:right;">
+0.1762268
+</td>
+<td style="text-align:right;">
+0.1576221
+</td>
+<td style="text-align:right;">
+0.0002492
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8692267
+</td>
+<td style="text-align:right;">
+0.0004714
+</td>
+<td style="text-align:right;">
+0.4714044
+</td>
+<td style="text-align:right;">
+0.1490711
+</td>
+<td style="text-align:right;">
+0.0004714
+</td>
+<td style="text-align:right;">
+0.0004714
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9315409
+</td>
+<td style="text-align:right;">
+0.0002875
+</td>
+<td style="text-align:right;">
+0.2226809
+</td>
+<td style="text-align:right;">
+0.0909091
+</td>
+<td style="text-align:right;">
+0.2727273
+</td>
+<td style="text-align:right;">
+0.0002875
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8918826
+</td>
+<td style="text-align:right;">
+0.1507557
+</td>
+<td style="text-align:right;">
+0.3481553
+</td>
+<td style="text-align:right;">
+0.1740776
+</td>
+<td style="text-align:right;">
+0.1740776
+</td>
+<td style="text-align:right;">
+0.0002752
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8721718
+</td>
+<td style="text-align:right;">
+0.2264554
+</td>
+<td style="text-align:right;">
+0.2614882
+</td>
+<td style="text-align:right;">
+0.2614882
+</td>
+<td style="text-align:right;">
+0.2264554
+</td>
+<td style="text-align:right;">
+0.0002924
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8881941
+</td>
+<td style="text-align:right;">
+0.3496029
+</td>
+<td style="text-align:right;">
+0.2108185
+</td>
+<td style="text-align:right;">
+0.0003333
+</td>
+<td style="text-align:right;">
+0.2108185
+</td>
+<td style="text-align:right;">
+0.0003333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.7977229
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+<td style="text-align:right;">
+0.4264009
+</td>
+<td style="text-align:right;">
+0.4264009
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9295160
+</td>
+<td style="text-align:right;">
+0.1549193
+</td>
+<td style="text-align:right;">
+0.1549193
+</td>
+<td style="text-align:right;">
+0.2828427
+</td>
+<td style="text-align:right;">
+0.0894427
+</td>
+<td style="text-align:right;">
+0.0002828
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9225311
+</td>
+<td style="text-align:right;">
+0.1786474
+</td>
+<td style="text-align:right;">
+0.1031421
+</td>
+<td style="text-align:right;">
+0.3261640
+</td>
+<td style="text-align:right;">
+0.0003262
+</td>
+<td style="text-align:right;">
+0.0003262
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.9010445
+</td>
+<td style="text-align:right;">
+0.1407195
+</td>
+<td style="text-align:right;">
+0.2814390
+</td>
+<td style="text-align:right;">
+0.1990074
+</td>
+<td style="text-align:right;">
+0.2224971
+</td>
+<td style="text-align:right;">
+0.0003147
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8897562
+</td>
+<td style="text-align:right;">
+0.3818812
+</td>
+<td style="text-align:right;">
+0.2499999
+</td>
+<td style="text-align:right;">
+0.0004564
+</td>
+<td style="text-align:right;">
+0.0004564
+</td>
+<td style="text-align:right;">
+0.0004564
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8934871
+</td>
+<td style="text-align:right;">
+0.2592815
+</td>
+<td style="text-align:right;">
+0.3550358
+</td>
+<td style="text-align:right;">
+0.0002899
+</td>
+<td style="text-align:right;">
+0.0916698
+</td>
+<td style="text-align:right;">
+0.0002899
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.8451533
+</td>
+<td style="text-align:right;">
+0.3779641
+</td>
+<td style="text-align:right;">
+0.3779641
+</td>
+<td style="text-align:right;">
+0.0008452
+</td>
+<td style="text-align:right;">
+0.0008452
+</td>
+<td style="text-align:right;">
+0.0008452
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.6069767
+</td>
+<td style="text-align:right;">
+0.3244427
+</td>
+<td style="text-align:right;">
+0.6488853
+</td>
+<td style="text-align:right;">
+0.0007255
+</td>
+<td style="text-align:right;">
+0.3244427
+</td>
+<td style="text-align:right;">
+0.0007255
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+<td style="text-align:right;">
+0.5222320
+</td>
+<td style="text-align:right;">
+0.8528013
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+<td style="text-align:right;">
+0.0009535
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0010541
+</td>
+<td style="text-align:right;">
+0.4714035
+</td>
+<td style="text-align:right;">
+0.8819151
+</td>
+<td style="text-align:right;">
+0.0010541
+</td>
+<td style="text-align:right;">
+0.0010541
+</td>
+<td style="text-align:right;">
+0.0010541
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.4999991
+</td>
+<td style="text-align:right;">
+0.6123713
+</td>
+<td style="text-align:right;">
+0.6123713
+</td>
+<td style="text-align:right;">
+0.0011180
+</td>
+<td style="text-align:right;">
+0.0011180
+</td>
+<td style="text-align:right;">
+0.0011180
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0010000
+</td>
+<td style="text-align:right;">
+0.4472127
+</td>
+<td style="text-align:right;">
+0.8944254
+</td>
+<td style="text-align:right;">
+0.0010000
+</td>
+<td style="text-align:right;">
+0.0010000
+</td>
+<td style="text-align:right;">
+0.0010000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0006202
+</td>
+<td style="text-align:right;">
+0.3922320
+</td>
+<td style="text-align:right;">
+0.8987165
+</td>
+<td style="text-align:right;">
+0.1961160
+</td>
+<td style="text-align:right;">
+0.0006202
+</td>
+<td style="text-align:right;">
+0.0006202
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0006901
+</td>
+<td style="text-align:right;">
+0.3086064
+</td>
+<td style="text-align:right;">
+0.9511888
+</td>
+<td style="text-align:right;">
+0.0006901
+</td>
+<td style="text-align:right;">
+0.0006901
+</td>
+<td style="text-align:right;">
+0.0006901
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.2041241
+</td>
+<td style="text-align:right;">
+0.2886751
+</td>
+<td style="text-align:right;">
+0.9128707
+</td>
+<td style="text-align:right;">
+0.2041241
+</td>
+<td style="text-align:right;">
+0.0004564
+</td>
+<td style="text-align:right;">
+0.0004564
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0007071
+</td>
+<td style="text-align:right;">
+0.3162275
+</td>
+<td style="text-align:right;">
+0.9219538
+</td>
+<td style="text-align:right;">
+0.2236066
+</td>
+<td style="text-align:right;">
+0.0007071
+</td>
+<td style="text-align:right;">
+0.0007071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.2611164
+</td>
+<td style="text-align:right;">
+0.3370999
+</td>
+<td style="text-align:right;">
+0.8918824
+</td>
+<td style="text-align:right;">
+0.1507556
+</td>
+<td style="text-align:right;">
+0.0004767
+</td>
+<td style="text-align:right;">
+0.0004767
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0005590
+</td>
+<td style="text-align:right;">
+0.3535532
+</td>
+<td style="text-align:right;">
+0.9185582
+</td>
+<td style="text-align:right;">
+0.1767766
+</td>
+<td style="text-align:right;">
+0.0005590
+</td>
+<td style="text-align:right;">
+0.0005590
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.1104315
+</td>
+<td style="text-align:right;">
+0.2469324
+</td>
+<td style="text-align:right;">
+0.9627195
+</td>
+<td style="text-align:right;">
+0.0003492
+</td>
+<td style="text-align:right;">
+0.0003492
+</td>
+<td style="text-align:right;">
+0.0003492
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+long
+</td>
+<td style="text-align:right;">
+0.0004016
+</td>
+<td style="text-align:right;">
+0.1796052
+</td>
+<td style="text-align:right;">
+0.9837384
+</td>
+<td style="text-align:right;">
+0.0004016
+</td>
+<td style="text-align:right;">
+0.0004016
+</td>
+<td style="text-align:right;">
+0.0004016
+</td>
+</tr>
+</tbody>
+</table>
+<p>The function <strong>worflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, these arguments default to 75 and 125 percent of the length of the short sequence.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/worflowShortInLong.html">worflowShortInLong</a></span>(</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.short.long,</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">  <span class="dt">min.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">  <span class="dt">max.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">)</a></code></pre></div>
+<p>The function returns a dataframe with three columns: <em>first.row</em> (first row of the matched segment of the long sequence), <em>last.row</em> (last row of the matched segment of the long sequence), and <em>psi</em> (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+first.row
+</th>
+<th style="text-align:right;">
+last.row
+</th>
+<th style="text-align:right;">
+psi
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.0418679
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.0489761
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.3337916
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.3407637
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.3514268
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.3602654
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.3698538
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.3927075
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.4689516
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.4744434
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.4854514
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.4983815
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.5295391
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.5768282
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.8385251
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.8503706
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0.8871741
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.8894657
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0.9566436
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.9756406
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0.9827872
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+1.0031034
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.0201412
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.0279332
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.0724716
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.0788964
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+1.0791110
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1.0998907
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+1.1029933
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1.1057935
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1.1105032
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.1307182
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1.1509914
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+1.1680245
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1.1702033
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+1.1803782
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1.2003463
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.2051439
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+1.2101281
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+1.2437999
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1.2481056
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.2485972
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1.2498252
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+1.2506293
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+1.2514624
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+1.2550044
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1.2824895
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+1.2834373
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+1.2869841
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.2957058
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+1.2993811
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+1.3039678
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+1.3317337
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+1.4157585
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+1.4411479
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.5434684
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+1.6287167
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.7120995
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+2.0671242
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2.0961906
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+2.4568119
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+2.4779211
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+2.4787740
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2.4862923
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+2.4916492
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2.5006416
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+2.5587718
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+2.5758995
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+2.7737911
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+2.8354596
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+3.0559615
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+3.1888730
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+3.4774080
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+3.5376561
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+3.5912012
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+3.6523414
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+3.8983575
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+4.0083635
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+4.2519908
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+4.3676588
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+5.6720046
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+5.6868612
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+5.8572391
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+6.8905166
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+6.9359217
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+7.0992591
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+7.1088803
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+7.2497986
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+7.2766291
+</td>
+</tr>
+</tbody>
+</table>
+<p>Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co">#indices of the best matching segment</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">best.match.indices &lt;-<span class="st"> </span>MIS.psi[<span class="dv">1</span>, <span class="st">"first.row"</span>]<span class="op">:</span>MIS.psi[<span class="dv">1</span>, <span class="st">"last.row"</span>]</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">#subsetting by these indices</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">best.match &lt;-<span class="st"> </span>MIS.long[best.match.indices, ]</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co">#testing that the values in the best matching segment and the short sequence are identical</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">best.match <span class="op">==</span><span class="st"> </span>MIS.short</a>
+<a class="sourceLine" id="cb46-9" data-line-number="9"><span class="co">#&gt;    Quercus Betula Pinus Alnus Tilia Carpinus</span></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="co">#&gt; 1     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="co">#&gt; 2     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="co">#&gt; 3     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co">#&gt; 4     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="co">#&gt; 5     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-15" data-line-number="15"><span class="co">#&gt; 6     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-16" data-line-number="16"><span class="co">#&gt; 7     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="co">#&gt; 8     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-18" data-line-number="18"><span class="co">#&gt; 9     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb46-19" data-line-number="19"><span class="co">#&gt; 10    TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)</a></code></pre></div>
 </div>
   </div>
 

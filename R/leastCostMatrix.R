@@ -70,14 +70,20 @@ leastCostMatrix <- function(distance.matrix = NULL,
                             parallel.execution = TRUE
                             ){
 
-  if(inherits(distance.matrix, "list") == TRUE){
-    n.iterations <- length(distance.matrix)
-  } else {
-    temp <- list()
-    temp[[1]] <- distance.matrix
-    distance.matrix <- temp
-    names(distance.matrix) <- "A|B"
-  }
+  #checking if it is a list
+  if(inherits(distance.matrix, "list") == FALSE){
+    #if not, gets it into a list if it's a matrix
+    if(inherits(distance.matrix, "matrix") == TRUE){
+      temp <- list()
+      temp[[1]] <- distance.matrix
+      distance.matrix <- temp
+      names(distance.matrix) <- "A|B"
+    } else {
+      stop("The input is not a matrix")
+    }
+    }
+
+  n.iterations <- length(distance.matrix)
 
   #setting diagonal if it's empty
   if(is.null(diagonal)){diagonal <- FALSE}

@@ -153,6 +153,34 @@ plotMatrix(
   )
 ```
 
+**Optional: least cost path using diagonals**.
+
+The least cost path can be computed also in diagonal, which allows to pair together these samples with the higher similarity that contribute to minimize the overall cost of the least cost path.
+
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences."}
+#computing the least cost using diagonals
+diagonal.least.cost <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix,
+  diagonal = TRUE
+)
+
+#computing least cost path using diagonals
+diagonal.least.cost.path <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = TRUE
+  )
+
+plotMatrix(
+  distance.matrix = diagonal.least.cost,
+  least.cost.path = diagonal.least.cost.path,
+  color.palette = viridis(100, alpha = 0.7)
+  )
+```
+
+Using diagonals is useful when the goal is to transfer attributes (time, age, depth, etc) from one sequence with them to another sequence without them. This will be shown later **NOTE: not implemented yet**.
+
+
 **3. Getting the least-cost value.** The Upper right cell of the least-cost matrix in the image of the least-cost matrix (lower right cell in the actual data-matrix) holds the cumulative sum of the least-cost path. This value will be used later to compute dissimilarity.
 
 ```{r, eval=TRUE}
@@ -244,6 +272,11 @@ AB.psi <- workflowPsi(
 AB.psi
 ```
 
+```{r}
+#cleaning environment for next example
+rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)
+```
+
 
 # Workflow to compare multiple sequences
 
@@ -328,6 +361,12 @@ ggplot(data=na.omit(MIS.psi), aes(x=A, y=B, size=psi, color=psi)) +
 
 The dataframe of dissimilarities between pairs of sequences can be also used to analyze the drivers of dissimilarity. To do so, attributes such as differences in time (when sequences represent different times) or distance (when sequences represent different sites) between sequences, or differences between physical/climatic attributes between sequences such as topography or climate can be added to the table, so models such as $psi = A + B + C$ (were A, B, and C are these attributes) can be fitted.
 
+```{r}
+#cleaning environment for next example
+rm(MIS.distance, MIS.psi, MIS.psi.matrix, MIS.sequences, sequencesMIS)
+```
+
+
 # Working with aligned multivariate time-series 
 
 This section assumes that the target multivariate time-series have the same number of samples/rows, and samples have the same time/depth/order if there is a time/age/depth column available. In this particular case, distances are computed only between samples with the same time/depth/order, and no distance matrix (nor least cost analysis) is required. When the argument *paired.samples* in **prepareSequences** is set to TRUE, the function checks if the sequences have the same number of rows, and, if *time.column* is provided, it selects the samples that have valid time/depth columns for every sequence in the dataset.
@@ -411,6 +450,12 @@ climate.psi <- workflowPsiPairedSamples(
 )
 kable(climate.psi)
 ```
+
+```{r}
+#cleaning workspace for next example
+rm(climate, climate.autosum, climate.distances, climate.psi)
+```
+
 
 # Variable contribution to dissimilarity
 
@@ -513,60 +558,81 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
+```{r}
+#cleaning environment for next example
+rm(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)
+```
+
 
 # Finding the section in a long sequence more similar to a given short sequence
 
-In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset *sequencesMIS*. We will extract one of the *MIS* groups as short sequence, and keep the complete dataset as long sequence. The code below prepares the data.
+In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset *sequencesMIS*. We will extract the first 10 samples as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example. 
+
+A more realistic example would be to select, for example, the group "MIS-5" as short sequence, and the complete sequence as long sequence, in order to find what segments in *sequencesMIS* is more similar to the "MIS-5" group.
 
 ```{r}
 #loading the data
 data(sequencesMIS)
 
-#subsetting to get the short sequence
-MIS.short <- sequencesMIS[sequencesMIS$MIS == "MIS-5", ]
 #removing grouping column
-MIS.short$MIS <- NULL
-#number of observations
-nrow(MIS.short)
+sequencesMIS$MIS <- NULL
 
-#renaming the long sequence
-MIS.long <- sequencesMIS
-#removing grouping column
-MIS.long$MIS <- NULL
-#number of observations
-nrow(MIS.long)
+#subsetting to get the short sequence
+MIS.short <- sequencesMIS[1:10, ]
+
+#subsetting to get the long sequence
+MIS.long <- sequencesMIS[1:40, ]
 ```
 
-The sequences have to be prepared and transformed.
+The sequences have to be prepared and transformed. For simplicity, the sequences are named *short* and *long*, and the grouping column is named *id*, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.
+
 
 ```{r}
-MIS.sequences <- prepareSequences(
+MIS.short.long <- prepareSequences(
   sequence.A = MIS.short,
   sequence.A.name = "short",
   sequence.B = MIS.long,
   sequence.B.name = "long",
+  grouping.column = "id",
   transformation = "hellinger"
 )
-str(MIS.sequences)
+kable(MIS.short.long)
 ```
 
-And the distance matrix has to be computed.
+The function **worflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, these arguments default to 75 and 125 percent of the length of the short sequence.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Distance matrix of the short and long sequences in MIS.sequences."}
-MIS.distance.matrix <- distanceMatrix(
-  sequences = MIS.sequences,
+```{r}
+MIS.psi <- worflowShortInLong(
+  sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
-  parallel.execution = FALSE
+  min.length = nrow(MIS.short) - 1,
+  max.length = nrow(MIS.short) + 1
 )
-
-plotMatrix(distance.matrix = MIS.distance.matrix,
-           color.palette = "viridis",
-           rotate = TRUE)
 ```
 
-**WORK IN PROGRESS FROM HERE**
 
-Once the distance matrix is computed, the goal is to find the section in the x axis (long sequence) that minimizes the distances with the samples in the y axis (short sequence). The algorithm to follow predates on the ability of the library to perform parallel computations to find by brute force the target segment in the long sequence. But first, the user has to define a minimum and maximum potential length for the matching segment in the long sequence. 
+The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
-FROM HERE: algorithm to subset the rows of the long section of the matrix to generate smaller matrices named by the indexes of their begining and their end.
+```{r}
+kable(MIS.psi)
+```
+
+Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
+
+```{r}
+#indices of the best matching segment
+best.match.indices <- MIS.psi[1, "first.row"]:MIS.psi[1, "last.row"]
+
+#subsetting by these indices
+best.match <- MIS.long[best.match.indices, ]
+
+#testing that the values in the best matching segment and the short sequence are identical
+best.match == MIS.short
+```
+
+```{r}
+#cleaning environment for next example
+rm(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)
+```
+

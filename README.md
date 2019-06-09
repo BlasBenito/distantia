@@ -13714,6 +13714,39 @@ plotMatrix(
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" title="Least-cost path plotted on top of the least-cost matrix." alt="Least-cost path plotted on top of the least-cost matrix." width="100%" />
 
+**Optional: least cost path using diagonals**.
+
+The least cost path can be computed also in diagonal, which allows to
+pair together these samples with the higher similarity that contribute
+to minimize the overall cost of the least cost path.
+
+``` r
+#computing the least cost using diagonals
+diagonal.least.cost <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix,
+  diagonal = TRUE
+)
+
+#computing least cost path using diagonals
+diagonal.least.cost.path <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = TRUE
+  )
+
+plotMatrix(
+  distance.matrix = diagonal.least.cost,
+  least.cost.path = diagonal.least.cost.path,
+  color.palette = viridis(100, alpha = 0.7)
+  )
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" title="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%" />
+
+Using diagonals is useful when the goal is to transfer attributes (time,
+age, depth, etc) from one sequence with them to another sequence without
+them. This will be shown later **NOTE: not implemented yet**.
+
 **3. Getting the least-cost value.** The Upper right cell of the
 least-cost matrix in the image of the least-cost matrix (lower right
 cell in the actual data-matrix) holds the cumulative sum of the
@@ -13724,6 +13757,7 @@ AB.least.cost <- leastCost(
   least.cost.matrix = AB.least.cost.matrix
   )
 AB.least.cost
+#> $`A|B`
 #> [1] 77.53981
 ```
 
@@ -14097,6 +14131,11 @@ AB.psi <- workflowPsi(
 AB.psi
 #>   A B      psi
 #> 1 A B 2.309279
+```
+
+``` r
+#cleaning environment for next example
+rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)
 ```
 
 # Workflow to compare multiple sequences
@@ -16819,7 +16858,7 @@ qgraph::qgraph(MIS.distance,
 #> documented and likely not arguments of qgraph and thus ignored: colors
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
 
 Or as a matrix with **ggplot2**.
 
@@ -16835,7 +16874,7 @@ ggplot(data=na.omit(MIS.psi), aes(x=A, y=B, size=psi, color=psi)) +
   guides(size = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-23-1.png" title="Dissimilarity between MIS sequences." alt="Dissimilarity between MIS sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" title="Dissimilarity between MIS sequences." alt="Dissimilarity between MIS sequences." width="100%" />
 
 The dataframe of dissimilarities between pairs of sequences can be also
 used to analyze the drivers of dissimilarity. To do so, attributes such
@@ -16845,6 +16884,11 @@ or differences between physical/climatic attributes between sequences
 such as topography or climate can be added to the table, so models such
 as \(psi = A + B + C\) (were A, B, and C are these attributes) can be
 fitted.
+
+``` r
+#cleaning environment for next example
+rm(MIS.distance, MIS.psi, MIS.psi.matrix, MIS.sequences, sequencesMIS)
+```
 
 # Working with aligned multivariate time-series
 
@@ -17162,6 +17206,11 @@ psi
 </tbody>
 
 </table>
+
+``` r
+#cleaning workspace for next example
+rm(climate, climate.autosum, climate.distances, climate.psi)
+```
 
 # Variable contribution to dissimilarity
 
@@ -17493,7 +17542,7 @@ ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi")
 ```
 
-<img src="man/figures/README-unnamed-chunk-32-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-36-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
 
 The second table, named **psi.drop** contains the drop in psi values, in
 percentage, when the given variable is removed from the analysis. Large
@@ -17755,86 +17804,4483 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-34-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-38-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+
+``` r
+#cleaning environment for next example
+rm(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)
+```
 
 # Finding the section in a long sequence more similar to a given short sequence
 
 In this scenario the user has one short and one long sequence, and the
 goal is to find the section in the long sequence that better matches the
 short one. To recreate this scenario we will use the dataset
-*sequencesMIS*. We will extract one of the *MIS* groups as short
-sequence, and keep the complete dataset as long sequence. The code below
-prepares the data.
+*sequencesMIS*. We will extract the first 10 samples as short sequence,
+and the first 40 samples as long sequence. These small subsets are
+selected to speed-up the execution time of this example.
+
+A more realistic example would be to select, for example, the group
+“MIS-5” as short sequence, and the complete sequence as long sequence,
+in order to find what segments in *sequencesMIS* is more similar to the
+“MIS-5” group.
 
 ``` r
 #loading the data
 data(sequencesMIS)
 
-#subsetting to get the short sequence
-MIS.short <- sequencesMIS[sequencesMIS$MIS == "MIS-5", ]
 #removing grouping column
-MIS.short$MIS <- NULL
-#number of observations
-nrow(MIS.short)
-#> [1] 78
+sequencesMIS$MIS <- NULL
 
-#renaming the long sequence
-MIS.long <- sequencesMIS
-#removing grouping column
-MIS.long$MIS <- NULL
-#number of observations
-nrow(MIS.long)
-#> [1] 427
+#subsetting to get the short sequence
+MIS.short <- sequencesMIS[1:10, ]
+
+#subsetting to get the long sequence
+MIS.long <- sequencesMIS[1:40, ]
 ```
 
-The sequences have to be prepared and transformed.
+The sequences have to be prepared and transformed. For simplicity, the
+sequences are named *short* and *long*, and the grouping column is named
+*id*, but the user can name them at will. Since the data represents
+community composition, a Hellinger transformation is applied.
 
 ``` r
-MIS.sequences <- prepareSequences(
+MIS.short.long <- prepareSequences(
   sequence.A = MIS.short,
   sequence.A.name = "short",
   sequence.B = MIS.long,
   sequence.B.name = "long",
+  grouping.column = "id",
   transformation = "hellinger"
 )
-str(MIS.sequences)
-#> 'data.frame':    505 obs. of  7 variables:
-#>  $ id      : chr  "short" "short" "short" "short" ...
-#>  $ Quercus : num  0.000439 0.220863 0.1066 0.213201 0.308607 ...
-#>  $ Betula  : num  0.240192 0.312347 0.1066 0.000674 0.288675 ...
-#>  $ Pinus   : num  0.941 0.87 0.989 0.953 0.893 ...
-#>  $ Alnus   : num  0.240192 0.312347 0.000337 0.213201 0.154303 ...
-#>  $ Tilia   : num  0.000439 0.000494 0.000337 0.000674 0.000345 ...
-#>  $ Carpinus: num  0.000439 0.000494 0.000337 0.000674 0.000345 ...
+kable(MIS.short.long)
 ```
 
-And the distance matrix has to be computed.
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+id
+
+</th>
+
+<th style="text-align:right;">
+
+Quercus
+
+</th>
+
+<th style="text-align:right;">
+
+Betula
+
+</th>
+
+<th style="text-align:right;">
+
+Pinus
+
+</th>
+
+<th style="text-align:right;">
+
+Alnus
+
+</th>
+
+<th style="text-align:right;">
+
+Tilia
+
+</th>
+
+<th style="text-align:right;">
+
+Carpinus
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8680004
+
+</td>
+
+<td style="text-align:right;">
+
+0.1170411
+
+</td>
+
+<td style="text-align:right;">
+
+0.2617120
+
+</td>
+
+<td style="text-align:right;">
+
+0.2027212
+
+</td>
+
+<td style="text-align:right;">
+
+0.2340823
+
+</td>
+
+<td style="text-align:right;">
+
+0.2617120
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.7331439
+
+</td>
+
+<td style="text-align:right;">
+
+0.3622844
+
+</td>
+
+<td style="text-align:right;">
+
+0.4677072
+
+</td>
+
+<td style="text-align:right;">
+
+0.2236068
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002500
+
+</td>
+
+<td style="text-align:right;">
+
+0.2500000
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.9097176
+
+</td>
+
+<td style="text-align:right;">
+
+0.3216337
+
+</td>
+
+<td style="text-align:right;">
+
+0.2348881
+
+</td>
+
+<td style="text-align:right;">
+
+0.0830455
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002626
+
+</td>
+
+<td style="text-align:right;">
+
+0.0830455
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8854891
+
+</td>
+
+<td style="text-align:right;">
+
+0.3015113
+
+</td>
+
+<td style="text-align:right;">
+
+0.2611165
+
+</td>
+
+<td style="text-align:right;">
+
+0.1846372
+
+</td>
+
+<td style="text-align:right;">
+
+0.0753778
+
+</td>
+
+<td style="text-align:right;">
+
+0.1305582
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8930543
+
+</td>
+
+<td style="text-align:right;">
+
+0.2713294
+
+</td>
+
+<td style="text-align:right;">
+
+0.3229466
+
+</td>
+
+<td style="text-align:right;">
+
+0.1107698
+
+</td>
+
+<td style="text-align:right;">
+
+0.0783260
+
+</td>
+
+<td style="text-align:right;">
+
+0.0783260
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.9494253
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002654
+
+</td>
+
+<td style="text-align:right;">
+
+0.2055566
+
+</td>
+
+<td style="text-align:right;">
+
+0.1678363
+
+</td>
+
+<td style="text-align:right;">
+
+0.1186782
+
+</td>
+
+<td style="text-align:right;">
+
+0.1186782
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.9021937
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002411
+
+</td>
+
+<td style="text-align:right;">
+
+0.3323629
+
+</td>
+
+<td style="text-align:right;">
+
+0.2287478
+
+</td>
+
+<td style="text-align:right;">
+
+0.1524986
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002411
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8767596
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002608
+
+</td>
+
+<td style="text-align:right;">
+
+0.3194383
+
+</td>
+
+<td style="text-align:right;">
+
+0.2857143
+
+</td>
+
+<td style="text-align:right;">
+
+0.1166424
+
+</td>
+
+<td style="text-align:right;">
+
+0.1844278
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8716019
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002784
+
+</td>
+
+<td style="text-align:right;">
+
+0.4574957
+
+</td>
+
+<td style="text-align:right;">
+
+0.1245146
+
+</td>
+
+<td style="text-align:right;">
+
+0.1245146
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002784
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+short
+
+</td>
+
+<td style="text-align:right;">
+
+0.8792663
+
+</td>
+
+<td style="text-align:right;">
+
+0.0916698
+
+</td>
+
+<td style="text-align:right;">
+
+0.3666794
+
+</td>
+
+<td style="text-align:right;">
+
+0.2425356
+
+</td>
+
+<td style="text-align:right;">
+
+0.1587768
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002899
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8680004
+
+</td>
+
+<td style="text-align:right;">
+
+0.1170411
+
+</td>
+
+<td style="text-align:right;">
+
+0.2617120
+
+</td>
+
+<td style="text-align:right;">
+
+0.2027212
+
+</td>
+
+<td style="text-align:right;">
+
+0.2340823
+
+</td>
+
+<td style="text-align:right;">
+
+0.2617120
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.7331439
+
+</td>
+
+<td style="text-align:right;">
+
+0.3622844
+
+</td>
+
+<td style="text-align:right;">
+
+0.4677072
+
+</td>
+
+<td style="text-align:right;">
+
+0.2236068
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002500
+
+</td>
+
+<td style="text-align:right;">
+
+0.2500000
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9097176
+
+</td>
+
+<td style="text-align:right;">
+
+0.3216337
+
+</td>
+
+<td style="text-align:right;">
+
+0.2348881
+
+</td>
+
+<td style="text-align:right;">
+
+0.0830455
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002626
+
+</td>
+
+<td style="text-align:right;">
+
+0.0830455
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8854891
+
+</td>
+
+<td style="text-align:right;">
+
+0.3015113
+
+</td>
+
+<td style="text-align:right;">
+
+0.2611165
+
+</td>
+
+<td style="text-align:right;">
+
+0.1846372
+
+</td>
+
+<td style="text-align:right;">
+
+0.0753778
+
+</td>
+
+<td style="text-align:right;">
+
+0.1305582
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8930543
+
+</td>
+
+<td style="text-align:right;">
+
+0.2713294
+
+</td>
+
+<td style="text-align:right;">
+
+0.3229466
+
+</td>
+
+<td style="text-align:right;">
+
+0.1107698
+
+</td>
+
+<td style="text-align:right;">
+
+0.0783260
+
+</td>
+
+<td style="text-align:right;">
+
+0.0783260
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9494253
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002654
+
+</td>
+
+<td style="text-align:right;">
+
+0.2055566
+
+</td>
+
+<td style="text-align:right;">
+
+0.1678363
+
+</td>
+
+<td style="text-align:right;">
+
+0.1186782
+
+</td>
+
+<td style="text-align:right;">
+
+0.1186782
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9021937
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002411
+
+</td>
+
+<td style="text-align:right;">
+
+0.3323629
+
+</td>
+
+<td style="text-align:right;">
+
+0.2287478
+
+</td>
+
+<td style="text-align:right;">
+
+0.1524986
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002411
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8767596
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002608
+
+</td>
+
+<td style="text-align:right;">
+
+0.3194383
+
+</td>
+
+<td style="text-align:right;">
+
+0.2857143
+
+</td>
+
+<td style="text-align:right;">
+
+0.1166424
+
+</td>
+
+<td style="text-align:right;">
+
+0.1844278
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8716019
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002784
+
+</td>
+
+<td style="text-align:right;">
+
+0.4574957
+
+</td>
+
+<td style="text-align:right;">
+
+0.1245146
+
+</td>
+
+<td style="text-align:right;">
+
+0.1245146
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002784
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8792663
+
+</td>
+
+<td style="text-align:right;">
+
+0.0916698
+
+</td>
+
+<td style="text-align:right;">
+
+0.3666794
+
+</td>
+
+<td style="text-align:right;">
+
+0.2425356
+
+</td>
+
+<td style="text-align:right;">
+
+0.1587768
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002899
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8501601
+
+</td>
+
+<td style="text-align:right;">
+
+0.1723455
+
+</td>
+
+<td style="text-align:right;">
+
+0.4667138
+
+</td>
+
+<td style="text-align:right;">
+
+0.1723455
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003147
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003147
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8601380
+
+</td>
+
+<td style="text-align:right;">
+
+0.0901670
+
+</td>
+
+<td style="text-align:right;">
+
+0.4131969
+
+</td>
+
+<td style="text-align:right;">
+
+0.1561738
+
+</td>
+
+<td style="text-align:right;">
+
+0.2385594
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002851
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9170109
+
+</td>
+
+<td style="text-align:right;">
+
+0.0753778
+
+</td>
+
+<td style="text-align:right;">
+
+0.3535534
+
+</td>
+
+<td style="text-align:right;">
+
+0.0753778
+
+</td>
+
+<td style="text-align:right;">
+
+0.1507557
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002384
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9358096
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002433
+
+</td>
+
+<td style="text-align:right;">
+
+0.0769231
+
+</td>
+
+<td style="text-align:right;">
+
+0.2035193
+
+</td>
+
+<td style="text-align:right;">
+
+0.2773501
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002433
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9620113
+
+</td>
+
+<td style="text-align:right;">
+
+0.0788110
+
+</td>
+
+<td style="text-align:right;">
+
+0.1114556
+
+</td>
+
+<td style="text-align:right;">
+
+0.1762268
+
+</td>
+
+<td style="text-align:right;">
+
+0.1576221
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002492
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8692267
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004714
+
+</td>
+
+<td style="text-align:right;">
+
+0.4714044
+
+</td>
+
+<td style="text-align:right;">
+
+0.1490711
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004714
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004714
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9315409
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002875
+
+</td>
+
+<td style="text-align:right;">
+
+0.2226809
+
+</td>
+
+<td style="text-align:right;">
+
+0.0909091
+
+</td>
+
+<td style="text-align:right;">
+
+0.2727273
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002875
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8918826
+
+</td>
+
+<td style="text-align:right;">
+
+0.1507557
+
+</td>
+
+<td style="text-align:right;">
+
+0.3481553
+
+</td>
+
+<td style="text-align:right;">
+
+0.1740776
+
+</td>
+
+<td style="text-align:right;">
+
+0.1740776
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002752
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8721718
+
+</td>
+
+<td style="text-align:right;">
+
+0.2264554
+
+</td>
+
+<td style="text-align:right;">
+
+0.2614882
+
+</td>
+
+<td style="text-align:right;">
+
+0.2614882
+
+</td>
+
+<td style="text-align:right;">
+
+0.2264554
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002924
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8881941
+
+</td>
+
+<td style="text-align:right;">
+
+0.3496029
+
+</td>
+
+<td style="text-align:right;">
+
+0.2108185
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003333
+
+</td>
+
+<td style="text-align:right;">
+
+0.2108185
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003333
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.7977229
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+<td style="text-align:right;">
+
+0.4264009
+
+</td>
+
+<td style="text-align:right;">
+
+0.4264009
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9295160
+
+</td>
+
+<td style="text-align:right;">
+
+0.1549193
+
+</td>
+
+<td style="text-align:right;">
+
+0.1549193
+
+</td>
+
+<td style="text-align:right;">
+
+0.2828427
+
+</td>
+
+<td style="text-align:right;">
+
+0.0894427
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002828
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9225311
+
+</td>
+
+<td style="text-align:right;">
+
+0.1786474
+
+</td>
+
+<td style="text-align:right;">
+
+0.1031421
+
+</td>
+
+<td style="text-align:right;">
+
+0.3261640
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003262
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003262
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.9010445
+
+</td>
+
+<td style="text-align:right;">
+
+0.1407195
+
+</td>
+
+<td style="text-align:right;">
+
+0.2814390
+
+</td>
+
+<td style="text-align:right;">
+
+0.1990074
+
+</td>
+
+<td style="text-align:right;">
+
+0.2224971
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003147
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8897562
+
+</td>
+
+<td style="text-align:right;">
+
+0.3818812
+
+</td>
+
+<td style="text-align:right;">
+
+0.2499999
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004564
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004564
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004564
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8934871
+
+</td>
+
+<td style="text-align:right;">
+
+0.2592815
+
+</td>
+
+<td style="text-align:right;">
+
+0.3550358
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002899
+
+</td>
+
+<td style="text-align:right;">
+
+0.0916698
+
+</td>
+
+<td style="text-align:right;">
+
+0.0002899
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.8451533
+
+</td>
+
+<td style="text-align:right;">
+
+0.3779641
+
+</td>
+
+<td style="text-align:right;">
+
+0.3779641
+
+</td>
+
+<td style="text-align:right;">
+
+0.0008452
+
+</td>
+
+<td style="text-align:right;">
+
+0.0008452
+
+</td>
+
+<td style="text-align:right;">
+
+0.0008452
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.6069767
+
+</td>
+
+<td style="text-align:right;">
+
+0.3244427
+
+</td>
+
+<td style="text-align:right;">
+
+0.6488853
+
+</td>
+
+<td style="text-align:right;">
+
+0.0007255
+
+</td>
+
+<td style="text-align:right;">
+
+0.3244427
+
+</td>
+
+<td style="text-align:right;">
+
+0.0007255
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+<td style="text-align:right;">
+
+0.5222320
+
+</td>
+
+<td style="text-align:right;">
+
+0.8528013
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+<td style="text-align:right;">
+
+0.0009535
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010541
+
+</td>
+
+<td style="text-align:right;">
+
+0.4714035
+
+</td>
+
+<td style="text-align:right;">
+
+0.8819151
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010541
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010541
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010541
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.4999991
+
+</td>
+
+<td style="text-align:right;">
+
+0.6123713
+
+</td>
+
+<td style="text-align:right;">
+
+0.6123713
+
+</td>
+
+<td style="text-align:right;">
+
+0.0011180
+
+</td>
+
+<td style="text-align:right;">
+
+0.0011180
+
+</td>
+
+<td style="text-align:right;">
+
+0.0011180
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010000
+
+</td>
+
+<td style="text-align:right;">
+
+0.4472127
+
+</td>
+
+<td style="text-align:right;">
+
+0.8944254
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010000
+
+</td>
+
+<td style="text-align:right;">
+
+0.0010000
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006202
+
+</td>
+
+<td style="text-align:right;">
+
+0.3922320
+
+</td>
+
+<td style="text-align:right;">
+
+0.8987165
+
+</td>
+
+<td style="text-align:right;">
+
+0.1961160
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006202
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006202
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006901
+
+</td>
+
+<td style="text-align:right;">
+
+0.3086064
+
+</td>
+
+<td style="text-align:right;">
+
+0.9511888
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006901
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006901
+
+</td>
+
+<td style="text-align:right;">
+
+0.0006901
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.2041241
+
+</td>
+
+<td style="text-align:right;">
+
+0.2886751
+
+</td>
+
+<td style="text-align:right;">
+
+0.9128707
+
+</td>
+
+<td style="text-align:right;">
+
+0.2041241
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004564
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004564
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0007071
+
+</td>
+
+<td style="text-align:right;">
+
+0.3162275
+
+</td>
+
+<td style="text-align:right;">
+
+0.9219538
+
+</td>
+
+<td style="text-align:right;">
+
+0.2236066
+
+</td>
+
+<td style="text-align:right;">
+
+0.0007071
+
+</td>
+
+<td style="text-align:right;">
+
+0.0007071
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.2611164
+
+</td>
+
+<td style="text-align:right;">
+
+0.3370999
+
+</td>
+
+<td style="text-align:right;">
+
+0.8918824
+
+</td>
+
+<td style="text-align:right;">
+
+0.1507556
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004767
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004767
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0005590
+
+</td>
+
+<td style="text-align:right;">
+
+0.3535532
+
+</td>
+
+<td style="text-align:right;">
+
+0.9185582
+
+</td>
+
+<td style="text-align:right;">
+
+0.1767766
+
+</td>
+
+<td style="text-align:right;">
+
+0.0005590
+
+</td>
+
+<td style="text-align:right;">
+
+0.0005590
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.1104315
+
+</td>
+
+<td style="text-align:right;">
+
+0.2469324
+
+</td>
+
+<td style="text-align:right;">
+
+0.9627195
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003492
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003492
+
+</td>
+
+<td style="text-align:right;">
+
+0.0003492
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+long
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004016
+
+</td>
+
+<td style="text-align:right;">
+
+0.1796052
+
+</td>
+
+<td style="text-align:right;">
+
+0.9837384
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004016
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004016
+
+</td>
+
+<td style="text-align:right;">
+
+0.0004016
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+The function **worflowShortInLong** shown below is going to subset the
+long sequence in sizes between *min.length* and *max.length*. In the
+example below this search space is reduced to the minimum (the rows of
+*MIS.short* plus and minus one) to speed-up the execution of this
+example. If left empty, these arguments default to 75 and 125 percent of
+the length of the short sequence.
 
 ``` r
-MIS.distance.matrix <- distanceMatrix(
-  sequences = MIS.sequences,
+MIS.psi <- worflowShortInLong(
+  sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
-  parallel.execution = FALSE
+  min.length = nrow(MIS.short) - 1,
+  max.length = nrow(MIS.short) + 1
 )
-
-plotMatrix(distance.matrix = MIS.distance.matrix,
-           color.palette = "viridis",
-           rotate = TRUE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-37-1.png" title="Distance matrix of the short and long sequences in MIS.sequences." alt="Distance matrix of the short and long sequences in MIS.sequences." width="100%" />
+The function returns a dataframe with three columns: *first.row* (first
+row of the matched segment of the long sequence), *last.row* (last row
+of the matched segment of the long sequence), and *psi* (ordered from
+lower to higher). In this case, since the long sequence contains the
+short sequence, the first row shows a perfect match.
 
-**WORK IN PROGRESS FROM HERE**
+``` r
+kable(MIS.psi)
+```
 
-Once the distance matrix is computed, the goal is to find the section in
-the x axis (long sequence) that minimizes the distances with the samples
-in the y axis (short sequence). The algorithm to follow predates on the
-ability of the library to perform parallel computations to find by brute
-force the target segment in the long sequence. But first, the user has
-to define a minimum and maximum potential length for the matching
-segment in the long sequence.
+<table>
 
-FROM HERE: algorithm to subset the rows of the long section of the
-matrix to generate smaller matrices named by the indexes of their
-begining and their end.
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+first.row
+
+</th>
+
+<th style="text-align:right;">
+
+last.row
+
+</th>
+
+<th style="text-align:right;">
+
+psi
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000000
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+0.0418679
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+0.0489761
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+0.3337916
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+0.3407637
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+0.3514268
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+0.3602654
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+0.3698538
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+0.3927075
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+0.4689516
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+0.4744434
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+0.4854514
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+0.4983815
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+0.5295391
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+0.5768282
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+0.8385251
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+0.8503706
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+0.8871741
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+0.8894657
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+0.9566436
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+0.9756406
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+0.9827872
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+1.0031034
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+1.0201412
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+1.0279332
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+1.0724716
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+1.0788964
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+1.0791110
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+1.0998907
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+1.1029933
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+1.1057935
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+1.1105032
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+1.1307182
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+1.1509914
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+1.1680245
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+1.1702033
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+1.1803782
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+1.2003463
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+1.2051439
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+1.2101281
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+1.2437999
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+1.2481056
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+1.2485972
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+1.2498252
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+1.2506293
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+1.2514624
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+1.2550044
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+1.2824895
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+1.2834373
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+1.2869841
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+1.2957058
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+1.2993811
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+1.3039678
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+1.3317337
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+1.4157585
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+1.4411479
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+1.5434684
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+1.6287167
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+1.7120995
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+2.0671242
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+2.0961906
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+31
+
+</td>
+
+<td style="text-align:right;">
+
+2.4568119
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+31
+
+</td>
+
+<td style="text-align:right;">
+
+2.4779211
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+32
+
+</td>
+
+<td style="text-align:right;">
+
+2.4787740
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+2.4862923
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+31
+
+</td>
+
+<td style="text-align:right;">
+
+2.4916492
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+2.5006416
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+32
+
+</td>
+
+<td style="text-align:right;">
+
+2.5587718
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+<td style="text-align:right;">
+
+32
+
+</td>
+
+<td style="text-align:right;">
+
+2.5758995
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+33
+
+</td>
+
+<td style="text-align:right;">
+
+2.7737911
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+23
+
+</td>
+
+<td style="text-align:right;">
+
+33
+
+</td>
+
+<td style="text-align:right;">
+
+2.8354596
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+24
+
+</td>
+
+<td style="text-align:right;">
+
+34
+
+</td>
+
+<td style="text-align:right;">
+
+3.0559615
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+33
+
+</td>
+
+<td style="text-align:right;">
+
+3.1888730
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+34
+
+</td>
+
+<td style="text-align:right;">
+
+3.4774080
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+34
+
+</td>
+
+<td style="text-align:right;">
+
+3.5376561
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+35
+
+</td>
+
+<td style="text-align:right;">
+
+3.5912012
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+35
+
+</td>
+
+<td style="text-align:right;">
+
+3.6523414
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+36
+
+</td>
+
+<td style="text-align:right;">
+
+3.8983575
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+35
+
+</td>
+
+<td style="text-align:right;">
+
+4.0083635
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+36
+
+</td>
+
+<td style="text-align:right;">
+
+4.2519908
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+37
+
+</td>
+
+<td style="text-align:right;">
+
+4.3676588
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+36
+
+</td>
+
+<td style="text-align:right;">
+
+5.6720046
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+37
+
+</td>
+
+<td style="text-align:right;">
+
+5.6868612
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+38
+
+</td>
+
+<td style="text-align:right;">
+
+5.8572391
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+38
+
+</td>
+
+<td style="text-align:right;">
+
+6.8905166
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+30
+
+</td>
+
+<td style="text-align:right;">
+
+39
+
+</td>
+
+<td style="text-align:right;">
+
+6.9359217
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+31
+
+</td>
+
+<td style="text-align:right;">
+
+39
+
+</td>
+
+<td style="text-align:right;">
+
+7.0992591
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+37
+
+</td>
+
+<td style="text-align:right;">
+
+7.1088803
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+38
+
+</td>
+
+<td style="text-align:right;">
+
+7.2497986
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+39
+
+</td>
+
+<td style="text-align:right;">
+
+7.2766291
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+Subsetting the long sequence to obtain the segment best matching with
+the short sequence goes as follows.
+
+``` r
+#indices of the best matching segment
+best.match.indices <- MIS.psi[1, "first.row"]:MIS.psi[1, "last.row"]
+
+#subsetting by these indices
+best.match <- MIS.long[best.match.indices, ]
+
+#testing that the values in the best matching segment and the short sequence are identical
+best.match == MIS.short
+#>    Quercus Betula Pinus Alnus Tilia Carpinus
+#> 1     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 2     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 3     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 4     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 5     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 6     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 7     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 8     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 9     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+#> 10    TRUE   TRUE  TRUE  TRUE  TRUE     TRUE
+```
+
+``` r
+#cleaning environment for next example
+rm(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)
+```

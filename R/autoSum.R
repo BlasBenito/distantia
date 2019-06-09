@@ -183,11 +183,6 @@ autoSum <- function(sequences = NULL,
   #naming slots in list
   names(autosum.sequences) <- groups
 
-  #output is a numeric vector if there is only one group
-  if(length(groups) == 1){
-    autosum.sequences <- autosum.sequences[[1]]
-  }
-
   return(autosum.sequences)
 
 } #end of function

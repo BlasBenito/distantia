@@ -126,7 +126,7 @@ psi <- function(least.cost = NULL,
     if(optimal.cost <= 0){
       psi.value <- 0
       } else {
-        psi.value <- (optimal.cost - sum.autosum) / sum.autosum
+        psi.value <- abs((optimal.cost - sum.autosum) / sum.autosum)
         if(is.na(psi.value)){print(i)}
       }
 

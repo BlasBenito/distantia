@@ -77,11 +77,6 @@ leastCost <- function(
   #list names
   names(least.costs) <- names(least.cost.matrix)
 
-#unlist if there is only one combination
-if(n.iterations == 1){
-  least.costs <- least.costs[[1]]
-}
-
 #return output
 return(least.costs)
 

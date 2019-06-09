@@ -154,7 +154,7 @@ One long dataframe: The user provides a single dataframe, through the sequences 
     </tr>
     <tr>
       <th>grouping.column</th>
-      <td><p>character string, name of the column in <code>sequences</code> to be used to identify separates sequences within the file. This argument is ignored if <code>sequence.A</code> and <code>sequence.B</code> are provided.</p></td>
+      <td><p>character string, name of the column in <code>sequences</code> to be used to identify separates sequences within the file. If two sequences are provided through the arguments <code>sequence.A</code> and <code>sequence.B</code>, this argument defines the name of the grouping column in the output dataframe. If two or several sequences are provided as a single dataframe through the argument <code>sequences</code>, then <code>grouping.column</code> must be a column in this dataset.</p></td>
     </tr>
     <tr>
       <th>time.column</th>

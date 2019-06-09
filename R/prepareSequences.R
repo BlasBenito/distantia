@@ -27,7 +27,7 @@
 #' @param sequence.B.name character string with the name of \code{sequence.B}. Will be used as identificator in the \code{id} column of the output dataframe.
 #' @param merge.mode character string, one of: "overlap", "complete" (default option). If "overlap", \code{sequence.A} and \code{sequence.B} are merged by their common columns, and non-common columns are dropped If "complete", columns absent in one dataset but present in the other are added, with values equal to 0. This argument is ignored if \code{sequences} is provided instead of \code{sequence.A} and \code{sequence.B}.
 #' @param sequences dataframe with multiple sequences identified by a grouping column.
-#' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
+#' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. If two sequences are provided through the arguments \code{sequence.A} and \code{sequence.B}, this argument defines the name of the grouping column in the output dataframe. If two or several sequences are provided as a single dataframe through the argument \code{sequences}, then \code{grouping.column} must be a column in this dataset.
 #' @param time.column character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B}, to be excluded from the transformation.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
@@ -148,7 +148,12 @@ prepareSequences=function(sequence.A = NULL,
     #ADDING ID COLUMN TO BOTH SEQUENCES
     sequence.A <- data.frame(id=rep(sequence.A.name, nrow(sequence.A)), sequence.A, stringsAsFactors = FALSE)
     sequence.B <- data.frame(id=rep(sequence.B.name, nrow(sequence.B)), sequence.B, stringsAsFactors = FALSE)
-    grouping.column <- "id"
+    if(is.null(grouping.column)){
+      grouping.column <- "id"
+    } else {
+      colnames(sequence.A)[1] <- grouping.column
+      colnames(sequence.B)[1] <- grouping.column
+    }
 
     #MERGING MODE overlap
     if(merge.mode == "overlap"){
