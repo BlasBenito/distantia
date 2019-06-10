@@ -12,6 +12,7 @@ workflowPsi(
   method = "manhattan",
   diagonal = FALSE,
   format = "dataframe",
+  paired.samples = FALSE,
   parallel.execution = TRUE
   )
 }
@@ -26,9 +27,11 @@ workflowPsi(
 
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
 
-\item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
+\item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path. If \code{paired.samples} is \code{TRUE}, then \code{diagonal} is irrelevant.}
 
 \item{format}{string, type of output. One of: "data.frame", "matrix". If \code{NULL} or empty, a list is returned.}
+
+\item{paired.samples}{boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
@@ -36,12 +39,20 @@ workflowPsi(
 A list, matrix, or dataframe, with sequence names and psi values.
 }
 \description{
-This workflow executes the following steps:
+If the sequences are not aligned (\code{paired.samples = FALSE}), the function executes these steps.
 \itemize{
 \item Computes the autosum of the sequences with \code{\link{autoSum}}.
 \item Computes the distance matrix with \code{\link{distanceMatrix}}.
 \item Uses the distance matrix to compute the least cost matrix with \code{\link{leastCostMatrix}}.
 \item Extracts the cost of the least cost path with \code{\link{leastCost}}.
+\item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
+\item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through \code{\link{formatPsi}}.
+}
+
+If the sequences are aligned (\code{paired.samples = TRUE}), these steps are executed:
+\itemize{
+\item Computes the autosum of the sequences with \code{\link{autoSum}}.
+\item Sums the distances between paired samples with \code{\link{distancePairedSamples}}.
 \item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
 \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through \code{\link{formatPsi}}.
 }

@@ -109,7 +109,7 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
     <div class="ref-description">
     
     <p>This workflow executes the following steps:</p><ul>
-<li><p>computes <code>psi</code> as done by <code><a href='workflowPsi.html'>workflowPsi</a></code> and <code><a href='workflowPsiPairedSamples.html'>workflowPsiPairedSamples</a></code>.</p></li>
+<li><p>computes <code>psi</code> as done by <code><a href='workflowPsi.html'>workflowPsi</a></code> and <code>workflowPsiPairedSamples</code>.</p></li>
 <li><p>computes <code>psi</code> as many times as numeric variables in <code>sequences</code>, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.</p></li>
 <li><p>Delivers an output of type "list" with two slots:</p><ul>
 <li><p><code>psi</code> a dataframe with the columns "A" and "B" with the respective names of the sequences compared, a column named "All variables" with the psi values of each pair of sequences computed by considering all variables, and then one column per variable, indicating the <code>psi</code> value when that variable is removed.</p></li>
@@ -159,7 +159,7 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
     </tr>
     <tr>
       <th>paired.samples</th>
-      <td><p>boolean, if <code>TRUE</code>, the sequences are assumed to be aligned, and <code><a href='workflowPsiPairedSamples.html'>workflowPsiPairedSamples</a></code> is used to compute <code>psi</code>. Default value is <code>FALSE</code>.</p></td>
+      <td><p>boolean, if <code>TRUE</code>, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>

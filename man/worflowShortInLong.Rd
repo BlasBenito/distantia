@@ -11,6 +11,7 @@ workflowPsi(
   exclude.columns = NULL,
   method = "manhattan",
   diagonal = FALSE,
+  paired.samples = FALSE,
   min.length = NULL,
   max.length = NULL,
   parallel.execution = TRUE
@@ -29,11 +30,13 @@ workflowPsi(
 
 \item{diagonal}{boolean, if \code{TRUE} (default), diagonals are included in the computation of the least cost path. This is the best option if the user suspects that a given segment in the short sequence might be identical to the short sequence.}
 
-\item{min.length}{integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 75 percent of the length of the short sequence.}
+\item{min.length}{integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.}
 
-\item{max.length}{integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 125 percent of the length of the short sequence.}
+\item{max.length}{integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
+
+\item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path. If \code{paired.samples} is \code{TRUE}, then \code{diagonal}, \code{min.length}, and \code{max.length} are irrelevant.}
 }
 \value{
 A dataframe with three columns:

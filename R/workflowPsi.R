@@ -1,11 +1,19 @@
 #' Computes the dissimilarity measure \emph{psi} on two or more sequences.
 #'
-#' @description This workflow executes the following steps:
+#' @description If the sequences are not aligned (\code{paired.samples = FALSE}), the function executes these steps.
 #' \itemize{
 #' \item Computes the autosum of the sequences with \code{\link{autoSum}}.
 #' \item Computes the distance matrix with \code{\link{distanceMatrix}}.
 #' \item Uses the distance matrix to compute the least cost matrix with \code{\link{leastCostMatrix}}.
 #' \item Extracts the cost of the least cost path with \code{\link{leastCost}}.
+#' \item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
+#' \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through \code{\link{formatPsi}}.
+#' }
+#'
+#' If the sequences are aligned (\code{paired.samples = TRUE}), these steps are executed:
+#' \itemize{
+#' \item Computes the autosum of the sequences with \code{\link{autoSum}}.
+#' \item Sums the distances between paired samples with \code{\link{distancePairedSamples}}.
 #' \item Computes the dissimilarity measure \emph{psi} with the function \code{\link{psi}}.
 #' \item Delivers an output of type "list" (default), "data.frame" or "matrix", depending on the user input, through \code{\link{formatPsi}}.
 #' }
@@ -18,6 +26,7 @@
 #'   method = "manhattan",
 #'   diagonal = FALSE,
 #'   format = "dataframe",
+#'   paired.samples = FALSE,
 #'   parallel.execution = TRUE
 #'   )
 #'
@@ -26,8 +35,9 @@
 #' @param time.column character string, name of the column with time/depth/rank data.
 #' @param exclude.columns character string or character vector with column names in \code{sequences} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
-#' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
+#' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path. If \code{paired.samples} is \code{TRUE}, then \code{diagonal} is irrelevant.
 #' @param format string, type of output. One of: "data.frame", "matrix". If \code{NULL} or empty, a list is returned.
+#' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A list, matrix, or dataframe, with sequence names and psi values.
@@ -69,6 +79,7 @@ workflowPsi <- function(sequences = NULL,
                         method = "manhattan",
                         diagonal = FALSE,
                         format = "dataframe",
+                        paired.samples = FALSE,
                         parallel.execution = TRUE){
 
   #autosum
@@ -81,32 +92,55 @@ workflowPsi <- function(sequences = NULL,
     parallel.execution = parallel.execution
   )
 
-  #computing distance matrix
-  D <- distanceMatrix(
-    sequences = sequences,
-    grouping.column = grouping.column,
-    time.column = time.column,
-    exclude.columns = exclude.columns,
-    method = method,
-    parallel.execution = parallel.execution
-  )
+  #if samples are not paired
+  if(paired.samples == FALSE){
 
-  #computing least cost matrix
-  LC.matrix <- leastCostMatrix(
-    distance.matrix = D,
-    diagonal = diagonal,
-    parallel.execution = parallel.execution
-  )
+    #computing distance matrix
+    distance.matrix <- distanceMatrix(
+      sequences = sequences,
+      grouping.column = grouping.column,
+      time.column = time.column,
+      exclude.columns = exclude.columns,
+      method = method,
+      parallel.execution = parallel.execution
+    )
 
-  #getting least cost
-  LC.value <- leastCost(
-    least.cost.matrix = LC.matrix,
-    parallel.execution = parallel.execution
-  )
+    #computing least cost matrix
+    least.cost.matrix <- leastCostMatrix(
+      distance.matrix = distance.matrix,
+      diagonal = diagonal,
+      parallel.execution = parallel.execution
+    )
+
+    #getting least cost
+    least.cost <- leastCost(
+      least.cost.matrix = least.cost.matrix,
+      parallel.execution = parallel.execution
+    )
+
+  } #end of paired.samples == FALSE
+
+
+  #if samples are paired
+  if(paired.samples == TRUE){
+
+    least.cost.equivalent <- distancePairedSamples(
+      sequences = sequences,
+      grouping.column = grouping.column,
+      time.column = time.column,
+      exclude.columns = exclude.columns,
+      method = method,
+      sum.distances = TRUE,
+      parallel.execution = parallel.execution
+    )
+
+    least.cost <- least.cost.equivalent
+
+  } #end of paired.samples == TRUE
 
   #computing psi
   psi.value <- psi(
-    least.cost = LC.value,
+    least.cost = least.cost,
     autosum = autosum.sequences,
     parallel.execution = parallel.execution
     )

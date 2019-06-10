@@ -14135,7 +14135,7 @@ AB.psi
 
 ``` r
 #cleaning environment for next example
-rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)
+rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path)
 ```
 
 # Workflow to compare multiple sequences
@@ -16874,7 +16874,7 @@ ggplot(data=na.omit(MIS.psi), aes(x=A, y=B, size=psi, color=psi)) +
   guides(size = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-25-1.png" title="Dissimilarity between MIS sequences." alt="Dissimilarity between MIS sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" title="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%" />
 
 The dataframe of dissimilarities between pairs of sequences can be also
 used to analyze the drivers of dissimilarity. To do so, attributes such
@@ -17027,15 +17027,16 @@ climate.psi
 #> [1] 3.169788
 ```
 
-These functions are wrapped together in the function
-**workflowPsiPaired**:
+The function **workflowPsi** executes this sequences when the argument
+*paired.samples* is set to TRUE, as follows.
 
 ``` r
-climate.psi <- workflowPsiPairedSamples(
+climate.psi <- workflowPsi(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
   method = "manhattan",
+  paired.samples = TRUE, #this bit is important
   format = "dataframe"
 )
 kable(climate.psi)
@@ -17804,14 +17805,14 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-38-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-38-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 ``` r
 #cleaning environment for next example
 rm(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)
 ```
 
-# Finding the section in a long sequence more similar to a given short sequence
+# Finding the section in a long sequence more similar to a given short sequence (irregular time-series)
 
 In this scenario the user has one short and one long sequence, and the
 goal is to find the section in the long sequence that better matches the
@@ -20218,16 +20219,19 @@ The function **worflowShortInLong** shown below is going to subset the
 long sequence in sizes between *min.length* and *max.length*. In the
 example below this search space is reduced to the minimum (the rows of
 *MIS.short* plus and minus one) to speed-up the execution of this
-example. If left empty, these arguments default to 75 and 125 percent of
-the length of the short sequence.
+example. If left empty, the length of the segment in the long sequence
+to be matched will have the same number of samples as the short
+sequence. In the example below we look for segments of the same length,
+two samples shorter, and two samples longer than the shorter sequence.
 
 ``` r
 MIS.psi <- worflowShortInLong(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
-  min.length = nrow(MIS.short) - 1,
-  max.length = nrow(MIS.short) + 1
+  paired.samples = FALSE,
+  min.length = nrow(MIS.short) - 2,
+  max.length = nrow(MIS.short) + 2
 )
 ```
 
@@ -20238,7 +20242,7 @@ lower to higher). In this case, since the long sequence contains the
 short sequence, the first row shows a perfect match.
 
 ``` r
-kable(MIS.psi)
+kable(MIS.psi[1:10, ])
 ```
 
 <table>
@@ -20341,6 +20345,50 @@ psi
 
 <td style="text-align:right;">
 
+1
+
+</td>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+0.0539883
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+0.1167524
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
 2
 
 </td>
@@ -20391,6 +20439,28 @@ psi
 
 <td style="text-align:right;">
 
+11
+
+</td>
+
+<td style="text-align:right;">
+
+0.3506767
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
 13
 
 </td>
@@ -20420,1832 +20490,6 @@ psi
 <td style="text-align:right;">
 
 0.3602654
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.3698538
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-4
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-0.3927075
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.4689516
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-0.4744434
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.4854514
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-0.4983815
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-0.5295391
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-0.5768282
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-0.8385251
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-0.8503706
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-0.8871741
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-0.8894657
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-0.9566436
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-0.9756406
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-0.9827872
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-1.0031034
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-1.0201412
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-1.0279332
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-1.0724716
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-1.0788964
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-1.0791110
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-1.0998907
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-1.1029933
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-1.1057935
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-1.1105032
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-1.1307182
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-1.1509914
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-1.1680245
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-1.1702033
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-1.1803782
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-1.2003463
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-1.2051439
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-1.2101281
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-1.2437999
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-1.2481056
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-1.2485972
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-1.2498252
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-1.2506293
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-1.2514624
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-1.2550044
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-1.2824895
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-1.2834373
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-1.2869841
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-1.2957058
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-1.2993811
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-1.3039678
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-1.3317337
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-1.4157585
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-1.4411479
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-1.5434684
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-1.6287167
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-1.7120995
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-2.0671242
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-2.0961906
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-2.4568119
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-2.4779211
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-2.4787740
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-2.4862923
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-2.4916492
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-2.5006416
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-2.5587718
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-2.5758995
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-2.7737911
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-2.8354596
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-34
-
-</td>
-
-<td style="text-align:right;">
-
-3.0559615
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-3.1888730
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-34
-
-</td>
-
-<td style="text-align:right;">
-
-3.4774080
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-34
-
-</td>
-
-<td style="text-align:right;">
-
-3.5376561
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-3.5912012
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-3.6523414
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-3.8983575
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-4.0083635
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-4.2519908
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-37
-
-</td>
-
-<td style="text-align:right;">
-
-4.3676588
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-5.6720046
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-37
-
-</td>
-
-<td style="text-align:right;">
-
-5.6868612
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-5.8572391
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-6.8905166
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-6.9359217
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-7.0992591
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-37
-
-</td>
-
-<td style="text-align:right;">
-
-7.1088803
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-7.2497986
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-7.2766291
 
 </td>
 
@@ -22281,6 +20525,315 @@ best.match == MIS.short
 ```
 
 ``` r
-#cleaning environment for next example
-rm(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)
+#cleaning workspace
+rm(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.match.indices)
+```
+
+# Finding the section in a long sequence more similar to a given short sequence (regular time-series, paired samples)
+
+**WARNING: there is a bug in this function, indices of the best match
+need to be added 1 to be correct. I am working on it**
+
+When regular time-series are provided, and the analysis needs to be done
+comparing only aligned samples, the argument *paired.samples* can be set
+to TRUE, and instead of the least-cost algorithm to find the minimized
+distance between sequences, the function **distancePairedSamples**
+(shown above) is used to compute the distance between sequences of the
+same length (short sequence versus subsets of the long sequence). In
+such a case, the arguments *min.length* and *max.length* are irrelevant,
+and the sample-size of the matching segments in the long sequence have
+equals the sample-size of the short sequence. This application is ideal
+when the user has regular time-series.
+
+The example below shows how it is done with the *climateShort* and
+*climateLong* datasets. The goal is to find the subset in *climateLong*
+better matching *climateShort*, with the same number of rows (11) as
+*climateShort*.
+
+``` r
+#loading sample data
+data(climateLong)
+data(climateShort)
+
+#merging and scaling both datasets
+climate.short.long <- prepareSequences(
+  sequence.A = climateShort,
+  sequence.A.name = "short",
+  sequence.B = climateLong,
+  sequence.B.name = "long",
+  exclude.columns = "age",
+  grouping.column = "id",
+  transformation = "scale"
+)
+
+#computing psi
+climate.psi <- worflowShortInLong(
+  sequences = climate.short.long,
+  grouping.column = "id",
+  method = "manhattan",
+  paired.samples = TRUE
+)
+kable(climate.psi[1:10, ])
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:right;">
+
+first.row
+
+</th>
+
+<th style="text-align:right;">
+
+last.row
+
+</th>
+
+<th style="text-align:right;">
+
+psi
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000000
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+0.0659978
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+135
+
+</td>
+
+<td style="text-align:right;">
+
+145
+
+</td>
+
+<td style="text-align:right;">
+
+0.0885492
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+0.1179542
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+134
+
+</td>
+
+<td style="text-align:right;">
+
+144
+
+</td>
+
+<td style="text-align:right;">
+
+0.2600501
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+629
+
+</td>
+
+<td style="text-align:right;">
+
+639
+
+</td>
+
+<td style="text-align:right;">
+
+0.4430551
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+25
+
+</td>
+
+<td style="text-align:right;">
+
+0.4562356
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+29
+
+</td>
+
+<td style="text-align:right;">
+
+0.4565022
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+136
+
+</td>
+
+<td style="text-align:right;">
+
+146
+
+</td>
+
+<td style="text-align:right;">
+
+0.4902160
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+631
+
+</td>
+
+<td style="text-align:right;">
+
+641
+
+</td>
+
+<td style="text-align:right;">
+
+0.4971670
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+In this case the solutions are computed among sequences of the same
+length, and with distances computed only between aligned samples.
+
+``` r
+#cleaning workspace
+rm(climateLong, climateShort, climate.short.long, climate.psi)
 ```

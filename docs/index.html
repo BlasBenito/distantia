@@ -7156,7 +7156,7 @@ B
 <a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt;   A B      psi</span></a>
 <a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 1 A B 2.309279</span></a></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)</a></code></pre></div>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path)</a></code></pre></div>
 </div>
 </div>
 </div>
@@ -8542,8 +8542,8 @@ Similarity between MIS sequences represented as a network. More similar sites ar
 <a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_color_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">size =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-25-1.png" alt="Dissimilarity between MIS sequences." width="100%"><p class="caption">
-Dissimilarity between MIS sequences.
+<img src="reference/figures/README-unnamed-chunk-25-1.png" alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%"><p class="caption">
+Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity.
 </p>
 </div>
 <p>The dataframe of dissimilarities between pairs of sequences can be also used to analyze the drivers of dissimilarity. To do so, attributes such as differences in time (when sequences represent different times) or distance (when sequences represent different sites) between sequences, or differences between physical/climatic attributes between sequences such as topography or climate can be added to the table, so models such as <span class="math inline">\(psi = A + B + C\)</span> (were A, B, and C are these attributes) can be fitted.</p>
@@ -8652,15 +8652,16 @@ Dissimilarity between MIS sequences.
 <a class="sourceLine" id="cb32-30" data-line-number="30"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb32-31" data-line-number="31"><span class="co">#&gt; $`3|4`</span></a>
 <a class="sourceLine" id="cb32-32" data-line-number="32"><span class="co">#&gt; [1] 3.169788</span></a></code></pre></div>
-<p>These functions are wrapped together in the function <strong>workflowPsiPaired</strong>:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsiPairedSamples.html">workflowPsiPairedSamples</a></span>(</a>
+<p>The function <strong>workflowPsi</strong> executes this sequences when the argument <em>paired.samples</em> is set to TRUE, as follows.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowPsi.html">workflowPsi</a></span>(</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2">  <span class="dt">sequences =</span> climate,</a>
 <a class="sourceLine" id="cb33-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"sequenceId"</span>,</a>
 <a class="sourceLine" id="cb33-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"time"</span>,</a>
 <a class="sourceLine" id="cb33-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
-<a class="sourceLine" id="cb33-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi)</a></code></pre></div>
+<a class="sourceLine" id="cb33-6" data-line-number="6">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span>, <span class="co">#this bit is important</span></a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">  <span class="dt">format =</span> <span class="st">"dataframe"</span></a>
+<a class="sourceLine" id="cb33-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb33-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -9054,16 +9055,16 @@ MIS-6
 <a class="sourceLine" id="cb40-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb40-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-38-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
-Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
+<img src="reference/figures/README-unnamed-chunk-38-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
+Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
 </p>
 </div>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
 <a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)</a></code></pre></div>
 </div>
-<div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence" class="section level1">
+<div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-irregular-time-series" class="section level1">
 <h1 class="hasAnchor">
-<a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence</h1>
+<a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-irregular-time-series" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence (irregular time-series)</h1>
 <p>In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset <em>sequencesMIS</em>. We will extract the first 10 samples as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.</p>
 <p>A more realistic example would be to select, for example, the group “MIS-5” as short sequence, and the complete sequence as long sequence, in order to find what segments in <em>sequencesMIS</em> is more similar to the “MIS-5” group.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">#loading the data</span></a>
@@ -10264,16 +10265,17 @@ long
 </tr>
 </tbody>
 </table>
-<p>The function <strong>worflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, these arguments default to 75 and 125 percent of the length of the short sequence.</p>
+<p>The function <strong>worflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/worflowShortInLong.html">worflowShortInLong</a></span>(</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.short.long,</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
 <a class="sourceLine" id="cb44-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb44-5" data-line-number="5">  <span class="dt">min.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb44-6" data-line-number="6">  <span class="dt">max.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb44-7" data-line-number="7">)</a></code></pre></div>
+<a class="sourceLine" id="cb44-5" data-line-number="5">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">  <span class="dt">min.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">  <span class="dt">max.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">+</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb44-8" data-line-number="8">)</a></code></pre></div>
 <p>The function returns a dataframe with three columns: <em>first.row</em> (first row of the matched segment of the long sequence), <em>last.row</em> (last row of the matched segment of the long sequence), and <em>psi</em> (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -10322,6 +10324,28 @@ psi
 </tr>
 <tr>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.0539883
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.1167524
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
@@ -10347,6 +10371,17 @@ psi
 4
 </td>
 <td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.3506767
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
 13
 </td>
 <td style="text-align:right;">
@@ -10362,919 +10397,6 @@ psi
 </td>
 <td style="text-align:right;">
 0.3602654
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0.3698538
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-0.3927075
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-0.4689516
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-0.4744434
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0.4854514
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-0.4983815
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-0.5295391
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-0.5768282
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-0.8385251
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-0.8503706
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-0.8871741
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-0.8894657
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-0.9566436
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-0.9756406
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-0.9827872
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-1.0031034
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-1.0201412
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-1.0279332
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-1.0724716
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.0788964
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-1.0791110
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-1.0998907
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-1.1029933
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-1.1057935
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-1.1105032
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-1.1307182
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-1.1509914
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-1.1680245
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-1.1702033
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-1.1803782
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-1.2003463
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-9
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.2051439
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-9
-</td>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-1.2101281
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-1.2437999
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-1.2481056
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-1.2485972
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-1.2498252
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-1.2506293
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-1.2514624
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-1.2550044
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-1.2824895
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-1.2834373
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-1.2869841
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-1.2957058
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-1.2993811
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-9
-</td>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-1.3039678
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-1.3317337
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-1.4157585
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-1.4411479
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-1.5434684
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-1.6287167
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-1.7120995
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-2.0671242
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.0961906
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-2.4568119
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-2.4779211
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-2.4787740
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.4862923
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-2.4916492
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2.5006416
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-2.5587718
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-2.5758995
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-33
-</td>
-<td style="text-align:right;">
-2.7737911
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-33
-</td>
-<td style="text-align:right;">
-2.8354596
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-24
-</td>
-<td style="text-align:right;">
-34
-</td>
-<td style="text-align:right;">
-3.0559615
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-33
-</td>
-<td style="text-align:right;">
-3.1888730
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-34
-</td>
-<td style="text-align:right;">
-3.4774080
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-34
-</td>
-<td style="text-align:right;">
-3.5376561
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
-35
-</td>
-<td style="text-align:right;">
-3.5912012
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-35
-</td>
-<td style="text-align:right;">
-3.6523414
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-3.8983575
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-35
-</td>
-<td style="text-align:right;">
-4.0083635
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-4.2519908
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-4.3676588
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-36
-</td>
-<td style="text-align:right;">
-5.6720046
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-5.6868612
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-38
-</td>
-<td style="text-align:right;">
-5.8572391
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-38
-</td>
-<td style="text-align:right;">
-6.8905166
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-39
-</td>
-<td style="text-align:right;">
-6.9359217
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-31
-</td>
-<td style="text-align:right;">
-39
-</td>
-<td style="text-align:right;">
-7.0992591
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-7.1088803
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-38
-</td>
-<td style="text-align:right;">
-7.2497986
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-29
-</td>
-<td style="text-align:right;">
-39
-</td>
-<td style="text-align:right;">
-7.2766291
 </td>
 </tr>
 </tbody>
@@ -11299,8 +10421,166 @@ psi
 <a class="sourceLine" id="cb46-17" data-line-number="17"><span class="co">#&gt; 8     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
 <a class="sourceLine" id="cb46-18" data-line-number="18"><span class="co">#&gt; 9     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
 <a class="sourceLine" id="cb46-19" data-line-number="19"><span class="co">#&gt; 10    TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.match.indices)</a></code></pre></div>
+</div>
+<div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-regular-time-series-paired-samples" class="section level1">
+<h1 class="hasAnchor">
+<a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-regular-time-series-paired-samples" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence (regular time-series, paired samples)</h1>
+<p><strong>WARNING: there is a bug in this function, indices of the best match need to be added 1 to be correct. I am working on it</strong></p>
+<p>When regular time-series are provided, and the analysis needs to be done comparing only aligned samples, the argument <em>paired.samples</em> can be set to TRUE, and instead of the least-cost algorithm to find the minimized distance between sequences, the function <strong>distancePairedSamples</strong> (shown above) is used to compute the distance between sequences of the same length (short sequence versus subsets of the long sequence). In such a case, the arguments <em>min.length</em> and <em>max.length</em> are irrelevant, and the sample-size of the matching segments in the long sequence have equals the sample-size of the short sequence. This application is ideal when the user has regular time-series.</p>
+<p>The example below shows how it is done with the <em>climateShort</em> and <em>climateLong</em> datasets. The goal is to find the subset in <em>climateLong</em> better matching <em>climateShort</em>, with the same number of rows (11) as <em>climateShort</em>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">#loading sample data</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateLong)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateShort)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co">#merging and scaling both datasets</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">climate.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">  <span class="dt">sequence.A =</span> climateShort,</a>
+<a class="sourceLine" id="cb48-8" data-line-number="8">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
+<a class="sourceLine" id="cb48-9" data-line-number="9">  <span class="dt">sequence.B =</span> climateLong,</a>
+<a class="sourceLine" id="cb48-10" data-line-number="10">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
+<a class="sourceLine" id="cb48-11" data-line-number="11">  <span class="dt">exclude.columns =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb48-12" data-line-number="12">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb48-13" data-line-number="13">  <span class="dt">transformation =</span> <span class="st">"scale"</span></a>
+<a class="sourceLine" id="cb48-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb48-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="co">#computing psi</span></a>
+<a class="sourceLine" id="cb48-17" data-line-number="17">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/worflowShortInLong.html">worflowShortInLong</a></span>(</a>
+<a class="sourceLine" id="cb48-18" data-line-number="18">  <span class="dt">sequences =</span> climate.short.long,</a>
+<a class="sourceLine" id="cb48-19" data-line-number="19">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb48-20" data-line-number="20">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb48-21" data-line-number="21">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb48-22" data-line-number="22">)</a>
+<a class="sourceLine" id="cb48-23" data-line-number="23"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+first.row
+</th>
+<th style="text-align:right;">
+last.row
+</th>
+<th style="text-align:right;">
+psi
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+0.0659978
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+145
+</td>
+<td style="text-align:right;">
+0.0885492
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+0.1179542
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+134
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+0.2600501
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+629
+</td>
+<td style="text-align:right;">
+639
+</td>
+<td style="text-align:right;">
+0.4430551
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+0.4562356
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.4565022
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+136
+</td>
+<td style="text-align:right;">
+146
+</td>
+<td style="text-align:right;">
+0.4902160
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+631
+</td>
+<td style="text-align:right;">
+641
+</td>
+<td style="text-align:right;">
+0.4971670
+</td>
+</tr>
+</tbody>
+</table>
+<p>In this case the solutions are computed among sequences of the same length, and with distances computed only between aligned samples.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(climateLong, climateShort, climate.short.long, climate.psi)</a></code></pre></div>
 </div>
   </div>
 

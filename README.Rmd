@@ -274,7 +274,7 @@ AB.psi
 
 ```{r}
 #cleaning environment for next example
-rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB)
+rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path)
 ```
 
 
@@ -347,7 +347,7 @@ qgraph::qgraph(MIS.distance,
 
 Or as a matrix with **ggplot2**.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Dissimilarity between MIS sequences."}
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity."}
 #ordering factors to get a triangular matrix
 MIS.psi$A <- factor(MIS.psi$A, levels=unique(sequencesMIS$MIS))
 MIS.psi$B <- factor(MIS.psi$B, levels=unique(sequencesMIS$MIS))
@@ -438,14 +438,15 @@ climate.psi <- psi(
 climate.psi
 ```
 
-These functions are wrapped together in the function **workflowPsiPaired**:
+The function **workflowPsi** executes this sequences when the argument *paired.samples* is set to TRUE, as follows.
 
 ```{r, eval=TRUE}
-climate.psi <- workflowPsiPairedSamples(
+climate.psi <- workflowPsi(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
   method = "manhattan",
+  paired.samples = TRUE, #this bit is important
   format = "dataframe"
 )
 kable(climate.psi)
@@ -537,7 +538,7 @@ In summary:
 kable(psi.importance$psi.drop)
 ```
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
 #extracting object
 psi.drop.df <- psi.importance$psi.drop
 
@@ -564,7 +565,7 @@ rm(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences
 ```
 
 
-# Finding the section in a long sequence more similar to a given short sequence
+# Finding the section in a long sequence more similar to a given short sequence (irregular time-series)
 
 In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset *sequencesMIS*. We will extract the first 10 samples as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example. 
 
@@ -599,15 +600,16 @@ MIS.short.long <- prepareSequences(
 kable(MIS.short.long)
 ```
 
-The function **worflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, these arguments default to 75 and 125 percent of the length of the short sequence.
+The function **worflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.
 
 ```{r}
 MIS.psi <- worflowShortInLong(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
-  min.length = nrow(MIS.short) - 1,
-  max.length = nrow(MIS.short) + 1
+  paired.samples = FALSE,
+  min.length = nrow(MIS.short) - 2,
+  max.length = nrow(MIS.short) + 2
 )
 ```
 
@@ -615,7 +617,7 @@ MIS.psi <- worflowShortInLong(
 The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
 ```{r}
-kable(MIS.psi)
+kable(MIS.psi[1:10, ])
 ```
 
 Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
@@ -632,7 +634,51 @@ best.match == MIS.short
 ```
 
 ```{r}
-#cleaning environment for next example
-rm(best.match, best.match.indices, MIS.long, MIS.psi, MIS.short.long, sequencesMIS, MIS.short)
+#cleaning workspace
+rm(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.match.indices)
 ```
+
+
+# Finding the section in a long sequence more similar to a given short sequence (regular time-series, paired samples)
+
+**WARNING: there is a bug in this function, indices of the best match need to be added 1 to be correct. I am working on it**
+
+When regular time-series are provided, and the analysis needs to be done comparing only aligned samples, the argument *paired.samples* can be set to TRUE, and instead of the least-cost algorithm to find the minimized distance between sequences, the function **distancePairedSamples** (shown above) is used to compute the distance between sequences of the same length (short sequence versus subsets of the long sequence). In such a case, the arguments *min.length* and *max.length* are irrelevant, and the sample-size of the matching segments in the long sequence have equals the sample-size of the short sequence. This application is ideal when the user has regular time-series. 
+
+The example below shows how it is done with the *climateShort* and *climateLong* datasets. The goal is to find the subset in *climateLong* better matching *climateShort*, with the same number of rows (11) as *climateShort*.
+
+```{r}
+#loading sample data
+data(climateLong)
+data(climateShort)
+
+#merging and scaling both datasets
+climate.short.long <- prepareSequences(
+  sequence.A = climateShort,
+  sequence.A.name = "short",
+  sequence.B = climateLong,
+  sequence.B.name = "long",
+  exclude.columns = "age",
+  grouping.column = "id",
+  transformation = "scale"
+)
+
+#computing psi
+climate.psi <- worflowShortInLong(
+  sequences = climate.short.long,
+  grouping.column = "id",
+  method = "manhattan",
+  paired.samples = TRUE
+)
+kable(climate.psi[1:10, ])
+```
+
+In this case the solutions are computed among sequences of the same length, and with distances computed only between aligned samples. 
+
+```{r}
+#cleaning workspace
+rm(climateLong, climateShort, climate.short.long, climate.psi)
+```
+
+
 

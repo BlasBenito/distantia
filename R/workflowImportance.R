@@ -30,7 +30,7 @@
 #' @param exclude.columns character string or character vector with column names in \code{sequences} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
-#' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and \code{\link{workflowPsiPairedSamples}} is used to compute \code{psi}. Default value is \code{FALSE}.
+#' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A list, matrix, or dataframe, with sequence names and psi values.
@@ -51,8 +51,6 @@ workflowImportance <- function(
   #1. computing psi normally for all sequences
   #to generate the first column of the output dataframe
   ####################################################
-  if(paired.samples != TRUE){
-    #psi for non paired samples
     psi.df <- workflowPsi(
       sequences = sequences,
       grouping.column = grouping.column,
@@ -61,20 +59,9 @@ workflowImportance <- function(
       method = method,
       diagonal = diagonal,
       format = "dataframe",
+      paired.samples = paired.samples,
       parallel.execution = parallel.execution
   )
-  } else {
-    #psi for paired samples
-    psi.df <- workflowPsiPairedSamples(
-      sequences = sequences,
-      grouping.column = grouping.column,
-      time.column = time.column,
-      exclude.columns = exclude.columns,
-      method = method,
-      format = "dataframe",
-      parallel.execution = parallel.execution
-    )
-  }
   names(psi.df)[3] <- "All variables"
 
   #2 computing psi for each column
@@ -131,7 +118,6 @@ workflowImportance <- function(
   ##############################################################
   psi.without <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
-    if(paired.samples != TRUE){
       #psi for non paired samples
       psi.i <- workflowPsi(
         sequences = sequences,
@@ -141,19 +127,9 @@ workflowImportance <- function(
         method = method,
         diagonal = diagonal,
         format = "dataframe",
+        paired.samples = paired.samples,
         parallel.execution = FALSE
       )
-      } else {
-        psi.i <- workflowPsiPairedSamples(
-          sequences = sequences,
-          grouping.column = grouping.column,
-          time.column = time.column,
-          exclude.columns = target.columns[i],
-          method = method,
-          format = "dataframe",
-          parallel.execution = FALSE
-          )
-      }
 
     return(psi.i)
 

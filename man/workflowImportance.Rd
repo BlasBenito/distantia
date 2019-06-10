@@ -28,7 +28,7 @@ workflowImportance(
 
 \item{diagonal}{boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.}
 
-\item{paired.samples}{boolean, if \code{TRUE}, the sequences are assumed to be aligned, and \code{\link{workflowPsiPairedSamples}} is used to compute \code{psi}. Default value is \code{FALSE}.}
+\item{paired.samples}{boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }

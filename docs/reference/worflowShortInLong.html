@@ -112,6 +112,7 @@
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
   <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>min.length</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>max.length</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
@@ -146,15 +147,19 @@
     </tr>
     <tr>
       <th>min.length</th>
-      <td><p>integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 75 percent of the length of the short sequence.</p></td>
+      <td><p>integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If <code>NULL</code> (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.</p></td>
     </tr>
     <tr>
       <th>max.length</th>
-      <td><p>integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 125 percent of the length of the short sequence.</p></td>
+      <td><p>integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If <code>NULL</code> (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>
       <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>diagonal</th>
+      <td><p>boolean, if <code>TRUE</code>, diagonals are included in the computation of the least cost path. Defaults to <code>FALSE</code>, as the original algorithm did not include diagonals in the computation of the least cost path. If <code>paired.samples</code> is <code>TRUE</code>, then <code>diagonal</code>, <code>min.length</code>, and <code>max.length</code> are irrelevant.</p></td>
     </tr>
     </table>
     

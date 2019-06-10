@@ -10,6 +10,7 @@
 #'   exclude.columns = NULL,
 #'   method = "manhattan",
 #'   diagonal = FALSE,
+#'   paired.samples = FALSE,
 #'   min.length = NULL,
 #'   max.length = NULL,
 #'   parallel.execution = TRUE
@@ -21,8 +22,9 @@
 #' @param exclude.columns character string or character vector with column names in \code{sequences} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @param diagonal boolean, if \code{TRUE} (default), diagonals are included in the computation of the least cost path. This is the best option if the user suspects that a given segment in the short sequence might be identical to the short sequence.
-#' @param min.length integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 75 percent of the length of the short sequence.
-#' @param max.length  integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. Defaults to 125 percent of the length of the short sequence.
+#' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path. If \code{paired.samples} is \code{TRUE}, then \code{diagonal}, \code{min.length}, and \code{max.length} are irrelevant.
+#' @param min.length integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
+#' @param max.length  integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A dataframe with three columns:
@@ -88,6 +90,7 @@ worflowShortInLong <- function(
   exclude.columns = NULL,
   method = "manhattan",
   diagonal = FALSE,
+  paired.samples = FALSE,
   min.length = NULL,
   max.length = NULL,
   parallel.execution = TRUE
@@ -111,6 +114,7 @@ worflowShortInLong <- function(
 
 
   #2 COMPUTING DISTANCE MATRIX
+  if(is.null(paired.samples) | paired.samples == FALSE){
   distance.matrix <- distanceMatrix(
       sequences = sequences,
       grouping.column = grouping.column,
@@ -119,6 +123,13 @@ worflowShortInLong <- function(
       method = method,
       parallel.execution = FALSE
     )
+  } else {
+    #creates dummy distance.matrix object, because it needs to be passed as a variable to a cluster
+    distance.matrix <- NULL
+    diagonal <- FALSE
+    min.length <- NULL
+    max.length <- NULL
+  }
 
   #3. PREPARING COMBINATIONS OF SAMPLES OF THE LONG SEQUENCE
   #guessing names of the short and long sequences
@@ -127,17 +138,12 @@ worflowShortInLong <- function(
   sequences.short.name <- names(table.groups)[which.min(table.groups)]
 
   #minimum and maximum length of the matching sequences
-  if(is.null(min.length)){
-    min.length <- floor(table.groups[sequences.short.name]/4)
-    names(min.length) <- NULL
+  if((is.null(min.length) & is.null(max.length)) | paired.samples == TRUE){
+    min.length <- max.length <- table.groups[sequences.short.name]
+    names(min.length) <- names(max.length) <- NULL
   } else {
-    min.length <- floor(min.length)
-  }
-  if(is.null(max.length)){
-    max.length <- floor(table.groups[sequences.short.name] * 1.25)
-    names(max.length) <- NULL
-  } else {
-    max.length <- floor(max.length)
+    min.length <- floor(min(c(min.length, max.length)))
+    max.length <- floor(max(c(min.length, max.length)))
   }
 
   #vector of lengths (sizes of subsets in the long sequence)
@@ -203,9 +209,16 @@ worflowShortInLong <- function(
                                       'sequences.long.nrow',
                                       'first.row',
                                       'last.row',
+                                      'sequences.short',
                                       'sequences.short.autosum',
                                       'sequences.long.name',
-                                      'sequences.short.name'),
+                                      'sequences.short.name',
+                                      'paired.samples',
+                                      'diagonal',
+                                      'grouping.column',
+                                      'time.column',
+                                      'method',
+                                      'distancePairedSamples'),
                             envir=environment()
     )
   } else {
@@ -218,9 +231,6 @@ worflowShortInLong <- function(
 
     #subset rows
     subset.rows <- first.row[i]:last.row[i]
-    distance.matrix.subset <- list()
-    distance.matrix.subset[[1]] <- distance.matrix[[1]][, subset.rows]
-    names(distance.matrix.subset) <- names(distance.matrix)
 
     #autosum sequences long
     sequences.long.autosum <- autoSum(
@@ -232,18 +242,45 @@ worflowShortInLong <- function(
       parallel.execution = FALSE
     )
 
-    #computing least cost matrix
-    least.cost.matrix <- leastCostMatrix(
-      distance.matrix = distance.matrix.subset,
-      diagonal = diagonal,
-      parallel.execution = FALSE
-    )
+    #if paired.samples is FALSE or NULL
+    if(is.null(paired.samples) | paired.samples == FALSE){
 
-    #getting least cost
-    least.cost.value <- leastCost(
-      least.cost.matrix = least.cost.matrix,
-      parallel.execution = FALSE
+      #subsetting distance matrix
+      distance.matrix.subset <- list()
+      distance.matrix.subset[[1]] <- distance.matrix[[1]][, subset.rows]
+      names(distance.matrix.subset) <- names(distance.matrix)
+
+      #computing least cost matrix
+      least.cost.matrix <- leastCostMatrix(
+        distance.matrix = distance.matrix.subset,
+        diagonal = diagonal,
+        parallel.execution = FALSE
       )
+
+      #getting least cost
+      least.cost.value <- leastCost(
+        least.cost.matrix = least.cost.matrix,
+        parallel.execution = FALSE
+        )
+
+    }
+
+    #if paired samples is TRUE
+    if(paired.samples == TRUE){
+
+      least.cost.equivalent <- distancePairedSamples(
+        sequences = rbind(sequences.short, sequences.long[subset.rows, ]),
+        grouping.column = grouping.column,
+        time.column = time.column,
+        exclude.columns = exclude.columns,
+        method = method,
+        sum.distances = TRUE,
+        parallel.execution = FALSE
+      )
+
+      least.cost.value <- least.cost.equivalent
+
+    }
 
     #computing psi
     psi.value <- psi(
