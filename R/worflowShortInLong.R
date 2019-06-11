@@ -59,6 +59,7 @@
 #'  sequence.B = MIS.long,
 #'  sequence.B.name = "long",
 #'  grouping.column = "id",
+#'  time.column = "age",
 #'  transformation = "hellinger"
 #'  )
 #'
@@ -273,6 +274,7 @@ worflowShortInLong <- function(
         grouping.column = grouping.column,
         time.column = time.column,
         exclude.columns = exclude.columns,
+        same.time = FALSE,
         method = method,
         sum.distances = TRUE,
         parallel.execution = FALSE

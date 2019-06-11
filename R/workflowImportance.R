@@ -21,6 +21,7 @@
 #'   method = "manhattan",
 #'   diagonal = FALSE,
 #'   paired.samples = FALSE,
+#'   same.time = FALSE,
 #'   parallel.execution = TRUE
 #'   )
 #'
@@ -31,6 +32,7 @@
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
 #' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
+#' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A list, matrix, or dataframe, with sequence names and psi values.
@@ -45,6 +47,7 @@ workflowImportance <- function(
   method = "manhattan",
   diagonal = FALSE,
   paired.samples = FALSE,
+  same.time = FALSE,
   parallel.execution = TRUE
 ){
 
@@ -56,6 +59,7 @@ workflowImportance <- function(
       grouping.column = grouping.column,
       time.column = time.column,
       exclude.columns = exclude.columns,
+      same.time = same.time,
       method = method,
       diagonal = diagonal,
       format = "dataframe",
@@ -124,6 +128,7 @@ workflowImportance <- function(
         grouping.column = grouping.column,
         time.column = time.column,
         exclude.columns = target.columns[i],
+        same.time = same.time,
         method = method,
         diagonal = diagonal,
         format = "dataframe",

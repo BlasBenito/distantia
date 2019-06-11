@@ -127,6 +127,7 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
   <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>same.time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
@@ -160,6 +161,10 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
     <tr>
       <th>paired.samples</th>
       <td><p>boolean, if <code>TRUE</code>, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>same.time</th>
+      <td><p>boolean. If <code>TRUE</code>, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to <code>time.column</code>. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>

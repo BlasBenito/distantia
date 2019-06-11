@@ -23,6 +23,8 @@ distancePairedSamples(
 
 \item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
 
+\item{same.time}{boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.}
+
 \item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
 
 \item{sum.distances}{boolean, if \code{TRUE} (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument \code{least.cost} in the function \code{\link{psi}}.}

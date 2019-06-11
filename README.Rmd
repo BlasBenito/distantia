@@ -387,7 +387,9 @@ climate <- prepareSequences(
   )
 ```
 
-The function **distancePairedSamples** computes the between paired samples
+The function **distancePairedSamples** computes the between paired samples (same order/time/age/depth), and therefore does not use the least cost algorithm to minimize the distances between sequences shown above. If the argument *time.column* is not provided, or if it's provided but *same.time* is false, the samples are paired by their order (first sample of one sequence vs. the first sample of the other sequence, the second against the second, and so on), and samples that only have an age for one of the sequences are removed from the comparison. This is useful to compare subsets of the same sequence, or subsets of different sequences belonging to different times.
+
+If there is a *time.column* and *same.time* is set to true, only samples with the same time/age/depth are compared. This is useful to compare sequences taken at the same time in different sites.
 
 The result is a list, each slot named as the id of the given sequence according to *grouping.columns*, and containing a vector with pairwise distances. Each vector position is named after *time.column* if available. 
 
@@ -396,6 +398,7 @@ climate.distances <- distancePairedSamples(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
+  same.time = TRUE,
   exclude.columns = NULL,
   method = "manhattan",
   sum.distances = FALSE
@@ -412,6 +415,7 @@ climate.distances <- distancePairedSamples(
   grouping.column = "sequenceId",
   time.column = "time",
   exclude.columns = NULL,
+  same.time = TRUE,
   method = "manhattan",
   sum.distances = TRUE
   )
@@ -641,16 +645,14 @@ rm(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.
 
 # Finding the section in a long sequence more similar to a given short sequence (regular time-series, paired samples)
 
-**WARNING: there is a bug in this function, indices of the best match need to be added 1 to be correct. I am working on it**
-
 When regular time-series are provided, and the analysis needs to be done comparing only aligned samples, the argument *paired.samples* can be set to TRUE, and instead of the least-cost algorithm to find the minimized distance between sequences, the function **distancePairedSamples** (shown above) is used to compute the distance between sequences of the same length (short sequence versus subsets of the long sequence). In such a case, the arguments *min.length* and *max.length* are irrelevant, and the sample-size of the matching segments in the long sequence have equals the sample-size of the short sequence. This application is ideal when the user has regular time-series. 
 
 The example below shows how it is done with the *climateShort* and *climateLong* datasets. The goal is to find the subset in *climateLong* better matching *climateShort*, with the same number of rows (11) as *climateShort*.
 
 ```{r}
 #loading sample data
-data(climateLong)
-data(climateShort)
+data(climateLong) #has "age" column
+data(climateShort) #no "age" column
 
 #merging and scaling both datasets
 climate.short.long <- prepareSequences(
@@ -658,7 +660,7 @@ climate.short.long <- prepareSequences(
   sequence.A.name = "short",
   sequence.B = climateLong,
   sequence.B.name = "long",
-  exclude.columns = "age",
+  time.column = "age",
   grouping.column = "id",
   transformation = "scale"
 )
@@ -667,11 +669,14 @@ climate.short.long <- prepareSequences(
 climate.psi <- worflowShortInLong(
   sequences = climate.short.long,
   grouping.column = "id",
+  time.column = "age",
   method = "manhattan",
   paired.samples = TRUE
 )
 kable(climate.psi[1:10, ])
 ```
+
+Since *climateShort* is a subset of *climateLong*, there is a perfect match from the rows 17 to 27.
 
 In this case the solutions are computed among sequences of the same length, and with distances computed only between aligned samples. 
 
@@ -681,4 +686,82 @@ rm(climateLong, climateShort, climate.short.long, climate.psi)
 ```
 
 
+# Sequence slotting: combining samples of two sequences into a single composite sequence
+
+**THIS SECTION IS A WORK IN PROGRESS**
+
+Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence containing the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples.
+
+Within this scenario, there are two possibilities: 1) None of the sequences has a *time.column* containing time/age/depth values; 2) One of the sequences has a *time.column*. 
+
+## None of the sequences has time/age/depth columns.
+
+In this case, the target is to obtain a single ordered sequence containing the samples of both sequences (a.k.a, a composite sequence).
+
+To develop this study case I will use the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each, and will separate the first 20 samples into two different datasets with 10 randomly selected samples each. We assume that these sequences do not have depth or age, but these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument.
+
+```{r}
+#loading the data
+data(pollenGP)
+
+#getting first 20 samples
+pollenGP <- pollenGP[1:20, ]
+
+#sampling indices
+sampling.indices <- sort(sample(1:20, 10))
+
+#subsetting the sequence
+A <- pollenGP[sampling.indices, ]
+B <- pollenGP[-sampling.indices, ]
+
+#preparing the sequences
+AB <- prepareSequences(
+  sequence.A = A,
+  sequence.A.name = "A",
+  sequence.B = B,
+  sequence.B.name = "B",
+  exclude.columns = c("depth", "age"),
+  transformation = "hellinger"
+)
+kable(AB)
+```
+
+First, we need to obtain the least-cost path from the distance matrix.
+
+```{r, , fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least cost matrix and path between sequences A and B."}
+#distance matrix
+AB.distance.matrix <- distanceMatrix(
+  sequences = AB,
+  exclude.columns = c("depth", "age"),
+)
+
+#least cost matrix
+AB.least.cost.matrix <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix,
+  diagonal = FALSE
+)
+
+#least cost path
+AB.least.cost.path <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = FALSE
+)
+
+kable(AB.least.cost.path)
+
+#visualizing output
+plotMatrix(
+  distance.matrix = AB.distance.matrix,
+  least.cost.path = AB.least.cost.path,
+  color.palette = "viridis"
+)
+```
+
+**Next: generating composite sequence from the least-cost path dataframe**
+
+## One of the sequences has a time/age/depth column.
+
+
+# Attribute transfer
 

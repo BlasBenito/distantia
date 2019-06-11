@@ -17,6 +17,7 @@
 #' grouping.column = NULL,
 #' time.column = NULL,
 #' exclude.columns = NULL,
+#' same.time = FALSE,
 #' if.empty.cases = "zero",
 #' transformation = "none",
 #' paired.samples = FALSE)
@@ -30,9 +31,10 @@
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. If two sequences are provided through the arguments \code{sequence.A} and \code{sequence.B}, this argument defines the name of the grouping column in the output dataframe. If two or several sequences are provided as a single dataframe through the argument \code{sequences}, then \code{grouping.column} must be a column in this dataset.
 #' @param time.column character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B}, to be excluded from the transformation.
+#' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
 #' @param transformation character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).
-#' @param paired.samples boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. The default setting is \code{FALSE}.
+#' @param paired.samples boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \link{\code{distancePairedSamples}} or \link{\code{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.
 #' @return A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.
 #'
 #' @author Blas Benito <blasbenito@gmail.com>
@@ -74,7 +76,8 @@ prepareSequences=function(sequence.A = NULL,
                           exclude.columns = NULL,
                           if.empty.cases = "zero",
                           transformation = "none",
-                          paired.samples = FALSE){
+                          paired.samples = FALSE,
+                          same.time = FALSE){
 
   #INTERNAL PARAMETERS
   input.mode <- NULL
@@ -104,7 +107,7 @@ prepareSequences=function(sequence.A = NULL,
   ##############################################################
   if(!is.null(exclude.columns) & !is.character(exclude.columns)){
     stop("Argument 'exclude.columns' must be of type character.")
-    }
+  }
 
 
   #DETECTING MODE
@@ -137,12 +140,28 @@ prepareSequences=function(sequence.A = NULL,
 
     #CHECKING TIME COLUMN
     if(!(is.null(time.column))){
-      if(!(time.column %in% colnames(sequence.A))){
-        warning("I couldn't find 'time.column' in 'sequenceA'. The time column will be ignored.")
+
+      #if absent from both, warning and ignore
+      if(!(time.column %in% c(colnames(sequence.A), colnames(sequence.B)))){
+        warning(paste("The argument 'time.column' has the value ", time.column, " but I couldn't find that column name in the input datasets. I will ignore this column."))
       }
-      if(!(time.column %in% colnames(sequence.B))){
-        warning("I couldn't find 'time.column' in 'sequenceB'. The time column will be ignored.")
+
+      #if present in A but absent in B, empty time.column is created in B
+      if(time.column %in% colnames(sequence.A) & !(time.column %in% colnames(sequence.B))){
+
+        #adds empty time column to sequence.B
+        sequence.B[, time.column] <- NA
+        warning("I couldn't find 'time.column' in 'sequenceB'. Added one and filled it with NA.")
       }
+
+      #if present in A but absent in B, empty time.column is created in B
+      if(time.column %in% colnames(sequence.B) & !(time.column %in% colnames(sequence.A))){
+
+        #adds empty time column to sequence.B
+        sequence.A[, time.column] <- NA
+        warning("I couldn't find 'time.column' in 'sequenceA'. Added one and filled it with NA.")
+      }
+
     }
 
     #ADDING ID COLUMN TO BOTH SEQUENCES
@@ -173,7 +192,6 @@ prepareSequences=function(sequence.A = NULL,
   }
 
 
-  #from here, everything goes as is only "sequences" was provided
   #MANY SEQUENCES ARE PROVIDED (only checks on grouping.column are required)
   if(input.mode == "many.sequences"){
 
@@ -197,13 +215,6 @@ prepareSequences=function(sequence.A = NULL,
     if.empty.cases = if.empty.cases
     )
 
-  #REMOVING EXCLUDED COLUMNS
-  #############################
-  if(!is.null(exclude.columns)){
-     sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
-  }
-
-
   #APPLYING TRANSFORMATIONS "none", "percentage", "proportion", "hellinger"
   ##############################################################
 
@@ -214,14 +225,20 @@ prepareSequences=function(sequence.A = NULL,
     id.column <- sequences[, grouping.column]
     sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
 
-    #SETTING 0 TO 0.00001 TO AVOID ISSUES WITH DISTANCE COMPUTATION
-    sequences[sequences==0] <- 0.00001
+    #removing excluded columns
+    if(sum(exclude.columns %in% colnames(sequences)) > 0){
+      excluded.columns <- sequences[, exclude.columns]
+      sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+    }
 
     #removing time column
-    if(!(is.null(time.column))){
+    if(sum(time.column %in% colnames(sequences)) > 0){
       time.column.data <- sequences[, time.column]
       sequences <- sequences[, !(colnames(sequences) %in% time.column)]
     }
+
+    #SETTING 0 TO 0.00001 TO AVOID ISSUES WITH DISTANCE COMPUTATION
+    sequences[sequences==0] <- 0.00001
 
 
     #COMPUTING PROPORTION
@@ -248,13 +265,9 @@ prepareSequences=function(sequence.A = NULL,
       sequences <- scale(x=sequences, center = TRUE, scale = TRUE)
     }
 
-    #adding the time column
-    #removing time column
-    if(!(is.null(time.column))){
-      sequences <- data.frame(time=time.column.data, sequences, stringsAsFactors = FALSE)
-      colnames(sequences)[1] <- time.column
-    }
 
+    #REBUILDING DATAFRAME
+    ######################
     #adding the grouping.column back
     sequences <- data.frame(id=id.column, sequences, stringsAsFactors = FALSE)
 
@@ -263,12 +276,25 @@ prepareSequences=function(sequence.A = NULL,
       colnames(sequences)[1] <- grouping.column
     }
 
+    #adding the time column
+    if(!(is.null(time.column))){
+      sequences <- data.frame(time=time.column.data, sequences, stringsAsFactors = FALSE)
+      colnames(sequences)[1] <- time.column
+    }
+
+    #adding the excluded columns
+    if(!(is.null(excluded.columns))){
+      sequences <- data.frame(excluded.columns, sequences, stringsAsFactors = FALSE)
+    }
+
+
+
+
   }
 
 
-
   #checks if paired.samples is TRUE
-  if(paired.samples == TRUE){
+  if(paired.samples == TRUE & same.time == TRUE){
 
     #if time.column is true
     if(!is.null(time.column)){

@@ -14,6 +14,7 @@ sequences = NULL,
 grouping.column = NULL,
 time.column = NULL,
 exclude.columns = NULL,
+same.time = FALSE,
 if.empty.cases = "zero",
 transformation = "none",
 paired.samples = FALSE)
@@ -41,7 +42,9 @@ paired.samples = FALSE)
 
 \item{transformation}{character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).}
 
-\item{paired.samples}{boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. The default setting is \code{FALSE}.}
+\item{paired.samples}{boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \link{\code{distancePairedSamples}} or \link{\code{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.}
+
+\item{same.time}{boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.}
 }
 \value{
 A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.

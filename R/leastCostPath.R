@@ -115,8 +115,7 @@ leastCostPath <- function(distance.matrix = NULL,
 
   #exporting cluster variables
   parallel::clusterExport(cl = my.cluster,
-                          varlist = c('n.iterations',
-                                    'least.cost.matrix',
+                          varlist = c('least.cost.matrix',
                                     'distance.matrix',
                                     'diagonal'),
                           envir = environment()

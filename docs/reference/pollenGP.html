@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Multivariate and irregular time series with pollen counts. — sequenceB • distantia</title>
+<title>Pollen dataset. — pollenGP • distantia</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Multivariate and irregular time series with pollen counts. — sequenceB" />
+<meta property="og:title" content="Pollen dataset. — pollenGP" />
 
-<meta property="og:description" content="A dataframe with 8 columns (the column empetr is missing with respect to sequenceA) representing pollen types (betula, pinus, corylus, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978). Several NA values have been introduced in the dataset to demonstrate the data-handling capabilities of prepareSequences." />
+<meta property="og:description" content="A subset of the Grande Pile dataset (https://doi.pangaea.de/10.1594/PANGAEA.739275). It contains a depth (cm) and age columns (ky BP), and 40 pollen types." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,26 +94,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Multivariate and irregular time series with pollen counts.</h1>
+    <h1>Pollen dataset.</h1>
     
-    <div class="hidden name"><code>sequenceB.Rd</code></div>
+    <div class="hidden name"><code>pollenGP.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A dataframe with 8 columns (the column <code>empetr</code> is missing with respect to <code><a href='sequenceA.html'>sequenceA</a></code>) representing pollen types (betula, pinus, corylus, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978). Several NA values have been introduced in the dataset to demonstrate the data-handling capabilities of <code><a href='prepareSequences.html'>prepareSequences</a></code>.</p>
+    <p>A subset of the Grande Pile dataset (<a href='https://doi.pangaea.de/10.1594/PANGAEA.739275'>https://doi.pangaea.de/10.1594/PANGAEA.739275</a>). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceB</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceA</span>)</pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Dataframe with 9 columns and 41 rows</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. <em>New Phytologist</em> <strong>80</strong>, 455-484.</p>
+    <p>Dataframe with 42 columns and 200 rows</p>
     
 
   </div>
@@ -122,8 +118,6 @@
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-
-      <li><a href="#references">References</a></li>
           </ul>
 
   </div>

@@ -135,6 +135,10 @@
       <td><p>character string or character vector with column names in <code>sequences</code>, or <code>squence.A</code> and <code>sequence.B</code> to be excluded from the analysis.</p></td>
     </tr>
     <tr>
+      <th>same.time</th>
+      <td><p>boolean. If <code>TRUE</code>, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to <code>time.column</code>. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.</p></td>
+    </tr>
+    <tr>
       <th>method</th>
       <td><p>character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.</p></td>
     </tr>

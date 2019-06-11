@@ -1,3 +1,16 @@
+#' Pollen dataset.
+#'
+#' A subset of the Grande Pile dataset (\url{https://doi.pangaea.de/10.1594/PANGAEA.739275}). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name pollenGP
+#' @usage data(sequenceA)
+#' @format Dataframe with 42 columns and 200 rows
+"pollenGP"
+
+
 #' Multivariate and irregular time series with pollen counts.
 #'
 #' A dataframe with 9 columns representing pollen types (betula, pinus, corylus, empetrum, cypera, artemisia, rumex) and 49 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978).
@@ -8,7 +21,7 @@
 #' @name sequenceA
 #' @usage data(sequenceA)
 #' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
-#' @format Dataframe 9 columns and 49 rows
+#' @format Dataframe with 9 columns and 49 rows
 "sequenceA"
 
 #' Multivariate and irregular time series with pollen counts.
@@ -21,7 +34,7 @@
 #' @name sequenceB
 #' @usage data(sequenceB)
 #' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
-#' @format Dataframe 9 columns and 41 rows
+#' @format Dataframe with 9 columns and 41 rows
 "sequenceB"
 
 #' Dataframe with palaeoclimatic data.

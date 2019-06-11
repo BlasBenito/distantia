@@ -16,6 +16,7 @@
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
+#' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @param sum.distances boolean, if \code{TRUE} (default option), the distances between samples are summed, and the output of the function (now a list with a single number on each slot) can be directly used as input for the argument \code{least.cost} in the function \code{\link{psi}}.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
@@ -66,6 +67,7 @@
     grouping.column = NULL,
     time.column = NULL,
     exclude.columns = NULL,
+    same.time = FALSE,
     method = "manhattan",
     sum.distances = FALSE,
     parallel.execution = TRUE
@@ -103,10 +105,10 @@
       sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
     }
 
-    #checking if the sequences are actually paired
 
-    #if time.column is true
-    if(!is.null(time.column)){
+    #checking if the sequences are actually paired
+    #if time.column is present
+    if(!is.null(time.column) & same.time == TRUE){
 
       #counts number of time each "time" value appears
       temp.table.time <- table(sequences[, time.column])
@@ -116,9 +118,13 @@
       valid.time.values <- as.numeric(temp.table.time[temp.table.time$frequency == length(unique(sequences[, grouping.column])), "value"])
 
       #subsetting sequences
-      sequences <- sequences[sequences[, time.column] %in% valid.time.values, ]
-
+      if(length(valid.time.values) > 0){
+        sequences <- sequences[sequences[, time.column] %in% valid.time.values, ]
+      } else {
+        warning("Argument 'same.time' was set to TRUE, but samples in both sequences do not have the same time/age/depth values. The time column will be ignored, and only samples with the same order will be compared.")
+      }
     }
+
 
     #checking if groups have the same number of rows
     temp.table.rows <- table(sequences[, grouping.column])
