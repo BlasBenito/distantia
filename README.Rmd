@@ -708,6 +708,7 @@ data(pollenGP)
 pollenGP <- pollenGP[1:20, ]
 
 #sampling indices
+set.seed(10) #to get same result every time
 sampling.indices <- sort(sample(1:20, 10))
 
 #subsetting the sequence
@@ -759,6 +760,15 @@ plotMatrix(
 ```
 
 **Next: generating composite sequence from the least-cost path dataframe**
+
+```{r}
+#input parameters
+i<-1
+least.cost.path <- AB.least.cost.path
+sequence.names = unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
+
+```
+
 
 ## One of the sequences has a time/age/depth column.
 

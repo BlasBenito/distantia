@@ -226,15 +226,19 @@ prepareSequences=function(sequence.A = NULL,
     sequences <- sequences[, !(colnames(sequences) %in% grouping.column)]
 
     #removing excluded columns
-    if(sum(exclude.columns %in% colnames(sequences)) > 0){
-      excluded.columns <- sequences[, exclude.columns]
-      sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+    if(!is.null(exclude.columns)){
+      if(sum(exclude.columns %in% colnames(sequences)) > 0){
+        excluded.columns <- sequences[, exclude.columns]
+        sequences <- sequences[,!(colnames(sequences) %in% exclude.columns)]
+      }
     }
 
     #removing time column
-    if(sum(time.column %in% colnames(sequences)) > 0){
-      time.column.data <- sequences[, time.column]
-      sequences <- sequences[, !(colnames(sequences) %in% time.column)]
+    if(!is.null(time.column)){
+      if(sum(time.column %in% colnames(sequences)) > 0){
+        time.column.data <- sequences[, time.column]
+        sequences <- sequences[, !(colnames(sequences) %in% time.column)]
+      }
     }
 
     #SETTING 0 TO 0.00001 TO AVOID ISSUES WITH DISTANCE COMPUTATION
@@ -283,12 +287,9 @@ prepareSequences=function(sequence.A = NULL,
     }
 
     #adding the excluded columns
-    if(!(is.null(excluded.columns))){
+    if(!(is.null(exclude.columns))){
       sequences <- data.frame(excluded.columns, sequences, stringsAsFactors = FALSE)
     }
-
-
-
 
   }
 

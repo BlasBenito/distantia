@@ -202,7 +202,8 @@ One long dataframe: The user provides a single dataframe, through the sequences 
  <span class='kw'>merge.mode</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
  <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in prepareSequences(sequence.A = sequenceA, sequence.A.name = "A",     sequence.B = sequenceB, sequence.B.name = "B", merge.mode = "complete",     if.empty.cases = "zero", transformation = "hellinger"): object 'excluded.columns' not found</span></div><div class='input'>
+ )
+
 
 <span class='co'>#several sequences in a single dataframe</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequencesMIS</span>)
@@ -211,8 +212,7 @@ One long dataframe: The user provides a single dataframe, through the sequences 
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"MIS"</span>,
  <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in prepareSequences(sequences = sequencesMIS, grouping.column = "MIS",     if.empty.cases = "zero", transformation = "hellinger"): object 'excluded.columns' not found</span></div><div class='input'>
-</div></pre>
+ )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

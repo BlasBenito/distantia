@@ -158,8 +158,8 @@ leastCostPath <- function(distance.matrix = NULL,
         focal.cost <- distance.matrix.i[focal.row, focal.column]
 
         #SCANNING NEIGHBORS
-        neighbors <- data.frame(A=c(focal.row-1, focal.row),
-                                  B=c(focal.column, focal.column-1))
+        neighbors <- data.frame(A = c(focal.row-1, focal.row),
+                                  B = c(focal.column, focal.column-1))
 
         #removing neighbors with coordinates lower than 1 (out of bounds)
         neighbors[neighbors<1] <- NA
@@ -251,6 +251,13 @@ leastCostPath <- function(distance.matrix = NULL,
       }#end of repeat
 
     } #end of diagonal == TRUE
+
+    #getting names of the sequences
+    sequence.names = unlist(strsplit(names(distance.matrix)[i], split='|', fixed=TRUE))
+
+    #renaming pairings
+    colnames(pairings)[1] <- sequence.names[1]
+    colnames(pairings)[2] <- sequence.names[2]
 
     return(pairings)
 

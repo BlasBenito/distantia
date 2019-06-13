@@ -221,7 +221,7 @@ plotMatrix <- function(distance.matrix = NULL,
 
       #add path
       if(!is.null(least.cost.path)){
-         graphics::lines(path.i$A, path.i$B, lwd=path.width, col = path.color)
+         graphics::lines(path.i[, ylab.name], path.i[, xlab.name], lwd=path.width, col = path.color)
       }
 
     } #enf of rotate = FALSE
@@ -253,7 +253,7 @@ plotMatrix <- function(distance.matrix = NULL,
 
       #add path
       if(!is.null(least.cost.path)){
-        graphics::lines(path.i$B, path.i$A, lwd=path.width, col = path.color)
+        graphics::lines(path.i[, xlab.name], path.i[, ylab.name], lwd=path.width, col = path.color)
       }
 
 
