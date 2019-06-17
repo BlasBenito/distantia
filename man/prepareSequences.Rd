@@ -5,19 +5,20 @@
 \title{Prepare sequences for a comparison analysis.}
 \usage{
 prepareSequences(
-sequence.A = NULL,
-sequence.A.name = "A",
-sequence.B = NULL,
-sequence.B.name = "B",
-merge.mode = "complete",
-sequences = NULL,
-grouping.column = NULL,
-time.column = NULL,
-exclude.columns = NULL,
-same.time = FALSE,
-if.empty.cases = "zero",
-transformation = "none",
-paired.samples = FALSE)
+  sequence.A = NULL,
+  sequence.A.name = "A",
+  sequence.B = NULL,
+  sequence.B.name = "B",
+  merge.mode = "complete",
+  sequences = NULL,
+  grouping.column = NULL,
+  time.column = NULL,
+  exclude.columns = NULL,
+  if.empty.cases = "zero",
+  transformation = "none",
+  paired.samples = FALSE,
+  same.time = FALSE
+  )
 }
 \arguments{
 \item{sequence.A}{dataframe containing a multivariate time-series.}
@@ -42,7 +43,7 @@ paired.samples = FALSE)
 
 \item{transformation}{character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).}
 
-\item{paired.samples}{boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \link{\code{distancePairedSamples}} or \link{\code{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.}
+\item{paired.samples}{boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \code{\link{distancePairedSamples}} or \code{\link{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.}
 
 \item{same.time}{boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.}
 }

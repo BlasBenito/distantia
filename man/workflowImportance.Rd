@@ -41,7 +41,7 @@ A list, matrix, or dataframe, with sequence names and psi values.
 \description{
 This workflow executes the following steps:
 \itemize{
-\item computes \code{psi} as done by \code{\link{workflowPsi}} and \code{\link{workflowPsiPairedSamples}}.
+\item computes \code{psi} as done by \code{\link{workflowPsi}}.
 \item computes \code{psi} as many times as numeric variables in \code{sequences}, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.
 \item Delivers an output of type "list" with two slots:
 \itemize{

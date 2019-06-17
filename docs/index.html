@@ -10268,8 +10268,8 @@ long
 </tr>
 </tbody>
 </table>
-<p>The function <strong>worflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/worflowShortInLong.html">worflowShortInLong</a></span>(</a>
+<p>The function <strong>workflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.short.long,</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
 <a class="sourceLine" id="cb44-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
@@ -10451,7 +10451,7 @@ psi
 <a class="sourceLine" id="cb48-17" data-line-number="17"><span class="co">#&gt; filled it with NA.</span></a>
 <a class="sourceLine" id="cb48-18" data-line-number="18"></a>
 <a class="sourceLine" id="cb48-19" data-line-number="19"><span class="co">#computing psi</span></a>
-<a class="sourceLine" id="cb48-20" data-line-number="20">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/worflowShortInLong.html">worflowShortInLong</a></span>(</a>
+<a class="sourceLine" id="cb48-20" data-line-number="20">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
 <a class="sourceLine" id="cb48-21" data-line-number="21">  <span class="dt">sequences =</span> climate.short.long,</a>
 <a class="sourceLine" id="cb48-22" data-line-number="22">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
 <a class="sourceLine" id="cb48-23" data-line-number="23">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
@@ -10592,7 +10592,6 @@ psi
 <div id="sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence" class="anchor"></a>Sequence slotting: combining samples of two sequences into a single composite sequence</h1>
-<p><strong>THIS SECTION IS A WORK IN PROGRESS</strong></p>
 <p>Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence containing the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples.</p>
 <p>Within this scenario, there are two possibilities: 1) None of the sequences has a <em>time.column</em> containing time/age/depth values; 2) One of the sequences has a <em>time.column</em>.</p>
 <div id="none-of-the-sequences-has-timeagedepth-columns-" class="section level2">
@@ -10620,10 +10619,11 @@ psi
 <a class="sourceLine" id="cb50-18" data-line-number="18">  <span class="dt">sequence.A.name =</span> <span class="st">"A"</span>,</a>
 <a class="sourceLine" id="cb50-19" data-line-number="19">  <span class="dt">sequence.B =</span> B,</a>
 <a class="sourceLine" id="cb50-20" data-line-number="20">  <span class="dt">sequence.B.name =</span> <span class="st">"B"</span>,</a>
-<a class="sourceLine" id="cb50-21" data-line-number="21">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"age"</span>),</a>
-<a class="sourceLine" id="cb50-22" data-line-number="22">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
-<a class="sourceLine" id="cb50-23" data-line-number="23">)</a>
-<a class="sourceLine" id="cb50-24" data-line-number="24"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB)</a></code></pre></div>
+<a class="sourceLine" id="cb50-21" data-line-number="21">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb50-22" data-line-number="22">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"age"</span>),</a>
+<a class="sourceLine" id="cb50-23" data-line-number="23">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
+<a class="sourceLine" id="cb50-24" data-line-number="24">)</a>
+<a class="sourceLine" id="cb50-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -13379,455 +13379,706 @@ B
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(A, B, pollenGP, sampling.indices)</a></code></pre></div>
-<p>First, we need to obtain the least-cost path from the distance matrix.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="co">#distance matrix</span></a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">AB.distance.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/distanceMatrix.html">distanceMatrix</a></span>(</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">  <span class="dt">sequences =</span> AB,</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"age"</span>),</a>
-<a class="sourceLine" id="cb52-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb52-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb52-7" data-line-number="7"><span class="co">#least cost matrix</span></a>
-<a class="sourceLine" id="cb52-8" data-line-number="8">AB.least.cost.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span>(</a>
-<a class="sourceLine" id="cb52-9" data-line-number="9">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
-<a class="sourceLine" id="cb52-10" data-line-number="10">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb52-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb52-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb52-13" data-line-number="13"><span class="co">#least cost path</span></a>
-<a class="sourceLine" id="cb52-14" data-line-number="14">AB.least.cost.path &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostPath.html">leastCostPath</a></span>(</a>
-<a class="sourceLine" id="cb52-15" data-line-number="15">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
-<a class="sourceLine" id="cb52-16" data-line-number="16">  <span class="dt">least.cost.matrix =</span> AB.least.cost.matrix,</a>
-<a class="sourceLine" id="cb52-17" data-line-number="17">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb52-18" data-line-number="18">)</a>
-<a class="sourceLine" id="cb52-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb52-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.least.cost.path)</a></code></pre></div>
-<table class="table table kable_wrapper"><tbody><tr>
-<td>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(sampling.indices)</a></code></pre></div>
+<p>Once the sequences are prepared, the function <strong>sequenceSlotting</strong> will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the <em>method</em> argument, computes the least cost matrix, and generates the least cost path. The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">AB.combined &lt;-<span class="st"> </span><span class="kw"><a href="reference/sequenceSlotting.html">sequenceSlotting</a></span>(</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">  <span class="dt">sequences =</span> AB,</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"age"</span>, </a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
+<a class="sourceLine" id="cb52-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">  <span class="dt">plot =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb52-8" data-line-number="8">)</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-unnamed-chunk-49-1.png" alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%"><p class="caption">
+Distance matrix and least cost path of the example sequences ‘A’ and ‘B’..
+</p>
+</div>
+<p>The output dataframe has a column named <em>original.index</em>, which has the index of each sample in the original datasets.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
 <table class="table table">
 <thead><tr>
-<th style="text-align:right;">
-A
+<th style="text-align:left;">
+id
 </th>
 <th style="text-align:right;">
-B
+original.index
 </th>
 <th style="text-align:right;">
-distance
+depth
 </th>
 <th style="text-align:right;">
-cumulative.distance
+age
+</th>
+<th style="text-align:right;">
+Abies
+</th>
+<th style="text-align:right;">
+Juniperus
+</th>
+<th style="text-align:right;">
+Hedera
+</th>
+<th style="text-align:right;">
+Plantago
+</th>
+<th style="text-align:right;">
+Boraginaceae
+</th>
+<th style="text-align:right;">
+Crassulaceae
 </th>
 </tr></thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-10
+<td style="text-align:left;">
+B
 </td>
 <td style="text-align:right;">
-10
+1
 </td>
 <td style="text-align:right;">
-0.1988371
+1
 </td>
 <td style="text-align:right;">
-3.6632022
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-10
+3.92
 </td>
 <td style="text-align:right;">
-9
+0.9927867
 </td>
 <td style="text-align:right;">
-0.1896285
+2.98e-05
 </td>
 <td style="text-align:right;">
-3.0967852
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-10
+0.0249222
 </td>
 <td style="text-align:right;">
-8
+0.0000298
 </td>
 <td style="text-align:right;">
-0.1748553
+0.0210631
 </td>
 <td style="text-align:right;">
-2.9071568
+0.0421263
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-9
+<td style="text-align:left;">
+B
 </td>
 <td style="text-align:right;">
-8
+2
 </td>
 <td style="text-align:right;">
-0.1530080
+2
 </td>
 <td style="text-align:right;">
-2.7323015
+3.95
+</td>
+<td style="text-align:right;">
+0.9904852
+</td>
+<td style="text-align:right;">
+2.96e-05
+</td>
+<td style="text-align:right;">
+0.0162186
+</td>
+<td style="text-align:right;">
+0.0162186
+</td>
+<td style="text-align:right;">
+0.0362659
+</td>
+<td style="text-align:right;">
+0.0641950
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+A
+</td>
 <td style="text-align:right;">
-9
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3.97
+</td>
+<td style="text-align:right;">
+0.9916559
+</td>
+<td style="text-align:right;">
+2.96e-05
+</td>
+<td style="text-align:right;">
+0.0209124
+</td>
+<td style="text-align:right;">
+0.0323974
+</td>
+<td style="text-align:right;">
+0.0428578
+</td>
+<td style="text-align:right;">
+0.0911553
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+0.9907688
+</td>
+<td style="text-align:right;">
+2.94e-05
+</td>
+<td style="text-align:right;">
+0.0263340
+</td>
+<td style="text-align:right;">
+0.0610529
+</td>
+<td style="text-align:right;">
+0.0721187
+</td>
+<td style="text-align:right;">
+0.0750635
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4.05
+</td>
+<td style="text-align:right;">
+0.9906638
+</td>
+<td style="text-align:right;">
+2.93e-05
+</td>
+<td style="text-align:right;">
+0.0413874
+</td>
+<td style="text-align:right;">
+0.0790705
+</td>
+<td style="text-align:right;">
+0.0897257
+</td>
+<td style="text-align:right;">
+0.0092545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+3
 </td>
 <td style="text-align:right;">
 7
 </td>
 <td style="text-align:right;">
-0.1315353
+4.07
 </td>
 <td style="text-align:right;">
-2.5792935
+0.9900329
+</td>
+<td style="text-align:right;">
+2.92e-05
+</td>
+<td style="text-align:right;">
+0.0412621
+</td>
+<td style="text-align:right;">
+0.0825242
+</td>
+<td style="text-align:right;">
+0.0922649
+</td>
+<td style="text-align:right;">
+0.0000292
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4.10
+</td>
+<td style="text-align:right;">
+0.9873091
+</td>
+<td style="text-align:right;">
+2.90e-05
+</td>
+<td style="text-align:right;">
+0.0534635
+</td>
+<td style="text-align:right;">
+0.0820092
+</td>
+<td style="text-align:right;">
+0.1141520
+</td>
+<td style="text-align:right;">
+0.0000290
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4.02
+</td>
+<td style="text-align:right;">
+0.9884694
+</td>
+<td style="text-align:right;">
+2.93e-05
+</td>
+<td style="text-align:right;">
+0.0614691
+</td>
+<td style="text-align:right;">
+0.0807862
+</td>
+<td style="text-align:right;">
+0.0971911
+</td>
+<td style="text-align:right;">
+0.0000293
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+5
+</td>
 <td style="text-align:right;">
 9
 </td>
 <td style="text-align:right;">
+4.17
+</td>
+<td style="text-align:right;">
+0.9901755
+</td>
+<td style="text-align:right;">
+2.88e-05
+</td>
+<td style="text-align:right;">
+0.0427836
+</td>
+<td style="text-align:right;">
+0.0605051
+</td>
+<td style="text-align:right;">
+0.1044002
+</td>
+<td style="text-align:right;">
+0.0000288
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
 6
 </td>
 <td style="text-align:right;">
-0.1113641
+10
 </td>
 <td style="text-align:right;">
-2.4477582
+4.20
+</td>
+<td style="text-align:right;">
+0.9908150
+</td>
+<td style="text-align:right;">
+2.88e-05
+</td>
+<td style="text-align:right;">
+0.0538137
+</td>
+<td style="text-align:right;">
+0.0498218
+</td>
+<td style="text-align:right;">
+0.0962648
+</td>
+<td style="text-align:right;">
+0.0000288
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-8
+<td style="text-align:left;">
+A
 </td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-0.1099115
-</td>
-<td style="text-align:right;">
-2.3363941
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-0.0775346
-</td>
-<td style="text-align:right;">
-2.2264826
-</td>
-</tr>
-<tr>
 <td style="text-align:right;">
 7
 </td>
 <td style="text-align:right;">
-5
+11
 </td>
 <td style="text-align:right;">
-0.1011159
+4.22
 </td>
 <td style="text-align:right;">
-2.1489480
+0.9891059
+</td>
+<td style="text-align:right;">
+2.86e-05
+</td>
+<td style="text-align:right;">
+0.0496231
+</td>
+<td style="text-align:right;">
+0.0607756
+</td>
+<td style="text-align:right;">
+0.1109605
+</td>
+<td style="text-align:right;">
+0.0000286
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+4.27
+</td>
+<td style="text-align:right;">
+0.9891456
+</td>
+<td style="text-align:right;">
+2.85e-05
+</td>
+<td style="text-align:right;">
+0.0548019
+</td>
+<td style="text-align:right;">
+0.0493464
+</td>
+<td style="text-align:right;">
+0.1103419
+</td>
+<td style="text-align:right;">
+0.0000285
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+4.25
+</td>
+<td style="text-align:right;">
+0.9893396
+</td>
+<td style="text-align:right;">
+2.86e-05
+</td>
+<td style="text-align:right;">
+0.0599075
+</td>
+<td style="text-align:right;">
+0.0534304
+</td>
+<td style="text-align:right;">
+0.1106115
+</td>
+<td style="text-align:right;">
+0.0000286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
 <td style="text-align:right;">
 6
 </td>
 <td style="text-align:right;">
-5
+14
 </td>
 <td style="text-align:right;">
-0.1153570
+4.30
 </td>
 <td style="text-align:right;">
-2.0478322
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
+0.9914179
 </td>
 <td style="text-align:right;">
-5
+2.85e-05
 </td>
 <td style="text-align:right;">
-0.1396924
+0.0636388
 </td>
 <td style="text-align:right;">
-1.9324751
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
+0.0284601
 </td>
 <td style="text-align:right;">
-4
+0.0985888
 </td>
 <td style="text-align:right;">
-0.1305467
-</td>
-<td style="text-align:right;">
-1.7927827
+0.0000285
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-4
+<td style="text-align:left;">
+B
 </td>
 <td style="text-align:right;">
-4
+7
 </td>
 <td style="text-align:right;">
-0.1345201
+17
 </td>
 <td style="text-align:right;">
-1.6622360
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
+4.37
 </td>
 <td style="text-align:right;">
-4
+0.9920228
 </td>
 <td style="text-align:right;">
-0.1930473
+2.83e-05
 </td>
 <td style="text-align:right;">
-1.5277160
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
+0.0631874
 </td>
 <td style="text-align:right;">
-4
+0.0296375
 </td>
 <td style="text-align:right;">
-0.1112619
+0.0828696
 </td>
 <td style="text-align:right;">
-1.3346687
+0.0000283
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+A
 </td>
 <td style="text-align:right;">
-3
+9
 </td>
 <td style="text-align:right;">
-0.3278547
+15
 </td>
 <td style="text-align:right;">
-1.2234067
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-1
+4.32
 </td>
 <td style="text-align:right;">
-3
+0.9909760
 </td>
 <td style="text-align:right;">
-0.2022357
+2.84e-05
 </td>
 <td style="text-align:right;">
-0.8955520
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-1
+0.0588591
 </td>
 <td style="text-align:right;">
-2
+0.0370087
 </td>
 <td style="text-align:right;">
-0.3257364
+0.0983263
 </td>
 <td style="text-align:right;">
-0.6933163
+0.0000284
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-1
+<td style="text-align:left;">
+B
 </td>
 <td style="text-align:right;">
-1
+8
 </td>
 <td style="text-align:right;">
-0.3675799
+18
 </td>
 <td style="text-align:right;">
-0.3675799
+4.40
+</td>
+<td style="text-align:right;">
+0.9931386
+</td>
+<td style="text-align:right;">
+2.82e-05
+</td>
+<td style="text-align:right;">
+0.0636790
+</td>
+<td style="text-align:right;">
+0.0218417
+</td>
+<td style="text-align:right;">
+0.0746037
+</td>
+<td style="text-align:right;">
+0.0000282
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+4.42
+</td>
+<td style="text-align:right;">
+0.9930501
+</td>
+<td style="text-align:right;">
+2.81e-05
+</td>
+<td style="text-align:right;">
+0.0700528
+</td>
+<td style="text-align:right;">
+0.0198937
+</td>
+<td style="text-align:right;">
+0.0653772
+</td>
+<td style="text-align:right;">
+0.0000281
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+4.45
+</td>
+<td style="text-align:right;">
+0.9936422
+</td>
+<td style="text-align:right;">
+2.81e-05
+</td>
+<td style="text-align:right;">
+0.0715353
+</td>
+<td style="text-align:right;">
+0.0198403
+</td>
+<td style="text-align:right;">
+0.0601787
+</td>
+<td style="text-align:right;">
+0.0000281
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+4.35
+</td>
+<td style="text-align:right;">
+0.9917098
+</td>
+<td style="text-align:right;">
+2.83e-05
+</td>
+<td style="text-align:right;">
+0.0537172
+</td>
+<td style="text-align:right;">
+0.0447644
+</td>
+<td style="text-align:right;">
+0.0854049
+</td>
+<td style="text-align:right;">
+0.0000283
 </td>
 </tr>
 </tbody>
 </table>
-</td>
-</tr></tbody></table>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="co">#visualizing output</span></a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
-<a class="sourceLine" id="cb53-4" data-line-number="4">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
-<a class="sourceLine" id="cb53-5" data-line-number="5">  <span class="dt">least.cost.path =</span> AB.least.cost.path,</a>
-<a class="sourceLine" id="cb53-6" data-line-number="6">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span></a>
-<a class="sourceLine" id="cb53-7" data-line-number="7">)</a></code></pre></div>
+<p>Note that several samples show inverted ages with respect to the adjacent samples that belong to the other sequence (ages 4.02, 4.27, 4.32, and 4.35). The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.</p>
+<p>The plot below compares one column of the sequences A and B (upper panel) with the column resulting from slotting both sequences (lower panel).</p>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-49-1.png" alt="Least cost matrix and path between sequences A and B." width="100%"><p class="caption">
-Least cost matrix and path between sequences A and B.
+<img src="reference/figures/README-unnamed-chunk-51-1.png" alt="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%"><p class="caption">
+Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.
 </p>
 </div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(AB.distance.matrix, AB.least.cost.matrix)</a></code></pre></div>
-<p><strong>Next: generating composite sequence from the least-cost path dataframe</strong></p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co">#input parameters</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">sequences &lt;-<span class="st"> </span>AB</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3">grouping.column &lt;-<span class="st"> "id"</span></a>
-<a class="sourceLine" id="cb55-4" data-line-number="4">least.cost.path &lt;-<span class="st"> </span>AB.least.cost.path</a>
-<a class="sourceLine" id="cb55-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="co">#iterating throught he list least.cost.path</span></a>
-<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="co">#for each element in least.cost.path</span></a>
-<a class="sourceLine" id="cb55-8" data-line-number="8">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb55-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="co">#secondary parameters</span></a>
-<a class="sourceLine" id="cb55-11" data-line-number="11">sequence.names &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/strsplit">strsplit</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(least.cost.path)[i], <span class="dt">split=</span><span class="st">'|'</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb55-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb55-13" data-line-number="13"><span class="co">#extracting and flipping least.cost.path</span></a>
-<a class="sourceLine" id="cb55-14" data-line-number="14">path &lt;-<span class="st"> </span>least.cost.path[[i]]</a>
-<a class="sourceLine" id="cb55-15" data-line-number="15">path &lt;-<span class="st"> </span>path[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(path)<span class="op">:</span><span class="dv">1</span>, ]</a>
-<a class="sourceLine" id="cb55-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb55-17" data-line-number="17"><span class="co">#separating sequences</span></a>
-<a class="sourceLine" id="cb55-18" data-line-number="18"><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb55-19" data-line-number="19">sequences[sequences[, grouping.column] <span class="op">==</span><span class="st"> </span>sequence.names[k], <span class="st">"index"</span>] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/order">order</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(path[, sequence.names[k]]))</a>
-<a class="sourceLine" id="cb55-20" data-line-number="20">}</a>
-<a class="sourceLine" id="cb55-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb55-22" data-line-number="22"><span class="co">#creating output dataframe</span></a>
-<a class="sourceLine" id="cb55-23" data-line-number="23">sequences.combined &lt;-<span class="st"> </span>sequences</a>
-<a class="sourceLine" id="cb55-24" data-line-number="24">sequences.combined[] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb55-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb55-26" data-line-number="26"><span class="co">#indices</span></a>
-<a class="sourceLine" id="cb55-27" data-line-number="27">indices &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()</a>
-<a class="sourceLine" id="cb55-28" data-line-number="28">indices[[<span class="dv">1</span>]] &lt;-<span class="st"> </span>path[, sequence.names[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb55-29" data-line-number="29">indices[[<span class="dv">2</span>]] &lt;-<span class="st"> </span>path[, sequence.names[<span class="dv">2</span>]]</a>
-<a class="sourceLine" id="cb55-30" data-line-number="30"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(indices) &lt;-<span class="st"> </span>sequence.names</a>
-<a class="sourceLine" id="cb55-31" data-line-number="31"></a>
-<a class="sourceLine" id="cb55-32" data-line-number="32"><span class="co">#defining dynamic variables</span></a>
-<a class="sourceLine" id="cb55-33" data-line-number="33">target.sequence &lt;-<span class="st"> </span>sequence.names[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb55-34" data-line-number="34">target.index &lt;-<span class="st"> </span>indices[[target.sequence]][<span class="dv">1</span>]</a></code></pre></div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co">#iterating through AB.index.unique</span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="co">##################################</span></a>
-<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(sequences.combined)){</a>
-<a class="sourceLine" id="cb56-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb56-5" data-line-number="5"><span class="cf">if</span>(target.index <span class="op">%in%</span><span class="st"> </span>indices[[target.sequence]]){</a>
-<a class="sourceLine" id="cb56-6" data-line-number="6">  </a>
-<a class="sourceLine" id="cb56-7" data-line-number="7">  <span class="co">#target.index is repeated in target.sequence</span></a>
-<a class="sourceLine" id="cb56-8" data-line-number="8">  <span class="cf">if</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(indices[[target.sequence]] <span class="op">==</span><span class="st"> </span>target.index) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>){</a>
-<a class="sourceLine" id="cb56-9" data-line-number="9">    </a>
-<a class="sourceLine" id="cb56-10" data-line-number="10">    <span class="co">#switch sequence</span></a>
-<a class="sourceLine" id="cb56-11" data-line-number="11">    target.sequence &lt;-<span class="st"> </span>sequence.names[sequence.names <span class="op">!=</span><span class="st"> </span>target.sequence]</a>
-<a class="sourceLine" id="cb56-12" data-line-number="12">    </a>
-<a class="sourceLine" id="cb56-13" data-line-number="13">    <span class="co">#change target.index to the first index of the given sequence</span></a>
-<a class="sourceLine" id="cb56-14" data-line-number="14">    target.index &lt;-<span class="st"> </span>indices[[target.sequence]][<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb56-15" data-line-number="15">    </a>
-<a class="sourceLine" id="cb56-16" data-line-number="16">    <span class="co">#print changes</span></a>
-<a class="sourceLine" id="cb56-17" data-line-number="17">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Adding line "</span>, target.index, <span class="st">" of sequence "</span>, target.sequence, <span class="dt">sep=</span><span class="st">""</span>))</a>
-<a class="sourceLine" id="cb56-18" data-line-number="18">    </a>
-<a class="sourceLine" id="cb56-19" data-line-number="19">    <span class="co">#adds the line to sequences.combined</span></a>
-<a class="sourceLine" id="cb56-20" data-line-number="20">    sequences.combined[j, ] &lt;-<span class="st"> </span>sequences[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(sequences[ , grouping.column] <span class="op">==</span><span class="st"> </span>target.sequence <span class="op">&amp;</span><span class="st"> </span>sequences<span class="op">$</span>index <span class="op">==</span><span class="st"> </span>target.index), ]</a>
-<a class="sourceLine" id="cb56-21" data-line-number="21">    </a>
-<a class="sourceLine" id="cb56-22" data-line-number="22">    <span class="co">#removes the index from the given sequence</span></a>
-<a class="sourceLine" id="cb56-23" data-line-number="23">    indices[[target.sequence]] &lt;-<span class="st"> </span>indices[[target.sequence]][indices[[target.sequence]] <span class="op">!=</span><span class="st"> </span>target.index]</a>
-<a class="sourceLine" id="cb56-24" data-line-number="24">    </a>
-<a class="sourceLine" id="cb56-25" data-line-number="25">    <span class="co">#increases the target index</span></a>
-<a class="sourceLine" id="cb56-26" data-line-number="26">    target.index &lt;-<span class="st"> </span>target.index <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb56-27" data-line-number="27">    </a>
-<a class="sourceLine" id="cb56-28" data-line-number="28">  } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb56-29" data-line-number="29">    </a>
-<a class="sourceLine" id="cb56-30" data-line-number="30">    <span class="co">#target index is not repeated</span></a>
-<a class="sourceLine" id="cb56-31" data-line-number="31">    </a>
-<a class="sourceLine" id="cb56-32" data-line-number="32">    <span class="co">#print changes</span></a>
-<a class="sourceLine" id="cb56-33" data-line-number="33">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Adding line "</span>, target.index, <span class="st">" of sequence "</span>, target.sequence, <span class="dt">sep=</span><span class="st">""</span>))</a>
-<a class="sourceLine" id="cb56-34" data-line-number="34">    </a>
-<a class="sourceLine" id="cb56-35" data-line-number="35">    <span class="co">#adds the line to sequences.combined</span></a>
-<a class="sourceLine" id="cb56-36" data-line-number="36">    sequences.combined[j, ] &lt;-<span class="st"> </span>sequences[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(sequences[ , grouping.column] <span class="op">==</span><span class="st"> </span>target.sequence <span class="op">&amp;</span><span class="st"> </span>sequences<span class="op">$</span>index <span class="op">==</span><span class="st"> </span>target.index), ]</a>
-<a class="sourceLine" id="cb56-37" data-line-number="37">    </a>
-<a class="sourceLine" id="cb56-38" data-line-number="38">    <span class="co">#removes the index from the given sequence</span></a>
-<a class="sourceLine" id="cb56-39" data-line-number="39">    indices[[target.sequence]] &lt;-<span class="st"> </span>indices[[target.sequence]][indices[[target.sequence]] <span class="op">!=</span><span class="st"> </span>target.index]</a>
-<a class="sourceLine" id="cb56-40" data-line-number="40">    </a>
-<a class="sourceLine" id="cb56-41" data-line-number="41">    <span class="co">#increases the target index</span></a>
-<a class="sourceLine" id="cb56-42" data-line-number="42">    target.index &lt;-<span class="st"> </span>target.index <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb56-43" data-line-number="43">    </a>
-<a class="sourceLine" id="cb56-44" data-line-number="44">  }</a>
-<a class="sourceLine" id="cb56-45" data-line-number="45">  </a>
-<a class="sourceLine" id="cb56-46" data-line-number="46">} <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb56-47" data-line-number="47">  </a>
-<a class="sourceLine" id="cb56-48" data-line-number="48">  <span class="co">#target.index not in target sequence</span></a>
-<a class="sourceLine" id="cb56-49" data-line-number="49">  </a>
-<a class="sourceLine" id="cb56-50" data-line-number="50">  <span class="co">#switch sequence</span></a>
-<a class="sourceLine" id="cb56-51" data-line-number="51">  target.sequence &lt;-<span class="st"> </span>sequence.names[sequence.names <span class="op">!=</span><span class="st"> </span>target.sequence]</a>
-<a class="sourceLine" id="cb56-52" data-line-number="52">    </a>
-<a class="sourceLine" id="cb56-53" data-line-number="53">  <span class="co">#change target.index to the first index of the given sequence</span></a>
-<a class="sourceLine" id="cb56-54" data-line-number="54">  target.index &lt;-<span class="st"> </span>indices[[target.sequence]][<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb56-55" data-line-number="55">  </a>
-<a class="sourceLine" id="cb56-56" data-line-number="56">      <span class="co">#print changes</span></a>
-<a class="sourceLine" id="cb56-57" data-line-number="57">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Adding line "</span>, target.index, <span class="st">" of sequence "</span>, target.sequence, <span class="dt">sep=</span><span class="st">""</span>))</a>
-<a class="sourceLine" id="cb56-58" data-line-number="58">    </a>
-<a class="sourceLine" id="cb56-59" data-line-number="59">    <span class="co">#adds the line to sequences.combined</span></a>
-<a class="sourceLine" id="cb56-60" data-line-number="60">    sequences.combined[j, ] &lt;-<span class="st"> </span>sequences[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(sequences[ , grouping.column] <span class="op">==</span><span class="st"> </span>target.sequence <span class="op">&amp;</span><span class="st"> </span>sequences<span class="op">$</span>index <span class="op">==</span><span class="st"> </span>target.index), ]</a>
-<a class="sourceLine" id="cb56-61" data-line-number="61">    </a>
-<a class="sourceLine" id="cb56-62" data-line-number="62">    <span class="co">#removes the index from the given sequence</span></a>
-<a class="sourceLine" id="cb56-63" data-line-number="63">    indices[[target.sequence]] &lt;-<span class="st"> </span>indices[[target.sequence]][indices[[target.sequence]] <span class="op">!=</span><span class="st"> </span>target.index]</a>
-<a class="sourceLine" id="cb56-64" data-line-number="64">    </a>
-<a class="sourceLine" id="cb56-65" data-line-number="65">    <span class="co">#increases the target index</span></a>
-<a class="sourceLine" id="cb56-66" data-line-number="66">    target.index &lt;-<span class="st"> </span>target.index <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb56-67" data-line-number="67">  </a>
-<a class="sourceLine" id="cb56-68" data-line-number="68">}</a>
-<a class="sourceLine" id="cb56-69" data-line-number="69">    </a>
-<a class="sourceLine" id="cb56-70" data-line-number="70">}</a>
-<a class="sourceLine" id="cb56-71" data-line-number="71"><span class="co">#&gt; Adding line 1 of sequence B</span></a>
-<a class="sourceLine" id="cb56-72" data-line-number="72"><span class="co">#&gt; Adding line 2 of sequence B</span></a>
-<a class="sourceLine" id="cb56-73" data-line-number="73"><span class="co">#&gt; Adding line 1 of sequence A</span></a>
-<a class="sourceLine" id="cb56-74" data-line-number="74"><span class="co">#&gt; Adding line 3 of sequence B</span></a>
-<a class="sourceLine" id="cb56-75" data-line-number="75"><span class="co">#&gt; Adding line 2 of sequence A</span></a>
-<a class="sourceLine" id="cb56-76" data-line-number="76"><span class="co">#&gt; Adding line 3 of sequence A</span></a>
-<a class="sourceLine" id="cb56-77" data-line-number="77"><span class="co">#&gt; Adding line 4 of sequence A</span></a>
-<a class="sourceLine" id="cb56-78" data-line-number="78"><span class="co">#&gt; Adding line 4 of sequence B</span></a>
-<a class="sourceLine" id="cb56-79" data-line-number="79"><span class="co">#&gt; Adding line 5 of sequence A</span></a>
-<a class="sourceLine" id="cb56-80" data-line-number="80"><span class="co">#&gt; Adding line 6 of sequence A</span></a>
-<a class="sourceLine" id="cb56-81" data-line-number="81"><span class="co">#&gt; Adding line 7 of sequence A</span></a>
-<a class="sourceLine" id="cb56-82" data-line-number="82"><span class="co">#&gt; Adding line 5 of sequence B</span></a>
-<a class="sourceLine" id="cb56-83" data-line-number="83"><span class="co">#&gt; Adding line 8 of sequence A</span></a>
-<a class="sourceLine" id="cb56-84" data-line-number="84"><span class="co">#&gt; Adding line 6 of sequence B</span></a>
-<a class="sourceLine" id="cb56-85" data-line-number="85"><span class="co">#&gt; Adding line 7 of sequence B</span></a>
-<a class="sourceLine" id="cb56-86" data-line-number="86"><span class="co">#&gt; Adding line 9 of sequence A</span></a>
-<a class="sourceLine" id="cb56-87" data-line-number="87"><span class="co">#&gt; Adding line 8 of sequence B</span></a>
-<a class="sourceLine" id="cb56-88" data-line-number="88"><span class="co">#&gt; Adding line 9 of sequence B</span></a>
-<a class="sourceLine" id="cb56-89" data-line-number="89"><span class="co">#&gt; Adding line 10 of sequence B</span></a>
-<a class="sourceLine" id="cb56-90" data-line-number="90"><span class="co">#&gt; Adding line 10 of sequence A</span></a></code></pre></div>
 </div>
 <div id="one-of-the-sequences-has-a-timeagedepth-column-" class="section level2">
 <h2 class="hasAnchor">

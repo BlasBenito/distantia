@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Computes the contribution to dissimilarity of each variable. — workflowImportance • distantia</title>
+<title>Slots two sequences into a single composite sequence. — sequenceSlotting • distantia</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,16 +30,9 @@
 
 
 
-<meta property="og:title" content="Computes the contribution to dissimilarity of each variable. — workflowImportance" />
+<meta property="og:title" content="Slots two sequences into a single composite sequence. — sequenceSlotting" />
 
-<meta property="og:description" content="This workflow executes the following steps:
-computes psi as done by workflowPsi.
-computes psi as many times as numeric variables in sequences, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.
-Delivers an output of type &quot;list&quot; with two slots:
-psi a dataframe with the columns &quot;A&quot; and &quot;B&quot; with the respective names of the sequences compared, a column named &quot;All variables&quot; with the psi values of each pair of sequences computed by considering all variables, and then one column per variable, indicating the psi value when that variable is removed.
-psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then one column per numeric variable in sequences indicating the percentage of drop in psi (as indicated by the &quot;All variables&quot; column in the psi dataframe) when the given variable is removed. Positive values indicate that the given variable reduces dissimilarity when removed, making the sequences more similar, while negative values indicate that the variable increases dissimilarity when removed, making the sequences more different.
-
-" />
+<meta property="og:description" content="Generates a composite sequence, constrained by sample order, from two sequences, by minimizing the dissimilarity between adjacent samples of each input sequence. The algorithm computes the distance matrix, least cost matrix, and least cost path of two sequences, and uses the least cost path file to find the slotting that better minimizes the dissimilarity between adjacent samples. The algorithm assumes that the samples are not aligned or paired." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -101,34 +94,24 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Computes the contribution to dissimilarity of each variable.</h1>
+    <h1>Slots two sequences into a single composite sequence.</h1>
     
-    <div class="hidden name"><code>workflowImportance.Rd</code></div>
+    <div class="hidden name"><code>sequenceSlotting.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This workflow executes the following steps:</p><ul>
-<li><p>computes <code>psi</code> as done by <code><a href='workflowPsi.html'>workflowPsi</a></code>.</p></li>
-<li><p>computes <code>psi</code> as many times as numeric variables in <code>sequences</code>, removing one of them each time (jacknife analysis) to compute the relative contribution of each variable to overall dissimilarity.</p></li>
-<li><p>Delivers an output of type "list" with two slots:</p><ul>
-<li><p><code>psi</code> a dataframe with the columns "A" and "B" with the respective names of the sequences compared, a column named "All variables" with the psi values of each pair of sequences computed by considering all variables, and then one column per variable, indicating the <code>psi</code> value when that variable is removed.</p></li>
-<li><p><code>psi.drop</code> a dataframe with the columns "A" and "B", and then one column per numeric variable in <code>sequences</code> indicating the percentage of drop in <code>psi</code> (as indicated by the "All variables" column in the psi dataframe) when the given variable is removed. Positive values indicate that the given variable reduces dissimilarity when removed, making the sequences more similar, while negative values indicate that the variable increases dissimilarity when removed, making the sequences more different.</p></li>
-</ul></li>
-</ul>
+    <p>Generates a composite sequence, constrained by sample order, from two sequences, by minimizing the dissimilarity between adjacent samples of each input sequence. The algorithm computes the distance matrix, least cost matrix, and least cost path of two sequences, and uses the least cost path file to find the slotting that better minimizes the dissimilarity between adjacent samples. The algorithm assumes that the samples are not aligned or paired.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>workflowImportance</span>(
+    <pre class="usage"><span class='fu'>sequenceSlotting</span>(
   <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
-  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>same.time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -136,7 +119,7 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sequences</th>
-      <td><p>dataframe with multiple sequences identified by a grouping column generated by <code><a href='prepareSequences.html'>prepareSequences</a></code>.</p></td>
+      <td><p>dataframe with multiple sequences identified by a grouping column generated by <code><a href='prepareSequences.html'>prepareSequences</a></code>. The dataframe must contain only two sequences differentiated by <code>grouping.column</code>.</p></td>
     </tr>
     <tr>
       <th>grouping.column</th>
@@ -155,32 +138,57 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
       <td><p>character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.</p></td>
     </tr>
     <tr>
-      <th>diagonal</th>
-      <td><p>boolean, if <code>TRUE</code>, diagonals are included in the computation of the least cost path. Defaults to <code>FALSE</code>, as the original algorithm did not include diagonals in the computation of the least cost path.</p></td>
-    </tr>
-    <tr>
-      <th>paired.samples</th>
-      <td><p>boolean, if <code>TRUE</code>, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>same.time</th>
-      <td><p>boolean. If <code>TRUE</code>, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to <code>time.column</code>. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.</p></td>
-    </tr>
-    <tr>
-      <th>parallel.execution</th>
-      <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
+      <th>plot</th>
+      <td><p>boolean, if <code>TRUE</code>, plots the distance matrix and the least-cost path.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list, matrix, or dataframe, with sequence names and psi values.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>If we consider the question "what variable contributes the most to the dissimilarity between two sequences?" the answer "the one dropping dissimilarity the most when excluded from the analysis" sounds like a reasonable answer. This workflow attempts to reach that answer by computing <code>psi</code> while removing one variable at a time.</p>
+    <p>A dataframe with the same number of rows as <code>sequences</code>, ordered according to the best solution found by the least-cost algorithm.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'>#loading the data</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>pollenGP</span>)
+
+<span class='co'>#getting first 20 samples</span>
+<span class='no'>pollenGP</span> <span class='kw'>&lt;-</span> <span class='no'>pollenGP</span>[<span class='fl'>1</span>:<span class='fl'>20</span>, ]
+
+<span class='co'>#sampling indices</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>10</span>) <span class='co'>#to get same result every time</span>
+<span class='no'>sampling.indices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sort'>sort</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='fl'>10</span>))
+
+<span class='co'>#subsetting the sequence</span>
+<span class='no'>A</span> <span class='kw'>&lt;-</span> <span class='no'>pollenGP</span>[<span class='no'>sampling.indices</span>, ]
+<span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='no'>pollenGP</span>[-<span class='no'>sampling.indices</span>, ]
+
+<span class='co'>#preparing the sequences</span>
+<span class='no'>AB</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSequences.html'>prepareSequences</a></span>(
+  <span class='kw'>sequence.A</span> <span class='kw'>=</span> <span class='no'>A</span>,
+  <span class='kw'>sequence.A.name</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
+  <span class='kw'>sequence.B</span> <span class='kw'>=</span> <span class='no'>B</span>,
+  <span class='kw'>sequence.B.name</span> <span class='kw'>=</span> <span class='st'>"B"</span>,
+  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
+  <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"depth"</span>, <span class='st'>"age"</span>),
+  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
+  )
+
+<span class='no'>AB.combined</span> <span class='kw'>&lt;-</span> <span class='fu'>sequenceSlotting</span>(
+  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>AB</span>,
+  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
+  <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
+  <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='st'>"depth"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
+  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )
+
+<span class='no'>AB.combined</span>
+
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -188,9 +196,9 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     <p>Blas Benito &lt;blasbenito@gmail.com&gt;</p>

@@ -8,19 +8,20 @@
 #'
 #'
 #' @usage prepareSequences(
-#' sequence.A = NULL,
-#' sequence.A.name = "A",
-#' sequence.B = NULL,
-#' sequence.B.name = "B",
-#' merge.mode = "complete",
-#' sequences = NULL,
-#' grouping.column = NULL,
-#' time.column = NULL,
-#' exclude.columns = NULL,
-#' same.time = FALSE,
-#' if.empty.cases = "zero",
-#' transformation = "none",
-#' paired.samples = FALSE)
+#'   sequence.A = NULL,
+#'   sequence.A.name = "A",
+#'   sequence.B = NULL,
+#'   sequence.B.name = "B",
+#'   merge.mode = "complete",
+#'   sequences = NULL,
+#'   grouping.column = NULL,
+#'   time.column = NULL,
+#'   exclude.columns = NULL,
+#'   if.empty.cases = "zero",
+#'   transformation = "none",
+#'   paired.samples = FALSE,
+#'   same.time = FALSE
+#'   )
 #'
 #' @param sequence.A dataframe containing a multivariate time-series.
 #' @param sequence.A.name character string with the name of \code{sequence.A}. Will be used as identificator in the \code{id} column of the output dataframe.
@@ -31,10 +32,13 @@
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. If two sequences are provided through the arguments \code{sequence.A} and \code{sequence.B}, this argument defines the name of the grouping column in the output dataframe. If two or several sequences are provided as a single dataframe through the argument \code{sequences}, then \code{grouping.column} must be a column in this dataset.
 #' @param time.column character string, name of the column with time/depth/rank data. If \code{sequence.A} and \code{sequence.B} are provided, \code{time.column} must have the same name and units in both dataframes.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B}, to be excluded from the transformation.
-#' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
 #' @param if.empty.cases character string with two possible values: "omit", or "zero". If "zero" (default), \code{NA} values are replaced by zeroes. If "omit", rows with \code{NA} data are removed.
 #' @param transformation character string. Defines what data transformation is to be applied to the sequences. One of: "none" (default), "percentage", "proportion", "hellinger", and "scale" (the latter centers and scales the data using the \code{\link[base]{scale}} function).
-#' @param paired.samples boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \link{\code{distancePairedSamples}} or \link{\code{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.
+#' @param paired.samples boolean. If \code{TRUE}, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the \code{time.column} must have the same values in every dataset. This is only mandatory when using the functions \code{\link{distancePairedSamples}} or \code{\link{workflowPsi}} with \code{paired.samples = TRUE} after preparing the sequences. The default setting is \code{FALSE}.
+#' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
+
+
+
 #' @return A dataframe with the multivariate time series. If \code{squence.A} and \code{sequence.B} are provided, the column identifying the sequences is named "id". If \code{sequences} is provided, the time-series are identified by \code{grouping.column}.
 #'
 #' @author Blas Benito <blasbenito@gmail.com>

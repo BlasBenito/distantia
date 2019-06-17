@@ -20229,7 +20229,7 @@ long
 
 </table>
 
-The function **worflowShortInLong** shown below is going to subset the
+The function **workflowShortInLong** shown below is going to subset the
 long sequence in sizes between *min.length* and *max.length*. In the
 example below this search space is reduced to the minimum (the rows of
 *MIS.short* plus and minus one) to speed-up the execution of this
@@ -20239,7 +20239,7 @@ sequence. In the example below we look for segments of the same length,
 two samples shorter, and two samples longer than the shorter sequence.
 
 ``` r
-MIS.psi <- worflowShortInLong(
+MIS.psi <- workflowShortInLong(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
@@ -20581,7 +20581,7 @@ climate.short.long <- prepareSequences(
 #> filled it with NA.
 
 #computing psi
-climate.psi <- worflowShortInLong(
+climate.psi <- workflowShortInLong(
   sequences = climate.short.long,
   grouping.column = "id",
   time.column = "age",
@@ -20858,8 +20858,6 @@ rm(climateLong, climateShort, climate.short.long, climate.psi)
 
 # Sequence slotting: combining samples of two sequences into a single composite sequence
 
-**THIS SECTION IS A WORK IN PROGRESS**
-
 Under this scenario, the objective is to combine two sequences in order
 to obtain a single composite sequence containing the samples in both
 sequences ordered in a way that minimizes the multivariate distance
@@ -20902,6 +20900,7 @@ AB <- prepareSequences(
   sequence.A.name = "A",
   sequence.B = B,
   sequence.B.name = "B",
+  grouping.column = "id",
   exclude.columns = c("depth", "age"),
   transformation = "hellinger"
 )
@@ -26423,41 +26422,36 @@ B
 </table>
 
 ``` r
-rm(A, B, pollenGP, sampling.indices)
+rm(sampling.indices)
 ```
 
-First, we need to obtain the least-cost path from the distance matrix.
+Once the sequences are prepared, the function **sequenceSlotting** will
+allow to combine (slot) them. The function computes a distance matrix
+between the samples in both sequences according to the *method*
+argument, computes the least cost matrix, and generates the least cost
+path. The function reads the least cost path in order to find the
+combination of samples of both sequences that minimizes dissimilarity,
+constrained by the order of the samples on each sequence.
 
 ``` r
-#distance matrix
-AB.distance.matrix <- distanceMatrix(
+AB.combined <- sequenceSlotting(
   sequences = AB,
-  exclude.columns = c("depth", "age"),
+  grouping.column = "id",
+  time.column = "age", 
+  exclude.columns = "depth",
+  method = "manhattan",
+  plot = TRUE
 )
-
-#least cost matrix
-AB.least.cost.matrix <- leastCostMatrix(
-  distance.matrix = AB.distance.matrix,
-  diagonal = FALSE
-)
-
-#least cost path
-AB.least.cost.path <- leastCostPath(
-  distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix,
-  diagonal = FALSE
-)
-
-kable(AB.least.cost.path)
 ```
 
-<table class="kable_wrapper">
+<img src="man/figures/README-unnamed-chunk-49-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />
 
-<tbody>
+The output dataframe has a column named *original.index*, which has the
+index of each sample in the original datasets.
 
-<tr>
-
-<td>
+``` r
+kable(AB.combined[,1:10])
+```
 
 <table>
 
@@ -26465,27 +26459,63 @@ kable(AB.least.cost.path)
 
 <tr>
 
-<th style="text-align:right;">
+<th style="text-align:left;">
 
-A
-
-</th>
-
-<th style="text-align:right;">
-
-B
+id
 
 </th>
 
 <th style="text-align:right;">
 
-distance
+original.index
 
 </th>
 
 <th style="text-align:right;">
 
-cumulative.distance
+depth
+
+</th>
+
+<th style="text-align:right;">
+
+age
+
+</th>
+
+<th style="text-align:right;">
+
+Abies
+
+</th>
+
+<th style="text-align:right;">
+
+Juniperus
+
+</th>
+
+<th style="text-align:right;">
+
+Hedera
+
+</th>
+
+<th style="text-align:right;">
+
+Plantago
+
+</th>
+
+<th style="text-align:right;">
+
+Boraginaceae
+
+</th>
+
+<th style="text-align:right;">
+
+Crassulaceae
 
 </th>
 
@@ -26497,83 +26527,63 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-10
-
-</td>
-
-<td style="text-align:right;">
-
-10
+B
 
 </td>
 
 <td style="text-align:right;">
 
-0.1988371
+1
 
 </td>
 
 <td style="text-align:right;">
 
-3.6632022
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
+1
 
 </td>
 
 <td style="text-align:right;">
 
-9
+3.92
 
 </td>
 
 <td style="text-align:right;">
 
-0.1896285
+0.9927867
 
 </td>
 
 <td style="text-align:right;">
 
-3.0967852
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
+2.98e-05
 
 </td>
 
 <td style="text-align:right;">
 
-8
+0.0249222
 
 </td>
 
 <td style="text-align:right;">
 
-0.1748553
+0.0000298
 
 </td>
 
 <td style="text-align:right;">
 
-2.9071568
+0.0210631
+
+</td>
+
+<td style="text-align:right;">
+
+0.0421263
 
 </td>
 
@@ -26581,27 +26591,63 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-9
-
-</td>
-
-<td style="text-align:right;">
-
-8
+B
 
 </td>
 
 <td style="text-align:right;">
 
-0.1530080
+2
 
 </td>
 
 <td style="text-align:right;">
 
-2.7323015
+2
+
+</td>
+
+<td style="text-align:right;">
+
+3.95
+
+</td>
+
+<td style="text-align:right;">
+
+0.9904852
+
+</td>
+
+<td style="text-align:right;">
+
+2.96e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0162186
+
+</td>
+
+<td style="text-align:right;">
+
+0.0162186
+
+</td>
+
+<td style="text-align:right;">
+
+0.0362659
+
+</td>
+
+<td style="text-align:right;">
+
+0.0641950
 
 </td>
 
@@ -26609,9 +26655,207 @@ cumulative.distance
 
 <tr>
 
+<td style="text-align:left;">
+
+A
+
+</td>
+
 <td style="text-align:right;">
 
-9
+1
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+3.97
+
+</td>
+
+<td style="text-align:right;">
+
+0.9916559
+
+</td>
+
+<td style="text-align:right;">
+
+2.96e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0209124
+
+</td>
+
+<td style="text-align:right;">
+
+0.0323974
+
+</td>
+
+<td style="text-align:right;">
+
+0.0428578
+
+</td>
+
+<td style="text-align:right;">
+
+0.0911553
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+4.00
+
+</td>
+
+<td style="text-align:right;">
+
+0.9907688
+
+</td>
+
+<td style="text-align:right;">
+
+2.94e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0263340
+
+</td>
+
+<td style="text-align:right;">
+
+0.0610529
+
+</td>
+
+<td style="text-align:right;">
+
+0.0721187
+
+</td>
+
+<td style="text-align:right;">
+
+0.0750635
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+4.05
+
+</td>
+
+<td style="text-align:right;">
+
+0.9906638
+
+</td>
+
+<td style="text-align:right;">
+
+2.93e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0413874
+
+</td>
+
+<td style="text-align:right;">
+
+0.0790705
+
+</td>
+
+<td style="text-align:right;">
+
+0.0897257
+
+</td>
+
+<td style="text-align:right;">
+
+0.0092545
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+3
 
 </td>
 
@@ -26623,19 +26867,189 @@ cumulative.distance
 
 <td style="text-align:right;">
 
-0.1315353
+4.07
 
 </td>
 
 <td style="text-align:right;">
 
-2.5792935
+0.9900329
+
+</td>
+
+<td style="text-align:right;">
+
+2.92e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0412621
+
+</td>
+
+<td style="text-align:right;">
+
+0.0825242
+
+</td>
+
+<td style="text-align:right;">
+
+0.0922649
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000292
 
 </td>
 
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+4.10
+
+</td>
+
+<td style="text-align:right;">
+
+0.9873091
+
+</td>
+
+<td style="text-align:right;">
+
+2.90e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0534635
+
+</td>
+
+<td style="text-align:right;">
+
+0.0820092
+
+</td>
+
+<td style="text-align:right;">
+
+0.1141520
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000290
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+4.02
+
+</td>
+
+<td style="text-align:right;">
+
+0.9884694
+
+</td>
+
+<td style="text-align:right;">
+
+2.93e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0614691
+
+</td>
+
+<td style="text-align:right;">
+
+0.0807862
+
+</td>
+
+<td style="text-align:right;">
+
+0.0971911
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000293
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+5
+
+</td>
 
 <td style="text-align:right;">
 
@@ -26645,19 +27059,107 @@ cumulative.distance
 
 <td style="text-align:right;">
 
+4.17
+
+</td>
+
+<td style="text-align:right;">
+
+0.9901755
+
+</td>
+
+<td style="text-align:right;">
+
+2.88e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0427836
+
+</td>
+
+<td style="text-align:right;">
+
+0.0605051
+
+</td>
+
+<td style="text-align:right;">
+
+0.1044002
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000288
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
 6
 
 </td>
 
 <td style="text-align:right;">
 
-0.1113641
+10
 
 </td>
 
 <td style="text-align:right;">
 
-2.4477582
+4.20
+
+</td>
+
+<td style="text-align:right;">
+
+0.9908150
+
+</td>
+
+<td style="text-align:right;">
+
+2.88e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0538137
+
+</td>
+
+<td style="text-align:right;">
+
+0.0498218
+
+</td>
+
+<td style="text-align:right;">
+
+0.0962648
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000288
 
 </td>
 
@@ -26665,61 +27167,11 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-8
-
-</td>
-
-<td style="text-align:right;">
-
-6
+A
 
 </td>
-
-<td style="text-align:right;">
-
-0.1099115
-
-</td>
-
-<td style="text-align:right;">
-
-2.3363941
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-0.0775346
-
-</td>
-
-<td style="text-align:right;">
-
-2.2264826
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:right;">
 
@@ -26729,25 +27181,189 @@ cumulative.distance
 
 <td style="text-align:right;">
 
-5
+11
 
 </td>
 
 <td style="text-align:right;">
 
-0.1011159
+4.22
 
 </td>
 
 <td style="text-align:right;">
 
-2.1489480
+0.9891059
+
+</td>
+
+<td style="text-align:right;">
+
+2.86e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0496231
+
+</td>
+
+<td style="text-align:right;">
+
+0.0607756
+
+</td>
+
+<td style="text-align:right;">
+
+0.1109605
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000286
 
 </td>
 
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+5
+
+</td>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+4.27
+
+</td>
+
+<td style="text-align:right;">
+
+0.9891456
+
+</td>
+
+<td style="text-align:right;">
+
+2.85e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0548019
+
+</td>
+
+<td style="text-align:right;">
+
+0.0493464
+
+</td>
+
+<td style="text-align:right;">
+
+0.1103419
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000285
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+4.25
+
+</td>
+
+<td style="text-align:right;">
+
+0.9893396
+
+</td>
+
+<td style="text-align:right;">
+
+2.86e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0599075
+
+</td>
+
+<td style="text-align:right;">
+
+0.0534304
+
+</td>
+
+<td style="text-align:right;">
+
+0.1106115
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000286
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
 
 <td style="text-align:right;">
 
@@ -26757,75 +27373,49 @@ cumulative.distance
 
 <td style="text-align:right;">
 
-5
+14
 
 </td>
 
 <td style="text-align:right;">
 
-0.1153570
+4.30
 
 </td>
 
 <td style="text-align:right;">
 
-2.0478322
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-5
+0.9914179
 
 </td>
 
 <td style="text-align:right;">
 
-5
+2.85e-05
 
 </td>
 
 <td style="text-align:right;">
 
-0.1396924
+0.0636388
 
 </td>
 
 <td style="text-align:right;">
 
-1.9324751
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-5
+0.0284601
 
 </td>
 
 <td style="text-align:right;">
 
-4
+0.0985888
 
 </td>
 
 <td style="text-align:right;">
 
-0.1305467
-
-</td>
-
-<td style="text-align:right;">
-
-1.7927827
+0.0000285
 
 </td>
 
@@ -26833,83 +27423,63 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-4
-
-</td>
-
-<td style="text-align:right;">
-
-4
+B
 
 </td>
 
 <td style="text-align:right;">
 
-0.1345201
+7
 
 </td>
 
 <td style="text-align:right;">
 
-1.6622360
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-3
+17
 
 </td>
 
 <td style="text-align:right;">
 
-4
+4.37
 
 </td>
 
 <td style="text-align:right;">
 
-0.1930473
+0.9920228
 
 </td>
 
 <td style="text-align:right;">
 
-1.5277160
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-2
+2.83e-05
 
 </td>
 
 <td style="text-align:right;">
 
-4
+0.0631874
 
 </td>
 
 <td style="text-align:right;">
 
-0.1112619
+0.0296375
 
 </td>
 
 <td style="text-align:right;">
 
-1.3346687
+0.0828696
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000283
 
 </td>
 
@@ -26917,83 +27487,63 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-2
-
-</td>
-
-<td style="text-align:right;">
-
-3
+A
 
 </td>
 
 <td style="text-align:right;">
 
-0.3278547
+9
 
 </td>
 
 <td style="text-align:right;">
 
-1.2234067
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1
+15
 
 </td>
 
 <td style="text-align:right;">
 
-3
+4.32
 
 </td>
 
 <td style="text-align:right;">
 
-0.2022357
+0.9909760
 
 </td>
 
 <td style="text-align:right;">
 
-0.8955520
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1
+2.84e-05
 
 </td>
 
 <td style="text-align:right;">
 
-2
+0.0588591
 
 </td>
 
 <td style="text-align:right;">
 
-0.3257364
+0.0370087
 
 </td>
 
 <td style="text-align:right;">
 
-0.6933163
+0.0983263
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000284
 
 </td>
 
@@ -27001,27 +27551,255 @@ cumulative.distance
 
 <tr>
 
-<td style="text-align:right;">
+<td style="text-align:left;">
 
-1
-
-</td>
-
-<td style="text-align:right;">
-
-1
+B
 
 </td>
 
 <td style="text-align:right;">
 
-0.3675799
+8
 
 </td>
 
 <td style="text-align:right;">
 
-0.3675799
+18
+
+</td>
+
+<td style="text-align:right;">
+
+4.40
+
+</td>
+
+<td style="text-align:right;">
+
+0.9931386
+
+</td>
+
+<td style="text-align:right;">
+
+2.82e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0636790
+
+</td>
+
+<td style="text-align:right;">
+
+0.0218417
+
+</td>
+
+<td style="text-align:right;">
+
+0.0746037
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000282
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+19
+
+</td>
+
+<td style="text-align:right;">
+
+4.42
+
+</td>
+
+<td style="text-align:right;">
+
+0.9930501
+
+</td>
+
+<td style="text-align:right;">
+
+2.81e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0700528
+
+</td>
+
+<td style="text-align:right;">
+
+0.0198937
+
+</td>
+
+<td style="text-align:right;">
+
+0.0653772
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000281
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+4.45
+
+</td>
+
+<td style="text-align:right;">
+
+0.9936422
+
+</td>
+
+<td style="text-align:right;">
+
+2.81e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0715353
+
+</td>
+
+<td style="text-align:right;">
+
+0.0198403
+
+</td>
+
+<td style="text-align:right;">
+
+0.0601787
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000281
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+4.35
+
+</td>
+
+<td style="text-align:right;">
+
+0.9917098
+
+</td>
+
+<td style="text-align:right;">
+
+2.83e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0537172
+
+</td>
+
+<td style="text-align:right;">
+
+0.0447644
+
+</td>
+
+<td style="text-align:right;">
+
+0.0854049
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000283
 
 </td>
 
@@ -27031,163 +27809,23 @@ cumulative.distance
 
 </table>
 
-</td>
+Note that several samples show inverted ages with respect to the
+adjacent samples that belong to the other sequence (ages 4.02, 4.27,
+4.32, and 4.35). The slotting algorithm assumes that both sequences have
+no age/time/depth column (if these columns were present, slotting them
+would be a trivial task), and only takes as input the
+distance/dissimilarity between samples. In consequence, some slotting
+solutions, as this one, might show discordant ages when evaluated, but
+that is just an intrinsic property of the algorithm. When two sequences
+are slotted together, the output is just one of the possible solutions,
+but it is indeed the one that minimizes the dissimilarity between
+adjacent samples of each sequence.
 
-</tr>
+The plot below compares one column of the sequences A and B (upper
+panel) with the column resulting from slotting both sequences (lower
+panel).
 
-</tbody>
-
-</table>
-
-``` r
-
-#visualizing output
-plotMatrix(
-  distance.matrix = AB.distance.matrix,
-  least.cost.path = AB.least.cost.path,
-  color.palette = "viridis"
-)
-```
-
-<img src="man/figures/README-unnamed-chunk-49-1.png" title="Least cost matrix and path between sequences A and B." alt="Least cost matrix and path between sequences A and B." width="100%" />
-
-``` r
-
-rm(AB.distance.matrix, AB.least.cost.matrix)
-```
-
-**Next: generating composite sequence from the least-cost path
-dataframe**
-
-``` r
-#input parameters
-sequences <- AB
-grouping.column <- "id"
-least.cost.path <- AB.least.cost.path
-
-#iterating throught he list least.cost.path
-#for each element in least.cost.path
-i <- 1
-
-#secondary parameters
-sequence.names <- unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
-
-#extracting and flipping least.cost.path
-path <- least.cost.path[[i]]
-path <- path[nrow(path):1, ]
-
-#separating sequences
-for(k in 1:2){
-sequences[sequences[, grouping.column] == sequence.names[k], "index"] <- order(unique(path[, sequence.names[k]]))
-}
-
-#creating output dataframe
-sequences.combined <- sequences
-sequences.combined[] <- NA
-
-#indices
-indices <- list()
-indices[[1]] <- path[, sequence.names[1]]
-indices[[2]] <- path[, sequence.names[2]]
-names(indices) <- sequence.names
-
-#defining dynamic variables
-target.sequence <- sequence.names[1]
-target.index <- indices[[target.sequence]][1]
-```
-
-``` r
-#iterating through AB.index.unique
-##################################
-for(j in 1:nrow(sequences.combined)){
-
-if(target.index %in% indices[[target.sequence]]){
-  
-  #target.index is repeated in target.sequence
-  if(sum(indices[[target.sequence]] == target.index) > 1){
-    
-    #switch sequence
-    target.sequence <- sequence.names[sequence.names != target.sequence]
-    
-    #change target.index to the first index of the given sequence
-    target.index <- indices[[target.sequence]][1]
-    
-    #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-    
-  } else {
-    
-    #target index is not repeated
-    
-    #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-    
-  }
-  
-} else {
-  
-  #target.index not in target sequence
-  
-  #switch sequence
-  target.sequence <- sequence.names[sequence.names != target.sequence]
-    
-  #change target.index to the first index of the given sequence
-  target.index <- indices[[target.sequence]][1]
-  
-      #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-  
-}
-    
-}
-#> Adding line 1 of sequence B
-#> Adding line 2 of sequence B
-#> Adding line 1 of sequence A
-#> Adding line 3 of sequence B
-#> Adding line 2 of sequence A
-#> Adding line 3 of sequence A
-#> Adding line 4 of sequence A
-#> Adding line 4 of sequence B
-#> Adding line 5 of sequence A
-#> Adding line 6 of sequence A
-#> Adding line 7 of sequence A
-#> Adding line 5 of sequence B
-#> Adding line 8 of sequence A
-#> Adding line 6 of sequence B
-#> Adding line 7 of sequence B
-#> Adding line 9 of sequence A
-#> Adding line 8 of sequence B
-#> Adding line 9 of sequence B
-#> Adding line 10 of sequence B
-#> Adding line 10 of sequence A
-```
+<img src="man/figures/README-unnamed-chunk-51-1.png" title="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
 
 ## One of the sequences has a time/age/depth column.
 

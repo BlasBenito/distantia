@@ -112,19 +112,20 @@ One long dataframe: The user provides a single dataframe, through the sequences 
     </div>
 
     <pre class="usage"><span class='fu'>prepareSequences</span>(
-<span class='kw'>sequence.A</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>sequence.A.name</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-<span class='kw'>sequence.B</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>sequence.B.name</span> <span class='kw'>=</span> <span class='st'>"B"</span>,
-<span class='kw'>merge.mode</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-<span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>same.time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
-<span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-<span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>sequence.A</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sequence.A.name</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
+  <span class='kw'>sequence.B</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sequence.B.name</span> <span class='kw'>=</span> <span class='st'>"B"</span>,
+  <span class='kw'>merge.mode</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
+  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
+  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>same.time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +176,7 @@ One long dataframe: The user provides a single dataframe, through the sequences 
     </tr>
     <tr>
       <th>paired.samples</th>
-      <td><p>boolean. If <code>TRUE</code>, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the <code>time.column</code> must have the same values in every dataset. This is only mandatory when using the functions <code>distancePairedSamples</code> or <code>workflowPsi</code> with <code>paired.samples = TRUE</code> after preparing the sequences. The default setting is <code>FALSE</code>.</p></td>
+      <td><p>boolean. If <code>TRUE</code>, the function will test if the datasets have paired samples. This means that each dataset must have the same number of rows/samples, and that, if available, the <code>time.column</code> must have the same values in every dataset. This is only mandatory when using the functions <code><a href='distancePairedSamples.html'>distancePairedSamples</a></code> or <code><a href='workflowPsi.html'>workflowPsi</a></code> with <code>paired.samples = TRUE</code> after preparing the sequences. The default setting is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>same.time</th>

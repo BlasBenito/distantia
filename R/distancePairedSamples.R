@@ -7,6 +7,7 @@
 #'   grouping.column = NULL,
 #'   time.column = NULL,
 #'   exclude.columns = NULL,
+#'   same.time = FALSE,
 #'   method = "manhattan",
 #'   sum.distances = FALSE,
 #'   parallel.execution = TRUE

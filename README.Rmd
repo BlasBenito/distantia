@@ -604,10 +604,10 @@ MIS.short.long <- prepareSequences(
 kable(MIS.short.long)
 ```
 
-The function **worflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.
+The function **workflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.
 
 ```{r}
-MIS.psi <- worflowShortInLong(
+MIS.psi <- workflowShortInLong(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
@@ -666,7 +666,7 @@ climate.short.long <- prepareSequences(
 )
 
 #computing psi
-climate.psi <- worflowShortInLong(
+climate.psi <- workflowShortInLong(
   sequences = climate.short.long,
   grouping.column = "id",
   time.column = "age",
@@ -687,8 +687,6 @@ rm(climateLong, climateShort, climate.short.long, climate.psi)
 
 
 # Sequence slotting: combining samples of two sequences into a single composite sequence
-
-**THIS SECTION IS A WORK IN PROGRESS**
 
 Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence containing the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples.
 
@@ -721,158 +719,85 @@ AB <- prepareSequences(
   sequence.A.name = "A",
   sequence.B = B,
   sequence.B.name = "B",
+  grouping.column = "id",
   exclude.columns = c("depth", "age"),
   transformation = "hellinger"
 )
 kable(AB)
-rm(A, B, pollenGP, sampling.indices)
+rm(sampling.indices)
 ```
 
-First, we need to obtain the least-cost path from the distance matrix.
+Once the sequences are prepared, the function **sequenceSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least cost matrix, and generates the least cost path. The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence.
 
-```{r, , fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least cost matrix and path between sequences A and B."}
-#distance matrix
-AB.distance.matrix <- distanceMatrix(
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Distance matrix and least cost path of the example sequences 'A' and 'B'.."}
+AB.combined <- sequenceSlotting(
   sequences = AB,
-  exclude.columns = c("depth", "age"),
+  grouping.column = "id",
+  time.column = "age", 
+  exclude.columns = "depth",
+  method = "manhattan",
+  plot = TRUE
 )
-
-#least cost matrix
-AB.least.cost.matrix <- leastCostMatrix(
-  distance.matrix = AB.distance.matrix,
-  diagonal = FALSE
-)
-
-#least cost path
-AB.least.cost.path <- leastCostPath(
-  distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix,
-  diagonal = FALSE
-)
-
-kable(AB.least.cost.path)
-
-#visualizing output
-plotMatrix(
-  distance.matrix = AB.distance.matrix,
-  least.cost.path = AB.least.cost.path,
-  color.palette = "viridis"
-)
-
-rm(AB.distance.matrix, AB.least.cost.matrix)
 ```
 
-**Next: generating composite sequence from the least-cost path dataframe**
+The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-#input parameters
-sequences <- AB
-grouping.column <- "id"
-least.cost.path <- AB.least.cost.path
-
-#iterating throught he list least.cost.path
-#for each element in least.cost.path
-i <- 1
-
-#secondary parameters
-sequence.names <- unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
-
-#extracting and flipping least.cost.path
-path <- least.cost.path[[i]]
-path <- path[nrow(path):1, ]
-
-#separating sequences
-for(k in 1:2){
-sequences[sequences[, grouping.column] == sequence.names[k], "index"] <- order(unique(path[, sequence.names[k]]))
-}
-
-#creating output dataframe
-sequences.combined <- sequences
-sequences.combined[] <- NA
-
-#indices
-indices <- list()
-indices[[1]] <- path[, sequence.names[1]]
-indices[[2]] <- path[, sequence.names[2]]
-names(indices) <- sequence.names
-
-#defining dynamic variables
-target.sequence <- sequence.names[1]
-target.index <- indices[[target.sequence]][1]
+kable(AB.combined[,1:10])
 ```
 
-```{r}
-#iterating through AB.index.unique
-##################################
-for(j in 1:nrow(sequences.combined)){
+Note that several samples show inverted ages with respect to the adjacent samples that belong to the other sequence (ages 4.02, 4.27, 4.32, and 4.35). The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.
 
-if(target.index %in% indices[[target.sequence]]){
-  
-  #target.index is repeated in target.sequence
-  if(sum(indices[[target.sequence]] == target.index) > 1){
-    
-    #switch sequence
-    target.sequence <- sequence.names[sequence.names != target.sequence]
-    
-    #change target.index to the first index of the given sequence
-    target.index <- indices[[target.sequence]][1]
-    
-    #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-    
-  } else {
-    
-    #target index is not repeated
-    
-    #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-    
-  }
-  
-} else {
-  
-  #target.index not in target sequence
-  
-  #switch sequence
-  target.sequence <- sequence.names[sequence.names != target.sequence]
-    
-  #change target.index to the first index of the given sequence
-  target.index <- indices[[target.sequence]][1]
-  
-      #print changes
-    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
-    
-    #adds the line to sequences.combined
-    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-    
-    #removes the index from the given sequence
-    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-    
-    #increases the target index
-    target.index <- target.index + 1
-  
-}
-    
-}
+The plot below compares one column of the sequences A and B (upper panel) with the column resulting from slotting both sequences (lower panel).
 
+```{r, fig.width = 7, fig.height = 7, eval=TRUE, fig.cap = "Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
+cols <- viridis::viridis(3, begin = 0.2, end = 0.8)
+par(mfrow=c(2,1), mar = c(4,2,2,1))
+
+#plotting separated sequences
+plot(AB[AB$id == "A", "Abies"], 
+     type="l", 
+     ylim=c(0.983, 0.998), 
+     xlab = "", 
+     ylab = "",
+     col = cols[1],
+     lwd = 2,
+     main = "Column 'Abies' of the sequences A and B"
+     )
+lines(AB[AB$id == "B", "Abies"], 
+      col = cols[3],
+      lwd = 2
+      )
+text(x = 1:10,
+     y = AB[AB$id == "B", "Abies"], 
+     labels = 1:10, 
+     pos = 3, 
+     col = cols[3])
+text(x = 1:10,
+     y = AB[AB$id == "A", "Abies"], 
+     labels = 1:10, 
+     pos = 1, 
+     col = cols[1])
+
+#plotting composite sequence
+plot(AB.combined$Abies, 
+     type="l", 
+     ylim=c(0.983, 0.998), 
+     xlab = "Sample order", 
+     ylab = "",
+     col = cols[2], 
+     lwd = 2,
+     main = "Column 'Abies' of the composite sequence"
+     )
+points(AB.combined$Abies,
+       col = cols[c(1,3)][AB.combined$id],
+       pch = 19
+       )
+text(x = 1:20,
+     y = AB.combined[, "Abies"], 
+     labels = AB.combined[, "original.index"], 
+     pos = 3, 
+     col = cols[c(1,3)][AB.combined$id])
 
 ```
 

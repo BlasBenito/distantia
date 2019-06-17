@@ -3,7 +3,7 @@
 #' @description This workflow works under the following scenario: the user has a short sequence, and a long sequence, and has the objective of finding the segment in the long sequence that better matches the short sequence. The size of the segment in the long sequence is either defined by the user through the arguments \code{min.length} and \code{max.length}. If left empty, \code{min.length} equals to a 75 percent of the length of the short sequence, and \code{max.length} equals to a 125 percent of the length of the short sequence. Note that this is a brute force algorithm, and a large difference between both arguments may generate a very large of subsets of the long sequence. The algorithm is parallelized and optimized as possible, so still, large searches are possible.
 
 #'
-#' @usage workflowPsi(
+#' @usage workflowShortInLong(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -22,7 +22,7 @@
 #' @param exclude.columns character string or character vector with column names in \code{sequences} to be excluded from the analysis.
 #' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
 #' @param diagonal boolean, if \code{TRUE} (default), diagonals are included in the computation of the least cost path. This is the best option if the user suspects that a given segment in the short sequence might be identical to the short sequence.
-#' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path. If \code{paired.samples} is \code{TRUE}, then \code{diagonal}, \code{min.length}, and \code{max.length} are irrelevant.
+#' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
 #' @param min.length integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
 #' @param max.length  integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
@@ -84,7 +84,7 @@
 #'}
 #'
 #' @export
-worflowShortInLong <- function(
+workflowShortInLong <- function(
   sequences = NULL,
   grouping.column = NULL,
   time.column = NULL,
