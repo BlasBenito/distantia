@@ -725,6 +725,7 @@ AB <- prepareSequences(
   transformation = "hellinger"
 )
 kable(AB)
+rm(A, B, pollenGP, sampling.indices)
 ```
 
 First, we need to obtain the least-cost path from the distance matrix.
@@ -757,15 +758,121 @@ plotMatrix(
   least.cost.path = AB.least.cost.path,
   color.palette = "viridis"
 )
+
+rm(AB.distance.matrix, AB.least.cost.matrix)
 ```
 
 **Next: generating composite sequence from the least-cost path dataframe**
 
 ```{r}
 #input parameters
-i<-1
+sequences <- AB
+grouping.column <- "id"
 least.cost.path <- AB.least.cost.path
-sequence.names = unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
+
+#iterating throught he list least.cost.path
+#for each element in least.cost.path
+i <- 1
+
+#secondary parameters
+sequence.names <- unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
+
+#extracting and flipping least.cost.path
+path <- least.cost.path[[i]]
+path <- path[nrow(path):1, ]
+
+#separating sequences
+for(k in 1:2){
+sequences[sequences[, grouping.column] == sequence.names[k], "index"] <- order(unique(path[, sequence.names[k]]))
+}
+
+#creating output dataframe
+sequences.combined <- sequences
+sequences.combined[] <- NA
+
+#indices
+indices <- list()
+indices[[1]] <- path[, sequence.names[1]]
+indices[[2]] <- path[, sequence.names[2]]
+names(indices) <- sequence.names
+
+#defining dynamic variables
+target.sequence <- sequence.names[1]
+target.index <- indices[[target.sequence]][1]
+```
+
+```{r}
+#iterating through AB.index.unique
+##################################
+for(j in 1:nrow(sequences.combined)){
+
+if(target.index %in% indices[[target.sequence]]){
+  
+  #target.index is repeated in target.sequence
+  if(sum(indices[[target.sequence]] == target.index) > 1){
+    
+    #switch sequence
+    target.sequence <- sequence.names[sequence.names != target.sequence]
+    
+    #change target.index to the first index of the given sequence
+    target.index <- indices[[target.sequence]][1]
+    
+    #print changes
+    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
+    
+    #adds the line to sequences.combined
+    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
+    
+    #removes the index from the given sequence
+    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
+    
+    #increases the target index
+    target.index <- target.index + 1
+    
+  } else {
+    
+    #target index is not repeated
+    
+    #print changes
+    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
+    
+    #adds the line to sequences.combined
+    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
+    
+    #removes the index from the given sequence
+    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
+    
+    #increases the target index
+    target.index <- target.index + 1
+    
+  }
+  
+} else {
+  
+  #target.index not in target sequence
+  
+  #switch sequence
+  target.sequence <- sequence.names[sequence.names != target.sequence]
+    
+  #change target.index to the first index of the given sequence
+  target.index <- indices[[target.sequence]][1]
+  
+      #print changes
+    message(paste("Adding line ", target.index, " of sequence ", target.sequence, sep=""))
+    
+    #adds the line to sequences.combined
+    sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
+    
+    #removes the index from the given sequence
+    indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
+    
+    #increases the target index
+    target.index <- target.index + 1
+  
+}
+    
+}
+
 
 ```
 
