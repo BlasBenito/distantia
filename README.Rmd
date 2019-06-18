@@ -699,8 +699,6 @@ Within this scenario, there are two possibilities: 1) None of the sequences has 
 
 ## None of the sequences has time/age/depth columns.
 
-**THIS SECTION IS A WORK IN PROGRESS**
-
 In this case, the target is to obtain a single ordered sequence containing the samples of both sequences (a.k.a, a composite sequence).
 
 To develop this study case I will use the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each, and will separate the first 20 samples into two different datasets with 10 randomly selected samples each. We assume that these sequences do not have depth or age, but these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument.

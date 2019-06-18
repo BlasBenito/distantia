@@ -20872,8 +20872,6 @@ of the sequences has a *time.column*.
 
 ## None of the sequences has time/age/depth columns.
 
-**THIS SECTION IS A WORK IN PROGRESS**
-
 In this case, the target is to obtain a single ordered sequence
 containing the samples of both sequences (a.k.a, a composite sequence).
 
