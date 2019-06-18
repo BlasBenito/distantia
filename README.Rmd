@@ -1,5 +1,10 @@
 ---
-output: github_document
+title: "distantia: an R package to compute the dissimilarity between multivariate time-series"
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
+always_allow_html: yes
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -18,7 +23,7 @@ new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"
 if(length(new.packages)) install.packages(new.packages, dep=TRUE)
 
 ```
-# distantia
+## Summary
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -694,6 +699,8 @@ Within this scenario, there are two possibilities: 1) None of the sequences has 
 
 ## None of the sequences has time/age/depth columns.
 
+**THIS SECTION IS A WORK IN PROGRESS**
+
 In this case, the target is to obtain a single ordered sequence containing the samples of both sequences (a.k.a, a composite sequence).
 
 To develop this study case I will use the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each, and will separate the first 20 samples into two different datasets with 10 randomly selected samples each. We assume that these sequences do not have depth or age, but these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument.
@@ -743,10 +750,12 @@ AB.combined <- sequenceSlotting(
 The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-kable(AB.combined[,1:10])
+kable(AB.combined[,1:10], format = "html")
+# %>%
+#   row_spec(c(8, 13, 16, 20), bold = T)
 ```
 
-Note that several samples show inverted ages with respect to the adjacent samples that belong to the other sequence (ages 4.02, 4.27, 4.32, and 4.35). The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.
+Note that several samples (highlighted in bold case) show inverted ages with respect to the adjacent samples that belong to the other sequence. The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.
 
 The plot below compares one column of the sequences A and B (upper panel) with the column resulting from slotting both sequences (lower panel).
 
@@ -801,6 +810,20 @@ text(x = 1:20,
 
 ```
 
+```{r}
+temp <- AB.combined
+temp$id <- "temp"
+autoSum(
+  sequences = temp,
+  grouping.column = "id",
+  time.column = "age", 
+  exclude.columns = c("depth", "original.index"),
+  method = "manhattan",
+  parallel.execution = FALSE
+)
+```
+
+autosum according to old algorithm 3.060474
 
 ## One of the sequences has a time/age/depth column.
 

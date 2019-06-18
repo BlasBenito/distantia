@@ -121,91 +121,82 @@ sequenceSlotting <- function(sequences = NULL,
   #extracting and flipping least.cost.path
   path <- least.cost.path[[1]]
   path <- path[nrow(path):1, ]
+  rownames(path)<-1:nrow(path)
 
   #adding index column to the sequences
   for(k in 1:2){
     sequences[sequences[, grouping.column] == sequence.names[k], "index"] <- order(unique(path[, sequence.names[k]]))
   }
+  sequences <- data.frame(index = sequences$index, sequences[, colnames(sequences) != "index"])
 
   #creating output dataframe
-  sequences.combined <- sequences
-  sequences.combined[] <- NA
+  sequences.combined <- sequences[0, ]
 
-  #list of indices of each sequence to be used
-  indices <- list()
-  indices[[1]] <- path[, sequence.names[1]]
-  indices[[2]] <- path[, sequence.names[2]]
-  names(indices) <- sequence.names
+  #vectors to introduce used indices
+  used <- list()
+  used[[1]] <- vector()
+  used[[2]] <- vector()
+  names(used) <- sequence.names
 
   #starting values for dynamic variables
+  target.index <- 1
   target.sequence <- sequence.names[1]
-  target.index <- indices[[target.sequence]][1]
+  if(sum(path[,target.sequence] == target.index) > 1){
+    target.sequence <- sequence.names[sequence.names != target.sequence]
+  }
+
+  #first row of path
+  j <- 1
 
   #iterating through AB.index.unique
   ##################################
-  for(j in 1:nrow(sequences.combined)){
+  while(j < nrow(path)){
 
-    if(target.index %in% indices[[target.sequence]]){
+    #1. IS NEW?
+    ###########
+    if(!(path[j, target.sequence] %in% used[[target.sequence]])){
 
-      #target.index is repeated in target.sequence
-      if(sum(indices[[target.sequence]] == target.index) > 1){
+      #1. YES: ADD
+      #------------
+      sequences.combined <- rbind(sequences.combined, sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == path[j, target.sequence]), ])
 
-        #switch sequence
-        target.sequence <- sequence.names[sequence.names != target.sequence]
+      #adds the index to the used indices
+      used[[target.sequence]] <- c(used[[target.sequence]], path[j, target.sequence])
 
-        #change target.index to the first index of the given sequence
-        target.index <- indices[[target.sequence]][1]
+      #2. IS DIFFERENT TO THE NEXT ONE
+      ################
+      if(path[j, target.sequence] != path[j + 1, target.sequence]){
 
-        #adds the line to sequences.combined
-        sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-
-        #removes the index from the given sequence
-        indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-
-        #increases the target index
-        target.index <- target.index + 1
+        #2. YES: NEXT
+        #------------
+        j <- j + 1
+        next
 
       } else {
 
-        #target index is not repeated
-
-        #adds the line to sequences.combined
-        sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-
-        #removes the index from the given sequence
-        indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-
-        #increases the target index
-        target.index <- target.index + 1
+        #2. NOPE: SWITCH
+        #---------------
+        target.sequence <- sequence.names[sequence.names != target.sequence]
+        next
 
       }
 
+
     } else {
-
-      #target.index not in target sequence
-
-      #switch sequence
-      target.sequence <- sequence.names[sequence.names != target.sequence]
-
-      #change target.index to the first index of the given sequence
-      target.index <- indices[[target.sequence]][1]
-
-      #adds the line to sequences.combined
-      sequences.combined[j, ] <- sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == target.index), ]
-
-      #removes the index from the given sequence
-      indices[[target.sequence]] <- indices[[target.sequence]][indices[[target.sequence]] != target.index]
-
-      #increases the target index
-      target.index <- target.index + 1
-
+      #1. NOPE: NEXT
+      #-------------
+      j <- j + 1
+      next
     }
 
   }
 
+  #adding the last one
+  sequences.combined <- rbind(sequences.combined, sequences[which(sequences[ , grouping.column] == target.sequence & sequences$index == path[j, target.sequence]), ])
+
   #getting index column
   index.column <- sequences.combined$index
-  sequences$index <- NULL
+  sequences.combined$index <- NULL
 
   #getting the grouping column
   grouping.column.data <- sequences.combined[, grouping.column]

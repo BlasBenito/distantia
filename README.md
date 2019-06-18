@@ -1,7 +1,10 @@
+distantia: an R package to compute the dissimilarity between
+multivariate time-series
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# distantia
+## Summary
 
 <!-- badges: start -->
 
@@ -20869,6 +20872,8 @@ of the sequences has a *time.column*.
 
 ## None of the sequences has time/age/depth columns.
 
+**THIS SECTION IS A WORK IN PROGRESS**
+
 In this case, the target is to obtain a single ordered sequence
 containing the samples of both sequences (a.k.a, a composite sequence).
 
@@ -26450,7 +26455,7 @@ The output dataframe has a column named *original.index*, which has the
 index of each sample in the original datasets.
 
 ``` r
-kable(AB.combined[,1:10])
+kable(AB.combined[,1:10], format = "html")
 ```
 
 <table>
@@ -26458,6 +26463,10 @@ kable(AB.combined[,1:10])
 <thead>
 
 <tr>
+
+<th style="text-align:left;">
+
+</th>
 
 <th style="text-align:left;">
 
@@ -26529,6 +26538,12 @@ Crassulaceae
 
 <td style="text-align:left;">
 
+11
+
+</td>
+
+<td style="text-align:left;">
+
 B
 
 </td>
@@ -26590,6 +26605,12 @@ B
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+12
+
+</td>
 
 <td style="text-align:left;">
 
@@ -26657,67 +26678,9 @@ B
 
 <td style="text-align:left;">
 
-A
+13
 
 </td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-3.97
-
-</td>
-
-<td style="text-align:right;">
-
-0.9916559
-
-</td>
-
-<td style="text-align:right;">
-
-2.96e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0209124
-
-</td>
-
-<td style="text-align:right;">
-
-0.0323974
-
-</td>
-
-<td style="text-align:right;">
-
-0.0428578
-
-</td>
-
-<td style="text-align:right;">
-
-0.0911553
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
@@ -26785,6 +26748,82 @@ B
 
 <td style="text-align:left;">
 
+1
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+3.97
+
+</td>
+
+<td style="text-align:right;">
+
+0.9916559
+
+</td>
+
+<td style="text-align:right;">
+
+2.96e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0209124
+
+</td>
+
+<td style="text-align:right;">
+
+0.0323974
+
+</td>
+
+<td style="text-align:right;">
+
+0.0428578
+
+</td>
+
+<td style="text-align:right;">
+
+0.0911553
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:left;">
+
 A
 
 </td>
@@ -26849,131 +26888,9 @@ A
 
 <td style="text-align:left;">
 
-A
+14
 
 </td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-4.07
-
-</td>
-
-<td style="text-align:right;">
-
-0.9900329
-
-</td>
-
-<td style="text-align:right;">
-
-2.92e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0412621
-
-</td>
-
-<td style="text-align:right;">
-
-0.0825242
-
-</td>
-
-<td style="text-align:right;">
-
-0.0922649
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000292
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:right;">
-
-4
-
-</td>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-4.10
-
-</td>
-
-<td style="text-align:right;">
-
-0.9873091
-
-</td>
-
-<td style="text-align:right;">
-
-2.90e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0534635
-
-</td>
-
-<td style="text-align:right;">
-
-0.0820092
-
-</td>
-
-<td style="text-align:right;">
-
-0.1141520
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000290
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
@@ -27041,6 +26958,152 @@ B
 
 <td style="text-align:left;">
 
+3
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+4.07
+
+</td>
+
+<td style="text-align:right;">
+
+0.9900329
+
+</td>
+
+<td style="text-align:right;">
+
+2.92e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0412621
+
+</td>
+
+<td style="text-align:right;">
+
+0.0825242
+
+</td>
+
+<td style="text-align:right;">
+
+0.0922649
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000292
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:right;">
+
+4.10
+
+</td>
+
+<td style="text-align:right;">
+
+0.9873091
+
+</td>
+
+<td style="text-align:right;">
+
+2.90e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0534635
+
+</td>
+
+<td style="text-align:right;">
+
+0.0820092
+
+</td>
+
+<td style="text-align:right;">
+
+0.1141520
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000290
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+5
+
+</td>
+
+<td style="text-align:left;">
+
 A
 
 </td>
@@ -27105,131 +27168,9 @@ A
 
 <td style="text-align:left;">
 
-A
+15
 
 </td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-4.20
-
-</td>
-
-<td style="text-align:right;">
-
-0.9908150
-
-</td>
-
-<td style="text-align:right;">
-
-2.88e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0538137
-
-</td>
-
-<td style="text-align:right;">
-
-0.0498218
-
-</td>
-
-<td style="text-align:right;">
-
-0.0962648
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000288
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-4.22
-
-</td>
-
-<td style="text-align:right;">
-
-0.9891059
-
-</td>
-
-<td style="text-align:right;">
-
-2.86e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0496231
-
-</td>
-
-<td style="text-align:right;">
-
-0.0607756
-
-</td>
-
-<td style="text-align:right;">
-
-0.1109605
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000286
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
@@ -27297,6 +27238,152 @@ B
 
 <td style="text-align:left;">
 
+6
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+4.20
+
+</td>
+
+<td style="text-align:right;">
+
+0.9908150
+
+</td>
+
+<td style="text-align:right;">
+
+2.88e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0538137
+
+</td>
+
+<td style="text-align:right;">
+
+0.0498218
+
+</td>
+
+<td style="text-align:right;">
+
+0.0962648
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000288
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+4.22
+
+</td>
+
+<td style="text-align:right;">
+
+0.9891059
+
+</td>
+
+<td style="text-align:right;">
+
+2.86e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0496231
+
+</td>
+
+<td style="text-align:right;">
+
+0.0607756
+
+</td>
+
+<td style="text-align:right;">
+
+0.1109605
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000286
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
 A
 
 </td>
@@ -27358,6 +27445,12 @@ A
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+16
+
+</td>
 
 <td style="text-align:left;">
 
@@ -27425,67 +27518,9 @@ B
 
 <td style="text-align:left;">
 
-B
+9
 
 </td>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-4.37
-
-</td>
-
-<td style="text-align:right;">
-
-0.9920228
-
-</td>
-
-<td style="text-align:right;">
-
-2.83e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0631874
-
-</td>
-
-<td style="text-align:right;">
-
-0.0296375
-
-</td>
-
-<td style="text-align:right;">
-
-0.0828696
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000283
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:left;">
 
@@ -27553,6 +27588,82 @@ A
 
 <td style="text-align:left;">
 
+17
+
+</td>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+4.37
+
+</td>
+
+<td style="text-align:right;">
+
+0.9920228
+
+</td>
+
+<td style="text-align:right;">
+
+2.83e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0631874
+
+</td>
+
+<td style="text-align:right;">
+
+0.0296375
+
+</td>
+
+<td style="text-align:right;">
+
+0.0828696
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000283
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+18
+
+</td>
+
+<td style="text-align:left;">
+
 B
 
 </td>
@@ -27614,6 +27725,82 @@ B
 </tr>
 
 <tr>
+
+<td style="text-align:left;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+4.35
+
+</td>
+
+<td style="text-align:right;">
+
+0.9917098
+
+</td>
+
+<td style="text-align:right;">
+
+2.83e-05
+
+</td>
+
+<td style="text-align:right;">
+
+0.0537172
+
+</td>
+
+<td style="text-align:right;">
+
+0.0447644
+
+</td>
+
+<td style="text-align:right;">
+
+0.0854049
+
+</td>
+
+<td style="text-align:right;">
+
+0.0000283
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+19
+
+</td>
 
 <td style="text-align:left;">
 
@@ -27681,6 +27868,12 @@ B
 
 <td style="text-align:left;">
 
+20
+
+</td>
+
+<td style="text-align:left;">
+
 B
 
 </td>
@@ -27741,78 +27934,19 @@ B
 
 </tr>
 
-<tr>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-4.35
-
-</td>
-
-<td style="text-align:right;">
-
-0.9917098
-
-</td>
-
-<td style="text-align:right;">
-
-2.83e-05
-
-</td>
-
-<td style="text-align:right;">
-
-0.0537172
-
-</td>
-
-<td style="text-align:right;">
-
-0.0447644
-
-</td>
-
-<td style="text-align:right;">
-
-0.0854049
-
-</td>
-
-<td style="text-align:right;">
-
-0.0000283
-
-</td>
-
-</tr>
-
 </tbody>
 
 </table>
 
-Note that several samples show inverted ages with respect to the
-adjacent samples that belong to the other sequence (ages 4.02, 4.27,
-4.32, and 4.35). The slotting algorithm assumes that both sequences have
-no age/time/depth column (if these columns were present, slotting them
+``` r
+# %>%
+#   row_spec(c(8, 13, 16, 20), bold = T)
+```
+
+Note that several samples (highlighted in bold case) show inverted ages
+with respect to the adjacent samples that belong to the other sequence.
+The slotting algorithm assumes that both sequences have no
+age/time/depth column (if these columns were present, slotting them
 would be a trivial task), and only takes as input the
 distance/dissimilarity between samples. In consequence, some slotting
 solutions, as this one, might show discordant ages when evaluated, but
@@ -27826,6 +27960,23 @@ panel) with the column resulting from slotting both sequences (lower
 panel).
 
 <img src="man/figures/README-unnamed-chunk-51-1.png" title="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
+
+``` r
+temp <- AB.combined
+temp$id <- "temp"
+autoSum(
+  sequences = temp,
+  grouping.column = "id",
+  time.column = "age", 
+  exclude.columns = c("depth", "original.index"),
+  method = "manhattan",
+  parallel.execution = FALSE
+)
+#> $temp
+#> [1] 3.158999
+```
+
+autosum according to old algorithm 3.060474
 
 ## One of the sequences has a time/age/depth column.
 

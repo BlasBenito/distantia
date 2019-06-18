@@ -62,13 +62,14 @@
     
     
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="distantia" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#distantia" class="anchor"></a>distantia</h1></div>
+<div id="summary" class="section level2">
+<h2 class="hasAnchor">
+<a href="#summary" class="anchor"></a>Summary</h2>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The package <strong>distantia</strong> allows to measure the dissimilarity between multivariate time-series (<em>sequences</em> hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also suitable. Furthermore, the target sequences can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units.</p>
 <p>In this document I briefly explain the logics behind the method, show how to use it, and demonstrate how the <strong>distantia</strong> package introduces useful tools to compare multivariate time-series.</p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -7159,10 +7160,9 @@ B
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path)</a></code></pre></div>
 </div>
 </div>
-</div>
 <div id="workflow-to-compare-multiple-sequences" class="section level1">
-<h1 class="hasAnchor">
-<a href="#workflow-to-compare-multiple-sequences" class="anchor"></a>Workflow to compare multiple sequences</h1>
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#workflow-to-compare-multiple-sequences" class="anchor"></a>Workflow to compare multiple sequences</h1></div>
 <p>The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the package <a href="https://cran.r-project.org/web/packages/foreach/index.html">“foreach”</a>, that allows to parallelize the execution of the functions by using all the processors in your machine but one. This speeds up operations considerably.</p>
 <div id="preparing-the-data-1" class="section level2">
 <h2 class="hasAnchor">
@@ -8537,10 +8537,10 @@ Similarity between MIS sequences represented as a network. More similar sites ar
 <a class="sourceLine" id="cb27-3" data-line-number="3">MIS.psi<span class="op">$</span>B &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(MIS.psi<span class="op">$</span>B, <span class="dt">levels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(sequencesMIS<span class="op">$</span>MIS))</a>
 <a class="sourceLine" id="cb27-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#plotting matrix</span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(MIS.psi), <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>A, <span class="dt">y=</span>B, <span class="dt">size=</span>psi, <span class="dt">color=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(MIS.psi), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>A, <span class="dt">y=</span>B, <span class="dt">size=</span>psi, <span class="dt">color=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_color_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">size =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(<span class="dt">size =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-25-1.png" alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%"><p class="caption">
 Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity.
@@ -8912,13 +8912,13 @@ MIS-6
 <a class="sourceLine" id="cb38-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
 <a class="sourceLine" id="cb38-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb38-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb38-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-36-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
 Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences.
@@ -9049,14 +9049,14 @@ MIS-6
 <a class="sourceLine" id="cb40-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
 <a class="sourceLine" id="cb40-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb40-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb40-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-38-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
 Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
@@ -10597,6 +10597,7 @@ psi
 <div id="none-of-the-sequences-has-timeagedepth-columns-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#none-of-the-sequences-has-timeagedepth-columns-" class="anchor"></a>None of the sequences has time/age/depth columns.</h2>
+<p><strong>THIS SECTION IS A WORK IN PROGRESS</strong></p>
 <p>In this case, the target is to obtain a single ordered sequence containing the samples of both sequences (a.k.a, a composite sequence).</p>
 <p>To develop this study case I will use the <strong>pollenGP</strong> dataset, which contains 200 samples, with 40 pollen types each, and will separate the first 20 samples into two different datasets with 10 randomly selected samples each. We assume that these sequences do not have depth or age, but these columns will be kept so the result can be assessed. That is why these columns are added to the <em>exclude.columns</em> argument.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co">#loading the data</span></a>
@@ -13395,9 +13396,11 @@ Distance matrix and least cost path of the example sequences ‘A’ and ‘B’
 </p>
 </div>
 <p>The output dataframe has a column named <em>original.index</em>, which has the index of each sample in the original datasets.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">format =</span> <span class="st">"html"</span>)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:left;">
 id
 </th>
@@ -13432,6 +13435,9 @@ Crassulaceae
 <tbody>
 <tr>
 <td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
 B
 </td>
 <td style="text-align:right;">
@@ -13463,6 +13469,9 @@ B
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+12
+</td>
 <td style="text-align:left;">
 B
 </td>
@@ -13496,37 +13505,8 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
-A
+13
 </td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-3.97
-</td>
-<td style="text-align:right;">
-0.9916559
-</td>
-<td style="text-align:right;">
-2.96e-05
-</td>
-<td style="text-align:right;">
-0.0209124
-</td>
-<td style="text-align:right;">
-0.0323974
-</td>
-<td style="text-align:right;">
-0.0428578
-</td>
-<td style="text-align:right;">
-0.0911553
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 B
 </td>
@@ -13560,6 +13540,44 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3.97
+</td>
+<td style="text-align:right;">
+0.9916559
+</td>
+<td style="text-align:right;">
+2.96e-05
+</td>
+<td style="text-align:right;">
+0.0209124
+</td>
+<td style="text-align:right;">
+0.0323974
+</td>
+<td style="text-align:right;">
+0.0428578
+</td>
+<td style="text-align:right;">
+0.0911553
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
@@ -13592,69 +13610,8 @@ A
 </tr>
 <tr>
 <td style="text-align:left;">
-A
+14
 </td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-4.07
-</td>
-<td style="text-align:right;">
-0.9900329
-</td>
-<td style="text-align:right;">
-2.92e-05
-</td>
-<td style="text-align:right;">
-0.0412621
-</td>
-<td style="text-align:right;">
-0.0825242
-</td>
-<td style="text-align:right;">
-0.0922649
-</td>
-<td style="text-align:right;">
-0.0000292
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-0.9873091
-</td>
-<td style="text-align:right;">
-2.90e-05
-</td>
-<td style="text-align:right;">
-0.0534635
-</td>
-<td style="text-align:right;">
-0.0820092
-</td>
-<td style="text-align:right;">
-0.1141520
-</td>
-<td style="text-align:right;">
-0.0000290
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 B
 </td>
@@ -13688,6 +13645,79 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+4.07
+</td>
+<td style="text-align:right;">
+0.9900329
+</td>
+<td style="text-align:right;">
+2.92e-05
+</td>
+<td style="text-align:right;">
+0.0412621
+</td>
+<td style="text-align:right;">
+0.0825242
+</td>
+<td style="text-align:right;">
+0.0922649
+</td>
+<td style="text-align:right;">
+0.0000292
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+4.10
+</td>
+<td style="text-align:right;">
+0.9873091
+</td>
+<td style="text-align:right;">
+2.90e-05
+</td>
+<td style="text-align:right;">
+0.0534635
+</td>
+<td style="text-align:right;">
+0.0820092
+</td>
+<td style="text-align:right;">
+0.1141520
+</td>
+<td style="text-align:right;">
+0.0000290
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
@@ -13720,69 +13750,8 @@ A
 </tr>
 <tr>
 <td style="text-align:left;">
-A
+15
 </td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-4.20
-</td>
-<td style="text-align:right;">
-0.9908150
-</td>
-<td style="text-align:right;">
-2.88e-05
-</td>
-<td style="text-align:right;">
-0.0538137
-</td>
-<td style="text-align:right;">
-0.0498218
-</td>
-<td style="text-align:right;">
-0.0962648
-</td>
-<td style="text-align:right;">
-0.0000288
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-4.22
-</td>
-<td style="text-align:right;">
-0.9891059
-</td>
-<td style="text-align:right;">
-2.86e-05
-</td>
-<td style="text-align:right;">
-0.0496231
-</td>
-<td style="text-align:right;">
-0.0607756
-</td>
-<td style="text-align:right;">
-0.1109605
-</td>
-<td style="text-align:right;">
-0.0000286
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 B
 </td>
@@ -13816,6 +13785,79 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+4.20
+</td>
+<td style="text-align:right;">
+0.9908150
+</td>
+<td style="text-align:right;">
+2.88e-05
+</td>
+<td style="text-align:right;">
+0.0538137
+</td>
+<td style="text-align:right;">
+0.0498218
+</td>
+<td style="text-align:right;">
+0.0962648
+</td>
+<td style="text-align:right;">
+0.0000288
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+4.22
+</td>
+<td style="text-align:right;">
+0.9891059
+</td>
+<td style="text-align:right;">
+2.86e-05
+</td>
+<td style="text-align:right;">
+0.0496231
+</td>
+<td style="text-align:right;">
+0.0607756
+</td>
+<td style="text-align:right;">
+0.1109605
+</td>
+<td style="text-align:right;">
+0.0000286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
 A
 </td>
 <td style="text-align:right;">
@@ -13847,6 +13889,9 @@ A
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+16
+</td>
 <td style="text-align:left;">
 B
 </td>
@@ -13880,37 +13925,8 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
-B
+9
 </td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-17
-</td>
-<td style="text-align:right;">
-4.37
-</td>
-<td style="text-align:right;">
-0.9920228
-</td>
-<td style="text-align:right;">
-2.83e-05
-</td>
-<td style="text-align:right;">
-0.0631874
-</td>
-<td style="text-align:right;">
-0.0296375
-</td>
-<td style="text-align:right;">
-0.0828696
-</td>
-<td style="text-align:right;">
-0.0000283
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 A
 </td>
@@ -13944,6 +13960,44 @@ A
 </tr>
 <tr>
 <td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+4.37
+</td>
+<td style="text-align:right;">
+0.9920228
+</td>
+<td style="text-align:right;">
+2.83e-05
+</td>
+<td style="text-align:right;">
+0.0631874
+</td>
+<td style="text-align:right;">
+0.0296375
+</td>
+<td style="text-align:right;">
+0.0828696
+</td>
+<td style="text-align:right;">
+0.0000283
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
 B
 </td>
 <td style="text-align:right;">
@@ -13975,6 +14029,44 @@ B
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+4.35
+</td>
+<td style="text-align:right;">
+0.9917098
+</td>
+<td style="text-align:right;">
+2.83e-05
+</td>
+<td style="text-align:right;">
+0.0537172
+</td>
+<td style="text-align:right;">
+0.0447644
+</td>
+<td style="text-align:right;">
+0.0854049
+</td>
+<td style="text-align:right;">
+0.0000283
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
 <td style="text-align:left;">
 B
 </td>
@@ -14008,6 +14100,9 @@ B
 </tr>
 <tr>
 <td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
 B
 </td>
 <td style="text-align:right;">
@@ -14038,47 +14133,30 @@ B
 0.0000281
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-4.35
-</td>
-<td style="text-align:right;">
-0.9917098
-</td>
-<td style="text-align:right;">
-2.83e-05
-</td>
-<td style="text-align:right;">
-0.0537172
-</td>
-<td style="text-align:right;">
-0.0447644
-</td>
-<td style="text-align:right;">
-0.0854049
-</td>
-<td style="text-align:right;">
-0.0000283
-</td>
-</tr>
 </tbody>
 </table>
-<p>Note that several samples show inverted ages with respect to the adjacent samples that belong to the other sequence (ages 4.02, 4.27, 4.32, and 4.35). The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># %&gt;%</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="co">#   row_spec(c(8, 13, 16, 20), bold = T)</span></a></code></pre></div>
+<p>Note that several samples (highlighted in bold case) show inverted ages with respect to the adjacent samples that belong to the other sequence. The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.</p>
 <p>The plot below compares one column of the sequences A and B (upper panel) with the column resulting from slotting both sequences (lower panel).</p>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-51-1.png" alt="Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%"><p class="caption">
 Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.
 </p>
 </div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">temp &lt;-<span class="st"> </span>AB.combined</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">temp<span class="op">$</span>id &lt;-<span class="st"> "temp"</span></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="kw"><a href="reference/autoSum.html">autoSum</a></span>(</a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">  <span class="dt">sequences =</span> temp,</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6">  <span class="dt">time.column =</span> <span class="st">"age"</span>, </a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"original.index"</span>),</a>
+<a class="sourceLine" id="cb55-8" data-line-number="8">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb55-9" data-line-number="9">  <span class="dt">parallel.execution =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb55-10" data-line-number="10">)</a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#&gt; $temp</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="co">#&gt; [1] 3.158999</span></a></code></pre></div>
+<p>autosum according to old algorithm 3.060474</p>
 </div>
 <div id="one-of-the-sequences-has-a-timeagedepth-column-" class="section level2">
 <h2 class="hasAnchor">
