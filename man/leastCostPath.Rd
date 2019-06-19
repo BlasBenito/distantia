@@ -4,7 +4,8 @@
 \alias{leastCostPath}
 \title{Find the least cost path in a least cost matrix.}
 \usage{
-leastCostPath(distance.matrix = NULL,
+leastCostPath(
+  distance.matrix = NULL,
   least.cost.matrix = NULL,
   diagonal = FALSE,
   parallel.execution = TRUE)

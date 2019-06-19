@@ -4,7 +4,8 @@
 \alias{plotMatrix}
 \title{Plots distance matrices and least cost paths.}
 \usage{
-plotMatrix(distance.matrix = NULL,
+plotMatrix(
+  distance.matrix = NULL,
   least.cost.path = NULL,
   plot.columns = NULL,
   plot.rows = NULL,

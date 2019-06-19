@@ -141,6 +141,7 @@ sequenceSlotting <- function(sequences = NULL,
   #starting values for dynamic variables
   target.index <- 1
   target.sequence <- sequence.names[1]
+  #it works better if it starts with the sequence with the first index repeated
   if(sum(path[,target.sequence] == target.index) > 1){
     target.sequence <- sequence.names[sequence.names != target.sequence]
   }

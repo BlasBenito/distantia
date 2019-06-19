@@ -19,9 +19,10 @@ knitr::opts_chunk$set(
 
 #installing required libraries
 list.of.packages <- c("ggplot2", "viridis", "fields", "foreach", "parallel", "doParallel", "qgraph", "tidyr")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages, dep=TRUE)
+packages.to.install <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(packages.to.install)) install.packages(packages.to.install, dep=TRUE)
 
+rm(list.of.packages, packages.to.install)
 ```
 ## Summary
 
@@ -693,15 +694,9 @@ rm(climateLong, climateShort, climate.short.long, climate.psi)
 
 # Sequence slotting: combining samples of two sequences into a single composite sequence
 
-Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence containing the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples.
+Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence. The basic assumption followed by the algorithm building the composite sequence is *most similar samples should go together, but respecting the original ordering of the sequences*. Therefore, the output will contain the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples. This scenario assumes that at least one of the sequences do not have a time/age/depth column, or that the values in such a column are uncertain. In any case, time/age/depth is not considered as a factor in the generation of the composite sequence.
 
-Within this scenario, there are two possibilities: 1) None of the sequences has a *time.column* containing time/age/depth values; 2) One of the sequences has a *time.column*. 
-
-## None of the sequences has time/age/depth columns.
-
-In this case, the target is to obtain a single ordered sequence containing the samples of both sequences (a.k.a, a composite sequence).
-
-To develop this study case I will use the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each, and will separate the first 20 samples into two different datasets with 10 randomly selected samples each. We assume that these sequences do not have depth or age, but these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument.
+The example below uses the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each. To create a smalle case study, the code below separates the first 20 samples of the sequence into two different sequences with 10 randomly selected samples each. Even though this scenario assumes that these sequences do not have depth or age, these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument. Also, note that the argument *transformation* is set to "none", so the output is not transformed, and the outcome can be easily interpreted. This will give more weight to the most abundant taxa, which will in fact guide the slotting.
 
 ```{r}
 #loading the data
@@ -726,13 +721,13 @@ AB <- prepareSequences(
   sequence.B.name = "B",
   grouping.column = "id",
   exclude.columns = c("depth", "age"),
-  transformation = "hellinger"
+  transformation = "none"
 )
 kable(AB)
 rm(sampling.indices)
 ```
 
-Once the sequences are prepared, the function **sequenceSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least cost matrix, and generates the least cost path. The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence.
+Once the sequences are prepared, the function **sequenceSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least cost matrix, and generates the least cost path. 
 
 ```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Distance matrix and least cost path of the example sequences 'A' and 'B'.."}
 AB.combined <- sequenceSlotting(
@@ -745,63 +740,74 @@ AB.combined <- sequenceSlotting(
 )
 ```
 
-The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
+The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-kable(AB.combined[,1:10], format = "html")
-# %>%
-#   row_spec(c(8, 13, 16, 20), bold = T)
+kable(AB.combined[,1:10], format = "html") %>% 
+  row_spec(c(4, 6, 11, 12, 13), bold = T)
 ```
 
-Note that several samples (highlighted in bold case) show inverted ages with respect to the adjacent samples that belong to the other sequence. The slotting algorithm assumes that both sequences have no age/time/depth column (if these columns were present, slotting them would be a trivial task), and only takes as input the distance/dissimilarity between samples. In consequence, some slotting solutions, as this one, might show discordant ages when evaluated, but that is just an intrinsic property of the algorithm. When two sequences are slotted together, the output is just one of the possible solutions, but it is indeed the one that minimizes the dissimilarity between adjacent samples of each sequence.
+Note that several samples (highlighted in bold) show inverted ages with respect to the previous samples. This is expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
 
-The plot below compares one column of the sequences A and B (upper panel) with the column resulting from slotting both sequences (lower panel).
+```{r, fig.width = 7, fig.height = 7, eval=TRUE, fig.cap = "Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
 
-```{r, fig.width = 7, fig.height = 7, eval=TRUE, fig.cap = "Sequences A and B, and the composite sequence resulting from them. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
+#color palette
 cols <- viridis::viridis(3, begin = 0.2, end = 0.8)
+
+#column to plot
+taxon <- "Abies"
+if(!(taxon %in% colnames(AB))){
+  warning("This taxon is not in AB, plotting 'Abies' instead")
+  taxon <- "Abies"
+}
+
+#setting y limits
+y.lim <- range(c(AB[AB$id == "A", taxon], AB[AB$id == "B", taxon]))
+
+#multipanel and margins
 par(mfrow=c(2,1), mar = c(4,2,2,1))
 
 #plotting separated sequences
-plot(AB[AB$id == "A", "Abies"], 
+plot(AB[AB$id == "A", taxon], 
      type="l", 
-     ylim=c(0.983, 0.998), 
+     ylim = y.lim, 
      xlab = "", 
      ylab = "",
      col = cols[1],
      lwd = 2,
-     main = "Column 'Abies' of the sequences A and B"
+     main = paste("Column '", taxon, "' of the sequences A and B", sep="")
      )
-lines(AB[AB$id == "B", "Abies"], 
+lines(AB[AB$id == "B", taxon], 
       col = cols[3],
       lwd = 2
       )
 text(x = 1:10,
-     y = AB[AB$id == "B", "Abies"], 
+     y = AB[AB$id == "B", taxon], 
      labels = 1:10, 
      pos = 3, 
      col = cols[3])
 text(x = 1:10,
-     y = AB[AB$id == "A", "Abies"], 
+     y = AB[AB$id == "A", taxon], 
      labels = 1:10, 
      pos = 1, 
      col = cols[1])
 
 #plotting composite sequence
-plot(AB.combined$Abies, 
+plot(AB.combined[, taxon], 
      type="l", 
-     ylim=c(0.983, 0.998), 
+     ylim = y.lim, 
      xlab = "Sample order", 
      ylab = "",
      col = cols[2], 
      lwd = 2,
-     main = "Column 'Abies' of the composite sequence"
+     main =  paste("Column '", taxon, "' of the composite sequence", sep="")
      )
-points(AB.combined$Abies,
+points(AB.combined[, taxon],
        col = cols[c(1,3)][AB.combined$id],
        pch = 19
        )
 text(x = 1:20,
-     y = AB.combined[, "Abies"], 
+     y = AB.combined[, taxon], 
      labels = AB.combined[, "original.index"], 
      pos = 3, 
      col = cols[c(1,3)][AB.combined$id])
@@ -809,22 +815,198 @@ text(x = 1:20,
 ```
 
 ```{r}
-temp <- AB.combined
-temp$id <- "temp"
-autoSum(
-  sequences = temp,
+#cleaning workspace
+rm(A, B, AB, AB.combined, pollenGP, cols, taxon, y.lim)
+```
+
+
+# Transferring an attribute from one sequence to another
+
+This scenario assumes that the user has two multivariate sequences, one of them with a given attribute (age/time) that needs to be transferred to the other sequence by using similarity/dissimilarity (constrained by sample order) as a transfer criterion. 
+
+The code below prepares the data for the example. The sequence **pollenGP** is the reference sequence, and contains the column *age*. The sequence **pollenX** is the target sequence, without an *age* column. We generate it by taking 40 random samples between the samples 50 and 100 of **pollenGP**. The sequences are prepared with *prepareSequences*, as usual, with the identificators "GP" and "X"
+
+```{r, message = FALSE, warning = FALSE}
+#loading sample dataset
+data(pollenGP)
+
+#subset pollenGP to make a shorter dataset
+pollenGP <- pollenGP[1:50, ]
+
+#generating a subset of pollenGP 
+set.seed(10)
+pollenX <- pollenGP[sort(sample(1:50, 40)), ]
+
+#we separate the age column
+pollenX.age <- pollenX$age
+
+#and remove the age values from pollenX
+pollenX$age <- NULL
+pollenX$depth <- NULL
+
+#removing some samples from pollenGP
+#so pollenX is not a perfect subset of pollenGP
+pollenGP <- pollenGP[-sample(1:50, 10), ]
+
+#prepare sequences
+GP.X <- prepareSequences(
+  sequence.A = pollenGP,
+  sequence.A.name = "GP",
+  sequence.B = pollenX,
+  sequence.B.name = "X",
   grouping.column = "id",
-  time.column = "age", 
-  exclude.columns = c("depth", "original.index"),
-  method = "manhattan",
-  parallel.execution = FALSE
+  time.column = "age",
+  exclude.columns = "depth",
+  transformation = "none"
 )
 ```
 
-autosum according to old algorithm 3.060474
-
-## One of the sequences has a time/age/depth column.
+The transfer of "age" values from *GP* to *X* can be done in two ways, both constrained by sample order:
 
 
-# Attribute transfer
++  **Direct**: each sample in *X* gets the age of its most similar sample in *GP*.
++  **Interpolated**: each sample in *X* gets an age interpolated from the ages of the two most similar samples in *GP*. The interpolation is weighted by the similarity between the samples.  
 
+## Direct transfer
+
+**THIS SECTION IS A WORK IN PROGRESS**
+
+A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option *diagonal* activated), and to parse the least cost path file to assign attribute values. This is done by the function **transferAttribute** with the option $mode = TRUE$.
+
+```{r}
+#parameters
+X.new <- transferAttribute(
+  sequences = GP.X,
+  grouping.column = "id",
+  time.column = "age",
+  method = "manhattan",
+  transfer.what = "age",
+  transfer.from = "GP",
+  transfer.to = "X",
+  mode = "direct"
+  )
+
+kable(X.new[1:20, ])  %>% 
+  row_spec(c(5, 6, 10, 11, 12, 13, 14, 15), bold = T)
+```
+
+The algorithm finds the most similar samples, and transfers attribute values directly between them. This can result in duplicated attribute values, as highlighted in the table above. The Pearson correlation between the original ages (stored in *pollenX.age*) and the assigned ones is `r round(cor(X.new$age, pollenX.age), 4)`, so it can be concluded that in spite of its simplicity, this algorithm yields accurate results.
+
+```{r}
+#cleaning workspace
+rm(GP.X, pollenX, X.new, pollenX.age)
+```
+
+
+## Interpolated transfer
+
+If we consider:
+
++  Two samples $A_{i}$ and $A_{j}$ of the sequence $A$.
++  Each one with a value  the attribute $t$,  $At_{i}$ and $At_{j}$.
++  One sample $B_{k}$ of the sequence $B$.
++  With an **unknown attribute** $Bt_{k}$.
++  The multivariate distance $D_{B_{k}A_{i}}$ between the samples $A_{i}$ and $B_{k}$.
++  The multivariate distance $D_{B_{k}A_{j}}$ between the samples $A_{j}$ and $B_{k}$.
++  The weight $w_{i}$, computed as $D_{B_{k}A_{i}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})$
++  The weight $w_{j}$, computed as $D_{B_{k}A_{j}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})$
+
+The unknwon value $Bt_{k}$ is computed as:
+
+$$Bt_{k} = w_{i} \times At_{i} + w_{j} \times At_{j}$$
+
+The code below exemplifies the operation, using the samples 1 and 4 of the dataset *pollenGP* as $Ai$ and $Aj$, and the sample 3 as $Bk$.
+
+```{r}
+#loading data
+data(pollenGP)
+
+#samples in A
+Ai <- pollenGP[1, 3:ncol(pollenGP)]
+Aj <- pollenGP[4, 3:ncol(pollenGP)]
+
+#ages of the samples in A
+Ati <- pollenGP[1, "age"]
+Atj <- pollenGP[4, "age"]
+
+#sample in B
+Bk <- pollenGP[2, 3:ncol(pollenGP)]
+
+#computing distances between Bk, Ai, and Aj
+DBkAi <- distance(Bk, Ai)
+DBkAj <- distance(Bk, Aj)
+
+#normalizing the distances to 1
+wi <- DBkAi / (DBkAi + DBkAj)
+wj <- DBkAj / (DBkAi + DBkAj)
+
+#computing  Btk
+Btk <- wi * Ati + wj * Atj
+```
+
+The table below shows the observed versus the predicted values for $Btk$.
+
+```{r}
+temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
+kable(t(temp.df))
+```
+
+Below we create some example data, where a subset of *pollenGP* will be the donor of age values, and another subset of it, named *pollenX* will be the receiver of the age values.
+
+```{r, message = FALSE, warning = FALSE}
+#loading sample dataset
+data(pollenGP)
+
+#subset pollenGP to make a shorter dataset
+pollenGP <- pollenGP[1:50, ]
+
+#generating a subset of pollenGP 
+set.seed(10)
+pollenX <- pollenGP[sort(sample(1:50, 40)), ]
+
+#we separate the age column
+pollenX.age <- pollenX$age
+
+#and remove the age values from pollenX
+pollenX$age <- NULL
+pollenX$depth <- NULL
+
+#removing some samples from pollenGP
+#so pollenX is not a perfect subset of pollenGP
+pollenGP <- pollenGP[-sample(1:50, 10), ]
+
+#prepare sequences
+GP.X <- prepareSequences(
+  sequence.A = pollenGP,
+  sequence.A.name = "GP",
+  sequence.B = pollenX,
+  sequence.B.name = "X",
+  grouping.column = "id",
+  time.column = "age",
+  exclude.columns = "depth",
+  transformation = "none"
+)
+```
+
+To transfer attributes from *GP* to *X* we use the **transferAttribute** function with the option *mode = "interpolate"*.
+
+```{r}
+#parameters
+X.new <- transferAttribute(
+  sequences = GP.X,
+  grouping.column = "id",
+  time.column = "age",
+  method = "manhattan",
+  transfer.what = "age",
+  transfer.from = "GP",
+  transfer.to = "X",
+  mode = "interpolated"
+  )
+
+kable(X.new[1:20, ])  %>% 
+  row_spec(c(8, 13, 16), bold = T)
+```
+
+When interpolated values of the *age* column (transferred attribute via interpolation) show the value *NA*, it means that the interpolation yielded an age lower than the previous one. This happens when the same $Ai$ and $Aj$ are used to evaluate two or more different samples $Bk$, and the second $Bk$ is more similar to $Ai$ than the first one. These NA values can be removed with *na.omit()*, or interpolated with the functions [imputeTS::na.interpolation](https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation) or [zoo::na.approx](https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx).
+
+Without taking into account these *NA* values, the Pearson correlation of the interpolated ages with the real ones is `r round(cor(X.new$age, pollenX.age, use="complete.obs"), 4)`.

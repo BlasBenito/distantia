@@ -2,7 +2,8 @@
 #'
 #' @description Uses the original distance matrix created by \code{\link{distanceMatrix}} and the least cost path matrix created by \code{\link{leastCostMatrix}} to find the least cost path between the first and the last cells of the matrix. If \code{diagonal} was \code{TRUE} in \code{\link{leastCostMatrix}}, then it must be \code{TRUE} when using this function. Otherwise, the default is \code{FALSE} in both.
 #'
-#' @usage leastCostPath(distance.matrix = NULL,
+#' @usage leastCostPath(
+#'   distance.matrix = NULL,
 #'   least.cost.matrix = NULL,
 #'   diagonal = FALSE,
 #'   parallel.execution = TRUE)
