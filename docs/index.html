@@ -45,6 +45,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -2066,7 +2069,7 @@ B
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#comparing-multiple-irregular-non-aligned-sequences" class="anchor"></a>Comparing multiple irregular non-aligned sequences</h1></div>
 <p>The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the package <a href="https://CRAN.R-project.org/package=foreach">“foreach”</a>, that allows to parallelize the execution of the functions by using all the processors in your machine but one. This speeds up operations considerably.</p>
-<p>The example dataset <em>sequencesMIS</em> contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named “MIS”. MIS stages with odd numbers are interglacials, while the odd ones are glacials.</p>
+<p>The example dataset <em>sequencesMIS</em> contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named “MIS”. MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(sequencesMIS, <span class="dt">n=</span><span class="dv">15</span>), <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre></div>
 <table class="table table">

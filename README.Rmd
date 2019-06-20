@@ -294,7 +294,7 @@ rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least
 
 The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the package ["foreach"](https://CRAN.R-project.org/package=foreach), that allows to parallelize the execution of the functions by using all the processors in your machine but one. This speeds up operations considerably.
 
-The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are interglacials, while the odd ones are glacials. 
+The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.
 
 ```{r, eval=TRUE}
 data(sequencesMIS)

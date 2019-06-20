@@ -3963,8 +3963,10 @@ considerably.
 
 The example dataset *sequencesMIS* contains 12 sections of the same
 sequence belonging to different marine isotopic stages identified by a
-column named “MIS”. MIS stages with odd numbers are interglacials, while
-the odd ones are glacials.
+column named “MIS”. MIS stages with odd numbers are generally
+interpreted as warm periods (interglacials), while the odd ones are
+interpreted as cold periods (glacials). In any case, this interpretation
+is not important to illustrate this capability of the library.
 
 ``` r
 data(sequencesMIS)
