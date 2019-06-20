@@ -32,14 +32,25 @@ rm(list.of.packages, packages.to.install)
 
 The package **distantia** allows to measure the dissimilarity between multivariate time-series (*sequences* hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also suitable. Furthermore, the target sequences can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units.
 
-In this document I briefly explain the logics behind the method, show how to use it, and demonstrate how the **distantia** package introduces useful tools to compare multivariate time-series.
+In this document I briefly explain the logics behind the method, show how to use it, and demonstrate how the **distantia** package introduces useful tools to compare multivariate time-series. The topics covered in this document are:
+
++    Installation of the package.
++    Comparing two irregular non-aligned sequences.
++    Comparing multiple irregular non-aligned sequences.
++    Comparing regular aligned sequences.
++    Restricted permutation test to assess the significance of dissimilarity values.
++    Assessing the contribution of a variable to the dissimilarity between two sequences.
++    Finding the section in a long sequence more similar to a given short sequence (irregular sequences).
++    Finding the section in a long sequence more similar to a given short sequence (regular sequences).
++    Sequence slotting: combining samples of two sequences into a single composite sequence.
++    Tranferring an attribute from one sequence to another: direct and interpolated modes.
 
 ## Installation
 
 You can install the released version of distantia from [CRAN](https://CRAN.R-project.org) with:
 
 ```{r, eval=FALSE}
-# install.packages("distantia")
+install.packages("distantia")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
@@ -62,9 +73,7 @@ library(tidyr)
 ```
 
 
-## Working with two irregular and unaligned sequences
-
-### Preparing the data
+## Comparing two irregular non-aligned sequences
 
 This section assumes that the user wants to compare two sequences. The package provides two example datasets based on the Abernethy pollen core (Birks and Mathewes, 1978):
 
@@ -75,8 +84,8 @@ data(sequenceB)
 str(sequenceA)
 str(sequenceB)
 
-kable(sequenceA, caption = "Sequence A")
-kable(sequenceB, caption = "Sequence B")
+kable(sequenceA[1:15, ], caption = "Sequence A")
+kable(sequenceB[1:15, ], caption = "Sequence B")
 ```
 
 Notice that **sequenceB** has a few NA values (that were introduced to serve as an example). The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data. It allows to merge two (or more) multivariate time-series into a single table ready for further analyses. Note that, since the data represents pollen abundances, a *Hellinger* transformation (square root of the relative proportions of each taxa) is applied.
@@ -94,12 +103,8 @@ AB.sequences <- prepareSequences(
   transformation = "hellinger"
 )
 
-kable(AB.sequences)
+kable(AB.sequences[1:15, ], digits = 4)
 ```
-
-
-
-### Computation of dissimilarity
 
 The computation of dissimlarity between two sequences requires several steps.
 
@@ -142,7 +147,7 @@ AB.least.cost.path <- leastCostPath(
   least.cost.matrix = AB.least.cost.matrix
   )
 
-kable(AB.least.cost.path)
+kable(AB.least.cost.path[[1]][1:15, ], digits = 4)
 
 par(mfrow=c(2,1))
 plotMatrix(
@@ -236,7 +241,7 @@ The output of **psi** is a list, that can be transformed to a dataframe or a mat
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi,
   to = "dataframe")
-kable(AB.psi.dataframe)
+kable(AB.psi.dataframe, digits = 4)
 ```
 
 ```{r}
@@ -244,7 +249,7 @@ kable(AB.psi.dataframe)
 AB.psi.matrix <- formatPsi(
   psi.values = AB.psi,
   to = "matrix")
-kable(AB.psi.matrix)
+kable(AB.psi.matrix, digits = 4)
 ```
 
 Or can also be transformed from matrix to dataframe, or from dataframe to matrix, as convenient.
@@ -254,7 +259,7 @@ Or can also be transformed from matrix to dataframe, or from dataframe to matrix
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi.matrix,
   to = "dataframe")
-kable(AB.psi.dataframe)
+kable(AB.psi.dataframe, digits = 4)
 ```
 
 ```{r}
@@ -263,7 +268,7 @@ AB.psi.matrix <- formatPsi(
   psi.values = AB.psi.dataframe,
   to = "matrix"
 )
-kable(AB.psi.matrix)
+kable(AB.psi.matrix, digits = 4)
 ```
 
 
@@ -285,17 +290,15 @@ rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least
 ```
 
 
-# Workflow to compare multiple sequences
+# Comparing multiple irregular non-aligned sequences
 
-The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the package ["foreach"](https://cran.r-project.org/web/packages/foreach/index.html), that allows to parallelize the execution of the functions by using all the processors in your machine but one. This speeds up operations considerably.
-
-## Preparing the data
+The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the package ["foreach"](https://CRAN.R-project.org/package=foreach), that allows to parallelize the execution of the functions by using all the processors in your machine but one. This speeds up operations considerably.
 
 The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are interglacials, while the odd ones are glacials. 
 
 ```{r, eval=TRUE}
 data(sequencesMIS)
-kable(head(sequencesMIS, n=15))
+kable(head(sequencesMIS, n=15), digits = 4)
 unique(sequencesMIS$MIS)
 ```
 
@@ -325,7 +328,7 @@ MIS.psi <- workflowPsi(
 )
 
 #ordered with lower psi on top
-kable(MIS.psi[order(MIS.psi$psi), ])
+kable(MIS.psi[order(MIS.psi$psi), ], digits = 4)
 ```
 
 
@@ -374,7 +377,7 @@ rm(MIS.distance, MIS.psi, MIS.psi.matrix, MIS.sequences, sequencesMIS)
 ```
 
 
-# Working with aligned multivariate time-series 
+# Comparing regular aligned sequences
 
 This section assumes that the target multivariate time-series have the same number of samples/rows, and samples have the same time/depth/order if there is a time/age/depth column available. In this particular case, distances are computed only between samples with the same time/depth/order, and no distance matrix (nor least cost analysis) is required. When the argument *paired.samples* in **prepareSequences** is set to TRUE, the function checks if the sequences have the same number of rows, and, if *time.column* is provided, it selects the samples that have valid time/depth columns for every sequence in the dataset.
 
@@ -460,7 +463,7 @@ climate.psi <- workflowPsi(
   paired.samples = TRUE, #this bit is important
   format = "dataframe"
 )
-kable(climate.psi)
+kable(climate.psi, digits = 4)
 ```
 
 ```{r}
@@ -469,9 +472,7 @@ rm(climate, climate.autosum, climate.distances, climate.psi)
 ```
 
 
-# Permutation test to assess the significance of psi values
-
-**THIS SECTION IS A WORK IN PROGRESS**
+# Restricted permutation test to assess the significance of dissimilarity values
 
 One question that may arise when comparing time series is "to what extent are dissimilarity values random?". Answering this question requires to compare a given dissimilarity value (*psi*) with a distribution of dissimilarity values resulting from chance. However... how do we simulate chance in a multivariate time-series? The natural answer is "permutation". Since samples in a multivariate time-series are ordered, re-shuffling samples is out of the question, but it is possible to re-shuffle the values of the variables within each sample. This kind of permutation is named "restricted permutation".
 
@@ -488,7 +489,9 @@ A restricted permutation test on *psi* values requires the following steps:
 +  Add *real psi* to the pool of *randomized psi*.
 +  Compute the proportion of *randomized psi* that is equal or lower than *real psi*.
 
-Such a proportion represents the probability of obtaining a value lower than *real psi* by chance.
+Such a proportion represents the probability of obtaining a value lower than *real psi* by chance. 
+
+Since the restricted permutation only happens at a local scale within each column of each sequence, the probability values returned are **very conservative** and shouldn't be interpreted in the same way p-values are interpreted.
 
 The process described above has been implemented in the **workflowNullPsi** function. We will apply it to three groups of the *sequencesMIS* dataset.
 
@@ -526,7 +529,7 @@ The output is a list with two dataframes, **psi** and **p**.
 The dataframe **psi** contains the real and random psi values. The column *psi* contains the dissimilarity between the sequences in the columns *A* and *B*. The columns *r1* to *r9* contain the psi values obtained from permutations of the sequences.
 
 ```{r}
-kable(random.psi$psi)
+kable(random.psi$psi, digits = 4)
 ```
 
 The information in this dataframe can be easily plotted as follows:
@@ -560,7 +563,7 @@ According to this data, the psi value obtained for MIS-4 and MIS-6 is more robus
 kable(random.psi$p)
 ```
 
-# Variable contribution to dissimilarity
+# Assessing the contribution of a variable to the dissimilarity between two sequences
 
 *What variables are more important in explaining the dissimilarity between two sequences?*, or in other words, *what variables contribute the most to the dissimilarity between two sequences?* One reasonable answer is: the one that reduces dissimilarity the most when removed from the data. 
 
@@ -605,7 +608,7 @@ The output is a list with two slots named *psi* and *psi.drop*.
 The dataframe **psi** contains psi values for each combination of variables (named in the coluns *A* and *B*) computed for all columns in the column *All variables*, and one column per variable named *Without variable_name* containing the psi value when that variable is removed from the compared sequences.
 
 ```{r}
-kable(psi.importance$psi)
+kable(psi.importance$psi, digits = 4)
 ```
 
 This table can be plotted as a bar plot as follows: 
@@ -701,7 +704,7 @@ MIS.short.long <- prepareSequences(
   grouping.column = "id",
   transformation = "hellinger"
 )
-kable(MIS.short.long)
+kable(MIS.short.long, digits = 4)
 ```
 
 The function **workflowShortInLong** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space is reduced to the minimum (the rows of *MIS.short* plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.
@@ -721,7 +724,7 @@ MIS.psi <- workflowShortInLong(
 The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
 ```{r}
-kable(MIS.psi[1:10, ])
+kable(MIS.psi[1:10, ], digits = 4)
 ```
 
 Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
@@ -732,9 +735,6 @@ best.match.indices <- MIS.psi[1, "first.row"]:MIS.psi[1, "last.row"]
 
 #subsetting by these indices
 best.match <- MIS.long[best.match.indices, ]
-
-#testing that the values in the best matching segment and the short sequence are identical
-best.match == MIS.short
 ```
 
 ```{r}
@@ -773,7 +773,7 @@ climate.psi <- workflowShortInLong(
   method = "manhattan",
   paired.samples = TRUE
 )
-kable(climate.psi[1:10, ])
+kable(climate.psi[1:10, ], digits = 4)
 ```
 
 Since *climateShort* is a subset of *climateLong*, there is a perfect match from the rows 17 to 27.
@@ -817,7 +817,7 @@ AB <- prepareSequences(
   exclude.columns = c("depth", "age"),
   transformation = "none"
 )
-kable(AB)
+kable(AB[1:15, ], digits = 4)
 rm(sampling.indices)
 ```
 
@@ -837,7 +837,7 @@ AB.combined <- sequenceSlotting(
 The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-kable(AB.combined[,1:10], format = "html") %>% 
+kable(AB.combined[1:15,1:10], format = "html", digits = 4) %>% 
   row_spec(c(4, 6, 11, 12, 13), bold = T)
 ```
 
@@ -980,7 +980,7 @@ X.new <- transferAttribute(
   mode = "direct"
   )
 
-kable(X.new[1:20, ])  %>% 
+kable(X.new[1:15, ], digits = 4)  %>% 
   row_spec(c(5, 6, 10, 11, 12, 13, 14, 15), bold = T)
 ```
 
@@ -1042,7 +1042,7 @@ The table below shows the observed versus the predicted values for $Btk$.
 
 ```{r}
 temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
-kable(t(temp.df))
+kable(t(temp.df), digits = 4)
 ```
 
 Below we create some example data, where a subset of *pollenGP* will be the donor of age values, and another subset of it, named *pollenX* will be the receiver of the age values.
@@ -1097,8 +1097,8 @@ X.new <- transferAttribute(
   mode = "interpolated"
   )
 
-kable(X.new[1:20, ])  %>% 
-  row_spec(c(8, 13, 16), bold = T)
+kable(X.new[1:15, ], digits = 4)  %>% 
+  row_spec(c(8, 13), bold = T)
 ```
 
 When interpolated values of the *age* column (transferred attribute via interpolation) show the value *NA*, it means that the interpolation yielded an age lower than the previous one. This happens when the same $Ai$ and $Aj$ are used to evaluate two or more different samples $Bk$, and the second $Bk$ is more similar to $Ai$ than the first one. These NA values can be removed with *na.omit()*, or interpolated with the functions [imputeTS::na.interpolation](https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation) or [zoo::na.approx](https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx).
