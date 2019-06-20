@@ -13,7 +13,8 @@
 ## R CMD check results
 0 ERRORs | 0 WARNINGs | 1 NOTE.
 
-"* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Blas M. Benito <blasbenito@gmail.com>'
+  Maintainer: ‘Blas M. Benito <blasbenito@gmail.com>’
+  
+  Possibly mis-spelled words in DESCRIPTION:
+    Birks (8:201)
 
-New submission"
