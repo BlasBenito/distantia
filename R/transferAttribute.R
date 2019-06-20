@@ -36,6 +36,54 @@
 #'
 #' @examples
 #'
+#' \dontrun{
+#'
+#' #loading sample dataset
+#' data(pollenGP)
+#' #subset pollenGP to make a shorter dataset
+#' pollenGP <- pollenGP[1:50, ]
+#'
+#' #generating a subset of pollenGP
+#' set.seed(10)
+#' pollenX <- pollenGP[sort(sample(1:50, 40)), ]
+#'
+#' #we separate the age column
+#' pollenX.age <- pollenX$age
+#'
+#' #and remove the age values from pollenX
+#' pollenX$age <- NULL
+#' pollenX$depth <- NULL
+#'
+#' #removing some samples from pollenGP
+#' #so pollenX is not a perfect subset of pollenGP
+#' pollenGP <- pollenGP[-sample(1:50, 10), ]
+#'
+#' #prepare sequences
+#' GP.X <- prepareSequences(
+#'   sequence.A = pollenGP,
+#'   sequence.A.name = "GP",
+#'   sequence.B = pollenX,
+#'   sequence.B.name = "X",
+#'   grouping.column = "id",
+#'   time.column = "age",
+#'   exclude.columns = "depth",
+#'   transformation = "none"
+#'   )
+#'
+#'#transferring age
+#'X.new <- transferAttribute(
+#'  sequences = GP.X,
+#'  grouping.column = "id",
+#'  time.column = "age",
+#'  method = "manhattan",
+#'  transfer.what = "age",
+#'  transfer.from = "GP",
+#'  transfer.to = "X",
+#'  mode = "interpolated"
+#'  )
+#'
+#' }
+#'
 #' @export
 transferAttribute <- function(
   sequences = NULL,

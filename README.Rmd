@@ -4,6 +4,7 @@ output:
   github_document:
     toc: true
     toc_depth: 2
+    pandoc_args: --webtex
 always_allow_html: yes
 ---
 
@@ -468,6 +469,97 @@ rm(climate, climate.autosum, climate.distances, climate.psi)
 ```
 
 
+# Permutation test to assess the significance of psi values
+
+**THIS SECTION IS A WORK IN PROGRESS**
+
+One question that may arise when comparing time series is "to what extent are dissimilarity values random?". Answering this question requires to compare a given dissimilarity value (*psi*) with a distribution of dissimilarity values resulting from chance. However... how do we simulate chance in a multivariate time-series? The natural answer is "permutation". Since samples in a multivariate time-series are ordered, re-shuffling samples is out of the question, but it is possible to re-shuffle the values of the variables within each sample. This kind of permutation is named "restricted permutation".
+
+A restricted permutation test on *psi* values requires the following steps:
+
+
++  Compute the *real psi* on two given sequences A and B.
++  Repeat the following steps several times (99 to 999):
+    +  For each case of each column of A and B, randomly apply one of these actions: 
+        +  Leave it as is.
+        +  Replace it with the previous case. 
+        +  Replace it with the next case.
+    +  Compute *randomized psi* between A and B and store the value.
++  Add *real psi* to the pool of *randomized psi*.
++  Compute the proportion of *randomized psi* that is equal or lower than *real psi*.
+
+Such a proportion represents the probability of obtaining a value lower than *real psi* by chance.
+
+The process described above has been implemented in the **workflowNullPsi** function. We will apply it to three groups of the *sequencesMIS* dataset.
+
+```{r}
+#getting example data
+data(sequencesMIS)
+
+#working with 3 groups (to make this fast)
+sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+
+#preparing sequences
+sequencesMIS <- prepareSequences(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
+  transformation = "hellinger"
+)
+```
+
+The computation of the null psi values goes as follows:
+
+```{r}
+random.psi <- workflowNullPsi(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
+  method = "manhattan",
+  paired.samples = FALSE,
+  repetitions = 9 #recommended values: 99, 999
+)
+```
+
+Note that the number of repetitions has been set to 9 in order to speed-up execution. The actual number should be 99, and ideally, 999.
+
+The output is a list with two dataframes, **psi** and **p**.
+
+The dataframe **psi** contains the real and random psi values. The column *psi* contains the dissimilarity between the sequences in the columns *A* and *B*. The columns *r1* to *r9* contain the psi values obtained from permutations of the sequences.
+
+```{r}
+kable(random.psi$psi)
+```
+
+The information in this dataframe can be easily plotted as follows:
+
+```{r, fig.width = 7, fig.height = 3, eval=TRUE, fig.cap = "Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line."}
+#extracting the dataframe
+psi <- random.psi[[1]]
+
+#colors
+cols <- viridis::viridis(2, begin = 0.2, end = 0.8)
+
+#multipanel plot
+par(mfrow=c(1,3))
+for(i in 1:nrow(psi)){
+  plot(density(x = t(psi[i, 3:ncol(psi)]), from = 0), 
+       main = paste(psi[i, 1], " vs. ",  psi[i, 2], sep=""),
+       xlab = "Psi",
+       col = cols[1],
+       lwd = 3
+       )
+  abline(v = psi[i, 3], 
+         col = cols[2], 
+         lwd=3
+         )
+}
+```
+
+According to this data, the psi value obtained for MIS-4 and MIS-6 is more robust (less likely obtained by chance) the the other two. The dataframe *p* contains the probability of obtaining the real *psi* value by chance for each combination of sequences.
+
+```{r}
+kable(random.psi$p)
+```
+
 # Variable contribution to dissimilarity
 
 *What variables are more important in explaining the dissimilarity between two sequences?*, or in other words, *what variables contribute the most to the dissimilarity between two sequences?* One reasonable answer is: the one that reduces dissimilarity the most when removed from the data. 
@@ -479,11 +571,13 @@ First, we prepare the data. It is again *sequencesMIS*, but with only three grou
 ```{r}
 #getting example data
 data(sequencesMIS)
-sequences <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+
+#getting three groups only to simplify
+sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
 
 #preparing sequences
 sequences <- prepareSequences(
-  sequences = sequences,
+  sequences = sequencesMIS,
   grouping.column = "MIS",
   time.column = NULL,
   merge.mode = "complete",
@@ -495,7 +589,7 @@ The workflow function is pretty similar to the ones explained above. It allows t
 
 ```{r}
 psi.importance <- workflowImportance(
-  sequences = sequences,
+  sequences = sequencesMIS,
   grouping.column = "MIS",
   time.column = NULL,
   exclude.columns = NULL,

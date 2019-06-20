@@ -8749,38 +8749,322 @@ psi
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#cleaning workspace for next example</span></a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(climate, climate.autosum, climate.distances, climate.psi)</a></code></pre></div>
 </div>
+<div id="permutation-test-to-assess-the-significance-of-psi-values" class="section level1">
+<h1 class="hasAnchor">
+<a href="#permutation-test-to-assess-the-significance-of-psi-values" class="anchor"></a>Permutation test to assess the significance of psi values</h1>
+<p><strong>THIS SECTION IS A WORK IN PROGRESS</strong></p>
+<p>One question that may arise when comparing time series is “to what extent are dissimilarity values random?”. Answering this question requires to compare a given dissimilarity value (<em>psi</em>) with a distribution of dissimilarity values resulting from chance. However… how do we simulate chance in a multivariate time-series? The natural answer is “permutation”. Since samples in a multivariate time-series are ordered, re-shuffling samples is out of the question, but it is possible to re-shuffle the values of the variables within each sample. This kind of permutation is named “restricted permutation”.</p>
+<p>A restricted permutation test on <em>psi</em> values requires the following steps:</p>
+<ul>
+<li>Compute the <em>real psi</em> on two given sequences A and B.</li>
+<li>Repeat the following steps several times (99 to 999):
+<ul>
+<li>For each case of each column of A and B, randomly apply one of these actions:
+<ul>
+<li>Leave it as is.</li>
+<li>Replace it with the previous case.</li>
+<li>Replace it with the next case.</li>
+</ul>
+</li>
+<li>Compute <em>randomized psi</em> between A and B and store the value.</li>
+</ul>
+</li>
+<li>Add <em>real psi</em> to the pool of <em>randomized psi</em>.</li>
+<li>Compute the proportion of <em>randomized psi</em> that is equal or lower than <em>real psi</em>.</li>
+</ul>
+<p>Such a proportion represents the probability of obtaining a value lower than <em>real psi</em> by chance.</p>
+<p>The process described above has been implemented in the <strong>workflowNullPsi</strong> function. We will apply it to three groups of the <em>sequencesMIS</em> dataset.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co">#getting example data</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co">#working with 3 groups (to make this fast)</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">sequencesMIS &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co">#preparing sequences</span></a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">sequencesMIS &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">  <span class="dt">sequences =</span> sequencesMIS,</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12">)</a></code></pre></div>
+<p>The computation of the null psi values goes as follows:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">random.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowNullPsi.html">workflowNullPsi</a></span>(</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">  <span class="dt">sequences =</span> sequencesMIS,</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">  <span class="dt">repetitions =</span> <span class="dv">9</span> <span class="co">#recommended values: 99, 999</span></a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">)</a></code></pre></div>
+<p>Note that the number of repetitions has been set to 9 in order to speed-up execution. The actual number should be 99, and ideally, 999.</p>
+<p>The output is a list with two dataframes, <strong>psi</strong> and <strong>p</strong>.</p>
+<p>The dataframe <strong>psi</strong> contains the real and random psi values. The column <em>psi</em> contains the dissimilarity between the sequences in the columns <em>A</em> and <em>B</em>. The columns <em>r1</em> to <em>r9</em> contain the psi values obtained from permutations of the sequences.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(random.psi<span class="op">$</span>psi)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+psi
+</th>
+<th style="text-align:right;">
+r1
+</th>
+<th style="text-align:right;">
+r2
+</th>
+<th style="text-align:right;">
+r3
+</th>
+<th style="text-align:right;">
+r4
+</th>
+<th style="text-align:right;">
+r5
+</th>
+<th style="text-align:right;">
+r6
+</th>
+<th style="text-align:right;">
+r7
+</th>
+<th style="text-align:right;">
+r8
+</th>
+<th style="text-align:right;">
+r9
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:right;">
+2.7452389
+</td>
+<td style="text-align:right;">
+3.580062
+</td>
+<td style="text-align:right;">
+1.010809
+</td>
+<td style="text-align:right;">
+2.039787
+</td>
+<td style="text-align:right;">
+3.585768
+</td>
+<td style="text-align:right;">
+1.272764
+</td>
+<td style="text-align:right;">
+2.092872
+</td>
+<td style="text-align:right;">
+3.963153
+</td>
+<td style="text-align:right;">
+1.015885
+</td>
+<td style="text-align:right;">
+2.156021
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+0.6963869
+</td>
+<td style="text-align:right;">
+3.437116
+</td>
+<td style="text-align:right;">
+1.057406
+</td>
+<td style="text-align:right;">
+1.926457
+</td>
+<td style="text-align:right;">
+3.694782
+</td>
+<td style="text-align:right;">
+1.159677
+</td>
+<td style="text-align:right;">
+1.983392
+</td>
+<td style="text-align:right;">
+3.499146
+</td>
+<td style="text-align:right;">
+1.073134
+</td>
+<td style="text-align:right;">
+1.972862
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+1.4667379
+</td>
+<td style="text-align:right;">
+3.506076
+</td>
+<td style="text-align:right;">
+1.166311
+</td>
+<td style="text-align:right;">
+2.174481
+</td>
+<td style="text-align:right;">
+3.867290
+</td>
+<td style="text-align:right;">
+1.151676
+</td>
+<td style="text-align:right;">
+2.450671
+</td>
+<td style="text-align:right;">
+3.768531
+</td>
+<td style="text-align:right;">
+1.027790
+</td>
+<td style="text-align:right;">
+2.060453
+</td>
+</tr>
+</tbody>
+</table>
+<p>The information in this dataframe can be easily plotted as follows:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co">#extracting the dataframe</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">psi &lt;-<span class="st"> </span>random.psi[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#colors</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5">cols &lt;-<span class="st"> </span>viridis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">2</span>, <span class="dt">begin =</span> <span class="fl">0.2</span>, <span class="dt">end =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#multipanel plot</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="dt">mfrow=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(psi)){</a>
+<a class="sourceLine" id="cb38-10" data-line-number="10">  <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/density">density</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(psi[i, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi)]), <span class="dt">from =</span> <span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb38-11" data-line-number="11">       <span class="dt">main =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi[i, <span class="dv">1</span>], <span class="st">" vs. "</span>,  psi[i, <span class="dv">2</span>], <span class="dt">sep=</span><span class="st">""</span>),</a>
+<a class="sourceLine" id="cb38-12" data-line-number="12">       <span class="dt">xlab =</span> <span class="st">"Psi"</span>,</a>
+<a class="sourceLine" id="cb38-13" data-line-number="13">       <span class="dt">col =</span> cols[<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb38-14" data-line-number="14">       <span class="dt">lwd =</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb38-15" data-line-number="15">       )</a>
+<a class="sourceLine" id="cb38-16" data-line-number="16">  <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">v =</span> psi[i, <span class="dv">3</span>], </a>
+<a class="sourceLine" id="cb38-17" data-line-number="17">         <span class="dt">col =</span> cols[<span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb38-18" data-line-number="18">         <span class="dt">lwd=</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb38-19" data-line-number="19">         )</a>
+<a class="sourceLine" id="cb38-20" data-line-number="20">}</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-unnamed-chunk-36-1.png" alt="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." width="100%"><p class="caption">
+Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line.
+</p>
+</div>
+<p>According to this data, the psi value obtained for MIS-4 and MIS-6 is more robust (less likely obtained by chance) the the other two. The dataframe <em>p</em> contains the probability of obtaining the real <em>psi</em> value by chance for each combination of sequences.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(random.psi<span class="op">$</span>p)</a></code></pre></div>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:right;">
+p
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-4
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MIS-5
+</td>
+<td style="text-align:left;">
+MIS-6
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="variable-contribution-to-dissimilarity" class="section level1">
 <h1 class="hasAnchor">
 <a href="#variable-contribution-to-dissimilarity" class="anchor"></a>Variable contribution to dissimilarity</h1>
 <p><em>What variables are more important in explaining the dissimilarity between two sequences?</em>, or in other words, <em>what variables contribute the most to the dissimilarity between two sequences?</em> One reasonable answer is: the one that reduces dissimilarity the most when removed from the data.</p>
 <p>This section explains how to use the function <strong>workflowImportance</strong> to evaluate the importance of given variables in explaining differences between sequences.</p>
 <p>First, we prepare the data. It is again <em>sequencesMIS</em>, but with only three groups selected (MIS 4 to 6) to simplify the analysis.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co">#getting example data</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">sequences &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co">#preparing sequences</span></a>
-<a class="sourceLine" id="cb35-6" data-line-number="6">sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb35-7" data-line-number="7">  <span class="dt">sequences =</span> sequences,</a>
-<a class="sourceLine" id="cb35-8" data-line-number="8">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb35-9" data-line-number="9">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb35-10" data-line-number="10">  <span class="dt">merge.mode =</span> <span class="st">"complete"</span>,</a>
-<a class="sourceLine" id="cb35-11" data-line-number="11">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb35-12" data-line-number="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">#getting example data</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#getting three groups only to simplify</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">sequencesMIS &lt;-<span class="st"> </span>sequencesMIS[sequencesMIS<span class="op">$</span>MIS <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span>),]</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co">#preparing sequences</span></a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">sequences &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb40-9" data-line-number="9">  <span class="dt">sequences =</span> sequencesMIS,</a>
+<a class="sourceLine" id="cb40-10" data-line-number="10">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb40-12" data-line-number="12">  <span class="dt">merge.mode =</span> <span class="st">"complete"</span>,</a>
+<a class="sourceLine" id="cb40-13" data-line-number="13">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14">)</a></code></pre></div>
 <p>The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between <strong>workflowPsi</strong> and <strong>workflowPsiPairedSamples</strong> as requested by the user through the argument <em>paired.samples</em>. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of <em>psi</em> on combinations of columns, removing one column each time.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">  <span class="dt">sequences =</span> sequences,</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb36-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb36-8" data-line-number="8">  <span class="dt">parallel.execution =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb36-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb36-10" data-line-number="10">  )</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">  <span class="dt">sequences =</span> sequencesMIS,</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb41-7" data-line-number="7">  <span class="dt">diagonal =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb41-8" data-line-number="8">  <span class="dt">parallel.execution =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb41-9" data-line-number="9">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb41-10" data-line-number="10">  )</a></code></pre></div>
 <p>The output is a list with two slots named <em>psi</em> and <em>psi.drop</em>.</p>
 <p>The dataframe <strong>psi</strong> contains psi values for each combination of variables (named in the coluns <em>A</em> and <em>B</em>) computed for all columns in the column <em>All variables</em>, and one column per variable named <em>Without variable_name</em> containing the psi value when that variable is removed from the compared sequences.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -8902,25 +9186,25 @@ MIS-6
 </tbody>
 </table>
 <p>This table can be plotted as a bar plot as follows:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co">#extracting object</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">psi.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#to long format</span></a>
-<a class="sourceLine" id="cb38-5" data-line-number="5">psi.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.df))</a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
-<a class="sourceLine" id="cb38-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
-<a class="sourceLine" id="cb38-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb38-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">psi.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">psi.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.df))</a>
+<a class="sourceLine" id="cb43-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb43-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">psi.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.df.long<span class="op">$</span>A, psi.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb43-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb43-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Contribution of separated variables to dissimilarity."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb43-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-36-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-41-1.png" alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%"><p class="caption">
 Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences.
 </p>
 </div>
@@ -8930,7 +9214,7 @@ Variable importance analysis of three combinations of sequences. The plot sugges
 <li>High psi-drop value: variable contributes to dissimilarity.</li>
 <li>Low or negative psi-drop value: variable contributes to similarity.</li>
 </ul>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi.drop)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(psi.importance<span class="op">$</span>psi.drop)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -9039,58 +9323,58 @@ MIS-6
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">#extracting object</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">psi.drop.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi.drop</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#to long format</span></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5">psi.drop.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.drop.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.drop.df))</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
-<a class="sourceLine" id="cb40-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
-<a class="sourceLine" id="cb40-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="co">#plot</span></a>
-<a class="sourceLine" id="cb40-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co">#extracting object</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">psi.drop.df &lt;-<span class="st"> </span>psi.importance<span class="op">$</span>psi.drop</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="co">#to long format</span></a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">psi.drop.df.long &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(psi.drop.df, variable, psi, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(psi.drop.df))</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb45-7" data-line-number="7"><span class="co">#creating column with names of the sequences</span></a>
+<a class="sourceLine" id="cb45-8" data-line-number="8">psi.drop.df.long<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(psi.drop.df.long<span class="op">$</span>A, psi.drop.df.long<span class="op">$</span>B, <span class="dt">sep=</span><span class="st">" - "</span>)</a>
+<a class="sourceLine" id="cb45-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb45-10" data-line-number="10"><span class="co">#plot</span></a>
+<a class="sourceLine" id="cb45-11" data-line-number="11"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data=</span>psi.drop.df.long, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>psi, <span class="dt">fill=</span>psi)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb45-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb45-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb45-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="st">"name"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/scale_viridis">scale_fill_viridis</a></span>(<span class="dt">direction =</span> <span class="dv">-1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Drop in dissimilarity when variables are removed."</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Drop in dissimilarity (%)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb45-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">fill =</span> <span class="st">"Psi drop (%)"</span>)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-38-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-43-1.png" alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%"><p class="caption">
 Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity.
 </p>
 </div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co">#cleaning environment for next example</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(psi.df, psi.df.long, psi.drop.df, psi.drop.df.long, psi.importance, sequences, sequencesMIS)</a></code></pre></div>
 </div>
 <div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-irregular-time-series" class="section level1">
 <h1 class="hasAnchor">
 <a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-irregular-time-series" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence (irregular time-series)</h1>
 <p>In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we will use the dataset <em>sequencesMIS</em>. We will extract the first 10 samples as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.</p>
 <p>A more realistic example would be to select, for example, the group “MIS-5” as short sequence, and the complete sequence as long sequence, in order to find what segments in <em>sequencesMIS</em> is more similar to the “MIS-5” group.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co">#loading the data</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co">#removing grouping column</span></a>
-<a class="sourceLine" id="cb42-5" data-line-number="5">sequencesMIS<span class="op">$</span>MIS &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb42-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="co">#subsetting to get the short sequence</span></a>
-<a class="sourceLine" id="cb42-8" data-line-number="8">MIS.short &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a>
-<a class="sourceLine" id="cb42-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="co">#subsetting to get the long sequence</span></a>
-<a class="sourceLine" id="cb42-11" data-line-number="11">MIS.long &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">40</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#loading the data</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sequencesMIS)</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co">#removing grouping column</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">sequencesMIS<span class="op">$</span>MIS &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="co">#subsetting to get the short sequence</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8">MIS.short &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="co">#subsetting to get the long sequence</span></a>
+<a class="sourceLine" id="cb47-11" data-line-number="11">MIS.long &lt;-<span class="st"> </span>sequencesMIS[<span class="dv">1</span><span class="op">:</span><span class="dv">40</span>, ]</a></code></pre></div>
 <p>The sequences have to be prepared and transformed. For simplicity, the sequences are named <em>short</em> and <em>long</em>, and the grouping column is named <em>id</em>, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">MIS.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="dt">sequence.A =</span> MIS.short,</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4">  <span class="dt">sequence.B =</span> MIS.long,</a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
-<a class="sourceLine" id="cb43-6" data-line-number="6">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb43-7" data-line-number="7">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
-<a class="sourceLine" id="cb43-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.short.long)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">MIS.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">  <span class="dt">sequence.A =</span> MIS.short,</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">  <span class="dt">sequence.B =</span> MIS.long,</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">  <span class="dt">transformation =</span> <span class="st">"hellinger"</span></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb48-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.short.long)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -10269,16 +10553,16 @@ long
 </tbody>
 </table>
 <p>The function <strong>workflowShortInLong</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space is reduced to the minimum (the rows of <em>MIS.short</em> plus and minus one) to speed-up the execution of this example. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.short.long,</a>
-<a class="sourceLine" id="cb44-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb44-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb44-5" data-line-number="5">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb44-6" data-line-number="6">  <span class="dt">min.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb44-7" data-line-number="7">  <span class="dt">max.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">+</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb44-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">MIS.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">  <span class="dt">sequences =</span> MIS.short.long,</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">  <span class="dt">paired.samples =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">  <span class="dt">min.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">  <span class="dt">max.length =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(MIS.short) <span class="op">+</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">)</a></code></pre></div>
 <p>The function returns a dataframe with three columns: <em>first.row</em> (first row of the matched segment of the long sequence), <em>last.row</em> (last row of the matched segment of the long sequence), and <em>psi</em> (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(MIS.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -10405,60 +10689,60 @@ psi
 </tbody>
 </table>
 <p>Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co">#indices of the best matching segment</span></a>
-<a class="sourceLine" id="cb46-2" data-line-number="2">best.match.indices &lt;-<span class="st"> </span>MIS.psi[<span class="dv">1</span>, <span class="st">"first.row"</span>]<span class="op">:</span>MIS.psi[<span class="dv">1</span>, <span class="st">"last.row"</span>]</a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">#subsetting by these indices</span></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5">best.match &lt;-<span class="st"> </span>MIS.long[best.match.indices, ]</a>
-<a class="sourceLine" id="cb46-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co">#testing that the values in the best matching segment and the short sequence are identical</span></a>
-<a class="sourceLine" id="cb46-8" data-line-number="8">best.match <span class="op">==</span><span class="st"> </span>MIS.short</a>
-<a class="sourceLine" id="cb46-9" data-line-number="9"><span class="co">#&gt;    Quercus Betula Pinus Alnus Tilia Carpinus</span></a>
-<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="co">#&gt; 1     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="co">#&gt; 2     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="co">#&gt; 3     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co">#&gt; 4     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-14" data-line-number="14"><span class="co">#&gt; 5     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-15" data-line-number="15"><span class="co">#&gt; 6     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-16" data-line-number="16"><span class="co">#&gt; 7     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="co">#&gt; 8     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-18" data-line-number="18"><span class="co">#&gt; 9     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
-<a class="sourceLine" id="cb46-19" data-line-number="19"><span class="co">#&gt; 10    TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.match.indices)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co">#indices of the best matching segment</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">best.match.indices &lt;-<span class="st"> </span>MIS.psi[<span class="dv">1</span>, <span class="st">"first.row"</span>]<span class="op">:</span>MIS.psi[<span class="dv">1</span>, <span class="st">"last.row"</span>]</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co">#subsetting by these indices</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">best.match &lt;-<span class="st"> </span>MIS.long[best.match.indices, ]</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb51-7" data-line-number="7"><span class="co">#testing that the values in the best matching segment and the short sequence are identical</span></a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">best.match <span class="op">==</span><span class="st"> </span>MIS.short</a>
+<a class="sourceLine" id="cb51-9" data-line-number="9"><span class="co">#&gt;    Quercus Betula Pinus Alnus Tilia Carpinus</span></a>
+<a class="sourceLine" id="cb51-10" data-line-number="10"><span class="co">#&gt; 1     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="co">#&gt; 2     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-12" data-line-number="12"><span class="co">#&gt; 3     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-13" data-line-number="13"><span class="co">#&gt; 4     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-14" data-line-number="14"><span class="co">#&gt; 5     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-15" data-line-number="15"><span class="co">#&gt; 6     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-16" data-line-number="16"><span class="co">#&gt; 7     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-17" data-line-number="17"><span class="co">#&gt; 8     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-18" data-line-number="18"><span class="co">#&gt; 9     TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a>
+<a class="sourceLine" id="cb51-19" data-line-number="19"><span class="co">#&gt; 10    TRUE   TRUE  TRUE  TRUE  TRUE     TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(best.match, MIS.long, MIS.psi, MIS.short, MIS.short.long, sequencesMIS, best.match.indices)</a></code></pre></div>
 </div>
 <div id="finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-regular-time-series-paired-samples" class="section level1">
 <h1 class="hasAnchor">
 <a href="#finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence-regular-time-series-paired-samples" class="anchor"></a>Finding the section in a long sequence more similar to a given short sequence (regular time-series, paired samples)</h1>
 <p>When regular time-series are provided, and the analysis needs to be done comparing only aligned samples, the argument <em>paired.samples</em> can be set to TRUE, and instead of the least-cost algorithm to find the minimized distance between sequences, the function <strong>distancePairedSamples</strong> (shown above) is used to compute the distance between sequences of the same length (short sequence versus subsets of the long sequence). In such a case, the arguments <em>min.length</em> and <em>max.length</em> are irrelevant, and the sample-size of the matching segments in the long sequence have equals the sample-size of the short sequence. This application is ideal when the user has regular time-series.</p>
 <p>The example below shows how it is done with the <em>climateShort</em> and <em>climateLong</em> datasets. The goal is to find the subset in <em>climateLong</em> better matching <em>climateShort</em>, with the same number of rows (11) as <em>climateShort</em>.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">#loading sample data</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateLong) <span class="co">#has "age" column</span></a>
-<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateShort) <span class="co">#no "age" column</span></a>
-<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co">#merging and scaling both datasets</span></a>
-<a class="sourceLine" id="cb48-6" data-line-number="6">climate.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb48-7" data-line-number="7">  <span class="dt">sequence.A =</span> climateShort,</a>
-<a class="sourceLine" id="cb48-8" data-line-number="8">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
-<a class="sourceLine" id="cb48-9" data-line-number="9">  <span class="dt">sequence.B =</span> climateLong,</a>
-<a class="sourceLine" id="cb48-10" data-line-number="10">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
-<a class="sourceLine" id="cb48-11" data-line-number="11">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb48-12" data-line-number="12">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb48-13" data-line-number="13">  <span class="dt">transformation =</span> <span class="st">"scale"</span></a>
-<a class="sourceLine" id="cb48-14" data-line-number="14">)</a>
-<a class="sourceLine" id="cb48-15" data-line-number="15"><span class="co">#&gt; Warning in prepareSequences(sequence.A = climateShort, sequence.A.name</span></a>
-<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="co">#&gt; = "short", : I couldn't find 'time.column' in 'sequenceA'. Added one and</span></a>
-<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="co">#&gt; filled it with NA.</span></a>
-<a class="sourceLine" id="cb48-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb48-19" data-line-number="19"><span class="co">#computing psi</span></a>
-<a class="sourceLine" id="cb48-20" data-line-number="20">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
-<a class="sourceLine" id="cb48-21" data-line-number="21">  <span class="dt">sequences =</span> climate.short.long,</a>
-<a class="sourceLine" id="cb48-22" data-line-number="22">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb48-23" data-line-number="23">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb48-24" data-line-number="24">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb48-25" data-line-number="25">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb48-26" data-line-number="26">)</a>
-<a class="sourceLine" id="cb48-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co">#loading sample data</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateLong) <span class="co">#has "age" column</span></a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(climateShort) <span class="co">#no "age" column</span></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="co">#merging and scaling both datasets</span></a>
+<a class="sourceLine" id="cb53-6" data-line-number="6">climate.short.long &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb53-7" data-line-number="7">  <span class="dt">sequence.A =</span> climateShort,</a>
+<a class="sourceLine" id="cb53-8" data-line-number="8">  <span class="dt">sequence.A.name =</span> <span class="st">"short"</span>,</a>
+<a class="sourceLine" id="cb53-9" data-line-number="9">  <span class="dt">sequence.B =</span> climateLong,</a>
+<a class="sourceLine" id="cb53-10" data-line-number="10">  <span class="dt">sequence.B.name =</span> <span class="st">"long"</span>,</a>
+<a class="sourceLine" id="cb53-11" data-line-number="11">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb53-12" data-line-number="12">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb53-13" data-line-number="13">  <span class="dt">transformation =</span> <span class="st">"scale"</span></a>
+<a class="sourceLine" id="cb53-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb53-15" data-line-number="15"><span class="co">#&gt; Warning in prepareSequences(sequence.A = climateShort, sequence.A.name</span></a>
+<a class="sourceLine" id="cb53-16" data-line-number="16"><span class="co">#&gt; = "short", : I couldn't find 'time.column' in 'sequenceA'. Added one and</span></a>
+<a class="sourceLine" id="cb53-17" data-line-number="17"><span class="co">#&gt; filled it with NA.</span></a>
+<a class="sourceLine" id="cb53-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb53-19" data-line-number="19"><span class="co">#computing psi</span></a>
+<a class="sourceLine" id="cb53-20" data-line-number="20">climate.psi &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowShortInLong.html">workflowShortInLong</a></span>(</a>
+<a class="sourceLine" id="cb53-21" data-line-number="21">  <span class="dt">sequences =</span> climate.short.long,</a>
+<a class="sourceLine" id="cb53-22" data-line-number="22">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb53-23" data-line-number="23">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb53-24" data-line-number="24">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb53-25" data-line-number="25">  <span class="dt">paired.samples =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb53-26" data-line-number="26">)</a>
+<a class="sourceLine" id="cb53-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(climate.psi[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ])</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -10586,39 +10870,39 @@ psi
 </table>
 <p>Since <em>climateShort</em> is a subset of <em>climateLong</em>, there is a perfect match from the rows 17 to 27.</p>
 <p>In this case the solutions are computed among sequences of the same length, and with distances computed only between aligned samples.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(climateLong, climateShort, climate.short.long, climate.psi)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(climateLong, climateShort, climate.short.long, climate.psi)</a></code></pre></div>
 </div>
 <div id="sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence" class="anchor"></a>Sequence slotting: combining samples of two sequences into a single composite sequence</h1>
 <p>Under this scenario, the objective is to combine two sequences in order to obtain a single composite sequence. The basic assumption followed by the algorithm building the composite sequence is <em>most similar samples should go together, but respecting the original ordering of the sequences</em>. Therefore, the output will contain the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples. This scenario assumes that at least one of the sequences do not have a time/age/depth column, or that the values in such a column are uncertain. In any case, time/age/depth is not considered as a factor in the generation of the composite sequence.</p>
 <p>The example below uses the <strong>pollenGP</strong> dataset, which contains 200 samples, with 40 pollen types each. To create a smalle case study, the code below separates the first 20 samples of the sequence into two different sequences with 10 randomly selected samples each. Even though this scenario assumes that these sequences do not have depth or age, these columns will be kept so the result can be assessed. That is why these columns are added to the <em>exclude.columns</em> argument. Also, note that the argument <em>transformation</em> is set to “none”, so the output is not transformed, and the outcome can be easily interpreted. This will give more weight to the most abundant taxa, which will in fact guide the slotting.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co">#loading the data</span></a>
-<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">#getting first 20 samples</span></a>
-<a class="sourceLine" id="cb50-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a>
-<a class="sourceLine" id="cb50-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="co">#sampling indices</span></a>
-<a class="sourceLine" id="cb50-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>) <span class="co">#to get same result every time</span></a>
-<a class="sourceLine" id="cb50-9" data-line-number="9">sampling.indices &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb50-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb50-11" data-line-number="11"><span class="co">#subsetting the sequence</span></a>
-<a class="sourceLine" id="cb50-12" data-line-number="12">A &lt;-<span class="st"> </span>pollenGP[sampling.indices, ]</a>
-<a class="sourceLine" id="cb50-13" data-line-number="13">B &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span>sampling.indices, ]</a>
-<a class="sourceLine" id="cb50-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb50-15" data-line-number="15"><span class="co">#preparing the sequences</span></a>
-<a class="sourceLine" id="cb50-16" data-line-number="16">AB &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb50-17" data-line-number="17">  <span class="dt">sequence.A =</span> A,</a>
-<a class="sourceLine" id="cb50-18" data-line-number="18">  <span class="dt">sequence.A.name =</span> <span class="st">"A"</span>,</a>
-<a class="sourceLine" id="cb50-19" data-line-number="19">  <span class="dt">sequence.B =</span> B,</a>
-<a class="sourceLine" id="cb50-20" data-line-number="20">  <span class="dt">sequence.B.name =</span> <span class="st">"B"</span>,</a>
-<a class="sourceLine" id="cb50-21" data-line-number="21">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb50-22" data-line-number="22">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"age"</span>),</a>
-<a class="sourceLine" id="cb50-23" data-line-number="23">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
-<a class="sourceLine" id="cb50-24" data-line-number="24">)</a>
-<a class="sourceLine" id="cb50-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co">#loading the data</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="co">#getting first 20 samples</span></a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="co">#sampling indices</span></a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>) <span class="co">#to get same result every time</span></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9">sampling.indices &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#subsetting the sequence</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12">A &lt;-<span class="st"> </span>pollenGP[sampling.indices, ]</a>
+<a class="sourceLine" id="cb55-13" data-line-number="13">B &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span>sampling.indices, ]</a>
+<a class="sourceLine" id="cb55-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb55-15" data-line-number="15"><span class="co">#preparing the sequences</span></a>
+<a class="sourceLine" id="cb55-16" data-line-number="16">AB &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb55-17" data-line-number="17">  <span class="dt">sequence.A =</span> A,</a>
+<a class="sourceLine" id="cb55-18" data-line-number="18">  <span class="dt">sequence.A.name =</span> <span class="st">"A"</span>,</a>
+<a class="sourceLine" id="cb55-19" data-line-number="19">  <span class="dt">sequence.B =</span> B,</a>
+<a class="sourceLine" id="cb55-20" data-line-number="20">  <span class="dt">sequence.B.name =</span> <span class="st">"B"</span>,</a>
+<a class="sourceLine" id="cb55-21" data-line-number="21">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb55-22" data-line-number="22">  <span class="dt">exclude.columns =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"depth"</span>, <span class="st">"age"</span>),</a>
+<a class="sourceLine" id="cb55-23" data-line-number="23">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
+<a class="sourceLine" id="cb55-24" data-line-number="24">)</a>
+<a class="sourceLine" id="cb55-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -13374,24 +13658,24 @@ B
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(sampling.indices)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(sampling.indices)</a></code></pre></div>
 <p>Once the sequences are prepared, the function <strong>sequenceSlotting</strong> will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the <em>method</em> argument, computes the least cost matrix, and generates the least cost path.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">AB.combined &lt;-<span class="st"> </span><span class="kw"><a href="reference/sequenceSlotting.html">sequenceSlotting</a></span>(</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">  <span class="dt">sequences =</span> AB,</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"age"</span>, </a>
-<a class="sourceLine" id="cb52-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
-<a class="sourceLine" id="cb52-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb52-7" data-line-number="7">  <span class="dt">plot =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb52-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">AB.combined &lt;-<span class="st"> </span><span class="kw"><a href="reference/sequenceSlotting.html">sequenceSlotting</a></span>(</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">  <span class="dt">sequences =</span> AB,</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">  <span class="dt">time.column =</span> <span class="st">"age"</span>, </a>
+<a class="sourceLine" id="cb57-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
+<a class="sourceLine" id="cb57-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb57-7" data-line-number="7">  <span class="dt">plot =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb57-8" data-line-number="8">)</a></code></pre></div>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-49-1.png" alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-54-1.png" alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%"><p class="caption">
 Distance matrix and least cost path of the example sequences ‘A’ and ‘B’..
 </p>
 </div>
 <p>The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named <em>original.index</em>, which has the index of each sample in the original datasets.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">format =</span> <span class="st">"html"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">format =</span> <span class="st">"html"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -14132,50 +14416,50 @@ B
 </table>
 <p>Note that several samples (highlighted in bold) show inverted ages with respect to the previous samples. This is expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.</p>
 <div class="figure">
-<img src="reference/figures/README-unnamed-chunk-51-1.png" alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%"><p class="caption">
+<img src="reference/figures/README-unnamed-chunk-56-1.png" alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%"><p class="caption">
 Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.
 </p>
 </div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(A, B, AB, AB.combined, pollenGP, cols, taxon, y.lim)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(A, B, AB, AB.combined, pollenGP, cols, taxon, y.lim)</a></code></pre></div>
 </div>
 <div id="transferring-an-attribute-from-one-sequence-to-another" class="section level1">
 <h1 class="hasAnchor">
 <a href="#transferring-an-attribute-from-one-sequence-to-another" class="anchor"></a>Transferring an attribute from one sequence to another</h1>
 <p>This scenario assumes that the user has two multivariate sequences, one of them with a given attribute (age/time) that needs to be transferred to the other sequence by using similarity/dissimilarity (constrained by sample order) as a transfer criterion.</p>
 <p>The code below prepares the data for the example. The sequence <strong>pollenGP</strong> is the reference sequence, and contains the column <em>age</em>. The sequence <strong>pollenX</strong> is the target sequence, without an <em>age</em> column. We generate it by taking 40 random samples between the samples 50 and 100 of <strong>pollenGP</strong>. The sequences are prepared with <em>prepareSequences</em>, as usual, with the identificators “GP” and “X”</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co">#loading sample dataset</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="co">#subset pollenGP to make a shorter dataset</span></a>
-<a class="sourceLine" id="cb55-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, ]</a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="co">#generating a subset of pollenGP </span></a>
-<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb55-9" data-line-number="9">pollenX &lt;-<span class="st"> </span>pollenGP[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">40</span>)), ]</a>
-<a class="sourceLine" id="cb55-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#we separate the age column</span></a>
-<a class="sourceLine" id="cb55-12" data-line-number="12">pollenX.age &lt;-<span class="st"> </span>pollenX<span class="op">$</span>age</a>
-<a class="sourceLine" id="cb55-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb55-14" data-line-number="14"><span class="co">#and remove the age values from pollenX</span></a>
-<a class="sourceLine" id="cb55-15" data-line-number="15">pollenX<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb55-16" data-line-number="16">pollenX<span class="op">$</span>depth &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb55-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb55-18" data-line-number="18"><span class="co">#removing some samples from pollenGP</span></a>
-<a class="sourceLine" id="cb55-19" data-line-number="19"><span class="co">#so pollenX is not a perfect subset of pollenGP</span></a>
-<a class="sourceLine" id="cb55-20" data-line-number="20">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">10</span>), ]</a>
-<a class="sourceLine" id="cb55-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb55-22" data-line-number="22"><span class="co">#prepare sequences</span></a>
-<a class="sourceLine" id="cb55-23" data-line-number="23">GP.X &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb55-24" data-line-number="24">  <span class="dt">sequence.A =</span> pollenGP,</a>
-<a class="sourceLine" id="cb55-25" data-line-number="25">  <span class="dt">sequence.A.name =</span> <span class="st">"GP"</span>,</a>
-<a class="sourceLine" id="cb55-26" data-line-number="26">  <span class="dt">sequence.B =</span> pollenX,</a>
-<a class="sourceLine" id="cb55-27" data-line-number="27">  <span class="dt">sequence.B.name =</span> <span class="st">"X"</span>,</a>
-<a class="sourceLine" id="cb55-28" data-line-number="28">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb55-29" data-line-number="29">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb55-30" data-line-number="30">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
-<a class="sourceLine" id="cb55-31" data-line-number="31">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
-<a class="sourceLine" id="cb55-32" data-line-number="32">)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="co">#loading sample dataset</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="co">#subset pollenGP to make a shorter dataset</span></a>
+<a class="sourceLine" id="cb60-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, ]</a>
+<a class="sourceLine" id="cb60-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb60-7" data-line-number="7"><span class="co">#generating a subset of pollenGP </span></a>
+<a class="sourceLine" id="cb60-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb60-9" data-line-number="9">pollenX &lt;-<span class="st"> </span>pollenGP[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">40</span>)), ]</a>
+<a class="sourceLine" id="cb60-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb60-11" data-line-number="11"><span class="co">#we separate the age column</span></a>
+<a class="sourceLine" id="cb60-12" data-line-number="12">pollenX.age &lt;-<span class="st"> </span>pollenX<span class="op">$</span>age</a>
+<a class="sourceLine" id="cb60-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb60-14" data-line-number="14"><span class="co">#and remove the age values from pollenX</span></a>
+<a class="sourceLine" id="cb60-15" data-line-number="15">pollenX<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb60-16" data-line-number="16">pollenX<span class="op">$</span>depth &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb60-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb60-18" data-line-number="18"><span class="co">#removing some samples from pollenGP</span></a>
+<a class="sourceLine" id="cb60-19" data-line-number="19"><span class="co">#so pollenX is not a perfect subset of pollenGP</span></a>
+<a class="sourceLine" id="cb60-20" data-line-number="20">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">10</span>), ]</a>
+<a class="sourceLine" id="cb60-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb60-22" data-line-number="22"><span class="co">#prepare sequences</span></a>
+<a class="sourceLine" id="cb60-23" data-line-number="23">GP.X &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb60-24" data-line-number="24">  <span class="dt">sequence.A =</span> pollenGP,</a>
+<a class="sourceLine" id="cb60-25" data-line-number="25">  <span class="dt">sequence.A.name =</span> <span class="st">"GP"</span>,</a>
+<a class="sourceLine" id="cb60-26" data-line-number="26">  <span class="dt">sequence.B =</span> pollenX,</a>
+<a class="sourceLine" id="cb60-27" data-line-number="27">  <span class="dt">sequence.B.name =</span> <span class="st">"X"</span>,</a>
+<a class="sourceLine" id="cb60-28" data-line-number="28">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb60-29" data-line-number="29">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb60-30" data-line-number="30">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
+<a class="sourceLine" id="cb60-31" data-line-number="31">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
+<a class="sourceLine" id="cb60-32" data-line-number="32">)</a></code></pre></div>
 <p>The transfer of “age” values from <em>GP</em> to <em>X</em> can be done in two ways, both constrained by sample order:</p>
 <ul>
 <li>
@@ -14188,20 +14472,20 @@ Sequences A (green) and B (blue) with their ordered samples (upper panel), and t
 <a href="#direct-transfer" class="anchor"></a>Direct transfer</h2>
 <p><strong>THIS SECTION IS A WORK IN PROGRESS</strong></p>
 <p>A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option <em>diagonal</em> activated), and to parse the least cost path file to assign attribute values. This is done by the function <strong>transferAttribute</strong> with the option <span class="math inline">\(mode = TRUE\)</span>.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co">#parameters</span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2">X.new &lt;-<span class="st"> </span><span class="kw"><a href="reference/transferAttribute.html">transferAttribute</a></span>(</a>
-<a class="sourceLine" id="cb56-3" data-line-number="3">  <span class="dt">sequences =</span> GP.X,</a>
-<a class="sourceLine" id="cb56-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb56-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb56-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb56-7" data-line-number="7">  <span class="dt">transfer.what =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb56-8" data-line-number="8">  <span class="dt">transfer.from =</span> <span class="st">"GP"</span>,</a>
-<a class="sourceLine" id="cb56-9" data-line-number="9">  <span class="dt">transfer.to =</span> <span class="st">"X"</span>,</a>
-<a class="sourceLine" id="cb56-10" data-line-number="10">  <span class="dt">mode =</span> <span class="st">"direct"</span></a>
-<a class="sourceLine" id="cb56-11" data-line-number="11">  )</a>
-<a class="sourceLine" id="cb56-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb56-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(X.new[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ])  <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb56-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co">#parameters</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">X.new &lt;-<span class="st"> </span><span class="kw"><a href="reference/transferAttribute.html">transferAttribute</a></span>(</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">  <span class="dt">sequences =</span> GP.X,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb61-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">  <span class="dt">transfer.what =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">  <span class="dt">transfer.from =</span> <span class="st">"GP"</span>,</a>
+<a class="sourceLine" id="cb61-9" data-line-number="9">  <span class="dt">transfer.to =</span> <span class="st">"X"</span>,</a>
+<a class="sourceLine" id="cb61-10" data-line-number="10">  <span class="dt">mode =</span> <span class="st">"direct"</span></a>
+<a class="sourceLine" id="cb61-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb61-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb61-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(X.new[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ])  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb61-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -17020,8 +17304,8 @@ X
 </tbody>
 </table>
 <p>The algorithm finds the most similar samples, and transfers attribute values directly between them. This can result in duplicated attribute values, as highlighted in the table above. The Pearson correlation between the original ages (stored in <em>pollenX.age</em>) and the assigned ones is 0.9996, so it can be concluded that in spite of its simplicity, this algorithm yields accurate results.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(GP.X, pollenX, X.new, pollenX.age)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co">#cleaning workspace</span></a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(GP.X, pollenX, X.new, pollenX.age)</a></code></pre></div>
 </div>
 <div id="interpolated-transfer" class="section level2">
 <h2 class="hasAnchor">
@@ -17042,33 +17326,33 @@ X
 <p>The unknwon value <span class="math inline">\(Bt_{k}\)</span> is computed as:</p>
 <p><span class="math display">\[Bt_{k} = w_{i} \times At_{i} + w_{j} \times At_{j}\]</span></p>
 <p>The code below exemplifies the operation, using the samples 1 and 4 of the dataset <em>pollenGP</em> as <span class="math inline">\(Ai\)</span> and <span class="math inline">\(Aj\)</span>, and the sample 3 as <span class="math inline">\(Bk\)</span>.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="co">#loading data</span></a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
-<a class="sourceLine" id="cb58-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="co">#samples in A</span></a>
-<a class="sourceLine" id="cb58-5" data-line-number="5">Ai &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
-<a class="sourceLine" id="cb58-6" data-line-number="6">Aj &lt;-<span class="st"> </span>pollenGP[<span class="dv">4</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
-<a class="sourceLine" id="cb58-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb58-8" data-line-number="8"><span class="co">#ages of the samples in A</span></a>
-<a class="sourceLine" id="cb58-9" data-line-number="9">Ati &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span>, <span class="st">"age"</span>]</a>
-<a class="sourceLine" id="cb58-10" data-line-number="10">Atj &lt;-<span class="st"> </span>pollenGP[<span class="dv">4</span>, <span class="st">"age"</span>]</a>
-<a class="sourceLine" id="cb58-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb58-12" data-line-number="12"><span class="co">#sample in B</span></a>
-<a class="sourceLine" id="cb58-13" data-line-number="13">Bk &lt;-<span class="st"> </span>pollenGP[<span class="dv">2</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
-<a class="sourceLine" id="cb58-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb58-15" data-line-number="15"><span class="co">#computing distances between Bk, Ai, and Aj</span></a>
-<a class="sourceLine" id="cb58-16" data-line-number="16">DBkAi &lt;-<span class="st"> </span><span class="kw"><a href="reference/distance.html">distance</a></span>(Bk, Ai)</a>
-<a class="sourceLine" id="cb58-17" data-line-number="17">DBkAj &lt;-<span class="st"> </span><span class="kw"><a href="reference/distance.html">distance</a></span>(Bk, Aj)</a>
-<a class="sourceLine" id="cb58-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb58-19" data-line-number="19"><span class="co">#normalizing the distances to 1</span></a>
-<a class="sourceLine" id="cb58-20" data-line-number="20">wi &lt;-<span class="st"> </span>DBkAi <span class="op">/</span><span class="st"> </span>(DBkAi <span class="op">+</span><span class="st"> </span>DBkAj)</a>
-<a class="sourceLine" id="cb58-21" data-line-number="21">wj &lt;-<span class="st"> </span>DBkAj <span class="op">/</span><span class="st"> </span>(DBkAi <span class="op">+</span><span class="st"> </span>DBkAj)</a>
-<a class="sourceLine" id="cb58-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb58-23" data-line-number="23"><span class="co">#computing  Btk</span></a>
-<a class="sourceLine" id="cb58-24" data-line-number="24">Btk &lt;-<span class="st"> </span>wi <span class="op">*</span><span class="st"> </span>Ati <span class="op">+</span><span class="st"> </span>wj <span class="op">*</span><span class="st"> </span>Atj</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co">#loading data</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
+<a class="sourceLine" id="cb63-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb63-4" data-line-number="4"><span class="co">#samples in A</span></a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">Ai &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6">Aj &lt;-<span class="st"> </span>pollenGP[<span class="dv">4</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
+<a class="sourceLine" id="cb63-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb63-8" data-line-number="8"><span class="co">#ages of the samples in A</span></a>
+<a class="sourceLine" id="cb63-9" data-line-number="9">Ati &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span>, <span class="st">"age"</span>]</a>
+<a class="sourceLine" id="cb63-10" data-line-number="10">Atj &lt;-<span class="st"> </span>pollenGP[<span class="dv">4</span>, <span class="st">"age"</span>]</a>
+<a class="sourceLine" id="cb63-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb63-12" data-line-number="12"><span class="co">#sample in B</span></a>
+<a class="sourceLine" id="cb63-13" data-line-number="13">Bk &lt;-<span class="st"> </span>pollenGP[<span class="dv">2</span>, <span class="dv">3</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(pollenGP)]</a>
+<a class="sourceLine" id="cb63-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb63-15" data-line-number="15"><span class="co">#computing distances between Bk, Ai, and Aj</span></a>
+<a class="sourceLine" id="cb63-16" data-line-number="16">DBkAi &lt;-<span class="st"> </span><span class="kw"><a href="reference/distance.html">distance</a></span>(Bk, Ai)</a>
+<a class="sourceLine" id="cb63-17" data-line-number="17">DBkAj &lt;-<span class="st"> </span><span class="kw"><a href="reference/distance.html">distance</a></span>(Bk, Aj)</a>
+<a class="sourceLine" id="cb63-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb63-19" data-line-number="19"><span class="co">#normalizing the distances to 1</span></a>
+<a class="sourceLine" id="cb63-20" data-line-number="20">wi &lt;-<span class="st"> </span>DBkAi <span class="op">/</span><span class="st"> </span>(DBkAi <span class="op">+</span><span class="st"> </span>DBkAj)</a>
+<a class="sourceLine" id="cb63-21" data-line-number="21">wj &lt;-<span class="st"> </span>DBkAj <span class="op">/</span><span class="st"> </span>(DBkAi <span class="op">+</span><span class="st"> </span>DBkAj)</a>
+<a class="sourceLine" id="cb63-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb63-23" data-line-number="23"><span class="co">#computing  Btk</span></a>
+<a class="sourceLine" id="cb63-24" data-line-number="24">Btk &lt;-<span class="st"> </span>wi <span class="op">*</span><span class="st"> </span>Ati <span class="op">+</span><span class="st"> </span>wj <span class="op">*</span><span class="st"> </span>Atj</a></code></pre></div>
 <p>The table below shows the observed versus the predicted values for <span class="math inline">\(Btk\)</span>.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">temp.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Observed =</span> pollenGP[<span class="dv">3</span>, <span class="st">"age"</span>], <span class="dt">Predicted =</span> Btk)</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(temp.df))</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">temp.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Observed =</span> pollenGP[<span class="dv">3</span>, <span class="st">"age"</span>], <span class="dt">Predicted =</span> Btk)</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(temp.df))</a></code></pre></div>
 <table class="table table"><tbody>
 <tr>
 <td style="text-align:left;">
@@ -17088,53 +17372,53 @@ Predicted
 </tr>
 </tbody></table>
 <p>Below we create some example data, where a subset of <em>pollenGP</em> will be the donor of age values, and another subset of it, named <em>pollenX</em> will be the receiver of the age values.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="co">#loading sample dataset</span></a>
-<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
-<a class="sourceLine" id="cb60-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="co">#subset pollenGP to make a shorter dataset</span></a>
-<a class="sourceLine" id="cb60-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, ]</a>
-<a class="sourceLine" id="cb60-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb60-7" data-line-number="7"><span class="co">#generating a subset of pollenGP </span></a>
-<a class="sourceLine" id="cb60-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb60-9" data-line-number="9">pollenX &lt;-<span class="st"> </span>pollenGP[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">40</span>)), ]</a>
-<a class="sourceLine" id="cb60-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb60-11" data-line-number="11"><span class="co">#we separate the age column</span></a>
-<a class="sourceLine" id="cb60-12" data-line-number="12">pollenX.age &lt;-<span class="st"> </span>pollenX<span class="op">$</span>age</a>
-<a class="sourceLine" id="cb60-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb60-14" data-line-number="14"><span class="co">#and remove the age values from pollenX</span></a>
-<a class="sourceLine" id="cb60-15" data-line-number="15">pollenX<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb60-16" data-line-number="16">pollenX<span class="op">$</span>depth &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb60-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb60-18" data-line-number="18"><span class="co">#removing some samples from pollenGP</span></a>
-<a class="sourceLine" id="cb60-19" data-line-number="19"><span class="co">#so pollenX is not a perfect subset of pollenGP</span></a>
-<a class="sourceLine" id="cb60-20" data-line-number="20">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">10</span>), ]</a>
-<a class="sourceLine" id="cb60-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb60-22" data-line-number="22"><span class="co">#prepare sequences</span></a>
-<a class="sourceLine" id="cb60-23" data-line-number="23">GP.X &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
-<a class="sourceLine" id="cb60-24" data-line-number="24">  <span class="dt">sequence.A =</span> pollenGP,</a>
-<a class="sourceLine" id="cb60-25" data-line-number="25">  <span class="dt">sequence.A.name =</span> <span class="st">"GP"</span>,</a>
-<a class="sourceLine" id="cb60-26" data-line-number="26">  <span class="dt">sequence.B =</span> pollenX,</a>
-<a class="sourceLine" id="cb60-27" data-line-number="27">  <span class="dt">sequence.B.name =</span> <span class="st">"X"</span>,</a>
-<a class="sourceLine" id="cb60-28" data-line-number="28">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb60-29" data-line-number="29">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb60-30" data-line-number="30">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
-<a class="sourceLine" id="cb60-31" data-line-number="31">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
-<a class="sourceLine" id="cb60-32" data-line-number="32">)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co">#loading sample dataset</span></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(pollenGP)</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="co">#subset pollenGP to make a shorter dataset</span></a>
+<a class="sourceLine" id="cb65-5" data-line-number="5">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, ]</a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb65-7" data-line-number="7"><span class="co">#generating a subset of pollenGP </span></a>
+<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb65-9" data-line-number="9">pollenX &lt;-<span class="st"> </span>pollenGP[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sort">sort</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">40</span>)), ]</a>
+<a class="sourceLine" id="cb65-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb65-11" data-line-number="11"><span class="co">#we separate the age column</span></a>
+<a class="sourceLine" id="cb65-12" data-line-number="12">pollenX.age &lt;-<span class="st"> </span>pollenX<span class="op">$</span>age</a>
+<a class="sourceLine" id="cb65-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb65-14" data-line-number="14"><span class="co">#and remove the age values from pollenX</span></a>
+<a class="sourceLine" id="cb65-15" data-line-number="15">pollenX<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb65-16" data-line-number="16">pollenX<span class="op">$</span>depth &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb65-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb65-18" data-line-number="18"><span class="co">#removing some samples from pollenGP</span></a>
+<a class="sourceLine" id="cb65-19" data-line-number="19"><span class="co">#so pollenX is not a perfect subset of pollenGP</span></a>
+<a class="sourceLine" id="cb65-20" data-line-number="20">pollenGP &lt;-<span class="st"> </span>pollenGP[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">10</span>), ]</a>
+<a class="sourceLine" id="cb65-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb65-22" data-line-number="22"><span class="co">#prepare sequences</span></a>
+<a class="sourceLine" id="cb65-23" data-line-number="23">GP.X &lt;-<span class="st"> </span><span class="kw"><a href="reference/prepareSequences.html">prepareSequences</a></span>(</a>
+<a class="sourceLine" id="cb65-24" data-line-number="24">  <span class="dt">sequence.A =</span> pollenGP,</a>
+<a class="sourceLine" id="cb65-25" data-line-number="25">  <span class="dt">sequence.A.name =</span> <span class="st">"GP"</span>,</a>
+<a class="sourceLine" id="cb65-26" data-line-number="26">  <span class="dt">sequence.B =</span> pollenX,</a>
+<a class="sourceLine" id="cb65-27" data-line-number="27">  <span class="dt">sequence.B.name =</span> <span class="st">"X"</span>,</a>
+<a class="sourceLine" id="cb65-28" data-line-number="28">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb65-29" data-line-number="29">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb65-30" data-line-number="30">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
+<a class="sourceLine" id="cb65-31" data-line-number="31">  <span class="dt">transformation =</span> <span class="st">"none"</span></a>
+<a class="sourceLine" id="cb65-32" data-line-number="32">)</a></code></pre></div>
 <p>To transfer attributes from <em>GP</em> to <em>X</em> we use the <strong>transferAttribute</strong> function with the option <em>mode = “interpolate”</em>.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co">#parameters</span></a>
-<a class="sourceLine" id="cb61-2" data-line-number="2">X.new &lt;-<span class="st"> </span><span class="kw"><a href="reference/transferAttribute.html">transferAttribute</a></span>(</a>
-<a class="sourceLine" id="cb61-3" data-line-number="3">  <span class="dt">sequences =</span> GP.X,</a>
-<a class="sourceLine" id="cb61-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
-<a class="sourceLine" id="cb61-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb61-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
-<a class="sourceLine" id="cb61-7" data-line-number="7">  <span class="dt">transfer.what =</span> <span class="st">"age"</span>,</a>
-<a class="sourceLine" id="cb61-8" data-line-number="8">  <span class="dt">transfer.from =</span> <span class="st">"GP"</span>,</a>
-<a class="sourceLine" id="cb61-9" data-line-number="9">  <span class="dt">transfer.to =</span> <span class="st">"X"</span>,</a>
-<a class="sourceLine" id="cb61-10" data-line-number="10">  <span class="dt">mode =</span> <span class="st">"interpolated"</span></a>
-<a class="sourceLine" id="cb61-11" data-line-number="11">  )</a>
-<a class="sourceLine" id="cb61-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb61-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(X.new[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ])  <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb61-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">8</span>, <span class="dv">13</span>, <span class="dv">16</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="co">#parameters</span></a>
+<a class="sourceLine" id="cb66-2" data-line-number="2">X.new &lt;-<span class="st"> </span><span class="kw"><a href="reference/transferAttribute.html">transferAttribute</a></span>(</a>
+<a class="sourceLine" id="cb66-3" data-line-number="3">  <span class="dt">sequences =</span> GP.X,</a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">  <span class="dt">grouping.column =</span> <span class="st">"id"</span>,</a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">  <span class="dt">time.column =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb66-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
+<a class="sourceLine" id="cb66-7" data-line-number="7">  <span class="dt">transfer.what =</span> <span class="st">"age"</span>,</a>
+<a class="sourceLine" id="cb66-8" data-line-number="8">  <span class="dt">transfer.from =</span> <span class="st">"GP"</span>,</a>
+<a class="sourceLine" id="cb66-9" data-line-number="9">  <span class="dt">transfer.to =</span> <span class="st">"X"</span>,</a>
+<a class="sourceLine" id="cb66-10" data-line-number="10">  <span class="dt">mode =</span> <span class="st">"interpolated"</span></a>
+<a class="sourceLine" id="cb66-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb66-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb66-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(X.new[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ])  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb66-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">8</span>, <span class="dv">13</span>, <span class="dv">16</span>), <span class="dt">bold =</span> T)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">

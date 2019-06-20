@@ -4,7 +4,7 @@ Title: Computation of Dissimilarity Between Multivariate Time Series
 Version: 1.0.0
 Author: Blas M. Benito
 Maintainer: Blas M. Benito <blasbenito@gmail.com>
-Description: This R package provides tools to assess the dissimilarity between multivariate time series by using the psi measure described in "Numerical methods in Quaternary pollen analysis" (Birks and Gordon, 1985 <doi:10.1002/jqs.3390020110>). The algorithm computes a matrix of distances (euclidean, manhattan, chi) between all sample pairs, and minimizes the sum of distances while respecting the sample order.
+Description: This R package provides tools to assess the dissimilarity between multivariate time-series. It is based on the psi measure described in "Numerical methods in Quaternary pollen analysis" (Birks and Gordon, 1985 <doi:10.1002/jqs.3390020110>), which computes dissimilarity constrained by sample order, but the original idea has been extended to work with any kind of multivariate time-series, no matter whether they are regular, irregular, aligned or unaligned. Furthermore, the package allows to assess the significance of dissimilarity values by applying a restricted permutation test, allows to measure the contribution of individual variables to dissimilarity, and offers tools to transfer attributes (generally time or age, but other are possible) between sequences based on the similarity of their samples. The package is optimized to work in parallel with large datasets.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

@@ -13788,16 +13788,24 @@ AB.autosum
 package is named **psi**, that was first described in the book
 [“Numerical methods in Quaternary pollen
 analysis”](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406)
-(Birks and Gordon, 1985). **Psi** is computed as
-follows:
+(Birks and Gordon, 1985). **Psi** is computed as follows:
 
-\[\psi = \frac{LC - (\sum{A_{i-j}} + \sum{B_{i-j}})}{\sum{A_{i-j}} + \sum{B_{i-j}}} \]
+  
+![\\psi = \\frac{LC - (\\sum{A\_{i-j}} +
+\\sum{B\_{i-j}})}{\\sum{A\_{i-j}} + \\sum{B\_{i-j}}}
+](https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BLC%20-%20%28%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%29%7D%7B%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%7D%20
+"\\psi = \\frac{LC - (\\sum{A_{i-j}} + \\sum{B_{i-j}})}{\\sum{A_{i-j}} + \\sum{B_{i-j}}} ")  
 
 where:
 
-  - \(LC\) is the least-cost computed by **leastCostMatrix**.
-  - \(\sum{A_{i-j}}\) is the autosum of one of the sequences.
-  - \(\sum{B_{i-j}}\) is the autosum of the other sequence.
+  - ![LC](https://latex.codecogs.com/png.latex?LC "LC") is the
+    least-cost computed by
+    **leastCostMatrix**.
+  - ![\\sum{A\_{i-j}}](https://latex.codecogs.com/png.latex?%5Csum%7BA_%7Bi-j%7D%7D
+    "\\sum{A_{i-j}}") is the autosum of one of the
+    sequences.
+  - ![\\sum{B\_{i-j}}](https://latex.codecogs.com/png.latex?%5Csum%7BB_%7Bi-j%7D%7D
+    "\\sum{B_{i-j}}") is the autosum of the other sequence.
 
 Which basically is the least-cost normalizado by the autosum of both
 sequences. The **psi** function only requires the least cost, and the
@@ -16885,7 +16893,9 @@ as differences in time (when sequences represent different times) or
 distance (when sequences represent different sites) between sequences,
 or differences between physical/climatic attributes between sequences
 such as topography or climate can be added to the table, so models such
-as \(psi = A + B + C\) (were A, B, and C are these attributes) can be
+as ![psi = A + B +
+C](https://latex.codecogs.com/png.latex?psi%20%3D%20A%20%2B%20B%20%2B%20C
+"psi = A + B + C") (were A, B, and C are these attributes) can be
 fitted.
 
 ``` r
@@ -17230,6 +17240,535 @@ psi
 rm(climate, climate.autosum, climate.distances, climate.psi)
 ```
 
+# Permutation test to assess the significance of psi values
+
+**THIS SECTION IS A WORK IN PROGRESS**
+
+One question that may arise when comparing time series is “to what
+extent are dissimilarity values random?”. Answering this question
+requires to compare a given dissimilarity value (*psi*) with a
+distribution of dissimilarity values resulting from chance. However… how
+do we simulate chance in a multivariate time-series? The natural answer
+is “permutation”. Since samples in a multivariate time-series are
+ordered, re-shuffling samples is out of the question, but it is possible
+to re-shuffle the values of the variables within each sample. This kind
+of permutation is named “restricted permutation”.
+
+A restricted permutation test on *psi* values requires the following
+steps:
+
+  - Compute the *real psi* on two given sequences A and B.
+  - Repeat the following steps several times (99 to 999):
+      - For each case of each column of A and B, randomly apply one of
+        these actions:
+          - Leave it as is.
+          - Replace it with the previous case.
+          - Replace it with the next case.
+      - Compute *randomized psi* between A and B and store the value.
+  - Add *real psi* to the pool of *randomized psi*.
+  - Compute the proportion of *randomized psi* that is equal or lower
+    than *real psi*.
+
+Such a proportion represents the probability of obtaining a value lower
+than *real psi* by chance.
+
+The process described above has been implemented in the
+**workflowNullPsi** function. We will apply it to three groups of the
+*sequencesMIS* dataset.
+
+``` r
+#getting example data
+data(sequencesMIS)
+
+#working with 3 groups (to make this fast)
+sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+
+#preparing sequences
+sequencesMIS <- prepareSequences(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
+  transformation = "hellinger"
+)
+```
+
+The computation of the null psi values goes as follows:
+
+``` r
+random.psi <- workflowNullPsi(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
+  method = "manhattan",
+  paired.samples = FALSE,
+  repetitions = 9 #recommended values: 99, 999
+)
+```
+
+Note that the number of repetitions has been set to 9 in order to
+speed-up execution. The actual number should be 99, and ideally, 999.
+
+The output is a list with two dataframes, **psi** and **p**.
+
+The dataframe **psi** contains the real and random psi values. The
+column *psi* contains the dissimilarity between the sequences in the
+columns *A* and *B*. The columns *r1* to *r9* contain the psi values
+obtained from permutations of the sequences.
+
+``` r
+kable(random.psi$psi)
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+psi
+
+</th>
+
+<th style="text-align:right;">
+
+r1
+
+</th>
+
+<th style="text-align:right;">
+
+r2
+
+</th>
+
+<th style="text-align:right;">
+
+r3
+
+</th>
+
+<th style="text-align:right;">
+
+r4
+
+</th>
+
+<th style="text-align:right;">
+
+r5
+
+</th>
+
+<th style="text-align:right;">
+
+r6
+
+</th>
+
+<th style="text-align:right;">
+
+r7
+
+</th>
+
+<th style="text-align:right;">
+
+r8
+
+</th>
+
+<th style="text-align:right;">
+
+r9
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+2.7452389
+
+</td>
+
+<td style="text-align:right;">
+
+3.580062
+
+</td>
+
+<td style="text-align:right;">
+
+1.010809
+
+</td>
+
+<td style="text-align:right;">
+
+2.039787
+
+</td>
+
+<td style="text-align:right;">
+
+3.585768
+
+</td>
+
+<td style="text-align:right;">
+
+1.272764
+
+</td>
+
+<td style="text-align:right;">
+
+2.092872
+
+</td>
+
+<td style="text-align:right;">
+
+3.963153
+
+</td>
+
+<td style="text-align:right;">
+
+1.015885
+
+</td>
+
+<td style="text-align:right;">
+
+2.156021
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.6963869
+
+</td>
+
+<td style="text-align:right;">
+
+3.437116
+
+</td>
+
+<td style="text-align:right;">
+
+1.057406
+
+</td>
+
+<td style="text-align:right;">
+
+1.926457
+
+</td>
+
+<td style="text-align:right;">
+
+3.694782
+
+</td>
+
+<td style="text-align:right;">
+
+1.159677
+
+</td>
+
+<td style="text-align:right;">
+
+1.983392
+
+</td>
+
+<td style="text-align:right;">
+
+3.499146
+
+</td>
+
+<td style="text-align:right;">
+
+1.073134
+
+</td>
+
+<td style="text-align:right;">
+
+1.972862
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.4667379
+
+</td>
+
+<td style="text-align:right;">
+
+3.506076
+
+</td>
+
+<td style="text-align:right;">
+
+1.166311
+
+</td>
+
+<td style="text-align:right;">
+
+2.174481
+
+</td>
+
+<td style="text-align:right;">
+
+3.867290
+
+</td>
+
+<td style="text-align:right;">
+
+1.151676
+
+</td>
+
+<td style="text-align:right;">
+
+2.450671
+
+</td>
+
+<td style="text-align:right;">
+
+3.768531
+
+</td>
+
+<td style="text-align:right;">
+
+1.027790
+
+</td>
+
+<td style="text-align:right;">
+
+2.060453
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+The information in this dataframe can be easily plotted as follows:
+
+``` r
+#extracting the dataframe
+psi <- random.psi[[1]]
+
+#colors
+cols <- viridis::viridis(2, begin = 0.2, end = 0.8)
+
+#multipanel plot
+par(mfrow=c(1,3))
+for(i in 1:nrow(psi)){
+  plot(density(x = t(psi[i, 3:ncol(psi)]), from = 0), 
+       main = paste(psi[i, 1], " vs. ",  psi[i, 2], sep=""),
+       xlab = "Psi",
+       col = cols[1],
+       lwd = 3
+       )
+  abline(v = psi[i, 3], 
+         col = cols[2], 
+         lwd=3
+         )
+}
+```
+
+<img src="man/figures/README-unnamed-chunk-36-1.png" title="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." alt="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." width="100%" />
+
+According to this data, the psi value obtained for MIS-4 and MIS-6 is
+more robust (less likely obtained by chance) the the other two. The
+dataframe *p* contains the probability of obtaining the real *psi* value
+by chance for each combination of sequences.
+
+``` r
+kable(random.psi$p)
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+A
+
+</th>
+
+<th style="text-align:left;">
+
+B
+
+</th>
+
+<th style="text-align:right;">
+
+p
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+0.7
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.4
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
 # Variable contribution to dissimilarity
 
 *What variables are more important in explaining the dissimilarity
@@ -17248,11 +17787,13 @@ three groups selected (MIS 4 to 6) to simplify the analysis.
 ``` r
 #getting example data
 data(sequencesMIS)
-sequences <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+
+#getting three groups only to simplify
+sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
 
 #preparing sequences
 sequences <- prepareSequences(
-  sequences = sequences,
+  sequences = sequencesMIS,
   grouping.column = "MIS",
   time.column = NULL,
   merge.mode = "complete",
@@ -17271,7 +17812,7 @@ removing one column each time.
 
 ``` r
 psi.importance <- workflowImportance(
-  sequences = sequences,
+  sequences = sequencesMIS,
   grouping.column = "MIS",
   time.column = NULL,
   exclude.columns = NULL,
@@ -17560,7 +18101,7 @@ ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi")
 ```
 
-<img src="man/figures/README-unnamed-chunk-36-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-41-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
 
 The second table, named **psi.drop** contains the drop in psi values, in
 percentage, when the given variable is removed from the analysis. Large
@@ -17822,7 +18363,7 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-38-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-43-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 ``` r
 #cleaning environment for next example
@@ -26447,7 +26988,7 @@ AB.combined <- sequenceSlotting(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-49-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />
+<img src="man/figures/README-unnamed-chunk-54-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />
 
 The function reads the least cost path in order to find the combination
 of samples of both sequences that minimizes dissimilarity, constrained
@@ -27946,7 +28487,7 @@ algorithm only takes into account distance/dissimilarity between
 adjacent samples to generate the
 ordering.
 
-<img src="man/figures/README-unnamed-chunk-51-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
+<img src="man/figures/README-unnamed-chunk-56-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
 
 ``` r
 #cleaning workspace
@@ -28020,7 +28561,9 @@ the samples of another requires to compute a distance matrix between
 samples, the least cost matrix and its least cost path (both with the
 option *diagonal* activated), and to parse the least cost path file to
 assign attribute values. This is done by the function
-**transferAttribute** with the option \(mode = TRUE\).
+**transferAttribute** with the option ![mode =
+TRUE](https://latex.codecogs.com/png.latex?mode%20%3D%20TRUE
+"mode = TRUE").
 
 ``` r
 #parameters
@@ -33693,26 +34236,55 @@ rm(GP.X, pollenX, X.new, pollenX.age)
 
 If we consider:
 
-  - Two samples \(A_{i}\) and \(A_{j}\) of the sequence \(A\).
-  - Each one with a value the attribute \(t\), \(At_{i}\) and
-    \(At_{j}\).
-  - One sample \(B_{k}\) of the sequence \(B\).
-  - With an **unknown attribute** \(Bt_{k}\).
-  - The multivariate distance \(D_{B_{k}A_{i}}\) between the samples
-    \(A_{i}\) and \(B_{k}\).
-  - The multivariate distance \(D_{B_{k}A_{j}}\) between the samples
-    \(A_{j}\) and \(B_{k}\).
-  - The weight \(w_{i}\), computed as
-    \(D_{B_{k}A_{i}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})\)
-  - The weight \(w_{j}\), computed as
-    \(D_{B_{k}A_{j}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})\)
+  - Two samples ![A\_{i}](https://latex.codecogs.com/png.latex?A_%7Bi%7D
+    "A_{i}") and
+    ![A\_{j}](https://latex.codecogs.com/png.latex?A_%7Bj%7D "A_{j}") of
+    the sequence ![A](https://latex.codecogs.com/png.latex?A "A").
+  - Each one with a value the attribute
+    ![t](https://latex.codecogs.com/png.latex?t "t"),
+    ![At\_{i}](https://latex.codecogs.com/png.latex?At_%7Bi%7D "At_{i}")
+    and ![At\_{j}](https://latex.codecogs.com/png.latex?At_%7Bj%7D
+    "At_{j}").
+  - One sample ![B\_{k}](https://latex.codecogs.com/png.latex?B_%7Bk%7D
+    "B_{k}") of the sequence ![B](https://latex.codecogs.com/png.latex?B
+    "B").
+  - With an **unknown attribute**
+    ![Bt\_{k}](https://latex.codecogs.com/png.latex?Bt_%7Bk%7D
+    "Bt_{k}").
+  - The multivariate distance
+    ![D\_{B\_{k}A\_{i}}](https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bi%7D%7D
+    "D_{B_{k}A_{i}}") between the samples
+    ![A\_{i}](https://latex.codecogs.com/png.latex?A_%7Bi%7D "A_{i}")
+    and ![B\_{k}](https://latex.codecogs.com/png.latex?B_%7Bk%7D
+    "B_{k}").
+  - The multivariate distance
+    ![D\_{B\_{k}A\_{j}}](https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bj%7D%7D
+    "D_{B_{k}A_{j}}") between the samples
+    ![A\_{j}](https://latex.codecogs.com/png.latex?A_%7Bj%7D "A_{j}")
+    and ![B\_{k}](https://latex.codecogs.com/png.latex?B_%7Bk%7D
+    "B_{k}").
+  - The weight ![w\_{i}](https://latex.codecogs.com/png.latex?w_%7Bi%7D
+    "w_{i}"), computed as ![D\_{B\_{k}A\_{i}} / (D\_{B\_{k}A\_{i}} +
+    D\_{B\_{k}A\_{j}})](https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2F%20%28D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2B%20D_%7BB_%7Bk%7DA_%7Bj%7D%7D%29
+    "D_{B_{k}A_{i}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})")
+  - The weight ![w\_{j}](https://latex.codecogs.com/png.latex?w_%7Bj%7D
+    "w_{j}"), computed as ![D\_{B\_{k}A\_{j}} / (D\_{B\_{k}A\_{i}} +
+    D\_{B\_{k}A\_{j}})](https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bj%7D%7D%20%2F%20%28D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2B%20D_%7BB_%7Bk%7DA_%7Bj%7D%7D%29
+    "D_{B_{k}A_{j}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})")
 
-The unknwon value \(Bt_{k}\) is computed as:
+The unknwon value
+![Bt\_{k}](https://latex.codecogs.com/png.latex?Bt_%7Bk%7D "Bt_{k}") is
+computed as:
 
-\[Bt_{k} = w_{i} \times At_{i} + w_{j} \times At_{j}\]
+  
+![Bt\_{k} = w\_{i} \\times At\_{i} + w\_{j} \\times
+At\_{j}](https://latex.codecogs.com/png.latex?Bt_%7Bk%7D%20%3D%20w_%7Bi%7D%20%5Ctimes%20At_%7Bi%7D%20%2B%20w_%7Bj%7D%20%5Ctimes%20At_%7Bj%7D
+"Bt_{k} = w_{i} \\times At_{i} + w_{j} \\times At_{j}")  
 
 The code below exemplifies the operation, using the samples 1 and 4 of
-the dataset *pollenGP* as \(Ai\) and \(Aj\), and the sample 3 as \(Bk\).
+the dataset *pollenGP* as ![Ai](https://latex.codecogs.com/png.latex?Ai
+"Ai") and ![Aj](https://latex.codecogs.com/png.latex?Aj "Aj"), and the
+sample 3 as ![Bk](https://latex.codecogs.com/png.latex?Bk "Bk").
 
 ``` r
 #loading data
@@ -33742,7 +34314,7 @@ Btk <- wi * Ati + wj * Atj
 ```
 
 The table below shows the observed versus the predicted values for
-\(Btk\).
+![Btk](https://latex.codecogs.com/png.latex?Btk "Btk").
 
 ``` r
 temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
@@ -39489,10 +40061,14 @@ X
 When interpolated values of the *age* column (transferred attribute via
 interpolation) show the value *NA*, it means that the interpolation
 yielded an age lower than the previous one. This happens when the same
-\(Ai\) and \(Aj\) are used to evaluate two or more different samples
-\(Bk\), and the second \(Bk\) is more similar to \(Ai\) than the first
-one. These NA values can be removed with *na.omit()*, or interpolated
-with the functions
+![Ai](https://latex.codecogs.com/png.latex?Ai "Ai") and
+![Aj](https://latex.codecogs.com/png.latex?Aj "Aj") are used to evaluate
+two or more different samples
+![Bk](https://latex.codecogs.com/png.latex?Bk "Bk"), and the second
+![Bk](https://latex.codecogs.com/png.latex?Bk "Bk") is more similar to
+![Ai](https://latex.codecogs.com/png.latex?Ai "Ai") than the first one.
+These NA values can be removed with *na.omit()*, or interpolated with
+the functions
 [imputeTS::na.interpolation](https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation)
 or
 [zoo::na.approx](https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx).
