@@ -2,6 +2,5 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^docs$
-^\cran-comments\.md$
-^\cran-comments.md$
+^cran-comments\.md$
 ^CRAN-RELEASE$
