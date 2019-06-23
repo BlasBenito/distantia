@@ -11,10 +11,27 @@
 
 
 ## R CMD check results
-0 ERRORs | 0 WARNINGs | 1 NOTE.
+There were no ERRORs or WARNINGs. 
 
-  Maintainer: ‘Blas M. Benito <blasbenito@gmail.com>’
+There was 1 NOTE: 
+
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Blas M. Benito <blasbenito@gmail.com>'
+New submission
+
+Possibly mis-spelled words in DESCRIPTION:
+
+  Birks (8:201)
   
-  Possibly mis-spelled words in DESCRIPTION:
-    Birks (8:201)
+  
+The word "Birks" is not mis-spelled.
 
+## Resubmission
+
+This is a resubmission. First submission failed because win-builder checks yielded the NOTE:
+
+* checking top-level files ... NOTE
+Non-standard file/directory found at top level:
+  ‘cran-comments.md’
+  
+I added the file to .Rbuildignore
