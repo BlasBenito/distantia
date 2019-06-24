@@ -35,7 +35,7 @@ This function provides an additional option that allows to include the diagonals
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 #loading data
 data(sequenceA)
@@ -56,13 +56,15 @@ AB.sequences <- prepareSequences(
 AB.distance.matrix <- distanceMatrix(
  sequences = sequences,
  grouping.column = "id",
- method = "manhattan"
+ method = "manhattan",
+ parallel.execution = FALSE
  )
 
 #computing least cost matrix
 AB.least.cost.matrix <- leastCostMatrix(
  distance.matrix = AB.distance.matrix,
- diagonal = FALSE
+ diagonal = FALSE,
+ parallel.execution = FALSE
  )
 
 #plot

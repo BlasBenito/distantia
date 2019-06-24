@@ -50,7 +50,7 @@ Transfers an attribute (generally time/age, but any others are possible) from on
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 #loading sample dataset
 data(pollenGP)

@@ -34,7 +34,7 @@ Generates a composite sequence, constrained by sample order, from two sequences,
 }
 \examples{
 
-\dontrun{
+\donttest{
 #loading the data
 data(pollenGP)
 

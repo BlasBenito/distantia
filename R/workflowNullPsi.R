@@ -36,7 +36,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' #load data
 #' data("sequencesMIS")
 #'
@@ -52,7 +52,8 @@
 #'  sequences = MIS.sequences,
 #'  grouping.column = "MIS",
 #'  method = "manhattan",
-#'  repetitions = 9
+#'  repetitions = 9,
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'MIS.null.psi

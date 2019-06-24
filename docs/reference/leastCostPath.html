@@ -112,7 +112,8 @@
   <span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,7 +149,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+</div><div class='input'>
 <span class='co'>#loading data</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceA</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceB</span>)
@@ -168,26 +169,26 @@
 <span class='no'>AB.distance.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='distanceMatrix.html'>distanceMatrix</a></span>(
  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>sequences</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
- <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>
- )
-
+ <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
+ <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(sequences): object 'sequences' not found</span></div><div class='input'>
 <span class='co'>#computing least cost matrix</span>
 <span class='no'>AB.least.cost.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='leastCostMatrix.html'>leastCostMatrix</a></span>(
  <span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
- <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )
-
+ <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+ <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in leastCostMatrix(distance.matrix = AB.distance.matrix, diagonal = FALSE,     parallel.execution = FALSE): object 'AB.distance.matrix' not found</span></div><div class='input'>
 <span class='no'>AB.least.cost.path</span> <span class='kw'>&lt;-</span> <span class='fu'>leastCostPath</span>(
  <span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
- <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.matrix</span>
- )
-
+ <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.matrix</span>,
+ <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in inherits(least.cost.matrix, "matrix"): object 'AB.least.cost.matrix' not found</span></div><div class='input'>
 <span class='co'>#plot</span>
 <span class='fu'><a href='plotMatrix.html'>plotMatrix</a></span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
- <span class='kw'>least.cost.path</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.path</span>
- )
-
-<span class='co'># }</span><div class='input'>
+ <span class='kw'>least.cost.path</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.path</span>,
+ <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in plotMatrix(distance.matrix = AB.distance.matrix, least.cost.path = AB.least.cost.path,     parallel.execution = FALSE): unused argument (parallel.execution = FALSE)</span></div><div class='input'>
+</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

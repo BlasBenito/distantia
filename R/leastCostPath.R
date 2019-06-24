@@ -6,7 +6,8 @@
 #'   distance.matrix = NULL,
 #'   least.cost.matrix = NULL,
 #'   diagonal = FALSE,
-#'   parallel.execution = TRUE)
+#'   parallel.execution = TRUE
+#'   )
 #'
 #' @param distance.matrix numeric matrix or list of numeric matrices, a distance matrix produced by \code{\link{distanceMatrix}}.
 #' @param least.cost.matrix numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.
@@ -21,7 +22,7 @@
 #' }
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #'#loading data
 #'data(sequenceA)
@@ -42,23 +43,27 @@
 #'AB.distance.matrix <- distanceMatrix(
 #'  sequences = sequences,
 #'  grouping.column = "id",
-#'  method = "manhattan"
+#'  method = "manhattan",
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'#computing least cost matrix
 #'AB.least.cost.matrix <- leastCostMatrix(
 #'  distance.matrix = AB.distance.matrix,
-#'  diagonal = FALSE
+#'  diagonal = FALSE,
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'AB.least.cost.path <- leastCostPath(
 #'  distance.matrix = AB.distance.matrix,
-#'  least.cost.matrix = AB.least.cost.matrix
+#'  least.cost.matrix = AB.least.cost.matrix,
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'#plot
 #'plotMatrix(distance.matrix = AB.distance.matrix,
-#'  least.cost.path = AB.least.cost.path
+#'  least.cost.path = AB.least.cost.path,
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'}

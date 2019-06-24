@@ -50,7 +50,7 @@ The function first computes psi on the observed sequences, and then computes it 
 }
 \examples{
 
-\dontrun{
+\donttest{
 #load data
 data("sequencesMIS")
 
@@ -66,7 +66,8 @@ MIS.null.psi <- workflowNullPsi(
  sequences = MIS.sequences,
  grouping.column = "MIS",
  method = "manhattan",
- repetitions = 9
+ repetitions = 9,
+ parallel.execution = FALSE
  )
 
 MIS.null.psi

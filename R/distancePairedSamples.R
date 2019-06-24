@@ -38,7 +38,7 @@
 #' @seealso \code{\link{distance}}
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' #loading data
 #' data(climate)
 #'
@@ -58,7 +58,8 @@
 #'   time.column = "time",
 #'   exclude.columns = NULL,
 #'   method = "manhattan",
-#'   sum.distances = FALSE
+#'   sum.distances = FALSE,
+#'   parallel.execution = FALSE
 #'   )
 #'}
 #'

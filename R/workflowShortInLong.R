@@ -38,7 +38,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #'#loading the data
 #'data(sequencesMIS)
@@ -75,7 +75,7 @@
 #'  diagonal = FALSE,
 #'  min.length = nrow(MIS.short) - 1,
 #'  max.length = nrow(MIS.short) + 1,
-#'  parallel.execution = TRUE
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'#output dataframe

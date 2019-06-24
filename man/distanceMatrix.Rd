@@ -48,7 +48,7 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
-\dontrun{
+\donttest{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -68,7 +68,8 @@ AB.sequences <- prepareSequences(
 AB.distance.matrix <- distanceMatrix(
  sequences = AB.sequences,
  grouping.column = "id",
- method = "manhattan"
+ method = "manhattan",
+ parallel.execution = FALSE
  )
 
 #plot

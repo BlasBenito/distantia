@@ -54,7 +54,7 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
-\dontrun{
+\donttest{
 #loading data
 data(climate)
 
@@ -74,7 +74,8 @@ climate.prepared.distances <- distancePairedSamples(
   time.column = "time",
   exclude.columns = NULL,
   method = "manhattan",
-  sum.distances = FALSE
+  sum.distances = FALSE,
+  parallel.execution = FALSE
   )
 }
 

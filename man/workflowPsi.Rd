@@ -62,7 +62,7 @@ If the sequences are aligned (\code{paired.samples = TRUE}), these steps are exe
 }
 \examples{
 
-\dontrun{
+\donttest{
 data("sequencesMIS")
 #prepare sequences
 MIS.sequences <- prepareSequences(
@@ -80,7 +80,8 @@ MIS.psi <- workflowPsi(
  exclude.columns = NULL,
  method = "manhattan",
  diagonal = FALSE,
- output = "dataframe"
+ output = "dataframe",
+ parallel.execution = FALSE
  )
 
 MIS.psi

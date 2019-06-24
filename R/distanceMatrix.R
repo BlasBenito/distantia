@@ -34,7 +34,7 @@
 #' @seealso \code{\link{distance}}
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
@@ -54,7 +54,8 @@
 #'AB.distance.matrix <- distanceMatrix(
 #'  sequences = AB.sequences,
 #'  grouping.column = "id",
-#'  method = "manhattan"
+#'  method = "manhattan",
+#'  parallel.execution = FALSE
 #'  )
 #'
 #'#plot

@@ -25,7 +25,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' #loading the data
 #' data(pollenGP)
 #'

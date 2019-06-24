@@ -36,7 +36,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' #loading sample dataset
 #' data(pollenGP)

@@ -64,7 +64,7 @@ Plots the output matrices of \code{\link{distanceMatrix}} and \code{\link{leastC
 }
 \examples{
 
-\dontrun{
+\donttest{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -84,7 +84,8 @@ AB.sequences <- prepareSequences(
 AB.distance.matrix <- distanceMatrix(
  sequences = AB.sequences,
  grouping.column = "id",
- method = "manhattan"
+ method = "manhattan",
+ parallel.execution = FALSE
  )
 
 #plot

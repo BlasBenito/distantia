@@ -37,7 +37,7 @@
 #' @seealso \code{\link{distance}}
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'data(sequenceA)
 #'data(sequenceB)
 #'

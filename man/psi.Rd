@@ -27,7 +27,7 @@ The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (auto
 }
 \examples{
 
-\dontrun{
+\donttest{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -47,31 +47,36 @@ AB.sequences <- prepareSequences(
 AB.distance.matrix <- distanceMatrix(
  sequences = sequences,
  grouping.column = "id",
- method = "manhattan"
+ method = "manhattan",
+ parallel.execution = FALSE
  )
 
 #computing least cost matrix
 AB.least.cost.matrix <- leastCostMatrix(
  distance.matrix = AB.distance.matrix,
- diagonal = FALSE
+ diagonal = FALSE,
+ parallel.execution = FALSE
  )
 
 #extracting least cost
 AB.least.cost <- leastCost(
- least.cost.matrix = AB.least.cost.matrix
+ least.cost.matrix = AB.least.cost.matrix,
+ parallel.execution = FALSE
  )
 
 #autosum
 AB.autosum <- autosum(
  sequences = AB.sequences,
- grouping.column = "id"
+ grouping.column = "id",
+ parallel.execution = FALSE
  )
 AB.autosum
 
 AB.psi <- psi(
  least.cost = AB.least.cost,
  distance.matrix = AB.distance.matrix,
- autosum = AB.autosum
+ autosum = AB.autosum,
+ parallel.execution = FALSE
  )
 AB.psi
 

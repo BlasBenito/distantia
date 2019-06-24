@@ -47,7 +47,7 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
-\dontrun{
+\donttest{
 data(sequenceA)
 data(sequenceB)
 

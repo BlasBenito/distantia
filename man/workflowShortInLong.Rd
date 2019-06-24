@@ -51,7 +51,7 @@ This workflow works under the following scenario: the user has a short sequence,
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 #loading the data
 data(sequencesMIS)
@@ -88,7 +88,7 @@ MIS.psi <- worflowShortInLong(
  diagonal = FALSE,
  min.length = nrow(MIS.short) - 1,
  max.length = nrow(MIS.short) + 1,
- parallel.execution = TRUE
+ parallel.execution = FALSE
  )
 
 #output dataframe
