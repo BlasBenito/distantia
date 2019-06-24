@@ -34,8 +34,12 @@ This is a resubmission. First submission failed because win-builder checks yield
 Non-standard file/directory found at top level:
   ‘cran-comments.md’
   
-I added the file to .Rbuildignore
+I added the file correctly to .Rbuildignore
 
 ## Second Resubmission
 
 This is a resubmission. Second submission failed because win-builder checks found that the field "License" was missing from the DESCRIPTION file. I have added the string "License: GPL (>= 2)" to DESCRIPTION.
+
+## Third Resubmission
+
+Fixed minor things in the DESCRIPTION file, replaced dontrun with donttest.

@@ -53,7 +53,7 @@
 #'  )
 #'
 #'#autosum
-#'AB.autoSum <- autoSum(
+#'AB.autosum <- autoSum(
 #'  sequences = AB.sequences,
 #'  grouping.column = "id"
 #'  )
