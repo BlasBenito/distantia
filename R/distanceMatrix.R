@@ -34,7 +34,6 @@
 #' @seealso \code{\link{distance}}
 #' @examples
 #'
-#' \donttest{
 #'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
@@ -61,7 +60,6 @@
 #'
 #'#plot
 #'plotMatrix(distance.matrix = AB.distance.matrix)
-#'}
 #'
 #' @export
 distanceMatrix <- function(sequences = NULL,

@@ -48,7 +48,6 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 }
 \examples{
 
-\donttest{
 #loading data
 data(sequenceA)
 data(sequenceB)
@@ -75,7 +74,6 @@ AB.distance.matrix <- distanceMatrix(
 
 #plot
 plotMatrix(distance.matrix = AB.distance.matrix)
-}
 
 }
 \seealso{
