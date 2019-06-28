@@ -80,7 +80,7 @@ MIS.psi <- workflowPsi(
  exclude.columns = NULL,
  method = "manhattan",
  diagonal = FALSE,
- output = "dataframe",
+ format = "dataframe",
  parallel.execution = FALSE
  )
 
