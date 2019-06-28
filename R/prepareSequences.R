@@ -292,7 +292,13 @@ prepareSequences=function(sequence.A = NULL,
 
     #adding the excluded columns
     if(!(is.null(exclude.columns))){
+      if(is.data.frame(excluded.columns) | inherits(excluded.columns, "data.frame") == TRUE){
       sequences <- data.frame(excluded.columns, sequences, stringsAsFactors = FALSE)
+      } else {
+        names.sequences <- colnames(sequences)
+        sequences <- data.frame(excluded.columns, sequences, stringsAsFactors = FALSE)
+        colnames(sequences) <- c(exclude.columns, names.sequences)
+      }
     }
 
   }
@@ -314,13 +320,6 @@ prepareSequences=function(sequence.A = NULL,
       #subsetting sequences
       sequences <- sequences[sequences[, time.column] %in% valid.time.values, ]
 
-    }
-
-    #checking if groups have the same number of rows
-    temp.table.rows <- table(sequences[, grouping.column])
-    if(length(unique(temp.table.rows)) > 1){
-      warning("The argument 'paired.samples' was set to TRUE, but at least one of the sequences don't have the same number of rows than the others. Please, check what is wrong here.")
-      print(data.frame(id=names(temp.table.rows), rows=as.vector(temp.table.rows)))
     }
 
   }

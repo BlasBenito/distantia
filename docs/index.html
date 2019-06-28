@@ -1574,7 +1574,7 @@ A
 Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance.
 </p>
 </div>
-<p><strong>2. Computation of the least-cost matrix within the distance matrix.</strong> This step uses a <em>dynamic programming algorithm</em> to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix.</p>
+<p><strong>2. Computation of the least-cost path within the distance matrix.</strong> This step uses a <em>dynamic programming algorithm</em> to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix.</p>
 <p>The value of the upper-right cell in the plotted matrix (actually, the lower-right cell in the actual data matrix, the matrix is rotated in the plot) is the sum of the minimum distance across all samples of both time-series.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">AB.least.cost.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span>(</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">distance.matrix =</span> AB.distance.matrix</a>

@@ -204,7 +204,7 @@
 <span class='co'>#matching sequences</span>
 <span class='co'>#min.length and max.length are</span>
 <span class='co'>#minimal to speed up execution</span>
-<span class='no'>MIS.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>worflowShortInLong</span>(
+<span class='no'>MIS.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>workflowShortInLong</span>(
  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>MIS.sequences</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
  <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -214,7 +214,7 @@
  <span class='kw'>min.length</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>MIS.short</span>) - <span class='fl'>1</span>,
  <span class='kw'>max.length</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>MIS.short</span>) + <span class='fl'>1</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in worflowShortInLong(sequences = MIS.sequences, grouping.column = "id",     time.column = NULL, exclude.columns = NULL, method = "manhattan",     diagonal = FALSE, min.length = nrow(MIS.short) - 1, max.length = nrow(MIS.short) +         1, parallel.execution = FALSE): could not find function "worflowShortInLong"</span></div><div class='input'>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(x): object 'MIS.sequences' not found</span></div><div class='input'>
 <span class='co'>#output dataframe</span>
 <span class='no'>MIS.psi</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'MIS.psi' not found</span></div><div class='input'>
 </div><div class='input'>

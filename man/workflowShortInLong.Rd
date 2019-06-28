@@ -79,7 +79,7 @@ MIS.sequences <- prepareSequences(
 #matching sequences
 #min.length and max.length are
 #minimal to speed up execution
-MIS.psi <- worflowShortInLong(
+MIS.psi <- workflowShortInLong(
  sequences = MIS.sequences,
  grouping.column = "id",
  time.column = NULL,

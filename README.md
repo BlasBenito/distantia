@@ -2989,7 +2989,7 @@ plotMatrix(
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" title="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." alt="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." width="100%" />
 
-**2. Computation of the least-cost matrix within the distance matrix.**
+**2. Computation of the least-cost path within the distance matrix.**
 This step uses a *dynamic programming algorithm* to find the least-cost
 when moving between the cell 1,1 of the matrix (lower left in the image
 above) and the last cell of the matrix (opposite corner). It does so by

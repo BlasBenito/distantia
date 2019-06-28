@@ -65,7 +65,8 @@ AB.sequences <- prepareSequences(
 #autosum
 AB.autosum <- autoSum(
  sequences = AB.sequences,
- grouping.column = "id"
+ grouping.column = "id",
+ parallel.execution = FALSE
  )
 AB.autosum
 

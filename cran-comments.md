@@ -43,3 +43,7 @@ This is a resubmission. Second submission failed because win-builder checks foun
 ## Third Resubmission
 
 Fixed minor things in the DESCRIPTION file, replaced dontrun with donttest.
+
+## Fourth Resubmission
+
+Fixed a small bug in prepareSequences, removed messages produced by prepareSequences, fixed an issue with par() not reseting after running an example in leastCostMatrix, and fixed the example of the autoSum function to avoid using more than one processor.

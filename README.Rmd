@@ -123,7 +123,7 @@ plotMatrix(
   color.palette = "viridis")
 ```
 
-**2. Computation of the least-cost matrix within the distance matrix.** This step uses a *dynamic programming algorithm* to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix. 
+**2. Computation of the least-cost path within the distance matrix.** This step uses a *dynamic programming algorithm* to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix. 
 
 The value of the upper-right cell in the plotted matrix (actually, the lower-right cell in the actual data matrix, the matrix is rotated in the plot) is the sum of the minimum distance across all samples of both time-series.
 
