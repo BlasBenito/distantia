@@ -10579,7 +10579,7 @@ long
 
 </table>
 
-The function **workflowShortInLong** shown below is going to subset the
+The function **workflowPartialMatch** shown below is going to subset the
 long sequence in sizes between *min.length* and *max.length*. In the
 example below this search space is reduced to the minimum (the rows of
 *MIS.short* plus and minus one) to speed-up the execution of this
@@ -10589,7 +10589,7 @@ sequence. In the example below we look for segments of the same length,
 two samples shorter, and two samples longer than the shorter sequence.
 
 ``` r
-MIS.psi <- workflowShortInLong(
+MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "manhattan",
@@ -10917,7 +10917,7 @@ climate.short.long <- prepareSequences(
 #> filled it with NA.
 
 #computing psi
-climate.psi <- workflowShortInLong(
+climate.psi <- workflowPartialMatch(
   sequences = climate.short.long,
   grouping.column = "id",
   time.column = "age",
@@ -15453,14 +15453,14 @@ B
 rm(sampling.indices)
 ```
 
-Once the sequences are prepared, the function **sequenceSlotting** will
+Once the sequences are prepared, the function **workflowSlotting** will
 allow to combine (slot) them. The function computes a distance matrix
 between the samples in both sequences according to the *method*
 argument, computes the least cost matrix, and generates the least cost
 path.
 
 ``` r
-AB.combined <- sequenceSlotting(
+AB.combined <- workflowSlotting(
   sequences = AB,
   grouping.column = "id",
   time.column = "age", 
@@ -16693,13 +16693,13 @@ the samples of another requires to compute a distance matrix between
 samples, the least cost matrix and its least cost path (both with the
 option *diagonal* activated), and to parse the least cost path file to
 assign attribute values. This is done by the function
-**transferAttribute** with the option ![mode =
+**workflowTransfer** with the option ![mode =
 TRUE](https://latex.codecogs.com/png.latex?mode%20%3D%20TRUE
 "mode = TRUE").
 
 ``` r
 #parameters
-X.new <- transferAttribute(
+X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",
@@ -21192,12 +21192,12 @@ GP.X <- prepareSequences(
 )
 ```
 
-To transfer attributes from *GP* to *X* we use the **transferAttribute**
+To transfer attributes from *GP* to *X* we use the **workflowTransfer**
 function with the option *mode = “interpolate”*.
 
 ``` r
 #parameters
-X.new <- transferAttribute(
+X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",

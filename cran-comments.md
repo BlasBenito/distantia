@@ -26,7 +26,7 @@ Possibly mis-spelled words in DESCRIPTION:
   
 The word "Birks" is not mis-spelled.
 
-## Resubmission
+## First Resubmission
 
 This is a resubmission. First submission failed because win-builder checks yielded the NOTE:
 
@@ -47,3 +47,8 @@ Fixed minor things in the DESCRIPTION file, replaced dontrun with donttest.
 ## Fourth Resubmission
 
 Fixed a small bug in prepareSequences, removed messages produced by prepareSequences, fixed an issue with par() not reseting after running an example in leastCostMatrix, and fixed the example of the autoSum function to avoid using more than one processor.
+
+Changed names of several workflow functions
+sequenceSlotting -> workflowSlotting
+transferAttribute -> workflowTransfer
+workflowShortInLong -> workflowPartialMatch

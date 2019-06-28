@@ -3,7 +3,7 @@
 #' @description Generates a composite sequence, constrained by sample order, from two sequences, by minimizing the dissimilarity between adjacent samples of each input sequence. The algorithm computes the distance matrix, least cost matrix, and least cost path of two sequences, and uses the least cost path file to find the slotting that better minimizes the dissimilarity between adjacent samples. The algorithm assumes that the samples are not aligned or paired.
 #'
 #'
-#' @usage sequenceSlotting(
+#' @usage workflowSlotting(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -51,7 +51,7 @@
 #'   transformation = "hellinger"
 #'   )
 #'
-#' AB.combined <- sequenceSlotting(
+#' AB.combined <- workflowSlotting(
 #'   sequences = AB,
 #'   grouping.column = "id",
 #'   time.column = "age",
@@ -65,7 +65,7 @@
 #'}
 #'
 #'@export
-sequenceSlotting <- function(sequences = NULL,
+workflowSlotting <- function(sequences = NULL,
                              grouping.column = NULL,
                              time.column = NULL,
                              exclude.columns = NULL,

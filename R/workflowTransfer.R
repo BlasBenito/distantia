@@ -6,7 +6,7 @@
 #' \item \emph{Interpolate}: obtains new attribute values through weighted interpolation, being the weights derived from the distances between samples
 #' }
 #'
-#' @usage transferAttribute(
+#' @usage workflowTransfer(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -71,7 +71,7 @@
 #'   )
 #'
 #'#transferring age
-#'X.new <- transferAttribute(
+#'X.new <- workflowTransfer(
 #'  sequences = GP.X,
 #'  grouping.column = "id",
 #'  time.column = "age",
@@ -85,7 +85,7 @@
 #' }
 #'
 #' @export
-transferAttribute <- function(
+workflowTransfer <- function(
   sequences = NULL,
   grouping.column = NULL,
   time.column = NULL,

@@ -3,7 +3,7 @@
 #' @description This workflow works under the following scenario: the user has a short sequence, and a long sequence, and has the objective of finding the segment in the long sequence that better matches the short sequence. The size of the segment in the long sequence is either defined by the user through the arguments \code{min.length} and \code{max.length}. If left empty, \code{min.length} equals to a 75 percent of the length of the short sequence, and \code{max.length} equals to a 125 percent of the length of the short sequence. Note that this is a brute force algorithm, and a large difference between both arguments may generate a very large of subsets of the long sequence. The algorithm is parallelized and optimized as possible, so still, large searches are possible.
 
 #'
-#' @usage workflowShortInLong(
+#' @usage workflowPartialMatch(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
 #'   time.column = NULL,
@@ -66,7 +66,7 @@
 #'#matching sequences
 #'#min.length and max.length are
 #'#minimal to speed up execution
-#'MIS.psi <- workflowShortInLong(
+#'MIS.psi <- workflowPartialMatch(
 #'  sequences = MIS.sequences,
 #'  grouping.column = "id",
 #'  time.column = NULL,
@@ -84,7 +84,7 @@
 #'}
 #'
 #' @export
-workflowShortInLong <- function(
+workflowPartialMatch <- function(
   sequences = NULL,
   grouping.column = NULL,
   time.column = NULL,
