@@ -198,9 +198,9 @@
  <span class='kw'>sequence.B</span> <span class='kw'>=</span> <span class='no'>MIS.long</span>,
  <span class='kw'>sequence.B.name</span> <span class='kw'>=</span> <span class='st'>"long"</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
- <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
- )</div><div class='output co'>#&gt; <span class='warning'>Warning: The argument 'time.column' has the value  age  but I couldn't find that column name in the input datasets. I will ignore this column.</span></div><div class='output co'>#&gt; <span class='error'>Error in data.frame(time = time.column.data, sequences, stringsAsFactors = FALSE): object 'time.column.data' not found</span></div><div class='input'>
+ )
+
 <span class='co'>#matching sequences</span>
 <span class='co'>#min.length and max.length are</span>
 <span class='co'>#minimal to speed up execution</span>
@@ -214,9 +214,70 @@
  <span class='kw'>min.length</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>MIS.short</span>) - <span class='fl'>1</span>,
  <span class='kw'>max.length</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>MIS.short</span>) + <span class='fl'>1</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(x): object 'MIS.sequences' not found</span></div><div class='input'>
+ )
+
 <span class='co'>#output dataframe</span>
-<span class='no'>MIS.psi</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'MIS.psi' not found</span></div><div class='input'>
+<span class='no'>MIS.psi</span></div><div class='output co'>#&gt;    first.row last.row        psi
+#&gt; 1          1       10 0.00000000
+#&gt; 2          1        9 0.04186785
+#&gt; 3          1       11 0.04897612
+#&gt; 4          2       10 0.33379164
+#&gt; 5          4       12 0.34076370
+#&gt; 6          4       13 0.35142677
+#&gt; 7          2       12 0.36026538
+#&gt; 8          2       11 0.36985378
+#&gt; 9          4       14 0.39270749
+#&gt; 10         3       12 0.46895159
+#&gt; 11         3       13 0.47444336
+#&gt; 12         3       11 0.48545142
+#&gt; 13         5       13 0.49838153
+#&gt; 14         5       14 0.52953910
+#&gt; 15         5       15 0.57682821
+#&gt; 16         6       16 0.83852509
+#&gt; 17         6       14 0.85037059
+#&gt; 18         8       18 0.88717414
+#&gt; 19         6       15 0.88946572
+#&gt; 20         8       17 0.95664359
+#&gt; 21         8       16 0.97564057
+#&gt; 22         7       17 0.98278715
+#&gt; 23         7       16 1.00310343
+#&gt; 24        13       22 1.02014117
+#&gt; 25        12       22 1.02793318
+#&gt; 26         7       15 1.07247162
+#&gt; 27        10       19 1.07889636
+#&gt; 28        10       18 1.07911096
+#&gt; 29        13       21 1.09989073
+#&gt; 30        13       23 1.10299326
+#&gt; 31        12       21 1.10579350
+#&gt; 32        11       21 1.11050315
+#&gt; 33        10       20 1.13071817
+#&gt; 34        18       26 1.15099142
+#&gt; 35        17       25 1.16802448
+#&gt; 36        15       24 1.17020333
+#&gt; 37        15       25 1.18037816
+#&gt; 38        17       26 1.20034633
+#&gt; 39         9       19 1.20514388
+#&gt; 40         9       18 1.21012810
+#&gt; 41        18       27 1.24379994
+#&gt; 42        14       24 1.24810559
+#&gt; 43        14       22 1.24859724
+#&gt; 44        16       24 1.24982522
+#&gt; 45        11       19 1.25062932
+#&gt; 46        15       23 1.25146241
+#&gt; 47        16       25 1.25500443
+#&gt; 48        16       26 1.28248949
+#&gt; 49        18       28 1.28343735
+#&gt; 50        17       27 1.28698413
+#&gt; 51        11       20 1.29570580
+#&gt; 52        12       20 1.29938111
+#&gt; 53         9       17 1.30396776
+#&gt; 54        14       23 1.33173366
+#&gt; 55        19       27 1.41575848
+#&gt; 56        19       28 1.44114788
+#&gt; 57        19       29 1.54346841
+#&gt; 58        20       28 1.62871672
+#&gt; 59        20       29 1.71209951
+#&gt; 60        21       29 2.06712422</div><div class='input'>
 </div><div class='input'>
 </div></pre>
   </div>
