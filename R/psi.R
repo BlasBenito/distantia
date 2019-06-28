@@ -60,7 +60,7 @@
 #'  )
 #'
 #'#autosum
-#'AB.autosum <- autosum(
+#'AB.autosum <- autoSum(
 #'  sequences = AB.sequences,
 #'  grouping.column = "id",
 #'  parallel.execution = FALSE
