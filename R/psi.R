@@ -69,7 +69,6 @@
 #'
 #'AB.psi <- psi(
 #'  least.cost = AB.least.cost,
-#'  distance.matrix = AB.distance.matrix,
 #'  autosum = AB.autosum,
 #'  parallel.execution = FALSE
 #'  )
