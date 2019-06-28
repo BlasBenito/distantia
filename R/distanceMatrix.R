@@ -58,6 +58,7 @@
 #'  parallel.execution = FALSE
 #'  )
 #'
+#'
 #'#plot
 #'plotMatrix(distance.matrix = AB.distance.matrix)
 #'}
