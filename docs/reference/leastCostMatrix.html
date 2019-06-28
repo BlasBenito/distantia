@@ -166,20 +166,22 @@ This function provides an additional option that allows to include the diagonals
 
 <span class='co'>#computing distance matrix</span>
 <span class='no'>AB.distance.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='distanceMatrix.html'>distanceMatrix</a></span>(
- <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>sequences</span>,
+ <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>AB.sequences</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(sequences): object 'sequences' not found</span></div><div class='input'>
+ )
+
 <span class='co'>#computing least cost matrix</span>
 <span class='no'>AB.least.cost.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'>leastCostMatrix</span>(
  <span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )</div><div class='output co'>#&gt; <span class='error'>Error in inherits(distance.matrix, "list"): object 'AB.distance.matrix' not found</span></div><div class='input'>
+ )
+
 <span class='co'>#plot</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
-<span class='fu'><a href='plotMatrix.html'>plotMatrix</a></span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plotMatrix(distance.matrix = AB.distance.matrix): object 'AB.distance.matrix' not found</span></div><div class='input'><span class='fu'><a href='plotMatrix.html'>plotMatrix</a></span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.matrix</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plotMatrix(distance.matrix = AB.least.cost.matrix): object 'AB.least.cost.matrix' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/dev'>dev.off</a></span>()</div><div class='output co'>#&gt; null device 
+<span class='fu'><a href='plotMatrix.html'>plotMatrix</a></span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>)</div><div class='img'><img src='leastCostMatrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plotMatrix.html'>plotMatrix</a></span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.matrix</span>)</div><div class='img'><img src='leastCostMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/dev'>dev.off</a></span>()</div><div class='output co'>#&gt; null device 
 #&gt;           1 </div><div class='input'>
 </div><div class='input'>
 </div></pre>
