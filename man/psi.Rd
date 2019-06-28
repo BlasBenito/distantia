@@ -45,7 +45,7 @@ AB.sequences <- prepareSequences(
 
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
- sequences = sequences,
+ sequences = AB.sequences,
  grouping.column = "id",
  method = "manhattan",
  parallel.execution = FALSE
