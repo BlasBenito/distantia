@@ -72,7 +72,6 @@ MIS.sequences <- prepareSequences(
  sequence.B = MIS.long,
  sequence.B.name = "long",
  grouping.column = "id",
- time.column = "age",
  transformation = "hellinger"
  )
 
