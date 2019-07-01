@@ -1569,11 +1569,6 @@ A
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
 <a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-7-1.png" alt="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." width="100%"><p class="caption">
-Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance.
-</p>
-</div>
 <p><strong>2. Computation of the least-cost path within the distance matrix.</strong> This step uses a <em>dynamic programming algorithm</em> to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix.</p>
 <p>The value of the upper-right cell in the plotted matrix (actually, the lower-right cell in the actual data matrix, the matrix is rotated in the plot) is the sum of the minimum distance across all samples of both time-series.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">AB.least.cost.matrix &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span>(</a>
@@ -1583,11 +1578,6 @@ Distance matrix of two irregular and unaligned multivariate sequences. Warmer co
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">distance.matrix =</span> AB.least.cost.matrix,</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-8-1.png" alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%"><p class="caption">
-Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences.
-</p>
-</div>
 <p><strong>Optional</strong> In this optional step, the function <strong>leastCostPath</strong> finds the least-cost path in the matrix above. It returns a dataframe with the coordinates of the cells within the path, the distance between consecutive cells, and the cumulative distance of any given step in the path. It can be used to plot the path, which helps to better understand the alignmnet between both sequences.</p>
 <p>This dataframe will be used later on to generate other products, such the <em>slotting</em> of both sequences (a unique sequences with the samples of both sequences in the order that minimizes the distance between consecutive samples), or to transfer attributes such as age/time/depth from one sequence with them to another without them. <strong>Note: these applications are not yet implemented</strong>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">AB.least.cost.path &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCostPath.html">leastCostPath</a></span>(</a>
@@ -1831,21 +1821,11 @@ cumulative.distance
 <a class="sourceLine" id="cb10-5" data-line-number="5">  <span class="dt">least.cost.path =</span> AB.least.cost.path,</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
 <a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-9-1.png" alt="least-cost path plotted on top of the distance matrix." width="100%"><p class="caption">
-least-cost path plotted on top of the distance matrix.
-</p>
-</div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="dt">distance.matrix =</span> AB.least.cost.matrix,</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="dt">least.cost.path =</span> AB.least.cost.path,</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5">  )</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-10-1.png" alt="Least-cost path plotted on top of the least-cost matrix." width="100%"><p class="caption">
-Least-cost path plotted on top of the least-cost matrix.
-</p>
-</div>
 <p><strong>Optional: least cost path using diagonals</strong>.</p>
 <p>The least cost path can be computed also in diagonal, which allows to pair together these samples with the higher similarity that contribute to minimize the overall cost of the least cost path.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#computing the least cost using diagonals</span></a>
@@ -1866,11 +1846,6 @@ Least-cost path plotted on top of the least-cost matrix.
 <a class="sourceLine" id="cb12-16" data-line-number="16">  <span class="dt">least.cost.path =</span> diagonal.least.cost.path,</a>
 <a class="sourceLine" id="cb12-17" data-line-number="17">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
 <a class="sourceLine" id="cb12-18" data-line-number="18">  )</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-11-1.png" alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%"><p class="caption">
-Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences.
-</p>
-</div>
 <p>Using diagonals is useful when the goal is to transfer attributes (time, age, depth, etc) from one sequence with them to another sequence without them. This will be shown later <strong>NOTE: not implemented yet</strong>.</p>
 <p><strong>3. Getting the least-cost value.</strong> The Upper right cell of the least-cost matrix in the image of the least-cost matrix (lower right cell in the actual data-matrix) holds the cumulative sum of the least-cost path. This value will be used later to compute dissimilarity.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">AB.least.cost &lt;-<span class="st"> </span><span class="kw"><a href="reference/leastCost.html">leastCost</a></span>(</a>
@@ -7900,11 +7875,6 @@ B
 <a class="sourceLine" id="cb57-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
 <a class="sourceLine" id="cb57-7" data-line-number="7">  <span class="dt">plot =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb57-8" data-line-number="8">)</a></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-unnamed-chunk-54-1.png" alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%"><p class="caption">
-Distance matrix and least cost path of the example sequences ‘A’ and ‘B’..
-</p>
-</div>
 <p>The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named <em>original.index</em>, which has the index of each sample in the original datasets.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(AB.combined[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">format =</span> <span class="st">"html"</span>, <span class="dt">digits =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb58-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/row_spec">row_spec</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>), <span class="dt">bold =</span> T)</a></code></pre></div>

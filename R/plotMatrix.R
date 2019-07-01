@@ -264,8 +264,7 @@ plotMatrix <- function(distance.matrix = NULL,
 
   }#end of iterations
 
-  if(!is.null(pdf.filename)){
-    grDevices::dev.off()
-  }
+  #resetting par
+  on.exit(graphics::par(mfrow = c(1, 1)))
 
 }

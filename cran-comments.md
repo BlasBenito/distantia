@@ -52,3 +52,7 @@ Changed names of several workflow functions
 sequenceSlotting -> workflowSlotting
 transferAttribute -> workflowTransfer
 workflowShortInLong -> workflowPartialMatch
+
+## Fifth Resubmission
+
+The plotMatrix() function didn't reset par() options after changing them. That's now hopefully fixed by adding "  on.exit(grDevices::dev.off())" at the end of the function.
