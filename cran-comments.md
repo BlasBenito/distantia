@@ -60,3 +60,7 @@ The plotMatrix() function didn't reset par() options after changing them. That's
 ## Sixth Resubmission
 
 The plotMatrix() function didn't reset par() options after changing them. I failed at fixing the issue before. Now I have added "user.par <- graphics::par()" before modifying par(), and  "on.exit(graphics::par(user.par))" at the end of the function to reset par. I tested it and it should work.
+
+## Seventh Resubmission
+
+I didn't get that on.exit has to be right after changing the par options to save the user's par if the function crashes. I hope I fixed that correctly this time.
