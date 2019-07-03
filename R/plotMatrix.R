@@ -169,7 +169,8 @@ plotMatrix <- function(distance.matrix = NULL,
   }
 
   #plot dimensions
-  user.par <- graphics::par()
+  user.par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(user.par))
   graphics::par(mfrow = plot.rows.columns, mar = margins, oma = c(1,1,1,1))
 
   #iterating through elements in distance.matrix
@@ -264,8 +265,5 @@ plotMatrix <- function(distance.matrix = NULL,
     }
 
   }#end of iterations
-
-  #resetting par
-  on.exit(graphics::par(user.par))
 
 }
