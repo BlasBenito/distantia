@@ -13,7 +13,7 @@ plotMatrix(
   color.palette = "divergent",
   path.color = "black",
   path.width = 1,
-  margins = c(4,4,4,4),
+  margins = c(2,3,2,4),
   pdf.filename = NULL,
   pdf.width = 7,
   pdf.height = 4,

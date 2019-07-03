@@ -56,3 +56,7 @@ workflowShortInLong -> workflowPartialMatch
 ## Fifth Resubmission
 
 The plotMatrix() function didn't reset par() options after changing them. That's now hopefully fixed by adding "  on.exit(grDevices::dev.off())" at the end of the function.
+
+## Sixth Resubmission
+
+The plotMatrix() function didn't reset par() options after changing them. I failed at fixing the issue before. Now I have added "user.par <- graphics::par()" before modifying par(), and  "on.exit(graphics::par(user.par))" at the end of the function to reset par. I tested it and it should work.
