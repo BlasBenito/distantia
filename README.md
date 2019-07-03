@@ -2985,6 +2985,13 @@ AB.distance.matrix <- distanceMatrix(
 plotMatrix(
   distance.matrix = AB.distance.matrix,
   color.palette = "viridis")
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" title="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." alt="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." width="100%" />
@@ -3010,6 +3017,13 @@ AB.least.cost.matrix <- leastCostMatrix(
 plotMatrix(
   distance.matrix = AB.least.cost.matrix,
   color.palette = "viridis")
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" title="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%" />
@@ -3505,6 +3519,13 @@ plotMatrix(
   least.cost.path = AB.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" title="least-cost path plotted on top of the distance matrix." alt="least-cost path plotted on top of the distance matrix." width="100%" />
@@ -3515,6 +3536,13 @@ plotMatrix(
   least.cost.path = AB.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" title="Least-cost path plotted on top of the least-cost matrix." alt="Least-cost path plotted on top of the least-cost matrix." width="100%" />
@@ -3544,6 +3572,13 @@ plotMatrix(
   least.cost.path = diagonal.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" title="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%" />
@@ -6646,6 +6681,16 @@ MIS-2
 
 </table>
 
+``` r
+x <- distanceMatrix(
+  sequences = MIS.sequences,
+  grouping.column = "MIS",
+  time.column = NULL,
+  exclude.columns = NULL,
+  method = "manhattan"
+)
+```
+
 A dataframe like this can be plotted as an adjacency network with the
 **qgraph** package as follows:
 
@@ -6666,12 +6711,9 @@ qgraph::qgraph(MIS.distance,
        labels = colnames(MIS.distance),
        colors = viridis::viridis(2, begin = 0.3, end = 0.8, alpha = 0.5, direction = -1)
        )
-#> Warning in qgraph::qgraph(MIS.distance, layout = "spring", vsize =
-#> 5, labels = colnames(MIS.distance), : The following arguments are not
-#> documented and likely not arguments of qgraph and thus ignored: colors
 ```
 
-<img src="man/figures/README-unnamed-chunk-24-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
 
 Or as a matrix with **ggplot2**.
 
@@ -6687,7 +6729,7 @@ ggplot(data=na.omit(MIS.psi), aes(x=A, y=B, size=psi, color=psi)) +
   guides(size = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-25-1.png" title="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-26-1.png" title="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%" />
 
 The dataframe of dissimilarities between pairs of sequences can be also
 used to analyze the drivers of dissimilarity. To do so, attributes such
@@ -7463,7 +7505,7 @@ for(i in 1:nrow(psi)){
 }
 ```
 
-<img src="man/figures/README-unnamed-chunk-36-1.png" title="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." alt="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." width="100%" />
+<img src="man/figures/README-unnamed-chunk-37-1.png" title="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." alt="Real psi values versus psi values computed from randomized sequences. Real psi values are represented by the green vertical line." width="100%" />
 
 According to this data, the psi value obtained for MIS-4 and MIS-6 is
 more robust (less likely obtained by chance) the the other two. The
@@ -7907,7 +7949,7 @@ ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi")
 ```
 
-<img src="man/figures/README-unnamed-chunk-41-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-42-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
 
 The second table, named **psi.drop** contains the drop in psi values, in
 percentage, when the given variable is removed from the analysis. Large
@@ -8169,7 +8211,7 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-43-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-44-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 ``` r
 #cleaning environment for next example
@@ -10893,9 +10935,9 @@ equals the sample-size of the short sequence. This application is ideal
 when the user has regular time-series.
 
 The example below shows how it is done with the *climateShort* and
-*climateLong* datasets. The goal is to find the subset in *climateLong*
-better matching *climateShort*, with the same number of rows (11) as
-*climateShort*.
+*climateLong* datasets. The goal is to find the subset in *climateLong*,
+with lengths between *min.length* and *max.length*, better matching
+*climateShort*, with the same number of rows (11) as *climateShort*.
 
 ``` r
 #loading sample data
@@ -10922,7 +10964,9 @@ climate.psi <- workflowPartialMatch(
   grouping.column = "id",
   time.column = "age",
   method = "manhattan",
-  paired.samples = TRUE
+  paired.samples = FALSE,
+  min.length = 10,
+  max.length = 12
 )
 kable(climate.psi[1:10, ], digits = 4)
 ```
@@ -10983,6 +11027,72 @@ psi
 
 <td style="text-align:right;">
 
+17
+
+</td>
+
+<td style="text-align:right;">
+
+28
+
+</td>
+
+<td style="text-align:right;">
+
+0.0083
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+0.0367
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+0.0880
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
 16
 
 </td>
@@ -10995,7 +11105,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0660
+0.1268
 
 </td>
 
@@ -11005,19 +11115,41 @@ psi
 
 <td style="text-align:right;">
 
-135
+16
 
 </td>
 
 <td style="text-align:right;">
 
-145
+25
 
 </td>
 
 <td style="text-align:right;">
 
-0.0885
+0.1756
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+0.3294
 
 </td>
 
@@ -11039,7 +11171,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1180
+0.3355
 
 </td>
 
@@ -11049,41 +11181,19 @@ psi
 
 <td style="text-align:right;">
 
-134
+18
 
 </td>
 
 <td style="text-align:right;">
 
-144
+29
 
 </td>
 
 <td style="text-align:right;">
 
-0.2601
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-629
-
-</td>
-
-<td style="text-align:right;">
-
-639
-
-</td>
-
-<td style="text-align:right;">
-
-0.4431
+0.3747
 
 </td>
 
@@ -11099,79 +11209,13 @@ psi
 
 <td style="text-align:right;">
 
-25
+26
 
 </td>
 
 <td style="text-align:right;">
 
-0.4562
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-0.4565
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-146
-
-</td>
-
-<td style="text-align:right;">
-
-0.4902
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-631
-
-</td>
-
-<td style="text-align:right;">
-
-641
-
-</td>
-
-<td style="text-align:right;">
-
-0.4972
+0.3906
 
 </td>
 
@@ -11184,8 +11228,23 @@ psi
 Since *climateShort* is a subset of *climateLong*, there is a perfect
 match from the rows 17 to 27.
 
-In this case the solutions are computed among sequences of the same
-length, and with distances computed only between aligned samples.
+The output table can be used to easily plot similarity over the indices
+of the long dataset.
+
+``` r
+#reordering table by index of climateLong
+climate.psi <- climate.psi[with(climate.psi, order(first.row, last.row)), ]
+
+#plot
+plot(climate.psi$first.row, 
+     climate.psi$psi, 
+     type = "l", 
+     xlab = "Rows of the long sequence", 
+     ylab = "Dissimilarity (psi)"
+     )
+```
+
+<img src="man/figures/README-unnamed-chunk-53-1.png" title="Pattern of dissimilarity between climateShort and climateLong across samples of the latter." alt="Pattern of dissimilarity between climateShort and climateLong across samples of the latter." width="100%" />
 
 ``` r
 #cleaning workspace
@@ -15468,9 +15527,16 @@ AB.combined <- workflowSlotting(
   method = "manhattan",
   plot = TRUE
 )
+#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
+#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
+#> set
 ```
 
-<img src="man/figures/README-unnamed-chunk-54-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />
+<img src="man/figures/README-unnamed-chunk-56-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />
 
 The function reads the least cost path in order to find the combination
 of samples of both sequences that minimizes dissimilarity, constrained
@@ -16619,7 +16685,7 @@ algorithm only takes into account distance/dissimilarity between
 adjacent samples to generate the
 ordering.
 
-<img src="man/figures/README-unnamed-chunk-56-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
+<img src="man/figures/README-unnamed-chunk-58-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
 
 ``` r
 #cleaning workspace
@@ -16685,8 +16751,6 @@ both constrained by sample order:
     is weighted by the similarity between the samples.
 
 ## Direct transfer
-
-**THIS SECTION IS A WORK IN PROGRESS**
 
 A direct transfer of an attribute from the samples of one sequence to
 the samples of another requires to compute a distance matrix between

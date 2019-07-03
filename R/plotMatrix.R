@@ -92,7 +92,7 @@ plotMatrix <- function(distance.matrix = NULL,
                        color.palette = "divergent",
                        path.color = "black",
                        path.width = 1,
-                       margins = c(4,4,4,4),
+                       margins = c(2,3,2,4),
                        pdf.filename = NULL,
                        pdf.width = 7,
                        pdf.height = 4,
@@ -148,8 +148,8 @@ plotMatrix <- function(distance.matrix = NULL,
   }
 
   #defaults for figure width and heights
-  if(is.null(pdf.height)){pdf.height <- plot.rows.columns[1]*3}
-  if(is.null(pdf.width)){pdf.height <- plot.rows.columns[2]*5}
+  if(is.null(pdf.height)){pdf.height <- plot.rows.columns[1]*6}
+  if(is.null(pdf.width)){pdf.height <- plot.rows.columns[2]*10}
   if(is.null(pdf.pointsize)){pdf.pointsize <- 15}
 
   #color palette
@@ -169,7 +169,8 @@ plotMatrix <- function(distance.matrix = NULL,
   }
 
   #plot dimensions
-  graphics::par(mfrow = plot.rows.columns, mar = margins)
+  user.par <- graphics::par()
+  graphics::par(mfrow = plot.rows.columns, mar = margins, oma = c(1,1,1,1))
 
   #iterating through elements in distance.matrix
   for(i in 1:n.elements){
@@ -265,6 +266,6 @@ plotMatrix <- function(distance.matrix = NULL,
   }#end of iterations
 
   #resetting par
-  on.exit(graphics::par(mfrow = c(1, 1)))
+  on.exit(graphics::par(user.par))
 
 }

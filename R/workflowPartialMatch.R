@@ -1,6 +1,6 @@
 #' Finds the section in a long sequence that better matches a short sequence.
 #'
-#' @description This workflow works under the following scenario: the user has a short sequence, and a long sequence, and has the objective of finding the segment in the long sequence that better matches the short sequence. The size of the segment in the long sequence is either defined by the user through the arguments \code{min.length} and \code{max.length}. If left empty, \code{min.length} equals to a 75 percent of the length of the short sequence, and \code{max.length} equals to a 125 percent of the length of the short sequence. Note that this is a brute force algorithm, and a large difference between both arguments may generate a very large of subsets of the long sequence. The algorithm is parallelized and optimized as possible, so still, large searches are possible.
+#' @description This workflow works under the following scenario: the user has a short sequence, and a long sequence, and has the objective of finding the segment in the long sequence that better matches the short sequence. The function identifies automatically the short and the long sequence, but throws an error if more than two sequences are introduced. The lengths of the segments in the long sequence to be compared with the long sequence are defined through the arguments \code{min.length} and \code{max.length}. If left empty, \code{min.length} and \code{max.length} equal 0, meaning that the segment to be searched for will have the same number of cases as the short sequence. Note that this is a brute force algorithm, can have a large memory footpring if the interval between \code{min.length} and \code{max.length} is too long. It might be convenient to pre-check the number of iterations to be performed by computing \code{sum(nrow(long.sequence) - min.length:max.length) + 1}. The algorithm is parallelized and optimized as possible, so still, large searches are possible.
 
 #'
 #' @usage workflowPartialMatch(
@@ -148,6 +148,9 @@ workflowPartialMatch <- function(
 
   #vector of lengths (sizes of subsets in the long sequence)
   target.lengths <- min.length:max.length
+
+  #number of combinations
+  # n.combinations <- sum(table.groups[sequences.long.name] - target.lengths) + 1
 
   #subsetting the sequences
   sequences.long <- sequences[sequences[, grouping.column] == sequences.long.name, ]
