@@ -25,10 +25,17 @@ if(length(packages.to.install)) install.packages(packages.to.install, dep=TRUE)
 
 rm(list.of.packages, packages.to.install)
 ```
-## Summary
+
 
 <!-- badges: start -->
+
+
+[![DOI](https://zenodo.org/badge/187805264.svg)](https://zenodo.org/badge/latestdoi/187805264)
+
+
 <!-- badges: end -->
+
+## Summary
 
 The package **distantia** allows to measure the dissimilarity between multivariate time-series (*sequences* hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also suitable. Furthermore, the target sequences can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units.
 
@@ -600,6 +607,8 @@ sequences <- prepareSequences(
 ```
 
 The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between **workflowPsi** and **workflowPsiPairedSamples** as requested by the user through the argument *paired.samples*. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of *psi* on combinations of columns, removing one column each time.
+
+**WARNING: the argument 'exclude.columns' of 'workflowImportance' does not work in version 1.0.0 (available in CRAN), but the bug is fixed in version 1.0.1 (available in GitHub). If you are using 1.0.0, I recommend you to subset 'sequences' so only the grouping column and the numeric columns to be compared are available for the function.**
 
 ```{r}
 psi.importance <- workflowImportance(

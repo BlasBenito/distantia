@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">distantia</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -65,11 +65,12 @@
     
     
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+<!-- badges: end -->
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<!-- badges: start -->
-<!-- badges: end -->
 <p>The package <strong>distantia</strong> allows to measure the dissimilarity between multivariate time-series (<em>sequences</em> hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also suitable. Furthermore, the target sequences can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units.</p>
 <p>In this document I briefly explain the logics behind the method, show how to use it, and demonstrate how the <strong>distantia</strong> package introduces useful tools to compare multivariate time-series. The topics covered in this document are:</p>
 <ul>
@@ -1568,14 +1569,7 @@ A
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#plotting distance matrix</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
 <a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-7-1.png" alt="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." width="100%"><p class="caption">
 Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance.
@@ -1589,14 +1583,7 @@ Distance matrix of two irregular and unaligned multivariate sequences. Warmer co
 <a class="sourceLine" id="cb8-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="reference/plotMatrix.html">plotMatrix</a></span>(</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">distance.matrix =</span> AB.least.cost.matrix,</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">color.palette =</span> <span class="st">"viridis"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-8-1.png" alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%"><p class="caption">
 Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences.
@@ -1844,14 +1831,7 @@ cumulative.distance
 <a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="dt">distance.matrix =</span> AB.distance.matrix,</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5">  <span class="dt">least.cost.path =</span> AB.least.cost.path,</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">  )</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-9-1.png" alt="least-cost path plotted on top of the distance matrix." width="100%"><p class="caption">
 least-cost path plotted on top of the distance matrix.
@@ -1861,14 +1841,7 @@ least-cost path plotted on top of the distance matrix.
 <a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="dt">distance.matrix =</span> AB.least.cost.matrix,</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="dt">least.cost.path =</span> AB.least.cost.path,</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">  )</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-5" data-line-number="5">  )</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-10-1.png" alt="Least-cost path plotted on top of the least-cost matrix." width="100%"><p class="caption">
 Least-cost path plotted on top of the least-cost matrix.
@@ -1893,14 +1866,7 @@ Least-cost path plotted on top of the least-cost matrix.
 <a class="sourceLine" id="cb12-15" data-line-number="15">  <span class="dt">distance.matrix =</span> diagonal.least.cost,</a>
 <a class="sourceLine" id="cb12-16" data-line-number="16">  <span class="dt">least.cost.path =</span> diagonal.least.cost.path,</a>
 <a class="sourceLine" id="cb12-17" data-line-number="17">  <span class="dt">color.palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">100</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</a>
-<a class="sourceLine" id="cb12-18" data-line-number="18">  )</a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-18" data-line-number="18">  )</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-11-1.png" alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%"><p class="caption">
 Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences.
@@ -3992,6 +3958,7 @@ MIS-6
 <a class="sourceLine" id="cb41-13" data-line-number="13">  <span class="dt">exclude.columns =</span> <span class="ot">NULL</span></a>
 <a class="sourceLine" id="cb41-14" data-line-number="14">)</a></code></pre></div>
 <p>The workflow function is pretty similar to the ones explained above. It allows to work with paired samples (aligned time-series) or with unaligned ones by switching between <strong>workflowPsi</strong> and <strong>workflowPsiPairedSamples</strong> as requested by the user through the argument <em>paired.samples</em>. Unlike the other functions in the package, that parallelize the execution of combinations of sequences, this one parallelizes the computation of <em>psi</em> on combinations of columns, removing one column each time.</p>
+<p><strong>WARNING: the argument ‘exclude.columns’ of ‘workflowImportance’ does not work in version 1.0.0 (available in CRAN), but the bug is fixed in version 1.0.1 (available in GitHub). If you are using 1.0.0, I recommend you to subset ‘sequences’ so only the grouping column and the numeric columns to be compared are available for the function.</strong></p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">psi.importance &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowImportance.html">workflowImportance</a></span>(</a>
 <a class="sourceLine" id="cb42-2" data-line-number="2">  <span class="dt">sequences =</span> sequencesMIS,</a>
 <a class="sourceLine" id="cb42-3" data-line-number="3">  <span class="dt">grouping.column =</span> <span class="st">"MIS"</span>,</a>
@@ -7955,14 +7922,7 @@ B
 <a class="sourceLine" id="cb59-5" data-line-number="5">  <span class="dt">exclude.columns =</span> <span class="st">"depth"</span>,</a>
 <a class="sourceLine" id="cb59-6" data-line-number="6">  <span class="dt">method =</span> <span class="st">"manhattan"</span>,</a>
 <a class="sourceLine" id="cb59-7" data-line-number="7">  <span class="dt">plot =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb59-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb59-9" data-line-number="9"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cin" cannot be set</span></a>
-<a class="sourceLine" id="cb59-10" data-line-number="10"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cra" cannot be set</span></a>
-<a class="sourceLine" id="cb59-11" data-line-number="11"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "csi" cannot be set</span></a>
-<a class="sourceLine" id="cb59-12" data-line-number="12"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set</span></a>
-<a class="sourceLine" id="cb59-13" data-line-number="13"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "din" cannot be set</span></a>
-<a class="sourceLine" id="cb59-14" data-line-number="14"><span class="co">#&gt; Warning in graphics::par(user.par): graphical parameter "page" cannot be</span></a>
-<a class="sourceLine" id="cb59-15" data-line-number="15"><span class="co">#&gt; set</span></a></code></pre></div>
+<a class="sourceLine" id="cb59-8" data-line-number="8">)</a></code></pre></div>
 <div class="figure">
 <img src="reference/figures/README-unnamed-chunk-56-1.png" alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%"><p class="caption">
 Distance matrix and least cost path of the example sequences ‘A’ and ‘B’..
@@ -13022,7 +12982,14 @@ X
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=distantia">https://​cloud.r-project.org/​package=distantia</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
@@ -13035,7 +13002,13 @@ X
 </ul>
 </div>
 
-      </div>
+      <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://zenodo.org/badge/latestdoi/187805264"><img src="https://zenodo.org/badge/187805264.svg" alt="DOI"></a></li>
+</ul>
+</div>
+</div>
 
 </div>
 

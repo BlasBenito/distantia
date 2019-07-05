@@ -75,19 +75,19 @@ workflowImportance <- function(
   if(length(sequence.columns) < 2){stop("Only one column is available, a variable importance analysis is not possible.")}
 
   #generating column combinations
-  exclude.columns <- utils::combn(sequence.columns, m=length(sequence.columns) - 1)
+  remove.columns <- utils::combn(sequence.columns, m=length(sequence.columns) - 1)
 
   #getting the selected column for each iteration
   target.columns <- vector()
-  for(i in 1:ncol(exclude.columns)){
-    target.columns[i] <- sequence.columns[!(sequence.columns %in% exclude.columns[,i])]
+  for(i in 1:ncol(remove.columns)){
+    target.columns[i] <- sequence.columns[!(sequence.columns %in% remove.columns[,i])]
   }
 
   #stop if number of elements is different
-  if(length(target.columns) != ncol(exclude.columns)){
+  if(length(target.columns) != ncol(remove.columns)){
     stop("There is something wrong with the columns selection")
     } else {
-    n.iterations <- ncol(exclude.columns)
+    n.iterations <- ncol(remove.columns)
   }
 
   #parallel execution = TRUE
@@ -103,6 +103,7 @@ workflowImportance <- function(
                           varlist=c('sequences',
                                     'target.columns',
                                     'exclude.columns',
+                                    'remove.columns',
                                     'workflowPsi',
                                     'time.column',
                                     'method',
@@ -127,7 +128,7 @@ workflowImportance <- function(
         sequences = sequences,
         grouping.column = grouping.column,
         time.column = time.column,
-        exclude.columns = target.columns[i],
+        exclude.columns = c(target.columns[i], exclude.columns),
         same.time = same.time,
         method = method,
         diagonal = diagonal,

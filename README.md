@@ -4,11 +4,13 @@ multivariate time-series
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Summary
-
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/187805264.svg)](https://zenodo.org/badge/latestdoi/187805264)
+
 <!-- badges: end -->
+
+## Summary
 
 The package **distantia** allows to measure the dissimilarity between
 multivariate time-series (*sequences* hereafter). The package assumes
@@ -2985,13 +2987,6 @@ AB.distance.matrix <- distanceMatrix(
 plotMatrix(
   distance.matrix = AB.distance.matrix,
   color.palette = "viridis")
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" title="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." alt="Distance matrix of two irregular and unaligned multivariate sequences. Warmer colors indicate higher distance." width="100%" />
@@ -3017,13 +3012,6 @@ AB.least.cost.matrix <- leastCostMatrix(
 plotMatrix(
   distance.matrix = AB.least.cost.matrix,
   color.palette = "viridis")
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" title="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%" />
@@ -3519,13 +3507,6 @@ plotMatrix(
   least.cost.path = AB.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" title="least-cost path plotted on top of the distance matrix." alt="least-cost path plotted on top of the distance matrix." width="100%" />
@@ -3536,13 +3517,6 @@ plotMatrix(
   least.cost.path = AB.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" title="Least-cost path plotted on top of the least-cost matrix." alt="Least-cost path plotted on top of the least-cost matrix." width="100%" />
@@ -3572,13 +3546,6 @@ plotMatrix(
   least.cost.path = diagonal.least.cost.path,
   color.palette = viridis(100, alpha = 0.7)
   )
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" title="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." alt="Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences." width="100%" />
@@ -7657,6 +7624,12 @@ argument *paired.samples*. Unlike the other functions in the package,
 that parallelize the execution of combinations of sequences, this one
 parallelizes the computation of *psi* on combinations of columns,
 removing one column each time.
+
+**WARNING: the argument ‘exclude.columns’ of ‘workflowImportance’ does
+not work in version 1.0.0 (available in CRAN), but the bug is fixed in
+version 1.0.1 (available in GitHub). If you are using 1.0.0, I recommend
+you to subset ‘sequences’ so only the grouping column and the numeric
+columns to be compared are available for the function.**
 
 ``` r
 psi.importance <- workflowImportance(
@@ -15527,13 +15500,6 @@ AB.combined <- workflowSlotting(
   method = "manhattan",
   plot = TRUE
 )
-#> Warning in graphics::par(user.par): graphical parameter "cin" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cra" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "csi" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "cxy" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "din" cannot be set
-#> Warning in graphics::par(user.par): graphical parameter "page" cannot be
-#> set
 ```
 
 <img src="man/figures/README-unnamed-chunk-56-1.png" title="Distance matrix and least cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least cost path of the example sequences 'A' and 'B'.." width="100%" />

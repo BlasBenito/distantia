@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">distantia</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
   <span class='kw'>color.palette</span> <span class='kw'>=</span> <span class='st'>"divergent"</span>,
   <span class='kw'>path.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>path.width</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>4</span>),
+  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>4</span>),
   <span class='kw'>pdf.filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pdf.width</span> <span class='kw'>=</span> <span class='fl'>7</span>,
   <span class='kw'>pdf.height</span> <span class='kw'>=</span> <span class='fl'>4</span>,
@@ -223,13 +223,13 @@
  )
 
 <span class='co'>#plot</span>
-<span class='fu'>plotMatrix</span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cin" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cra" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "csi" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cxy" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "din" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "page" cannot be set</span></div><div class='img'><img src='plotMatrix-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotMatrix</span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>)</div><div class='img'><img src='plotMatrix-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#viridis palette</span>
 <span class='fu'>plotMatrix</span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
- <span class='kw'>color.palette</span> <span class='kw'>=</span> <span class='st'>"viridis"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cin" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cra" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "csi" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cxy" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "din" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "page" cannot be set</span></div><div class='img'><img src='plotMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='kw'>color.palette</span> <span class='kw'>=</span> <span class='st'>"viridis"</span>)</div><div class='img'><img src='plotMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#custom palette</span>
 <span class='fu'>plotMatrix</span>(<span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
-<span class='kw'>color.palette</span> <span class='kw'>=</span> <span class='kw pkg'>viridis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/viridis/topics/reexports'>viridis</a></span>(<span class='fl'>8</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cin" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cra" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "csi" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "cxy" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "din" cannot be set</span></div><div class='output co'>#&gt; <span class='warning'>Warning: graphical parameter "page" cannot be set</span></div><div class='img'><img src='plotMatrix-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>color.palette</span> <span class='kw'>=</span> <span class='kw pkg'>viridis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/viridis/topics/reexports'>viridis</a></span>(<span class='fl'>8</span>, <span class='kw'>option</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>))</div><div class='img'><img src='plotMatrix-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><div class='input'>
 </div></pre>
   </div>
