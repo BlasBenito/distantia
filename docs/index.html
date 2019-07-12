@@ -8550,7 +8550,7 @@ Sequences A (green) and B (blue) with their ordered samples (upper panel), and t
 <div id="direct-transfer" class="section level2">
 <h2 class="hasAnchor">
 <a href="#direct-transfer" class="anchor"></a>Direct transfer</h2>
-<p>A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option <em>diagonal</em> activated), and to parse the least cost path file to assign attribute values. This is done by the function <strong>workflowTransfer</strong> with the option <span class="math inline">\(mode = TRUE\)</span>.</p>
+<p>A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option <em>diagonal</em> activated), and to parse the least cost path file to assign attribute values. This is done by the function <strong>workflowTransfer</strong> with the option <span class="math inline">\(mode = "direct"\)</span>.</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co">#parameters</span></a>
 <a class="sourceLine" id="cb63-2" data-line-number="2">X.new &lt;-<span class="st"> </span><span class="kw"><a href="reference/workflowTransfer.html">workflowTransfer</a></span>(</a>
 <a class="sourceLine" id="cb63-3" data-line-number="3">  <span class="dt">sequences =</span> GP.X,</a>
@@ -12977,6 +12977,7 @@ X
 </table>
 <p>When interpolated values of the <em>age</em> column (transferred attribute via interpolation) show the value <em>NA</em>, it means that the interpolation yielded an age lower than the previous one. This happens when the same <span class="math inline">\(Ai\)</span> and <span class="math inline">\(Aj\)</span> are used to evaluate two or more different samples <span class="math inline">\(Bk\)</span>, and the second <span class="math inline">\(Bk\)</span> is more similar to <span class="math inline">\(Ai\)</span> than the first one. These NA values can be removed with <em>na.omit()</em>, or interpolated with the functions <a href="https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation">imputeTS::na.interpolation</a> or <a href="https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx">zoo::na.approx</a>.</p>
 <p>Without taking into account these <em>NA</em> values, the Pearson correlation of the interpolated ages with the real ones is 0.9984.</p>
+<p><strong>IMPORTANT:</strong> the interpretation of the interpolated ages requires a careful consideration. Please, don’t do it blindly, because this algorithm has its limitations. For example, significant hiatuses in the data can introduce wild variations in interpolated ages.</p>
 </div>
 </div>
   </div>

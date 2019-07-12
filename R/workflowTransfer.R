@@ -338,32 +338,24 @@ workflowTransfer <- function(
       #tries to increase j
       #if still doesn't work, adds a NA
       if(k > 1){
-        if(!is.na(to.df[k - 1, transfer.what])){
-          if(Btk < to.df[k - 1, transfer.what]){
 
-            #increases window
-            j <- j + 1
-
-            #computes needed variables again
-            Atj <- from.df[j, transfer.what]
-            DBkAj <- distance.matrix[[1]][j, k]
-            wj <- DBkAj / (DBkAi + DBkAj)
-
-            #interpolation
-            Btk <- wi * Ati + wj * Atj
-
-            #adds NA if still wrong
-            if(Btk < to.df[k - 1, transfer.what]){
-              Btk <- NA
-            }
-          }
+        #finding the previous non-NA age
+        n <- 1
+        while(is.na(to.df[k - n, transfer.what])){
+          n <- n + 1
         }
-      }
+
+        #if the interpolated age is lower than the previous one
+        #set it to NA
+        if(Btk < to.df[k - n, transfer.what]){
+              Btk <- NA
+              }
+        }
 
       #adding it
       to.df[k, transfer.what] <- Btk
 
-    }#end of loop
+    }#end of k loop
 
     return(to.df)
 

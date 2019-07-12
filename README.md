@@ -16724,8 +16724,8 @@ samples, the least cost matrix and its least cost path (both with the
 option *diagonal* activated), and to parse the least cost path file to
 assign attribute values. This is done by the function
 **workflowTransfer** with the option ![mode =
-TRUE](https://latex.codecogs.com/png.latex?mode%20%3D%20TRUE
-"mode = TRUE").
+"direct"](https://latex.codecogs.com/png.latex?mode%20%3D%20%22direct%22
+"mode = \"direct\"").
 
 ``` r
 #parameters
@@ -25557,3 +25557,8 @@ or
 
 Without taking into account these *NA* values, the Pearson correlation
 of the interpolated ages with the real ones is 0.9984.
+
+**IMPORTANT:** the interpretation of the interpolated ages requires a
+careful consideration. Please, don’t do it blindly, because this
+algorithm has its limitations. For example, significant hiatuses in the
+data can introduce wild variations in interpolated ages.

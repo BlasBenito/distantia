@@ -36,7 +36,7 @@ workflowImportance(
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
-A list, matrix, or dataframe, with sequence names and psi values.
+A list with two slots named \emph{psi} and \emph{psi.drop}. The former contains the dissimilarity values when removing each variable, while the latter contains the drop in dissimilarity (as a percentage of psi computed on all variables) that happens when each variable is removed. Positive values indicate that dissimilarity drops when the variable is removed, while negative values indicate that similarity drops when the variable is removed.
 }
 \description{
 This workflow executes the following steps:

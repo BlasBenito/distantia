@@ -1000,7 +1000,7 @@ The transfer of "age" values from *GP* to *X* can be done in two ways, both cons
 
 ## Direct transfer
 
-A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option *diagonal* activated), and to parse the least cost path file to assign attribute values. This is done by the function **workflowTransfer** with the option $mode = TRUE$.
+A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least cost matrix and its least cost path (both with the option *diagonal* activated), and to parse the least cost path file to assign attribute values. This is done by the function **workflowTransfer** with the option $mode = "direct"$.
 
 ```{r}
 #parameters
@@ -1139,3 +1139,5 @@ kable(X.new[1:15, ], digits = 4)  %>%
 When interpolated values of the *age* column (transferred attribute via interpolation) show the value *NA*, it means that the interpolation yielded an age lower than the previous one. This happens when the same $Ai$ and $Aj$ are used to evaluate two or more different samples $Bk$, and the second $Bk$ is more similar to $Ai$ than the first one. These NA values can be removed with *na.omit()*, or interpolated with the functions [imputeTS::na.interpolation](https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation) or [zoo::na.approx](https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx).
 
 Without taking into account these *NA* values, the Pearson correlation of the interpolated ages with the real ones is `r round(cor(X.new$age, pollenX.age, use="complete.obs"), 4)`.
+
+**IMPORTANT:** the interpretation of the interpolated ages requires a careful consideration. Please, don't do it blindly, because this algorithm has its limitations. For example, significant hiatuses in the data can introduce wild variations in interpolated ages.
