@@ -116,18 +116,34 @@ psi <- function(least.cost = NULL,
   #parallelized loop
   psi.values <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
-    #cost of the best solution
-    optimal.cost <- least.cost[[i]] * 2
-
     #getting names of the sequences
     sequence.names = unlist(strsplit(names(least.cost)[i], split='|', fixed=TRUE))
+
+    #cost of the best solution
+    optimal.cost <- least.cost[[i]] * 2
 
     #computing autosum of both sequences
     sum.autosum <- autosum[[sequence.names[1]]] + autosum[[sequence.names[2]]]
 
     #computing psi
-    #if optimal.cost equals 0, they are the same sequence, and psi is zero
-    psi.value <- ((optimal.cost - sum.autosum) / sum.autosum) + 1
+    if(sum.autosum <= 0){
+      #if the autosum is equal or lower than 0
+      #sequences are composed of a same sample repeated
+      #psi cannot be computed
+      psi.value <- NA
+    } else {
+
+      #if optimal cost is 0, sequences are identical
+      #if optimal cost lower than autosum, psi is negative
+      #we set bound to 0
+      if(optimal.cost <= 0 | optimal.cost <= sum.autosum){
+        psi.value <- 0
+      } else {
+
+        #if optimal cost is higher than autosum, psi is computed normally
+        psi.value <- (optimal.cost - sum.autosum) / sum.autosum
+      }
+    }
 
     return(psi.value)
 

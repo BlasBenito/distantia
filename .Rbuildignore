@@ -4,3 +4,5 @@
 ^docs$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^behavior_psi\.R$
+
