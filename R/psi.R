@@ -127,12 +127,7 @@ psi <- function(least.cost = NULL,
 
     #computing psi
     #if optimal.cost equals 0, they are the same sequence, and psi is zero
-    if(optimal.cost <= 0){
-      psi.value <- 0
-      } else {
-        psi.value <- abs((optimal.cost - sum.autosum) / sum.autosum)
-        if(is.na(psi.value)){print(i)}
-      }
+    psi.value <- ((optimal.cost - sum.autosum) / sum.autosum) + 1
 
     return(psi.value)
 

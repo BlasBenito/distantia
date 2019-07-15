@@ -3597,8 +3597,8 @@ analysis”](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406)
   
 ![\\psi = \\frac{LC - (\\sum{A\_{i-j}} +
 \\sum{B\_{i-j}})}{\\sum{A\_{i-j}} + \\sum{B\_{i-j}}}
-](https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BLC%20-%20%28%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%29%7D%7B%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%7D%20
-"\\psi = \\frac{LC - (\\sum{A_{i-j}} + \\sum{B_{i-j}})}{\\sum{A_{i-j}} + \\sum{B_{i-j}}} ")  
++1](https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BLC%20-%20%28%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%29%7D%7B%5Csum%7BA_%7Bi-j%7D%7D%20%2B%20%5Csum%7BB_%7Bi-j%7D%7D%7D%20%2B1
+"\\psi = \\frac{LC - (\\sum{A_{i-j}} + \\sum{B_{i-j}})}{\\sum{A_{i-j}} + \\sum{B_{i-j}}} +1")  
 
 where:
 
@@ -3626,7 +3626,7 @@ AB.psi <- psi(
   )
 AB.psi
 #> $`A|B`
-#> [1] 2.309279
+#> [1] 3.309279
 ```
 
 The output of **psi** is a list, that can be transformed to a dataframe
@@ -3686,7 +3686,7 @@ B
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3748,7 +3748,7 @@ A
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3764,7 +3764,7 @@ B
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3837,7 +3837,7 @@ B
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3900,7 +3900,7 @@ A
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3916,7 +3916,7 @@ B
 
 <td style="text-align:right;">
 
-2.3093
+3.3093
 
 </td>
 
@@ -3945,7 +3945,7 @@ AB.psi <- workflowPsi(
 )
 AB.psi
 #>   A B      psi
-#> 1 A B 2.309279
+#> 1 A B 3.309279
 ```
 
 ``` r
@@ -4818,7 +4818,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.4656
+1.4656
 
 </td>
 
@@ -4846,7 +4846,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.5412
+1.5412
 
 </td>
 
@@ -4874,7 +4874,7 @@ MIS-4
 
 <td style="text-align:right;">
 
-0.5560
+1.5560
 
 </td>
 
@@ -4902,7 +4902,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.5639
+1.5639
 
 </td>
 
@@ -4930,7 +4930,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.5686
+1.5686
 
 </td>
 
@@ -4958,7 +4958,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.5772
+1.5772
 
 </td>
 
@@ -4986,7 +4986,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.5841
+1.5841
 
 </td>
 
@@ -5014,7 +5014,7 @@ MIS-3
 
 <td style="text-align:right;">
 
-0.5843
+1.5843
 
 </td>
 
@@ -5042,7 +5042,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.5949
+1.5949
 
 </td>
 
@@ -5070,7 +5070,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.6004
+1.6004
 
 </td>
 
@@ -5098,7 +5098,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.6266
+1.6266
 
 </td>
 
@@ -5126,7 +5126,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.6487
+1.6487
 
 </td>
 
@@ -5154,7 +5154,7 @@ MIS-4
 
 <td style="text-align:right;">
 
-0.6830
+1.6830
 
 </td>
 
@@ -5182,7 +5182,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.6877
+1.6877
 
 </td>
 
@@ -5210,7 +5210,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.6964
+1.6964
 
 </td>
 
@@ -5238,7 +5238,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.7231
+1.7231
 
 </td>
 
@@ -5266,7 +5266,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.7274
+1.7274
 
 </td>
 
@@ -5294,7 +5294,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.7361
+1.7361
 
 </td>
 
@@ -5322,7 +5322,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.7378
+1.7378
 
 </td>
 
@@ -5350,7 +5350,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.7444
+1.7444
 
 </td>
 
@@ -5378,7 +5378,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-0.7621
+1.7621
 
 </td>
 
@@ -5406,7 +5406,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-0.7630
+1.7630
 
 </td>
 
@@ -5434,7 +5434,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.7648
+1.7648
 
 </td>
 
@@ -5462,7 +5462,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.7737
+1.7737
 
 </td>
 
@@ -5490,7 +5490,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.7884
+1.7884
 
 </td>
 
@@ -5518,7 +5518,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-0.7900
+1.7900
 
 </td>
 
@@ -5546,7 +5546,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.7912
+1.7912
 
 </td>
 
@@ -5574,7 +5574,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.8147
+1.8147
 
 </td>
 
@@ -5602,7 +5602,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.8182
+1.8182
 
 </td>
 
@@ -5630,7 +5630,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.8244
+1.8244
 
 </td>
 
@@ -5658,7 +5658,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.8452
+1.8452
 
 </td>
 
@@ -5686,7 +5686,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.8882
+1.8882
 
 </td>
 
@@ -5714,7 +5714,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.9065
+1.9065
 
 </td>
 
@@ -5742,7 +5742,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.9500
+1.9500
 
 </td>
 
@@ -5770,7 +5770,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.9556
+1.9556
 
 </td>
 
@@ -5798,7 +5798,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.9618
+1.9618
 
 </td>
 
@@ -5826,7 +5826,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.9874
+1.9874
 
 </td>
 
@@ -5854,7 +5854,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.0042
+2.0042
 
 </td>
 
@@ -5882,7 +5882,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.0658
+2.0658
 
 </td>
 
@@ -5910,7 +5910,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.0807
+2.0807
 
 </td>
 
@@ -5938,7 +5938,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.1241
+2.1241
 
 </td>
 
@@ -5966,7 +5966,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.1681
+2.1681
 
 </td>
 
@@ -5994,7 +5994,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.2160
+2.2160
 
 </td>
 
@@ -6022,7 +6022,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.2658
+2.2658
 
 </td>
 
@@ -6050,7 +6050,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.2964
+2.2964
 
 </td>
 
@@ -6078,7 +6078,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.4517
+2.4517
 
 </td>
 
@@ -6106,7 +6106,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-1.4584
+2.4584
 
 </td>
 
@@ -6134,7 +6134,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.4667
+2.4667
 
 </td>
 
@@ -6162,7 +6162,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.4832
+2.4832
 
 </td>
 
@@ -6190,7 +6190,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.7293
+2.7293
 
 </td>
 
@@ -6218,7 +6218,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.8136
+2.8136
 
 </td>
 
@@ -6246,7 +6246,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.8177
+2.8177
 
 </td>
 
@@ -6274,7 +6274,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.8869
+2.8869
 
 </td>
 
@@ -6302,7 +6302,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.8992
+2.8992
 
 </td>
 
@@ -6330,7 +6330,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.9877
+2.9877
 
 </td>
 
@@ -6358,7 +6358,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.9949
+2.9949
 
 </td>
 
@@ -6386,7 +6386,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-2.0264
+3.0264
 
 </td>
 
@@ -6414,7 +6414,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-2.0409
+3.0409
 
 </td>
 
@@ -6442,7 +6442,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.1046
+3.1046
 
 </td>
 
@@ -6470,7 +6470,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.1585
+3.1585
 
 </td>
 
@@ -6498,7 +6498,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-2.1738
+3.1738
 
 </td>
 
@@ -6526,7 +6526,7 @@ MIS-3
 
 <td style="text-align:right;">
 
-2.4295
+3.4295
 
 </td>
 
@@ -6554,7 +6554,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-2.7392
+3.7392
 
 </td>
 
@@ -6582,7 +6582,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.7452
+3.7452
 
 </td>
 
@@ -6610,7 +6610,7 @@ MIS-4
 
 <td style="text-align:right;">
 
-2.7457
+3.7457
 
 </td>
 
@@ -6638,7 +6638,7 @@ MIS-2
 
 <td style="text-align:right;">
 
-2.7670
+3.7670
 
 </td>
 
@@ -6847,22 +6847,22 @@ climate.psi <- psi(
 
 climate.psi
 #> $`1|2`
-#> [1] 3.378791
+#> [1] 4.378791
 #> 
 #> $`1|3`
-#> [1] 2.767909
+#> [1] 3.767909
 #> 
 #> $`1|4`
-#> [1] 4.043498
+#> [1] 5.043498
 #> 
 #> $`2|3`
-#> [1] 3.761143
+#> [1] 4.761143
 #> 
 #> $`2|4`
-#> [1] 2.551667
+#> [1] 3.551667
 #> 
 #> $`3|4`
-#> [1] 3.169788
+#> [1] 4.169788
 ```
 
 The function **workflowPsi** executes this sequences when the argument
@@ -6926,7 +6926,7 @@ psi
 
 <td style="text-align:right;">
 
-3.3788
+4.3788
 
 </td>
 
@@ -6948,7 +6948,7 @@ psi
 
 <td style="text-align:right;">
 
-2.7679
+3.7679
 
 </td>
 
@@ -6970,7 +6970,7 @@ psi
 
 <td style="text-align:right;">
 
-4.0435
+5.0435
 
 </td>
 
@@ -6992,7 +6992,7 @@ psi
 
 <td style="text-align:right;">
 
-3.7611
+4.7611
 
 </td>
 
@@ -7014,7 +7014,7 @@ psi
 
 <td style="text-align:right;">
 
-2.5517
+3.5517
 
 </td>
 
@@ -7036,7 +7036,7 @@ psi
 
 <td style="text-align:right;">
 
-3.1698
+4.1698
 
 </td>
 
@@ -7231,61 +7231,61 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.7452
+3.7452
 
 </td>
 
 <td style="text-align:right;">
 
-3.5801
+4.5801
 
 </td>
 
 <td style="text-align:right;">
 
-1.0108
+2.0108
 
 </td>
 
 <td style="text-align:right;">
 
-2.0398
+3.0398
 
 </td>
 
 <td style="text-align:right;">
 
-3.5858
+4.5858
 
 </td>
 
 <td style="text-align:right;">
 
-1.2728
+2.2728
 
 </td>
 
 <td style="text-align:right;">
 
-2.0929
+3.0929
 
 </td>
 
 <td style="text-align:right;">
 
-3.9632
+4.9632
 
 </td>
 
 <td style="text-align:right;">
 
-1.0159
+2.0159
 
 </td>
 
 <td style="text-align:right;">
 
-2.1560
+3.1560
 
 </td>
 
@@ -7307,61 +7307,61 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.6964
+1.6964
 
 </td>
 
 <td style="text-align:right;">
 
-3.4371
+4.4371
 
 </td>
 
 <td style="text-align:right;">
 
-1.0574
+2.0574
 
 </td>
 
 <td style="text-align:right;">
 
-1.9265
+2.9265
 
 </td>
 
 <td style="text-align:right;">
 
-3.6948
+4.6948
 
 </td>
 
 <td style="text-align:right;">
 
-1.1597
+2.1597
 
 </td>
 
 <td style="text-align:right;">
 
-1.9834
+2.9834
 
 </td>
 
 <td style="text-align:right;">
 
-3.4991
+4.4991
 
 </td>
 
 <td style="text-align:right;">
 
-1.0731
+2.0731
 
 </td>
 
 <td style="text-align:right;">
 
-1.9729
+2.9729
 
 </td>
 
@@ -7383,61 +7383,61 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.4667
+2.4667
 
 </td>
 
 <td style="text-align:right;">
 
-3.5061
+4.5061
 
 </td>
 
 <td style="text-align:right;">
 
-1.1663
+2.1663
 
 </td>
 
 <td style="text-align:right;">
 
-2.1745
+3.1745
 
 </td>
 
 <td style="text-align:right;">
 
-3.8673
+4.8673
 
 </td>
 
 <td style="text-align:right;">
 
-1.1517
+2.1517
 
 </td>
 
 <td style="text-align:right;">
 
-2.4507
+3.4507
 
 </td>
 
 <td style="text-align:right;">
 
-3.7685
+4.7685
 
 </td>
 
 <td style="text-align:right;">
 
-1.0278
+2.0278
 
 </td>
 
 <td style="text-align:right;">
 
-2.0605
+3.0605
 
 </td>
 
@@ -7738,43 +7738,43 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.2093
+3.2093
 
 </td>
 
 <td style="text-align:right;">
 
-2.2259
+3.2259
 
 </td>
 
 <td style="text-align:right;">
 
-2.2257
+3.2257
 
 </td>
 
 <td style="text-align:right;">
 
-2.2786
+3.2786
 
 </td>
 
 <td style="text-align:right;">
 
-2.8885
+3.8885
 
 </td>
 
 <td style="text-align:right;">
 
-2.2505
+3.2505
 
 </td>
 
 <td style="text-align:right;">
 
-0.9186
+1.9186
 
 </td>
 
@@ -7796,43 +7796,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.7145
+1.7145
 
 </td>
 
 <td style="text-align:right;">
 
-0.7070
+1.7070
 
 </td>
 
 <td style="text-align:right;">
 
-0.7139
+1.7139
 
 </td>
 
 <td style="text-align:right;">
 
-0.6955
+1.6955
 
 </td>
 
 <td style="text-align:right;">
 
-0.7377
+1.7377
 
 </td>
 
 <td style="text-align:right;">
 
-0.7045
+1.7045
 
 </td>
 
 <td style="text-align:right;">
 
-0.6033
+1.6033
 
 </td>
 
@@ -7854,43 +7854,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.4622
+2.4622
 
 </td>
 
 <td style="text-align:right;">
 
-1.4546
+2.4546
 
 </td>
 
 <td style="text-align:right;">
 
-1.4714
+2.4714
 
 </td>
 
 <td style="text-align:right;">
 
-1.4858
+2.4858
 
 </td>
 
 <td style="text-align:right;">
 
-1.7097
+2.7097
 
 </td>
 
 <td style="text-align:right;">
 
-1.5020
+2.5020
 
 </td>
 
 <td style="text-align:right;">
 
-0.7573
+1.7573
 
 </td>
 
@@ -8019,37 +8019,37 @@ MIS-5
 
 <td style="text-align:right;">
 
-\-0.75
+\-0.52
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.74
+\-0.51
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.13
+\-2.16
 
 </td>
 
 <td style="text-align:right;">
 
-\-30.74
+\-21.16
 
 </td>
 
 <td style="text-align:right;">
 
-\-1.86
+\-1.28
 
 </td>
 
 <td style="text-align:right;">
 
-58.42
+40.22
 
 </td>
 
@@ -8071,37 +8071,37 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.04
+0.43
 
 </td>
 
 <td style="text-align:right;">
 
-0.07
+0.03
 
 </td>
 
 <td style="text-align:right;">
 
-2.66
+1.11
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.25
+\-1.36
 
 </td>
 
 <td style="text-align:right;">
 
-1.40
+0.58
 
 </td>
 
 <td style="text-align:right;">
 
-15.56
+6.48
 
 </td>
 
@@ -8123,13 +8123,25 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.52
+0.31
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.63
+\-0.37
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.96
+
+</td>
+
+<td style="text-align:right;">
+
+\-10.05
 
 </td>
 
@@ -8141,19 +8153,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-\-16.93
-
-</td>
-
-<td style="text-align:right;">
-
-\-2.72
-
-</td>
-
-<td style="text-align:right;">
-
-48.21
+28.63
 
 </td>
 
@@ -10621,7 +10621,7 @@ lower to higher). In this case, since the long sequence contains the
 short sequence, the first row shows a perfect match.
 
 ``` r
-kable(MIS.psi[1:10, ], digits = 4)
+kable(MIS.psi[1:15, ], digits = 4)
 ```
 
 <table>
@@ -10670,7 +10670,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0000
+1.0000
 
 </td>
 
@@ -10692,7 +10692,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0419
+1.0419
 
 </td>
 
@@ -10714,7 +10714,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0490
+1.0490
 
 </td>
 
@@ -10736,7 +10736,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0540
+1.0540
 
 </td>
 
@@ -10758,7 +10758,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1168
+1.1168
 
 </td>
 
@@ -10780,7 +10780,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3338
+1.3338
 
 </td>
 
@@ -10802,7 +10802,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3408
+1.3408
 
 </td>
 
@@ -10824,7 +10824,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3507
+1.3507
 
 </td>
 
@@ -10846,7 +10846,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3514
+1.3514
 
 </td>
 
@@ -10868,7 +10868,117 @@ psi
 
 <td style="text-align:right;">
 
-0.3603
+1.3603
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+13
+
+</td>
+
+<td style="text-align:right;">
+
+1.3690
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+1.3699
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+1.3927
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:right;">
+
+1.3961
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+15
+
+</td>
+
+<td style="text-align:right;">
+
+1.4433
 
 </td>
 
@@ -10990,7 +11100,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0000
+1.0000
 
 </td>
 
@@ -11012,7 +11122,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0083
+1.0083
 
 </td>
 
@@ -11034,7 +11144,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0367
+1.0367
 
 </td>
 
@@ -11056,7 +11166,7 @@ psi
 
 <td style="text-align:right;">
 
-0.0880
+1.0880
 
 </td>
 
@@ -11078,7 +11188,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1268
+1.1268
 
 </td>
 
@@ -11100,7 +11210,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1756
+1.1756
 
 </td>
 
@@ -11122,7 +11232,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3294
+1.3294
 
 </td>
 
@@ -11144,7 +11254,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3355
+1.3355
 
 </td>
 
@@ -11166,7 +11276,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3747
+1.3747
 
 </td>
 
@@ -11188,7 +11298,7 @@ psi
 
 <td style="text-align:right;">
 
-0.3906
+1.3906
 
 </td>
 
@@ -15497,7 +15607,7 @@ AB.combined <- workflowSlotting(
   grouping.column = "id",
   time.column = "age", 
   exclude.columns = "depth",
-  method = "manhattan",
+  method = "euclidean",
   plot = TRUE
 )
 ```
@@ -16505,76 +16615,6 @@ A
 
 <td style="text-align:left;">
 
-16
-
-</td>
-
-<td style="text-align:left;">
-
-B
-
-</td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-4.30
-
-</td>
-
-<td style="text-align:right;">
-
-12135
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
 9
 
 </td>
@@ -16624,6 +16664,76 @@ A
 <td style="text-align:right;">
 
 17
+
+</td>
+
+<td style="text-align:right;">
+
+120
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+16
+
+</td>
+
+<td style="text-align:left;">
+
+B
+
+</td>
+
+<td style="text-align:right;">
+
+6
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+4.30
+
+</td>
+
+<td style="text-align:right;">
+
+12135
+
+</td>
+
+<td style="text-align:right;">
+
+0
+
+</td>
+
+<td style="text-align:right;">
+
+50
+
+</td>
+
+<td style="text-align:right;">
+
+10
 
 </td>
 

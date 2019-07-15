@@ -6,6 +6,8 @@ Fixed the documentation of the functions **workflowImportance** and **workflowSl
 
 Fixed an error in workflowTransfer.
 
+Changed how psi is computed. It's now more respectful with the original formulation, and handles very similar sequences better.
+
 ## Version 1.0.0 is ready!
 
 

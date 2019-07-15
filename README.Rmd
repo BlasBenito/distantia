@@ -222,7 +222,7 @@ AB.autosum
 
 **5. Compute dissimilarity.** The dissimilarity measure used in this package is named **psi**, that was first described in the book ["Numerical methods in Quaternary pollen analysis"](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406) (Birks and Gordon, 1985). **Psi** is computed as follows:
 
-$$\psi = \frac{LC - (\sum{A_{i-j}} + \sum{B_{i-j}})}{\sum{A_{i-j}} + \sum{B_{i-j}}} $$
+$$\psi = \frac{LC - (\sum{A_{i-j}} + \sum{B_{i-j}})}{\sum{A_{i-j}} + \sum{B_{i-j}}} +1$$
 
 where:
 
@@ -744,7 +744,7 @@ MIS.psi <- workflowPartialMatch(
 The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
 ```{r}
-kable(MIS.psi[1:10, ], digits = 4)
+kable(MIS.psi[1:15, ], digits = 4)
 ```
 
 Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
@@ -866,7 +866,7 @@ AB.combined <- workflowSlotting(
   grouping.column = "id",
   time.column = "age", 
   exclude.columns = "depth",
-  method = "manhattan",
+  method = "euclidean",
   plot = TRUE
 )
 ```

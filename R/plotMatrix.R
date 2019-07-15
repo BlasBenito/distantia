@@ -158,7 +158,7 @@ plotMatrix <- function(distance.matrix = NULL,
       color.palette <- colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)
     } else {
       if(color.palette %in% c("viridis", "Viridis", "VIRIDIS", "greens")){
-        color.palette <- viridis::viridis(100)
+        color.palette <- viridis::viridis(100, direction = -1)
       }
     }
   }

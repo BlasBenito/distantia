@@ -136,9 +136,14 @@ workflowTransfer <- function(
     mode <- "direct"
   }
 
+  #separating transfer.from and transfer.to
+  from.df <- sequences[sequences[, grouping.column] == transfer.from, ]
+  to.df <- sequences[sequences[, grouping.column] == transfer.to, ]
+
+
   #computation of distance matrix
   distance.matrix <- distanceMatrix(
-    sequences = sequences,
+    sequences = rbind(from.df, to.df),
     grouping.column = grouping.column,
     time.column = time.column,
     exclude.columns = exclude.columns,
@@ -180,10 +185,6 @@ workflowTransfer <- function(
 
     #flip least cost path
     least.cost.path.df <- least.cost.path.df[nrow(least.cost.path.df):1, ]
-
-    #separating dataframes internally
-    from.df <- sequences[sequences[, grouping.column] == transfer.from, ]
-    to.df <- sequences[sequences[, grouping.column] == transfer.to, ]
 
     #iterating throug cases in to.df
     for(i in 1:nrow(to.df)){
@@ -238,11 +239,6 @@ workflowTransfer <- function(
     #flip least cost path
     least.cost.path.df <- least.cost.path.df[nrow(least.cost.path.df):1, ]
 
-    #separating dataframes internally
-    from.df <- sequences[sequences[, grouping.column] == transfer.from, ]
-    to.df <- sequences[sequences[, grouping.column] == transfer.to, ]
-
-
     #iterating throug cases in to.df
     ################################
     ################################
@@ -271,7 +267,6 @@ workflowTransfer <- function(
         #getting indices of samples i and j
         i <- selected.sample.i[, transfer.from]
         j <- selected.sample.j[, transfer.from]
-
 
       }#end of 1.
 
@@ -318,7 +313,6 @@ workflowTransfer <- function(
       }# end of 2.
 
       #computing variables needed to interpolate the attribute
-
       #ages
       Ati <- from.df[i, transfer.what]
       Atj <- from.df[j, transfer.what]
