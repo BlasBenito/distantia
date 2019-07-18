@@ -125,25 +125,25 @@ psi <- function(least.cost = NULL,
     #computing autosum of both sequences
     sum.autosum <- autosum[[sequence.names[1]]] + autosum[[sequence.names[2]]]
 
-    #computing psi
-    if(sum.autosum <= 0){
-      #if the autosum is equal or lower than 0
-      #sequences are composed of a same sample repeated
-      #psi cannot be computed
-      psi.value <- NA
-    } else {
-
-      #if optimal cost is 0, sequences are identical
-      #if optimal cost lower than autosum, psi is negative
-      #we set bound to 0
-      if(optimal.cost <= 0 | optimal.cost <= sum.autosum){
-        psi.value <- 0
-      } else {
+    # #computing psi
+    # if(sum.autosum <= 0){
+    #   #if the autosum is equal or lower than 0
+    #   #sequences are composed of a same sample repeated
+    #   #psi cannot be computed
+    #   psi.value <- NA
+    # } else {
+    #
+    #   #if optimal cost is 0, sequences are identical
+    #   #if optimal cost lower than autosum, psi is negative
+    #   #we set bound to 0
+    #   if(optimal.cost <= 0 | optimal.cost <= sum.autosum){
+    #     psi.value <- 0
+    #   } else {
 
         #if optimal cost is higher than autosum, psi is computed normally
-        psi.value <- (optimal.cost - sum.autosum) / sum.autosum
-      }
-    }
+        psi.value <- ((optimal.cost - sum.autosum) / sum.autosum)
+    #   }
+    # }
 
     return(psi.value)
 

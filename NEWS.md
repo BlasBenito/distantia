@@ -8,6 +8,8 @@ Fixed an error in workflowTransfer.
 
 Changed how psi is computed. It's now more respectful with the original formulation, and handles very similar sequences better.
 
+Fixed the function **workflowPsi** to add +1 to the least cost produced by the options paired.samples = TRUE and diagonal = TRUE
+
 ## Version 1.0.0 is ready!
 
 

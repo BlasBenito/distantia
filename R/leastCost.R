@@ -50,17 +50,14 @@ leastCost <- function(
                           }
 
 
+  #iterating through available elements
   least.costs <- foreach::foreach(i=1:n.iterations) %dopar% {
 
   #getting distance matrix
   least.cost.matrix.i <- least.cost.matrix[[i]]
 
-  #dimensions
-  least.cost.columns <- ncol(least.cost.matrix.i)
-  least.cost.rows <- nrow(least.cost.matrix.i)
-
   #getting least cost
-  least.cost <- least.cost.matrix.i[least.cost.rows, least.cost.columns]
+  least.cost <- least.cost.matrix.i[ nrow(least.cost.matrix.i), ncol(least.cost.matrix.i)]
 
   return(least.cost)
 
