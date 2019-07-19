@@ -2,7 +2,9 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in a multivariate time-series. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed through the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}.
 #'
-#' @usage autoSum(sequences = NULL,
+#' @usage autoSum(
+#'   sequences = NULL,
+#'   least.cost.path = NULL,
 #'   time.column = NULL,
 #'   grouping.column = NULL,
 #'   exclude.columns = NULL,
@@ -11,6 +13,7 @@
 #'   )
 #'
 #' @param sequences dataframe with one or several multivariate time-series identified by a grouping column.
+#' @param named.list a list usually resulting from either \code{\link{leastCostPath}}, \code{\link{leastCostPathNoBlocks}}, \code{\link{distancePairedSamples}}, or \code{\link{leastCost}} with the names of the pairs of sequences being compared.
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
@@ -64,17 +67,17 @@
 #'
 #'@export
 autoSum <- function(sequences = NULL,
-                    time.column = NULL,
-                    grouping.column = NULL,
-                    exclude.columns = NULL,
-                    method = "manhattan",
-                    parallel.execution = TRUE){
+                       named.list = NULL,
+                       time.column = NULL,
+                       grouping.column = NULL,
+                       exclude.columns = NULL,
+                       method = "manhattan",
+                       parallel.execution = TRUE){
 
   #checking sequences
   if(is.data.frame(sequences) == FALSE){
     stop("Argument 'sequences' must be a dataframe with at least two ordered multivariate sequences identified by a 'grouping.column'.")
   }
-
 
   #grouping.column
   if(is.null(grouping.column)){
@@ -91,7 +94,9 @@ autoSum <- function(sequences = NULL,
   groups <- unique(sequences[, grouping.column])
 
   #number of sequences to compute the autosum of
-  n.iterations <- length(groups)
+  if(!is.null(named.list)){
+    n.iterations <- length(named.list)
+  }
 
   #removing time column
   if(!is.null(time.column)){
@@ -114,6 +119,7 @@ autoSum <- function(sequences = NULL,
   #exporting cluster variables
   parallel::clusterExport(cl=my.cluster,
                           varlist=c('n.iterations',
+                                    'named.list',
                                     'sequences',
                                     'distance',
                                     'groups'),
@@ -128,50 +134,87 @@ autoSum <- function(sequences = NULL,
   #parallelized loop
   autosum.sequences <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
-    #getting sequence
-    sequence <- sequences[sequences[,grouping.column] == groups[i], ]
+    #getting sequence names
+    sequence.names = unlist(strsplit(names(named.list)[i], split='|', fixed=TRUE))
 
-    #removing grouping column
-    if(grouping.column %in% colnames(sequence)){
-      sequence[,grouping.column] <- NULL
-    }
+    #getting sequence
+    sequence.A <- sequences[sequences[,grouping.column] %in% sequence.names[1], ]
+    sequence.B <- sequences[sequences[,grouping.column] %in% sequence.names[2], ]
 
     #getting numeric columns only
-    sequence <- sequence[,sapply(sequence, is.numeric)]
+    sequence.A <- sequence.A[,sapply(sequence.A, is.numeric)]
+    sequence.B <- sequence.B[,sapply(sequence.B, is.numeric)]
+
+    #getting named.list
+    named.list.i <- named.list[[names(named.list)[i]]]
+
+    #checking if it is a least.cost.path
+    if(inherits(named.list.i, "data.frame")){
+      if(colnames(named.list.i)[1] == sequence.names[1] & colnames(named.list.i)[2] == sequence.names[2]){
+        sequence.A <- sequence.A[unique(named.list.i[,sequence.names[1]]), ]
+        sequence.B <- sequence.B[unique(named.list.i[,sequence.names[2]]), ]
+      }
+    }
+
 
     #output vector
-    distances <- vector()
+    distances.A <- vector()
+    distances.B <- vector()
 
     #number of rows
-    ncol.sequence <- ncol(sequence)
+    ncol.sequence.A <- ncol(sequence.A)
+    ncol.sequence.B <- ncol(sequence.B)
 
     #if the sequence has one column only (a vector)
-    if(is.null(ncol.sequence)){
+    if(is.null(ncol.sequence.A)){
 
       #number of elements
-      nrow.sequence <- length(sequence)
+      nrow.sequence.A <- length(sequence.A)
 
       #computing distances
-      for (j in 1:(nrow.sequence-1)){
-        distances[j] <- distance(x = sequence[j], y = sequence[j+1], method = method)
+      for (j in 1:(nrow.sequence.A-1)){
+        distances.A[j] <- distance(x = sequence.A[j], y = sequence.A[j+1], method = method)
       }
     } else {
 
       #number of elements
-      nrow.sequence <- nrow(sequence)
-      if(nrow.sequence == 1){
-        distances[1] <- 0
+      nrow.sequence.A <- nrow(sequence.A)
+      if(nrow.sequence.A == 1){
+        distances.A[1] <- 0
       } else {
-        for (j in 1:(nrow.sequence-1)){
-          distances[j] <- distance(x = sequence[j, ], y = sequence[j+1, ], method = method)
+        for (j in 1:(nrow.sequence.A-1)){
+          distances.A[j] <- distance(x = sequence.A[j, ], y = sequence.A[j+1, ], method = method)
+        }
+      }
+    }
+
+    #if the sequence has one column only (a vector)
+    if(is.null(ncol.sequence.B)){
+
+      #number of elements
+      nrow.sequence.B <- length(sequence.B)
+
+      #computing distances
+      for (j in 1:(nrow.sequence.B-1)){
+        distances.B[j] <- distance(x = sequence.B[j], y = sequence.B[j+1], method = method)
+      }
+    } else {
+
+      #number of elements
+      nrow.sequence.B <- nrow(sequence.B)
+      if(nrow.sequence.B == 1){
+        distances.B[1] <- 0
+      } else {
+        for (j in 1:(nrow.sequence.B-1)){
+          distances.B[j] <- distance(x = sequence.B[j, ], y = sequence.B[j+1, ], method = method)
         }
       }
     }
 
     #returning sum of distances
-    return(sum(distances))
+    return(sum(sum(distances.A), sum(distances.B)))
 
-} #end of parallel execution
+  } #end of parallel execution
 
   #stopping cluster
   if(parallel.execution == TRUE){
@@ -182,7 +225,7 @@ autoSum <- function(sequences = NULL,
   }
 
   #naming slots in list
-  names(autosum.sequences) <- groups
+  names(autosum.sequences) <- names(named.list)
 
   return(autosum.sequences)
 

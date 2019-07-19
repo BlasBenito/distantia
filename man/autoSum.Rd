@@ -4,7 +4,9 @@
 \alias{autoSum}
 \title{Computes sum of distances between consecutive samples in a multivariate time-series.}
 \usage{
-autoSum(sequences = NULL,
+autoSum(
+  sequences = NULL,
+  least.cost.path = NULL,
   time.column = NULL,
   grouping.column = NULL,
   exclude.columns = NULL,
@@ -14,6 +16,8 @@ autoSum(sequences = NULL,
 }
 \arguments{
 \item{sequences}{dataframe with one or several multivariate time-series identified by a grouping column.}
+
+\item{named.list}{a list usually resulting from either \code{\link{leastCostPath}}, \code{\link{leastCostPathNoBlocks}}, \code{\link{distancePairedSamples}}, or \code{\link{leastCost}} with the names of the pairs of sequences being compared.}
 
 \item{time.column}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 

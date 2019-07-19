@@ -146,6 +146,7 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
   <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
   <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>same.time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ignore.blocks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
@@ -189,6 +190,10 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
       <td><p>boolean. If <code>TRUE</code>, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to <code>time.column</code>. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.</p></td>
     </tr>
     <tr>
+      <th>ignore.blocks</th>
+      <td><p>boolean. If <code>TRUE</code>, the function <code><a href='leastCostPathNoBlocks.html'>leastCostPathNoBlocks</a></code> analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.</p></td>
+    </tr>
+    <tr>
       <th>parallel.execution</th>
       <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>
@@ -218,77 +223,76 @@ Delivers an output of type &quot;list&quot; (default), &quot;data.frame&quot; or
  <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
  )
 
-<span class='no'>MIS.psi</span></div><div class='output co'>#&gt;         A      B      psi
-#&gt; 1   MIS-1  MIS-2 3.767042
-#&gt; 2   MIS-1  MIS-3 3.429517
-#&gt; 3   MIS-1  MIS-4 3.745674
-#&gt; 4   MIS-1  MIS-5 3.104553
-#&gt; 5   MIS-1  MIS-6 3.040942
-#&gt; 6   MIS-1  MIS-7 2.729275
-#&gt; 7   MIS-1  MIS-8 3.026387
-#&gt; 8   MIS-1  MIS-9 2.899197
-#&gt; 9   MIS-1 MIS-10 3.739239
-#&gt; 10  MIS-1 MIS-11 2.817729
-#&gt; 11  MIS-1 MIS-12 3.173842
-#&gt; 12  MIS-2  MIS-3 1.584255
-#&gt; 13  MIS-2  MIS-4 1.555979
-#&gt; 14  MIS-2  MIS-5 3.158450
-#&gt; 15  MIS-2  MIS-6 1.791226
-#&gt; 16  MIS-2  MIS-7 2.886872
-#&gt; 17  MIS-2  MIS-8 2.265834
-#&gt; 18  MIS-2  MIS-9 2.451682
-#&gt; 19  MIS-2 MIS-10 1.773723
-#&gt; 20  MIS-2 MIS-11 2.483239
-#&gt; 21  MIS-2 MIS-12 1.744362
-#&gt; 22  MIS-3  MIS-4 1.683039
-#&gt; 23  MIS-3  MIS-5 2.080717
-#&gt; 24  MIS-3  MIS-6 1.541216
-#&gt; 25  MIS-3  MIS-7 2.065760
-#&gt; 26  MIS-3  MIS-8 1.762062
-#&gt; 27  MIS-3  MIS-9 1.788404
-#&gt; 28  MIS-3 MIS-10 1.723115
-#&gt; 29  MIS-3 MIS-11 1.818241
-#&gt; 30  MIS-3 MIS-12 1.568639
-#&gt; 31  MIS-4  MIS-5 3.745239
-#&gt; 32  MIS-4  MIS-6 1.696387
-#&gt; 33  MIS-4  MIS-7 2.987666
-#&gt; 34  MIS-4  MIS-8 2.124146
-#&gt; 35  MIS-4  MIS-9 2.813570
-#&gt; 36  MIS-4 MIS-10 2.458357
-#&gt; 37  MIS-4 MIS-11 2.994883
-#&gt; 38  MIS-4 MIS-12 1.987447
-#&gt; 39  MIS-5  MIS-6 2.466738
-#&gt; 40  MIS-5  MIS-7 1.790033
-#&gt; 41  MIS-5  MIS-8 2.296387
-#&gt; 42  MIS-5  MIS-9 1.906455
-#&gt; 43  MIS-5 MIS-10 1.888171
-#&gt; 44  MIS-5 MIS-11 1.955650
-#&gt; 45  MIS-5 MIS-12 1.727390
-#&gt; 46  MIS-6  MIS-7 2.215995
-#&gt; 47  MIS-6  MIS-8 1.763005
-#&gt; 48  MIS-6  MIS-9 1.950021
-#&gt; 49  MIS-6 MIS-10 1.824431
-#&gt; 50  MIS-6 MIS-11 2.168107
-#&gt; 51  MIS-6 MIS-12 1.648737
-#&gt; 52  MIS-7  MIS-8 2.004216
-#&gt; 53  MIS-7  MIS-9 1.687744
-#&gt; 54  MIS-7 MIS-10 1.814664
-#&gt; 55  MIS-7 MIS-11 1.961767
-#&gt; 56  MIS-7 MIS-12 1.737803
-#&gt; 57  MIS-8  MIS-9 1.764786
-#&gt; 58  MIS-8 MIS-10 1.845201
-#&gt; 59  MIS-8 MIS-11 1.584098
-#&gt; 60  MIS-8 MIS-12 1.600382
-#&gt; 61  MIS-9 MIS-10 1.577248
-#&gt; 62  MIS-9 MIS-11 1.563898
-#&gt; 63  MIS-9 MIS-12 1.626572
-#&gt; 64 MIS-10 MIS-11 1.736076
-#&gt; 65 MIS-10 MIS-12 1.465597
-#&gt; 66 MIS-11 MIS-12 1.594858</div><div class='input'>
+<span class='no'>MIS.psi</span></div><div class='output co'>#&gt;         A      B       psi
+#&gt; 1   MIS-1  MIS-2 2.6492377
+#&gt; 2   MIS-1  MIS-3 2.3280158
+#&gt; 3   MIS-1  MIS-4 2.6104038
+#&gt; 4   MIS-1  MIS-5 2.0253240
+#&gt; 5   MIS-1  MIS-6 1.9691034
+#&gt; 6   MIS-1  MIS-7 1.6285033
+#&gt; 7   MIS-1  MIS-8 1.9617028
+#&gt; 8   MIS-1  MIS-9 1.8356375
+#&gt; 9   MIS-1 MIS-10 2.6031041
+#&gt; 10  MIS-1 MIS-11 1.7753995
+#&gt; 11  MIS-1 MIS-12 2.0907673
+#&gt; 12  MIS-2  MIS-3 0.5613996
+#&gt; 13  MIS-2  MIS-4 0.4893352
+#&gt; 14  MIS-2  MIS-5 2.1466342
+#&gt; 15  MIS-2  MIS-6 0.7398286
+#&gt; 16  MIS-2  MIS-7 1.8617663
+#&gt; 17  MIS-2  MIS-8 1.1775915
+#&gt; 18  MIS-2  MIS-9 1.4053206
+#&gt; 19  MIS-2 MIS-10 0.7293816
+#&gt; 20  MIS-2 MIS-11 1.4124383
+#&gt; 21  MIS-2 MIS-12 0.7288371
+#&gt; 22  MIS-3  MIS-4 0.6257469
+#&gt; 23  MIS-3  MIS-5 1.0617244
+#&gt; 24  MIS-3  MIS-6 0.4998365
+#&gt; 25  MIS-3  MIS-7 1.0310238
+#&gt; 26  MIS-3  MIS-8 0.6901092
+#&gt; 27  MIS-3  MIS-9 0.7556862
+#&gt; 28  MIS-3 MIS-10 0.6800549
+#&gt; 29  MIS-3 MIS-11 0.7622108
+#&gt; 30  MIS-3 MIS-12 0.5492251
+#&gt; 31  MIS-4  MIS-5 2.6972018
+#&gt; 32  MIS-4  MIS-6 0.6515961
+#&gt; 33  MIS-4  MIS-7 1.9334300
+#&gt; 34  MIS-4  MIS-8 1.0620704
+#&gt; 35  MIS-4  MIS-9 1.7816734
+#&gt; 36  MIS-4 MIS-10 1.4130480
+#&gt; 37  MIS-4 MIS-11 1.9332674
+#&gt; 38  MIS-4 MIS-12 0.9327703
+#&gt; 39  MIS-5  MIS-6 1.4256233
+#&gt; 40  MIS-5  MIS-7 0.7710992
+#&gt; 41  MIS-5  MIS-8 1.2352032
+#&gt; 42  MIS-5  MIS-9 0.8695324
+#&gt; 43  MIS-5 MIS-10 0.8504797
+#&gt; 44  MIS-5 MIS-11 0.9038762
+#&gt; 45  MIS-5 MIS-12 0.7249898
+#&gt; 46  MIS-6  MIS-7 1.1532327
+#&gt; 47  MIS-6  MIS-8 0.7069980
+#&gt; 48  MIS-6  MIS-9 0.9136826
+#&gt; 49  MIS-6 MIS-10 0.7631732
+#&gt; 50  MIS-6 MIS-11 1.1294040
+#&gt; 51  MIS-6 MIS-12 0.6062822
+#&gt; 52  MIS-7  MIS-8 0.9481572
+#&gt; 53  MIS-7  MIS-9 0.6515808
+#&gt; 54  MIS-7 MIS-10 0.7753695
+#&gt; 55  MIS-7 MIS-11 0.8991964
+#&gt; 56  MIS-7 MIS-12 0.7177108
+#&gt; 57  MIS-8  MIS-9 0.7375359
+#&gt; 58  MIS-8 MIS-10 0.7666966
+#&gt; 59  MIS-8 MIS-11 0.5502679
+#&gt; 60  MIS-8 MIS-12 0.5361810
+#&gt; 61  MIS-9 MIS-10 0.5283006
+#&gt; 62  MIS-9 MIS-11 0.5366605
+#&gt; 63  MIS-9 MIS-12 0.5879649
+#&gt; 64 MIS-10 MIS-11 0.6595176
+#&gt; 65 MIS-10 MIS-12 0.4226933
+#&gt; 66 MIS-11 MIS-12 0.5406600</div><div class='input'>
 </div><div class='input'>
 </div></pre>
   </div>

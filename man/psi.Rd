@@ -58,15 +58,22 @@ AB.least.cost.matrix <- leastCostMatrix(
  parallel.execution = FALSE
  )
 
+AB.least.cost.path <- leastCostPath(
+ least.cost.matrix = AB.least.cost.matrix,
+ distance.matrix = AB.distance.matrix,
+ parallel.execution = FALSE
+ )
+
 #extracting least cost
 AB.least.cost <- leastCost(
- least.cost.matrix = AB.least.cost.matrix,
+ least.cost.path = AB.least.cost.path,
  parallel.execution = FALSE
  )
 
 #autosum
 AB.autosum <- autoSum(
  sequences = AB.sequences,
+ least.cost.path = AB.least.cost.path
  grouping.column = "id",
  parallel.execution = FALSE
  )

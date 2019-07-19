@@ -33,6 +33,7 @@
 #' @param diagonal boolean, if \code{TRUE}, diagonals are included in the computation of the least cost path. Defaults to \code{FALSE}, as the original algorithm did not include diagonals in the computation of the least cost path.
 #' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
 #' @param same.time boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.
+#' @param ignore.blocks boolean. If \code{TRUE}, the function \code{\link{leastCostPathNoBlocks}} analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A list with two slots named \emph{psi} and \emph{psi.drop}. The former contains the dissimilarity values when removing each variable, while the latter contains the drop in dissimilarity (as a percentage of psi computed on all variables) that happens when each variable is removed. Positive values indicate that dissimilarity drops when the variable is removed, while negative values indicate that similarity drops when the variable is removed.
@@ -48,6 +49,7 @@ workflowImportance <- function(
   diagonal = FALSE,
   paired.samples = FALSE,
   same.time = FALSE,
+  ignore.blocks = FALSE,
   parallel.execution = TRUE
 ){
 
@@ -64,6 +66,7 @@ workflowImportance <- function(
       diagonal = diagonal,
       format = "dataframe",
       paired.samples = paired.samples,
+      ignore.blocks = ignore.blocks,
       parallel.execution = parallel.execution
   )
   names(psi.df)[3] <- "All variables"
@@ -134,6 +137,7 @@ workflowImportance <- function(
         diagonal = diagonal,
         format = "dataframe",
         paired.samples = paired.samples,
+        ignore.blocks = ignore.blocks,
         parallel.execution = FALSE
       )
 

@@ -2,21 +2,23 @@
 % Please edit documentation in R/leastCost.R
 \name{leastCost}
 \alias{leastCost}
-\title{Extracts the least cost from a least cost matrix.}
+\title{Extracts the least cost from a least-cost path.}
 \usage{
 leastCost(
-  least.cost.matrix = NULL,
+  least.cost.path = NULL,
   parallel.execution = TRUE
   )
 }
 \arguments{
-\item{least.cost.matrix}{numeric matrix or list of numeric matrices produced by \code{\link{leastCostMatrix}}.}
+\item{least.cost.path}{dataframe produced by \code{\link{leastCostPath}}.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }
 \value{
-A list if \code{least.cost.matrix} is a list, or a numeric vector if \code{least.cost.matrix} is a matrix.
+A named list with least-cost values.
+
+A named list with least cost values.
 }
 \description{
-Extracts the minimum cost (cell in the lower right corner) of a least cost matrix. this function is for internal use of other functions in the package.
+Sums the the distances of the samples in a least-cost path.
 }

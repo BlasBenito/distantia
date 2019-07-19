@@ -118,6 +118,7 @@
   <span class='kw'>paired.samples</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>min.length</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>max.length</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ignore.blocks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
@@ -159,6 +160,10 @@
     <tr>
       <th>max.length</th>
       <td><p>integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If <code>NULL</code> (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.</p></td>
+    </tr>
+    <tr>
+      <th>ignore.blocks</th>
+      <td><p>boolean. If <code>TRUE</code>, the function <code><a href='leastCostPathNoBlocks.html'>leastCostPathNoBlocks</a></code> analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>
@@ -217,67 +222,67 @@
  )
 
 <span class='co'>#output dataframe</span>
-<span class='no'>MIS.psi</span></div><div class='output co'>#&gt;    first.row last.row      psi
-#&gt; 1          1       10 1.000000
-#&gt; 2          1        9 1.041868
-#&gt; 3          1       11 1.048976
-#&gt; 4          2       10 1.333792
-#&gt; 5          4       12 1.340764
-#&gt; 6          4       13 1.351427
-#&gt; 7          2       12 1.360265
-#&gt; 8          2       11 1.369854
-#&gt; 9          4       14 1.392707
-#&gt; 10         3       12 1.468952
-#&gt; 11         3       13 1.474443
-#&gt; 12         3       11 1.485451
-#&gt; 13         5       13 1.498382
-#&gt; 14         5       14 1.529539
-#&gt; 15         5       15 1.576828
-#&gt; 16         6       16 1.838525
-#&gt; 17         6       14 1.850371
-#&gt; 18         8       18 1.887174
-#&gt; 19         6       15 1.889466
-#&gt; 20         8       17 1.956644
-#&gt; 21         8       16 1.975641
-#&gt; 22         7       17 1.982787
-#&gt; 23         7       16 2.003103
-#&gt; 24        13       22 2.020141
-#&gt; 25        12       22 2.027933
-#&gt; 26         7       15 2.072472
-#&gt; 27        10       19 2.078896
-#&gt; 28        10       18 2.079111
-#&gt; 29        13       21 2.099891
-#&gt; 30        13       23 2.102993
-#&gt; 31        12       21 2.105794
-#&gt; 32        11       21 2.110503
-#&gt; 33        10       20 2.130718
-#&gt; 34        18       26 2.150991
-#&gt; 35        17       25 2.168024
-#&gt; 36        15       24 2.170203
-#&gt; 37        15       25 2.180378
-#&gt; 38        17       26 2.200346
-#&gt; 39         9       19 2.205144
-#&gt; 40         9       18 2.210128
-#&gt; 41        18       27 2.243800
-#&gt; 42        14       24 2.248106
-#&gt; 43        14       22 2.248597
-#&gt; 44        16       24 2.249825
-#&gt; 45        11       19 2.250629
-#&gt; 46        15       23 2.251462
-#&gt; 47        16       25 2.255004
-#&gt; 48        16       26 2.282489
-#&gt; 49        18       28 2.283437
-#&gt; 50        17       27 2.286984
-#&gt; 51        11       20 2.295706
-#&gt; 52        12       20 2.299381
-#&gt; 53         9       17 2.303968
-#&gt; 54        14       23 2.331734
-#&gt; 55        19       27 2.415758
-#&gt; 56        19       28 2.441148
-#&gt; 57        19       29 2.543468
-#&gt; 58        20       28 2.628717
-#&gt; 59        20       29 2.712100
-#&gt; 60        21       29 3.067124</div><div class='input'>
+<span class='no'>MIS.psi</span></div><div class='output co'>#&gt;    first.row last.row        psi
+#&gt; 1          1       10 0.00000000
+#&gt; 2          1        9 0.04186785
+#&gt; 3          2       10 0.04186785
+#&gt; 4          1       11 0.04897612
+#&gt; 5          4       12 0.09703770
+#&gt; 6          2       12 0.10109105
+#&gt; 7          2       11 0.10299662
+#&gt; 8          4       13 0.10988795
+#&gt; 9          3       11 0.13761871
+#&gt; 10         3       13 0.14468749
+#&gt; 11         3       12 0.14670183
+#&gt; 12         4       14 0.18852418
+#&gt; 13         5       13 0.21432458
+#&gt; 14         5       14 0.30536969
+#&gt; 15         5       15 0.33488624
+#&gt; 16         6       14 0.57821139
+#&gt; 17         6       15 0.61305130
+#&gt; 18         6       16 0.63634091
+#&gt; 19         7       15 0.74761030
+#&gt; 20         7       16 0.78494032
+#&gt; 21         8       16 0.78770217
+#&gt; 22         8       18 0.79427869
+#&gt; 23         7       17 0.82110450
+#&gt; 24         8       17 0.84581066
+#&gt; 25        10       18 0.94973066
+#&gt; 26        10       19 0.94976310
+#&gt; 27         9       19 1.00295875
+#&gt; 28        10       20 1.01443940
+#&gt; 29        11       19 1.01904509
+#&gt; 30         9       18 1.02772464
+#&gt; 31         9       17 1.07003962
+#&gt; 32        11       20 1.10632553
+#&gt; 33        11       21 1.13146256
+#&gt; 34        12       20 1.16040938
+#&gt; 35        13       21 1.17892515
+#&gt; 36        13       22 1.19351857
+#&gt; 37        12       22 1.19748392
+#&gt; 38        12       21 1.20849627
+#&gt; 39        13       23 1.22813709
+#&gt; 40        18       26 1.23645088
+#&gt; 41        17       25 1.26786779
+#&gt; 42        16       24 1.28207220
+#&gt; 43        17       26 1.29484089
+#&gt; 44        18       27 1.31848523
+#&gt; 45        15       24 1.34176398
+#&gt; 46        17       27 1.34593612
+#&gt; 47        15       23 1.37536323
+#&gt; 48        14       24 1.37784193
+#&gt; 49        16       26 1.37813034
+#&gt; 50        16       25 1.38249181
+#&gt; 51        14       22 1.38491609
+#&gt; 52        15       25 1.40978944
+#&gt; 53        14       23 1.43844115
+#&gt; 54        18       28 1.47191850
+#&gt; 55        19       27 1.52764541
+#&gt; 56        19       28 1.70680392
+#&gt; 57        20       28 1.80959686
+#&gt; 58        19       29 2.06457705
+#&gt; 59        20       29 2.21228582
+#&gt; 60        21       29 2.25759183</div><div class='input'>
 </div><div class='input'>
 </div></pre>
   </div>

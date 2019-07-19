@@ -14,6 +14,7 @@ workflowPartialMatch(
   paired.samples = FALSE,
   min.length = NULL,
   max.length = NULL,
+  ignore.blocks = FALSE,
   parallel.execution = TRUE
   )
 }
@@ -35,6 +36,8 @@ workflowPartialMatch(
 \item{min.length}{integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.}
 
 \item{max.length}{integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.}
+
+\item{ignore.blocks}{boolean. If \code{TRUE}, the function \code{\link{leastCostPathNoBlocks}} analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 }

@@ -108,7 +108,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>autoSum</span>(<span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>autoSum</span>(
+  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>least.cost.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>time.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exclude.columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -122,6 +124,10 @@
     <tr>
       <th>sequences</th>
       <td><p>dataframe with one or several multivariate time-series identified by a grouping column.</p></td>
+    </tr>
+    <tr>
+      <th>named.list</th>
+      <td><p>a list usually resulting from either <code><a href='leastCostPath.html'>leastCostPath</a></code>, <code><a href='leastCostPathNoBlocks.html'>leastCostPathNoBlocks</a></code>, <code><a href='distancePairedSamples.html'>distancePairedSamples</a></code>, or <code><a href='leastCost.html'>leastCost</a></code> with the names of the pairs of sequences being compared.</p></td>
     </tr>
     <tr>
       <th>time.column</th>
@@ -188,13 +194,7 @@
  <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>AB.sequences</span>,
  <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
  <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
- )
-<span class='no'>AB.autosum</span></div><div class='output co'>#&gt; $A
-#&gt; [1] 22.6535
-#&gt; 
-#&gt; $B
-#&gt; [1] 24.20855
-#&gt; </div><div class='input'>
+ )</div><div class='output co'>#&gt; <span class='error'>Error in eval(a, envir = extra, enclos = obj$evalenv): object 'n.iterations' not found</span></div><div class='input'><span class='no'>AB.autosum</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'AB.autosum' not found</span></div><div class='input'>
 </div><div class='input'>
 </div></pre>
   </div>

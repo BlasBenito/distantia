@@ -13,6 +13,7 @@ workflowNullPsi(
   diagonal = FALSE,
   paired.samples = FALSE,
   same.time = FALSE,
+  ignore.blocks = FALSE,
   parallel.execution = TRUE,
   repetitions = 9
   )
@@ -33,6 +34,8 @@ workflowNullPsi(
 \item{paired.samples}{boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.}
 
 \item{same.time}{boolean. If \code{TRUE}, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to \code{time.column}. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.}
+
+\item{ignore.blocks}{boolean. If \code{TRUE}, the function \code{\link{leastCostPathNoBlocks}} analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.}
 
 \item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
 

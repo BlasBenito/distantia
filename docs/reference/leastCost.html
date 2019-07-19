@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extracts the least cost from a least cost matrix. — leastCost • distantia</title>
+<title>Extracts the least cost from a least-cost path. — leastCost • distantia</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Extracts the least cost from a least cost matrix. — leastCost" />
+<meta property="og:title" content="Extracts the least cost from a least-cost path. — leastCost" />
 
-<meta property="og:description" content="Extracts the minimum cost (cell in the lower right corner) of a least cost matrix. this function is for internal use of other functions in the package." />
+<meta property="og:description" content="Sums the the distances of the samples in a least-cost path." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,19 +97,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extracts the least cost from a least cost matrix.</h1>
+    <h1>Extracts the least cost from a least-cost path.</h1>
     
     <div class="hidden name"><code>leastCost.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Extracts the minimum cost (cell in the lower right corner) of a least cost matrix. this function is for internal use of other functions in the package.</p>
+    <p>Sums the the distances of the samples in a least-cost path.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>leastCost</span>(
-  <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>least.cost.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )</pre>
     
@@ -117,8 +117,8 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>least.cost.matrix</th>
-      <td><p>numeric matrix or list of numeric matrices produced by <code><a href='leastCostMatrix.html'>leastCostMatrix</a></code>.</p></td>
+      <th>least.cost.path</th>
+      <td><p>dataframe produced by <code><a href='leastCostPath.html'>leastCostPath</a></code>.</p></td>
     </tr>
     <tr>
       <th>parallel.execution</th>
@@ -128,7 +128,8 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list if <code>least.cost.matrix</code> is a list, or a numeric vector if <code>least.cost.matrix</code> is a matrix.</p>
+    <p>A named list with least-cost values.</p>
+<p>A named list with least cost values.</p>
     
 
   </div>

@@ -82,7 +82,7 @@ library(tidyr)
 
 ## Comparing two irregular non-aligned sequences
 
-This section assumes that the user wants to compare two sequences. The package provides two example datasets based on the Abernethy pollen core (Birks and Mathewes, 1978):
+This section relies on two example datasets based on the Abernethy pollen core (Birks and Mathewes, 1978):
 
 ```{r, eval=TRUE}
 data(sequenceA)
@@ -98,8 +98,6 @@ kable(sequenceB[1:15, ], caption = "Sequence B")
 Notice that **sequenceB** has a few NA values (that were introduced to serve as an example). The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data. It allows to merge two (or more) multivariate time-series into a single table ready for further analyses. Note that, since the data represents pollen abundances, a *Hellinger* transformation (square root of the relative proportions of each taxa) is applied.
 
 ```{r, eval=TRUE}
-help(prepareSequences)
-
 AB.sequences <- prepareSequences(
   sequence.A = sequenceA,
   sequence.A.name = "A",
@@ -113,7 +111,7 @@ AB.sequences <- prepareSequences(
 kable(AB.sequences[1:15, ], digits = 4)
 ```
 
-The computation of dissimlarity between two sequences requires several steps.
+The computation of dissimilarity between two multivariate sequences requires several steps.
 
 **1. Computation of a distance matrix** among the samples of both sequences. It is computed by the **distanceMatrix** function, which allows the user to select a distance metric (so far the ones implemented are *manhattan*, *euclidean*, *chi*, and *hellinger*). The function **plotMatrix** allows an easy visualization of the distance matrix.
 
@@ -130,91 +128,76 @@ plotMatrix(
   color.palette = "viridis")
 ```
 
-**2. Computation of the least-cost path within the distance matrix.** This step uses a *dynamic programming algorithm* to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix. 
+**2. Computation of the least-cost path within the distance matrix.** This step uses a *dynamic programming algorithm* to find the least-cost when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). It does so by solving first every partial solution (in the neighborhood of every cell in the matrix), and then propagating the sum towards the opposite extreme of the matrix. It can be done in two different ways, the first involving an orthogonal search only (either one step on the *x* axis or one step on the *y* axis at a time), or can include a diagonal search as well (the previous one plus the possibility of moving one step along both axes simultaneously). The boolean argumnet *diagonal* controls what option is being used (diagonals are used when it is set to *TRUE*)
 
 The value of the upper-right cell in the plotted matrix (actually, the lower-right cell in the actual data matrix, the matrix is rotated in the plot) is the sum of the minimum distance across all samples of both time-series.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences."}
+```{r}
 AB.least.cost.matrix <- leastCostMatrix(
-  distance.matrix = AB.distance.matrix
+  distance.matrix = AB.distance.matrix,
+  diagonal = FALSE
 )
-
-plotMatrix(
-  distance.matrix = AB.least.cost.matrix,
-  color.palette = "viridis")
 ```
 
-**Optional** In this optional step, the function **leastCostPath** finds the least-cost path in the matrix above. It returns a dataframe with the coordinates of the cells within the path, the distance between consecutive cells, and the cumulative distance of any given step in the path. It can be used to plot the path, which helps to better understand the alignmnet between both sequences. 
-
-This dataframe will be used later on to generate other products, such the *slotting* of both sequences (a unique sequences with the samples of both sequences in the order that minimizes the distance between consecutive samples), or to transfer attributes such as age/time/depth from one sequence with them to another without them. **Note: these applications are not yet implemented**.
+The function **leastCostPath** finds the least-cost path in the matrix above. It returns a dataframe with the coordinates of the cells within the path, the distance between consecutive cells, and the cumulative distance of any given step in the path. It can be used to plot the path, which helps to better understand the alignmnet between both sequences. 
  
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "least-cost path plotted on top of the distance matrix."}
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least-cost path plotted on the least-cost matrix. Notice that the long straight sections running along one of either axes are named 'blocks', which happen in dissimilar regions of the sequences. I will get back to them below."}
 AB.least.cost.path <- leastCostPath(
   distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = FALSE
   )
 
 kable(AB.least.cost.path[[1]][1:15, ], digits = 4)
 
 par(mfrow=c(2,1))
 plotMatrix(
-  distance.matrix = AB.distance.matrix,
-  least.cost.path = AB.least.cost.path,
-  color.palette = viridis(100, alpha = 0.7)
-  )
-```
-
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least-cost path plotted on top of the least-cost matrix."}
-plotMatrix(
   distance.matrix = AB.least.cost.matrix,
   least.cost.path = AB.least.cost.path,
-  color.palette = viridis(100, alpha = 0.7)
+  color.palette = "viridis"
   )
 ```
 
-**Optional: least cost path using diagonals**.
+Computing the least-cost path based on diagonals only requires to set the *diagonal* argument to *TRUE*.
 
-The least cost path can be computed also in diagonal, which allows to pair together these samples with the higher similarity that contribute to minimize the overall cost of the least cost path.
-
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least cumulative cost of moving between the lower-left cell and the upper-right cell. The value of the upper-right cell corresponds with the minimized sum of distances between the samples of both sequences."}
+```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Least-cost path considering diagonals. Notice that there are still 3 blocks (one vertical and two horizontal ones)."}
 #computing the least cost using diagonals
-diagonal.least.cost <- leastCostMatrix(
+AB.least.cost.matrix.diagonal <- leastCostMatrix(
   distance.matrix = AB.distance.matrix,
   diagonal = TRUE
 )
 
 #computing least cost path using diagonals
-diagonal.least.cost.path <- leastCostPath(
+AB.least.cost.path.diagonal <- leastCostPath(
   distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix,
+  least.cost.matrix = AB.least.cost.matrix.diagonal,
   diagonal = TRUE
   )
 
 plotMatrix(
-  distance.matrix = diagonal.least.cost,
-  least.cost.path = diagonal.least.cost.path,
-  color.palette = viridis(100, alpha = 0.7)
+  distance.matrix = AB.least.cost.matrix.diagonal,
+  least.cost.path = AB.least.cost.path.diagonal,
+  color.palette = "viridis"
   )
 ```
 
-Using diagonals is useful when the goal is to transfer attributes (time, age, depth, etc) from one sequence with them to another sequence without them. This will be shown later **NOTE: not implemented yet**.
+Hereafter only the results of the orthogonal search will be shown.
 
-
-**3. Getting the least-cost value.** The Upper right cell of the least-cost matrix in the image of the least-cost matrix (lower right cell in the actual data-matrix) holds the cumulative sum of the least-cost path. This value will be used later to compute dissimilarity.
+**3. Getting the least-cost value.** The least-cost path file contains the distances between all samples paired in the least-cost path.
 
 ```{r, eval=TRUE}
 AB.least.cost <- leastCost(
-  least.cost.matrix = AB.least.cost.matrix
+  least.cost.path = AB.least.cost.path
   )
 AB.least.cost
 ```
-
 
 **4. Autosum, or sum of the distances among adjacent samples on each sequence.** This is another requirement to compute a normalized measure of dissimilarity. It just computes the distance between adjacent samples of each sequence and sums them up. Notice that the output is a list with named slots. Lists are the main output device of this package, I'll explain later why.
 
 ```{r, eval=TRUE}
 AB.autosum <- autoSum(
   sequences = AB.sequences,
+  named.list = AB.least.cost,
   method = "manhattan"
   )
 AB.autosum
@@ -227,7 +210,7 @@ $$\psi = \frac{LC - (\sum{A_{i-j}} + \sum{B_{i-j}})}{\sum{A_{i-j}} + \sum{B_{i-j
 where:
 
 
-+   $LC$ is the least-cost computed by **leastCostMatrix**.
++   $LC$ is the sum of diatances of the least-cost path.
 +   $\sum{A_{i-j}}$ is the autosum of one of the sequences.
 +   $\sum{B_{i-j}}$ is the autosum of the other sequence.
 
@@ -241,7 +224,8 @@ AB.psi <- psi(
 AB.psi
 ```
 
-The output of **psi** is a list, that can be transformed to a dataframe or a matrix by using the **formatPsi** function.
+
+In any case, the output of **psi** is a list, that can be transformed to a dataframe or a matrix by using the **formatPsi** function.
 
 ```{r}
 #to dataframe
@@ -251,49 +235,30 @@ AB.psi.dataframe <- formatPsi(
 kable(AB.psi.dataframe, digits = 4)
 ```
 
-```{r}
-#to matrix
-AB.psi.matrix <- formatPsi(
-  psi.values = AB.psi,
-  to = "matrix")
-kable(AB.psi.matrix, digits = 4)
-```
-
-Or can also be transformed from matrix to dataframe, or from dataframe to matrix, as convenient.
-
-```{r}
-#from matrix to dataframe again
-AB.psi.dataframe <- formatPsi(
-  psi.values = AB.psi.matrix,
-  to = "dataframe")
-kable(AB.psi.dataframe, digits = 4)
-```
-
-```{r}
-#or from dataframe to matrix
-AB.psi.matrix <- formatPsi(
-  psi.values = AB.psi.dataframe,
-  to = "matrix"
-)
-kable(AB.psi.matrix, digits = 4)
-```
-
-
-All the steps required to compute **psi**, including the format options provided by **formatPsi** are wrapped together in the function **workflowPsi**, that works as follows:
+All the steps required to compute **psi**, including the format options provided by **formatPsi** are wrapped together in the function **workflowPsi**, that works as follows with its default configuration:
 
 ```{r, eval=TRUE}
 AB.psi <- workflowPsi(
   sequences = AB.sequences,
-  grouping.column = "id",
-  method = "manhattan",
-  format = "dataframe"
+  grouping.column = "id"
 )
 AB.psi
 ```
 
-```{r}
+The function allows to exclude particular columns from the analysis (argument *exclude.columns*), select different distance metrics (argument *method*), use diagonals to find the least-cost path (argument *diagonal*), or measure psi by ignoring blocks in the least-cost path (argument *ignore.blocks*). Since we have observed several blocks in the least-cost path, below we compute psi by ignoring them. This will lead to a lower psi value.
+
+```{r, eval=TRUE}
+AB.psi.no.blocks <- workflowPsi(
+  sequences = AB.sequences,
+  grouping.column = "id",
+  ignore.blocks = TRUE
+)
+AB.psi.no.blocks
+```
+
+```{r, echo = FALSE, error = FALSE, message = FALSE, warning = FALSE}
 #cleaning environment for next example
-rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path)
+rm(AB.autosum, AB.distance.matrix, AB.least.cost, AB.least.cost.matrix, AB.least.cost.path, AB.psi, AB.psi.dataframe, AB.psi.matrix, AB.sequences, sequenceA, sequenceB, diagonal.least.cost, diagonal.least.cost.path, AB.psi.dataframe, AB.least.cost.matrix.diagonal, AB.least.cost.path.diagonal, AB.psi.no.blocks)
 ```
 
 
@@ -320,36 +285,20 @@ MIS.sequences <- prepareSequences(
 )
 ```
 
-The dissimilarity measure **psi** can be computed for every combination of sequences through the function **workflowPsi** shown below. Note the argument *output* that allows to select either "dataframe" (ordered from lower to higher dissimilarity) or "matrix" to obtain an output with a given structure (if empty, the function returns a list).
-
+The dissimilarity measure **psi** can be computed for every combination of sequences through the function **workflowPsi** shown below.
 
 ```{r, eval=TRUE}
 MIS.psi <- workflowPsi(
   sequences = MIS.sequences,
   grouping.column = "MIS",
-  time.column = NULL,
-  exclude.columns = NULL,
-  method = "manhattan",
+  method = "euclidean",
   diagonal = FALSE,
-  format = "dataframe"
+  ignore.blocks = TRUE
 )
 
 #ordered with lower psi on top
 kable(MIS.psi[order(MIS.psi$psi), ], digits = 4)
-
 ```
-
-```{r}
-x <- distanceMatrix(
-  sequences = MIS.sequences,
-  grouping.column = "MIS",
-  time.column = NULL,
-  exclude.columns = NULL,
-  method = "manhattan"
-)
-```
-
-
 
 A dataframe like this can be plotted as an adjacency network with the **qgraph** package as follows:
 
@@ -428,7 +377,7 @@ climate.distances <- distancePairedSamples(
   time.column = "time",
   same.time = TRUE,
   exclude.columns = NULL,
-  method = "manhattan",
+  method = "euclidean",
   sum.distances = FALSE
   )
 
@@ -444,7 +393,7 @@ climate.distances <- distancePairedSamples(
   time.column = "time",
   exclude.columns = NULL,
   same.time = TRUE,
-  method = "manhattan",
+  method = "euclidean",
   sum.distances = TRUE
   )
 climate.distances
@@ -456,9 +405,10 @@ Computing *psi* from there only requires the autosum of each sequence, and the a
 #computing autosum
 climate.autosum <- autoSum(
   sequences = climate,
+  named.list = climate.distances,
   grouping.column = "sequenceId",
   time.column = "time",
-  method = "manhattan"
+  method = "euclidean"
 )
 
 #computing psi
@@ -534,7 +484,7 @@ The computation of the null psi values goes as follows:
 random.psi <- workflowNullPsi(
   sequences = sequencesMIS,
   grouping.column = "MIS",
-  method = "manhattan",
+  method = "euclidean",
   paired.samples = FALSE,
   repetitions = 9 #recommended values: 99, 999
 )
@@ -733,10 +683,10 @@ The function **workflowPartialMatch** shown below is going to subset the long se
 MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
   grouping.column = "id",
-  method = "manhattan",
+  method = "euclidean",
   paired.samples = FALSE,
-  min.length = nrow(MIS.short) - 2,
-  max.length = nrow(MIS.short) + 2
+  min.length = nrow(MIS.short),
+  max.length = nrow(MIS.short)
 )
 ```
 
@@ -792,8 +742,8 @@ climate.psi <- workflowPartialMatch(
   time.column = "age",
   method = "manhattan",
   paired.samples = FALSE,
-  min.length = 10,
-  max.length = 12
+  min.length = nrow(climateShort),
+  max.length = nrow(climateShort)
 )
 kable(climate.psi[1:10, ], digits = 4)
 ```
@@ -874,8 +824,7 @@ AB.combined <- workflowSlotting(
 The function reads the least cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-kable(AB.combined[1:15,1:10], format = "html", digits = 4) %>% 
-  row_spec(c(4, 6, 11, 12, 13), bold = T)
+kable(AB.combined[1:15,1:10], format = "html", digits = 4)
 ```
 
 Note that several samples (highlighted in bold) show inverted ages with respect to the previous samples. This is expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
@@ -1015,8 +964,7 @@ X.new <- workflowTransfer(
   mode = "direct"
   )
 
-kable(X.new[1:15, ], digits = 4)  %>% 
-  row_spec(c(5, 6, 10, 11, 12, 13, 14, 15), bold = T)
+kable(X.new[1:15, ], digits = 4)
 ```
 
 The algorithm finds the most similar samples, and transfers attribute values directly between them. This can result in duplicated attribute values, as highlighted in the table above. The Pearson correlation between the original ages (stored in *pollenX.age*) and the assigned ones is `r round(cor(X.new$age, pollenX.age), 4)`, so it can be concluded that in spite of its simplicity, this algorithm yields accurate results.

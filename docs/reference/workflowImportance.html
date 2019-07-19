@@ -170,6 +170,10 @@ psi.drop a dataframe with the columns &quot;A&quot; and &quot;B&quot;, and then 
       <td><p>boolean. If <code>TRUE</code>, samples in the sequences to compare will be tested to check if they have the same time/age/depth according to <code>time.column</code>. This argument is only useful when the user needs to compare two sequences taken at different sites but same time frames.</p></td>
     </tr>
     <tr>
+      <th>ignore.blocks</th>
+      <td><p>boolean. If <code>TRUE</code>, the function <code><a href='leastCostPathNoBlocks.html'>leastCostPathNoBlocks</a></code> analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.</p></td>
+    </tr>
+    <tr>
       <th>parallel.execution</th>
       <td><p>boolean, if <code>TRUE</code> (default), execution is parallelized, and serialized if <code>FALSE</code>.</p></td>
     </tr>

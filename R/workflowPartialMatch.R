@@ -13,6 +13,7 @@
 #'   paired.samples = FALSE,
 #'   min.length = NULL,
 #'   max.length = NULL,
+#'   ignore.blocks = FALSE,
 #'   parallel.execution = TRUE
 #'   )
 #'
@@ -25,6 +26,7 @@
 #' @param paired.samples boolean, if \code{TRUE}, the sequences are assumed to be aligned, and distances are computed for paired-samples only (no distance matrix required). Default value is \code{FALSE}.
 #' @param min.length integer, minimum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
 #' @param max.length  integer, maximum length (in rows) of the subsets of the long sequence to be matched against the short sequence. If \code{NULL} (default), the subset of the long sequence to be matched will thave the same number of samples as the short sequence.
+#' @param ignore.blocks boolean. If \code{TRUE}, the function \code{\link{leastCostPathNoBlocks}} analyzes the least-cost path of the best solution, and removes blocks (straight-orthogonal sections of the least-cost path), which happen in highly dissimilar sections of the sequences, and inflate output psi values.
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #'
 #' @return A dataframe with three columns:
@@ -93,9 +95,9 @@ workflowPartialMatch <- function(
   paired.samples = FALSE,
   min.length = NULL,
   max.length = NULL,
+  ignore.blocks = FALSE,
   parallel.execution = TRUE
 ){
-
 
   #1 TESTING NUMBER OF GROUPS
   if(is.null(grouping.column)){
@@ -115,6 +117,7 @@ workflowPartialMatch <- function(
 
   #2 COMPUTING DISTANCE MATRIX
   if(is.null(paired.samples) | paired.samples == FALSE){
+
   distance.matrix <- distanceMatrix(
       sequences = sequences,
       grouping.column = grouping.column,
@@ -123,12 +126,15 @@ workflowPartialMatch <- function(
       method = method,
       parallel.execution = FALSE
     )
+
   } else {
+
     #creates dummy distance.matrix object, because it needs to be passed as a variable to a cluster
     distance.matrix <- NULL
     diagonal <- FALSE
     min.length <- NULL
     max.length <- NULL
+
   }
 
   #3. PREPARING COMBINATIONS OF SAMPLES OF THE LONG SEQUENCE
@@ -184,17 +190,8 @@ workflowPartialMatch <- function(
     stop("Something went wrong with the subsetting...")
   } else {
       n.iterations <- length(first.row)
-    }
+  }
 
-
-  #4 computing autosum of the short sequence
-  sequences.short.autosum <- autoSum(sequences = sequences.short,
-                                     time.column = time.column,
-                                     grouping.column = grouping.column,
-                                     exclude.columns = exclude.columns,
-                                     method = method,
-                                     parallel.execution = FALSE
-                                     )
 
   #5 starting cluster
   #parallel execution = TRUE
@@ -213,7 +210,6 @@ workflowPartialMatch <- function(
                                       'first.row',
                                       'last.row',
                                       'sequences.short',
-                                      'sequences.short.autosum',
                                       'sequences.long.name',
                                       'sequences.short.name',
                                       'paired.samples',
@@ -221,7 +217,8 @@ workflowPartialMatch <- function(
                                       'grouping.column',
                                       'time.column',
                                       'method',
-                                      'distancePairedSamples'),
+                                      'distancePairedSamples',
+                                      'ignore.blocks'),
                             envir=environment()
     )
   } else {
@@ -235,18 +232,8 @@ workflowPartialMatch <- function(
     #subset rows
     subset.rows <- first.row[i]:last.row[i]
 
-    #autosum sequences long
-    sequences.long.autosum <- autoSum(
-      sequences = sequences.long[subset.rows, ],
-      grouping.column = grouping.column,
-      time.column = time.column,
-      exclude.columns = exclude.columns,
-      method = method,
-      parallel.execution = FALSE
-    )
-
-    #if paired.samples is FALSE or NULL
-    if(is.null(paired.samples) | paired.samples == FALSE){
+    #SAMPLES ARE NOT PAIRED: ELASTIC METHOD
+    if(paired.samples == FALSE){
 
       #subsetting distance matrix
       distance.matrix.subset <- list()
@@ -260,36 +247,87 @@ workflowPartialMatch <- function(
         parallel.execution = FALSE
       )
 
-      #getting least cost
-      least.cost.value <- leastCost(
+      #computing least cost path
+      least.cost.path <- leastCostPath(
+        distance.matrix = distance.matrix.subset,
         least.cost.matrix = least.cost.matrix,
+        diagonal = diagonal,
         parallel.execution = FALSE
+      )
+
+      #BLOCKS ARE NOT IGNORED
+      if(ignore.blocks == FALSE){
+
+        least.cost <- leastCost(
+          least.cost.path = least.cost.path,
+          parallel.execution = FALSE
         )
 
-    }
+      } else {
+
+        #BLOCKS ARE IGNORED
+        #computing least cost path
+        least.cost.path <- leastCostPathNoBlocks(
+          least.cost.path = least.cost.path,
+          parallel.execution = FALSE
+        )
+
+        #getting least cost ignoring blocks
+        least.cost <- leastCost(
+          least.cost.path = least.cost.path,
+          parallel.execution = FALSE
+        )
+
+      }
+
+      #autosum
+      autosum.sequences <- autoSum(
+        sequences = sequences,
+        named.list = least.cost.path,
+        grouping.column = grouping.column,
+        time.column = time.column,
+        exclude.columns = exclude.columns,
+        method = method,
+        parallel.execution = FALSE
+      )
+
+    } #end of paired.samples == FALSE
 
     #if paired samples is TRUE
     if(paired.samples == TRUE){
 
-      least.cost.equivalent <- distancePairedSamples(
+      least.cost <- distancePairedSamples(
         sequences = rbind(sequences.short, sequences.long[subset.rows, ]),
         grouping.column = grouping.column,
         time.column = time.column,
         exclude.columns = exclude.columns,
-        same.time = FALSE,
         method = method,
         sum.distances = TRUE,
         parallel.execution = FALSE
       )
 
-      least.cost.value <- least.cost.equivalent
+      #autosum
+      autosum.sequences <- autoSum(
+        sequences = rbind(sequences.short, sequences.long[subset.rows, ]),
+        named.list = least.cost,
+        grouping.column = grouping.column,
+        time.column = time.column,
+        exclude.columns = exclude.columns,
+        method = method,
+        parallel.execution = FALSE
+      )
 
+    } #end of paired.samples == TRUE
+
+    #shifting least.cost by 1 if needed
+    if(paired.samples == TRUE | (paired.samples == FALSE & diagonal == TRUE) | ignore.blocks == TRUE){
+      least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
     }
 
     #computing psi
     psi.value <- psi(
-      least.cost = least.cost.value,
-      autosum = c(sequences.short.autosum, sequences.long.autosum),
+      least.cost = least.cost,
+      autosum = autosum.sequences,
       parallel.execution = FALSE
     )
 

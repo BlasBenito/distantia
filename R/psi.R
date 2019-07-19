@@ -53,15 +53,22 @@
 #'  parallel.execution = FALSE
 #'  )
 #'
+#'AB.least.cost.path <- leastCostPath(
+#'  least.cost.matrix = AB.least.cost.matrix,
+#'  distance.matrix = AB.distance.matrix,
+#'  parallel.execution = FALSE
+#'  )
+#'
 #'#extracting least cost
 #'AB.least.cost <- leastCost(
-#'  least.cost.matrix = AB.least.cost.matrix,
+#'  least.cost.path = AB.least.cost.path,
 #'  parallel.execution = FALSE
 #'  )
 #'
 #'#autosum
 #'AB.autosum <- autoSum(
 #'  sequences = AB.sequences,
+#'  least.cost.path = AB.least.cost.path
 #'  grouping.column = "id",
 #'  parallel.execution = FALSE
 #'  )
@@ -119,31 +126,14 @@ psi <- function(least.cost = NULL,
     #getting names of the sequences
     sequence.names = unlist(strsplit(names(least.cost)[i], split='|', fixed=TRUE))
 
-    #cost of the best solution
+    #double the cost of the best solution
     optimal.cost <- least.cost[[i]] * 2
 
     #computing autosum of both sequences
-    sum.autosum <- autosum[[sequence.names[1]]] + autosum[[sequence.names[2]]]
+    sum.autosum <- autosum[[names(least.cost)[i]]]
 
-    # #computing psi
-    # if(sum.autosum <= 0){
-    #   #if the autosum is equal or lower than 0
-    #   #sequences are composed of a same sample repeated
-    #   #psi cannot be computed
-    #   psi.value <- NA
-    # } else {
-    #
-    #   #if optimal cost is 0, sequences are identical
-    #   #if optimal cost lower than autosum, psi is negative
-    #   #we set bound to 0
-    #   if(optimal.cost <= 0 | optimal.cost <= sum.autosum){
-    #     psi.value <- 0
-    #   } else {
-
-        #if optimal cost is higher than autosum, psi is computed normally
-        psi.value <- ((optimal.cost - sum.autosum) / sum.autosum)
-    #   }
-    # }
+    #computing psi
+    psi.value <- ((optimal.cost - sum.autosum) / sum.autosum)
 
     return(psi.value)
 

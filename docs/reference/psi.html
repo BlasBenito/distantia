@@ -141,63 +141,68 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><div class='input'><span class='co'>#loading data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceA</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>sequenceB</span>)
+</div><div class='input'>#loading data
+data(sequenceA)
+data(sequenceB)
 
-<span class='co'>#preparing datasets</span>
-<span class='no'>AB.sequences</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSequences.html'>prepareSequences</a></span>(
- <span class='kw'>sequence.A</span> <span class='kw'>=</span> <span class='no'>sequenceA</span>,
- <span class='kw'>sequence.A.name</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
- <span class='kw'>sequence.B</span> <span class='kw'>=</span> <span class='no'>sequenceB</span>,
- <span class='kw'>sequence.B.name</span> <span class='kw'>=</span> <span class='st'>"B"</span>,
- <span class='kw'>merge.mode</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
- <span class='kw'>if.empty.cases</span> <span class='kw'>=</span> <span class='st'>"zero"</span>,
- <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"hellinger"</span>
- )
-
-<span class='co'>#computing distance matrix</span>
-<span class='no'>AB.distance.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='distanceMatrix.html'>distanceMatrix</a></span>(
- <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>AB.sequences</span>,
- <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
- <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"manhattan"</span>,
- <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+#preparing datasets
+AB.sequences <- prepareSequences(
+ sequence.A = sequenceA,
+ sequence.A.name = "A",
+ sequence.B = sequenceB,
+ sequence.B.name = "B",
+ merge.mode = "complete",
+ if.empty.cases = "zero",
+ transformation = "hellinger"
  )
 
-<span class='co'>#computing least cost matrix</span>
-<span class='no'>AB.least.cost.matrix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='leastCostMatrix.html'>leastCostMatrix</a></span>(
- <span class='kw'>distance.matrix</span> <span class='kw'>=</span> <span class='no'>AB.distance.matrix</span>,
- <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+#computing distance matrix
+AB.distance.matrix <- distanceMatrix(
+ sequences = AB.sequences,
+ grouping.column = "id",
+ method = "manhattan",
+ parallel.execution = FALSE
  )
 
-<span class='co'>#extracting least cost</span>
-<span class='no'>AB.least.cost</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='leastCost.html'>leastCost</a></span>(
- <span class='kw'>least.cost.matrix</span> <span class='kw'>=</span> <span class='no'>AB.least.cost.matrix</span>,
- <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+#computing least cost matrix
+AB.least.cost.matrix <- leastCostMatrix(
+ distance.matrix = AB.distance.matrix,
+ diagonal = FALSE,
+ parallel.execution = FALSE
  )
 
-<span class='co'>#autosum</span>
-<span class='no'>AB.autosum</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='autoSum.html'>autoSum</a></span>(
- <span class='kw'>sequences</span> <span class='kw'>=</span> <span class='no'>AB.sequences</span>,
- <span class='kw'>grouping.column</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
- <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+AB.least.cost.path <- leastCostPath(
+ least.cost.matrix = AB.least.cost.matrix,
+ distance.matrix = AB.distance.matrix,
+ parallel.execution = FALSE
  )
-<span class='no'>AB.autosum</span></div><div class='output co'>#&gt; $A
-#&gt; [1] 22.6535
-#&gt; 
-#&gt; $B
-#&gt; [1] 24.20855
-#&gt; </div><div class='input'>
-<span class='no'>AB.psi</span> <span class='kw'>&lt;-</span> <span class='fu'>psi</span>(
- <span class='kw'>least.cost</span> <span class='kw'>=</span> <span class='no'>AB.least.cost</span>,
- <span class='kw'>autosum</span> <span class='kw'>=</span> <span class='no'>AB.autosum</span>,
- <span class='kw'>parallel.execution</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+
+#extracting least cost
+AB.least.cost <- leastCost(
+ least.cost.path = AB.least.cost.path,
+ parallel.execution = FALSE
  )
-<span class='no'>AB.psi</span></div><div class='output co'>#&gt; $`A|B`
-#&gt; [1] 3.309279
-#&gt; </div><div class='input'>
-</div><div class='input'>
+
+#autosum
+AB.autosum <- autoSum(
+ sequences = AB.sequences,
+ least.cost.path = AB.least.cost.path
+ grouping.column = "id",
+ parallel.execution = FALSE
+ )
+AB.autosum
+
+AB.psi <- psi(
+ least.cost = AB.least.cost,
+ autosum = AB.autosum,
+ parallel.execution = FALSE
+ )
+AB.psi
+
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:47:2: unexpected symbol</span>
+#&gt; <span class='error'>46:  least.cost.path = AB.least.cost.path</span>
+#&gt; <span class='error'>47:  grouping.column</span>
+#&gt; <span class='error'>     ^</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
