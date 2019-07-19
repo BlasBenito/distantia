@@ -124,7 +124,7 @@ workflowPsi <- function(sequences = NULL,
 
     #shifting value by 1 if diagonal = TRUE
     if(diagonal == TRUE){
-      least.cost <- least.cost + 1
+      least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
     }
 
   } #end of paired.samples == FALSE
@@ -147,7 +147,7 @@ workflowPsi <- function(sequences = NULL,
     least.cost <- least.cost.equivalent
 
     #shifting value by 1
-    least.cost <- least.cost + 1
+    least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
 
   } #end of paired.samples == TRUE
 
