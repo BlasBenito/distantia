@@ -110,7 +110,7 @@
 
     #checking if the sequences are actually paired
     #if time.column is present
-    if(!is.null(time.column) & same.time == TRUE){
+    if(!is.null(time.column) & !is.null(same.time)){
 
       #counts number of time each "time" value appears
       temp.table.time <- table(sequences[, time.column])

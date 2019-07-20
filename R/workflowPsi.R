@@ -142,6 +142,11 @@ workflowPsi <- function(sequences = NULL,
 
       }
 
+    #shifting least.cost (+1)
+    # if(diagonal == TRUE){
+    #   least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
+    # }
+
     #autosum
     autosum.sequences <- autoSum(
       sequences = sequences,
@@ -152,6 +157,18 @@ workflowPsi <- function(sequences = NULL,
       method = method,
       parallel.execution = parallel.execution
     )
+
+    #computing psi
+    psi.value <- psi(
+      least.cost = least.cost,
+      autosum = autosum.sequences,
+      parallel.execution = parallel.execution
+    )
+
+    #shifting psi by 1
+    if(diagonal == TRUE){
+      psi.value <- lapply(X = psi.value, FUN = function(x){x + 1})
+    }
 
   } #end of paired.samples == FALSE
 
@@ -171,6 +188,9 @@ workflowPsi <- function(sequences = NULL,
       parallel.execution = parallel.execution
     )
 
+    #shifting least.cost by 1
+    # least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
+
     #autosum
     autosum.sequences <- autoSum(
       sequences = sequences,
@@ -182,19 +202,24 @@ workflowPsi <- function(sequences = NULL,
       parallel.execution = parallel.execution
     )
 
+    #computing psi
+    psi.value <- psi(
+      least.cost = least.cost,
+      autosum = autosum.sequences,
+      parallel.execution = parallel.execution
+    )
+
+    #shifting psi by 1
+    psi.value <- lapply(X = psi.value, FUN = function(x){x + 1})
+
   } #end of paired.samples == TRUE
 
-  #shifting least.cost by 1 if needed
-  if(paired.samples == TRUE | (paired.samples == FALSE & diagonal == TRUE) | ignore.blocks == TRUE){
-    least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
-  }
-
   #computing psi
-  psi.value <- psi(
-    least.cost = least.cost,
-    autosum = autosum.sequences,
-    parallel.execution = parallel.execution
-    )
+  # psi.value <- psi(
+  #   least.cost = least.cost,
+  #   autosum = autosum.sequences,
+  #   parallel.execution = parallel.execution
+  #   )
 
   #formating psi
   if(format != "list"){
