@@ -118,34 +118,22 @@ workflowPsi <- function(sequences = NULL,
     )
 
     #BLOCKS ARE NOT IGNORED
-    if(ignore.blocks == FALSE){
+    if(ignore.blocks == TRUE){
 
-      least.cost <- leastCost(
+      #BLOCKS ARE IGNORED
+      #computing least cost path
+      least.cost.path <- leastCostPathNoBlocks(
         least.cost.path = least.cost.path,
         parallel.execution = parallel.execution
-        )
+      )
 
-      } else {
+    }
 
-          #BLOCKS ARE IGNORED
-          #computing least cost path
-          least.cost.path <- leastCostPathNoBlocks(
-            least.cost.path = least.cost.path,
-            parallel.execution = parallel.execution
-          )
-
-          #getting least cost ignoring blocks
-          least.cost <- leastCost(
-            least.cost.path = least.cost.path,
-            parallel.execution = parallel.execution
-          )
-
-      }
-
-    #shifting least.cost (+1)
-    # if(diagonal == TRUE){
-    #   least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
-    # }
+    #getting least cost ignoring blocks
+    least.cost <- leastCost(
+    least.cost.path = least.cost.path,
+    parallel.execution = parallel.execution
+    )
 
     #autosum
     autosum.sequences <- autoSum(
@@ -188,9 +176,6 @@ workflowPsi <- function(sequences = NULL,
       parallel.execution = parallel.execution
     )
 
-    #shifting least.cost by 1
-    # least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
-
     #autosum
     autosum.sequences <- autoSum(
       sequences = sequences,
@@ -214,12 +199,6 @@ workflowPsi <- function(sequences = NULL,
 
   } #end of paired.samples == TRUE
 
-  #computing psi
-  # psi.value <- psi(
-  #   least.cost = least.cost,
-  #   autosum = autosum.sequences,
-  #   parallel.execution = parallel.execution
-  #   )
 
   #formating psi
   if(format != "list"){
