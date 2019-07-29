@@ -135,9 +135,6 @@ psi <- function(least.cost = NULL,
     #computing psi
     psi.value <- ((optimal.cost - sum.autosum) / sum.autosum)
 
-    #setting minimum to 0
-    if(psi.value < 0){psi.value <- 0}
-
     return(psi.value)
 
   } #end of parallelized loop
