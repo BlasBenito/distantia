@@ -2,23 +2,15 @@ workflowPsiHP <- function(sequences = NULL,
                         grouping.column = NULL,
                         time.column = NULL,
                         exclude.columns = NULL,
-                        method = "manhattan",
-                        diagonal = FALSE,
-                        format = "dataframe",
-                        paired.samples = FALSE,
-                        same.time = FALSE,
-                        ignore.blocks = FALSE,
                         parallel.execution = TRUE){
 
 
   #PREPARING sequences
   ####################
   #removing time column
-  if(same.time == FALSE | is.null(same.time)){
-    if(!is.null(time.column)){
-      if(time.column %in% colnames(sequences)){
-        sequences[, time.column] <- NULL
-      }
+  if(!is.null(time.column)){
+    if(time.column %in% colnames(sequences)){
+      sequences[, time.column] <- NULL
     }
   }
 
@@ -30,10 +22,16 @@ workflowPsiHP <- function(sequences = NULL,
   #to data.table
   sequences <- data.table::data.table(
     sequences,
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+    )
+  data.table::setkey(sequences)
 
   #select numeric columns
-  numeric.cols <- colnames(sequences)[which(as.vector(sequences[,lapply(.SD, class)]) == "numeric")]
+  numeric.cols <- colnames(sequences)[which(
+    as.vector(
+      sequences[,lapply(.SD, class)]) %in% c("numeric", "integer")
+    )]
+  numeric.cols <- numeric.cols[numeric.cols != grouping.column]
 
   #multiply by 1000
   sequences[,(numeric.cols):= lapply(.SD, FUN = function(x) x * 1000), .SDcols = numeric.cols]
@@ -42,10 +40,20 @@ workflowPsiHP <- function(sequences = NULL,
   sequences[,(numeric.cols):= lapply(.SD, FUN = as.integer), .SDcols = numeric.cols]
 
   #generate combinations of groups for subsetting
-  combinations <- utils::combn(unique(sequences[[grouping.column]]), m=2)
+  # combinations <- utils::combn(unique(sequences[[grouping.column]]), m=2)
+
+  #indices to data.table
+  gc <- data.table::as.data.table(unique(sequences[[grouping.column]]))
+
+  # add interval columns for overlaps
+  gc[, `:=`(id1 = 1L, id2 = .I)]
+  data.table::setkey(gc, id1, id2)
+
+  #generating combinations
+  combinations <- data.table::foverlaps(gc, gc, type="within", which=TRUE)[xid != yid]
 
   #number of combinations
-  n.iterations <- dim(combinations)[2]
+  n.iterations <- nrow(combinations)
 
   #parallel execution = TRUE
   if(parallel.execution == TRUE){
@@ -75,7 +83,7 @@ workflowPsiHP <- function(sequences = NULL,
   distance.matrices <- foreach::foreach(i=1:n.iterations) %dopar% {
 
     #getting combination
-    combination <- c(combinations[, i])
+    combination <- as.numeric(combinations[i, ])
 
 
     #computing euclidean distance matrix

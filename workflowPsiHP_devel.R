@@ -20,10 +20,5 @@ modis.psi <- workflowPsiHP(
   grouping.column = "pixel",
   time.column = NULL,
   exclude.columns = NULL,
-  method = "euclidean",
-  diagonal = TRUE,
-  format = "dataframe",
-  paired.samples = FALSE,
-  ignore.blocks = FALSE,
   parallel.execution = TRUE
 )
