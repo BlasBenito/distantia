@@ -142,11 +142,14 @@ leastCostPath <- function(distance.matrix = NULL,
       stop(paste("The elements ", i, " of 'distance.matrix' and 'least.cost.matrix' don't hav the same dimensions."))
     }
 
+    #dimensions
+    dimensions <- dim(least.cost.matrix.i)
+
     #dataframe to store the path
-    path <- data.frame(A = nrow(least.cost.matrix.i),
-                           B = ncol(least.cost.matrix.i),
-                           distance = distance.matrix.i[nrow(distance.matrix.i), ncol(distance.matrix.i)],
-                           cumulative.distance = least.cost.matrix.i[nrow(least.cost.matrix.i), ncol(least.cost.matrix.i)])
+    path <- data.frame(A = dimensions[1],
+                           B = dimensions[2],
+                           distance = distance.matrix.i[dimensions[1], dimensions[2]],
+                           cumulative.distance = least.cost.matrix.i[dimensions[1], dimensions[2]])
 
     #defining coordinates of the focal cell
     focal.row <- path$A

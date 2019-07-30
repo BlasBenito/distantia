@@ -115,6 +115,10 @@ distanceMatrix <- function(sequences = NULL,
   #number of combinations
   n.iterations <- dim(combinations)[2]
 
+
+  #target columns
+  target.columns <- which(colnames(sequences) != grouping.column)
+
   #parallel execution = TRUE
   if(parallel.execution == TRUE){
     `%dopar%` <- foreach::`%dopar%`
@@ -125,7 +129,7 @@ distanceMatrix <- function(sequences = NULL,
 
   #exporting cluster variables
   parallel::clusterExport(cl=my.cluster,
-                varlist=c('combinations', 'sequences', 'distance'),
+                varlist=c('combinations', 'sequences', 'distance', 'target.columns'),
                 envir=environment()
                 )
   } else {
@@ -138,9 +142,6 @@ distanceMatrix <- function(sequences = NULL,
 
     #getting combination
     combination <- c(combinations[, i])
-
-    #target columns
-    target.columns <- which(colnames(sequences) != grouping.column)
 
     #subsetting sequences
     sequence.A <- as.matrix(sequences[sequences[, grouping.column] %in% combination[1], target.columns])
