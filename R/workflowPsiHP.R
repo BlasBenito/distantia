@@ -79,24 +79,8 @@ workflowPsiHP <- function(sequences = NULL,
     )]
   numeric.cols <- numeric.cols[numeric.cols != grouping.column]
 
-  #multiply by 1000
-  # sequences[,(numeric.cols):= lapply(.SD, FUN = function(x) x * 1000), .SDcols = numeric.cols]
-  #
-  # #to integer
-  # sequences[,(numeric.cols):= lapply(.SD, FUN = as.integer), .SDcols = numeric.cols]
-
-  #generate combinations of groups for subsetting
-  # combinations <- utils::combn(unique(sequences[[grouping.column]]), m=2)
-
-  #indices to data.table
-  gc <- data.table::as.data.table(unique(sequences[[grouping.column]]))
-
-  # add interval columns for overlaps
-  gc[, `:=`(id1 = 1L, id2 = .I)]
-  data.table::setkey(gc, id1, id2)
-
   #generating combinations
-  combinations <- data.table::foverlaps(gc, gc, type="within", which=TRUE)[xid != yid]
+  combinations <- arrangements::permutations(unique(sequences[[grouping.column]]), k = 2)
 
   #number of combinations
   n.iterations <- nrow(combinations)
@@ -129,7 +113,7 @@ workflowPsiHP <- function(sequences = NULL,
   psi.output <- foreach::foreach(i=1:n.iterations, .combine = "c", .inorder = TRUE) %dopar% {
 
     #getting combination
-    combination <- as.numeric(combinations[i, ])
+    combination <- combinations[i, ]
 
     #separating sequences
     sequence.A <- sequences[get(grouping.column) == combination[1], ..numeric.cols]
@@ -143,20 +127,6 @@ workflowPsiHP <- function(sequences = NULL,
        x2 = sequence.B
        )
 
-    # nrow.sequence.A <- nrow(sequence.A)
-    # nrow.sequence.B <- nrow(sequence.B)
-    #
-    # #with outer
-    # distance.matrix.2 <- outer(
-    #   1:nrow.sequence.A,
-    #   1:nrow.sequence.B,
-    #   FUN = Vectorize(
-    #     function(x, y) distantia::distance(
-    #       x = sequence.A[x,],
-    #       y = sequence.B[y,],
-    #       method = "euclidean")
-    #   )
-    # )
 
     #computing least cost matrix
     ############################
@@ -266,13 +236,13 @@ workflowPsiHP <- function(sequences = NULL,
     path <- na.omit(path)
 
     #renaming path
-    sequence.names <- as.character(combination)
+    sequence.names <- combination
     colnames(path)[1] <- sequence.names[1]
     colnames(path)[2] <- sequence.names[2]
 
+
     #REMOVING BLOCKS leastCostPathNoBlocks
     #####################################
-
     #add keep column
     path[, "keep"] <- NA
 
@@ -367,6 +337,10 @@ workflowPsiHP <- function(sequences = NULL,
     sequence.A <- sequence.A[sort(unique(path[,get(sequence.names[1])])), ]
     sequence.B <- sequence.B[sort(unique(path[,get(sequence.names[2])])), ]
 
+    #removing NA
+    sequence.A <- na.omit(sequence.A)
+    sequence.B <- na.omit(sequence.B)
+
     #updating number of rows
     nrow.sequence.A <- nrow(sequence.A)
     nrow.sequence.B <- nrow(sequence.B)
@@ -377,7 +351,7 @@ workflowPsiHP <- function(sequences = NULL,
     }
 
     #autosum B
-    for (j in 1:(nrow.sequence.A-1)){
+    for (j in 1:(nrow.sequence.B-1)){
       distances.B[j] <- distantia::distance(x = as.numeric(sequence.B[j, ]), y = as.numeric(sequence.B[j+1, ]), method = "euclidean")
     }
 
@@ -392,10 +366,11 @@ workflowPsiHP <- function(sequences = NULL,
   }#end of parallelized loop
 
   #preparing output as dataframe
+  combinations <- data.frame(combinations)
   combinations[, "psi"] <- psi.output
   colnames(combinations) <- c("A", "B", "psi")
 
 
-  return(as.data.frame(combinations))
+  return(combinations)
 
 }

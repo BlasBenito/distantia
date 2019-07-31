@@ -330,6 +330,11 @@ prepareSequences=function(sequence.A = NULL,
     }
   }
 
+  #grouping column to character
+  if(is.character(sequences[, grouping.column]) == FALSE){
+    sequences[, grouping.column] <- as.character(sequences[, grouping.column])
+  }
+
   return(sequences)
 
 }
