@@ -50,6 +50,8 @@ workflowPsiHP <- function(sequences = NULL,
                         exclude.columns = NULL,
                         parallel.execution = TRUE){
 
+  require(doParallel)
+  require(foreach)
 
   #PREPARING sequences
   ####################
@@ -80,7 +82,7 @@ workflowPsiHP <- function(sequences = NULL,
   numeric.cols <- numeric.cols[numeric.cols != grouping.column]
 
   #generating combinations
-  combinations <- arrangements::permutations(unique(sequences[[grouping.column]]), k = 2)
+  combinations <- arrangements::permutations(unique(sequences[, get(grouping.column)]), k = 2)
 
   #number of combinations
   n.iterations <- nrow(combinations)
