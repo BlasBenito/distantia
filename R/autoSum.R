@@ -148,7 +148,7 @@ autoSum <- function(sequences = NULL,
     #getting named.list
     named.list.i <- named.list[[names(named.list)[i]]]
 
-    #checking if it is a least.cost.path
+    #checking if it is a least.cost.path and removing cases that are not in the least-cost path after removing blocks
     if(inherits(named.list.i, "data.frame")){
       if(colnames(named.list.i)[1] == sequence.names[1] & colnames(named.list.i)[2] == sequence.names[2]){
         sequence.A <- sequence.A[unique(named.list.i[,sequence.names[1]]), ]
@@ -156,12 +156,11 @@ autoSum <- function(sequences = NULL,
       }
     }
 
-
     #output vector
     distances.A <- vector()
     distances.B <- vector()
 
-    #number of rows
+    #number of columns
     ncol.sequence.A <- ncol(sequence.A)
     ncol.sequence.B <- ncol(sequence.B)
 
@@ -183,7 +182,7 @@ autoSum <- function(sequences = NULL,
         distances.A[1] <- 0
       } else {
         for (j in 1:(nrow.sequence.A-1)){
-          distances.A[j] <- distance(x = sequence.A[j, ], y = sequence.A[j+1, ], method = method)
+          distances.A[j] <- distantia::distance(x = sequence.A[j, ], y = sequence.A[j+1, ], method = method)
         }
       }
     }
@@ -206,7 +205,7 @@ autoSum <- function(sequences = NULL,
         distances.B[1] <- 0
       } else {
         for (j in 1:(nrow.sequence.B-1)){
-          distances.B[j] <- distance(x = sequence.B[j, ], y = sequence.B[j+1, ], method = method)
+          distances.B[j] <- distantia::distance(x = sequence.B[j, ], y = sequence.B[j+1, ], method = method)
         }
       }
     }

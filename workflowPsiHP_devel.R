@@ -1,7 +1,9 @@
+
+library(distantia)
+library(raster)
 load("/home/blas/Dropbox/RESEARCH/PROJECTS/MAIN_PROJECTS/IGNEX/GITHUB/sequence_slotting_paper/suppplementary_material/data/functional_classification.RData")
 rm(lai.raster, pixel.coordinates)
 
-library(distantia)
 
 #getting the right columns
 modis <- data.modis[, c("pixel", "lai", "fpar", "gross.p")]
@@ -14,11 +16,24 @@ modis <- prepareSequences(
   transformation = "scale"
 )
 
-#test
-modis.psi <- workflowPsiHP(
+modis <- modis[modis$pixel %in% 1:2, ]
+
+#new version
+modis.psi.new <- workflowPsiHP(
+  sequences = modis,
+  grouping.column = "pixel"
+)
+
+
+#old version
+modis.psi.old <- workflowPsi(
   sequences = modis,
   grouping.column = "pixel",
   time.column = NULL,
   exclude.columns = NULL,
-  parallel.execution = TRUE
+  parallel.execution = TRUE,
+  diagonal = TRUE,
+  ignore.blocks = TRUE,
+  method = "euclidean"
 )
+

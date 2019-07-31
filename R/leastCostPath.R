@@ -146,14 +146,27 @@ leastCostPath <- function(distance.matrix = NULL,
     dimensions <- dim(least.cost.matrix.i)
 
     #dataframe to store the path
-    path <- data.frame(A = dimensions[1],
-                           B = dimensions[2],
-                           distance = distance.matrix.i[dimensions[1], dimensions[2]],
-                           cumulative.distance = least.cost.matrix.i[dimensions[1], dimensions[2]])
+    path <- data.frame(
+      A = c(
+        dimensions[1],
+        rep(NA, sum(dimensions))
+        ),
+      B = c(
+        dimensions[2],
+        rep(NA, sum(dimensions))),
+      distance = c(
+        distance.matrix.i[dimensions[1], dimensions[2]],
+        rep(NA, sum(dimensions))
+        ),
+      cumulative.distance = c(
+        least.cost.matrix.i[dimensions[1], dimensions[2]],
+        rep(NA, sum(dimensions)))
+      )
 
     #defining coordinates of the focal cell
     focal.row <- path$A
     focal.column <- path$B
+    path.row <- 1
 
     #computation for no diaggonal
     if(diagonal == FALSE){
@@ -184,22 +197,15 @@ leastCostPath <- function(distance.matrix = NULL,
         }
 
         #getting the neighbor with a minimum least.cost.matrix.i
-        neighbors <- neighbors[which.min(neighbors$cumulative.distance), c("A", "B")]
-
-        #temporal dataframe to rbind with path
-        path.temp <- data.frame(
-          A = neighbors$A,
-          B = neighbors$B,
-          distance = distance.matrix.i[neighbors$A, neighbors$B],
-          cumulative.distance = least.cost.matrix.i[neighbors$A, neighbors$B]
-        )
+        neighbors <- neighbors[which.min(neighbors$cumulative.distance), ]
 
         #putting them together
-        path <- rbind(path, path.temp)
+        path.row <- path.row + 1
+        path[path.row, ] <- neighbors
 
         #new focal cell
-        focal.row <- path[nrow(path), "A"]
-        focal.column <- path[nrow(path), "B"]
+        focal.row <- neighbors$A
+        focal.column <- neighbors$B
 
       }#end of repeat
 
@@ -239,22 +245,15 @@ leastCostPath <- function(distance.matrix = NULL,
         }
 
         #getting the neighbor with a minimum least.cost.matrix.i
-        neighbors <- neighbors[which.min(neighbors$cumulative.distance), c("A", "B")]
-
-        #temporal dataframe to rbind with path
-        path.temp <- data.frame(
-          A = neighbors$A,
-          B = neighbors$B,
-          distance = distance.matrix.i[neighbors$A, neighbors$B],
-          cumulative.distance = least.cost.matrix.i[neighbors$A, neighbors$B]
-        )
+        neighbors <- neighbors[which.min(neighbors$cumulative.distance), ]
 
         #putting them together
-        path<-rbind(path, path.temp)
+        path.row <- path.row + 1
+        path[path.row, ] <- neighbors
 
         #new focal cell
-        focal.row <- path[nrow(path), "A"]
-        focal.column <- path[nrow(path), "B"]
+        focal.row <- neighbors$A
+        focal.column <- neighbors$B
 
       }#end of repeat
 
@@ -262,6 +261,8 @@ leastCostPath <- function(distance.matrix = NULL,
 
     #getting names of the sequences
     sequence.names = unlist(strsplit(names(distance.matrix)[i], split='|', fixed=TRUE))
+    #remove empty rows of path
+    path <- na.omit(path)
 
     #renaming path
     colnames(path)[1] <- sequence.names[1]

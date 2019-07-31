@@ -106,7 +106,7 @@
 #' @format dataframe with 6 columns and 800 rows.
 "climate"
 
-#' @import plyr parallel doParallel foreach fields grDevices viridis
+#' @import plyr parallel doParallel foreach fields grDevices viridis data.table
 NULL
 
 #' @import utils

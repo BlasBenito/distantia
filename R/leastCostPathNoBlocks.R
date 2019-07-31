@@ -11,6 +11,7 @@
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #' @return A named list with least cost values.
 #'
+#'@export
 leastCostPathNoBlocks <- function(least.cost.path, parallel.execution = TRUE){
 
   #number of iterations
