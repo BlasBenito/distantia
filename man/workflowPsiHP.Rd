@@ -29,6 +29,9 @@ A dataframe with sequence names and psi values.
 \description{
 Ideal for large analyses with hundreds to thousands of sequences. Several options available in \code{\link{workflowPsi}} have been removed from this function in order to simplify the code as much as possible. Psi is computed with the options \code{diagonal = TRUE}, \code{ignore.blocks = TRUE}, and \code{method = "euclidean"}.
 }
+\details{
+Due to limitations of the function \code{\link[arrangements]{permutations}}, the maximum number of groups (according to \code{grouping.column}) is around 30000. Besides, a combinations table of this size takes, roughlyl, 7GB of memory.
+}
 \examples{
 
 \donttest{
