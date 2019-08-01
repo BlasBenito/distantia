@@ -2,6 +2,8 @@
 #'
 #'Ideal for large analyses with hundreds to thousands of sequences. Several options available in \code{\link{workflowPsi}} have been removed from this function in order to simplify the code as much as possible. Psi is computed with the options \code{diagonal = TRUE}, \code{ignore.blocks = TRUE}, and \code{method = "euclidean"}.
 #'
+#'Due to limitations of the function \code{\link[arrangements]{permutations}}, the maximum number of groups (according to \code{grouping.column}) is around 30000. Besides, a combinations table of this size takes, roughlyl, 7GB of memory.
+#'
 #' @usage workflowPsiHP(
 #'   sequences = NULL,
 #'   grouping.column = NULL,
@@ -151,6 +153,7 @@ workflowPsiHP <- function(sequences = NULL,
         next.row <- row + 1
         next.column <- column + 1
 
+        #find minimum neighbor
         least.cost.matrix[next.row, next.column]  <-  min(
           least.cost.matrix[row, next.column],
           least.cost.matrix[next.row, column],
@@ -188,7 +191,7 @@ workflowPsiHP <- function(sequences = NULL,
     focal.column <- as.numeric(path[1, "B"])
 
     #going through the matrix
-    path.row <- 1
+    path.row <- 1L
     repeat{
 
       #defining values o focal row
@@ -196,38 +199,40 @@ workflowPsiHP <- function(sequences = NULL,
       focal.cost <- distance.matrix[focal.row, focal.column]
 
       #SCANNING NEIGHBORS
-      neighbors <- data.frame(
-        A = c(focal.row-1, focal.row-1, focal.row),
-        B = c(focal.column, focal.column-1, focal.column-1))
+      neighbors <- matrix(c(focal.row-1, focal.row-1, focal.row, focal.column, focal.column-1, focal.column-1), ncol = 2)
 
       #removing neighbors with coordinates lower than 1 (out of bounds)
-      neighbors[neighbors<1] <- NA
+      neighbors[neighbors < 1] <- NA
       neighbors <- stats::na.omit(neighbors)
-      if(nrow(neighbors) == 0){break}
+      n.neighbors <- nrow(neighbors)
+      if(n.neighbors == 0){break}
+
+      #adding cols
+      neighbors <- cbind(neighbors, rep(NA, n.neighbors), rep(NA, n.neighbors))
 
       #computing cost and cumulative cost values for the neighbors
-      if(nrow(neighbors) > 1){
+      if(n.neighbors > 1){
 
-        neighbors$distance <- diag(distance.matrix[neighbors$A, neighbors$B])
-        neighbors$cumulative.distance <- diag(x = least.cost.matrix[neighbors$A, neighbors$B])
+        neighbors[,3] <- diag(distance.matrix[neighbors[,1], neighbors[,2]])
+        neighbors[,4] <- diag(x = least.cost.matrix[neighbors[,1], neighbors[,2]])
 
       }else{
 
-        neighbors$distance <- distance.matrix[neighbors$A, neighbors$B]
-        neighbors$cumulative.distance <- least.cost.matrix[neighbors$A, neighbors$B]
+        neighbors[,3] <- distance.matrix[neighbors[,1], neighbors[,2]]
+        neighbors[,4] <- least.cost.matrix[neighbors[,1], neighbors[,2]]
 
       }
 
       #getting the neighbor with a minimum distance
-      neighbors <- neighbors[which.min(neighbors$cumulative.distance), ]
+      neighbors <- neighbors[which.min(neighbors[,4]), ]
 
       #putting them together
-      path.row <- path.row + 1
-      path[path.row,] <- neighbors
+      path.row <- path.row + 1L
+      data.table::set(path, path.row, names(path), as.list(neighbors))
 
       #new focal cell
-      focal.row <- neighbors$A
-      focal.column <- neighbors$B
+      focal.row <- neighbors[1]
+      focal.column <- neighbors[2]
 
     }#end of repeat
 
@@ -253,8 +258,9 @@ workflowPsiHP <- function(sequences = NULL,
 
     #vectors to introduce used indices
     used <- list()
-    used[[1]] <- vector()
-    used[[2]] <- vector()
+    # used[[1]] <- vector()
+    # used[[2]] <- vector()
+    used[[1]] <- used[[2]]<- rep(NA, nrow(path))
     names(used) <- sequence.names
 
     #starting values for dynamic variables
@@ -311,7 +317,7 @@ workflowPsiHP <- function(sequences = NULL,
         target.sequence <- sequence.names[sequence.names != target.sequence]
 
         #add index to used
-        used[[target.sequence]] <- c(used[[target.sequence]], as.numeric(path[j, get(target.sequence)]))
+        used[[target.sequence]] <- c(used[[target.sequence]], unlist(path[j, get(target.sequence)]))
 
         j <- j + 1
         next
@@ -348,17 +354,30 @@ workflowPsiHP <- function(sequences = NULL,
     nrow.sequence.B <- nrow(sequence.B)
 
     #autosum A
-    for (j in 1:(nrow.sequence.A-1)){
-      distances.A[j] <- distantia::distance(x = as.numeric(sequence.A[j, ]), y = as.numeric(sequence.A[j+1, ]), method = "euclidean")
-    }
+    distances.A <- sequence.A[, distance := sqrt(
+      rowSums(
+        (.SD - data.table::shift(
+          x = .SD,
+          n = 1,
+          fill = NA,
+          type = "lag"
+          )
+         )^2)
+      ), .SDcols = numeric.cols]$distance
 
     #autosum B
-    for (j in 1:(nrow.sequence.B-1)){
-      distances.B[j] <- distantia::distance(x = as.numeric(sequence.B[j, ]), y = as.numeric(sequence.B[j+1, ]), method = "euclidean")
-    }
+    distances.B <- sequence.B[, distance := sqrt(
+      rowSums(
+        (.SD - data.table::shift(
+          x = .SD,
+          n = 1,
+          fill = NA,
+          type = "lag")
+         )^2)
+      ), .SDcols = numeric.cols]$distance
 
     #autosum of distances
-    sum.autosum <- sum(distances.A, distances.B)
+    sum.autosum <- sum(distances.A, distances.B, na.rm = TRUE)
 
 
     #PSI

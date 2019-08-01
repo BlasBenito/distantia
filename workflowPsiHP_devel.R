@@ -1,8 +1,9 @@
 
 library(distantia)
 library(raster)
+library(profvis)#R profiler
 load("/home/blas/Dropbox/RESEARCH/PROJECTS/MAIN_PROJECTS/IGNEX/GITHUB/sequence_slotting_paper/suppplementary_material/data/functional_classification.RData")
-rm(lai.raster, pixel.coordinates)
+rm(lai.raster, pixel.coordinates, elevation)
 
 
 #getting the right columns
@@ -16,17 +17,21 @@ modis <- prepareSequences(
   transformation = "scale"
 )
 
-modis <- modis[modis$pixel %in% 1:2, ]
+modis <- modis[modis$pixel %in% unique(modis$pixel)[1:10], ]
 
 #new version
-modis.psi.new <- workflowPsiHP(
+system.time(
+psi.new <- workflowPsiHP(
   sequences = modis,
-  grouping.column = "pixel"
+  grouping.column = "pixel",
+  parallel.execution = FALSE
+)
 )
 
 
 #old version
-modis.psi.old <- workflowPsi(
+system.time(
+psi.old <- workflowPsi(
   sequences = modis,
   grouping.column = "pixel",
   time.column = NULL,
@@ -36,4 +41,9 @@ modis.psi.old <- workflowPsi(
   ignore.blocks = TRUE,
   method = "euclidean"
 )
+)
 
+#size of permutations matrix
+m <- arrangements::permutations(1:35000, k = 2)
+dim(m)
+format(object.size(m), units = "MB")
