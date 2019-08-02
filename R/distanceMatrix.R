@@ -110,7 +110,7 @@ distanceMatrix <- function(sequences = NULL,
   }
 
   #generate combinations of groups for subsetting
-  combinations <- t(arrangements::permutations(unique(sequences[, grouping.column]), k = 2))
+  combinations <- utils::combn(unique(sequences[, grouping.column]), m = 2)
 
   #number of combinations
   n.iterations <- dim(combinations)[2]
