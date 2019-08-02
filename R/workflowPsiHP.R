@@ -84,7 +84,7 @@ workflowPsiHP <- function(sequences = NULL,
   numeric.cols <- numeric.cols[numeric.cols != grouping.column]
 
   #generating combinations
-  combinations <- arrangements::permutations(unique(sequences[, get(grouping.column)]), k = 2)
+  combinations <- arrangements::combinations(unique(sequences[, get(grouping.column)]), k = 2)
 
   #number of combinations
   n.iterations <- nrow(combinations)
