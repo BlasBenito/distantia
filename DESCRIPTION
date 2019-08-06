@@ -19,7 +19,6 @@ Imports:
   doParallel,
   fields,
   viridis,
-  viridisLite,
   RColorBrewer,
   data.table,
   iterators,
