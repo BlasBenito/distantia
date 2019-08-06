@@ -68,7 +68,7 @@
 #'#autosum
 #'AB.autosum <- autoSum(
 #'  sequences = AB.sequences,
-#'  least.cost.path = AB.least.cost.path
+#'  least.cost.path = AB.least.cost.path,
 #'  grouping.column = "id",
 #'  parallel.execution = FALSE
 #'  )

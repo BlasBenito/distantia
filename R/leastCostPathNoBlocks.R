@@ -11,8 +11,58 @@
 #' @param parallel.execution boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.
 #' @return A named list with least cost values.
 #'
+#' @examples
+#'
+#'\donttest{
+#'
+#'#'#loading data
+#'data(sequenceA)
+#'data(sequenceB)
+#'
+#'#preparing datasets
+#'AB.sequences <- prepareSequences(
+#'  sequence.A = sequenceA,
+#'  sequence.A.name = "A",
+#'  sequence.B = sequenceB,
+#'  sequence.B.name = "B",
+#'  merge.mode = "complete",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
+#'#computing distance matrix
+#'AB.distance.matrix <- distanceMatrix(
+#'  sequences = AB.sequences,
+#'  grouping.column = "id",
+#'  method = "manhattan",
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'#computing least cost matrix
+#'AB.least.cost.matrix <- leastCostMatrix(
+#'  distance.matrix = AB.distance.matrix,
+#'  diagonal = FALSE,
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'AB.least.cost.path <- leastCostPath(
+#'  distance.matrix = AB.distance.matrix,
+#'  least.cost.matrix = AB.least.cost.matrix,
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'AB.least.cost.path.nb <- leastCostPathNoBlocks(
+#'  least.cost.path = AB.least.cost.path,
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'}
+#'
 #'@export
-leastCostPathNoBlocks <- function(least.cost.path, parallel.execution = TRUE){
+leastCostPathNoBlocks <- function(
+  least.cost.path = NULL,
+  parallel.execution = TRUE
+  ){
 
   #number of iterations
   if(inherits(least.cost.path, "list") == TRUE){
@@ -80,7 +130,7 @@ leastCostPathNoBlocks <- function(least.cost.path, parallel.execution = TRUE){
     #first row of path
     j <- 2
 
-    #iterating through AB.index.unique
+    #iterating through table rows
     ##################################
     while(j < (nrow(path) - 1)){
 
@@ -129,7 +179,7 @@ leastCostPathNoBlocks <- function(least.cost.path, parallel.execution = TRUE){
     }
 
     #removing na
-    path <- na.omit(path)
+    path <- stats::na.omit(path)
 
     return(path)
 

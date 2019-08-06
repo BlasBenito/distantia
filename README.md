@@ -1897,10 +1897,11 @@ for analysis by matching colum names and handling empty data. It allows
 to merge two or more METS into a single dataframe ready for further
 analyses. Note that, since the data represents pollen abundances, a
 *Hellinger* transformation (square root of the relative proportions of
-each taxa) is applied. This transformation balances the relative
-importance of very abundant versus rare taxa. The function
-**prepareSequences** will generally be the starting point of any
-analysis performed with the *distantia* package.
+each taxa, it balances the relative abundances of rare and dominant
+taxa) is applied. This transformation balances the relative importance
+of very abundant versus rare taxa. The function **prepareSequences**
+will generally be the starting point of any analysis performed with the
+*distantia* package.
 
 ``` r
 #checking the function help-file.
@@ -1918,10 +1919,16 @@ AB.sequences <- prepareSequences(
 )
 
 #showing first rows of the transformed data
-kable(AB.sequences[1:15, ], digits = 4)
+kable(AB.sequences[1:15, ], digits = 4, caption = "Sequences A and B ready for analysis.")
 ```
 
 <table>
+
+<caption>
+
+Sequences A and B ready for analysis.
+
+</caption>
 
 <thead>
 
@@ -2966,13 +2973,14 @@ steps.
 It is computed by the **distanceMatrix** function, which allows the user
 to select a distance metric (so far the ones implemented are
 *manhattan*, *euclidean*, *chi*, and *hellinger*). The function
-**plotMatrix** allows an easy visualization of the distance matrix.
+**plotMatrix** allows an easy visualization of the resulting distance
+matrix.
 
 ``` r
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
-  method = "manhattan"
+  method = "euclidean"
 )
 
 #plotting distance matrix
@@ -2982,15 +2990,17 @@ plotMatrix(
   margins = rep(4,4))
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" title="Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance." alt="Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance." width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" title="Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance between samples." alt="Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance between samples." width="100%" />
 
 ### 2\. Computation of the least-cost path within the distance matrix.
 
 This step uses a *dynamic programming algorithm* to find the least-cost
-path when moving between the cell 1,1 of the matrix (lower left in the
-image above) and the last cell of the matrix (opposite corner). This is
-done via an \*orthogonal search** by moving either one step on the *x*
-axis or one step on the *y* axis at a time (see **Equation 1\*\*).
+path that connnects the cell 1,1 of the matrix (lower left in the image
+above) and the last cell of the matrix (opposite corner). This can be
+done via in two different ways.
+
+  - an **orthogonal search** by moving either one step on the *x* axis
+    or one step on the *y* axis at a time (see **Equation 1**).
 
 **Equation 1**   
 ![AB\_{between} = 2 \\times (D(A\_{1}, B\_{1}) +
@@ -2998,6 +3008,16 @@ axis or one step on the *y* axis at a time (see **Equation 1\*\*).
 B\_{j+1}), \\\\ D(A\_{i+1}, B\_{j})
 \\end{array}\\right))](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%5Csum_%7Bj%3D1%7D%5E%7Bn%7D%20min%5Cleft%28%5Cbegin%7Barray%7D%7Bc%7DD%28A_%7Bi%7D%2C%20B_%7Bj%2B1%7D%29%2C%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%7D%29%20%5Cend%7Barray%7D%5Cright%29%29
 "AB_{between} = 2 \\times (D(A_{1}, B_{1}) + \\sum_{i=1}^{m}\\sum_{j=1}^{n} min\\left(\\begin{array}{c}D(A_{i}, B_{j+1}), \\\\ D(A_{i+1}, B_{j}) \\end{array}\\right))")  
+
+  - an **orthogonal and diagonal search** (a.k.a *diagonal*) which
+    includes the above, plus a diagonal search.
+
+**Equation 2**   
+![AB\_{between} = 2 \\times (D(A\_{1}, B\_{1}) +
+\\sum\_{i=1}^{m}\\sum\_{j=1}^{n} min\\left(\\begin{array}{c}D(A\_{i},
+B\_{j+1}), \\\\ D(A\_{i+1}, B\_{j} \\\\ D(A\_{i+1}, B\_{j+1})
+\\end{array}\\right))](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%5Csum_%7Bj%3D1%7D%5E%7Bn%7D%20min%5Cleft%28%5Cbegin%7Barray%7D%7Bc%7DD%28A_%7Bi%7D%2C%20B_%7Bj%2B1%7D%29%2C%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%7D%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%2B1%7D%29%20%5Cend%7Barray%7D%5Cright%29%29
+"AB_{between} = 2 \\times (D(A_{1}, B_{1}) + \\sum_{i=1}^{m}\\sum_{j=1}^{n} min\\left(\\begin{array}{c}D(A_{i}, B_{j+1}), \\\\ D(A_{i+1}, B_{j} \\\\ D(A_{i+1}, B_{j+1}) \\end{array}\\right))")  
 
 Where:
 
@@ -3033,44 +3053,148 @@ which computes the partial solutions to the least-cost problem,
 **leastCost** function, which sums the distances of the least-cost path
 and multiplies them by 2.
 
+The code below performs these steps according to both equations
+
 ``` r
+
+#ORTHOGONAL SEARCH
 #computing least-cost matrix
 AB.least.cost.matrix <- leastCostMatrix(
-  distance.matrix = AB.distance.matrix
+  distance.matrix = AB.distance.matrix,
+  diagonal = FALSE
 )
 
 #extracting least-cost path
 AB.least.cost.path <- leastCostPath(
   distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = FALSE
   )
 
-#computing AB.between
+
+#DIAGONAL SEARCH
+#computing least-cost matrix
+AB.least.cost.matrix.diag <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix,
+  diagonal = TRUE
+)
+
+#extracting least-cost path
+AB.least.cost.path.diag <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix.diag,
+  diagonal = TRUE
+  )
+
+#plotting solutions
+plotMatrix(
+  distance.matrix = list(
+    'A|B' = AB.least.cost.matrix[[1]], 
+    'A|B' = AB.least.cost.matrix.diag[[1]]
+    ),
+  least.cost.path = list(
+    'A|B' = AB.least.cost.path[[1]], 
+    'A|B' = AB.least.cost.path.diag[[1]]
+    ),
+  color.palette = "viridis",
+  margin = rep(4,4),
+  plot.rows = 1,
+  plot.columns = 2
+  )
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" title="Least-cost path plotted on the least-cost matrix. Left solution is computed with an orthogonal search path, while the right one includes diagonals." alt="Least-cost path plotted on the least-cost matrix. Left solution is computed with an orthogonal search path, while the right one includes diagonals." width="100%" />
+
+Computing
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}") from these solutions is straightforward with the
+function **leastCost**
+
+``` r
+#orthogonal solution
 AB.between <- leastCost(
   least.cost.path = AB.least.cost.path
   )
 
-#plotting the global solution
-par(mfrow=c(2,1))
-plotMatrix(
-  distance.matrix = AB.least.cost.matrix,
-  least.cost.path = AB.least.cost.path,
-  color.palette = "viridis",
-  margin = rep(4,4)
+#diagonal solution
+AB.between.diag <- leastCost(
+  least.cost.path = AB.least.cost.path.diag
   )
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" title="Least-cost path plotted on the least-cost matrix." alt="Least-cost path plotted on the least-cost matrix." width="100%" />
-
 Which returns a value for
 ![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
-"AB_{between}") of 76.4703.
+"AB_{between}") of 33.7206 for the orthogonal solution, and 22.7596 for
+the diagonal one. Diagonal solutions always yield lower values for
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}") than orthogonal ones.
 
-Notice that in the output list, the slot with the psi value is named
-after the two sequences separated by a vertical line (“A|B”). This
-convention will be followed by any function in the package that returns
-objects resulting from comparing two
-sequences.
+Notice the straight vertical and horizontal lines that show up in some
+regions of the least cost paths shown in the figure above. These are
+*blocks*, and happen in dissimilar sections of the compared sequences.
+Also, an unbalanced number of rows in the compared sequences can
+generate long blocks. Blocks inflate the value of
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}") because the distance to a given sample is counted
+several times per block. This problem often leads to false negatives,
+that is, to the conclusion that two sequences are statistically
+different when actually they are not.
+
+This package includes an algorithm to remove blocks from the least cost
+path, which offers more realistic values for
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}"). The function **leastCostPathNoBlocks** reads a least
+cost path, and removes all blocks as follows.
+
+``` r
+#ORTHOGONAL SOLUTION
+#removing blocks from least cost path
+AB.least.cost.path.nb <- leastCostPathNoBlocks(
+    least.cost.path = AB.least.cost.path
+    )
+
+#computing AB.between again
+AB.between.nb <- leastCost(
+  least.cost.path = AB.least.cost.path.nb
+  )
+
+
+#DIAGONAL SOLUTION
+#removing blocks
+AB.least.cost.path.diag.nb <- leastCostPathNoBlocks(
+    least.cost.path = AB.least.cost.path.diag
+    )
+
+#diagonal solution without blocks
+AB.between.diag.nb <- leastCost(
+  least.cost.path = AB.least.cost.path.diag.nb
+    )
+```
+
+Which now yields 11.2975 for the orthogonal solution, and 16.8667 for
+the diagonal one. Notice how now the diagonal solution has a higher
+value, because by default, the diagonal method generates less blocks.
+That is why each measure of dissimilarity (orthogonal, diagonal,
+orthogonal no-blocks, and diagonal no-blocks) lies within a different
+comparative framework, and therefore, **outputs from different methods
+should not be compared**.
+
+Hereafter only the diagonal no-blocks option will be considered in the
+example cases, since it is the most general and safe solution of the
+four mentioned above.
+
+``` r
+#changing names of the selected solutions
+AB.least.cost.path <- AB.least.cost.path.diag.nb
+AB.between <- AB.between.diag.nb
+
+#removing unneeded objects
+rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
+#> Warning in rm(AB.between.diag, AB.between.diag.nb, AB.between.nb,
+#> AB.distance.matrix, : object 'AB.least.cost.matrix' not found
+#> Warning in rm(AB.between.diag, AB.between.diag.nb, AB.between.nb,
+#> AB.distance.matrix, : object 'AB.least.cost.matrix.diag' not found
+```
 
 ### 3\. Autosum, or sum of the distances among adjacent samples on each sequence.
 
@@ -3088,44 +3212,83 @@ This operation is performed by the **autoSum** function shown below.
 ``` r
 AB.within <- autoSum(
   sequences = AB.sequences,
-  named.list = AB.least.cost.path,
-  method = "manhattan"
+  least.cost.path = AB.least.cost.path,
+  method = "euclidean"
   )
 AB.within
 #> $`A|B`
-#> [1] 46.86205
+#> [1] 19.69168
 ```
 
-### 4\. Compute dissimilarity score\*\* ![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi").
+### 4\. Compute dissimilarity score ![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi").
 
 The dissimilarity measure
 ![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi") was first
 described in the book [“Numerical methods in Quaternary pollen
 analysis”](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406)
-(Birks and Gordon, 1985). **Psi** is computed as follows:
+(Birks and Gordon, 1985). **Psi** is computed as shown in Equation 4a:
 
-  
+**Equation 4a**   
 ![\\psi = \\frac{AB\_{between} -
 AB\_{within}}{AB\_{within}}](https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BAB_%7Bbetween%7D%20-%20AB_%7Bwithin%7D%7D%7BAB_%7Bwithin%7D%7D
 "\\psi = \\frac{AB_{between} - AB_{within}}{AB_{within}}")  
 
-Which basically is the sum of the least-cost solution normalized by the
-autosum of both sequences. This equation, implemented in the **psi**
-function, only requires the least-cost, and the autosum of both
-sequences, as follows.
+This equation has a particularity. Imagine two identical sequences A and
+B, with three samples each. In this case,
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}") is computed as
+
+![AB\_{between} = 2 \\times (D(A\_{1}, B\_{1}) + D(A\_{1}, B\_{2}) +
+D(A\_{2}, B\_{2}) + D(A\_{2}, B\_{3}) + D(A\_{3},
+B\_{3}))](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20D%28A_%7B1%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B3%7D%29%20%2B%20D%28A_%7B3%7D%2C%20B_%7B3%7D%29%29
+"AB_{between} = 2 \\times (D(A_{1}, B_{1}) + D(A_{1}, B_{2}) + D(A_{2}, B_{2}) + D(A_{2}, B_{3}) + D(A_{3}, B_{3}))")
+
+Since the samples of each sequence with the same index are identical,
+this can be reduced to
+
+![AB\_{between} = 2 \\times (D(A\_{1}, B\_{2}) + D(A\_{2}, B\_{3})) =
+AB\_{within}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B3%7D%29%29%20%3D%20AB_%7Bwithin%7D
+"AB_{between} = 2 \\times (D(A_{1}, B_{2}) + D(A_{2}, B_{3})) = AB_{within}")
+
+which in turn equals
+![AB\_{within}](https://latex.codecogs.com/png.latex?AB_%7Bwithin%7D
+"AB_{within}") as shown in Equation 4, yielding a
+![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi") value of
+0.
+
+This equality does not work in the same way when the least-cost path
+search-method includes diagonals. When the sequenes are identical,
+diagonal methods yield an
+![AB\_{between}](https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D
+"AB_{between}") of 0, leading to a
+![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi") equal to
+-1. To fix this shift, this package uses Equation 4b instead when
+![diagonal =
+TRUE](https://latex.codecogs.com/png.latex?diagonal%20%3D%20TRUE
+"diagonal = TRUE") is selected, which adds 1 to the final solution.
+
+**Equation 4b**   
+![\\psi = \\frac{AB\_{between} - AB\_{within}}{AB\_{within}}
++ 1](https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BAB_%7Bbetween%7D%20-%20AB_%7Bwithin%7D%7D%7BAB_%7Bwithin%7D%7D%20%2B%201
+"\\psi = \\frac{AB_{between} - AB_{within}}{AB_{within}} + 1")  
+
+In any case, the **psi** function only requires the least-cost, and the
+autosum of both sequences to compute
+![\\psi](https://latex.codecogs.com/png.latex?%5Cpsi "\\psi"). Since we
+are working with a diagonal search, 1 has to be added to the final
+solution.
 
 ``` r
 AB.psi <- psi(
   least.cost = AB.between,
   autosum = AB.within
   )
-AB.psi
-#> $`A|B`
-#> [1] 2.263633
+AB.psi[[1]] <- AB.psi[[1]] + 1
 ```
 
-In any case, the output of **psi** is a list, that can be transformed to
-a dataframe or a matrix by using the **formatPsi** function.
+Which yields a **psi** equal to 1.7131. The output of **psi** is a list,
+that can be transformed to a dataframe or a matrix by using the
+**formatPsi** function.
 
 ``` r
 #to dataframe
@@ -3181,7 +3344,7 @@ B
 
 <td style="text-align:right;">
 
-2.2636
+1.7131
 
 </td>
 
@@ -3195,7 +3358,8 @@ B
 
 All the steps required to compute **psi**, including the format options
 provided by **formatPsi** are wrapped together in the function
-**workflowPsi**, that works as follows with its default configuration:
+**workflowPsi**. It includes options to switch to a diagonal method, and
+to ignore blocks, as shown below.
 
 ``` r
 #checking the help file
@@ -3205,11 +3369,14 @@ help(workflowPsi)
 AB.psi <- workflowPsi(
   sequences = AB.sequences,
   grouping.column = "id",
-  format = "list"
+  method = "euclidean",
+  format = "list",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
 )
 AB.psi
 #> $`A|B`
-#> [1] 2.263633
+#> [1] 1.713075
 ```
 
 The function allows to exclude particular columns from the analysis
@@ -3217,9 +3384,7 @@ The function allows to exclude particular columns from the analysis
 (argument *method*), use diagonals to find the least-cost path (argument
 *diagonal*), or measure psi by ignoring blocks in the least-cost path
 (argument *ignore.blocks*). Since we have observed several blocks in the
-least-cost path, below we compute psi by ignoring them. Blocks inflate
-the value of *psi* because the distance to the same sample is counted
-again and again.
+least-cost path, below we compute psi by ignoring them.
 
 ``` r
 #cleaning workspace
@@ -3229,7 +3394,9 @@ rm(list = ls())
 # Comparing multiple irregular METS
 
 The package can work seamlessly with any given number of sequences, as
-long as there is memory enough available. To do so, almost every
+long as there is memory enough available (but check the new function
+**workflowPsiHP**, it can work with up to 40k sequences, if you have a
+cluster at hand, and a few years to waste). To do so, almost every
 function uses the packages
 [“doParallel”](https://CRAN.R-project.org/package=doParallel) and
 [“foreach”](https://CRAN.R-project.org/package=foreach), that together
@@ -3245,10 +3412,16 @@ is not important to illustrate this capability of the library.
 
 ``` r
 data(sequencesMIS)
-kable(head(sequencesMIS, n=15), digits = 4)
+kable(head(sequencesMIS, n=15), digits = 4, caption = "Header of the sequencesMIS dataset.")
 ```
 
 <table>
+
+<caption>
+
+Header of the sequencesMIS dataset.
+
+</caption>
 
 <thead>
 
@@ -4020,14 +4193,22 @@ of sequences through the function **workflowPsi** shown below.
 MIS.psi <- workflowPsi(
   sequences = MIS.sequences,
   grouping.column = "MIS",
-  method = "euclidean"
+  method = "euclidean",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
 )
 
 #ordered with lower psi on top
-kable(MIS.psi[order(MIS.psi$psi), ], digits = 4)
+kable(MIS.psi[order(MIS.psi$psi), ], digits = 4, caption = "Psi values between pairs of MIS periods.")
 ```
 
 <table>
+
+<caption>
+
+Psi values between pairs of MIS periods.
+
+</caption>
 
 <thead>
 
@@ -4065,6 +4246,34 @@ psi
 
 <td style="text-align:left;">
 
+24
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+0.8476
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
 65
 
 </td>
@@ -4083,7 +4292,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.4467
+0.8622
 
 </td>
 
@@ -4111,35 +4320,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.4820
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-24
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-0.4890
+0.8978
 
 </td>
 
@@ -4167,63 +4348,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.5226
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-62
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.5265
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-13
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:right;">
-
-0.5462
+0.9027
 
 </td>
 
@@ -4251,119 +4376,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.5512
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-63
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.5630
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-60
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.5643
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-22
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:right;">
-
-0.5813
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-12
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:right;">
-
-0.5837
+0.9165
 
 </td>
 
@@ -4391,399 +4404,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.5917
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-64
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.6003
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-51
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.6297
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-32
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-0.6479
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-15
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-0.6561
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-26
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:right;">
-
-0.6593
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-53
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-0.6603
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-54
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-0.6733
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-28
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-0.6744
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-27
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-0.6766
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-56
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.6931
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-47
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:right;">
-
-0.6947
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-49
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-0.7085
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-57
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-0.7203
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-29
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.7222
+0.9373
 
 </td>
 
@@ -4811,7 +4432,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-0.7259
+0.9834
 
 </td>
 
@@ -4821,35 +4442,7 @@ MIS-7
 
 <td style="text-align:left;">
 
-45
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-5
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.7299
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-58
+60
 
 </td>
 
@@ -4861,41 +4454,13 @@ MIS-8
 
 <td style="text-align:left;">
 
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-0.7358
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-21
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
 MIS-12
 
 </td>
 
 <td style="text-align:right;">
 
-0.7516
+0.9887
 
 </td>
 
@@ -4905,13 +4470,35 @@ MIS-12
 
 <td style="text-align:left;">
 
-19
+62
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-2
+MIS-9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+0.9958
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+64
 
 </td>
 
@@ -4921,9 +4508,15 @@ MIS-10
 
 </td>
 
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
 <td style="text-align:right;">
 
-0.7821
+1.0191
 
 </td>
 
@@ -4951,7 +4544,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-0.8236
+1.0294
 
 </td>
 
@@ -4961,7 +4554,63 @@ MIS-10
 
 <td style="text-align:left;">
 
-55
+45
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.0343
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+63
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.0395
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+56
 
 </td>
 
@@ -4973,13 +4622,41 @@ MIS-7
 
 <td style="text-align:left;">
 
-MIS-11
+MIS-12
 
 </td>
 
 <td style="text-align:right;">
 
-0.8552
+1.0408
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+28
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.0513
 
 </td>
 
@@ -5007,7 +4684,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-0.8595
+1.0553
 
 </td>
 
@@ -5017,7 +4694,35 @@ MIS-9
 
 <td style="text-align:left;">
 
-48
+32
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.0628
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+51
 
 </td>
 
@@ -5029,13 +4734,13 @@ MIS-6
 
 <td style="text-align:left;">
 
-MIS-9
+MIS-12
 
 </td>
 
 <td style="text-align:right;">
 
-0.8792
+1.0692
 
 </td>
 
@@ -5045,25 +4750,249 @@ MIS-9
 
 <td style="text-align:left;">
 
-44
+53
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-5
+MIS-7
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-11
+MIS-9
 
 </td>
 
 <td style="text-align:right;">
 
-0.9280
+1.0727
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+26
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:right;">
+
+1.0827
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+54
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.0946
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+58
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.0994
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+49
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.1007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+21
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.1073
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+27
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.1122
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+15
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.1148
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+12
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:right;">
+
+1.1170
 
 </td>
 
@@ -5091,7 +5020,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-0.9315
+1.1320
 
 </td>
 
@@ -5101,7 +5030,91 @@ MIS-8
 
 <td style="text-align:left;">
 
-25
+57
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.1386
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+13
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:right;">
+
+1.1551
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+47
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:right;">
+
+1.1719
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+29
 
 </td>
 
@@ -5113,97 +5126,13 @@ MIS-3
 
 <td style="text-align:left;">
 
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-0.9432
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-38
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-1.0122
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-50
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
 MIS-11
 
 </td>
 
 <td style="text-align:right;">
 
-1.0233
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-46
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-1.0314
+1.1725
 
 </td>
 
@@ -5231,7 +5160,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.0543
+1.1972
 
 </td>
 
@@ -5241,7 +5170,41 @@ MIS-5
 
 <td style="text-align:left;">
 
-34
+19
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.2080
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+22
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
 
 </td>
 
@@ -5251,15 +5214,37 @@ MIS-4
 
 </td>
 
+<td style="text-align:right;">
+
+1.2388
+
+</td>
+
+</tr>
+
+<tr>
+
 <td style="text-align:left;">
 
-MIS-8
+44
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
 
 </td>
 
 <td style="text-align:right;">
 
-1.0855
+1.2731
 
 </td>
 
@@ -5287,7 +5272,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.1963
+1.2745
 
 </td>
 
@@ -5297,41 +5282,13 @@ MIS-8
 
 <td style="text-align:left;">
 
-17
+48
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:right;">
-
-1.1964
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-18
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
+MIS-6
 
 </td>
 
@@ -5343,7 +5300,119 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.3197
+1.2799
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+55
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+1.3560
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+50
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+1.3871
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+25
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:right;">
+
+1.4027
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+34
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:right;">
+
+1.4384
 
 </td>
 
@@ -5371,7 +5440,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.3293
+1.4490
 
 </td>
 
@@ -5399,7 +5468,119 @@ MIS-10
 
 <td style="text-align:right;">
 
-1.4289
+1.4555
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+38
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.4911
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+17
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:right;">
+
+1.5888
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+46
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:right;">
+
+1.6028
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+18
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.6722
 
 </td>
 
@@ -5427,343 +5608,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.4323
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-1.5844
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-35
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-1.6666
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-8
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-1.7092
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-16
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-1.7105
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-37
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-1.8233
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-1.8345
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-33
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-1.8794
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-10
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-1.8914
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:right;">
-
-1.9153
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-5
-
-</td>
-
-<td style="text-align:right;">
-
-2.0800
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:right;">
-
-2.1001
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-11
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-2.1360
+1.6951
 
 </td>
 
@@ -5791,7 +5636,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.1411
+1.7162
 
 </td>
 
@@ -5801,7 +5646,7 @@ MIS-5
 
 <td style="text-align:left;">
 
-9
+6
 
 </td>
 
@@ -5813,13 +5658,41 @@ MIS-1
 
 <td style="text-align:left;">
 
-MIS-10
+MIS-7
 
 </td>
 
 <td style="text-align:right;">
 
-2.2517
+1.7311
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+1.8062
 
 </td>
 
@@ -5847,7 +5720,7 @@ MIS-4
 
 <td style="text-align:right;">
 
-2.3711
+1.8454
 
 </td>
 
@@ -5857,7 +5730,7 @@ MIS-4
 
 <td style="text-align:left;">
 
-31
+33
 
 </td>
 
@@ -5869,13 +5742,209 @@ MIS-4
 
 <td style="text-align:left;">
 
-MIS-5
+MIS-7
 
 </td>
 
 <td style="text-align:right;">
 
-2.6038
+1.8768
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+16
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:right;">
+
+2.0543
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+35
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+2.0668
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+11
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+2.0765
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+2.1592
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+5
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+2.2248
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:right;">
+
+2.2759
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+2.3033
 
 </td>
 
@@ -5903,7 +5972,119 @@ MIS-2
 
 <td style="text-align:right;">
 
-2.6499
+2.3077
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:right;">
+
+2.3355
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+31
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+2.4154
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+37
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+2.4798
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+2.5562
 
 </td>
 
@@ -5927,15 +6108,16 @@ MIS.psi.matrix <- formatPsi(
 MIS.distance <- 1/MIS.psi.matrix**4
 
 #plotting network
-qgraph::qgraph(MIS.distance, 
-       layout='spring', 
-       vsize=5,
-       labels = colnames(MIS.distance),
-       colors = viridis::viridis(2, begin = 0.3, end = 0.8, alpha = 0.5, direction = -1)
-       )
+qgraph::qgraph(
+  MIS.distance,
+  layout='spring',
+  vsize=5,
+  labels = colnames(MIS.distance),
+  colors = viridis::viridis(2, begin = 0.3, end = 0.8, alpha = 0.5, direction = -1)
+  )
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
+<img src="man/figures/README-unnamed-chunk-20-1.png" title="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" alt="Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green" width="100%" />
 
 Or as a matrix with **ggplot2**.
 
@@ -5951,7 +6133,7 @@ ggplot(data=na.omit(MIS.psi), aes(x=A, y=B, size=psi, color=psi)) +
   guides(size = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" title="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" title="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." alt="Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity." width="100%" />
 
 The dataframe of dissimilarities between pairs of sequences can be also
 used to analyze the drivers of dissimilarity. To do so, attributes such
@@ -6013,15 +6195,23 @@ climate.psi <- workflowPsi(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
-  method = "manhattan",
+  method = "euclidean",
   paired.samples = TRUE, #this bit is important
-  same.time = TRUE, #checks time of the samples
+  same.time = TRUE, #removes samples with unequal time
   format = "dataframe"
 )
-kable(climate.psi, digits = 4)
+
+#ordered with lower psi on top
+kable(climate.psi[order(climate.psi$psi), ], digits = 4, row.names = FALSE, caption = "Psi values between pairs of sequences in the 'climate' dataset.")
 ```
 
 <table>
+
+<caption>
+
+Psi values between pairs of sequences in the ‘climate’ dataset.
+
+</caption>
 
 <thead>
 
@@ -6055,7 +6245,29 @@ psi
 
 <td style="text-align:left;">
 
-1
+2
+
+</td>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+3.4092
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+4
 
 </td>
 
@@ -6067,7 +6279,7 @@ psi
 
 <td style="text-align:right;">
 
-4.3788
+3.4092
 
 </td>
 
@@ -6089,7 +6301,161 @@ psi
 
 <td style="text-align:right;">
 
-3.7679
+3.5702
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+3.5702
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:right;">
+
+4.1139
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+4
+
+</td>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+4.1139
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+4.2467
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:right;">
+
+4.2467
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+4.6040
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+3
+
+</td>
+
+<td style="text-align:left;">
+
+2
+
+</td>
+
+<td style="text-align:right;">
+
+4.6040
 
 </td>
 
@@ -6111,41 +6477,13 @@ psi
 
 <td style="text-align:right;">
 
-5.0435
+4.8791
 
 </td>
 
 </tr>
 
 <tr>
-
-<td style="text-align:left;">
-
-2
-
-</td>
-
-<td style="text-align:left;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-4.7611
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2
-
-</td>
 
 <td style="text-align:left;">
 
@@ -6153,31 +6491,15 @@ psi
 
 </td>
 
-<td style="text-align:right;">
-
-3.5517
-
-</td>
-
-</tr>
-
-<tr>
-
 <td style="text-align:left;">
 
-3
-
-</td>
-
-<td style="text-align:left;">
-
-4
+1
 
 </td>
 
 <td style="text-align:right;">
 
-4.1698
+4.8791
 
 </td>
 
@@ -6256,7 +6578,8 @@ random.psi <- workflowNullPsi(
   sequences = sequencesMIS,
   grouping.column = "MIS",
   method = "euclidean",
-  paired.samples = FALSE,
+  diagonal = TRUE,
+  ignore.blocks = TRUE,
   repetitions = 9 #recommended value: 999
 )
 ```
@@ -6269,13 +6592,20 @@ The output is a list with two dataframes, **psi** and **p**.
 The dataframe **psi** contains the real and random psi values. The
 column *psi* contains the dissimilarity between the sequences in the
 columns *A* and *B*. The columns *r1* to *r9* contain the psi values
-obtained from permutations of the sequences.
+obtained from permutations of the
+sequences.
 
 ``` r
-kable(random.psi$psi, digits = 4)
+kable(random.psi$psi, digits = 4, caption = "True and null psi values generated by workflowNullPsi.")
 ```
 
 <table>
+
+<caption>
+
+True and null psi values generated by workflowNullPsi.
+
+</caption>
 
 <thead>
 
@@ -6375,61 +6705,61 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.6038
+3.2077
 
 </td>
 
 <td style="text-align:right;">
 
-2.9827
+3.4067
 
 </td>
 
 <td style="text-align:right;">
 
-0.8791
+1.5016
 
 </td>
 
 <td style="text-align:right;">
 
-1.6974
+2.1582
 
 </td>
 
 <td style="text-align:right;">
 
-3.1546
+3.4563
 
 </td>
 
 <td style="text-align:right;">
 
-1.0251
+1.6678
 
 </td>
 
 <td style="text-align:right;">
 
-1.7565
+2.1579
 
 </td>
 
 <td style="text-align:right;">
 
-3.1783
+3.7669
 
 </td>
 
 <td style="text-align:right;">
 
-0.8153
+1.4573
 
 </td>
 
 <td style="text-align:right;">
 
-1.6238
+2.0739
 
 </td>
 
@@ -6451,61 +6781,61 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.6479
+1.3084
 
 </td>
 
 <td style="text-align:right;">
 
-3.0132
+3.5720
 
 </td>
 
 <td style="text-align:right;">
 
-0.9105
+1.5761
 
 </td>
 
 <td style="text-align:right;">
 
-1.6063
+2.0159
 
 </td>
 
 <td style="text-align:right;">
 
-3.0645
+3.4390
 
 </td>
 
 <td style="text-align:right;">
 
-0.9529
+1.6080
 
 </td>
 
 <td style="text-align:right;">
 
-1.6198
+2.1479
 
 </td>
 
 <td style="text-align:right;">
 
-2.8848
+3.4279
 
 </td>
 
 <td style="text-align:right;">
 
-0.8745
+1.4289
 
 </td>
 
 <td style="text-align:right;">
 
-1.5570
+2.1388
 
 </td>
 
@@ -6527,61 +6857,61 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.3293
+1.8380
 
 </td>
 
 <td style="text-align:right;">
 
-2.8559
+3.4589
 
 </td>
 
 <td style="text-align:right;">
 
-1.0097
+1.5842
 
 </td>
 
 <td style="text-align:right;">
 
-1.7238
+2.2318
 
 </td>
 
 <td style="text-align:right;">
 
-3.3189
+3.7984
 
 </td>
 
 <td style="text-align:right;">
 
-0.9323
+1.4916
 
 </td>
 
 <td style="text-align:right;">
 
-2.0051
+2.2585
 
 </td>
 
 <td style="text-align:right;">
 
-3.0321
+3.5364
 
 </td>
 
 <td style="text-align:right;">
 
-0.7924
+1.4779
 
 </td>
 
 <td style="text-align:right;">
 
-1.6838
+2.1321
 
 </td>
 
@@ -6592,13 +6922,20 @@ MIS-6
 </table>
 
 The dataframe *p* contains the probability of obtaining the real *psi*
-value by chance for each combination of sequences.
+value by chance for each combination of
+sequences.
 
 ``` r
-kable(random.psi$p)
+kable(random.psi$p, caption = "Probability of obtaining a given set of psi values by chance.")
 ```
 
 <table>
+
+<caption>
+
+Probability of obtaining a given set of psi values by chance.
+
+</caption>
 
 <thead>
 
@@ -6728,9 +7065,7 @@ sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),
 sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",
-  time.column = NULL,
-  merge.mode = "complete",
-  exclude.columns = NULL
+  merge.mode = "complete"
 )
 ```
 
@@ -6750,12 +7085,9 @@ columns to be compared are available for the function.**
 psi.importance <- workflowImportance(
   sequences = sequencesMIS,
   grouping.column = "MIS",
-  time.column = NULL,
-  exclude.columns = NULL,
-  method = "manhattan",
-  diagonal = FALSE,
-  parallel.execution = TRUE,
-  paired.samples = FALSE
+  method = "euclidean",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
   )
 ```
 
@@ -6765,13 +7097,21 @@ The dataframe **psi** contains psi values for each combination of
 variables (named in the coluns *A* and *B*) computed for all columns in
 the column *All variables*, and one column per variable named *Without
 variable\_name* containing the psi value when that variable is removed
-from the compared sequences.
+from the compared
+sequences.
 
 ``` r
-kable(psi.importance$psi, digits = 4)
+kable(psi.importance$psi, digits = 4, caption = "Psi values with all variables (column 'All variables'), and without one variable at a time.")
 ```
 
 <table>
+
+<caption>
+
+Psi values with all variables (column ‘All variables’), and without one
+variable at a time.
+
+</caption>
 
 <thead>
 
@@ -6853,43 +7193,43 @@ MIS-5
 
 <td style="text-align:right;">
 
-2.1933
+3.8917
 
 </td>
 
 <td style="text-align:right;">
 
-2.2094
+3.8939
 
 </td>
 
 <td style="text-align:right;">
 
-2.2095
+3.9036
 
 </td>
 
 <td style="text-align:right;">
 
-2.2627
+3.9056
 
 </td>
 
 <td style="text-align:right;">
 
-2.8821
+5.5347
 
 </td>
 
 <td style="text-align:right;">
 
-2.2340
+3.9122
 
 </td>
 
 <td style="text-align:right;">
 
-0.8940
+0.9693
 
 </td>
 
@@ -6911,43 +7251,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.7012
+1.0253
 
 </td>
 
 <td style="text-align:right;">
 
-0.6937
+1.0251
 
 </td>
 
 <td style="text-align:right;">
 
-0.7007
+1.0250
 
 </td>
 
 <td style="text-align:right;">
 
-0.6878
+1.0191
 
 </td>
 
 <td style="text-align:right;">
 
-0.7158
+1.3828
 
 </td>
 
 <td style="text-align:right;">
 
-0.6902
+1.0209
 
 </td>
 
 <td style="text-align:right;">
 
-0.5883
+0.9563
 
 </td>
 
@@ -6969,43 +7309,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.4473
+1.6496
 
 </td>
 
 <td style="text-align:right;">
 
-1.4393
+1.6499
 
 </td>
 
 <td style="text-align:right;">
 
-1.4563
+1.6500
 
 </td>
 
 <td style="text-align:right;">
 
-1.4706
+1.6467
 
 </td>
 
 <td style="text-align:right;">
 
-1.7039
+1.0680
 
 </td>
 
 <td style="text-align:right;">
 
-1.4866
+1.6481
 
 </td>
 
 <td style="text-align:right;">
 
-0.7359
+0.9129
 
 </td>
 
@@ -7037,7 +7377,7 @@ ggplot(data=psi.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi")
 ```
 
-<img src="man/figures/README-unnamed-chunk-31-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
+<img src="man/figures/README-unnamed-chunk-34-1.png" title="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." alt="Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences." width="100%" />
 
 The second table, named **psi.drop** describes the drop in psi values,
 in percentage, when the given variable is removed from the analysis.
@@ -7050,15 +7390,27 @@ the sequences when the variable is dropped.
 In summary:
 
   - High psi-drop value: variable contributes to dissimilarity.
-  - Low or negative psi-drop value: variable contributes to similarity.
+  - Low or negative psi-drop value: variable contributes to
+similarity.
 
 <!-- end list -->
 
 ``` r
-kable(psi.importance$psi.drop)
+kable(psi.importance$psi.drop, caption = "Drop in psi, as percentage of the psi value obtained when using all variables. Positive values indicate that the sequences become more similar when the given variable is removed (contribution to dissimilarity), while negative values indicate that the sequences become more dissimilar when the variable is removed (contribution to similarity).")
 ```
 
 <table>
+
+<caption>
+
+Drop in psi, as percentage of the psi value obtained when using all
+variables. Positive values indicate that the sequences become more
+similar when the given variable is removed (contribution to
+dissimilarity), while negative values indicate that the sequences become
+more dissimilar when the variable is removed (contribution to
+similarity).
+
+</caption>
 
 <thead>
 
@@ -7134,37 +7486,37 @@ MIS-5
 
 <td style="text-align:right;">
 
-\-0.73
+\-0.06
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.74
+\-0.31
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.16
+\-0.36
 
 </td>
 
 <td style="text-align:right;">
 
-\-31.40
+\-42.22
 
 </td>
 
 <td style="text-align:right;">
 
-\-1.85
+\-0.53
 
 </td>
 
 <td style="text-align:right;">
 
-59.24
+75.09
 
 </td>
 
@@ -7186,37 +7538,37 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.07
+0.01
 
 </td>
 
 <td style="text-align:right;">
 
-0.08
+0.02
 
 </td>
 
 <td style="text-align:right;">
 
-1.91
+0.61
 
 </td>
 
 <td style="text-align:right;">
 
-\-2.09
+\-34.87
 
 </td>
 
 <td style="text-align:right;">
 
-1.57
+0.43
 
 </td>
 
 <td style="text-align:right;">
 
-16.10
+6.73
 
 </td>
 
@@ -7238,37 +7590,37 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.56
+\-0.02
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.62
+\-0.02
 
 </td>
 
 <td style="text-align:right;">
 
-\-1.61
+0.18
 
 </td>
 
 <td style="text-align:right;">
 
-\-17.73
+35.26
 
 </td>
 
 <td style="text-align:right;">
 
-\-2.71
+0.09
 
 </td>
 
 <td style="text-align:right;">
 
-49.15
+44.66
 
 </td>
 
@@ -7299,7 +7651,7 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   labs(fill = "Psi drop (%)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-33-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
+<img src="man/figures/README-unnamed-chunk-36-1.png" title="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." alt="Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity." width="100%" />
 
 ``` r
 #cleaning workspace
@@ -7359,7 +7711,8 @@ MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "euclidean",
-  paired.samples = FALSE,
+  diagonal = TRUE,
+  ignore.blocks = TRUE,
   min.length = nrow(MIS.short),
   max.length = nrow(MIS.short)
 )
@@ -7369,13 +7722,21 @@ The function returns a dataframe with three columns: *first.row* (first
 row of the matched segment of the long sequence), *last.row* (last row
 of the matched segment of the long sequence), and *psi* (ordered from
 lower to higher). In this case, since the long sequence contains the
-short sequence, the first row shows a perfect match.
+short sequence, the first row shows a perfect
+match.
 
 ``` r
-kable(MIS.psi[1:15, ], digits = 4)
+kable(MIS.psi[1:15, ], digits = 4, caption = "First and last row of a section of the long sequence along with the psi value obtained during the partial matching.")
 ```
 
 <table>
+
+<caption>
+
+First and last row of a section of the long sequence along with the psi
+value obtained during the partial matching.
+
+</caption>
 
 <thead>
 
@@ -7431,28 +7792,6 @@ psi
 
 <td style="text-align:right;">
 
-2
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.0988
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
 3
 
 </td>
@@ -7465,7 +7804,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1394
+0.2707
 
 </td>
 
@@ -7487,7 +7826,7 @@ psi
 
 <td style="text-align:right;">
 
-0.1412
+0.2815
 
 </td>
 
@@ -7497,19 +7836,19 @@ psi
 
 <td style="text-align:right;">
 
-5
+2
 
 </td>
 
 <td style="text-align:right;">
 
-14
+11
 
 </td>
 
 <td style="text-align:right;">
 
-0.3108
+0.3059
 
 </td>
 
@@ -7531,7 +7870,7 @@ psi
 
 <td style="text-align:right;">
 
-0.6959
+0.4343
 
 </td>
 
@@ -7541,63 +7880,19 @@ psi
 
 <td style="text-align:right;">
 
-7
+5
 
 </td>
 
 <td style="text-align:right;">
 
-16
+14
 
 </td>
 
 <td style="text-align:right;">
 
-0.8607
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-0.9114
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-0.9415
+0.5509
 
 </td>
 
@@ -7619,7 +7914,7 @@ psi
 
 <td style="text-align:right;">
 
-1.0264
+1.3055
 
 </td>
 
@@ -7629,19 +7924,19 @@ psi
 
 <td style="text-align:right;">
 
-11
+10
 
 </td>
 
 <td style="text-align:right;">
 
-20
+19
 
 </td>
 
 <td style="text-align:right;">
 
-1.1342
+1.3263
 
 </td>
 
@@ -7651,47 +7946,9 @@ psi
 
 <td style="text-align:right;">
 
-13
+8
 
 </td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-1.1877
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-1.2179
-
-</td>
-
-</tr>
-
-<tr>
 
 <td style="text-align:right;">
 
@@ -7701,13 +7958,29 @@ psi
 
 <td style="text-align:right;">
 
-26
+1.3844
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+7
 
 </td>
 
 <td style="text-align:right;">
 
-1.2744
+16
+
+</td>
+
+<td style="text-align:right;">
+
+1.3949
 
 </td>
 
@@ -7729,7 +8002,95 @@ psi
 
 <td style="text-align:right;">
 
-1.2869
+1.4428
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+12
+
+</td>
+
+<td style="text-align:right;">
+
+21
+
+</td>
+
+<td style="text-align:right;">
+
+1.4711
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+17
+
+</td>
+
+<td style="text-align:right;">
+
+26
+
+</td>
+
+<td style="text-align:right;">
+
+1.4959
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:right;">
+
+20
+
+</td>
+
+<td style="text-align:right;">
+
+1.5101
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:right;">
+
+18
+
+</td>
+
+<td style="text-align:right;">
+
+27
+
+</td>
+
+<td style="text-align:right;">
+
+1.5902
 
 </td>
 
@@ -7811,7 +8172,8 @@ Once the sequences are prepared, the function **workflowSlotting** will
 allow to combine (slot) them. The function computes a distance matrix
 between the samples in both sequences according to the *method*
 argument, computes the least-cost matrix, and generates the least-cost
-path.
+path. Note that it only uses an orthogonal method considering blocks,
+since this is the only option really suitable for this task.
 
 ``` r
 AB.combined <- workflowSlotting(
@@ -7824,19 +8186,26 @@ AB.combined <- workflowSlotting(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-42-1.png" title="Distance matrix and least-cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least-cost path of the example sequences 'A' and 'B'.." width="100%" />
+<img src="man/figures/README-unnamed-chunk-45-1.png" title="Distance matrix and least-cost path of the example sequences 'A' and 'B'.." alt="Distance matrix and least-cost path of the example sequences 'A' and 'B'.." width="100%" />
 
 The function reads the least-cost path in order to find the combination
 of samples of both sequences that minimizes dissimilarity, constrained
 by the order of the samples on each sequence. The output dataframe has a
 column named *original.index*, which has the index of each sample in the
-original datasets.
+original
+datasets.
 
 ``` r
-kable(AB.combined[1:15,1:10], format = "html", digits = 4)
+kable(AB.combined[1:15,1:10], digits = 4, caption = "Combination of sequences A and B.")
 ```
 
 <table>
+
+<caption>
+
+Combination of sequences A and B.
+
+</caption>
 
 <thead>
 
@@ -8966,13 +9335,13 @@ B
 
 </table>
 
-Note that several samples (highlighted in bold) show inverted ages with
-respect to the previous samples. This is expected, since the slotting
-algorithm only takes into account distance/dissimilarity between
-adjacent samples to generate the
+Note that several samples show inverted ages with respect to the
+previous samples. This is to be expected, since the slotting algorithm
+only takes into account distance/dissimilarity between adjacent samples
+to generate the
 ordering.
 
-<img src="man/figures/README-unnamed-chunk-44-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
+<img src="man/figures/README-unnamed-chunk-47-1.png" title="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." alt="Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution." width="100%" />
 
 ``` r
 #cleaning workspace
@@ -9056,7 +9425,7 @@ X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",
-  method = "manhattan",
+  method = "euclidean",
   transfer.what = "age",
   transfer.from = "GP",
   transfer.to = "X",
@@ -9193,12 +9562,6 @@ Hippophae
 <th style="text-align:right;">
 
 Salix
-
-</th>
-
-<th style="text-align:right;">
-
-Thalictrum
 
 </th>
 
@@ -9494,12 +9857,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1
 
 </td>
@@ -9703,12 +10060,6 @@ X
 <td style="text-align:right;">
 
 4
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -10006,12 +10357,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1
 
 </td>
@@ -10274,12 +10619,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1
 
 </td>
@@ -10525,12 +10864,6 @@ X
 <td style="text-align:right;">
 
 1
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -10805,12 +11138,6 @@ X
 <td style="text-align:right;">
 
 1
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -11084,12 +11411,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 5
 
 </td>
@@ -11341,12 +11662,6 @@ X
 <td style="text-align:right;">
 
 2
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -11614,12 +11929,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 3
 
 </td>
@@ -11882,12 +12191,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1
 
 </td>
@@ -12145,12 +12448,6 @@ X
 <td style="text-align:right;">
 
 7
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -12424,12 +12721,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 1
 
 </td>
@@ -12681,12 +12972,6 @@ X
 <td style="text-align:right;">
 
 2
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -12954,12 +13239,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 5
 
 </td>
@@ -13222,12 +13501,6 @@ X
 
 <td style="text-align:right;">
 
-0
-
-</td>
-
-<td style="text-align:right;">
-
 4
 
 </td>
@@ -13457,10 +13730,17 @@ The table below shows the observed versus the predicted values for
 
 ``` r
 temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
-kable(t(temp.df), digits = 4)
+kable(t(temp.df), digits = 4, caption = "Observed versus predicted value in the interpolation of an age based on similarity between samples.")
 ```
 
 <table>
+
+<caption>
+
+Observed versus predicted value in the interpolation of an age based on
+similarity between samples.
+
+</caption>
 
 <tbody>
 
@@ -13548,18 +13828,26 @@ X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",
-  method = "manhattan",
+  method = "euclidean",
   transfer.what = "age",
   transfer.from = "GP",
   transfer.to = "X",
   mode = "interpolated"
   )
 
-kable(X.new[1:15, ], digits = 4)  %>% 
+kable(X.new[1:15, ], digits = 4, caption = "Result of the transference of an age attribute from one sequence to another. NA values are expected when predicted ages for a given sample yield a higher number than the age of the previous sample.")  %>% 
   row_spec(c(8, 13), bold = T)
 ```
 
 <table>
+
+<caption>
+
+Result of the transference of an age attribute from one sequence to
+another. NA values are expected when predicted ages for a given sample
+yield a higher number than the age of the previous sample.
+
+</caption>
 
 <thead>
 
@@ -13686,12 +13974,6 @@ Hippophae
 <th style="text-align:right;">
 
 Salix
-
-</th>
-
-<th style="text-align:right;">
-
-Thalictrum
 
 </th>
 
@@ -13855,7 +14137,7 @@ X
 
 <td style="text-align:right;">
 
-3.9498
+3.9497
 
 </td>
 
@@ -13940,12 +14222,6 @@ X
 <td style="text-align:right;">
 
 41
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -14123,7 +14399,7 @@ X
 
 <td style="text-align:right;">
 
-3.9705
+3.9711
 
 </td>
 
@@ -14196,12 +14472,6 @@ X
 <td style="text-align:right;">
 
 4
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -14391,7 +14661,7 @@ X
 
 <td style="text-align:right;">
 
-4.0003
+4.0009
 
 </td>
 
@@ -14494,12 +14764,6 @@ X
 <td style="text-align:right;">
 
 3
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -14659,7 +14923,7 @@ X
 
 <td style="text-align:right;">
 
-4.0212
+4.0219
 
 </td>
 
@@ -14762,12 +15026,6 @@ X
 <td style="text-align:right;">
 
 3
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -14927,7 +15185,7 @@ X
 
 <td style="text-align:right;">
 
-4.0512
+4.0522
 
 </td>
 
@@ -15018,12 +15276,6 @@ X
 <td style="text-align:right;">
 
 1
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -15195,7 +15447,7 @@ X
 
 <td style="text-align:right;">
 
-4.1308
+4.1361
 
 </td>
 
@@ -15298,12 +15550,6 @@ X
 <td style="text-align:right;">
 
 1
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -15463,7 +15709,7 @@ X
 
 <td style="text-align:right;">
 
-4.1985
+4.1972
 
 </td>
 
@@ -15566,12 +15812,6 @@ X
 <td style="text-align:right;">
 
 5
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -15839,12 +16079,6 @@ NA
 
 <td style="text-align:right;font-weight: bold;">
 
-0
-
-</td>
-
-<td style="text-align:right;font-weight: bold;">
-
 1
 
 </td>
@@ -15999,7 +16233,7 @@ X
 
 <td style="text-align:right;">
 
-4.2014
+4.2027
 
 </td>
 
@@ -16102,12 +16336,6 @@ X
 <td style="text-align:right;">
 
 2
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -16267,7 +16495,7 @@ X
 
 <td style="text-align:right;">
 
-4.2223
+4.2237
 
 </td>
 
@@ -16370,12 +16598,6 @@ X
 <td style="text-align:right;">
 
 3
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -16535,7 +16757,7 @@ X
 
 <td style="text-align:right;">
 
-4.2301
+4.2999
 
 </td>
 
@@ -16638,12 +16860,6 @@ X
 <td style="text-align:right;">
 
 7
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -16803,7 +17019,7 @@ X
 
 <td style="text-align:right;">
 
-4.2726
+NA
 
 </td>
 
@@ -16906,12 +17122,6 @@ X
 <td style="text-align:right;">
 
 1
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -17185,12 +17395,6 @@ NA
 
 <td style="text-align:right;font-weight: bold;">
 
-0
-
-</td>
-
-<td style="text-align:right;font-weight: bold;">
-
 2
 
 </td>
@@ -17339,7 +17543,7 @@ X
 
 <td style="text-align:right;">
 
-4.3521
+4.3501
 
 </td>
 
@@ -17442,12 +17646,6 @@ X
 <td style="text-align:right;">
 
 4
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -17607,7 +17805,7 @@ X
 
 <td style="text-align:right;">
 
-4.4177
+4.4155
 
 </td>
 
@@ -17710,12 +17908,6 @@ X
 <td style="text-align:right;">
 
 2
-
-</td>
-
-<td style="text-align:right;">
-
-0
 
 </td>
 
@@ -17873,7 +18065,7 @@ or
 [zoo::na.approx](https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx).
 
 Without taking into account these *NA* values, the Pearson correlation
-of the interpolated ages with the real ones is 0.9984.
+of the interpolated ages with the real ones is 0.9985.
 
 **IMPORTANT:** the interpretation of the interpolated ages requires a
 careful consideration. Please, don’t do it blindly, because this

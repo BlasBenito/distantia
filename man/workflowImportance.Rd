@@ -13,6 +13,7 @@ workflowImportance(
   diagonal = FALSE,
   paired.samples = FALSE,
   same.time = FALSE,
+  ignore.blocks = FALSE,
   parallel.execution = TRUE
   )
 }

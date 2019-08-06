@@ -52,9 +52,6 @@ workflowPsiHP <- function(sequences = NULL,
                         exclude.columns = NULL,
                         parallel.execution = TRUE){
 
-  require(doParallel)
-  require(foreach)
-
   #PREPARING sequences
   ####################
   #removing time column
@@ -240,7 +237,7 @@ workflowPsiHP <- function(sequences = NULL,
     rm(distance.matrix, least.cost.matrix)
 
     #removing empty rows in path
-    path <- na.omit(path)
+    path <- stats::na.omit(path)
 
     #renaming path
     sequence.names <- combination
@@ -327,7 +324,7 @@ workflowPsiHP <- function(sequences = NULL,
     }#end of while
 
     #removing na
-    path <- na.omit(path)
+    path <- stats::na.omit(path)
 
 
     #GETTING LEAST COST leastCost
@@ -346,8 +343,8 @@ workflowPsiHP <- function(sequences = NULL,
     sequence.B <- sequence.B[sort(unique(path[,get(sequence.names[2])])), ]
 
     #removing NA
-    sequence.A <- na.omit(sequence.A)
-    sequence.B <- na.omit(sequence.B)
+    sequence.A <- stats::na.omit(sequence.A)
+    sequence.B <- stats::na.omit(sequence.B)
 
     #updating number of rows
     nrow.sequence.A <- nrow(sequence.A)

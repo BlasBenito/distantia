@@ -283,13 +283,25 @@ workflowPartialMatch <- function(
       #autosum
       autosum.sequences <- autoSum(
         sequences = sequences,
-        named.list = least.cost.path,
+        least.cost.path = least.cost.path,
         grouping.column = grouping.column,
         time.column = time.column,
         exclude.columns = exclude.columns,
         method = method,
         parallel.execution = FALSE
       )
+
+      #computing psi
+      psi.value <- psi(
+        least.cost = least.cost,
+        autosum = autosum.sequences,
+        parallel.execution = FALSE
+      )
+
+      #shifting psi by 1
+      if(diagonal == TRUE){
+        psi.value <- lapply(X = psi.value, FUN = function(x){x + 1})
+      }
 
     } #end of paired.samples == FALSE
 
@@ -309,7 +321,7 @@ workflowPartialMatch <- function(
       #autosum
       autosum.sequences <- autoSum(
         sequences = rbind(sequences.short, sequences.long[subset.rows, ]),
-        named.list = least.cost,
+        least.cost.path = least.cost,
         grouping.column = grouping.column,
         time.column = time.column,
         exclude.columns = exclude.columns,
@@ -317,19 +329,17 @@ workflowPartialMatch <- function(
         parallel.execution = FALSE
       )
 
+      #computing psi
+      psi.value <- psi(
+        least.cost = least.cost,
+        autosum = autosum.sequences,
+        parallel.execution = parallel.execution
+      )
+
+      #shifting psi by 1
+      psi.value <- lapply(X = psi.value, FUN = function(x){x + 1})
+
     } #end of paired.samples == TRUE
-
-    #shifting least.cost by 1 if needed
-    if(paired.samples == TRUE | (paired.samples == FALSE & diagonal == TRUE) | ignore.blocks == TRUE){
-      least.cost <- lapply(X = least.cost, FUN = function(x){x + 1})
-    }
-
-    #computing psi
-    psi.value <- psi(
-      least.cost = least.cost,
-      autosum = autosum.sequences,
-      parallel.execution = FALSE
-    )
 
     return(psi.value[[1]])
 

@@ -97,7 +97,7 @@ kable(sequenceB[1:15, ], caption = "Sequence B")
 
 ### Data preparation
 
-Notice that **sequenceB** has a few NA values (that were introduced to serve as an example). The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data. It allows to merge two or more METS into a single dataframe ready for further analyses. Note that, since the data represents pollen abundances, a *Hellinger* transformation (square root of the relative proportions of each taxa) is applied. This transformation balances the relative importance of very abundant versus rare taxa. The function **prepareSequences** will generally be the starting point of any analysis performed with the *distantia* package.
+Notice that **sequenceB** has a few NA values (that were introduced to serve as an example). The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data. It allows to merge two or more METS into a single dataframe ready for further analyses. Note that, since the data represents pollen abundances, a *Hellinger* transformation (square root of the relative proportions of each taxa, it balances the relative abundances of rare and dominant taxa) is applied. This transformation balances the relative importance of very abundant versus rare taxa. The function **prepareSequences** will generally be the starting point of any analysis performed with the *distantia* package.
 
 ```{r}
 #checking the function help-file.
@@ -115,20 +115,20 @@ AB.sequences <- prepareSequences(
 )
 
 #showing first rows of the transformed data
-kable(AB.sequences[1:15, ], digits = 4)
+kable(AB.sequences[1:15, ], digits = 4, caption = "Sequences A and B ready for analysis.")
 ```
 
 The computation of dissimilarity between the datasets A and B requires several steps.
 
 ### 1. Computation of a distance matrix among the samples of both sequences. 
 
-It is computed by the **distanceMatrix** function, which allows the user to select a distance metric (so far the ones implemented are *manhattan*, *euclidean*, *chi*, and *hellinger*). The function **plotMatrix** allows an easy visualization of the distance matrix.
+It is computed by the **distanceMatrix** function, which allows the user to select a distance metric (so far the ones implemented are *manhattan*, *euclidean*, *chi*, and *hellinger*). The function **plotMatrix** allows an easy visualization of the resulting distance matrix.
 
-```{r, fig.width = 7, fig.height = 4, fig.cap = "Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance."}
+```{r, fig.width = 7, fig.height = 4, fig.cap = "Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance between samples."}
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
-  method = "manhattan"
+  method = "euclidean"
 )
 
 #plotting distance matrix
@@ -140,9 +140,16 @@ plotMatrix(
 
 ### 2. Computation of the least-cost path within the distance matrix. 
 
-This step uses a *dynamic programming algorithm* to find the least-cost path when moving between the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). This is done via an *orthogonal search** by moving either one step on the *x* axis or one step on the *y* axis at a time (see **Equation 1**).
+This step uses a *dynamic programming algorithm* to find the least-cost path that connnects the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). This can be done via in two different ways.
+
++    an **orthogonal search** by moving either one step on the *x* axis or one step on the *y* axis at a time (see **Equation 1**).
 
 **Equation 1** $$AB_{between} = 2 \times (D(A_{1}, B_{1}) + \sum_{i=1}^{m}\sum_{j=1}^{n} min\left(\begin{array}{c}D(A_{i}, B_{j+1}), \\ D(A_{i+1}, B_{j}) \end{array}\right))$$
+
++   an **orthogonal and diagonal search** (a.k.a *diagonal*) which includes the above, plus a diagonal search.
+
+**Equation 2** $$AB_{between} = 2 \times (D(A_{1}, B_{1}) + \sum_{i=1}^{m}\sum_{j=1}^{n} min\left(\begin{array}{c}D(A_{i}, B_{j+1}), \\ D(A_{i+1}, B_{j} \\ D(A_{i+1}, B_{j+1}) \end{array}\right))$$
+
 
 Where: 
 
@@ -153,36 +160,115 @@ Where:
     
 The equation returns $AB_{between}$, which is the double of the sum of distances that lie within the least-cost path, and represent the distance *between* the samples of A and B. The value of $AB_{between}$ is computed by using the functions **leastCostMatrix**, which computes the partial solutions to the least-cost problem, **leastCostPath**, which returns the best global solution, and **leastCost** function, which sums the distances of the least-cost path and multiplies them by 2.
 
-```{r, fig.width = 7, fig.height = 4, fig.cap = "Least-cost path plotted on the least-cost matrix."}
+The code below performs these steps according to both equations
+
+```{r, fig.width = 7, fig.height = 3, fig.cap = "Least-cost path plotted on the least-cost matrix. Left solution is computed with an orthogonal search path, while the right one includes diagonals."}
+
+#ORTHOGONAL SEARCH
 #computing least-cost matrix
 AB.least.cost.matrix <- leastCostMatrix(
-  distance.matrix = AB.distance.matrix
+  distance.matrix = AB.distance.matrix,
+  diagonal = FALSE
 )
 
 #extracting least-cost path
 AB.least.cost.path <- leastCostPath(
   distance.matrix = AB.distance.matrix,
-  least.cost.matrix = AB.least.cost.matrix
+  least.cost.matrix = AB.least.cost.matrix,
+  diagonal = FALSE
   )
 
-#computing AB.between
+
+#DIAGONAL SEARCH
+#computing least-cost matrix
+AB.least.cost.matrix.diag <- leastCostMatrix(
+  distance.matrix = AB.distance.matrix,
+  diagonal = TRUE
+)
+
+#extracting least-cost path
+AB.least.cost.path.diag <- leastCostPath(
+  distance.matrix = AB.distance.matrix,
+  least.cost.matrix = AB.least.cost.matrix.diag,
+  diagonal = TRUE
+  )
+
+#plotting solutions
+plotMatrix(
+  distance.matrix = list(
+    'A|B' = AB.least.cost.matrix[[1]], 
+    'A|B' = AB.least.cost.matrix.diag[[1]]
+    ),
+  least.cost.path = list(
+    'A|B' = AB.least.cost.path[[1]], 
+    'A|B' = AB.least.cost.path.diag[[1]]
+    ),
+  color.palette = "viridis",
+  margin = rep(4,4),
+  plot.rows = 1,
+  plot.columns = 2
+  )
+```
+
+Computing $AB_{between}$ from these solutions is straightforward with the function **leastCost**
+
+```{r}
+#orthogonal solution
 AB.between <- leastCost(
   least.cost.path = AB.least.cost.path
   )
 
-#plotting the global solution
-par(mfrow=c(2,1))
-plotMatrix(
-  distance.matrix = AB.least.cost.matrix,
-  least.cost.path = AB.least.cost.path,
-  color.palette = "viridis",
-  margin = rep(4,4)
+#diagonal solution
+AB.between.diag <- leastCost(
+  least.cost.path = AB.least.cost.path.diag
   )
 ```
 
-Which returns a value for $AB_{between}$ of `r round(AB.between[[1]], 4)`. 
 
-Notice that in the output list, the slot with the psi value is named after the two sequences separated by a vertical line ("A|B"). This convention will be followed by any function in the package that returns objects resulting from comparing two sequences.
+Which returns a value for $AB_{between}$ of `r round(AB.between[[1]], 4)` for the orthogonal solution, and `r round(AB.between.diag[[1]], 4)` for the diagonal one. Diagonal solutions always yield lower values for $AB_{between}$ than orthogonal ones.
+
+Notice the straight vertical and horizontal lines that show up in some regions of the least cost paths shown in the figure above. These are *blocks*, and happen in dissimilar sections of the compared sequences. Also, an unbalanced number of rows in the compared sequences can generate long blocks. Blocks inflate the value of $AB_{between}$ because the distance to a given sample is counted several times per block. This problem often leads to false negatives, that is, to the conclusion that two sequences are statistically different when actually they are not. 
+
+This package includes an algorithm to remove blocks from the least cost path, which offers more realistic values for $AB_{between}$. The function **leastCostPathNoBlocks** reads a least cost path, and removes all blocks as follows.
+
+```{r}
+#ORTHOGONAL SOLUTION
+#removing blocks from least cost path
+AB.least.cost.path.nb <- leastCostPathNoBlocks(
+    least.cost.path = AB.least.cost.path
+    )
+
+#computing AB.between again
+AB.between.nb <- leastCost(
+  least.cost.path = AB.least.cost.path.nb
+  )
+
+
+#DIAGONAL SOLUTION
+#removing blocks
+AB.least.cost.path.diag.nb <- leastCostPathNoBlocks(
+    least.cost.path = AB.least.cost.path.diag
+    )
+
+#diagonal solution without blocks
+AB.between.diag.nb <- leastCost(
+  least.cost.path = AB.least.cost.path.diag.nb
+    )
+```
+
+Which now yields `r round(AB.between.nb[[1]], 4)` for the orthogonal solution, and `r round(AB.between.diag.nb[[1]], 4)` for the diagonal one. Notice how now the diagonal solution has a higher value, because by default, the diagonal method generates less blocks. That is why each measure of dissimilarity (orthogonal, diagonal, orthogonal no-blocks, and diagonal no-blocks) lies within a different comparative framework, and therefore, **outputs from different methods should not be compared**.
+
+Hereafter only the diagonal no-blocks option will be considered in the example cases, since it is the most general and safe solution of the four mentioned above.
+
+```{r}
+#changing names of the selected solutions
+AB.least.cost.path <- AB.least.cost.path.diag.nb
+AB.between <- AB.between.diag.nb
+
+#removing unneeded objects
+rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
+```
+
 
 ### 3. Autosum, or sum of the distances among adjacent samples on each sequence.
 
@@ -195,29 +281,43 @@ This operation is performed by the **autoSum** function shown below.
 ```{r}
 AB.within <- autoSum(
   sequences = AB.sequences,
-  named.list = AB.least.cost.path,
-  method = "manhattan"
+  least.cost.path = AB.least.cost.path,
+  method = "euclidean"
   )
 AB.within
 ```
 
-### 4. Compute dissimilarity score** $\psi$. 
+### 4. Compute dissimilarity score $\psi$. 
 
-The dissimilarity measure $\psi$ was first described in the book ["Numerical methods in Quaternary pollen analysis"](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406) (Birks and Gordon, 1985). **Psi** is computed as follows:
+The dissimilarity measure $\psi$ was first described in the book ["Numerical methods in Quaternary pollen analysis"](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406) (Birks and Gordon, 1985). **Psi** is computed as shown in Equation 4a:
 
-$$\psi = \frac{AB_{between} - AB_{within}}{AB_{within}}$$
+**Equation 4a** $$\psi = \frac{AB_{between} - AB_{within}}{AB_{within}}$$
 
-Which basically is the sum of the least-cost solution normalized by the autosum of both sequences. This equation, implemented in the **psi** function, only requires the least-cost, and the autosum of both sequences, as follows.
+This equation has a particularity. Imagine two identical sequences A and B, with three samples each. In this case, $AB_{between}$ is computed as
+
+$AB_{between} = 2 \times (D(A_{1}, B_{1}) + D(A_{1}, B_{2}) + D(A_{2}, B_{2}) + D(A_{2}, B_{3}) + D(A_{3}, B_{3}))$
+
+Since the samples of each sequence with the same index are identical, this can be reduced to 
+
+$AB_{between} = 2 \times (D(A_{1}, B_{2}) + D(A_{2}, B_{3})) = AB_{within}$
+
+which in turn equals $AB_{within}$ as shown in Equation 4, yielding a $\psi$ value of 0.
+
+This equality does not work in the same way when the least-cost path search-method includes diagonals. When the sequenes are identical, diagonal methods yield an $AB_{between}$ of 0, leading to a $\psi$ equal to -1. To fix this shift, this package uses Equation 4b instead when $diagonal = TRUE$ is selected, which adds 1 to the final solution.
+
+**Equation 4b** $$\psi = \frac{AB_{between} - AB_{within}}{AB_{within}} + 1$$
+
+In any case, the **psi** function only requires the least-cost, and the autosum of both sequences to compute $\psi$. Since we are working with a diagonal search, 1 has to be added to the final solution.
 
 ```{r, eval=TRUE}
 AB.psi <- psi(
   least.cost = AB.between,
   autosum = AB.within
   )
-AB.psi
+AB.psi[[1]] <- AB.psi[[1]] + 1
 ```
 
-In any case, the output of **psi** is a list, that can be transformed to a dataframe or a matrix by using the **formatPsi** function.
+Which yields a **psi** equal to `r round(AB.psi[[1]], 4)`. The output of **psi** is a list, that can be transformed to a dataframe or a matrix by using the **formatPsi** function.
 
 ```{r}
 #to dataframe
@@ -229,7 +329,7 @@ kable(AB.psi.dataframe, digits = 4)
 
 ### workflowPsi: doing it all at once
 
-All the steps required to compute **psi**, including the format options provided by **formatPsi** are wrapped together in the function **workflowPsi**, that works as follows with its default configuration:
+All the steps required to compute **psi**, including the format options provided by **formatPsi** are wrapped together in the function **workflowPsi**. It includes options to switch to a diagonal method, and to ignore blocks, as shown below.
 
 ```{r, eval=TRUE}
 #checking the help file
@@ -239,12 +339,15 @@ help(workflowPsi)
 AB.psi <- workflowPsi(
   sequences = AB.sequences,
   grouping.column = "id",
-  format = "list"
+  method = "euclidean",
+  format = "list",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
 )
 AB.psi
 ```
 
-The function allows to exclude particular columns from the analysis (argument *exclude.columns*), select different distance metrics (argument *method*), use diagonals to find the least-cost path (argument *diagonal*), or measure psi by ignoring blocks in the least-cost path (argument *ignore.blocks*). Since we have observed several blocks in the least-cost path, below we compute psi by ignoring them. Blocks inflate the value of *psi* because the distance to the same sample is counted again and again.
+The function allows to exclude particular columns from the analysis (argument *exclude.columns*), select different distance metrics (argument *method*), use diagonals to find the least-cost path (argument *diagonal*), or measure psi by ignoring blocks in the least-cost path (argument *ignore.blocks*). Since we have observed several blocks in the least-cost path, below we compute psi by ignoring them.
 
 ```{r}
 #cleaning workspace
@@ -254,13 +357,13 @@ rm(list = ls())
 
 # Comparing multiple irregular METS
 
-The package can work seamlessly with any given number of sequences, as long as there is memory enough available. To do so, almost every function uses the packages ["doParallel"](https://CRAN.R-project.org/package=doParallel) and ["foreach"](https://CRAN.R-project.org/package=foreach), that together allow to parallelize the execution of the *distantia* functions by using all the processors in your machine but one. 
+The package can work seamlessly with any given number of sequences, as long as there is memory enough available (but check the new function **workflowPsiHP**, it can work with up to 40k sequences, if you have a cluster at hand, and a few years to waste). To do so, almost every function uses the packages ["doParallel"](https://CRAN.R-project.org/package=doParallel) and ["foreach"](https://CRAN.R-project.org/package=foreach), that together allow to parallelize the execution of the *distantia* functions by using all the processors in your machine but one. 
 
 The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.
 
 ```{r}
 data(sequencesMIS)
-kable(head(sequencesMIS, n=15), digits = 4)
+kable(head(sequencesMIS, n=15), digits = 4, caption = "Header of the sequencesMIS dataset.")
 unique(sequencesMIS$MIS)
 ```
 
@@ -281,11 +384,13 @@ The dissimilarity measure **psi** can be computed for every combination of seque
 MIS.psi <- workflowPsi(
   sequences = MIS.sequences,
   grouping.column = "MIS",
-  method = "euclidean"
+  method = "euclidean",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
 )
 
 #ordered with lower psi on top
-kable(MIS.psi[order(MIS.psi$psi), ], digits = 4)
+kable(MIS.psi[order(MIS.psi$psi), ], digits = 4, caption = "Psi values between pairs of MIS periods.")
 ```
 
 A dataframe like this can be transformed into a matrix to be plotted as an adjacency network with the **qgraph** package.
@@ -301,12 +406,13 @@ MIS.psi.matrix <- formatPsi(
 MIS.distance <- 1/MIS.psi.matrix**4
 
 #plotting network
-qgraph::qgraph(MIS.distance, 
-       layout='spring', 
-       vsize=5,
-       labels = colnames(MIS.distance),
-       colors = viridis::viridis(2, begin = 0.3, end = 0.8, alpha = 0.5, direction = -1)
-       )
+qgraph::qgraph(
+  MIS.distance,
+  layout='spring',
+  vsize=5,
+  labels = colnames(MIS.distance),
+  colors = viridis::viridis(2, begin = 0.3, end = 0.8, alpha = 0.5, direction = -1)
+  )
 
 ```
 
@@ -361,12 +467,14 @@ climate.psi <- workflowPsi(
   sequences = climate,
   grouping.column = "sequenceId",
   time.column = "time",
-  method = "manhattan",
+  method = "euclidean",
   paired.samples = TRUE, #this bit is important
-  same.time = TRUE, #checks time of the samples
+  same.time = TRUE, #removes samples with unequal time
   format = "dataframe"
 )
-kable(climate.psi, digits = 4)
+
+#ordered with lower psi on top
+kable(climate.psi[order(climate.psi$psi), ], digits = 4, row.names = FALSE, caption = "Psi values between pairs of sequences in the 'climate' dataset.")
 ```
 
 ```{r}
@@ -419,7 +527,8 @@ random.psi <- workflowNullPsi(
   sequences = sequencesMIS,
   grouping.column = "MIS",
   method = "euclidean",
-  paired.samples = FALSE,
+  diagonal = TRUE,
+  ignore.blocks = TRUE,
   repetitions = 9 #recommended value: 999
 )
 ```
@@ -431,13 +540,13 @@ The output is a list with two dataframes, **psi** and **p**.
 The dataframe **psi** contains the real and random psi values. The column *psi* contains the dissimilarity between the sequences in the columns *A* and *B*. The columns *r1* to *r9* contain the psi values obtained from permutations of the sequences.
 
 ```{r}
-kable(random.psi$psi, digits = 4)
+kable(random.psi$psi, digits = 4, caption = "True and null psi values generated by workflowNullPsi.")
 ```
 
 The dataframe *p* contains the probability of obtaining the real *psi* value by chance for each combination of sequences.
 
 ```{r}
-kable(random.psi$p)
+kable(random.psi$p, caption = "Probability of obtaining a given set of psi values by chance.")
 ```
 
 ```{r}
@@ -462,9 +571,7 @@ sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),
 sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",
-  time.column = NULL,
-  merge.mode = "complete",
-  exclude.columns = NULL
+  merge.mode = "complete"
 )
 ```
 
@@ -476,12 +583,9 @@ The workflow function is pretty similar to the ones explained above. However, un
 psi.importance <- workflowImportance(
   sequences = sequencesMIS,
   grouping.column = "MIS",
-  time.column = NULL,
-  exclude.columns = NULL,
-  method = "manhattan",
-  diagonal = FALSE,
-  parallel.execution = TRUE,
-  paired.samples = FALSE
+  method = "euclidean",
+  diagonal = TRUE,
+  ignore.blocks = TRUE
   )
 ```
 
@@ -490,7 +594,7 @@ The output is a list with two slots named *psi* and *psi.drop*.
 The dataframe **psi** contains psi values for each combination of variables (named in the coluns *A* and *B*) computed for all columns in the column *All variables*, and one column per variable named *Without variable_name* containing the psi value when that variable is removed from the compared sequences.
 
 ```{r}
-kable(psi.importance$psi, digits = 4)
+kable(psi.importance$psi, digits = 4, caption = "Psi values with all variables (column 'All variables'), and without one variable at a time.")
 ```
 
 This table can be plotted as a bar plot as follows: 
@@ -524,7 +628,7 @@ In summary:
 +  Low or negative psi-drop value: variable contributes to similarity.
 
 ```{r}
-kable(psi.importance$psi.drop)
+kable(psi.importance$psi.drop, caption = "Drop in psi, as percentage of the psi value obtained when using all variables. Positive values indicate that the sequences become more similar when the given variable is removed (contribution to dissimilarity), while negative values indicate that the sequences become more dissimilar when the variable is removed (contribution to similarity).")
 ```
 
 ```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
@@ -593,7 +697,8 @@ MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
   grouping.column = "id",
   method = "euclidean",
-  paired.samples = FALSE,
+  diagonal = TRUE,
+  ignore.blocks = TRUE,
   min.length = nrow(MIS.short),
   max.length = nrow(MIS.short)
 )
@@ -602,7 +707,7 @@ MIS.psi <- workflowPartialMatch(
 The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
 ```{r}
-kable(MIS.psi[1:15, ], digits = 4)
+kable(MIS.psi[1:15, ], digits = 4, caption = "First and last row of a section of the long sequence along with the psi value obtained during the partial matching.")
 ```
 
 Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
@@ -654,7 +759,7 @@ AB <- prepareSequences(
 )
 ```
 
-Once the sequences are prepared, the function **workflowSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least-cost matrix, and generates the least-cost path. 
+Once the sequences are prepared, the function **workflowSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least-cost matrix, and generates the least-cost path. Note that it only uses an orthogonal method considering blocks, since this is the only option really suitable for this task.
 
 ```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Distance matrix and least-cost path of the example sequences 'A' and 'B'.."}
 AB.combined <- workflowSlotting(
@@ -670,10 +775,10 @@ AB.combined <- workflowSlotting(
 The function reads the least-cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
 ```{r}
-kable(AB.combined[1:15,1:10], format = "html", digits = 4)
+kable(AB.combined[1:15,1:10], digits = 4, caption = "Combination of sequences A and B.")
 ```
 
-Note that several samples (highlighted in bold) show inverted ages with respect to the previous samples. This is expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
+Note that several samples show inverted ages with respect to the previous samples. This is to be expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
 
 ```{r, fig.width = 7, fig.height = 7, eval=TRUE, fig.cap = "Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
 
@@ -803,7 +908,7 @@ X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",
-  method = "manhattan",
+  method = "euclidean",
   transfer.what = "age",
   transfer.from = "GP",
   transfer.to = "X",
@@ -866,7 +971,7 @@ The table below shows the observed versus the predicted values for $Btk$.
 
 ```{r}
 temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
-kable(t(temp.df), digits = 4)
+kable(t(temp.df), digits = 4, caption = "Observed versus predicted value in the interpolation of an age based on similarity between samples.")
 ```
 
 Below we create some example data, where a subset of *pollenGP* will be the donor of age values, and another subset of it, named *pollenX* will be the receiver of the age values.
@@ -914,14 +1019,14 @@ X.new <- workflowTransfer(
   sequences = GP.X,
   grouping.column = "id",
   time.column = "age",
-  method = "manhattan",
+  method = "euclidean",
   transfer.what = "age",
   transfer.from = "GP",
   transfer.to = "X",
   mode = "interpolated"
   )
 
-kable(X.new[1:15, ], digits = 4)  %>% 
+kable(X.new[1:15, ], digits = 4, caption = "Result of the transference of an age attribute from one sequence to another. NA values are expected when predicted ages for a given sample yield a higher number than the age of the previous sample.")  %>% 
   row_spec(c(8, 13), bold = T)
 ```
 

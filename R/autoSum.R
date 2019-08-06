@@ -13,7 +13,7 @@
 #'   )
 #'
 #' @param sequences dataframe with one or several multivariate time-series identified by a grouping column.
-#' @param named.list a list usually resulting from either \code{\link{leastCostPath}}, \code{\link{leastCostPathNoBlocks}}, \code{\link{distancePairedSamples}}, or \code{\link{leastCost}} with the names of the pairs of sequences being compared.
+#' @param least.cost.path a list usually resulting from either \code{\link{leastCostPath}} or \code{\link{leastCostPathNoBlocks}}.
 #' @param time.column character string, name of the column with time/depth/rank data. The data in this column is not modified.
 #' @param grouping.column character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.
 #' @param exclude.columns character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.
@@ -41,6 +41,7 @@
 #' @examples
 #'
 #' \donttest{
+#'#loading data
 #'data(sequenceA)
 #'data(sequenceB)
 #'
@@ -55,9 +56,31 @@
 #'  transformation = "hellinger"
 #'  )
 #'
+#'#computing distance matrix
+#'AB.distance.matrix <- distanceMatrix(
+#'  sequences = AB.sequences,
+#'  grouping.column = "id",
+#'  method = "manhattan",
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'#computing least cost matrix
+#'AB.least.cost.matrix <- leastCostMatrix(
+#'  distance.matrix = AB.distance.matrix,
+#'  diagonal = FALSE,
+#'  parallel.execution = FALSE
+#'  )
+#'
+#'AB.least.cost.path <- leastCostPath(
+#'  distance.matrix = AB.distance.matrix,
+#'  least.cost.matrix = AB.least.cost.matrix,
+#'  parallel.execution = FALSE
+#'  )
+#'
 #'#autosum
 #'AB.autosum <- autoSum(
 #'  sequences = AB.sequences,
+#'  least.cost.path = AB.least.cost.path,
 #'  grouping.column = "id",
 #'  parallel.execution = FALSE
 #'  )
@@ -67,7 +90,7 @@
 #'
 #'@export
 autoSum <- function(sequences = NULL,
-                       named.list = NULL,
+                       least.cost.path = NULL,
                        time.column = NULL,
                        grouping.column = NULL,
                        exclude.columns = NULL,
@@ -94,8 +117,8 @@ autoSum <- function(sequences = NULL,
   groups <- unique(sequences[, grouping.column])
 
   #number of sequences to compute the autosum of
-  if(!is.null(named.list)){
-    n.iterations <- length(named.list)
+  if(!is.null(least.cost.path)){
+    n.iterations <- length(least.cost.path)
   }
 
   #removing time column
@@ -119,7 +142,7 @@ autoSum <- function(sequences = NULL,
   #exporting cluster variables
   parallel::clusterExport(cl=my.cluster,
                           varlist=c('n.iterations',
-                                    'named.list',
+                                    'least.cost.path',
                                     'sequences',
                                     'distance',
                                     'groups'),
@@ -135,7 +158,7 @@ autoSum <- function(sequences = NULL,
   autosum.sequences <- foreach::foreach(i = 1:n.iterations) %dopar% {
 
     #getting sequence names
-    sequence.names = unlist(strsplit(names(named.list)[i], split='|', fixed=TRUE))
+    sequence.names = unlist(strsplit(names(least.cost.path)[i], split='|', fixed=TRUE))
 
     #getting sequence
     sequence.A <- sequences[sequences[,grouping.column] %in% sequence.names[1], ]
@@ -145,14 +168,14 @@ autoSum <- function(sequences = NULL,
     sequence.A <- sequence.A[,sapply(sequence.A, is.numeric)]
     sequence.B <- sequence.B[,sapply(sequence.B, is.numeric)]
 
-    #getting named.list
-    named.list.i <- named.list[[names(named.list)[i]]]
+    #getting least.cost.path
+    least.cost.path.i <- least.cost.path[[names(least.cost.path)[i]]]
 
     #checking if it is a least.cost.path and removing cases that are not in the least-cost path after removing blocks
-    if(inherits(named.list.i, "data.frame")){
-      if(colnames(named.list.i)[1] == sequence.names[1] & colnames(named.list.i)[2] == sequence.names[2]){
-        sequence.A <- sequence.A[unique(named.list.i[,sequence.names[1]]), ]
-        sequence.B <- sequence.B[unique(named.list.i[,sequence.names[2]]), ]
+    if(inherits(least.cost.path.i, "data.frame")){
+      if(colnames(least.cost.path.i)[1] == sequence.names[1] & colnames(least.cost.path.i)[2] == sequence.names[2]){
+        sequence.A <- sequence.A[unique(least.cost.path.i[,sequence.names[1]]), ]
+        sequence.B <- sequence.B[unique(least.cost.path.i[,sequence.names[2]]), ]
       }
     }
 
@@ -224,7 +247,7 @@ autoSum <- function(sequences = NULL,
   }
 
   #naming slots in list
-  names(autosum.sequences) <- names(named.list)
+  names(autosum.sequences) <- names(least.cost.path)
 
   return(autosum.sequences)
 

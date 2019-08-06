@@ -106,8 +106,8 @@
 #' @format dataframe with 6 columns and 800 rows.
 "climate"
 
-#' @import plyr parallel doParallel foreach iterators fields grDevices viridis data.table
+#' @import plyr parallel doParallel foreach iterators fields grDevices viridis data.table arrangements
 NULL
 
 #' @import utils
-utils::globalVariables(c("i"))
+utils::globalVariables(c("i", "..numeric.cols"))

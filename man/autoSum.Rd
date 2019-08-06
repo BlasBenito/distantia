@@ -17,7 +17,7 @@ autoSum(
 \arguments{
 \item{sequences}{dataframe with one or several multivariate time-series identified by a grouping column.}
 
-\item{named.list}{a list usually resulting from either \code{\link{leastCostPath}}, \code{\link{leastCostPathNoBlocks}}, \code{\link{distancePairedSamples}}, or \code{\link{leastCost}} with the names of the pairs of sequences being compared.}
+\item{least.cost.path}{a list usually resulting from either \code{\link{leastCostPath}} or \code{\link{leastCostPathNoBlocks}}.}
 
 \item{time.column}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
 
@@ -52,6 +52,7 @@ Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hel
 \examples{
 
 \donttest{
+#loading data
 data(sequenceA)
 data(sequenceB)
 
@@ -66,9 +67,31 @@ AB.sequences <- prepareSequences(
  transformation = "hellinger"
  )
 
+#computing distance matrix
+AB.distance.matrix <- distanceMatrix(
+ sequences = AB.sequences,
+ grouping.column = "id",
+ method = "manhattan",
+ parallel.execution = FALSE
+ )
+
+#computing least cost matrix
+AB.least.cost.matrix <- leastCostMatrix(
+ distance.matrix = AB.distance.matrix,
+ diagonal = FALSE,
+ parallel.execution = FALSE
+ )
+
+AB.least.cost.path <- leastCostPath(
+ distance.matrix = AB.distance.matrix,
+ least.cost.matrix = AB.least.cost.matrix,
+ parallel.execution = FALSE
+ )
+
 #autosum
 AB.autosum <- autoSum(
  sequences = AB.sequences,
+ least.cost.path = AB.least.cost.path,
  grouping.column = "id",
  parallel.execution = FALSE
  )

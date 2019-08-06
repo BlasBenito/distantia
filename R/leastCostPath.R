@@ -261,8 +261,9 @@ leastCostPath <- function(distance.matrix = NULL,
 
     #getting names of the sequences
     sequence.names = unlist(strsplit(names(distance.matrix)[i], split='|', fixed=TRUE))
+
     #remove empty rows of path
-    path <- na.omit(path)
+    path <- stats::na.omit(path)
 
     #renaming path
     colnames(path)[1] <- sequence.names[1]

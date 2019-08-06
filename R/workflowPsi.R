@@ -138,7 +138,7 @@ workflowPsi <- function(sequences = NULL,
     #autosum
     autosum.sequences <- autoSum(
       sequences = sequences,
-      named.list = least.cost.path,
+      least.cost.path = least.cost.path,
       grouping.column = grouping.column,
       time.column = time.column,
       exclude.columns = exclude.columns,
@@ -184,7 +184,7 @@ workflowPsi <- function(sequences = NULL,
     #autosum
     autosum.sequences <- autoSum(
       sequences = sequences,
-      named.list = least.cost,
+      least.cost.path = least.cost,
       grouping.column = grouping.column,
       time.column = time.column,
       exclude.columns = exclude.columns,
