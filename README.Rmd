@@ -29,7 +29,6 @@ rm(list.of.packages, packages.to.install)
 
 <!-- badges: start -->
 
-
 [![DOI](https://zenodo.org/badge/187805264.svg)](https://zenodo.org/badge/latestdoi/187805264)
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/distantia)](https://CRAN.R-project.org/package=distantia)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/distantia)](https://CRAN.R-project.org/package=distantia)
@@ -124,7 +123,7 @@ The computation of dissimilarity between the datasets A and B requires several s
 
 It is computed by the **distanceMatrix** function, which allows the user to select a distance metric (so far the ones implemented are *manhattan*, *euclidean*, *chi*, and *hellinger*). The function **plotMatrix** allows an easy visualization of the resulting distance matrix.
 
-```{r, fig.width = 7, fig.height = 4, fig.cap = "Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance between samples."}
+```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Distance matrix between the samples of two irregular multivariate sequences. Darker colors indicate higher distance between samples."}
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
@@ -395,7 +394,7 @@ kable(MIS.psi[order(MIS.psi$psi), ], digits = 4, caption = "Psi values between p
 
 A dataframe like this can be transformed into a matrix to be plotted as an adjacency network with the **qgraph** package.
 
-```{r, fig.width = 7, warning = FALSE, error = FALSE, fig.height = 7,fig.cap = "Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green"}
+```{r, fig.width = 5, warning = FALSE, error = FALSE, fig.height = 5, fig.cap = "Similarity between MIS sequences represented as a network. More similar sites are closer, and linked by a wider edge. Note that glacials are colored in blue and interglacials in green"}
 #psi values to matrix
 MIS.psi.matrix <- formatPsi(
   psi.values = MIS.psi,
@@ -418,7 +417,7 @@ qgraph::qgraph(
 
 Or as a matrix with **ggplot2**.
 
-```{r, fig.width = 7, fig.height = 4, fig.cap = "Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity."}
+```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity."}
 #ordering factors to get a triangular matrix
 MIS.psi$A <- factor(MIS.psi$A, levels=unique(sequencesMIS$MIS))
 MIS.psi$B <- factor(MIS.psi$B, levels=unique(sequencesMIS$MIS))
@@ -599,7 +598,7 @@ kable(psi.importance$psi, digits = 4, caption = "Psi values with all variables (
 
 This table can be plotted as a bar plot as follows: 
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences."}
+```{r, fig.width = 5, fig.height = 3.5, eval=TRUE, fig.cap = "Variable importance analysis of three combinations of sequences. The plot suggest that MIS-4 and MIS-6 are more similar (both are glacial periods), and that the column Quercus is the one with a higher contribution to dissimilarity between sequences."}
 #extracting object
 psi.df <- psi.importance$psi
 
@@ -631,7 +630,7 @@ In summary:
 kable(psi.importance$psi.drop, caption = "Drop in psi, as percentage of the psi value obtained when using all variables. Positive values indicate that the sequences become more similar when the given variable is removed (contribution to dissimilarity), while negative values indicate that the sequences become more dissimilar when the variable is removed (contribution to similarity).")
 ```
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
+```{r, fig.width = 5, fig.height = 3.5, eval=TRUE, fig.cap = "Drop in psi values, represented as percentage, when a variable is removed from the analysis. Negative values indicate a contribution to similarity, while positive values indicate a contribution to dissimilarity. The plot suggest that Quercus is the variable with a higher contribution to dissimilarity, while Pinus has the higher contribution to similarity."}
 #extracting object
 psi.drop.df <- psi.importance$psi.drop
 
@@ -761,7 +760,7 @@ AB <- prepareSequences(
 
 Once the sequences are prepared, the function **workflowSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least-cost matrix, and generates the least-cost path. Note that it only uses an orthogonal method considering blocks, since this is the only option really suitable for this task.
 
-```{r, fig.width = 7, fig.height = 4, eval=TRUE, fig.cap = "Distance matrix and least-cost path of the example sequences 'A' and 'B'.."}
+```{r, fig.width = 5, fig.height = 3.5, eval=TRUE, fig.cap = "Distance matrix and least-cost path of the example sequences 'A' and 'B'.."}
 AB.combined <- workflowSlotting(
   sequences = AB,
   grouping.column = "id",
@@ -780,7 +779,7 @@ kable(AB.combined[1:15,1:10], digits = 4, caption = "Combination of sequences A 
 
 Note that several samples show inverted ages with respect to the previous samples. This is to be expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
 
-```{r, fig.width = 7, fig.height = 7, eval=TRUE, fig.cap = "Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
+```{r, fig.width = 5, fig.height = 7, eval=TRUE, fig.cap = "Sequences A (green) and B (blue) with their ordered samples (upper panel), and the composite sequence resulting from them (lower panel) after applying the sequence slotting algorithm. Notice that the slotting takes into account all columns in both datasets, and therefore, a single column, as shown in the plot, might not be totally representative of the slotting solution.", echo = FALSE}
 
 #color palette
 cols <- viridis::viridis(3, begin = 0.2, end = 0.8)

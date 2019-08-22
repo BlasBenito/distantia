@@ -190,7 +190,14 @@ workflowNullPsi <- function(sequences = NULL,
     }
 
     #lists to dataframe
-    psi.random.df <- data.frame(matrix(unlist(psi.random), nrow=length(psi.real), byrow=T),stringsAsFactors=FALSE)
+    psi.random.df <- data.frame(
+      matrix(
+        unlist(psi.random
+               ),
+        nrow=nrow(psi.real),
+        byrow = T
+        ),stringsAsFactors=FALSE
+      )
     colnames(psi.random.df) <- paste("r", 1:ncol(psi.random.df), sep="")
 
     #columns with the compared datasets
