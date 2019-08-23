@@ -62,7 +62,7 @@ install.packages("distantia")
 
 And the development version (currently v1.0.1) from [GitHub](https://github.com/) with:
 
-```{r, eval=FALSE, message=FALSE}
+```{r, eval=TRUE, message=FALSE, eval = FALSE}
 library(devtools)
 devtools::install_github("BlasBenito/distantia")
 ```

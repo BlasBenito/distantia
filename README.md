@@ -6712,31 +6712,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.5016
-
-</td>
-
-<td style="text-align:right;">
-
-2.1582
-
-</td>
-
-<td style="text-align:right;">
-
 3.4563
-
-</td>
-
-<td style="text-align:right;">
-
-1.6678
-
-</td>
-
-<td style="text-align:right;">
-
-2.1579
 
 </td>
 
@@ -6748,13 +6724,37 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.4573
+3.5720
 
 </td>
 
 <td style="text-align:right;">
 
-2.0739
+3.4390
+
+</td>
+
+<td style="text-align:right;">
+
+3.4279
+
+</td>
+
+<td style="text-align:right;">
+
+3.4589
+
+</td>
+
+<td style="text-align:right;">
+
+3.7984
+
+</td>
+
+<td style="text-align:right;">
+
+3.5364
 
 </td>
 
@@ -6782,7 +6782,19 @@ MIS-6
 
 <td style="text-align:right;">
 
-3.5720
+1.5016
+
+</td>
+
+<td style="text-align:right;">
+
+1.6678
+
+</td>
+
+<td style="text-align:right;">
+
+1.4573
 
 </td>
 
@@ -6794,31 +6806,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-2.0159
-
-</td>
-
-<td style="text-align:right;">
-
-3.4390
-
-</td>
-
-<td style="text-align:right;">
-
 1.6080
-
-</td>
-
-<td style="text-align:right;">
-
-2.1479
-
-</td>
-
-<td style="text-align:right;">
-
-3.4279
 
 </td>
 
@@ -6830,7 +6818,19 @@ MIS-6
 
 <td style="text-align:right;">
 
-2.1388
+1.5842
+
+</td>
+
+<td style="text-align:right;">
+
+1.4916
+
+</td>
+
+<td style="text-align:right;">
+
+1.4779
 
 </td>
 
@@ -6858,13 +6858,37 @@ MIS-6
 
 <td style="text-align:right;">
 
-3.4589
+2.1582
 
 </td>
 
 <td style="text-align:right;">
 
-1.5842
+2.1579
+
+</td>
+
+<td style="text-align:right;">
+
+2.0739
+
+</td>
+
+<td style="text-align:right;">
+
+2.0159
+
+</td>
+
+<td style="text-align:right;">
+
+2.1479
+
+</td>
+
+<td style="text-align:right;">
+
+2.1388
 
 </td>
 
@@ -6876,31 +6900,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-3.7984
-
-</td>
-
-<td style="text-align:right;">
-
-1.4916
-
-</td>
-
-<td style="text-align:right;">
-
 2.2585
-
-</td>
-
-<td style="text-align:right;">
-
-3.5364
-
-</td>
-
-<td style="text-align:right;">
-
-1.4779
 
 </td>
 
@@ -6976,7 +6976,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-0.7
+0.1
 
 </td>
 
@@ -7020,7 +7020,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.4
+0.1
 
 </td>
 

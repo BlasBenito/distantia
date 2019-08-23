@@ -181,6 +181,7 @@ workflowNullPsi <- function(sequences = NULL,
 
     }#end of parallelized loop
 
+
     #stopping cluster
     if(parallel.execution == TRUE){
       parallel::stopCluster(my.cluster)
@@ -192,16 +193,15 @@ workflowNullPsi <- function(sequences = NULL,
     #lists to dataframe
     psi.random.df <- data.frame(
       matrix(
-        unlist(psi.random
-               ),
-        nrow=nrow(psi.real),
-        byrow = T
-        ),stringsAsFactors=FALSE
+        unlist(psi.random),
+        nrow = nrow(psi.real),
+        byrow = F
+        ), stringsAsFactors=FALSE
       )
     colnames(psi.random.df) <- paste("r", 1:ncol(psi.random.df), sep="")
 
     #columns with the compared datasets
-    psi.df <- cbind(psi.real, psi.random.df)
+    psi.df <- data.frame(psi.real, psi.random.df)
 
     #compute p on each row
     p.df <- psi.df[, 1:2]
