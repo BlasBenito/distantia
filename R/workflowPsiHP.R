@@ -384,7 +384,7 @@ workflowPsiHP <- function(sequences = NULL,
   }#end of parallelized loop
 
   #preparing output as dataframe
-  combinations <- data.frame(combinations)
+  combinations <- data.frame(combinations, stringsAsFactors = FALSE)
   combinations[, "psi"] <- psi.output
   colnames(combinations) <- c("A", "B", "psi")
 
