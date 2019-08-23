@@ -1,6 +1,6 @@
 distantia: an R package to compute the dissimilarity between
 multivariate time-series
-=================
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -58,7 +58,6 @@ And the development version (currently v1.0.1) from
 [GitHub](https://github.com/) with:
 
 ``` r
-install.packages("devtools")
 library(devtools)
 devtools::install_github("BlasBenito/distantia")
 ```
@@ -3189,11 +3188,7 @@ AB.least.cost.path <- AB.least.cost.path.diag.nb
 AB.between <- AB.between.diag.nb
 
 #removing unneeded objects
-rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
-#> Warning in rm(AB.between.diag, AB.between.diag.nb, AB.between.nb,
-#> AB.distance.matrix, : object 'AB.least.cost.matrix' not found
-#> Warning in rm(AB.between.diag, AB.between.diag.nb, AB.between.nb,
-#> AB.distance.matrix, : object 'AB.least.cost.matrix.diag' not found
+rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
 ```
 
 ### 3\. Autosum, or sum of the distances among adjacent samples on each sequence.

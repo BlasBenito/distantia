@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 
 #installing required libraries
-list.of.packages <- c("ggplot2", "viridis", "fields", "foreach", "parallel", "doParallel", "qgraph", "tidyr")
+list.of.packages <- c("ggplot2", "viridis", "fields", "foreach", "parallel", "doParallel", "qgraph", "tidyr", "devtools")
 packages.to.install <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(packages.to.install)) install.packages(packages.to.install, dep=TRUE)
 
@@ -63,7 +63,6 @@ install.packages("distantia")
 And the development version (currently v1.0.1) from [GitHub](https://github.com/) with:
 
 ```{r, eval=FALSE, message=FALSE}
-install.packages("devtools")
 library(devtools)
 devtools::install_github("BlasBenito/distantia")
 ```
@@ -265,7 +264,7 @@ AB.least.cost.path <- AB.least.cost.path.diag.nb
 AB.between <- AB.between.diag.nb
 
 #removing unneeded objects
-rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
+rm(AB.between.diag, AB.between.diag.nb, AB.between.nb, AB.distance.matrix, AB.least.cost.matrix, AB.least.cost.matrix.diag, AB.least.cost.path.diag, AB.least.cost.path.diag.nb, AB.least.cost.path.nb, sequenceA, sequenceB)
 ```
 
 
