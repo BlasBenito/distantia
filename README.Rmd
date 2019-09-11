@@ -536,9 +536,17 @@ random.psi <- workflowNullPsi(
   repetitions = 99, #recommended value: 999
   parallel.execution = TRUE
 )
+
+#there is also a high-performance version of this function with fewer options (diagonal = TRUE, ignore.blocks = TRUE, and method = "euclidean" are used by default)
+random.psi <- workflowNullPsiHP(
+  sequences = sequencesMIS,
+  grouping.column = "MIS",
+  repetitions = 99, #recommended value: 999
+  parallel.execution = TRUE
+)
 ```
 
-Note that the number of repetitions has been set to 9 in order to speed-up execution. The actual number should ideally be 999.
+Note that the number of repetitions has been set to 9 in order to speed-up execution. The actual number would ideally be 999.
 
 The output is a list with two dataframes, **psi** and **p**.
 
