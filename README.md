@@ -1,6 +1,6 @@
 distantia: an R package to compute the dissimilarity between
 multivariate time-series
-================
+==================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 

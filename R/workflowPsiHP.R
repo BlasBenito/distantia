@@ -389,6 +389,10 @@ workflowPsiHP <- function(sequences = NULL,
   combinations[, "psi"] <- psi.output
   colnames(combinations) <- c("A", "B", "psi")
 
+  #factor to character
+  combinations$A <- as.character(combinations$A)
+  combinations$B <- as.character(combinations$B)
+
 
   return(combinations)
 

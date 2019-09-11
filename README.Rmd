@@ -387,6 +387,12 @@ MIS.psi <- workflowPsi(
   ignore.blocks = TRUE
 )
 
+#there is also a "high-performance" (HP) version of this function with a much lower memory footprint. It uses the options method = "euclidean", diagonal = TRUE, and ignore.blocks = TRUE by default 
+MIS.psi <- workflowPsiHP(
+  sequences = MIS.sequences,
+  grouping.column = "MIS"
+)
+
 #ordered with lower psi on top
 kable(MIS.psi[order(MIS.psi$psi), ], digits = 4, caption = "Psi values between pairs of MIS periods.")
 ```
@@ -527,8 +533,8 @@ random.psi <- workflowNullPsi(
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE,
-  repetitions = 999, #recommended value: 999
-  parallel.execution = FALSE
+  repetitions = 99, #recommended value: 999
+  parallel.execution = TRUE
 )
 ```
 
@@ -585,6 +591,12 @@ psi.importance <- workflowImportance(
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE
+  )
+
+#there is also a high performance version of this function, but with fewer options (it uses euclidean, diagonal, and ignores blocks by default)
+psi.importance <- workflowImportanceHP(
+  sequences = sequencesMIS,
+  grouping.column = "MIS"
   )
 ```
 
