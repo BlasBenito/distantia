@@ -14572,8 +14572,9 @@ psi.drop.df.long$name <- paste(psi.drop.df.long$A, psi.drop.df.long$B, sep=" - "
 ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) + 
   geom_bar(stat = "identity") + 
   coord_flip() + 
+  geom_hline(yintercept = 0, size = 0.3) + 
   facet_wrap("name") +
-  scale_fill_viridis() +
+  scale_fill_viridis(direction = -1) +
   ggtitle("Drop in dissimilarity when variables are removed.") +
   ylab("Drop in dissimilarity (%)") +
   labs(fill = "Psi drop (%)")
