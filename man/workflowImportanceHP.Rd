@@ -4,11 +4,12 @@
 \alias{workflowImportanceHP}
 \title{Computes the contribution to dissimilarity of each variable using workflowPsiHP.}
 \usage{
-workflowImportance(
+workflowImportanceHP(
   sequences = NULL,
   grouping.column = NULL,
   time.column = NULL,
-  exclude.columns = NULL
+  exclude.columns = NULL,
+  parallel.execution = TRUE
   )
 }
 \arguments{
