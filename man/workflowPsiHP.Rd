@@ -38,7 +38,7 @@ Due to limitations of the function \code{\link[arrangements]{permutations}}, the
 data("sequencesMIS")
 #prepare sequences
 MIS.sequences <- prepareSequences(
-  sequences = sequencesMIS,
+  sequences = sequencesMIS[sequencesMIS$MIS \%in\% c("MIS-1", "MIS-2"), ],
   grouping.column = "MIS",
   if.empty.cases = "zero",
   transformation = "hellinger"

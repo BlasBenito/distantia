@@ -51,10 +51,10 @@
 #'
 #'#execute workflow to compute psi
 #'MIS.null.psi <- workflowNullPsi(
-#'  sequences = MIS.sequences,
+#'  sequences = MIS.sequences[MIS.sequences$MIS %in% c("MIS-1", "MIS-2"), ],
 #'  grouping.column = "MIS",
 #'  method = "manhattan",
-#'  repetitions = 9,
+#'  repetitions = 3,
 #'  parallel.execution = FALSE
 #'  )
 #'
@@ -105,6 +105,7 @@ workflowNullPsi <- function(sequences = NULL,
 
     #cluster to go through iterations
     if(parallel.execution == TRUE){
+
       `%dopar%` <- foreach::`%dopar%`
       n.cores <- parallel::detectCores() - 1
       my.cluster <- parallel::makeCluster(n.cores, type="FORK")
@@ -131,9 +132,11 @@ workflowNullPsi <- function(sequences = NULL,
     } else {
       #replaces dopar (parallel) by do (serial)
       `%dopar%` <- foreach::`%do%`
+      on.exit(`%dopar%` <- foreach::`%dopar%`)
     }
 
     #parallelized loop
+    #---------------------------------------
     psi.random <- foreach::foreach(i = 1:repetitions) %dopar% {
 
       #permutating sequences
@@ -163,7 +166,7 @@ workflowNullPsi <- function(sequences = NULL,
       sequences.randomized <- data.frame(grouping.column = grouping.column.data, decision.matrix, stringsAsFactors = FALSE)
       colnames(sequences.randomized)[1] <- grouping.column
 
-
+      #computes psi on permutated sequences
       psi.random.i <- workflowPsi(
         sequences = sequences.randomized,
         grouping.column = grouping.column,
@@ -180,7 +183,7 @@ workflowNullPsi <- function(sequences = NULL,
       return(psi.random.i)
 
     }#end of parallelized loop
-
+    #---------------------------------------
 
     #stopping cluster
     if(parallel.execution == TRUE){

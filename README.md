@@ -4193,6 +4193,12 @@ MIS.psi <- workflowPsi(
   ignore.blocks = TRUE
 )
 
+#there is also a "high-performance" (HP) version of this function with a much lower memory footprint. It uses the options method = "euclidean", diagonal = TRUE, and ignore.blocks = TRUE by default 
+MIS.psi <- workflowPsiHP(
+  sequences = MIS.sequences,
+  grouping.column = "MIS"
+)
+
 #ordered with lower psi on top
 kable(MIS.psi[order(MIS.psi$psi), ], digits = 4, caption = "Psi values between pairs of MIS periods.")
 ```
@@ -4259,63 +4265,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.8476
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-65
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.8622
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-61
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-0.8978
+0.8631
 
 </td>
 
@@ -4343,7 +4293,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-0.9027
+0.8643
 
 </td>
 
@@ -4353,13 +4303,13 @@ MIS-11
 
 <td style="text-align:left;">
 
-66
+65
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-11
+MIS-10
 
 </td>
 
@@ -4371,7 +4321,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.9165
+0.9099
 
 </td>
 
@@ -4399,7 +4349,63 @@ MIS-12
 
 <td style="text-align:right;">
 
-0.9373
+0.9359
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+61
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+0.9422
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+66
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+0.9816
 
 </td>
 
@@ -4427,63 +4433,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-0.9834
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-60
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-0.9887
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-62
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-0.9958
+0.9866
 
 </td>
 
@@ -4511,7 +4461,63 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.0191
+0.9931
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+62
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+1.0009
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+60
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-8
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.0079
 
 </td>
 
@@ -4539,7 +4545,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-1.0294
+1.0174
 
 </td>
 
@@ -4567,63 +4573,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-1.0343
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-63
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-1.0395
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-56
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-1.0408
+1.0242
 
 </td>
 
@@ -4651,7 +4601,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-1.0513
+1.0340
 
 </td>
 
@@ -4679,7 +4629,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.0553
+1.0392
 
 </td>
 
@@ -4689,41 +4639,13 @@ MIS-9
 
 <td style="text-align:left;">
 
-32
+56
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-1.0628
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-51
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
+MIS-7
 
 </td>
 
@@ -4735,7 +4657,35 @@ MIS-12
 
 <td style="text-align:right;">
 
-1.0692
+1.0423
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+63
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.0531
 
 </td>
 
@@ -4763,7 +4713,35 @@ MIS-9
 
 <td style="text-align:right;">
 
-1.0727
+1.0598
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+51
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.0736
 
 </td>
 
@@ -4791,203 +4769,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.0827
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-54
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-1.0946
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-58
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-1.0994
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-49
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-1.1007
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-21
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-12
-
-</td>
-
-<td style="text-align:right;">
-
-1.1073
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-27
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-1.1122
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-15
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-1.1148
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-12
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-3
-
-</td>
-
-<td style="text-align:right;">
-
-1.1170
+1.0846
 
 </td>
 
@@ -5015,7 +4797,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.1320
+1.0970
 
 </td>
 
@@ -5025,7 +4807,63 @@ MIS-8
 
 <td style="text-align:left;">
 
-57
+21
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-12
+
+</td>
+
+<td style="text-align:right;">
+
+1.1002
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+32
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.1020
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+58
 
 </td>
 
@@ -5037,13 +4875,41 @@ MIS-8
 
 <td style="text-align:left;">
 
-MIS-9
+MIS-10
 
 </td>
 
 <td style="text-align:right;">
 
-1.1386
+1.1186
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+54
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.1209
 
 </td>
 
@@ -5071,7 +4937,119 @@ MIS-4
 
 <td style="text-align:right;">
 
-1.1551
+1.1214
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+15
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:right;">
+
+1.1273
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+12
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:right;">
+
+1.1365
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+49
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.1670
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+27
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.1725
 
 </td>
 
@@ -5099,7 +5077,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.1719
+1.1929
 
 </td>
 
@@ -5109,25 +5087,25 @@ MIS-8
 
 <td style="text-align:left;">
 
-29
+57
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-3
+MIS-8
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-11
+MIS-9
 
 </td>
 
 <td style="text-align:right;">
 
-1.1725
+1.1982
 
 </td>
 
@@ -5155,35 +5133,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.1972
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-19
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-1.2080
+1.2468
 
 </td>
 
@@ -5211,7 +5161,7 @@ MIS-4
 
 <td style="text-align:right;">
 
-1.2388
+1.2541
 
 </td>
 
@@ -5239,7 +5189,35 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.2731
+1.2656
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+29
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-3
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+1.2770
 
 </td>
 
@@ -5267,7 +5245,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.2745
+1.2890
 
 </td>
 
@@ -5277,25 +5255,25 @@ MIS-8
 
 <td style="text-align:left;">
 
-48
+19
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-6
+MIS-2
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-9
+MIS-10
 
 </td>
 
 <td style="text-align:right;">
 
-1.2799
+1.2976
 
 </td>
 
@@ -5323,7 +5301,35 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.3560
+1.3568
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+48
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.3699
 
 </td>
 
@@ -5351,7 +5357,7 @@ MIS-11
 
 <td style="text-align:right;">
 
-1.3871
+1.4274
 
 </td>
 
@@ -5379,35 +5385,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.4027
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-34
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-8
-
-</td>
-
-<td style="text-align:right;">
-
-1.4384
+1.4692
 
 </td>
 
@@ -5435,35 +5413,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.4490
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-36
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-10
-
-</td>
-
-<td style="text-align:right;">
-
-1.4555
+1.4884
 
 </td>
 
@@ -5491,7 +5441,7 @@ MIS-12
 
 <td style="text-align:right;">
 
-1.4911
+1.5184
 
 </td>
 
@@ -5519,7 +5469,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-1.5888
+1.5455
 
 </td>
 
@@ -5529,81 +5479,25 @@ MIS-8
 
 <td style="text-align:left;">
 
-46
+34
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-6
+MIS-4
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-7
+MIS-8
 
 </td>
 
 <td style="text-align:right;">
 
-1.6028
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-18
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-1.6722
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-20
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-1.6951
+1.5710
 
 </td>
 
@@ -5631,7 +5525,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.7162
+1.6316
 
 </td>
 
@@ -5641,13 +5535,13 @@ MIS-5
 
 <td style="text-align:left;">
 
-6
+46
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-1
+MIS-6
 
 </td>
 
@@ -5659,7 +5553,63 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.7311
+1.6411
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+36
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-10
+
+</td>
+
+<td style="text-align:right;">
+
+1.6487
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+18
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+1.6933
 
 </td>
 
@@ -5687,7 +5637,35 @@ MIS-5
 
 <td style="text-align:right;">
 
-1.8062
+1.7265
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+6
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:right;">
+
+1.7712
 
 </td>
 
@@ -5715,7 +5693,35 @@ MIS-4
 
 <td style="text-align:right;">
 
-1.8454
+1.8732
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+20
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+1.9079
 
 </td>
 
@@ -5743,63 +5749,7 @@ MIS-7
 
 <td style="text-align:right;">
 
-1.8768
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-16
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-2
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-7
-
-</td>
-
-<td style="text-align:right;">
-
-2.0543
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-35
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-4
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-9
-
-</td>
-
-<td style="text-align:right;">
-
-2.0668
+1.9633
 
 </td>
 
@@ -5827,7 +5777,35 @@ MIS-12
 
 <td style="text-align:right;">
 
-2.0765
+2.0587
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+16
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-2
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-7
+
+</td>
+
+<td style="text-align:right;">
+
+2.1501
 
 </td>
 
@@ -5855,35 +5833,7 @@ MIS-9
 
 <td style="text-align:right;">
 
-2.1592
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-6
-
-</td>
-
-<td style="text-align:right;">
-
-2.2248
+2.2155
 
 </td>
 
@@ -5911,35 +5861,7 @@ MIS-8
 
 <td style="text-align:right;">
 
-2.2759
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-10
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-1
-
-</td>
-
-<td style="text-align:left;">
-
-MIS-11
-
-</td>
-
-<td style="text-align:right;">
-
-2.3033
+2.2918
 
 </td>
 
@@ -5967,7 +5889,7 @@ MIS-2
 
 <td style="text-align:right;">
 
-2.3077
+2.2944
 
 </td>
 
@@ -5995,7 +5917,7 @@ MIS-3
 
 <td style="text-align:right;">
 
-2.3355
+2.3167
 
 </td>
 
@@ -6005,25 +5927,53 @@ MIS-3
 
 <td style="text-align:left;">
 
-31
+5
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-4
+MIS-1
 
 </td>
 
 <td style="text-align:left;">
 
-MIS-5
+MIS-6
 
 </td>
 
 <td style="text-align:right;">
 
-2.4154
+2.3369
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-1
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-11
+
+</td>
+
+<td style="text-align:right;">
+
+2.3639
 
 </td>
 
@@ -6051,7 +6001,63 @@ MIS-11
 
 <td style="text-align:right;">
 
-2.4798
+2.3919
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+35
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-9
+
+</td>
+
+<td style="text-align:right;">
+
+2.4482
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+31
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-4
+
+</td>
+
+<td style="text-align:left;">
+
+MIS-5
+
+</td>
+
+<td style="text-align:right;">
+
+2.4810
 
 </td>
 
@@ -6079,7 +6085,7 @@ MIS-10
 
 <td style="text-align:right;">
 
-2.5562
+2.6995
 
 </td>
 
@@ -6575,7 +6581,8 @@ random.psi <- workflowNullPsi(
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE,
-  repetitions = 9 #recommended value: 999
+  repetitions = 99, #recommended value: 999
+  parallel.execution = TRUE
 )
 ```
 
@@ -6678,6 +6685,546 @@ r9
 
 </th>
 
+<th style="text-align:right;">
+
+r10
+
+</th>
+
+<th style="text-align:right;">
+
+r11
+
+</th>
+
+<th style="text-align:right;">
+
+r12
+
+</th>
+
+<th style="text-align:right;">
+
+r13
+
+</th>
+
+<th style="text-align:right;">
+
+r14
+
+</th>
+
+<th style="text-align:right;">
+
+r15
+
+</th>
+
+<th style="text-align:right;">
+
+r16
+
+</th>
+
+<th style="text-align:right;">
+
+r17
+
+</th>
+
+<th style="text-align:right;">
+
+r18
+
+</th>
+
+<th style="text-align:right;">
+
+r19
+
+</th>
+
+<th style="text-align:right;">
+
+r20
+
+</th>
+
+<th style="text-align:right;">
+
+r21
+
+</th>
+
+<th style="text-align:right;">
+
+r22
+
+</th>
+
+<th style="text-align:right;">
+
+r23
+
+</th>
+
+<th style="text-align:right;">
+
+r24
+
+</th>
+
+<th style="text-align:right;">
+
+r25
+
+</th>
+
+<th style="text-align:right;">
+
+r26
+
+</th>
+
+<th style="text-align:right;">
+
+r27
+
+</th>
+
+<th style="text-align:right;">
+
+r28
+
+</th>
+
+<th style="text-align:right;">
+
+r29
+
+</th>
+
+<th style="text-align:right;">
+
+r30
+
+</th>
+
+<th style="text-align:right;">
+
+r31
+
+</th>
+
+<th style="text-align:right;">
+
+r32
+
+</th>
+
+<th style="text-align:right;">
+
+r33
+
+</th>
+
+<th style="text-align:right;">
+
+r34
+
+</th>
+
+<th style="text-align:right;">
+
+r35
+
+</th>
+
+<th style="text-align:right;">
+
+r36
+
+</th>
+
+<th style="text-align:right;">
+
+r37
+
+</th>
+
+<th style="text-align:right;">
+
+r38
+
+</th>
+
+<th style="text-align:right;">
+
+r39
+
+</th>
+
+<th style="text-align:right;">
+
+r40
+
+</th>
+
+<th style="text-align:right;">
+
+r41
+
+</th>
+
+<th style="text-align:right;">
+
+r42
+
+</th>
+
+<th style="text-align:right;">
+
+r43
+
+</th>
+
+<th style="text-align:right;">
+
+r44
+
+</th>
+
+<th style="text-align:right;">
+
+r45
+
+</th>
+
+<th style="text-align:right;">
+
+r46
+
+</th>
+
+<th style="text-align:right;">
+
+r47
+
+</th>
+
+<th style="text-align:right;">
+
+r48
+
+</th>
+
+<th style="text-align:right;">
+
+r49
+
+</th>
+
+<th style="text-align:right;">
+
+r50
+
+</th>
+
+<th style="text-align:right;">
+
+r51
+
+</th>
+
+<th style="text-align:right;">
+
+r52
+
+</th>
+
+<th style="text-align:right;">
+
+r53
+
+</th>
+
+<th style="text-align:right;">
+
+r54
+
+</th>
+
+<th style="text-align:right;">
+
+r55
+
+</th>
+
+<th style="text-align:right;">
+
+r56
+
+</th>
+
+<th style="text-align:right;">
+
+r57
+
+</th>
+
+<th style="text-align:right;">
+
+r58
+
+</th>
+
+<th style="text-align:right;">
+
+r59
+
+</th>
+
+<th style="text-align:right;">
+
+r60
+
+</th>
+
+<th style="text-align:right;">
+
+r61
+
+</th>
+
+<th style="text-align:right;">
+
+r62
+
+</th>
+
+<th style="text-align:right;">
+
+r63
+
+</th>
+
+<th style="text-align:right;">
+
+r64
+
+</th>
+
+<th style="text-align:right;">
+
+r65
+
+</th>
+
+<th style="text-align:right;">
+
+r66
+
+</th>
+
+<th style="text-align:right;">
+
+r67
+
+</th>
+
+<th style="text-align:right;">
+
+r68
+
+</th>
+
+<th style="text-align:right;">
+
+r69
+
+</th>
+
+<th style="text-align:right;">
+
+r70
+
+</th>
+
+<th style="text-align:right;">
+
+r71
+
+</th>
+
+<th style="text-align:right;">
+
+r72
+
+</th>
+
+<th style="text-align:right;">
+
+r73
+
+</th>
+
+<th style="text-align:right;">
+
+r74
+
+</th>
+
+<th style="text-align:right;">
+
+r75
+
+</th>
+
+<th style="text-align:right;">
+
+r76
+
+</th>
+
+<th style="text-align:right;">
+
+r77
+
+</th>
+
+<th style="text-align:right;">
+
+r78
+
+</th>
+
+<th style="text-align:right;">
+
+r79
+
+</th>
+
+<th style="text-align:right;">
+
+r80
+
+</th>
+
+<th style="text-align:right;">
+
+r81
+
+</th>
+
+<th style="text-align:right;">
+
+r82
+
+</th>
+
+<th style="text-align:right;">
+
+r83
+
+</th>
+
+<th style="text-align:right;">
+
+r84
+
+</th>
+
+<th style="text-align:right;">
+
+r85
+
+</th>
+
+<th style="text-align:right;">
+
+r86
+
+</th>
+
+<th style="text-align:right;">
+
+r87
+
+</th>
+
+<th style="text-align:right;">
+
+r88
+
+</th>
+
+<th style="text-align:right;">
+
+r89
+
+</th>
+
+<th style="text-align:right;">
+
+r90
+
+</th>
+
+<th style="text-align:right;">
+
+r91
+
+</th>
+
+<th style="text-align:right;">
+
+r92
+
+</th>
+
+<th style="text-align:right;">
+
+r93
+
+</th>
+
+<th style="text-align:right;">
+
+r94
+
+</th>
+
+<th style="text-align:right;">
+
+r95
+
+</th>
+
+<th style="text-align:right;">
+
+r96
+
+</th>
+
+<th style="text-align:right;">
+
+r97
+
+</th>
+
+<th style="text-align:right;">
+
+r98
+
+</th>
+
+<th style="text-align:right;">
+
+r99
+
+</th>
+
 </tr>
 
 </thead>
@@ -6758,6 +7305,546 @@ MIS-5
 
 </td>
 
+<td style="text-align:right;">
+
+3.6282
+
+</td>
+
+<td style="text-align:right;">
+
+3.3833
+
+</td>
+
+<td style="text-align:right;">
+
+3.3970
+
+</td>
+
+<td style="text-align:right;">
+
+3.5545
+
+</td>
+
+<td style="text-align:right;">
+
+3.4311
+
+</td>
+
+<td style="text-align:right;">
+
+3.2754
+
+</td>
+
+<td style="text-align:right;">
+
+3.4220
+
+</td>
+
+<td style="text-align:right;">
+
+3.6194
+
+</td>
+
+<td style="text-align:right;">
+
+3.2401
+
+</td>
+
+<td style="text-align:right;">
+
+3.2138
+
+</td>
+
+<td style="text-align:right;">
+
+3.5505
+
+</td>
+
+<td style="text-align:right;">
+
+3.2572
+
+</td>
+
+<td style="text-align:right;">
+
+3.1531
+
+</td>
+
+<td style="text-align:right;">
+
+3.2168
+
+</td>
+
+<td style="text-align:right;">
+
+3.5593
+
+</td>
+
+<td style="text-align:right;">
+
+3.4479
+
+</td>
+
+<td style="text-align:right;">
+
+3.4105
+
+</td>
+
+<td style="text-align:right;">
+
+3.5329
+
+</td>
+
+<td style="text-align:right;">
+
+3.0509
+
+</td>
+
+<td style="text-align:right;">
+
+3.7412
+
+</td>
+
+<td style="text-align:right;">
+
+3.1822
+
+</td>
+
+<td style="text-align:right;">
+
+3.6926
+
+</td>
+
+<td style="text-align:right;">
+
+3.5213
+
+</td>
+
+<td style="text-align:right;">
+
+3.0796
+
+</td>
+
+<td style="text-align:right;">
+
+3.2601
+
+</td>
+
+<td style="text-align:right;">
+
+3.3011
+
+</td>
+
+<td style="text-align:right;">
+
+3.5007
+
+</td>
+
+<td style="text-align:right;">
+
+3.5005
+
+</td>
+
+<td style="text-align:right;">
+
+3.3011
+
+</td>
+
+<td style="text-align:right;">
+
+3.6587
+
+</td>
+
+<td style="text-align:right;">
+
+3.1462
+
+</td>
+
+<td style="text-align:right;">
+
+3.3832
+
+</td>
+
+<td style="text-align:right;">
+
+3.1893
+
+</td>
+
+<td style="text-align:right;">
+
+3.4903
+
+</td>
+
+<td style="text-align:right;">
+
+3.4973
+
+</td>
+
+<td style="text-align:right;">
+
+3.4615
+
+</td>
+
+<td style="text-align:right;">
+
+3.7187
+
+</td>
+
+<td style="text-align:right;">
+
+3.3994
+
+</td>
+
+<td style="text-align:right;">
+
+3.2238
+
+</td>
+
+<td style="text-align:right;">
+
+3.4536
+
+</td>
+
+<td style="text-align:right;">
+
+3.7167
+
+</td>
+
+<td style="text-align:right;">
+
+3.3988
+
+</td>
+
+<td style="text-align:right;">
+
+3.2836
+
+</td>
+
+<td style="text-align:right;">
+
+3.3845
+
+</td>
+
+<td style="text-align:right;">
+
+3.6565
+
+</td>
+
+<td style="text-align:right;">
+
+3.5578
+
+</td>
+
+<td style="text-align:right;">
+
+3.2688
+
+</td>
+
+<td style="text-align:right;">
+
+3.5370
+
+</td>
+
+<td style="text-align:right;">
+
+3.4233
+
+</td>
+
+<td style="text-align:right;">
+
+3.1911
+
+</td>
+
+<td style="text-align:right;">
+
+3.2515
+
+</td>
+
+<td style="text-align:right;">
+
+3.7400
+
+</td>
+
+<td style="text-align:right;">
+
+3.3338
+
+</td>
+
+<td style="text-align:right;">
+
+3.3281
+
+</td>
+
+<td style="text-align:right;">
+
+3.4177
+
+</td>
+
+<td style="text-align:right;">
+
+3.1678
+
+</td>
+
+<td style="text-align:right;">
+
+3.5288
+
+</td>
+
+<td style="text-align:right;">
+
+3.5043
+
+</td>
+
+<td style="text-align:right;">
+
+3.0142
+
+</td>
+
+<td style="text-align:right;">
+
+3.3135
+
+</td>
+
+<td style="text-align:right;">
+
+3.3556
+
+</td>
+
+<td style="text-align:right;">
+
+3.5833
+
+</td>
+
+<td style="text-align:right;">
+
+3.2257
+
+</td>
+
+<td style="text-align:right;">
+
+3.4049
+
+</td>
+
+<td style="text-align:right;">
+
+3.4847
+
+</td>
+
+<td style="text-align:right;">
+
+3.7639
+
+</td>
+
+<td style="text-align:right;">
+
+3.2947
+
+</td>
+
+<td style="text-align:right;">
+
+3.3379
+
+</td>
+
+<td style="text-align:right;">
+
+3.5450
+
+</td>
+
+<td style="text-align:right;">
+
+3.5503
+
+</td>
+
+<td style="text-align:right;">
+
+3.4904
+
+</td>
+
+<td style="text-align:right;">
+
+3.3834
+
+</td>
+
+<td style="text-align:right;">
+
+3.2851
+
+</td>
+
+<td style="text-align:right;">
+
+3.4814
+
+</td>
+
+<td style="text-align:right;">
+
+3.5285
+
+</td>
+
+<td style="text-align:right;">
+
+3.5849
+
+</td>
+
+<td style="text-align:right;">
+
+3.2719
+
+</td>
+
+<td style="text-align:right;">
+
+3.7673
+
+</td>
+
+<td style="text-align:right;">
+
+3.2116
+
+</td>
+
+<td style="text-align:right;">
+
+3.4285
+
+</td>
+
+<td style="text-align:right;">
+
+3.3782
+
+</td>
+
+<td style="text-align:right;">
+
+3.7264
+
+</td>
+
+<td style="text-align:right;">
+
+3.4278
+
+</td>
+
+<td style="text-align:right;">
+
+3.2144
+
+</td>
+
+<td style="text-align:right;">
+
+3.5594
+
+</td>
+
+<td style="text-align:right;">
+
+3.2757
+
+</td>
+
+<td style="text-align:right;">
+
+3.6511
+
+</td>
+
+<td style="text-align:right;">
+
+3.4518
+
+</td>
+
+<td style="text-align:right;">
+
+3.2634
+
+</td>
+
+<td style="text-align:right;">
+
+3.6931
+
+</td>
+
 </tr>
 
 <tr>
@@ -6831,6 +7918,546 @@ MIS-6
 <td style="text-align:right;">
 
 1.4779
+
+</td>
+
+<td style="text-align:right;">
+
+1.4701
+
+</td>
+
+<td style="text-align:right;">
+
+1.7454
+
+</td>
+
+<td style="text-align:right;">
+
+1.5594
+
+</td>
+
+<td style="text-align:right;">
+
+1.5130
+
+</td>
+
+<td style="text-align:right;">
+
+1.6052
+
+</td>
+
+<td style="text-align:right;">
+
+1.5651
+
+</td>
+
+<td style="text-align:right;">
+
+1.3909
+
+</td>
+
+<td style="text-align:right;">
+
+1.5915
+
+</td>
+
+<td style="text-align:right;">
+
+1.3019
+
+</td>
+
+<td style="text-align:right;">
+
+1.6571
+
+</td>
+
+<td style="text-align:right;">
+
+1.5238
+
+</td>
+
+<td style="text-align:right;">
+
+1.3678
+
+</td>
+
+<td style="text-align:right;">
+
+1.4521
+
+</td>
+
+<td style="text-align:right;">
+
+1.2844
+
+</td>
+
+<td style="text-align:right;">
+
+1.5430
+
+</td>
+
+<td style="text-align:right;">
+
+1.5308
+
+</td>
+
+<td style="text-align:right;">
+
+1.3786
+
+</td>
+
+<td style="text-align:right;">
+
+1.5365
+
+</td>
+
+<td style="text-align:right;">
+
+1.4603
+
+</td>
+
+<td style="text-align:right;">
+
+1.5255
+
+</td>
+
+<td style="text-align:right;">
+
+1.2592
+
+</td>
+
+<td style="text-align:right;">
+
+1.4653
+
+</td>
+
+<td style="text-align:right;">
+
+1.6242
+
+</td>
+
+<td style="text-align:right;">
+
+1.3693
+
+</td>
+
+<td style="text-align:right;">
+
+1.4849
+
+</td>
+
+<td style="text-align:right;">
+
+1.4111
+
+</td>
+
+<td style="text-align:right;">
+
+1.5646
+
+</td>
+
+<td style="text-align:right;">
+
+1.6119
+
+</td>
+
+<td style="text-align:right;">
+
+1.5545
+
+</td>
+
+<td style="text-align:right;">
+
+1.8137
+
+</td>
+
+<td style="text-align:right;">
+
+1.3632
+
+</td>
+
+<td style="text-align:right;">
+
+1.6281
+
+</td>
+
+<td style="text-align:right;">
+
+1.5145
+
+</td>
+
+<td style="text-align:right;">
+
+1.6709
+
+</td>
+
+<td style="text-align:right;">
+
+1.5455
+
+</td>
+
+<td style="text-align:right;">
+
+1.5552
+
+</td>
+
+<td style="text-align:right;">
+
+1.5967
+
+</td>
+
+<td style="text-align:right;">
+
+1.6860
+
+</td>
+
+<td style="text-align:right;">
+
+1.4904
+
+</td>
+
+<td style="text-align:right;">
+
+1.6748
+
+</td>
+
+<td style="text-align:right;">
+
+1.5265
+
+</td>
+
+<td style="text-align:right;">
+
+1.4195
+
+</td>
+
+<td style="text-align:right;">
+
+1.4328
+
+</td>
+
+<td style="text-align:right;">
+
+1.5258
+
+</td>
+
+<td style="text-align:right;">
+
+1.6283
+
+</td>
+
+<td style="text-align:right;">
+
+1.5511
+
+</td>
+
+<td style="text-align:right;">
+
+1.3574
+
+</td>
+
+<td style="text-align:right;">
+
+1.5029
+
+</td>
+
+<td style="text-align:right;">
+
+1.4315
+
+</td>
+
+<td style="text-align:right;">
+
+1.4778
+
+</td>
+
+<td style="text-align:right;">
+
+1.5213
+
+</td>
+
+<td style="text-align:right;">
+
+1.4135
+
+</td>
+
+<td style="text-align:right;">
+
+1.5774
+
+</td>
+
+<td style="text-align:right;">
+
+1.6001
+
+</td>
+
+<td style="text-align:right;">
+
+1.5263
+
+</td>
+
+<td style="text-align:right;">
+
+1.5548
+
+</td>
+
+<td style="text-align:right;">
+
+1.5602
+
+</td>
+
+<td style="text-align:right;">
+
+1.4048
+
+</td>
+
+<td style="text-align:right;">
+
+1.4247
+
+</td>
+
+<td style="text-align:right;">
+
+1.5636
+
+</td>
+
+<td style="text-align:right;">
+
+1.3246
+
+</td>
+
+<td style="text-align:right;">
+
+1.3447
+
+</td>
+
+<td style="text-align:right;">
+
+1.5760
+
+</td>
+
+<td style="text-align:right;">
+
+1.5073
+
+</td>
+
+<td style="text-align:right;">
+
+1.4785
+
+</td>
+
+<td style="text-align:right;">
+
+1.5803
+
+</td>
+
+<td style="text-align:right;">
+
+1.5726
+
+</td>
+
+<td style="text-align:right;">
+
+1.5011
+
+</td>
+
+<td style="text-align:right;">
+
+1.2686
+
+</td>
+
+<td style="text-align:right;">
+
+1.6187
+
+</td>
+
+<td style="text-align:right;">
+
+1.7084
+
+</td>
+
+<td style="text-align:right;">
+
+1.4208
+
+</td>
+
+<td style="text-align:right;">
+
+1.5011
+
+</td>
+
+<td style="text-align:right;">
+
+1.4828
+
+</td>
+
+<td style="text-align:right;">
+
+1.3908
+
+</td>
+
+<td style="text-align:right;">
+
+1.6575
+
+</td>
+
+<td style="text-align:right;">
+
+1.3426
+
+</td>
+
+<td style="text-align:right;">
+
+1.8952
+
+</td>
+
+<td style="text-align:right;">
+
+1.3649
+
+</td>
+
+<td style="text-align:right;">
+
+1.4243
+
+</td>
+
+<td style="text-align:right;">
+
+1.6971
+
+</td>
+
+<td style="text-align:right;">
+
+1.4415
+
+</td>
+
+<td style="text-align:right;">
+
+1.4780
+
+</td>
+
+<td style="text-align:right;">
+
+1.4336
+
+</td>
+
+<td style="text-align:right;">
+
+1.5822
+
+</td>
+
+<td style="text-align:right;">
+
+1.5585
+
+</td>
+
+<td style="text-align:right;">
+
+1.4480
+
+</td>
+
+<td style="text-align:right;">
+
+1.6649
+
+</td>
+
+<td style="text-align:right;">
+
+1.4356
+
+</td>
+
+<td style="text-align:right;">
+
+1.2930
 
 </td>
 
@@ -6910,6 +8537,546 @@ MIS-6
 
 </td>
 
+<td style="text-align:right;">
+
+2.1122
+
+</td>
+
+<td style="text-align:right;">
+
+2.1377
+
+</td>
+
+<td style="text-align:right;">
+
+2.1071
+
+</td>
+
+<td style="text-align:right;">
+
+2.1711
+
+</td>
+
+<td style="text-align:right;">
+
+2.1764
+
+</td>
+
+<td style="text-align:right;">
+
+1.9506
+
+</td>
+
+<td style="text-align:right;">
+
+2.1588
+
+</td>
+
+<td style="text-align:right;">
+
+2.0840
+
+</td>
+
+<td style="text-align:right;">
+
+2.1271
+
+</td>
+
+<td style="text-align:right;">
+
+2.1600
+
+</td>
+
+<td style="text-align:right;">
+
+2.3238
+
+</td>
+
+<td style="text-align:right;">
+
+2.1731
+
+</td>
+
+<td style="text-align:right;">
+
+2.0861
+
+</td>
+
+<td style="text-align:right;">
+
+2.0540
+
+</td>
+
+<td style="text-align:right;">
+
+2.1423
+
+</td>
+
+<td style="text-align:right;">
+
+2.0850
+
+</td>
+
+<td style="text-align:right;">
+
+2.1326
+
+</td>
+
+<td style="text-align:right;">
+
+2.1949
+
+</td>
+
+<td style="text-align:right;">
+
+2.0589
+
+</td>
+
+<td style="text-align:right;">
+
+2.4336
+
+</td>
+
+<td style="text-align:right;">
+
+2.0636
+
+</td>
+
+<td style="text-align:right;">
+
+2.2001
+
+</td>
+
+<td style="text-align:right;">
+
+2.1761
+
+</td>
+
+<td style="text-align:right;">
+
+1.9697
+
+</td>
+
+<td style="text-align:right;">
+
+2.1720
+
+</td>
+
+<td style="text-align:right;">
+
+2.0528
+
+</td>
+
+<td style="text-align:right;">
+
+2.1998
+
+</td>
+
+<td style="text-align:right;">
+
+2.1721
+
+</td>
+
+<td style="text-align:right;">
+
+2.2185
+
+</td>
+
+<td style="text-align:right;">
+
+2.2716
+
+</td>
+
+<td style="text-align:right;">
+
+2.0034
+
+</td>
+
+<td style="text-align:right;">
+
+2.3509
+
+</td>
+
+<td style="text-align:right;">
+
+2.1215
+
+</td>
+
+<td style="text-align:right;">
+
+2.1612
+
+</td>
+
+<td style="text-align:right;">
+
+2.1384
+
+</td>
+
+<td style="text-align:right;">
+
+2.1970
+
+</td>
+
+<td style="text-align:right;">
+
+2.2482
+
+</td>
+
+<td style="text-align:right;">
+
+2.1433
+
+</td>
+
+<td style="text-align:right;">
+
+2.2319
+
+</td>
+
+<td style="text-align:right;">
+
+2.1549
+
+</td>
+
+<td style="text-align:right;">
+
+2.1817
+
+</td>
+
+<td style="text-align:right;">
+
+2.3767
+
+</td>
+
+<td style="text-align:right;">
+
+2.1067
+
+</td>
+
+<td style="text-align:right;">
+
+2.1477
+
+</td>
+
+<td style="text-align:right;">
+
+2.4580
+
+</td>
+
+<td style="text-align:right;">
+
+2.3087
+
+</td>
+
+<td style="text-align:right;">
+
+2.1010
+
+</td>
+
+<td style="text-align:right;">
+
+2.2913
+
+</td>
+
+<td style="text-align:right;">
+
+2.1859
+
+</td>
+
+<td style="text-align:right;">
+
+2.0748
+
+</td>
+
+<td style="text-align:right;">
+
+2.1487
+
+</td>
+
+<td style="text-align:right;">
+
+2.0784
+
+</td>
+
+<td style="text-align:right;">
+
+2.1017
+
+</td>
+
+<td style="text-align:right;">
+
+2.0964
+
+</td>
+
+<td style="text-align:right;">
+
+2.0500
+
+</td>
+
+<td style="text-align:right;">
+
+1.9574
+
+</td>
+
+<td style="text-align:right;">
+
+2.0649
+
+</td>
+
+<td style="text-align:right;">
+
+1.9930
+
+</td>
+
+<td style="text-align:right;">
+
+2.0377
+
+</td>
+
+<td style="text-align:right;">
+
+2.1372
+
+</td>
+
+<td style="text-align:right;">
+
+2.1783
+
+</td>
+
+<td style="text-align:right;">
+
+2.1187
+
+</td>
+
+<td style="text-align:right;">
+
+2.2088
+
+</td>
+
+<td style="text-align:right;">
+
+2.1958
+
+</td>
+
+<td style="text-align:right;">
+
+2.1302
+
+</td>
+
+<td style="text-align:right;">
+
+2.2748
+
+</td>
+
+<td style="text-align:right;">
+
+2.0823
+
+</td>
+
+<td style="text-align:right;">
+
+2.2878
+
+</td>
+
+<td style="text-align:right;">
+
+2.0856
+
+</td>
+
+<td style="text-align:right;">
+
+2.2028
+
+</td>
+
+<td style="text-align:right;">
+
+2.1580
+
+</td>
+
+<td style="text-align:right;">
+
+2.0894
+
+</td>
+
+<td style="text-align:right;">
+
+2.1403
+
+</td>
+
+<td style="text-align:right;">
+
+2.2501
+
+</td>
+
+<td style="text-align:right;">
+
+2.0715
+
+</td>
+
+<td style="text-align:right;">
+
+2.3148
+
+</td>
+
+<td style="text-align:right;">
+
+2.0042
+
+</td>
+
+<td style="text-align:right;">
+
+2.1601
+
+</td>
+
+<td style="text-align:right;">
+
+2.0815
+
+</td>
+
+<td style="text-align:right;">
+
+2.1986
+
+</td>
+
+<td style="text-align:right;">
+
+2.3697
+
+</td>
+
+<td style="text-align:right;">
+
+2.2215
+
+</td>
+
+<td style="text-align:right;">
+
+2.2887
+
+</td>
+
+<td style="text-align:right;">
+
+2.2573
+
+</td>
+
+<td style="text-align:right;">
+
+2.2695
+
+</td>
+
+<td style="text-align:right;">
+
+2.0994
+
+</td>
+
+<td style="text-align:right;">
+
+2.1583
+
+</td>
+
+<td style="text-align:right;">
+
+2.1467
+
+</td>
+
+<td style="text-align:right;">
+
+2.1039
+
+</td>
+
+<td style="text-align:right;">
+
+2.0543
+
+</td>
+
 </tr>
 
 </tbody>
@@ -6976,7 +9143,7 @@ MIS-5
 
 <td style="text-align:right;">
 
-0.1
+0.10
 
 </td>
 
@@ -6998,7 +9165,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.1
+0.06
 
 </td>
 
@@ -7020,7 +9187,7 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.1
+0.01
 
 </td>
 
@@ -7083,6 +9250,12 @@ psi.importance <- workflowImportance(
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE
+  )
+
+#there is also a high performance version of this function, but with fewer options (it uses euclidean, diagonal, and ignores blocks by default)
+psi.importance <- workflowImportanceHP(
+  sequences = sequencesMIS,
+  grouping.column = "MIS"
   )
 ```
 
@@ -7188,43 +9361,43 @@ MIS-5
 
 <td style="text-align:right;">
 
-3.8917
+4.3929
 
 </td>
 
 <td style="text-align:right;">
 
-3.8939
+4.4018
 
 </td>
 
 <td style="text-align:right;">
 
-3.9036
+4.4070
 
 </td>
 
 <td style="text-align:right;">
 
-3.9056
+4.4087
 
 </td>
 
 <td style="text-align:right;">
 
-5.5347
+5.9604
 
 </td>
 
 <td style="text-align:right;">
 
-3.9122
+4.4240
 
 </td>
 
 <td style="text-align:right;">
 
-0.9693
+0.9878
 
 </td>
 
@@ -7246,43 +9419,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.0253
+1.0376
 
 </td>
 
 <td style="text-align:right;">
 
-1.0251
+1.0374
 
 </td>
 
 <td style="text-align:right;">
 
-1.0250
+1.0372
 
 </td>
 
 <td style="text-align:right;">
 
-1.0191
+1.0303
 
 </td>
 
 <td style="text-align:right;">
 
-1.3828
+1.6222
 
 </td>
 
 <td style="text-align:right;">
 
-1.0209
+1.0311
 
 </td>
 
 <td style="text-align:right;">
 
-0.9563
+0.9646
 
 </td>
 
@@ -7304,43 +9477,43 @@ MIS-6
 
 <td style="text-align:right;">
 
-1.6496
+1.7680
 
 </td>
 
 <td style="text-align:right;">
 
-1.6499
+1.7684
 
 </td>
 
 <td style="text-align:right;">
 
-1.6500
+1.7685
 
 </td>
 
 <td style="text-align:right;">
 
-1.6467
+1.7695
 
 </td>
 
 <td style="text-align:right;">
 
-1.0680
+1.1980
 
 </td>
 
 <td style="text-align:right;">
 
-1.6481
+1.7873
 
 </td>
 
 <td style="text-align:right;">
 
-0.9129
+1.0706
 
 </td>
 
@@ -7481,13 +9654,13 @@ MIS-5
 
 <td style="text-align:right;">
 
-\-0.06
+\-0.20
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.31
+\-0.32
 
 </td>
 
@@ -7499,19 +9672,19 @@ MIS-5
 
 <td style="text-align:right;">
 
-\-42.22
+\-35.68
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.53
+\-0.71
 
 </td>
 
 <td style="text-align:right;">
 
-75.09
+77.51
 
 </td>
 
@@ -7539,31 +9712,31 @@ MIS-6
 
 <td style="text-align:right;">
 
-0.02
+0.03
 
 </td>
 
 <td style="text-align:right;">
 
-0.61
+0.70
 
 </td>
 
 <td style="text-align:right;">
 
-\-34.87
+\-56.35
 
 </td>
 
 <td style="text-align:right;">
 
-0.43
+0.62
 
 </td>
 
 <td style="text-align:right;">
 
-6.73
+7.03
 
 </td>
 
@@ -7591,31 +9764,31 @@ MIS-6
 
 <td style="text-align:right;">
 
-\-0.02
+\-0.03
 
 </td>
 
 <td style="text-align:right;">
 
-0.18
+\-0.09
 
 </td>
 
 <td style="text-align:right;">
 
-35.26
+32.24
 
 </td>
 
 <td style="text-align:right;">
 
-0.09
+\-1.09
 
 </td>
 
 <td style="text-align:right;">
 
-44.66
+39.44
 
 </td>
 

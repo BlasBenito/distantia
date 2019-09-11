@@ -88,8 +88,6 @@ MIS.psi <- workflowPartialMatch(
  exclude.columns = NULL,
  method = "manhattan",
  diagonal = FALSE,
- min.length = nrow(MIS.short) - 1,
- max.length = nrow(MIS.short) + 1,
  parallel.execution = FALSE
  )
 

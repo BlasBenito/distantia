@@ -527,7 +527,8 @@ random.psi <- workflowNullPsi(
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE,
-  repetitions = 9 #recommended value: 999
+  repetitions = 999, #recommended value: 999
+  parallel.execution = FALSE
 )
 ```
 

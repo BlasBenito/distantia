@@ -66,10 +66,10 @@ MIS.sequences <- prepareSequences(
 
 #execute workflow to compute psi
 MIS.null.psi <- workflowNullPsi(
- sequences = MIS.sequences,
+ sequences = MIS.sequences[MIS.sequences$MIS \%in\% c("MIS-1", "MIS-2"), ],
  grouping.column = "MIS",
  method = "manhattan",
- repetitions = 9,
+ repetitions = 3,
  parallel.execution = FALSE
  )
 

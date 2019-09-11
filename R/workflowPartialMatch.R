@@ -74,8 +74,6 @@
 #'  exclude.columns = NULL,
 #'  method = "manhattan",
 #'  diagonal = FALSE,
-#'  min.length = nrow(MIS.short) - 1,
-#'  max.length = nrow(MIS.short) + 1,
 #'  parallel.execution = FALSE
 #'  )
 #'
@@ -224,6 +222,7 @@ workflowPartialMatch <- function(
   } else {
     #replaces dopar (parallel) by do (serial)
     `%dopar%` <- foreach::`%do%`
+    on.exit(`%dopar%` <- foreach::`%dopar%`)
   }
 
   #parallelized loop

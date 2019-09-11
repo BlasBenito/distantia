@@ -90,6 +90,7 @@ leastCostPathNoBlocks <- function(
   } else {
     #replaces dopar (parallel) by do (serial)
     `%dopar%` <- foreach::`%do%`
+    on.exit(`%dopar%` <- foreach::`%dopar%`)
   }
 
   #iterating through available elements

@@ -77,7 +77,7 @@ MIS.sequences <- prepareSequences(
 
 #execute workflow to compute psi
 MIS.psi <- workflowPsi(
- sequences = MIS.sequences,
+ sequences = MIS.sequences[MIS.sequences$MIS \%in\% c("MIS-1", "MIS-2"), ],
  grouping.column = "MIS",
  time.column = NULL,
  exclude.columns = NULL,

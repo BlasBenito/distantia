@@ -151,6 +151,7 @@ autoSum <- function(sequences = NULL,
   } else {
     #replaces dopar (parallel) by do (serial)
     `%dopar%` <- foreach::`%do%`
+    on.exit(`%dopar%` <- foreach::`%dopar%`)
   }
 
 

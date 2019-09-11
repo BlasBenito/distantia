@@ -28,7 +28,7 @@
 #' data("sequencesMIS")
 #' #prepare sequences
 #' MIS.sequences <- prepareSequences(
-#'   sequences = sequencesMIS,
+#'   sequences = sequencesMIS[sequencesMIS$MIS %in% c("MIS-1", "MIS-2"), ],
 #'   grouping.column = "MIS",
 #'   if.empty.cases = "zero",
 #'   transformation = "hellinger"
@@ -106,6 +106,7 @@ workflowPsiHP <- function(sequences = NULL,
   } else {
     #replaces dopar (parallel) by do (serial)
     `%dopar%` <- foreach::`%do%`
+     on.exit(`%dopar%` <- foreach::`%dopar%`)
   }
 
   #parallelized loop
