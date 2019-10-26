@@ -1,3 +1,7 @@
+## Version 1.0.2
+
+Fixed an issue with the paralellization of tasks in the Windows platform. Now all parallelized functions modify their cluster settings depending on the user's platform.
+
 ## Version 1.0.1
 
 Fixed a bug in the function **workflowImportance**. The argument 'exclude.columns' was being ignored.
