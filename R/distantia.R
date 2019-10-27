@@ -1,3 +1,6 @@
+#' @details Details
+"_PACKAGE"
+
 #' Pollen dataset.
 #'
 #' A subset of the Grande Pile dataset (\url{https://doi.pangaea.de/10.1594/PANGAEA.739275}). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.
