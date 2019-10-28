@@ -1,4 +1,4 @@
-This is a new release version (v1.0.1)
+This is a new release version (v1.0.2)
 
 -------
 

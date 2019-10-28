@@ -87,7 +87,13 @@ workflowNullPsiHP <- function(sequences = NULL,
 
       `%dopar%` <- foreach::`%dopar%`
       n.cores <- parallel::detectCores() - 1
-      my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+
+      if(.Platform$OS.type == "windows"){
+        my.cluster <- parallel::makeCluster(n.cores, type="PSOCK")
+      } else {
+        my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+      }
+
       doParallel::registerDoParallel(my.cluster)
 
       #exporting cluster variables

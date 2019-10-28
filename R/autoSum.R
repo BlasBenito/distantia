@@ -133,21 +133,27 @@ autoSum <- function(sequences = NULL,
 
   #parallel execution = TRUE
   if(parallel.execution == TRUE){
-  `%dopar%` <- foreach::`%dopar%`
-  n.cores <- parallel::detectCores() - 1
-  if(n.iterations < n.cores){n.cores <- n.iterations}
-  my.cluster <- parallel::makeCluster(n.cores, type="FORK")
-  doParallel::registerDoParallel(my.cluster)
+    `%dopar%` <- foreach::`%dopar%`
+    n.cores <- parallel::detectCores() - 1
+    if(n.iterations < n.cores){n.cores <- n.iterations}
 
-  #exporting cluster variables
-  parallel::clusterExport(cl=my.cluster,
-                          varlist=c('n.iterations',
-                                    'least.cost.path',
-                                    'sequences',
-                                    'distance',
-                                    'groups'),
-                          envir=environment()
-  )
+    if(.Platform$OS.type == "windows"){
+      my.cluster <- parallel::makeCluster(n.cores, type="PSOCK")
+    } else {
+      my.cluster <- parallel::makeCluster(n.cores, type="FORK")
+    }
+
+    doParallel::registerDoParallel(my.cluster)
+
+    #exporting cluster variables
+    parallel::clusterExport(cl=my.cluster,
+                            varlist=c('n.iterations',
+                                      'least.cost.path',
+                                      'sequences',
+                                      'distance',
+                                      'groups'),
+                            envir=environment()
+    )
   } else {
     #replaces dopar (parallel) by do (serial)
     `%dopar%` <- foreach::`%do%`
