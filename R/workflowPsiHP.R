@@ -390,6 +390,9 @@ workflowPsiHP <- function(sequences = NULL,
 
   }#end of parallelized loop
 
+  #closing cluster
+  parallel::stopCluster(cl = my.cluster)
+
   #preparing output as dataframe
   combinations <- data.frame(combinations, stringsAsFactors = FALSE)
   combinations[, "psi"] <- psi.output

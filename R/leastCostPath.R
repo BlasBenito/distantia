@@ -186,8 +186,10 @@ leastCostPath <- function(distance.matrix = NULL,
         focal.cost <- distance.matrix.i[focal.row, focal.column]
 
         #SCANNING NEIGHBORS
-        neighbors <- data.frame(A = c(focal.row-1, focal.row),
-                                  B = c(focal.column, focal.column-1))
+        neighbors <- data.frame(
+          A = c(focal.row-1, focal.row),
+          B = c(focal.column, focal.column-1)
+          )
 
         #removing neighbors with coordinates lower than 1 (out of bounds)
         neighbors[neighbors<1] <- NA
@@ -230,8 +232,10 @@ leastCostPath <- function(distance.matrix = NULL,
         focal.cost <- distance.matrix.i[focal.row, focal.column]
 
         #SCANNING NEIGHBORS
-        neighbors <- data.frame(A = c(focal.row-1, focal.row-1, focal.row),
-                                B=c(focal.column, focal.column-1, focal.column-1))
+        neighbors <- data.frame(
+          A = c(focal.row-1, focal.row-1, focal.row),
+          B=c(focal.column, focal.column-1, focal.column-1)
+          )
 
         #removing neighbors with coordinates lower than 1 (out of bounds)
         neighbors[neighbors<1] <- NA

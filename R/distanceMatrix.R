@@ -159,16 +159,6 @@ distanceMatrix <- function(sequences = NULL,
     nrow.sequence.B <- nrow(sequence.B)
 
     #creating results matrix
-    # distance.matrix <- matrix(ncol = nrow.sequence.B, nrow = nrow.sequence.A)
-
-    #distance matrix
-    # for (j in 1:nrow.sequence.A){
-    #   for (k in 1:nrow.sequence.B){
-    #     distance.matrix[j,k] <- distance(x = sequence.A[j,], y = sequence.B[k,], method=method)
-    #   }
-    # }
-
-    #with outer
     distance.matrix <- outer(
       1:nrow.sequence.A,
       1:nrow.sequence.B,

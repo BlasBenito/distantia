@@ -31,6 +31,14 @@ distance <- function(x,
                      y,
                      method = "manhattan"){
 
+  #handling NA
+  NA.cases <- c(
+    which(is.na(x)),
+    which(is.na(y))
+    )
+  x <- x[-NA.cases]
+  y <- y[-NA.cases]
+
   #computing manhattan distance
   if (method == "manhattan"){
     d <-  sum(abs(x - y))

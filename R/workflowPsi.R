@@ -158,11 +158,6 @@ workflowPsi <- function(sequences = NULL,
       psi.value <- lapply(X = psi.value, FUN = function(x){x + 1})
     }
 
-    # #shifting to 0 when orthogonal ignoring blocks
-    # if(diagonal == FALSE & ignore.blocks == TRUE){
-    #   psi.value <- lapply(X = psi.value, FUN = function(x){if(x < 0) x <- 0})
-    # }
-
   } #end of paired.samples == FALSE
 
 
