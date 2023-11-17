@@ -12,42 +12,10 @@ always_allow_html: yes
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%",
-  eval = FALSE
-)
-```
 
 
-```{r, include = FALSE, eval = FALSE}
-#installing required libraries
-list.of.packages <- c(
-  "ggplot2", 
-  "viridis", 
-  "fields", 
-  "foreach", 
-  "parallel", 
-  "doParallel", 
-  "qgraph", 
-  "tidyr", 
-  "devtools"
-  )
 
-packages.to.install <- setdiff(
-  x = list.of.packages,
-  y = installed.packages()[,"Package"]
-)
 
-if(length(packages.to.install) > 0){
-  install.packages(packages.to.install, dep=TRUE)
-} 
-
-rm(list.of.packages, packages.to.install)
-```
 
 
 <!-- badges: start -->
@@ -80,13 +48,15 @@ In this document I explain the logic behind the method, show how to use it, and 
 
 You can install the released version of distantia (currently *v1.0.0*) from [CRAN](https://CRAN.R-project.org) with:
 
-```{r, eval=FALSE}
+
+```r
 install.packages("distantia")
 ```
 
 And the development version (currently v1.0.1) from [GitHub](https://github.com/) with:
 
-```{r, message=FALSE, eval = FALSE}
+
+```r
 library(remotes)
 remotes::install_github(
   repo = "BlasBenito/distantia", 
@@ -96,7 +66,8 @@ remotes::install_github(
 
 Loading the library, plus other helper libraries:
 
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+
+```r
 library(distantia)
 library(ggplot2)
 library(viridis)
@@ -110,7 +81,8 @@ library(tidyr)
 
 In this section I will use two example datasets based on the Abernethy pollen core (Birks and Mathewes, 1978) to fully explain the logical backbone of the dissimilarity analyses implemented in *distantia*.
 
-```{r}
+
+```r
 #loading sequences
 data(sequenceA)
 data(sequenceB)
@@ -124,7 +96,8 @@ kbl(sequenceB[1:15, ], caption = "Sequence B")
 
 Notice that **sequenceB** has a few NA values (that were introduced to serve as an example). The function **prepareSequences** gets them ready for analysis by matching colum names and handling empty data. It allows to merge two or more METS into a single dataframe ready for further analyses. Note that, since the data represents pollen abundances, a *Hellinger* transformation (square root of the relative proportions of each taxa, it balances the relative abundances of rare and dominant taxa) is applied. This transformation balances the relative importance of very abundant versus rare taxa. The function **prepareSequences** will generally be the starting point of any analysis performed with the *distantia* package.
 
-```{r}
+
+```r
 #preparing sequences
 AB.sequences <- prepareSequences(
   sequence.A = sequenceA,
@@ -150,7 +123,8 @@ The computation of dissimilarity between the datasets A and B requires several s
 
 It is computed by the **distanceMatrix** function, which allows the user to select a distance metric (so far the ones implemented are *manhattan*, *euclidean*, *chi*, and *hellinger*). The function **plotMatrix** allows an easy visualization of the resulting distance matrix.
 
-```{r, fig.width = 5, fig.height = 3.5}
+
+```r
 #computing distance matrix
 AB.distance.matrix <- distanceMatrix(
   sequences = AB.sequences,
@@ -189,7 +163,8 @@ The equation returns $AB_{between}$, which is the double of the sum of distances
 
 The code below performs these steps according to both equations
 
-```{r, fig.width = 7, fig.height = 3, fig.cap = "Least-cost path plotted on the least-cost matrix. Left solution is computed with an orthogonal search path, while the right one includes diagonals."}
+
+```r
 
 #ORTHOGONAL SEARCH
 #computing least-cost matrix
@@ -239,7 +214,8 @@ plotMatrix(
 
 Computing $AB_{between}$ from these solutions is straightforward with the function **leastCost**
 
-```{r}
+
+```r
 #orthogonal solution
 AB.between <- leastCost(
   least.cost.path = AB.least.cost.path
@@ -257,7 +233,8 @@ Notice the straight vertical and horizontal lines that show up in some regions o
 
 This package includes an algorithm to remove blocks from the least cost path, which offers more realistic values for $AB_{between}$. The function **leastCostPathNoBlocks** reads a least cost path, and removes all blocks as follows.
 
-```{r}
+
+```r
 #ORTHOGONAL SOLUTION
 #removing blocks from least cost path
 AB.least.cost.path.nb <- leastCostPathNoBlocks(
@@ -286,7 +263,8 @@ Notice how now the diagonal solution has a higher value, because by default, the
 
 Hereafter only the diagonal no-blocks option will be considered in the example cases, since it is the most general and safe solution of the four mentioned above.
 
-```{r}
+
+```r
 #changing names of the selected solutions
 AB.least.cost.path <- AB.least.cost.path.diag.nb
 AB.between <- AB.between.diag.nb
@@ -304,7 +282,8 @@ This step requires to compute the distances between adjacent samples in each seq
 
 This operation is performed by the **autoSum** function shown below.
 
-```{r}
+
+```r
 AB.within <- autoSum(
   sequences = AB.sequences,
   least.cost.path = AB.least.cost.path,
@@ -335,7 +314,8 @@ This equality does not work in the same way when the least-cost path search-meth
 
 In any case, the **psi** function only requires the least-cost, and the autosum of both sequences to compute $\psi$. Since we are working with a diagonal search, 1 has to be added to the final solution.
 
-```{r}
+
+```r
 AB.psi <- psi(
   least.cost = AB.between,
   autosum = AB.within
@@ -345,7 +325,8 @@ AB.psi[[1]] <- AB.psi[[1]] + 1
 
 The output of **psi** is a list, that can be transformed to a dataframe or a matrix by using the **formatPsi** function.
 
-```{r}
+
+```r
 #to dataframe
 AB.psi.dataframe <- formatPsi(
   psi.values = AB.psi,
@@ -357,7 +338,8 @@ kbl(AB.psi.dataframe, digits = 4)
 
 All the steps required to compute **psi**, including the format options provided by **formatPsi** are wrapped together in the function **workflowPsi**. It includes options to switch to a diagonal method, and to ignore blocks, as shown below.
 
-```{r}
+
+```r
 #checking the help file
 help(workflowPsi)
 
@@ -375,7 +357,8 @@ AB.psi
 
 The function allows to exclude particular columns from the analysis (argument *exclude.columns*), select different distance metrics (argument *method*), use diagonals to find the least-cost path (argument *diagonal*), or measure psi by ignoring blocks in the least-cost path (argument *ignore.blocks*). Since we have observed several blocks in the least-cost path, below we compute psi by ignoring them.
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -387,7 +370,8 @@ The package can work seamlessly with any given number of sequences, as long as t
 
 The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.
 
-```{r}
+
+```r
 data(sequencesMIS)
 
 kbl(
@@ -401,7 +385,8 @@ unique(sequencesMIS$MIS)
 
 The dataset is checked and prepared with **prepareSequences**.
 
-```{r}
+
+```r
 MIS.sequences <- prepareSequences(
   sequences = sequencesMIS,
   grouping.column = "MIS",
@@ -412,7 +397,8 @@ MIS.sequences <- prepareSequences(
 
 The dissimilarity measure **psi** can be computed for every combination of sequences through the function **workflowPsi** shown below.
 
-```{r}
+
+```r
 MIS.psi <- workflowPsi(
   sequences = MIS.sequences,
   grouping.column = "MIS",
@@ -429,7 +415,8 @@ kbl(
 
 There is also a "high-performance" (HP) version of this function with a much lower memory footprint. It uses the options method = "euclidean", diagonal = TRUE, and ignore.blocks = TRUE by default.
 
-```{r}
+
+```r
 MIS.psi <- workflowPsiHP(
   sequences = MIS.sequences,
   grouping.column = "MIS"
@@ -439,7 +426,8 @@ MIS.psi <- workflowPsiHP(
 
 The output of `workflowPsi()` can transformed into a matrix to be plotted as an adjacency network with the **qgraph** package.
 
-```{r, fig.width = 5, warning = FALSE, error = FALSE, fig.height = 5}
+
+```r
 #psi values to matrix
 MIS.psi.matrix <- formatPsi(
   psi.values = MIS.psi,
@@ -462,7 +450,8 @@ qgraph::qgraph(
 
 Or as a matrix with **ggplot2**.
 
-```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity."}
+
+```r
 #ordering factors to get a triangular matrix
 MIS.psi$A <- factor(MIS.psi$A, levels=unique(sequencesMIS$MIS))
 MIS.psi$B <- factor(MIS.psi$B, levels=unique(sequencesMIS$MIS))
@@ -484,7 +473,8 @@ ggplot(
 
 The dataframe of dissimilarities between pairs of sequences can be also used to analyze the drivers of dissimilarity. To do so, attributes such as differences in time (when sequences represent different times) or distance (when sequences represent different sites) between sequences, or differences between physical/climatic attributes between sequences such as topography or climate can be added to the table, so models such as $psi = A + B + C$ (were A, B, and C are these attributes) can be fitted.
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -496,7 +486,8 @@ The package *distantia* is also useful to compare synchronic sequences that have
 
 Here we test these ideas with the **climate** dataset included in the library. It represents simulated palaeoclimate over 200 ky. at four sites identified by the column *sequenceId*. Note that this time the transformation applied is "scaled", which uses the **scale** function of R base to center and scale the data.
 
-```{r}
+
+```r
 #loading sample data
 data(climate)
 
@@ -513,7 +504,8 @@ climate <- prepareSequences(
 
 In this case, the argument *paired.samples* of **workflowPsi** must be set to TRUE. Additionally, if the argument *same.time* is set to TRUE, the time/age of the samples is checked, and samples without the same time/age are removed from the analysis.
 
-```{r}
+
+```r
 #computing psi
 climate.psi <- workflowPsi(
   sequences = climate,
@@ -529,7 +521,8 @@ climate.psi <- workflowPsi(
 kbl(climate.psi[order(climate.psi$psi), ], digits = 4, row.names = FALSE, caption = "Psi values between pairs of sequences in the 'climate' dataset.")
 ```
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -557,7 +550,8 @@ Since the restricted permutation only happens at a local scale within each colum
 
 The process described above has been implemented in the **workflowNullPsi** function. We will apply it to three groups of the *sequencesMIS* dataset.
 
-```{r}
+
+```r
 #getting example data
 data(sequencesMIS)
 
@@ -574,7 +568,8 @@ sequencesMIS <- prepareSequences(
 
 The computation of the null psi values goes as follows:
 
-```{r}
+
+```r
 random.psi <- workflowNullPsi(
   sequences = sequencesMIS,
   grouping.column = "MIS",
@@ -600,7 +595,8 @@ The output is a list with two dataframes, **psi** and **p**.
 
 The dataframe **psi** contains the real and random psi values. The column *psi* contains the dissimilarity between the sequences in the columns *A* and *B*. The columns *r1* to *r9* contain the psi values obtained from permutations of the sequences.
 
-```{r}
+
+```r
 kbl(
   random.psi$psi, 
   digits = 4
@@ -609,11 +605,13 @@ kbl(
 
 The dataframe *p* contains the probability of obtaining the real *psi* value by chance for each combination of sequences.
 
-```{r}
+
+```r
 kbl(random.psi$p)
 ```
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -624,7 +622,8 @@ rm(list = ls())
 
 First, we prepare the data. It is again *sequencesMIS*, but with only three groups selected (MIS 4 to 6) to simplify the analysis.
 
-```{r}
+
+```r
 #getting example data
 data(sequencesMIS)
 
@@ -641,7 +640,8 @@ sequences <- prepareSequences(
 
 The workflow function is pretty similar to the ones explained above. However, unlike the other functions in the package, that parallelize across the comparison of pairs of sequences, this one parallelizes the computation of *psi* on combinations of columns, removing one column each time.
 
-```{r}
+
+```r
 psi.importance <- workflowImportance(
   sequences = sequencesMIS,
   grouping.column = "MIS",
@@ -653,7 +653,8 @@ psi.importance <- workflowImportance(
 
 There is also a high performance version of this function, but with fewer options (it uses euclidean, diagonal, and ignores blocks by default)
 
-```{r, eval = FALSE}
+
+```r
 psi.importance <- workflowImportanceHP(
   sequences = sequencesMIS,
   grouping.column = "MIS"
@@ -664,13 +665,15 @@ The output is a list with two slots named *psi* and *psi.drop*.
 
 The dataframe **psi** contains psi values for each combination of variables (named in the coluns *A* and *B*) computed for all columns in the column *All variables*, and one column per variable named *Without variable_name* containing the psi value when that variable is removed from the compared sequences.
 
-```{r}
+
+```r
 kbl(psi.importance$psi, digits = 4,)
 ```
 
 This table can be plotted as a bar plot as follows: 
 
-```{r, fig.width = 9, fig.height = 6}
+
+```r
 #extracting object
 psi.df <- psi.importance$psi
 
@@ -699,11 +702,13 @@ In summary:
 +  High psi-drop value: variable contributes to dissimilarity.
 +  Low or negative psi-drop value: variable contributes to similarity.
 
-```{r}
+
+```r
 kbl(psi.importance$psi.drop)
 ```
 
-```{r, fig.width = 9, fig.height = 6}
+
+```r
 #extracting object
 psi.drop.df <- psi.importance$psi.drop
 
@@ -726,7 +731,8 @@ ggplot(data=psi.drop.df.long, aes(x=variable, y=psi, fill=psi)) +
   theme_bw()
 ```
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -736,7 +742,8 @@ rm(list = ls())
 
 In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we use the dataset *sequencesMIS*. The first 10 samples will serve as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.
 
-```{r}
+
+```r
 #loading the data
 data(sequencesMIS)
 
@@ -753,7 +760,8 @@ MIS.long <- sequencesMIS[1:40, ]
 The sequences have to be prepared and transformed. For simplicity, the sequences are named *short* and *long*, and the grouping column is named *id*, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.
 
 
-```{r}
+
+```r
 MIS.short.long <- prepareSequences(
   sequence.A = MIS.short,
   sequence.A.name = "short",
@@ -766,7 +774,8 @@ MIS.short.long <- prepareSequences(
 
 The function **workflowPartialMatch** shown below is going to subset the long sequence in sizes between *min.length* and *max.length*. In the example below this search space has the same size as *MIS.short* to speed-up the execution of this example, but wider windows are possible. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.
 
-```{r}
+
+```r
 MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
   grouping.column = "id",
@@ -780,13 +789,15 @@ MIS.psi <- workflowPartialMatch(
 
 The function returns a dataframe with three columns: *first.row* (first row of the matched segment of the long sequence), *last.row* (last row of the matched segment of the long sequence), and *psi* (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.
 
-```{r}
+
+```r
 kbl(MIS.psi[1:15, ], digits = 4)
 ```
 
 Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.
 
-```{r}
+
+```r
 #indices of the best matching segment
 best.match.indices <- MIS.psi[1, "first.row"]:MIS.psi[1, "last.row"]
 
@@ -795,7 +806,8 @@ best.match <- MIS.long[best.match.indices, ]
 ```
 
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -806,7 +818,8 @@ Under this scenario, the objective is to combine two sequences into a single com
 
 The example below uses the **pollenGP** dataset, which contains 200 samples, with 40 pollen types each. To create a smalle case study, the code below separates the first 20 samples of the sequence into two different sequences with 10 randomly selected samples each. Even though this scenario assumes that these sequences do not have depth or age, these columns will be kept so the result can be assessed. That is why these columns are added to the *exclude.columns* argument. Also, note that the argument *transformation* is set to "none", so the output is not transformed, and the outcome can be easily interpreted. This will give more weight to the most abundant taxa, which will in fact guide the slotting.
 
-```{r}
+
+```r
 #loading the data
 data(pollenGP)
 
@@ -835,7 +848,8 @@ AB <- prepareSequences(
 
 Once the sequences are prepared, the function **workflowSlotting** will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the *method* argument, computes the least-cost matrix, and generates the least-cost path. Note that it only uses an orthogonal method considering blocks, since this is the only option really suitable for this task.
 
-```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Distance matrix and least-cost path of the example sequences 'A' and 'B'.."}
+
+```r
 AB.combined <- workflowSlotting(
   sequences = AB,
   grouping.column = "id",
@@ -848,7 +862,8 @@ AB.combined <- workflowSlotting(
 
 The function reads the least-cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named *original.index*, which has the index of each sample in the original datasets.
 
-```{r}
+
+```r
 kbl(
   AB.combined[1:15,1:10], 
   digits = 4, 
@@ -858,72 +873,10 @@ kbl(
 
 Note that several samples show inverted ages with respect to the previous samples. This is to be expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.
 
-```{r, fig.width = 5, fig.height = 7, echo = FALSE}
 
-#color palette
-cols <- viridis::viridis(3, begin = 0.2, end = 0.8)
 
-#column to plot
-taxon <- "Abies"
-if(!(taxon %in% colnames(AB))){
-  warning("This taxon is not in AB, plotting 'Abies' instead")
-  taxon <- "Abies"
-}
 
-#setting y limits
-y.lim <- range(c(AB[AB$id == "A", taxon], AB[AB$id == "B", taxon]))
-
-#multipanel and margins
-par(mfrow=c(2,1), mar = c(4,2,2,1))
-
-#plotting separated sequences
-plot(AB[AB$id == "A", taxon], 
-     type="l", 
-     ylim = y.lim, 
-     xlab = "", 
-     ylab = "",
-     col = cols[1],
-     lwd = 2,
-     main = paste("Column '", taxon, "' of the sequences A and B", sep="")
-     )
-lines(AB[AB$id == "B", taxon], 
-      col = cols[3],
-      lwd = 2
-      )
-text(x = 1:10,
-     y = AB[AB$id == "B", taxon], 
-     labels = 1:10, 
-     pos = 3, 
-     col = cols[3])
-text(x = 1:10,
-     y = AB[AB$id == "A", taxon], 
-     labels = 1:10, 
-     pos = 1, 
-     col = cols[1])
-
-#plotting composite sequence
-plot(AB.combined[, taxon], 
-     type="l", 
-     ylim = y.lim, 
-     xlab = "Sample order", 
-     ylab = "",
-     col = cols[2], 
-     lwd = 2,
-     main =  paste("Column '", taxon, "' of the composite sequence", sep="")
-     )
-points(AB.combined[, taxon],
-       col = cols[c(1,3)][AB.combined$id],
-       pch = 19
-       )
-text(x = 1:20,
-     y = AB.combined[, taxon], 
-     labels = AB.combined[, "original.index"], 
-     pos = 3, 
-     col = cols[c(1,3)][AB.combined$id])
-
-```
-
-```{r}
+```r
 #cleaning workspace
 rm(list = ls())
 ```
@@ -935,7 +888,8 @@ This scenario assumes that the user has two METS, one of them with a given attri
 
 The code below prepares the data for the example. The sequence **pollenGP** is the reference sequence, and contains the column *age*. The sequence **pollenX** is the target sequence, without an *age* column. We generate it by taking 40 random samples between the samples 50 and 100 of **pollenGP**. The sequences are prepared with *prepareSequences*, as usual, with the identificators "GP" and "X"
 
-```{r, message = FALSE, warning = FALSE}
+
+```r
 #loading sample dataset
 data(pollenGP)
 
@@ -980,7 +934,8 @@ The transfer of "age" values from *GP* to *X* can be done in two ways, both cons
 
 A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least-cost matrix and its least-cost path (both with the option *diagonal* activated), and to parse the least-cost path file to assign attribute values. This is done by the function **workflowTransfer** with the option $mode = "direct"$.
 
-```{r}
+
+```r
 #parameters
 X.new <- workflowTransfer(
   sequences = GP.X,
@@ -1018,7 +973,8 @@ $$Bt_{k} = w_{i} \times At_{i} + w_{j} \times At_{j}$$
 
 The code below exemplifies the operation, using the samples 1 and 4 of the dataset *pollenGP* as $Ai$ and $Aj$, and the sample 3 as $Bk$.
 
-```{r}
+
+```r
 #loading data
 data(pollenGP)
 
@@ -1047,14 +1003,16 @@ Btk <- wi * Ati + wj * Atj
 
 The table below shows the observed versus the predicted values for $Btk$.
 
-```{r}
+
+```r
 temp.df <- data.frame(Observed = pollenGP[3, "age"], Predicted = Btk)
 kbl(t(temp.df), digits = 4, caption = "Observed versus predicted value in the interpolation of an age based on similarity between samples.")
 ```
 
 Below we create some example data, where a subset of *pollenGP* will be the donor of age values, and another subset of it, named *pollenX* will be the receiver of the age values.
 
-```{r, message = FALSE, warning = FALSE}
+
+```r
 #loading sample dataset
 data(pollenGP)
 
@@ -1091,7 +1049,8 @@ GP.X <- prepareSequences(
 
 To transfer attributes from *GP* to *X* we use the **workflowTransfer** function with the option *mode = "interpolate"*.
 
-```{r}
+
+```r
 #parameters
 X.new <- workflowTransfer(
   sequences = GP.X,
@@ -1112,7 +1071,8 @@ When interpolated values of the *age* column (transferred attribute via interpol
 
 **IMPORTANT:** the interpretation of the interpolated ages requires a careful consideration. Please, don't do it blindly, because this algorithm has its limitations. For example, significant hiatuses in the data can introduce wild variations in interpolated ages.
 
-```{r}
+
+```r
 #cleaning workspace
 rm(list = ls())
 ```

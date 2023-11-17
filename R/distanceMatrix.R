@@ -59,7 +59,10 @@
 #'
 #'
 #'#plot
-#'plotMatrix(distance.matrix = AB.distance.matrix)
+#'if(interactive()){
+#'  plotMatrix(distance.matrix = AB.distance.matrix)
+#'}
+#'
 #'
 #' @export
 distanceMatrix <- function(sequences = NULL,

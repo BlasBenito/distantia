@@ -2,41 +2,44 @@
 % Please edit documentation in R/distance.R
 \name{distance}
 \alias{distance}
-\title{Computes a multivariate distance between two vectors.}
+\title{Distance Between Two Vectors}
 \usage{
-distance(x, y, method = "manhattan")
+distance(x, y, method = c("manhattan", "chi", "hellinger", "euclidean"))
 }
 \arguments{
-\item{x}{numeric vector.}
+\item{x}{(required, numeric vector).}
 
-\item{y}{numeric vector of the same length as \code{x}.}
+\item{y}{(required, numeric vector) of same length as `x`.}
 
-\item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
+\item{method}{(required, character string) name of a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger".}
 }
 \value{
-A number representing the distance between both vectors.
+A distance value.
 }
 \description{
-Computes a multivariate distance (one of: "manhattan", "euclidean", "chi", and "hellinger") between two vectors of the same length. It is used internally by \code{\link{distanceMatrix}} and \code{\link{autoSum}}. This function has no buit-in error trapping procedures in order to speed up execution.
+Computes Manhattan, Euclidean, Chi, or Hellinger distances between numeric vectors of the same length. Used internally within [distanceMatrix()] and [autoSum()].
 }
 \details{
 Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distances are computed as:
 \itemize{
-\item \code{manhattan}: \code{d <- sum(abs(x - y))}
-\item \code{euclidean}: \code{d <- sqrt(sum((x - y)^2))}
-\item \code{chi}: \code{
-    xy <- x + y
-    y. <- y / sum(y)
-    x. <- x / sum(x)
-    d <- sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
-\item \code{hellinger}: \code{d <- sqrt(1/2 * sum(sqrt(x) - sqrt(y))^2)}
+\item "manhattan": `sum(abs(x - y))`
+\item "euclidean": `qrt(sum((x - y)^2))`.
+\item "chi":
+    `xy <- x + y`
+    `y. <- y / sum(y)`
+    `x. <- x / sum(x)`
+    `sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))`
+\item "hellinger": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
 }
-Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
+Note that zeroes are replaced by `mean(c(x, y)) * 0.001`  whem `method` is "chi" or "hellinger".
 }
 \examples{
-x <- runif(100)
-y <- runif(100)
-distance(x, y, method = "manhattan")
+
+distance(
+  x = runif(100),
+  y = runif(100),
+  method = "manhattan"
+)
 
 }
 \author{

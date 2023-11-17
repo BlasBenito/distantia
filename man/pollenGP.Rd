@@ -4,7 +4,9 @@
 \name{pollenGP}
 \alias{pollenGP}
 \title{Pollen dataset.}
-\format{Dataframe with 42 columns and 200 rows}
+\format{
+Dataframe with 42 columns and 200 rows
+}
 \usage{
 data(sequenceA)
 }

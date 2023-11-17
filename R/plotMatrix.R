@@ -71,15 +71,18 @@
 #'  )
 #'
 #'#plot
-#'plotMatrix(distance.matrix = AB.distance.matrix)
+#'#plotMatrix(distance.matrix = AB.distance.matrix)
 #'
 #'#viridis palette
-#'plotMatrix(distance.matrix = AB.distance.matrix,
-#'  color.palette = "viridis")
+#'#plotMatrix(
+#'#  distance.matrix = AB.distance.matrix,
+#'#  color.palette = "viridis"
+#'#)
 #'
 #'#custom palette
-#'plotMatrix(distance.matrix = AB.distance.matrix,
-#' color.palette = viridis::viridis(8, option = "B", direction = -1))
+#'#plotMatrix(
+#'#  distance.matrix = AB.distance.matrix,
+#'#  color.palette = viridis::viridis(8, option = "B", direction = -1))
 #'
 #' }
 #'

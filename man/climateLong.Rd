@@ -4,7 +4,9 @@
 \name{climateLong}
 \alias{climateLong}
 \title{Dataframe with palaeoclimatic data.}
-\format{dataframe with 6 columns and 800 rows.}
+\format{
+dataframe with 6 columns and 800 rows.
+}
 \usage{
 data(climateLong)
 }

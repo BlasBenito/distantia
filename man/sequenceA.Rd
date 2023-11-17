@@ -4,7 +4,9 @@
 \name{sequenceA}
 \alias{sequenceA}
 \title{Multivariate and irregular time series with pollen counts.}
-\format{Dataframe with 9 columns and 49 rows}
+\format{
+Dataframe with 9 columns and 49 rows
+}
 \usage{
 data(sequenceA)
 }

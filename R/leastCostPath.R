@@ -60,10 +60,11 @@
 #'  parallel.execution = FALSE
 #'  )
 #'
-#'#plot
-#'plotMatrix(distance.matrix = AB.distance.matrix,
-#'  least.cost.path = AB.least.cost.path,
-#'  )
+#' #plot
+#' #plotMatrix(
+#' #  distance.matrix = AB.distance.matrix,
+#' #  least.cost.path = AB.least.cost.path,
+#' #)
 #'
 #'}
 #'

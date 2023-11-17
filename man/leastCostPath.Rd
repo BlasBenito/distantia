@@ -73,9 +73,10 @@ AB.least.cost.path <- leastCostPath(
  )
 
 #plot
-plotMatrix(distance.matrix = AB.distance.matrix,
- least.cost.path = AB.least.cost.path,
- )
+#plotMatrix(
+#  distance.matrix = AB.distance.matrix,
+#  least.cost.path = AB.least.cost.path,
+#)
 
 }
 

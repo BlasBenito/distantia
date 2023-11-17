@@ -68,10 +68,8 @@ AB.least.cost.matrix <- leastCostMatrix(
  )
 
 #plot
-par(mfrow=c(1,2))
-plotMatrix(distance.matrix = AB.distance.matrix)
-plotMatrix(distance.matrix = AB.least.cost.matrix)
-dev.off()
+#plotMatrix(distance.matrix = AB.distance.matrix)
+#plotMatrix(distance.matrix = AB.least.cost.matrix)
 
 }
 

@@ -1,71 +1,157 @@
-#' Computes a multivariate distance between two vectors.
+#' Distance Between Two Vectors
 #'
-#' @description Computes a multivariate distance (one of: "manhattan", "euclidean", "chi", and "hellinger") between two vectors of the same length. It is used internally by \code{\link{distanceMatrix}} and \code{\link{autoSum}}. This function has no buit-in error trapping procedures in order to speed up execution.
+#' @description Computes Manhattan, Euclidean, Chi, or Hellinger distances between numeric vectors of the same length. Used internally within [distanceMatrix()] and [autoSum()].
 #'
-#' @usage distance(x, y, method = "manhattan")
 #'
-#' @param x numeric vector.
-#' @param y numeric vector of the same length as \code{x}.
-#' @param method character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.
-#' @return A number representing the distance between both vectors.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @param method (required, character string) name of a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger".
+#' @return A distance value.
 #' @details Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distances are computed as:
 #' \itemize{
-#' \item \code{manhattan}: \code{d <- sum(abs(x - y))}
-#' \item \code{euclidean}: \code{d <- sqrt(sum((x - y)^2))}
-#' \item \code{chi}: \code{
-#'     xy <- x + y
-#'     y. <- y / sum(y)
-#'     x. <- x / sum(x)
-#'     d <- sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
-#' \item \code{hellinger}: \code{d <- sqrt(1/2 * sum(sqrt(x) - sqrt(y))^2)}
+#' \item "manhattan": `sum(abs(x - y))`
+#' \item "euclidean": `qrt(sum((x - y)^2))`.
+#' \item "chi":
+#'     `xy <- x + y`
+#'     `y. <- y / sum(y)`
+#'     `x. <- x / sum(x)`
+#'     `sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))`
+#' \item "hellinger": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
 #' }
-#' Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
+#' Note that zeroes are replaced by `mean(c(x, y)) * 0.001`  whem `method` is "chi" or "hellinger".
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @examples
-#' x <- runif(100)
-#' y <- runif(100)
-#' distance(x, y, method = "manhattan")
 #'
+#' distance(
+#'   x = runif(100),
+#'   y = runif(100),
+#'   method = "manhattan"
+#' )
+#'
+#' @autoglobal
 #' @export
-distance <- function(x,
-                     y,
-                     method = "manhattan"){
+distance <- function(
+    x,
+    y,
+    method = c(
+      "manhattan",
+      "chi",
+      "hellinger",
+      "euclidean"
+      )
+    ){
+
+  method <- match.arg(
+    arg = method,
+    choices = c(
+      "manhattan",
+      "chi",
+      "hellinger",
+      "euclidean"
+    ),
+    several.ok = FALSE
+  )
 
   #handling NA
-  NA.cases <- c(
-    which(is.na(x)),
-    which(is.na(y))
-    )
-  x <- x[-NA.cases]
-  y <- y[-NA.cases]
+  df <- data.frame(
+    x = x,
+    y = y
+  ) |>
+    na.omit()
+
+  #pseudo zeros
+  pseudozero <- mean(
+    x = c(df$x, df$y)
+  ) * 0.001
+
+  df[df == 0] <- pseudozero
 
   #computing manhattan distance
-  if (method == "manhattan"){
-    d <-  sum(abs(x - y))
+  if(method == "manhattan"){
+    return(distance_manhattan(df$x, df$y))
   }
 
   #computing hellinger distance
   if (method == "hellinger"){
-    x[x==0] <- 0.00001
-    y[y==0] <- 0.00001
-    d <- sqrt(1/2 * sum(sqrt(x) - sqrt(y))^2)
+    return(distance_hellinger(df$x, df$y))
   }
 
   #computing chi distance
   if (method == "chi"){
-    x[x==0] <- 0.00001
-    y[y==0] <- 0.00001
-    xy <- x + y
-    y. <- y / sum(y)
-    x. <- x / sum(x)
-    d <- sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))
+    return(distance_chi(df$x, df$y))
   }
 
   #computing euclidean distance
   if (method == "euclidean"){
-    d <- sqrt(sum((x - y)^2))
+    return(distance_euclidean(df$x, df$y))
   }
 
-  return(d)
+}
 
+#' Euclidean Distance Between Two Vectors
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @autoglobal
+#' @examples
+#'
+#' distance_euclidean(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' @export
+distance_euclidean <- function(x, y){
+  sqrt(sum((x - y)^2))
+}
+
+#' Chi Distance Between Two Vectors
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @autoglobal
+#' @examples
+#'
+#' distance_chi(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' @export
+distance_chi <- function(x, y){
+  xy <- x + y
+  y. <- y / sum(y)
+  x. <- x / sum(x)
+  sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))
+}
+
+#' Hellinger Distance Between Two Vectors
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @autoglobal
+#' @examples
+#'
+#' distance_hellinger(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' @export
+distance_hellinger <- function(x, y){
+  sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))
+}
+
+#' Manhattan Distance Between Two Vectors
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @return Manhattan distance.
+#' @autoglobal
+#' @examples
+#'
+#' distance_manhattan(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' @export
+distance_manhattan <- function(x, y){
+  sum(abs(x - y))
 }

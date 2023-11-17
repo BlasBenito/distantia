@@ -4,7 +4,9 @@
 \name{sequencesMIS}
 \alias{sequencesMIS}
 \title{Dataframe with pollen counts for different MIS stages.}
-\format{dataframe with 7 columns and 427 rows.}
+\format{
+dataframe with 7 columns and 427 rows.
+}
 \usage{
 data(sequencesMIS)
 }

@@ -57,7 +57,7 @@
 #'   time.column = "age",
 #'   exclude.columns = "depth",
 #'   method = "manhattan",
-#'   plot = TRUE
+#'   plot = FALSE
 #'   )
 #'
 #' AB.combined
