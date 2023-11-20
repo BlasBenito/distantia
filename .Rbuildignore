@@ -7,6 +7,8 @@
 ^behavior_psi\.R$
 ^workflowPsiHP_devel\.R$
 ^dev_scripts/
+^Rcpp_ideas/
+^TODO.md$
 
 
 ^\.github$

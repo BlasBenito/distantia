@@ -7,12 +7,16 @@ library(tictoc)
 
 #progress
 ls("package:distantia")
+
+#DONE
+# [5] "distance"
+# [6] "distanceMatrix"
+
+#TODO
 # [1] "autoSum"
 # [2] "climate"
 # [3] "climateLong"
 # [4] "climateShort"
-# [5] "distance"
-# [6] "distanceMatrix"
 # [7] "distancePairedSamples"
 # [8] "formatPsi"
 # [9] "handleNA"
@@ -37,53 +41,84 @@ ls("package:distantia")
 # [28] "workflowSlotting"
 # [29] "workflowTransfer"
 
-#autoSum
+#distance
 ########################################
-tic()
+########################################
+#'
+#' distance(
+#'   x = runif(100),
+#'   y = runif(100),
+#'   method = "manhattan"
+#' )
+#'
+#' distance_euclidean(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' distance_chi(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' distance_hellinger(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
+#' distance_manhattan(
+#'   x = runif(100),
+#'   y = runif(100)
+#' )
+#'
 
-#loading data
-data(sequenceA)
-data(sequenceB)
 
-#preparing datasets
-AB.sequences <- prepareSequences(
- sequence.A = sequenceA,
- sequence.A.name = "A",
- sequence.B = sequenceB,
- sequence.B.name = "B",
- merge.mode = "complete",
- if.empty.cases = "zero",
- transformation = "hellinger"
- )
+#distanceMatrix
+########################################
+########################################
+#' data(sequenceA)
+#' data(sequenceB)
+#'
+#' #preparing  datasets
+#' AB.sequences <- prepareSequences(
+#'  sequence.A = sequenceA,
+#'  sequence.A.name = "A",
+#'  sequence.B = sequenceB,
+#'  sequence.B.name = "B",
+#'  merge.mode = "complete",
+#'  if.empty.cases = "zero",
+#'  transformation = "hellinger"
+#'  )
+#'
+#' #computing distance matrix
+#' AB.distance.matrix <- distanceMatrix(
+#'  sequences = AB.sequences,
+#'  grouping.column = "id",
+#'  method = "manhattan",
+#'  parallel.execution = FALSE
+#'  )
+#'
+#' #plot
+#' if(interactive()){
+#'  plotMatrix(distance.matrix = AB.distance.matrix)
+#' }
 
-#computing distance matrix
-AB.distance.matrix <- distanceMatrix(
- sequences = AB.sequences,
- grouping.column = "id",
- method = "manhattan",
- parallel.execution = FALSE
- )
 
-#computing least cost matrix
-AB.least.cost.matrix <- leastCostMatrix(
- distance.matrix = AB.distance.matrix,
- diagonal = FALSE,
- parallel.execution = FALSE
- )
+#distance_matrix
+########################################
+########################################
 
-AB.least.cost.path <- leastCostPath(
- distance.matrix = AB.distance.matrix,
- least.cost.matrix = AB.least.cost.matrix,
- parallel.execution = FALSE
- )
-
-#autosum
-AB.autosum <- autoSum(
- sequences = AB.sequences,
- least.cost.path = AB.least.cost.path,
- grouping.column = "id",
- parallel.execution = FALSE
- )
-AB.autosum
-
-toc()
+#' data(
+#'   sequenceA,
+#'   sequenceB
+#' )
+#'
+#' distance.matrix <- distance_matrix(
+#'   a = sequenceA,
+#'   b = sequenceB,
+#'   method = "manhattan"
+#' )
+#'
+#' if(interactive()){
+#'  plotMatrix(distance.matrix = distance.matrix)
+#' }

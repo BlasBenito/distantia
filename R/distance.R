@@ -57,7 +57,7 @@ distance <- function(
     x = x,
     y = y
   ) |>
-    na.omit()
+    stats::na.omit()
 
   #pseudo zeros
   pseudozero <- mean(
@@ -68,90 +68,23 @@ distance <- function(
 
   #computing manhattan distance
   if(method == "manhattan"){
-    return(distance_manhattan(df$x, df$y))
+    return(distance_manhattan_cpp(df$x, df$y))
   }
 
   #computing hellinger distance
   if (method == "hellinger"){
-    return(distance_hellinger(df$x, df$y))
+    return(distance_hellinger_cpp(df$x, df$y))
   }
 
   #computing chi distance
   if (method == "chi"){
-    return(distance_chi(df$x, df$y))
+    return(distance_chi_cpp(df$x, df$y))
   }
 
   #computing euclidean distance
   if (method == "euclidean"){
-    return(distance_euclidean(df$x, df$y))
+    return(distance_euclidean_cpp(df$x, df$y))
   }
 
 }
 
-#' Euclidean Distance Between Two Vectors
-#' @param x (required, numeric vector).
-#' @param y (required, numeric vector) of same length as `x`.
-#' @autoglobal
-#' @examples
-#'
-#' distance_euclidean(
-#'   x = runif(100),
-#'   y = runif(100)
-#' )
-#'
-#' @export
-distance_euclidean <- function(x, y){
-  sqrt(sum((x - y)^2))
-}
-
-#' Chi Distance Between Two Vectors
-#' @param x (required, numeric vector).
-#' @param y (required, numeric vector) of same length as `x`.
-#' @autoglobal
-#' @examples
-#'
-#' distance_chi(
-#'   x = runif(100),
-#'   y = runif(100)
-#' )
-#'
-#' @export
-distance_chi <- function(x, y){
-  xy <- x + y
-  y. <- y / sum(y)
-  x. <- x / sum(x)
-  sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))
-}
-
-#' Hellinger Distance Between Two Vectors
-#' @param x (required, numeric vector).
-#' @param y (required, numeric vector) of same length as `x`.
-#' @autoglobal
-#' @examples
-#'
-#' distance_hellinger(
-#'   x = runif(100),
-#'   y = runif(100)
-#' )
-#'
-#' @export
-distance_hellinger <- function(x, y){
-  sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))
-}
-
-#' Manhattan Distance Between Two Vectors
-#' @param x (required, numeric vector).
-#' @param y (required, numeric vector) of same length as `x`.
-#' @return Manhattan distance.
-#' @autoglobal
-#' @examples
-#'
-#' distance_manhattan(
-#'   x = runif(100),
-#'   y = runif(100)
-#' )
-#'
-#' @export
-distance_manhattan <- function(x, y){
-  sum(abs(x - y))
-}

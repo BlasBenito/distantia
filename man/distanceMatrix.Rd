@@ -2,7 +2,7 @@
 % Please edit documentation in R/distanceMatrix.R
 \name{distanceMatrix}
 \alias{distanceMatrix}
-\title{Computes distance matrices among the samples of two or more multivariate time-series.}
+\title{Distance Matrix Between Multivariate Time Series.}
 \usage{
 distanceMatrix(
   sequences = NULL,
@@ -11,40 +11,41 @@ distanceMatrix(
   exclude.columns = NULL,
   method = "manhattan",
   parallel.execution = TRUE
-  )
+)
 }
 \arguments{
-\item{sequences}{dataframe with multiple sequences identified by a grouping column. Generally the ouput of \code{\link{prepareSequences}}.}
+\item{sequences}{(required, data frame) dataframe with multiple sequences identified by a grouping column. Generally the ouput of [prepareSequences()]. Default: NULL}
 
-\item{grouping.column}{character string, name of the column in \code{sequences} to be used to identify separates sequences within the file. This argument is ignored if \code{sequence.A} and \code{sequence.B} are provided.}
+\item{grouping.column}{(required, character string) name of the column in `sequences` grouping separate time series. This argument is ignored if `sequence.A` and `sequence.B` are provided. Default: NULL}
 
-\item{time.column}{character string, name of the column with time/depth/rank data. The data in this column is not modified.}
+\item{time.column}{(required, character string) name of the column with time/depth/rank data. Default: NULL}
 
-\item{exclude.columns}{character string or character vector with column names in \code{sequences}, or \code{squence.A} and \code{sequence.B} to be excluded from the analysis.}
+\item{exclude.columns}{(optional, character vector) names of columns to be excluded from the distance computation. Default: NULL}
 
-\item{method}{character string naming a distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Invalid entries will throw an error.}
+\item{method}{(optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan}
 
-\item{parallel.execution}{boolean, if \code{TRUE} (default), execution is parallelized, and serialized if \code{FALSE}.}
+\item{parallel.execution}{(optional, logical) if `TRUE`, execution is parallelized. Default: `FALSE`}
 }
 \value{
 A list with named slots containing the the distance matrices of every possible combination of sequences according to \code{grouping.column}.
 }
 \description{
-Computes distance matrices among the samples of two or more multivariate time-series provided in a single dataframe (generally produced by \code{\link{prepareSequences}}), identified by a grouping column (argument \code{grouping.column}). Distances can be computed with the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function \code{\link{distance}}. The function uses the packages \code{\link[parallel]{parallel}}, \code{\link[foreach]{foreach}}, and \code{\link[doParallel]{doParallel}} to compute distances matrices among different sequences in parallel. It is configured to use all processors available minus one.
+Computes distance matrices among the samples of two or more multivariate time-series provided in a single dataframe (generally produced by [prepareSequences](), identified by a grouping column (argument `grouping.column`). Distances can be computed with the methods "manhattan", "euclidean", "chi", and "hellinger", and are implemented in the function [distance].
+
+The function uses the packages \code{\link[parallel]{parallel}}, \code{\link[foreach]{foreach}}, and \code{\link[doParallel]{doParallel}} to compute distances matrices among different sequences in parallel. It is configured to use all processors available minus one.
 }
 \details{
 Distances are computed as:
 \itemize{
-\item \code{manhattan}: \code{d <- sum(abs(x - y))}
-\item \code{euclidean}: \code{d <- sqrt(sum((x - y)^2))}
-\item \code{chi}: \code{
-    xy <- x + y
-    y. <- y / sum(y)
-    x. <- x / sum(x)
-    d <- sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
-\item \code{hellinger}: \code{d <- sqrt(1/2 * sum(sqrt(x) - sqrt(y))^2)}
+\item "manhattan": `sum(abs(x - y))`
+\item "euclidean": `qrt(sum((x - y)^2))`.
+\item "chi":
+    `xy <- x + y`
+    `y. <- y / sum(y)`
+    `x. <- x / sum(x)`
+    `sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))`
+\item "hellinger": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
 }
-Note that zeroes are replaced by 0.00001 whem \code{method} equals "chi" or "hellinger".
 }
 \examples{
 

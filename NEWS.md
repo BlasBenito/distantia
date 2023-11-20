@@ -1,4 +1,8 @@
-## Version 1.0.2
+# Version 1.0.3
+
+Fixed bug in Hellinger distances and reworked the distance() function to make it slightly faster.
+
+# Version 1.0.2
 
 Fixed an issue with the paralellization of tasks in the Windows platform. Now all parallelized functions modify their cluster settings depending on the user's platform.
 
