@@ -1,7 +1,7 @@
 #' Distance Matrix
 #'
-#' @param a (required, data frame or matrix) a time series.
-#' @param b (required, data frame or matrix) a time series.
+#' @param a (required, data frame) a time series.
+#' @param b (required, data frame) a time series.
 #' @param method (optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan
 #' @examples
 #'
@@ -35,10 +35,10 @@ distance_matrix <- function(
 ){
 
   #checking for NA
-  if(sum(is.na(a))>0){
+  if(sum(is.na(a)) > 0){
     stop("Argument 'a' has NA values.")
   }
-  if(sum(is.na(b))>0){
+  if(sum(is.na(b)) > 0){
     stop("Argument 'b' has NA values.")
   }
 
@@ -52,6 +52,10 @@ distance_matrix <- function(
     b <- b[, common.cols]
   }
 
+  #capture row names
+  a.names <- rownames(a)
+  b.names <- rownames(b)
+
   if(!is.matrix(a)){
     a <- as.matrix(a)
   }
@@ -59,6 +63,11 @@ distance_matrix <- function(
   if(!is.matrix(b)){
     b <- as.matrix(b)
   }
+
+  #pseudo zeros
+  pseudozero <- mean(x = c(a, b)) * 0.001
+  a[a == 0] <- pseudozero
+  b[b == 0] <- pseudozero
 
   #selecting method
   method <- match.arg(
@@ -73,7 +82,7 @@ distance_matrix <- function(
   )
 
   if(method == "manhattan"){
-    f <- distance_manattan_cpp
+    f <- distance_manhattan_cpp
   }
   if(method == "hellinger"){
     f <- distance_hellinger_cpp
@@ -86,10 +95,16 @@ distance_matrix <- function(
   }
 
   #computing distance matrix
-  distance_matrix_cpp(
+  d <- distance_matrix_cpp(
     a = a,
     b = b,
     f = f
     )
+
+  #adding names
+  rownames(d) <- a.names
+  colnames(d) <- b.names
+
+  d
 
 }

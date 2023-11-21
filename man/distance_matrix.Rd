@@ -7,9 +7,9 @@
 distance_matrix(a, b, method = c("manhattan", "chi", "hellinger", "euclidean"))
 }
 \arguments{
-\item{a}{(required, data frame or matrix) a time series.}
+\item{a}{(required, data frame) a time series.}
 
-\item{b}{(required, data frame or matrix) a time series.}
+\item{b}{(required, data frame) a time series.}
 
 \item{method}{(optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan}
 }

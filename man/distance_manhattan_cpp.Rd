@@ -15,7 +15,8 @@ distance_manhattan_cpp(x, y)
 Manhattan distance between x and y.
 }
 \description{
-Manhattan Distance Between Two Vectors
+Computed as:
+\code{sum(abs(x - y))}.
 }
 \details{
 Cannot handle NA values.

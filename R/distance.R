@@ -10,7 +10,7 @@
 #' @details Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distances are computed as:
 #' \itemize{
 #' \item "manhattan": `sum(abs(x - y))`
-#' \item "euclidean": `qrt(sum((x - y)^2))`.
+#' \item "euclidean": `sqrt(sum((x - y)^2))`.
 #' \item "chi":
 #'     `xy <- x + y`
 #'     `y. <- y / sum(y)`

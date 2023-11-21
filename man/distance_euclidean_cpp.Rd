@@ -15,7 +15,8 @@ distance_euclidean_cpp(x, y)
 Euclidean distance between x and y.
 }
 \description{
-Euclidean Distance Between Two Vectors
+Computed as:
+\code{sqrt(sum((x - y)^2)}.
 }
 \details{
 Cannot handle NA values.

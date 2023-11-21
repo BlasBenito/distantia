@@ -120,83 +120,85 @@ leastCostMatrix <- function(distance.matrix = NULL,
     }
 
   #parallelized loop
-  least.cost.matrices <- foreach::foreach(i=1:n.iterations) %dopar% {
+  least.cost.matrices <- foreach::foreach(
+    i=1:n.iterations
+    ) %dopar% {
 
-  #getting distance matrix
-  distance.matrix.i <- distance.matrix[[i]]
+    #getting distance matrix
+    distance.matrix.i <- distance.matrix[[i]]
 
-  #dimensions
-  least.cost.columns <- ncol(distance.matrix.i)
-  least.cost.rows <- nrow(distance.matrix.i)
-
-
-  #matrix to store least cost
-  least.cost.matrix <- matrix(nrow = least.cost.rows, ncol = least.cost.columns)
-  rownames(least.cost.matrix) <- rownames(distance.matrix.i)
-  colnames(least.cost.matrix) <- colnames(distance.matrix.i)
+    #dimensions
+    least.cost.columns <- ncol(distance.matrix.i)
+    least.cost.rows <- nrow(distance.matrix.i)
 
 
-  #first value
-  least.cost.matrix[1,1] <- distance.matrix.i[1,1]
-  rownames(least.cost.matrix) <- rownames(distance.matrix.i)
-  colnames(least.cost.matrix) <- colnames(distance.matrix.i)
+    #matrix to store least cost
+    least.cost.matrix <- matrix(nrow = least.cost.rows, ncol = least.cost.columns)
+    rownames(least.cost.matrix) <- rownames(distance.matrix.i)
+    colnames(least.cost.matrix) <- colnames(distance.matrix.i)
 
-  #initiating first column
-  least.cost.matrix[1, ] <- cumsum(distance.matrix.i[1, ])
 
-  #initiating the first row
-  least.cost.matrix[, 1] <- cumsum(distance.matrix.i[, 1])
+    #first value
+    least.cost.matrix[1,1] <- distance.matrix.i[1,1]
+    rownames(least.cost.matrix) <- rownames(distance.matrix.i)
+    colnames(least.cost.matrix) <- colnames(distance.matrix.i)
 
-  #if both sequences have more than one sample
-  if(least.cost.columns != 1 & least.cost.rows != 1){
+    #initiating first column
+    least.cost.matrix[1, ] <- cumsum(distance.matrix.i[1, ])
 
-  #compute least cost if diagonal is TRUE
-  if(diagonal == TRUE){
-    for (column in 1:(least.cost.columns-1)){
-      for (row in 1:(least.cost.rows-1)){
+    #initiating the first row
+    least.cost.matrix[, 1] <- cumsum(distance.matrix.i[, 1])
 
-        next.row <- row+1
-        next.column <- column+1
+    #if both sequences have more than one sample
+    if(least.cost.columns != 1 & least.cost.rows != 1){
 
-        least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column], least.cost.matrix[row, column]) + distance.matrix.i[next.row, next.column]
+    #compute least cost if diagonal is TRUE
+    if(diagonal == TRUE){
+      for (column in 1:(least.cost.columns-1)){
+        for (row in 1:(least.cost.rows-1)){
 
+          next.row <- row+1
+          next.column <- column+1
+
+          least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column], least.cost.matrix[row, column]) + distance.matrix.i[next.row, next.column]
+
+        }
       }
     }
-  }
 
-  #computing least cost id diagonal is FALSE
-  if(diagonal == FALSE){
-    for (column in 1:(least.cost.columns-1)){
-      for (row in 1:(least.cost.rows-1)){
+    #computing least cost id diagonal is FALSE
+    if(diagonal == FALSE){
+      for (column in 1:(least.cost.columns-1)){
+        for (row in 1:(least.cost.rows-1)){
 
-        next.row <- row+1
-        next.column <- column+1
+          next.row <- row+1
+          next.column <- column+1
 
-          least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column]) + distance.matrix.i[next.row, next.column]
+            least.cost.matrix[next.row, next.column]  <-  min(least.cost.matrix[row, next.column], least.cost.matrix[next.row, column]) + distance.matrix.i[next.row, next.column]
 
+        }
       }
     }
-  }
-  } else {
-    #both sequences have one sample
-    if(least.cost.columns == 1 & least.cost.rows == 1){
-      least.cost.matrix <- as.matrix(distance.matrix.i)
+    } else {
+      #both sequences have one sample
+      if(least.cost.columns == 1 & least.cost.rows == 1){
+        least.cost.matrix <- as.matrix(distance.matrix.i)
+      }
+
+      if(least.cost.columns == 1 & least.cost.rows > 1){
+        least.cost.matrix <- as.matrix(cumsum(distance.matrix.i))
+      }
+
+      if(least.cost.columns > 1 & least.cost.rows == 1){
+        least.cost.matrix <- t(as.matrix(cumsum(distance.matrix.i)))
+      }
+
     }
 
-    if(least.cost.columns == 1 & least.cost.rows > 1){
-      least.cost.matrix <- as.matrix(cumsum(distance.matrix.i))
-    }
+    #adding the value of the first cell to the last cell (it is not counted by the algorithm)
+    least.cost.matrix[least.cost.rows, least.cost.columns] <- least.cost.matrix[least.cost.rows, least.cost.columns] + least.cost.matrix[1, 1]
 
-    if(least.cost.columns > 1 & least.cost.rows == 1){
-      least.cost.matrix <- t(as.matrix(cumsum(distance.matrix.i)))
-    }
-
-  }
-
-  #adding the value of the first cell to the last cell (it is not counted by the algorithm)
-  least.cost.matrix[least.cost.rows, least.cost.columns] <- least.cost.matrix[least.cost.rows, least.cost.columns] + least.cost.matrix[1, 1]
-
-  return(least.cost.matrix)
+    return(least.cost.matrix)
 
   } #end of %dopar%
 

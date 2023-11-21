@@ -15,7 +15,8 @@ distance_hellinger_cpp(x, y)
 Hellinger distance between x and y.
 }
 \description{
-Hellinger Distance Between Two Vectors
+Computed as:
+\code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
 }
 \details{
 Cannot handle NA values.

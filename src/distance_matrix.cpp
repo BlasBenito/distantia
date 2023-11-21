@@ -1,6 +1,20 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' Distance Matrix
+//' @description Computes the distance matrix between two matrices
+//' \code{a} and \code{b} using one distance function.
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same ncol as `a`.
+//' @param f (required, function) a function. One of:
+//' \itemize{
+//'   \item [distance_manhattan_cpp].
+//'   \item [distance_euclidean_cpp].
+//'   \item [distance_hellinger_cpp].
+//'   \item [distance_chi_cpp]
+//' }
+//' @return Matrix of distances between `a` (rows) and `b` (columns).
+//' @details Cannot handle NA values.
 //' @export
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(

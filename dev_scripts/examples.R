@@ -122,3 +122,57 @@ ls("package:distantia")
 #' if(interactive()){
 #'  plotMatrix(distance.matrix = distance.matrix)
 #' }
+
+#least_cost_matrix
+###########################################
+###########################################
+
+data(
+  sequenceA,
+  sequenceB
+)
+
+distance_chi_cpp(a[2, ], b[2, ])
+
+x <- a[2, ]
+y <- b[2, ]
+x_sum <- sum(x)
+y_sum <- sum(y)
+xy_sum <- x_sum + y_sum
+out <- rep(NA, length(x))
+
+for(i in 1:length(x)){
+
+  x_norm <- x[i]/x_sum
+  y_norm <- y[i]/y_sum
+
+  out[i] <- ((x_norm - y_norm) * (x_norm - y_norm)) / ((x[i] + y[i]) / xy_sum)
+
+}
+
+
+
+
+
+a <- sequenceA |>
+  na.omit() |>
+  as.matrix()
+
+b <- sequenceB |>
+  na.omit() |>
+  as.matrix()
+
+distance.matrix <- distance_matrix(
+  a = a,
+  b = b,
+  method = "chi"
+)
+
+least.cost.matrix <- least_cost_matrix(
+  d = distance.matrix,
+  diagonal = FALSE
+  )
+
+if(interactive()){
+ plotMatrix(distance.matrix = least.cost.matrix)
+}

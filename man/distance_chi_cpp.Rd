@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{distance_chi_cpp}
 \alias{distance_chi_cpp}
-\title{Chi Distance Between Two Vectors}
+\title{Normalized Chi Distance Between Two Vectors}
 \usage{
 distance_chi_cpp(x, y)
 }
@@ -15,7 +15,11 @@ distance_chi_cpp(x, y)
 Chi distance between x and y.
 }
 \description{
-Chi Distance Between Two Vectors
+Computed as:
+\code{xy <- x + y}
+\code{y. <- y / sum(y)}
+\code{x. <- x / sum(x)}
+\code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
 }
 \details{
 Cannot handle NA values.

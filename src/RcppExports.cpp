@@ -71,6 +71,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// least_cost_matrix_diag_cpp
+NumericMatrix least_cost_matrix_diag_cpp(NumericMatrix d);
+RcppExport SEXP _distantia_least_cost_matrix_diag_cpp(SEXP dSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
+    rcpp_result_gen = Rcpp::wrap(least_cost_matrix_diag_cpp(d));
+    return rcpp_result_gen;
+END_RCPP
+}
+// least_cost_matrix_cpp
+NumericMatrix least_cost_matrix_cpp(NumericMatrix d);
+RcppExport SEXP _distantia_least_cost_matrix_cpp(SEXP dSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
+    rcpp_result_gen = Rcpp::wrap(least_cost_matrix_cpp(d));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
@@ -78,6 +100,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_euclidean_cpp", (DL_FUNC) &_distantia_distance_euclidean_cpp, 2},
     {"_distantia_distance_hellinger_cpp", (DL_FUNC) &_distantia_distance_hellinger_cpp, 2},
     {"_distantia_distance_chi_cpp", (DL_FUNC) &_distantia_distance_chi_cpp, 2},
+    {"_distantia_least_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_least_cost_matrix_diag_cpp, 1},
+    {"_distantia_least_cost_matrix_cpp", (DL_FUNC) &_distantia_least_cost_matrix_cpp, 1},
     {NULL, NULL, 0}
 };
 

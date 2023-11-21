@@ -2,7 +2,8 @@
 using namespace Rcpp;
 
 //' Manhattan Distance Between Two Vectors
-//'
+//' @description Computed as:
+//' \code{sum(abs(x - y))}.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Manhattan distance between x and y.
@@ -26,7 +27,8 @@ double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 }
 
 //' Euclidean Distance Between Two Vectors
-//'
+//' @description Computed as:
+//' \code{sqrt(sum((x - y)^2)}.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Euclidean distance between x and y.
@@ -50,7 +52,8 @@ double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 }
 
 //' Hellinger Distance Between Two Vectors
-//'
+//' @description Computed as:
+//' \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Hellinger distance between x and y.
@@ -74,8 +77,12 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Chi Distance Between Two Vectors
-//'
+//' Normalized Chi Distance Between Two Vectors
+//' @description Computed as:
+//' \code{xy <- x + y}
+//' \code{y. <- y / sum(y)}
+//' \code{x. <- x / sum(x)}
+//' \code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Chi distance between x and y.
