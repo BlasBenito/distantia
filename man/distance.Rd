@@ -17,10 +17,10 @@ distance(x, y, method = c("manhattan", "chi", "hellinger", "euclidean"))
 A distance value.
 }
 \description{
-Computes Manhattan, Euclidean, Chi, or Hellinger distances between numeric vectors of the same length. Used internally within [distanceMatrix()] and [autoSum()].
+Computes Manhattan, Euclidean, Chi, or Hellinger distances between numeric vectors of the same length. The underlying C++ functions (see [distance_manhattan_cpp()], [distance_euclidean_cpp()], [distance_hellinger_cpp()], and [distance_chi_cpp()]) do not accept NA as input, and as such, positions with NA in `x` and `y` are ignored.
 }
 \details{
-Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distances are computed as:
+Distances are computed as:
 \itemize{
 \item "manhattan": `sum(abs(x - y))`
 \item "euclidean": `sqrt(sum((x - y)^2))`.
@@ -31,7 +31,7 @@ Vectors \code{x} and \code{y} are not checked to speed-up execution time. Distan
     `sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))`
 \item "hellinger": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
 }
-Note that zeroes are replaced by `mean(c(x, y)) * 0.001`  whem `method` is "chi" or "hellinger".
+Note that zeroes are replaced by `mean(c(x, y)) * 0.0001` whem `method` is "chi".
 }
 \examples{
 

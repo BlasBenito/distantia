@@ -1,6 +1,3 @@
-#' @details Details
-"_PACKAGE"
-
 #' Pollen dataset.
 #'
 #' A subset of the Grande Pile dataset (\url{https://doi.pangaea.de/10.1594/PANGAEA.739275}). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.
@@ -108,9 +105,3 @@
 #' @usage data(climate)
 #' @format dataframe with 6 columns and 800 rows.
 "climate"
-
-#' @import plyr parallel doParallel foreach iterators fields grDevices viridis data.table arrangements
-NULL
-
-#' @import utils
-utils::globalVariables(c("i", "..numeric.cols"))

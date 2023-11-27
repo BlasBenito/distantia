@@ -15,9 +15,8 @@ distance_manhattan_cpp(x, y)
 Manhattan distance between x and y.
 }
 \description{
-Computed as:
-\code{sum(abs(x - y))}.
+Computed as: \code{sum(abs(x - y))}. Cannot handle NA values.
 }
-\details{
-Cannot handle NA values.
+\examples{
+distance_manhattan_cpp(x = runif(100), y = runif(100))
 }

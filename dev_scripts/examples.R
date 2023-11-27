@@ -5,14 +5,26 @@ devtools::install()
 library(distantia)
 library(tictoc)
 
-#progress
-ls("package:distantia")
+#EXAMPLES C++ FUNCTIONS
+
+#distance_manhattan_cpp
+distance_manhattan_cpp(runif(100), runif(100))
+
+#distance_euclidean_cpp
+distance_euclidean_cpp(runif(100), runif(100))
+
+#distance_euclidean_cpp
+distance_hellinger_cpp(runif(100), runif(100))
+
+#distance_euclidean_cpp
+distance_chi_cpp(runif(100), runif(100))
 
 #DONE
+
+#progress
+ls("package:distantia")
 # [5] "distance"
 # [6] "distanceMatrix"
-
-#TODO
 # [1] "autoSum"
 # [2] "climate"
 # [3] "climateLong"

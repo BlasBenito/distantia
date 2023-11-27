@@ -87,27 +87,29 @@
 #' }
 #'
 #' @export
-plotMatrix <- function(distance.matrix = NULL,
-                       least.cost.path = NULL,
-                       plot.columns = NULL,
-                       plot.rows = NULL,
-                       legend = TRUE,
-                       color.palette = "divergent",
-                       path.color = "black",
-                       path.width = 1,
-                       margins = c(2,3,2,4),
-                       pdf.filename = NULL,
-                       pdf.width = 7,
-                       pdf.height = 4,
-                       pdf.pointsize = 12,
-                       rotate = FALSE
-                       ){
+plotMatrix <- function(
+    distance.matrix = NULL,
+    least.cost.path = NULL,
+    plot.columns = NULL,
+    plot.rows = NULL,
+    legend = TRUE,
+    color.palette = "divergent",
+    path.color = "black",
+    path.width = 1,
+    margins = c(2,3,2,4),
+    pdf.filename = NULL,
+    pdf.width = 7,
+    pdf.height = 4,
+    pdf.pointsize = 12,
+    rotate = FALSE
+    ){
 
 
   #if input is matrix, get it into list
   if(inherits(distance.matrix, "list") == TRUE){
     n.elements <- length(distance.matrix)
   } else {
+    n.elements <- 1
     temp <- list()
     temp[[1]] <- distance.matrix
     distance.matrix <- temp
@@ -119,6 +121,7 @@ plotMatrix <- function(distance.matrix = NULL,
     if(inherits(least.cost.path, "list") == TRUE){
       m.elements <- length(least.cost.path)
     } else {
+      m.elements <- 1
         temp <- list()
         temp[[1]] <- least.cost.path
         least.cost.path <- temp
@@ -188,12 +191,12 @@ plotMatrix <- function(distance.matrix = NULL,
     #parse names
     sequence.names = unlist(strsplit(matrix.name, split='|', fixed=TRUE))
     if(length(sequence.names) == 0){
-      ylab.name <- "A"
-      xlab.name <- "B"
+      ylab.name <- "a"
+      xlab.name <- "b"
       title <- "A vs. B"
     } else {
-      ylab.name <- sequence.names[1]
-      xlab.name <- sequence.names[2]
+      ylab.name <- "a"
+      xlab.name <- "b"
       title <- paste(sequence.names, collapse = " vs. ")
     }
 

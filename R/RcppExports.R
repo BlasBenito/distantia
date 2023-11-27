@@ -2,55 +2,166 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Distance Matrix
-#' @description Computes the distance matrix between two matrices
-#' \code{a} and \code{b} using one distance function.
+#' @description Computes the distance matrix between the rows of two matrices
+#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+#' NA values should be removed before using this function.
+#' If the selected distance function is [distance_chi_cpp], pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
-#' @param b (required, numeric matrix) of same ncol as `a`.
-#' @param f (required, function) a function. One of:
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param f (required, function) a distance function. One of:
 #' \itemize{
-#'   \item [distance_manhattan_cpp].
-#'   \item [distance_euclidean_cpp].
-#'   \item [distance_hellinger_cpp].
-#'   \item [distance_chi_cpp]
+#'   \item distance_manhattan_cpp.
+#'   \item distance_euclidean_cpp.
+#'   \item distance_hellinger_cpp.
+#'   \item distance_chi_cpp.
 #' }
-#' @return Matrix of distances between `a` (rows) and `b` (columns).
-#' @details Cannot handle NA values.
+#' @return Matrix of distances between 'a' (rows) and 'b' (columns).
+#' @export
+auto_distance_cpp <- function(m, f) {
+    .Call(`_distantia_auto_distance_cpp`, m, f)
+}
+
+#' Subset Matrix by Rows
+#' @description Subsets the matrix \code{m} to the indices given in the vector \code{rows}.
+#' Used to subset a sequence to the coordinates of a trimmed least-cost path.
+#' @param m (required, numeric matrix) a sequence.
+#' @param rows (required, integer vector) vector of rows to subset.
+#' @return Numeric matrix of length rows.
+#' @export
+subset_matrix_by_rows_cpp <- function(m, rows) {
+    .Call(`_distantia_subset_matrix_by_rows_cpp`, m, rows)
+}
+
+#'Auto-sum of Two Sequences
+#' @description Sum of the the cumulative auto-sum of two sequences. This is
+#' a key component of the psi computation.
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param f (required, function) a distance function. One of:
+#' @return Numeric.
+#' @export
+auto_sum_cpp <- function(a, b, path, f) {
+    .Call(`_distantia_auto_sum_cpp`, a, b, path, f)
+}
+
+#' Least Cost Matrix Considering Diagonals
+#' @description Computes the least cost matrix from a distance matrix.
+#' Considers diagonals during computation of least-costs.
+#' @param d (required, distance matrix). Distance matrix.
+#' @return Least cost matrix.
+#' @export
+cost_matrix_diag_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_diag_cpp`, dist_matrix)
+}
+
+#' Least Cost Matrix with Weighted Diagonals
+#' @description Computes the least cost matrix from a distance matrix.
+#' Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
+#' @param dist_matrix (required, distance matrix). Distance matrix.
+#' @return Least cost matrix.
+#' @export
+cost_matrix_weighted_diag_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_weighted_diag_cpp`, dist_matrix)
+}
+
+#' Least Cost Matrix
+#' @description Computes the least cost matrix from a distance matrix.
+#' @param dist_matrix (required, distance matrix). Output of [distance_matrix_cpp()].
+#' @return Least cost matrix.
+#' @export
+cost_matrix_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_cpp`, dist_matrix)
+}
+
+#' Least Cost Path
+#' @description Computes the least cost matrix from a distance matrix.
+#' Considers diagonals during computation of least-costs.
+#' @param dist_matrix (required, distance matrix). Distance matrix.
+#' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
+#' @return A data frame with least-cost path coordiantes.
+#' @export
+cost_path_cpp <- function(dist_matrix, cost_matrix) {
+    .Call(`_distantia_cost_path_cpp`, dist_matrix, cost_matrix)
+}
+
+#' Least Cost Path Considering Diagonals
+#' @description Computes the least cost matrix from a distance matrix.
+#' Considers diagonals during computation of least-costs.
+#' @param dist_matrix (required, distance matrix). Distance matrix.
+#' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
+#' @return A data frame with least-cost path coordiantes.
+#' @export
+cost_path_diag_cpp <- function(dist_matrix, cost_matrix) {
+    .Call(`_distantia_cost_path_diag_cpp`, dist_matrix, cost_matrix)
+}
+
+#' Trims Blocks from Least Cost Path
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @return A data frame with least-cost path coordinates.
+#' @export
+cost_path_trim_cpp <- function(path) {
+    .Call(`_distantia_cost_path_trim_cpp`, path)
+}
+
+#' Sum of Least Cost Distance
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @return Sum of distances
+#' @export
+cost_path_sum_cpp <- function(path) {
+    .Call(`_distantia_cost_path_sum_cpp`, path)
+}
+
+#' Distance Matrix
+#' @description Computes the distance matrix between the rows of two matrices
+#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+#' NA values should be removed before using this function.
+#' If the selected distance function is [distance_chi_cpp], pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param f (required, function) a distance function. One of:
+#' \itemize{
+#'   \item distance_manhattan_cpp.
+#'   \item distance_euclidean_cpp.
+#'   \item distance_hellinger_cpp.
+#'   \item distance_chi_cpp.
+#' }
+#' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
 distance_matrix_cpp <- function(a, b, f) {
     .Call(`_distantia_distance_matrix_cpp`, a, b, f)
 }
 
 #' Manhattan Distance Between Two Vectors
-#' @description Computed as:
-#' \code{sum(abs(x - y))}.
+#' @description Computed as: \code{sum(abs(x - y))}. Cannot handle NA values.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @return Manhattan distance between x and y.
-#' @details Cannot handle NA values.
+#' @examples distance_manhattan_cpp(x = runif(100), y = runif(100))
 #' @export
 distance_manhattan_cpp <- function(x, y) {
     .Call(`_distantia_distance_manhattan_cpp`, x, y)
 }
 
 #' Euclidean Distance Between Two Vectors
-#' @description Computed as:
-#' \code{sqrt(sum((x - y)^2)}.
+#' @description Computed as: \code{sqrt(sum((x - y)^2)}. Cannot handle NA values.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @return Euclidean distance between x and y.
-#' @details Cannot handle NA values.
+#' @examples distance_euclidean_cpp(x = runif(100), y = runif(100))
 #' @export
 distance_euclidean_cpp <- function(x, y) {
     .Call(`_distantia_distance_euclidean_cpp`, x, y)
 }
 
 #' Hellinger Distance Between Two Vectors
-#' @description Computed as:
-#' \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
+#' @description Computed as: \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
+#' Cannot handle NA values.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @return Hellinger distance between x and y.
-#' @details Cannot handle NA values.
 #' @examples distance_hellinger_cpp(x = runif(100), y = runif(100))
 #' @export
 distance_hellinger_cpp <- function(x, y) {
@@ -62,33 +173,16 @@ distance_hellinger_cpp <- function(x, y) {
 #' \code{xy <- x + y}
 #' \code{y. <- y / sum(y)}
 #' \code{x. <- x / sum(x)}
-#' \code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
+#' \code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}.
+#' Cannot handle NA values. When \code{x} and \code{y} have zeros in the same
+#' position, \code{NaNs} are produced. Please replace these zeros with
+#' pseudo-zeros (i.e. 0.0001) if you wish to use this distance metric.
+#' @examples distance_chi_cpp(x = runif(100), y = runif(100))
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @return Chi distance between x and y.
-#' @details Cannot handle NA values.
-#' @examples distance_chi_cpp(x = runif(100), y = runif(100))
 #' @export
 distance_chi_cpp <- function(x, y) {
     .Call(`_distantia_distance_chi_cpp`, x, y)
-}
-
-#' Least Cost Matrix Considering Diagonals
-#' @description Computes the least cost matrix from a distance matrix.
-#' Considers diagonals during computation of least-costs.
-#' @param d (required, distance matrix). Output of [distance_matrix_cpp()].
-#' @return Least cost matrix.
-#' @export
-least_cost_matrix_diag_cpp <- function(d) {
-    .Call(`_distantia_least_cost_matrix_diag_cpp`, d)
-}
-
-#' Least Cost Matrix
-#' @description Computes the least cost matrix from a distance matrix.
-#' @param d (required, distance matrix). Output of [distance_matrix_cpp()].
-#' @return Least cost matrix.
-#' @export
-least_cost_matrix_cpp <- function(d) {
-    .Call(`_distantia_least_cost_matrix_cpp`, d)
 }
 

@@ -2,23 +2,22 @@
 using namespace Rcpp;
 
 //' Manhattan Distance Between Two Vectors
-//' @description Computed as:
-//' \code{sum(abs(x - y))}.
+//' @description Computed as: \code{sum(abs(x - y))}. Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Manhattan distance between x and y.
-//' @details Cannot handle NA values.
+//' @examples distance_manhattan_cpp(x = runif(100), y = runif(100))
 //' @export
 // [[Rcpp::export]]
 double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 
   int length = x.size();
 
-  double dist;
+  double dist = 0.0;
 
-  for (int j = 0; j < length; j++) {
+  for (int i = 0; i < length; i++) {
 
-    dist += std::fabs(x[j] - y[j]);
+    dist += std::fabs(x[i] - y[i]);
 
   }
 
@@ -27,23 +26,22 @@ double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 }
 
 //' Euclidean Distance Between Two Vectors
-//' @description Computed as:
-//' \code{sqrt(sum((x - y)^2)}.
+//' @description Computed as: \code{sqrt(sum((x - y)^2)}. Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Euclidean distance between x and y.
-//' @details Cannot handle NA values.
+//' @examples distance_euclidean_cpp(x = runif(100), y = runif(100))
 //' @export
 // [[Rcpp::export]]
 double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 
   int length = x.size();
 
-  double dist;
+  double dist = 0.0;
 
-  for (int j = 0; j < length; j++) {
+  for (int i = 0; i < length; i++) {
 
-    dist += (x[j] - y[j])*(x[j] - y[j]);
+    dist += (x[i] - y[i])*(x[i] - y[i]);
 
   }
 
@@ -52,12 +50,11 @@ double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 }
 
 //' Hellinger Distance Between Two Vectors
-//' @description Computed as:
-//' \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
+//' @description Computed as: \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
+//' Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Hellinger distance between x and y.
-//' @details Cannot handle NA values.
 //' @examples distance_hellinger_cpp(x = runif(100), y = runif(100))
 //' @export
 // [[Rcpp::export]]
@@ -65,11 +62,11 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 
   int length = x.size();
 
-  double dist;
+  double dist = 0.0;
 
-  for (int j = 0; j < length; j++) {
+  for (int i = 0; i < length; i++) {
 
-    dist += (std::sqrt(x[j]) - std::sqrt(y[j])) * (std::sqrt(x[j]) - std::sqrt(y[j]));
+    dist += (std::sqrt(x[i]) - std::sqrt(y[i])) * (std::sqrt(x[i]) - std::sqrt(y[i]));
 
   }
 
@@ -82,19 +79,21 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 //' \code{xy <- x + y}
 //' \code{y. <- y / sum(y)}
 //' \code{x. <- x / sum(x)}
-//' \code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
+//' \code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}.
+//' Cannot handle NA values. When \code{x} and \code{y} have zeros in the same
+//' position, \code{NaNs} are produced. Please replace these zeros with
+//' pseudo-zeros (i.e. 0.0001) if you wish to use this distance metric.
+//' @examples distance_chi_cpp(x = runif(100), y = runif(100))
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return Chi distance between x and y.
-//' @details Cannot handle NA values.
-//' @examples distance_chi_cpp(x = runif(100), y = runif(100))
 //' @export
 // [[Rcpp::export]]
 double distance_chi_cpp(NumericVector x, NumericVector y) {
 
   int length = x.size();
 
-  double dist;
+  double dist = 0.0;
 
   double x_sum = sum(x);
 
@@ -102,13 +101,13 @@ double distance_chi_cpp(NumericVector x, NumericVector y) {
 
   double xy_sum = x_sum + y_sum;
 
-  for (int j = 0; j < length; j++) {
+  for (int i = 0; i < length; i++) {
 
-    double x_norm = x[j] / x_sum;
+    double x_norm = x[i] / x_sum;
 
-    double y_norm = y[j] / y_sum;
+    double y_norm = y[i] / y_sum;
 
-    dist += ((x_norm - y_norm) * (x_norm - y_norm)) / ((x[j] + y[j]) / xy_sum);
+    dist += ((x_norm - y_norm) * (x_norm - y_norm)) / ((x[i] + y[i]) / xy_sum);
   }
 
   return std::sqrt(dist);
@@ -123,8 +122,8 @@ double distance_chi_cpp(NumericVector x, NumericVector y) {
 /*** R
 #generating data
 set.seed(1)
-x <- runif(1000)
-y <- runif(1000)
+x <- runif(10)
+y <- runif(10)
 
 #computing distances
 distance_chi_cpp(x, y)

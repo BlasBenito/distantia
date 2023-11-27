@@ -1,20 +1,23 @@
 #include <Rcpp.h>
+#include "distance_metrics.h"
 using namespace Rcpp;
 
 //' Distance Matrix
-//' @description Computes the distance matrix between two matrices
-//' \code{a} and \code{b} using one distance function.
+//' @description Computes the distance matrix between the rows of two matrices
+//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' NA values should be removed before using this function.
+//' If the selected distance function is [distance_chi_cpp], pairs of zeros should
+//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same ncol as `a`.
-//' @param f (required, function) a function. One of:
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param f (required, function) a distance function. One of:
 //' \itemize{
-//'   \item [distance_manhattan_cpp].
-//'   \item [distance_euclidean_cpp].
-//'   \item [distance_hellinger_cpp].
-//'   \item [distance_chi_cpp]
+//'   \item distance_manhattan_cpp.
+//'   \item distance_euclidean_cpp.
+//'   \item distance_hellinger_cpp.
+//'   \item distance_chi_cpp.
 //' }
-//' @return Matrix of distances between `a` (rows) and `b` (columns).
-//' @details Cannot handle NA values.
+//' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(
@@ -45,22 +48,9 @@ NumericMatrix distance_matrix_cpp(
 
 /*** R
 set.seed(1)
-n <- 100
-a <- data.frame(
-  x = runif(n),
-  y = runif(n),
-  z = runif(n)
-) |>
-  as.matrix()
-
-b <- data.frame(
-  x = runif(n),
-  y = runif(n),
-  z = runif(n)
-) |>
-  as.matrix()
-
-D <- distance_matrix_cpp(a, b, f = distance_manhattan_cpp)
-dim(D)
-D[1:5, 1:5]
+a <- matrix(runif(1000), 100, 10)
+b <- matrix(runif(1000), 50, 10)
+d <- distance_matrix_cpp(a, b, f = distance_manhattan_cpp)
+dim(d)
+d[1:5, 1:5]
 */

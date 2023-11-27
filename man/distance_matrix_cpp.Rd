@@ -9,23 +9,23 @@ distance_matrix_cpp(a, b, f)
 \arguments{
 \item{a}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same ncol as `a`.}
+\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
 
-\item{f}{(required, function) a function. One of:
+\item{f}{(required, function) a distance function. One of:
 \itemize{
-  \item [distance_manhattan_cpp].
-  \item [distance_euclidean_cpp].
-  \item [distance_hellinger_cpp].
-  \item [distance_chi_cpp]
+  \item distance_manhattan_cpp.
+  \item distance_euclidean_cpp.
+  \item distance_hellinger_cpp.
+  \item distance_chi_cpp.
 }}
 }
 \value{
-Matrix of distances between `a` (rows) and `b` (columns).
+Matrix of distances between 'a' (rows) and 'b' (columns).
 }
 \description{
-Computes the distance matrix between two matrices
-\code{a} and \code{b} using one distance function.
-}
-\details{
-Cannot handle NA values.
+Computes the distance matrix between the rows of two matrices
+\code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+NA values should be removed before using this function.
+If the selected distance function is [distance_chi_cpp], pairs of zeros should
+be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 }

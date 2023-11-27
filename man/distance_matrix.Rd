@@ -4,7 +4,11 @@
 \alias{distance_matrix}
 \title{Distance Matrix}
 \usage{
-distance_matrix(a, b, method = c("manhattan", "chi", "hellinger", "euclidean"))
+distance_matrix(
+  a = NULL,
+  b = NULL,
+  method = c("manhattan", "chi", "hellinger", "euclidean")
+)
 }
 \arguments{
 \item{a}{(required, data frame) a time series.}

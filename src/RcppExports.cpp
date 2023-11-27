@@ -10,6 +10,123 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// auto_distance_cpp
+double auto_distance_cpp(NumericMatrix m, Function f);
+RcppExport SEXP _distantia_auto_distance_cpp(SEXP mSEXP, SEXP fSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    Rcpp::traits::input_parameter< Function >::type f(fSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_distance_cpp(m, f));
+    return rcpp_result_gen;
+END_RCPP
+}
+// subset_matrix_by_rows_cpp
+NumericMatrix subset_matrix_by_rows_cpp(NumericMatrix m, NumericVector rows);
+RcppExport SEXP _distantia_subset_matrix_by_rows_cpp(SEXP mSEXP, SEXP rowsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type rows(rowsSEXP);
+    rcpp_result_gen = Rcpp::wrap(subset_matrix_by_rows_cpp(m, rows));
+    return rcpp_result_gen;
+END_RCPP
+}
+// auto_sum_cpp
+double auto_sum_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, Function f);
+RcppExport SEXP _distantia_auto_sum_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP fSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< Function >::type f(fSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_sum_cpp(a, b, path, f));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_matrix_diag_cpp
+NumericMatrix cost_matrix_diag_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_diag_cpp(SEXP dist_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_diag_cpp(dist_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_matrix_weighted_diag_cpp
+NumericMatrix cost_matrix_weighted_diag_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_weighted_diag_cpp(SEXP dist_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_weighted_diag_cpp(dist_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_matrix_cpp
+NumericMatrix cost_matrix_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_cpp(SEXP dist_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_cpp(dist_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_cpp
+DataFrame cost_path_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix);
+RcppExport SEXP _distantia_cost_path_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_cpp(dist_matrix, cost_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_diag_cpp
+DataFrame cost_path_diag_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix);
+RcppExport SEXP _distantia_cost_path_diag_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_diag_cpp(dist_matrix, cost_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_trim_cpp
+DataFrame cost_path_trim_cpp(DataFrame path);
+RcppExport SEXP _distantia_cost_path_trim_cpp(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_trim_cpp(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_sum_cpp
+double cost_path_sum_cpp(DataFrame path);
+RcppExport SEXP _distantia_cost_path_sum_cpp(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_sum_cpp(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 // distance_matrix_cpp
 NumericMatrix distance_matrix_cpp(NumericMatrix a, NumericMatrix b, Function f);
 RcppExport SEXP _distantia_distance_matrix_cpp(SEXP aSEXP, SEXP bSEXP, SEXP fSEXP) {
@@ -71,37 +188,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// least_cost_matrix_diag_cpp
-NumericMatrix least_cost_matrix_diag_cpp(NumericMatrix d);
-RcppExport SEXP _distantia_least_cost_matrix_diag_cpp(SEXP dSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
-    rcpp_result_gen = Rcpp::wrap(least_cost_matrix_diag_cpp(d));
-    return rcpp_result_gen;
-END_RCPP
-}
-// least_cost_matrix_cpp
-NumericMatrix least_cost_matrix_cpp(NumericMatrix d);
-RcppExport SEXP _distantia_least_cost_matrix_cpp(SEXP dSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
-    rcpp_result_gen = Rcpp::wrap(least_cost_matrix_cpp(d));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_distantia_auto_distance_cpp", (DL_FUNC) &_distantia_auto_distance_cpp, 2},
+    {"_distantia_subset_matrix_by_rows_cpp", (DL_FUNC) &_distantia_subset_matrix_by_rows_cpp, 2},
+    {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 4},
+    {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
+    {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
+    {"_distantia_cost_matrix_cpp", (DL_FUNC) &_distantia_cost_matrix_cpp, 1},
+    {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 2},
+    {"_distantia_cost_path_diag_cpp", (DL_FUNC) &_distantia_cost_path_diag_cpp, 2},
+    {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
+    {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
     {"_distantia_distance_manhattan_cpp", (DL_FUNC) &_distantia_distance_manhattan_cpp, 2},
     {"_distantia_distance_euclidean_cpp", (DL_FUNC) &_distantia_distance_euclidean_cpp, 2},
     {"_distantia_distance_hellinger_cpp", (DL_FUNC) &_distantia_distance_hellinger_cpp, 2},
     {"_distantia_distance_chi_cpp", (DL_FUNC) &_distantia_distance_chi_cpp, 2},
-    {"_distantia_least_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_least_cost_matrix_diag_cpp, 1},
-    {"_distantia_least_cost_matrix_cpp", (DL_FUNC) &_distantia_least_cost_matrix_cpp, 1},
     {NULL, NULL, 0}
 };
 

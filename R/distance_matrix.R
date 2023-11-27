@@ -24,8 +24,8 @@
 #' @export
 #' @autoglobal
 distance_matrix <- function(
-    a,
-    b,
+    a = NULL,
+    b = NULL,
     method = c(
       "manhattan",
       "chi",
@@ -33,6 +33,22 @@ distance_matrix <- function(
       "euclidean"
     )
 ){
+
+  if(is.null(a)){
+    stop("Argument 'a' must not be NULL.")
+  }
+
+  if(is.null(b)){
+    stop("Argument 'b' must not be NULL.")
+  }
+
+  if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
+    stop("Argument 'a' must be a data frame or matrix.")
+  }
+
+  if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
+    stop("Argument 'b' must be a data frame or matrix.")
+  }
 
   #checking for NA
   if(sum(is.na(a)) > 0){
@@ -64,11 +80,6 @@ distance_matrix <- function(
     b <- as.matrix(b)
   }
 
-  #pseudo zeros
-  pseudozero <- mean(x = c(a, b)) * 0.001
-  a[a == 0] <- pseudozero
-  b[b == 0] <- pseudozero
-
   #selecting method
   method <- match.arg(
     arg = method,
@@ -88,6 +99,12 @@ distance_matrix <- function(
     f <- distance_hellinger_cpp
   }
   if(method == "chi"){
+
+    #pseudo zeros
+    pseudozero <- mean(x = c(a, b)) * 0.001
+    a[a == 0] <- pseudozero
+    b[b == 0] <- pseudozero
+
     f <- distance_chi_cpp
   }
   if(method == "euclidean"){

@@ -1,0 +1,56 @@
+#' Least Cost Path
+#'
+#' @param dist_matrix (required, numeric matrix) Distance matrix.
+#' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
+#' @param diagonal (optional, logical) If TRUE, diagonals are used during the least-cost path search. Default: FALSE
+#' @return A data frame with least-cost path coordiantes.
+#' @export
+#' @examples
+#'
+#' a <- sequenceA |>
+#'   na.omit() |>
+#'   as.matrix()
+#'
+#' b <- sequenceB |>
+#'   na.omit() |>
+#'   as.matrix()
+#'
+#' d <- distance_matrix(a, b, method = "euclidean")
+#'
+#' m <- cost_matrix(dist_matrix = d)
+#'
+#' path <- cost_path(
+#'   dist_matrix = d,
+#'   cost_matrix = m
+#'   )
+#'
+#' @autoglobal
+cost_path <- function(
+    dist_matrix = NULL,
+    cost_matrix = NULL,
+    diagonal = FALSE
+){
+
+  if(any(dim(dist_matrix) != dim(cost_matrix))){
+    stop("Arguments 'dist_matrix' and 'cost_matrix' must have the same dimensions.")
+  }
+
+  if(diagonal == FALSE){
+
+    path <- cost_path_cpp(
+      dist_matrix = dist_matrix,
+      cost_matrix = cost_matrix
+    )
+
+  } else {
+
+    path <- cost_path_diag_cpp(
+      dist_matrix = dist_matrix,
+      cost_matrix = cost_matrix
+    )
+
+  }
+
+  path
+
+}

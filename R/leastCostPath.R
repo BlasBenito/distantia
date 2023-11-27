@@ -69,10 +69,12 @@
 #'}
 #'
 #' @export
-leastCostPath <- function(distance.matrix = NULL,
-                          least.cost.matrix = NULL,
-                          diagonal = FALSE,
-                          parallel.execution = TRUE){
+leastCostPath <- function(
+    distance.matrix = NULL,
+    least.cost.matrix = NULL,
+    diagonal = FALSE,
+    parallel.execution = TRUE
+    ){
 
   #if input is matrix, get it into list
   if(inherits(least.cost.matrix, "matrix") == TRUE | is.matrix(least.cost.matrix) == TRUE){

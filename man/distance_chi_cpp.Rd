@@ -19,10 +19,10 @@ Computed as:
 \code{xy <- x + y}
 \code{y. <- y / sum(y)}
 \code{x. <- x / sum(x)}
-\code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}
-}
-\details{
-Cannot handle NA values.
+\code{sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))}.
+Cannot handle NA values. When \code{x} and \code{y} have zeros in the same
+position, \code{NaNs} are produced. Please replace these zeros with
+pseudo-zeros (i.e. 0.0001) if you wish to use this distance metric.
 }
 \examples{
 distance_chi_cpp(x = runif(100), y = runif(100))
