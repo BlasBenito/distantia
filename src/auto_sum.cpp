@@ -10,26 +10,34 @@ using namespace Rcpp;
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param f (required, function) a distance function. One of:
-//' \itemize{
-//'   \item distance_manhattan_cpp.
-//'   \item distance_euclidean_cpp.
-//'   \item distance_hellinger_cpp.
-//'   \item distance_chi_cpp.
-//' }
+ //' @param method (optional, character string) name of the distance metric. Valid entries are:
+ //' \itemize{
+ //' \item "euclidean" and "euc" (Default).
+ //' \item "manhattan" and "man".
+ //' \item "chi.
+ //' \item "hellinger" and "hel".
+ //' \item "chebyshev" and "che".
+ //' \item "canberra" and "can".
+ //' \item "cosine" and "cos".
+ //' \item "russelrao" and "rus".
+ //' \item "jaccard" and "jac".
+ //' }
 //' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]
 double auto_distance_cpp(
     NumericMatrix m,
-    Function f
+    Rcpp::Nullable<std::string> method
 ){
+
+  std::string selected_method = Rcpp::as<std::string>(method);
+  DistanceFunction f = distance_function(selected_method);
 
   int m_rows = m.nrow();
   double dist = 0.0;
 
   for (int i = 0; i < (m_rows - 1); i++) {
-    dist += as<double>(f(m.row(i), m.row(i + 1)));
+    dist += f(m.row(i), m.row(i + 1));
   }
 
   return dist;
@@ -72,7 +80,18 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
 //' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
-//' @param f (required, function) a distance function. One of:
+ //' @param method (optional, character string) name of the distance metric. Valid entries are:
+ //' \itemize{
+ //' \item "euclidean" and "euc" (Default).
+ //' \item "manhattan" and "man".
+ //' \item "chi.
+ //' \item "hellinger" and "hel".
+ //' \item "chebyshev" and "che".
+ //' \item "canberra" and "can".
+ //' \item "cosine" and "cos".
+ //' \item "russelrao" and "rus".
+ //' \item "jaccard" and "jac".
+ //' }
 //' @return Numeric.
 //' @export
 // [[Rcpp::export]]
@@ -80,7 +99,7 @@ double auto_sum_cpp(
   NumericMatrix a,
   NumericMatrix b,
   DataFrame path,
-  Function f
+  Rcpp::Nullable<std::string> method
 ){
 
   //working with a
@@ -94,7 +113,7 @@ double auto_sum_cpp(
 
   double a_distance = auto_distance_cpp(
     a_subset,
-    f
+    method
   );
 
   //
@@ -110,7 +129,7 @@ double auto_sum_cpp(
 
   double b_distance = auto_distance_cpp(
     b_subset,
-    f
+    method
   );
 
   return a_distance + b_distance;
@@ -139,7 +158,7 @@ m_subset
 message("Testing sauto_distance_cpp().")
 auto_distance_cpp(
   m = m_subset,
-  f = distance_euclidean_cpp
+  method = "euclidean"
 )
 
 message("Testing all functions together.")
@@ -147,7 +166,7 @@ message("Testing all functions together.")
 d <- distance_matrix_cpp(
   a,
   b,
-  f = distance_euclidean_cpp
+  method = "euclidean"
 )
 
 m <- cost_matrix_diag_cpp(
@@ -174,7 +193,7 @@ ab_sum <- auto_sum_cpp(
   a = a,
   b = b,
   path = path,
-  f = distance_euclidean_cpp
+  method = "euclidean"
 )
 
 ab_sum

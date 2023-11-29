@@ -1,8 +1,19 @@
 #' Distance Matrix
 #'
-#' @param a (required, data frame) a time series.
-#' @param b (required, data frame) a time series.
-#' @param method (optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan
+#' @param a (required, data frame or matrix) a time series.
+#' @param b (required, data frame or matrix) a time series.
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#'   \item "euclidean" and "euc" (Default).
+#'   \item "manhattan" and "man".
+#'   \item "chi.
+#'   \item "hellinger" and "hel".
+#'   \item "chebyshev" and "che".
+#'   \item "canberra" and "can".
+#'   \item "cosine" and "cos".
+#'   \item "russelrao" and "rus".
+#'   \item "jaccard" and "jac".
+#' }
 #' @examples
 #'
 #' data(
@@ -26,12 +37,7 @@
 distance_matrix <- function(
     a = NULL,
     b = NULL,
-    method = c(
-      "manhattan",
-      "chi",
-      "hellinger",
-      "euclidean"
-    )
+    method = "euclidean"
 ){
 
   if(is.null(a)){
@@ -52,10 +58,10 @@ distance_matrix <- function(
 
   #checking for NA
   if(sum(is.na(a)) > 0){
-    stop("Argument 'a' has NA values.")
+    stop("Argument 'a' has NA values. Please remove or imputate them before the distance computation.")
   }
   if(sum(is.na(b)) > 0){
-    stop("Argument 'b' has NA values.")
+    stop("Argument 'b' has NA values. Please remove or imputate them before the distance computation.")
   }
 
   #preprocessing data
@@ -84,38 +90,46 @@ distance_matrix <- function(
   method <- match.arg(
     arg = method,
     choices = c(
+      "euclidean",
+      "euc",
       "manhattan",
+      "man",
       "chi",
       "hellinger",
-      "euclidean"
+      "hel",
+      "canberra",
+      "can",
+      "russelrao",
+      "rus",
+      "cosine",
+      "cos",
+      "jaccard",
+      "jac",
+      "chebyshev",
+      "che"
     ),
     several.ok = FALSE
   )
 
-  if(method == "manhattan"){
-    f <- distance_manhattan_cpp
-  }
-  if(method == "hellinger"){
-    f <- distance_hellinger_cpp
-  }
-  if(method == "chi"){
+  #methods that don't accept two zeros in same position
+  if(method %in% c(
+    "chi",
+    "cos",
+    "cosine"
+  )
+  ){
 
-    #pseudo zeros
-    pseudozero <- mean(x = c(a, b)) * 0.001
+    pseudozero <- mean(x = c(a, b)) * 0.0001
     a[a == 0] <- pseudozero
     b[b == 0] <- pseudozero
 
-    f <- distance_chi_cpp
-  }
-  if(method == "euclidean"){
-    f <- distance_euclidean_cpp
   }
 
   #computing distance matrix
   d <- distance_matrix_cpp(
     a = a,
     b = b,
-    f = f
+    method = method
     )
 
   #adding names

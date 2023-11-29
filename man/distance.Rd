@@ -4,7 +4,7 @@
 \alias{distance}
 \title{Distance Between Two Vectors}
 \usage{
-distance(x, y, method = c("manhattan", "chi", "hellinger", "euclidean"))
+distance(x = NULL, y = NULL, method = "euclidean")
 }
 \arguments{
 \item{x}{(required, numeric vector).}
@@ -22,14 +22,19 @@ Computes Manhattan, Euclidean, Chi, or Hellinger distances between numeric vecto
 \details{
 Distances are computed as:
 \itemize{
-\item "manhattan": `sum(abs(x - y))`
-\item "euclidean": `sqrt(sum((x - y)^2))`.
+\item "manhattan" or "man: `sum(abs(x - y))`
+\item "euclidean" or "euc": `sqrt(sum((x - y)^2))`.
 \item "chi":
     `xy <- x + y`
     `y. <- y / sum(y)`
     `x. <- x / sum(x)`
     `sqrt(sum(((x. - y.)^2) / (xy / sum(xy))))`
-\item "hellinger": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
+\item "hellinger" or "hel": `sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))`
+\item "canberra" or "can": `sum(abs(x - y) / (abs(x) + abs(y)))`
+\item "cosine" or "cos": `1 - sum(x * y) / (sqrt(sum(x^2)) * sqrt(sum(y^2)))`.
+\item "jaccard" or "jac": `1 - (sum(x & y) / sum(x | y))`.
+\item "chebyshev" or "che": `max(abs(x - y))`
+\item "russelrao" or "rus": `1 - sum(x == y) / length(x)`
 }
 Note that zeroes are replaced by `mean(c(x, y)) * 0.0001` whem `method` is "chi".
 }

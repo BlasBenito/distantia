@@ -9,17 +9,20 @@
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param f (required, function) a distance function. One of:
-#' \itemize{
-#'   \item distance_manhattan_cpp.
-#'   \item distance_euclidean_cpp.
-#'   \item distance_hellinger_cpp.
-#'   \item distance_chi_cpp.
-#' }
+NULL
+
+#'Auto-sum of Two Sequences
+#' @description Sum of the the cumulative auto-sum of two sequences. This is
+#' a key component of the psi computation.
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+NULL
+
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
-auto_distance_cpp <- function(m, f) {
-    .Call(`_distantia_auto_distance_cpp`, m, f)
+auto_distance_cpp <- function(m, method) {
+    .Call(`_distantia_auto_distance_cpp`, m, method)
 }
 
 #' Subset Matrix by Rows
@@ -33,17 +36,10 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
     .Call(`_distantia_subset_matrix_by_rows_cpp`, m, rows)
 }
 
-#'Auto-sum of Two Sequences
-#' @description Sum of the the cumulative auto-sum of two sequences. This is
-#' a key component of the psi computation.
-#' @param a (required, numeric matrix).
-#' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
-#' @param f (required, function) a distance function. One of:
 #' @return Numeric.
 #' @export
-auto_sum_cpp <- function(a, b, path, f) {
-    .Call(`_distantia_auto_sum_cpp`, a, b, path, f)
+auto_sum_cpp <- function(a, b, path, method) {
+    .Call(`_distantia_auto_sum_cpp`, a, b, path, method)
 }
 
 #' Least Cost Matrix Considering Diagonals
@@ -121,17 +117,44 @@ cost_path_sum_cpp <- function(path) {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param f (required, function) a distance function. One of:
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
 #' \itemize{
-#'   \item distance_manhattan_cpp.
-#'   \item distance_euclidean_cpp.
-#'   \item distance_hellinger_cpp.
-#'   \item distance_chi_cpp.
+#' \item "euclidean" and "euc" (Default).
+#' \item "manhattan" and "man".
+#' \item "chi.
+#' \item "hellinger" and "hel".
+#' \item "chebyshev" and "che".
+#' \item "canberra" and "can".
+#' \item "cosine" and "cos".
+#' \item "russelrao" and "rus".
+#' \item "jaccard" and "jac".
 #' }
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
-distance_matrix_cpp <- function(a, b, f) {
-    .Call(`_distantia_distance_matrix_cpp`, a, b, f)
+distance_matrix_cpp <- function(a, b, method) {
+    .Call(`_distantia_distance_matrix_cpp`, a, b, method)
+}
+
+#' Jaccard Distance Between Two Binary Vectors
+#' @description Computes the Jaccard distance between two binary vectors.
+NULL
+
+#' Chebyshev Distance Between Two Vectors
+#' @description Computed as: \code{max(abs(x - y))}. Cannot handle NA values.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @return Chebyshev distance between x and y.
+#' @examples distance_chebyshev_cpp(x = runif(100), y = runif(100))
+#' @export
+distance_chebyshev_cpp <- function(x, y) {
+    .Call(`_distantia_distance_chebyshev_cpp`, x, y)
+}
+
+#' @return Jaccard distance between x and y.
+#' @examples distance_jaccard_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
+#' @export
+distance_jaccard_cpp <- function(x, y) {
+    .Call(`_distantia_distance_jaccard_cpp`, x, y)
 }
 
 #' Manhattan Distance Between Two Vectors
@@ -184,5 +207,37 @@ distance_hellinger_cpp <- function(x, y) {
 #' @export
 distance_chi_cpp <- function(x, y) {
     .Call(`_distantia_distance_chi_cpp`, x, y)
+}
+
+#' Canberra Distance Between Two Binary Vectors
+#' @description Computes the Canberra distance between two binary vectors.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.//' @return Canberra distance between x and y.
+#' @examples distance_canberra_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
+#' @export
+distance_canberra_cpp <- function(x, y) {
+    .Call(`_distantia_distance_canberra_cpp`, x, y)
+}
+
+#' Russell-Rao Distance Between Two Binary Vectors
+#' @description Computes the Russell-Rao distance between two binary vectors.
+#' @param x (required, numeric). Binary vector of 1s and 0s.
+#' @param y (required, numeric) Binary vector of 1s and 0s of same length as `x`.
+#' @return Russell-Rao distance between x and y.
+#' @examples distance_russelrao_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
+#' @export
+distance_russelrao_cpp <- function(x, y) {
+    .Call(`_distantia_distance_russelrao_cpp`, x, y)
+}
+
+#' Cosine Dissimilarity Between Two Vectors
+#' @description Computes the cosine dissimilarity between two numeric vectors.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @return Cosine dissimilarity between x and y.
+#' @examples distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
+#' @export
+distance_cosine_cpp <- function(x, y) {
+    .Call(`_distantia_distance_cosine_cpp`, x, y)
 }
 

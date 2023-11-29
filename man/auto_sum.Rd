@@ -4,12 +4,7 @@
 \alias{auto_sum}
 \title{Auto Sum}
 \usage{
-auto_sum(
-  a = NULL,
-  b = NULL,
-  path = NULL,
-  method = c("manhattan", "chi", "hellinger", "euclidean")
-)
+auto_sum(a = NULL, b = NULL, path = NULL, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, data frame) a time series. Default: NULL.}
@@ -18,7 +13,18 @@ auto_sum(
 
 \item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [trim_blocks()] has been applied to `path`. Default: NULL.}
 
-\item{method}{(optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan}
+\item{method}{(optional, character string) name of the distance metric. Valid entries are:
+\itemize{
+  \item "euclidean" and "euc" (Default).
+  \item "manhattan" and "man".
+  \item "chi.
+  \item "hellinger" and "hel".
+  \item "chebyshev" and "che".
+  \item "canberra" and "can".
+  \item "cosine" and "cos".
+  \item "russelrao" and "rus".
+  \item "jaccard" and "jac".
+}}
 }
 \value{
 Named vector with the auto sums of `a` and `b`.

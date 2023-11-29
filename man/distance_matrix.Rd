@@ -4,18 +4,25 @@
 \alias{distance_matrix}
 \title{Distance Matrix}
 \usage{
-distance_matrix(
-  a = NULL,
-  b = NULL,
-  method = c("manhattan", "chi", "hellinger", "euclidean")
-)
+distance_matrix(a = NULL, b = NULL, method = "euclidean")
 }
 \arguments{
-\item{a}{(required, data frame) a time series.}
+\item{a}{(required, data frame or matrix) a time series.}
 
-\item{b}{(required, data frame) a time series.}
+\item{b}{(required, data frame or matrix) a time series.}
 
-\item{method}{(optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan}
+\item{method}{(optional, character string) name of the distance metric. Valid entries are:
+\itemize{
+  \item "euclidean" and "euc" (Default).
+  \item "manhattan" and "man".
+  \item "chi.
+  \item "hellinger" and "hel".
+  \item "chebyshev" and "che".
+  \item "canberra" and "can".
+  \item "cosine" and "cos".
+  \item "russelrao" and "rus".
+  \item "jaccard" and "jac".
+}}
 }
 \value{
 A distance matrix.

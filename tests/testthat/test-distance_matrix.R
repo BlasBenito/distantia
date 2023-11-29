@@ -1,101 +1,87 @@
 testthat::test_that("Distance Matrix", {
 
-  #assessing normal behavior
   set.seed(1)
   a <- matrix(runif(1000), 100, 10)
   b <- matrix(runif(500), 50, 10)
 
-  testthat::expect_equal(
-    distance_matrix_cpp(a, b, f = distance_manhattan_cpp),
-    distance_matrix(a, b, method = "manhattan")
+  methods <- c(
+    "euclidean",
+    "euc",
+    "manhattan",
+    "man",
+    "chi",
+    "hellinger",
+    "hel",
+    "canberra",
+    "can",
+    "russelrao",
+    "rus",
+    "cosine",
+    "cos",
+    "jaccard",
+    "jac",
+    "chebyshev",
+    "che"
   )
 
-  testthat::expect_equal(
-    distance_matrix_cpp(a, b, f = distance_hellinger_cpp),
-    distance_matrix(a, b, method = "hellinger")
-  )
+  for(method.i in methods){
 
-  testthat::expect_equal(
-    distance_matrix_cpp(a, b, f = distance_euclidean_cpp),
-    distance_matrix(a, b, method = "euclidean")
-  )
+    d.cpp <- distance_matrix_cpp(a, b, method = method.i)
+    d.r <- distance_matrix(a, b, method = method.i)
 
-  testthat::expect_equal(
-    distance_matrix_cpp(a, b, f = distance_chi_cpp),
-    distance_matrix(a, b, method = "chi")
-  )
+    testthat::expect_true(
+      is.numeric(d.cpp)
+    )
 
-  d_manhattan <- distance_matrix_cpp(a, b, f = distance_manhattan_cpp)
+    testthat::expect_true(
+      is.numeric(d.r)
+    )
 
-  testthat::expect_true(
-    is.numeric(d_manhattan)
-  )
+    testthat::expect_true(
+      is.matrix(d.cpp)
+    )
 
-  testthat::expect_true(
-    is.matrix(d_manhattan)
-  )
+    testthat::expect_true(
+      is.matrix(d.r)
+    )
 
-  d_euclidean <- distance_matrix_cpp(a, b, f = distance_euclidean_cpp)
+    testthat::expect_true(
+      all(c(100, 50)  %in% unique(c(dim(d.r), dim(d.cpp))))
+    )
 
-  testthat::expect_true(
-    is.numeric(d_euclidean)
-  )
+    testthat::expect_equal(
+      d.cpp,
+      d.r
+    )
 
-  testthat::expect_true(
-    is.matrix(d_euclidean)
-  )
+  }
 
-  d_hellinger <- distance_matrix_cpp(a, b, f = distance_hellinger_cpp)
-
-  testthat::expect_true(
-    is.numeric(d_hellinger)
-  )
-
-  testthat::expect_true(
-    is.matrix(d_hellinger)
-  )
-
-  d_chi <- distance_matrix_cpp(a, b, f = distance_chi_cpp)
-
-  testthat::expect_true(
-    is.numeric(d_chi)
-  )
-
-  testthat::expect_true(
-    is.matrix(d_chi)
-  )
-
-  testthat::expect_true(
-  all(c(100, 50)  %in% unique(c(dim(d_manhattan), dim(d_euclidean), dim(d_hellinger), dim(d_chi))))
-  )
-
-  #assessing edge cases
+  #when all data is zero
   a <- matrix(0, 100, 10)
   b <- matrix(0, 50, 10)
 
-  d_manhattan <- distance_matrix_cpp(a, b, f = distance_manhattan_cpp)
+  for(method.i in methods){
 
-  testthat::expect_true(
-    all(d_manhattan == 0)
-  )
+    d <- distance_matrix_cpp(a, b, method = method.i)
 
-  d_euclidean <- distance_matrix_cpp(a, b, f = distance_euclidean_cpp)
+    if(method.i %in% c(
+      "chi",
+      "cosine",
+      "cos"
+      )){
 
-  testthat::expect_true(
-    all(d_euclidean == 0)
-  )
+      testthat::expect_true(
+        all(is.nan(d))
+      )
 
-  d_hellinger <- distance_matrix_cpp(a, b, f = distance_hellinger_cpp)
+    } else {
 
-  testthat::expect_true(
-    all(d_hellinger == 0)
-  )
+      testthat::expect_true(
+        all(d == 0)
+      )
 
-  d_chi <- distance_matrix_cpp(a, b, f = distance_chi_cpp)
+    }
 
-  testthat::expect_true(
-    all(is.nan(d_chi))
-  )
-
+  }
 
 })

@@ -5,7 +5,18 @@
 #' @param a (required, data frame) a time series. Default: NULL.
 #' @param b (required, data frame) a time series. Default: NULL.
 #' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [trim_blocks()] has been applied to `path`. Default: NULL.
-#' @param method (optional, character string) name of the distance metric. Valid entries are: "manhattan", "euclidean", "chi", and "hellinger". Default: "manhattan
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#'   \item "euclidean" and "euc" (Default).
+#'   \item "manhattan" and "man".
+#'   \item "chi.
+#'   \item "hellinger" and "hel".
+#'   \item "chebyshev" and "che".
+#'   \item "canberra" and "can".
+#'   \item "cosine" and "cos".
+#'   \item "russelrao" and "rus".
+#'   \item "jaccard" and "jac".
+#' }
 #'
 #' @return Named vector with the auto sums of `a` and `b`.
 #' @examples
@@ -33,12 +44,7 @@ auto_sum <- function(
     a = NULL,
     b = NULL,
     path = NULL,
-    method = c(
-      "manhattan",
-      "chi",
-      "hellinger",
-      "euclidean"
-    )
+    method = "euclidean"
     ){
 
   #check input arguments
@@ -104,41 +110,49 @@ auto_sum <- function(
   method <- match.arg(
     arg = method,
     choices = c(
+      "euclidean",
+      "euc",
       "manhattan",
+      "man",
       "chi",
       "hellinger",
-      "euclidean"
+      "hel",
+      "canberra",
+      "can",
+      "russelrao",
+      "rus",
+      "cosine",
+      "cos",
+      "jaccard",
+      "jac",
+      "chebyshev",
+      "che"
     ),
     several.ok = FALSE
   )
 
-  if(method == "manhattan"){
-    f <- distance_manhattan_cpp
-  }
-  if(method == "hellinger"){
-    f <- distance_hellinger_cpp
-  }
-  if(method == "chi"){
+  #methods that don't accept two zeros in same position
+  if(method %in% c(
+    "chi",
+    "cos",
+    "cosine"
+  )
+  ){
 
-    #pseudo zeros
     pseudozero <- mean(x = c(a, b)) * 0.001
     a[a == 0] <- pseudozero
     b[b == 0] <- pseudozero
 
-    f <- distance_chi_cpp
-  }
-  if(method == "euclidean"){
-    f <- distance_euclidean_cpp
   }
 
   a.sum <- auto_distance_cpp(
     x = a,
-    f = f
+    method = method
   )
 
   b.sum <- auto_distance_cpp(
     x = b,
-    f = f
+    method = method
   )
 
   sum(a.sum, b.sum)

@@ -4,19 +4,24 @@
 \alias{distance_matrix_cpp}
 \title{Distance Matrix}
 \usage{
-distance_matrix_cpp(a, b, f)
+distance_matrix_cpp(a, b, method)
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
 
 \item{b}{(required, numeric matrix) of same number of columns as 'a'.}
 
-\item{f}{(required, function) a distance function. One of:
+\item{method}{(optional, character string) name of the distance metric. Valid entries are:
 \itemize{
-  \item distance_manhattan_cpp.
-  \item distance_euclidean_cpp.
-  \item distance_hellinger_cpp.
-  \item distance_chi_cpp.
+\item "euclidean" and "euc" (Default).
+\item "manhattan" and "man".
+\item "chi.
+\item "hellinger" and "hel".
+\item "chebyshev" and "che".
+\item "canberra" and "can".
+\item "cosine" and "cos".
+\item "russelrao" and "rus".
+\item "jaccard" and "jac".
 }}
 }
 \value{
