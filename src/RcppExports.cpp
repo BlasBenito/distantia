@@ -248,6 +248,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// distantia_cpp
+double distantia_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method, bool diagonal, bool weighted, bool trim);
+RcppExport SEXP _distantia_distantia_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP trimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
+    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
+    Rcpp::traits::input_parameter< bool >::type trim(trimSEXP);
+    rcpp_result_gen = Rcpp::wrap(distantia_cpp(a, b, method, diagonal, weighted, trim));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_distantia_auto_distance_cpp", (DL_FUNC) &_distantia_auto_distance_cpp, 2},
@@ -270,6 +286,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_canberra_cpp", (DL_FUNC) &_distantia_distance_canberra_cpp, 2},
     {"_distantia_distance_russelrao_cpp", (DL_FUNC) &_distantia_distance_russelrao_cpp, 2},
     {"_distantia_distance_cosine_cpp", (DL_FUNC) &_distantia_distance_cosine_cpp, 2},
+    {"_distantia_distantia_cpp", (DL_FUNC) &_distantia_distantia_cpp, 6},
     {NULL, NULL, 0}
 };
 

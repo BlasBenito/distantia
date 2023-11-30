@@ -7,7 +7,7 @@ using namespace Rcpp;
 //' @description Computes the distance matrix between the rows of two matrices
 //' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
 //' NA values should be removed before using this function.
-//' If the selected distance function is [distance_chi_cpp], pairs of zeros should
+//' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
@@ -56,6 +56,14 @@ NumericMatrix distance_matrix_cpp(
 //
 
 /*** R
+a <- sequenceA |>
+  na.omit() |>
+  as.matrix()
+
+b <- sequenceB |>
+  na.omit() |>
+  as.matrix()
+
 message("method = euclidean")
 d <- distance_matrix_method_cpp(a, b, method = "euclidean")
 dim(d)

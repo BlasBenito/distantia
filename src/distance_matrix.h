@@ -1,8 +1,14 @@
-#ifndef DISTANCE_MATRIX_H
-#define DISTANCE_MATRIX_H
+#ifndef DISTANCE_MATRIX_CPP_H
+#define DISTANCE_MATRIX_CPP_H
 
 #include <Rcpp.h>
+#include "distance_metrics.h"
 
-Rcpp::NumericMatrix distance_matrix_cpp(Rcpp::NumericMatrix a, Rcpp::NumericMatrix b, Rcpp::Function f);
+Rcpp::NumericMatrix distance_matrix_cpp(
+    Rcpp::NumericMatrix a,
+    Rcpp::NumericMatrix b,
+    Rcpp::Nullable<std::string> method
+);
 
-#endif // DISTANCE_MATRIX_H
+#endif // DISTANCE_MATRIX_CPP_H
+

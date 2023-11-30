@@ -113,7 +113,7 @@ cost_path_sum_cpp <- function(path) {
 #' @description Computes the distance matrix between the rows of two matrices
 #' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
 #' NA values should be removed before using this function.
-#' If the selected distance function is [distance_chi_cpp], pairs of zeros should
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
@@ -239,5 +239,33 @@ distance_russelrao_cpp <- function(x, y) {
 #' @export
 distance_cosine_cpp <- function(x, y) {
     .Call(`_distantia_distance_cosine_cpp`, x, y)
+}
+
+#' Computes Psi Distance Between Two Time-Series
+#' @description Computes the distance psi between two matrices
+#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#' \item "euclidean" and "euc" (Default).
+#' \item "manhattan" and "man".
+#' \item "chi.
+#' \item "hellinger" and "hel".
+#' \item "chebyshev" and "che".
+#' \item "canberra" and "can".
+#' \item "cosine" and "cos".
+#' \item "russelrao" and "rus".
+#' \item "jaccard" and "jac".
+#' }
+#' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: FALSE.
+#' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.
+#' @return Psi distance
+#' @export
+distantia_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim = FALSE) {
+    .Call(`_distantia_distantia_cpp`, a, b, method, diagonal, weighted, trim)
 }
 
