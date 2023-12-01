@@ -23,4 +23,10 @@ double auto_sum_cpp(
     Rcpp::Nullable<std::string> method
 );
 
+double auto_sum_pairwise_cpp(
+        Rcpp::NumericMatrix a,
+        Rcpp::NumericMatrix b,
+        Rcpp::Nullable<std::string> method
+);
+
 #endif // AUTO_SUM_H

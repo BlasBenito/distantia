@@ -74,13 +74,13 @@ NumericMatrix subset_matrix_by_rows_cpp(
 }
 
 
-//'Auto-sum of Two Sequences
-//' @description Sum of the the cumulative auto-sum of two sequences. This is
-//' a key component of the psi computation.
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
- //' @param method (optional, character string) name of the distance metric. Valid entries are:
+//'Auto-sum of Two Paired Sequences
+ //' @description Sum of the the cumulative auto-sum of two sequences with paired samples. This is
+ //' a key component of the psi computation.
+ //' @param a (required, numeric matrix).
+ //' @param b (required, numeric matrix) of same number of columns as 'a'.
+ //' @param method (optional, character string) name of the distance metric.
+ //' Valid entries are:
  //' \itemize{
  //' \item "euclidean" and "euc" (Default).
  //' \item "manhattan" and "man".
@@ -92,6 +92,54 @@ NumericMatrix subset_matrix_by_rows_cpp(
  //' \item "russelrao" and "rus".
  //' \item "jaccard" and "jac".
  //' }
+ //' @return Numeric.
+ //' @export
+ // [[Rcpp::export]]
+ double auto_sum_pairwise_cpp(
+     NumericMatrix a,
+     NumericMatrix b,
+     Rcpp::Nullable<std::string> method
+ ){
+
+   if (a.nrow() != b.nrow()) {
+     Rcpp::stop("Number of rows in 'a' and 'b' must be the same.");
+   }
+
+   //working with a
+   double a_distance = auto_distance_cpp(
+     a,
+     method
+   );
+
+   //working with b
+   double b_distance = auto_distance_cpp(
+     b,
+     method
+   );
+
+   return a_distance + b_distance;
+
+ }
+
+
+//'Auto-sum of Two Sequences
+//' @description Sum of the the cumulative auto-sum of two sequences. This is
+//' a key component of the psi computation.
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+//' @param method (optional, character string) name of the distance metric. Valid entries are:
+//' \itemize{
+//' \item "euclidean" and "euc" (Default).
+//' \item "manhattan" and "man".
+//' \item "chi.
+//' \item "hellinger" and "hel".
+//' \item "chebyshev" and "che".
+//' \item "canberra" and "can".
+//' \item "cosine" and "cos".
+//' \item "russelrao" and "rus".
+//' \item "jaccard" and "jac".
+//' }
 //' @return Numeric.
 //' @export
 // [[Rcpp::export]]
@@ -115,8 +163,6 @@ double auto_sum_cpp(
     a_subset,
     method
   );
-
-  //
 
   //working with b
   NumericVector b_path = path["b"];

@@ -34,6 +34,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// auto_sum_pairwise_cpp
+double auto_sum_pairwise_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_auto_sum_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_sum_pairwise_cpp(a, b, method));
+    return rcpp_result_gen;
+END_RCPP
+}
 // auto_sum_cpp
 double auto_sum_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, Rcpp::Nullable<std::string> method);
 RcppExport SEXP _distantia_auto_sum_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP) {
@@ -137,6 +150,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
     rcpp_result_gen = Rcpp::wrap(distance_matrix_cpp(a, b, method));
+    return rcpp_result_gen;
+END_RCPP
+}
+// distance_pairwise_cpp
+NumericVector distance_pairwise_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_distance_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_pairwise_cpp(a, b, method));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -248,9 +274,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// distantia_pairwise_cpp
+double distantia_pairwise_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_distantia_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(distantia_pairwise_cpp(a, b, method));
+    return rcpp_result_gen;
+END_RCPP
+}
 // distantia_cpp
-double distantia_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method, bool diagonal, bool weighted, bool trim);
-RcppExport SEXP _distantia_distantia_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP trimSEXP) {
+double distantia_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method, bool diagonal, bool weighted, bool trim_blocks);
+RcppExport SEXP _distantia_distantia_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP trim_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -259,8 +298,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
-    Rcpp::traits::input_parameter< bool >::type trim(trimSEXP);
-    rcpp_result_gen = Rcpp::wrap(distantia_cpp(a, b, method, diagonal, weighted, trim));
+    Rcpp::traits::input_parameter< bool >::type trim_blocks(trim_blocksSEXP);
+    rcpp_result_gen = Rcpp::wrap(distantia_cpp(a, b, method, diagonal, weighted, trim_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -268,6 +307,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_distantia_auto_distance_cpp", (DL_FUNC) &_distantia_auto_distance_cpp, 2},
     {"_distantia_subset_matrix_by_rows_cpp", (DL_FUNC) &_distantia_subset_matrix_by_rows_cpp, 2},
+    {"_distantia_auto_sum_pairwise_cpp", (DL_FUNC) &_distantia_auto_sum_pairwise_cpp, 3},
     {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 4},
     {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
     {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
@@ -277,6 +317,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
+    {"_distantia_distance_pairwise_cpp", (DL_FUNC) &_distantia_distance_pairwise_cpp, 3},
     {"_distantia_distance_chebyshev_cpp", (DL_FUNC) &_distantia_distance_chebyshev_cpp, 2},
     {"_distantia_distance_jaccard_cpp", (DL_FUNC) &_distantia_distance_jaccard_cpp, 2},
     {"_distantia_distance_manhattan_cpp", (DL_FUNC) &_distantia_distance_manhattan_cpp, 2},
@@ -286,6 +327,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_canberra_cpp", (DL_FUNC) &_distantia_distance_canberra_cpp, 2},
     {"_distantia_distance_russelrao_cpp", (DL_FUNC) &_distantia_distance_russelrao_cpp, 2},
     {"_distantia_distance_cosine_cpp", (DL_FUNC) &_distantia_distance_cosine_cpp, 2},
+    {"_distantia_distantia_pairwise_cpp", (DL_FUNC) &_distantia_distantia_pairwise_cpp, 3},
     {"_distantia_distantia_cpp", (DL_FUNC) &_distantia_distantia_cpp, 6},
     {NULL, NULL, 0}
 };

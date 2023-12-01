@@ -11,12 +11,7 @@
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
 NULL
 
-#'Auto-sum of Two Sequences
-#' @description Sum of the the cumulative auto-sum of two sequences. This is
-#' a key component of the psi computation.
-#' @param a (required, numeric matrix).
-#' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#'Auto-sum of Two Paired Sequences
 NULL
 
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
@@ -36,6 +31,28 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
     .Call(`_distantia_subset_matrix_by_rows_cpp`, m, rows)
 }
 
+auto_sum_pairwise_cpp <- function(a, b, method) {
+    .Call(`_distantia_auto_sum_pairwise_cpp`, a, b, method)
+}
+
+#'Auto-sum of Two Sequences
+#' @description Sum of the the cumulative auto-sum of two sequences. This is
+#' a key component of the psi computation.
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#' \item "euclidean" and "euc" (Default).
+#' \item "manhattan" and "man".
+#' \item "chi.
+#' \item "hellinger" and "hel".
+#' \item "chebyshev" and "che".
+#' \item "canberra" and "can".
+#' \item "cosine" and "cos".
+#' \item "russelrao" and "rus".
+#' \item "jaccard" and "jac".
+#' }
 #' @return Numeric.
 #' @export
 auto_sum_cpp <- function(a, b, path, method) {
@@ -133,6 +150,31 @@ cost_path_sum_cpp <- function(path) {
 #' @export
 distance_matrix_cpp <- function(a, b, method) {
     .Call(`_distantia_distance_matrix_cpp`, a, b, method)
+}
+
+#' Distance Matrix
+#' @description Computes the vector of distances between paired rows in two sequences of the same length.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns and rows as 'a'.
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#' \item "euclidean" and "euc" (Default).
+#' \item "manhattan" and "man".
+#' \item "chi.
+#' \item "hellinger" and "hel".
+#' \item "chebyshev" and "che".
+#' \item "canberra" and "can".
+#' \item "cosine" and "cos".
+#' \item "russelrao" and "rus".
+#' \item "jaccard" and "jac".
+#' }
+#' @return Vector of distances between 'a' (rows) and 'b' (columns).
+#' @export
+distance_pairwise_cpp <- function(a, b, method) {
+    .Call(`_distantia_distance_pairwise_cpp`, a, b, method)
 }
 
 #' Jaccard Distance Between Two Binary Vectors
@@ -261,11 +303,41 @@ distance_cosine_cpp <- function(x, y) {
 #' \item "russelrao" and "rus".
 #' \item "jaccard" and "jac".
 #' }
-#' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: FALSE.
-#' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.
 #' @return Psi distance
 #' @export
-distantia_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim = FALSE) {
-    .Call(`_distantia_distantia_cpp`, a, b, method, diagonal, weighted, trim)
+distantia_pairwise_cpp <- function(a, b, method) {
+    .Call(`_distantia_distantia_pairwise_cpp`, a, b, method)
+}
+
+#' Computes Psi Distance Between Two Time-Series
+#' @description Computes the distance psi between two matrices
+#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name of the distance metric. Valid entries are:
+#' \itemize{
+#' \item "euclidean" and "euc" (Default).
+#' \item "manhattan" and "man".
+#' \item "chi.
+#' \item "hellinger" and "hel".
+#' \item "chebyshev" and "che".
+#' \item "canberra" and "can".
+#' \item "cosine" and "cos".
+#' \item "russelrao" and "rus".
+#' \item "jaccard" and "jac".
+#' }
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Psi distance
+#' @export
+distantia_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_blocks = FALSE) {
+    .Call(`_distantia_distantia_cpp`, a, b, method, diagonal, weighted, trim_blocks)
 }
 

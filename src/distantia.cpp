@@ -37,8 +37,63 @@ using namespace Rcpp;
 //' \item "russelrao" and "rus".
 //' \item "jaccard" and "jac".
 //' }
-//' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: FALSE.
-//' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.
+//' @return Psi distance
+//' @export
+// [[Rcpp::export]]
+double distantia_pairwise_cpp(
+    NumericMatrix a,
+    NumericMatrix b,
+    Rcpp::Nullable<std::string> method
+){
+
+    //pairwise distances
+    NumericVector dist_vector = distance_pairwise_cpp(
+      a,
+      b,
+      method
+    );
+
+    double cost_path_sum = sum(dist_vector);
+
+    //auto sum sequences
+    double ab_sum = auto_sum_pairwise_cpp(
+      a,
+      b,
+      method
+    );
+
+
+  //compute psi
+  return ((cost_path_sum * 2) - ab_sum) / ab_sum;
+
+}
+
+//' Computes Psi Distance Between Two Time-Series
+//' @description Computes the distance psi between two matrices
+//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' NA values should be removed before using this function.
+//' If the selected distance function is "chi" or "cosine", pairs of zeros should
+//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param method (optional, character string) name of the distance metric. Valid entries are:
+//' \itemize{
+//' \item "euclidean" and "euc" (Default).
+//' \item "manhattan" and "man".
+//' \item "chi.
+//' \item "hellinger" and "hel".
+//' \item "chebyshev" and "che".
+//' \item "canberra" and "can".
+//' \item "cosine" and "cos".
+//' \item "russelrao" and "rus".
+//' \item "jaccard" and "jac".
+//' }
+//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+//' computation of the cost matrix. Default: FALSE.
+//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+//' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+//' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
@@ -48,10 +103,12 @@ double distantia_cpp(
     Rcpp::Nullable<std::string> method,
     bool diagonal = false,
     bool weighted = false,
-    bool trim = false
+    bool trim_blocks = false
 ){
 
-  //compute distance matrix
+  if(weighted){diagonal = true;}
+
+  //distance matrix
   NumericMatrix dist_matrix = distance_matrix_cpp(
     a,
     b,
@@ -80,7 +137,7 @@ double distantia_cpp(
   }
 
   //trim cost path
-  if (trim){
+  if (trim_blocks){
     cost_path = cost_path_trim_cpp(cost_path);
   }
 
@@ -96,9 +153,7 @@ double distantia_cpp(
   );
 
   //compute psi
-  double psi = ((cost_path_sum * 2) - ab_sum) / ab_sum;
-
-  return psi;
+  return ((cost_path_sum * 2) - ab_sum) / ab_sum;
 
 }
 
@@ -125,7 +180,16 @@ distantia_cpp(
   method = "euclidean",
   diagonal = TRUE,
   weighted = TRUE,
-  trim = TRUE
+  trim_blocks = TRUE
+)
+
+distantia_cpp(
+  a = a,
+  b = b,
+  method = "euclidean",
+  diagonal = FALSE,
+  weighted = TRUE,
+  trim_blocks = TRUE
 )
 
 distantia_cpp(
@@ -134,7 +198,7 @@ distantia_cpp(
   method = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
-  trim = FALSE
+  trim_blocks = FALSE
 )
 
 distantia_cpp(
@@ -143,7 +207,7 @@ distantia_cpp(
   method = "euclidean",
   diagonal = TRUE,
   weighted = FALSE,
-  trim = TRUE
+  trim_blocks = TRUE
 )
 
 distantia_cpp(
@@ -152,8 +216,15 @@ distantia_cpp(
   method = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
-  trim = TRUE
+  trim_blocks = TRUE
 )
 
+a <- a[1:nrow(b), ]
+
+distantia_pairwise_cpp(
+  a = a,
+  b = b,
+  method = "euclidean"
+)
 
 */
