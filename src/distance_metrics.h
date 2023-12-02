@@ -27,6 +27,10 @@ double distance_russelrao_cpp(Rcpp::NumericVector x, Rcpp::NumericVector y);
 // Cosine Dissimilarity
 double distance_cosine_cpp(Rcpp::NumericVector x, Rcpp::NumericVector y);
 
+// Cosine Hamming
+double distance_hamming_cpp(Rcpp::NumericVector x, Rcpp::NumericVector y);
+
+
 // Define the type for the distance function
 typedef double (*DistanceFunction)(Rcpp::NumericVector, Rcpp::NumericVector);
 

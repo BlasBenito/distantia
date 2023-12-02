@@ -1,3 +1,17 @@
+#' Distance Methods
+#'
+#' Data frame with the names, abbreviations, and expressions of the distance metrics implemented in the package.
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name methods
+#' @usage data(methods)
+#' @format Dataframe with 5 columns and 10 rows
+"methods"
+
+
+
 #' Pollen dataset.
 #'
 #' A subset of the Grande Pile dataset (\url{https://doi.pangaea.de/10.1594/PANGAEA.739275}). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.

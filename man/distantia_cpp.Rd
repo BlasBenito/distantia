@@ -22,7 +22,7 @@ distantia_cpp(
 \itemize{
 \item "euclidean" and "euc" (Default).
 \item "manhattan" and "man".
-\item "chi.
+\item "chi".
 \item "hellinger" and "hel".
 \item "chebyshev" and "che".
 \item "canberra" and "can".

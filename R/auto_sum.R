@@ -5,19 +5,7 @@
 #' @param a (required, data frame) a time series. Default: NULL.
 #' @param b (required, data frame) a time series. Default: NULL.
 #' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [trim_blocks()] has been applied to `path`. Default: NULL.
-#' @param method (optional, character string) name of the distance metric. Valid entries are:
-#' \itemize{
-#'   \item "euclidean" and "euc" (Default).
-#'   \item "manhattan" and "man".
-#'   \item "chi.
-#'   \item "hellinger" and "hel".
-#'   \item "chebyshev" and "che".
-#'   \item "canberra" and "can".
-#'   \item "cosine" and "cos".
-#'   \item "russelrao" and "rus".
-#'   \item "jaccard" and "jac".
-#' }
-#'
+#' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
 #' @return Named vector with the auto sums of `a` and `b`.
 #' @examples
 #' data(sequenceA, sequenceB)
@@ -110,23 +98,8 @@ auto_sum <- function(
   method <- match.arg(
     arg = method,
     choices = c(
-      "euclidean",
-      "euc",
-      "manhattan",
-      "man",
-      "chi",
-      "hellinger",
-      "hel",
-      "canberra",
-      "can",
-      "russelrao",
-      "rus",
-      "cosine",
-      "cos",
-      "jaccard",
-      "jac",
-      "chebyshev",
-      "che"
+      methods$name,
+      methods$abbreviation
     ),
     several.ok = FALSE
   )
@@ -146,13 +119,13 @@ auto_sum <- function(
   }
 
   a.sum <- auto_distance_cpp(
-    x = a,
-    method = method
+    a,
+    method
   )
 
   b.sum <- auto_distance_cpp(
-    x = b,
-    method = method
+    b,
+    method
   )
 
   sum(a.sum, b.sum)

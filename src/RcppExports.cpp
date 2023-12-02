@@ -274,6 +274,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// distance_hamming_cpp
+double distance_hamming_cpp(NumericVector x, NumericVector y);
+RcppExport SEXP _distantia_distance_hamming_cpp(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_hamming_cpp(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // distantia_pairwise_cpp
 double distantia_pairwise_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
 RcppExport SEXP _distantia_distantia_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
@@ -327,6 +339,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_canberra_cpp", (DL_FUNC) &_distantia_distance_canberra_cpp, 2},
     {"_distantia_distance_russelrao_cpp", (DL_FUNC) &_distantia_distance_russelrao_cpp, 2},
     {"_distantia_distance_cosine_cpp", (DL_FUNC) &_distantia_distance_cosine_cpp, 2},
+    {"_distantia_distance_hamming_cpp", (DL_FUNC) &_distantia_distance_hamming_cpp, 2},
     {"_distantia_distantia_pairwise_cpp", (DL_FUNC) &_distantia_distantia_pairwise_cpp, 3},
     {"_distantia_distantia_cpp", (DL_FUNC) &_distantia_distantia_cpp, 6},
     {NULL, NULL, 0}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{distantia_pairwise_cpp}
 \alias{distantia_pairwise_cpp}
-\title{Computes Psi Distance Between Two Time-Series}
+\title{Computes Psi Distance Between Two Time-Series With Paired Samples}
 \usage{
 distantia_pairwise_cpp(a, b, method)
 }
@@ -15,7 +15,7 @@ distantia_pairwise_cpp(a, b, method)
 \itemize{
 \item "euclidean" and "euc" (Default).
 \item "manhattan" and "man".
-\item "chi.
+\item "chi".
 \item "hellinger" and "hel".
 \item "chebyshev" and "che".
 \item "canberra" and "can".
@@ -29,7 +29,9 @@ Psi distance
 }
 \description{
 Computes the distance psi between two matrices
-\code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+\code{a} and \code{b} with the same number of columns and rows. Distances
+between \code{a} and \code{b} are computed row wise rather than via distance
+matrix and least-cost path computation.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).

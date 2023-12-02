@@ -30,8 +30,8 @@ double distance_chebyshev_cpp(NumericVector x, NumericVector y) {
 
 //' Jaccard Distance Between Two Binary Vectors
 //' @description Computes the Jaccard distance between two binary vectors.
- //' @param x (required, numeric vector).
- //' @param y (required, numeric vector) of same length as `x`.
+//' @param x (required, numeric vector).
+//' @param y (required, numeric vector) of same length as `x`.
 //' @return Jaccard distance between x and y.
 //' @examples distance_jaccard_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
@@ -247,6 +247,30 @@ double distance_cosine_cpp(NumericVector x, NumericVector y) {
 
 }
 
+
+//' Hamming Distance Between Two Binary Vectors
+//' @description Computes the Hamming distance between two binary vectors.
+//' @param x (required, numeric vector).
+//' @param y (required, numeric vector) of same length as `x`.
+//' @return Hamming distance between x and y.
+//' @examples distance_hamming_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
+//' @export
+// [[Rcpp::export]]
+double distance_hamming_cpp(NumericVector x, NumericVector y) {
+
+  int length = x.size();
+
+  double dist = 0.0;
+
+  for (int i = 0; i < length; i++) {
+    if (x[i] != y[i]) {
+      dist += 1.0; // Increase distance if elements are different
+    }
+  }
+
+  return dist;
+}
+
 //define the type for the distance function
 typedef double (*DistanceFunction)(NumericVector, NumericVector);
 
@@ -268,6 +292,8 @@ DistanceFunction distance_function(const std::string& method) {
     return &distance_jaccard_cpp;
   } else if (method == "hellinger" || method.substr(0, 3) == "hel") {
     return &distance_hellinger_cpp;
+  } else if (method == "hamming" || method.substr(0, 3) == "ham") {
+    return &distance_hamming_cpp;
   } else if (method == "chi") {
     return &distance_chi_cpp;
   } else {

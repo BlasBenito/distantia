@@ -22,6 +22,46 @@ Computes the dissimilarity metric \code{psi} (Birks and Gordon 1985).
 \details{
 The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
 }
+\examples{
+
+data(sequenceA, sequenceB)
+
+a <- sequenceA |>
+  na.omit() |>
+  as.matrix()
+
+b <- sequenceB |>
+  na.omit() |>
+  as.matrix()
+
+d <- distance_matrix(
+  a,
+  b
+)
+
+m <- cost_matrix(
+  dist_matrix = d
+)
+
+path <- cost_path(
+  dist_matrix = d,
+  cost_matrix = m
+)
+
+path_sum <- cost_path_sum(path)
+
+ab_sum <- auto_sum(
+  a = a,
+  b = b,
+  path = path
+)
+
+psi <- psi_value(
+  cost_path_sum = path_sum,
+  auto_sum = ab_sum
+)
+
+}
 \author{
 Blas Benito <blasbenito@gmail.com>
 

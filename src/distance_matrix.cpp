@@ -5,26 +5,19 @@ using namespace Rcpp;
 
 //' Distance Matrix
 //' @description Computes the distance matrix between the rows of two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' \code{a} and \code{b} with the same number of columns and arbitrary numbers
+//' of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name of the distance metric. Valid entries are:
-//' \itemize{
-//' \item "euclidean" and "euc" (Default).
-//' \item "manhattan" and "man".
-//' \item "chi.
-//' \item "hellinger" and "hel".
-//' \item "chebyshev" and "che".
-//' \item "canberra" and "can".
-//' \item "cosine" and "cos".
-//' \item "russelrao" and "rus".
-//' \item "jaccard" and "jac".
-//' }
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
 //' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 //' @export
+//' @name distance_matrix_cpp
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(
     NumericMatrix a,
@@ -50,24 +43,16 @@ NumericMatrix distance_matrix_cpp(
 
 
 //' Distance Matrix
-//' @description Computes the vector of distances between paired rows in two sequences of the same length.
+//' @description Computes the vector of distances between paired rows in two
+//' sequences of the same length.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns and rows as 'a'.
-//' @param method (optional, character string) name of the distance metric. Valid entries are:
-//' \itemize{
-//' \item "euclidean" and "euc" (Default).
-//' \item "manhattan" and "man".
-//' \item "chi.
-//' \item "hellinger" and "hel".
-//' \item "chebyshev" and "che".
-//' \item "canberra" and "can".
-//' \item "cosine" and "cos".
-//' \item "russelrao" and "rus".
-//' \item "jaccard" and "jac".
-//' }
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
 //' @return Vector of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]

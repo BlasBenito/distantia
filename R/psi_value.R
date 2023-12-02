@@ -14,6 +14,44 @@
 #' \item Birks, H.J.B.  and Gordon, A.D. (1985) Numerical Methods in Quaternary Pollen Analysis. Academic Press.
 #' }
 #' @examples
+#'
+#' data(sequenceA, sequenceB)
+#'
+#' a <- sequenceA |>
+#'   na.omit() |>
+#'   as.matrix()
+#'
+#' b <- sequenceB |>
+#'   na.omit() |>
+#'   as.matrix()
+#'
+#' d <- distance_matrix(
+#'   a,
+#'   b
+#' )
+#'
+#' m <- cost_matrix(
+#'   dist_matrix = d
+#' )
+#'
+#' path <- cost_path(
+#'   dist_matrix = d,
+#'   cost_matrix = m
+#' )
+#'
+#' path_sum <- cost_path_sum(path)
+#'
+#' ab_sum <- auto_sum(
+#'   a = a,
+#'   b = b,
+#'   path = path
+#' )
+#'
+#' psi <- psi_value(
+#'   cost_path_sum = path_sum,
+#'   auto_sum = ab_sum
+#' )
+#'
 #' @autoglobal
 #' @export
 psi_value <- function(

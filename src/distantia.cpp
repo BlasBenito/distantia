@@ -17,26 +17,19 @@ using namespace Rcpp;
 //
 
 
-//' Computes Psi Distance Between Two Time-Series
+//' Computes Psi Distance Between Two Time-Series With Paired Samples
 //' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' \code{a} and \code{b} with the same number of columns and rows. Distances
+//' between \code{a} and \code{b} are computed row wise rather than via distance
+//' matrix and least-cost path computation.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name of the distance metric. Valid entries are:
-//' \itemize{
-//' \item "euclidean" and "euc" (Default).
-//' \item "manhattan" and "man".
-//' \item "chi.
-//' \item "hellinger" and "hel".
-//' \item "chebyshev" and "che".
-//' \item "canberra" and "can".
-//' \item "cosine" and "cos".
-//' \item "russelrao" and "rus".
-//' \item "jaccard" and "jac".
-//' }
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
@@ -76,18 +69,9 @@ double distantia_pairwise_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name of the distance metric. Valid entries are:
-//' \itemize{
-//' \item "euclidean" and "euc" (Default).
-//' \item "manhattan" and "man".
-//' \item "chi.
-//' \item "hellinger" and "hel".
-//' \item "chebyshev" and "che".
-//' \item "canberra" and "can".
-//' \item "cosine" and "cos".
-//' \item "russelrao" and "rus".
-//' \item "jaccard" and "jac".
-//' }
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
