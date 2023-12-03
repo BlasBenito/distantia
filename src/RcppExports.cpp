@@ -34,22 +34,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// auto_sum_pairwise_cpp
-double auto_sum_pairwise_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
-RcppExport SEXP _distantia_auto_sum_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+// auto_sum_no_path_cpp
+double auto_sum_no_path_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_auto_sum_no_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_pairwise_cpp(a, b, method));
+    rcpp_result_gen = Rcpp::wrap(auto_sum_no_path_cpp(a, b, method));
     return rcpp_result_gen;
 END_RCPP
 }
-// auto_sum_cpp
-double auto_sum_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, Rcpp::Nullable<std::string> method);
-RcppExport SEXP _distantia_auto_sum_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP) {
+// auto_sum_path_cpp
+double auto_sum_path_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_auto_sum_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -57,7 +57,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_cpp(a, b, path, method));
+    rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(a, b, path, method));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -319,8 +319,8 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_distantia_auto_distance_cpp", (DL_FUNC) &_distantia_auto_distance_cpp, 2},
     {"_distantia_subset_matrix_by_rows_cpp", (DL_FUNC) &_distantia_subset_matrix_by_rows_cpp, 2},
-    {"_distantia_auto_sum_pairwise_cpp", (DL_FUNC) &_distantia_auto_sum_pairwise_cpp, 3},
-    {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 4},
+    {"_distantia_auto_sum_no_path_cpp", (DL_FUNC) &_distantia_auto_sum_no_path_cpp, 3},
+    {"_distantia_auto_sum_path_cpp", (DL_FUNC) &_distantia_auto_sum_path_cpp, 4},
     {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
     {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
     {"_distantia_cost_matrix_cpp", (DL_FUNC) &_distantia_cost_matrix_cpp, 1},

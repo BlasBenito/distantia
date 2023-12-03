@@ -1,3 +1,6 @@
+#ifndef DISTANCE_METHODS_H
+#define DISTANCE_METHODS_H
+
 #include <Rcpp.h>
 
 // Chebyshev Distance
@@ -36,3 +39,5 @@ typedef double (*DistanceFunction)(Rcpp::NumericVector, Rcpp::NumericVector);
 
 // Internal function to select the distance method
 DistanceFunction distance_function(const std::string& method);
+
+#endif

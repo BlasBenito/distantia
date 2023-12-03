@@ -11,18 +11,9 @@ distantia_pairwise_cpp(a, b, method)
 
 \item{b}{(required, numeric matrix) of same number of columns as 'a'.}
 
-\item{method}{(optional, character string) name of the distance metric. Valid entries are:
-\itemize{
-\item "euclidean" and "euc" (Default).
-\item "manhattan" and "man".
-\item "chi".
-\item "hellinger" and "hel".
-\item "chebyshev" and "che".
-\item "canberra" and "can".
-\item "cosine" and "cos".
-\item "russelrao" and "rus".
-\item "jaccard" and "jac".
-}}
+\item{method}{(optional, character string) name or abbreviation of the
+distance method. Valid values are in the columns "names" and "abbreviation"
+of the dataset `methods`. Default: "euclidean".}
 }
 \value{
 Psi distance

@@ -24,13 +24,13 @@
 #' @export
 #' @autoglobal
 distantia <- function(
-    a,
-    b,
-    method,
-    diagonal,
-    weighted,
-    trim_blocks,
-    paired_samples
+    a = NULL,
+    b = NULL,
+    method = "euclidean",
+    diagonal = FALSE,
+    weighted = FALSE,
+    trim_blocks = FALSE,
+    paired_samples = FALSE
 ){
 
   if(paired_samples == TRUE){

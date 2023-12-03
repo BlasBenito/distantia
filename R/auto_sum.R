@@ -78,22 +78,6 @@ auto_sum <- function(
     b <- as.matrix(b)
   }
 
-  #subset by elements in path
-  if(!is.null(path)){
-
-    if(!is.data.frame(path)){
-      stop("Argument 'path' must be a data frame.")
-    }
-
-    if(all(c("a", "b", "dist", "cost") %in% colnames(path)) == FALSE){
-      stop("Argument 'path' must have the columns 'A', 'B', 'dist', and 'cost'.")
-    }
-
-    a <- a[unique(path$a), ]
-    b <- b[unique(path$b), ]
-
-  }
-
   #managing distance method
   method <- match.arg(
     arg = method,
@@ -118,16 +102,21 @@ auto_sum <- function(
 
   }
 
-  a.sum <- auto_distance_cpp(
-    a,
-    method
-  )
+  if(!is.null(path)){
+    ab_sum <- auto_sum_path_cpp(
+      a = a,
+      b = b,
+      path = path,
+      method = method
+    )
+  } else {
+    ab_sum <- auto_sum_no_path_cpp(
+      a = a,
+      b = b,
+      method = method
+    )
+  }
 
-  b.sum <- auto_distance_cpp(
-    b,
-    method
-  )
-
-  sum(a.sum, b.sum)
+ ab_sum
 
 }

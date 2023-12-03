@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "distance_metrics.h"
+#include "distance_methods.h"
 using namespace Rcpp;
 
 //' Auto Distance
@@ -76,7 +76,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @return Numeric.
 //' @export
 // [[Rcpp::export]]
-double auto_sum_pairwise_cpp(
+double auto_sum_no_path_cpp(
     NumericMatrix a,
     NumericMatrix b,
     Rcpp::Nullable<std::string> method
@@ -116,7 +116,7 @@ double auto_sum_pairwise_cpp(
 //' @return Numeric.
 //' @export
 // [[Rcpp::export]]
-double auto_sum_cpp(
+double auto_sum_path_cpp(
   NumericMatrix a,
   NumericMatrix b,
   DataFrame path,
@@ -208,7 +208,7 @@ nrow(path)
 path_sum <- cost_path_sum(path)
 path_sum
 
-ab_sum <- auto_sum_cpp(
+ab_sum <- auto_sum_path_cpp(
   a = a,
   b = b,
   path = path,

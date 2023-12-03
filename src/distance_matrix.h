@@ -2,7 +2,7 @@
 #define DISTANCE_MATRIX_CPP_H
 
 #include <Rcpp.h>
-#include "distance_metrics.h"
+#include "distance_methods.h"
 
 Rcpp::NumericMatrix distance_matrix_cpp(
     Rcpp::NumericMatrix a,

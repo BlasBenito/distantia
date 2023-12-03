@@ -19,65 +19,88 @@ testthat::test_that("Least Cost Path and Sum", {
     dist_matrix = dist_matrix
     )
 
-  cost_path <- cost_path(
+  path <- cost_path(
     dist_matrix = dist_matrix,
     cost_matrix = cost_matrix
   )
 
-  cost_sum <- least_cost_sum(
+  path_cpp <- cost_path_cpp(
+    dist_matrix = dist_matrix,
+    cost_matrix = cost_matrix
+  )
+
+  testthat::expect_true(
+    all(path == path_cpp)
+  )
+
+  path_sum <- cost_path_sum(
+    path = path
+  )
+
+  path_sum_cpp <- cost_path_sum_cpp(
     path = path
   )
 
   testthat::expect_true(
-    is.numeric(cost_sum)
+    all.equal(path_sum, path_sum_cpp)
   )
 
   testthat::expect_true(
-    is.data.frame(cost_path)
+    is.numeric(path_sum)
   )
 
   testthat::expect_true(
-    ncol(cost_path) == 4
+    is.data.frame(path)
   )
 
   testthat::expect_true(
-    nrow(cost_path) <= ncol(cost_matrix) + nrow(cost_matrix)
-  )
-
-  cost_path_trimmed <- cost_path(
-    dist_matrix = dist_matrix,
-    cost_matrix = cost_matrix,
-    exclude_blocks = TRUE
+    ncol(path) == 4
   )
 
   testthat::expect_true(
-    is.data.frame(cost_path_trimmed)
+    nrow(path) <= ncol(cost_matrix) + nrow(cost_matrix)
+  )
+
+  path_trimmed <- cost_path_trim(
+    path = path
+  )
+
+  path_trimmed_cpp <- cost_path_trim_cpp(
+    path = path
   )
 
   testthat::expect_true(
-    ncol(cost_path_trimmed) == 4
+    all(path_trimmed == path_trimmed_cpp)
   )
 
   testthat::expect_true(
-    nrow(cost_path_trimmed) < nrow(cost_path)
+    is.data.frame(path_trimmed)
   )
 
-  cost_path <- cost_path(
+  testthat::expect_true(
+    ncol(path_trimmed) == 4
+  )
+
+  testthat::expect_true(
+    nrow(path_trimmed) < nrow(path)
+  )
+
+  path <- cost_path(
     dist_matrix = dist_matrix,
     cost_matrix = cost_matrix,
     diagonal = TRUE
   )
 
   testthat::expect_true(
-    is.data.frame(cost_path)
+    is.data.frame(path)
   )
 
   testthat::expect_true(
-    ncol(cost_path) == 4
+    ncol(path) == 4
   )
 
   testthat::expect_true(
-    nrow(cost_path) <= ncol(cost_matrix) + nrow(cost_matrix)
+    nrow(path) <= ncol(cost_matrix) + nrow(cost_matrix)
   )
 
 })

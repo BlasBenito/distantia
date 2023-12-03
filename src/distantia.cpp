@@ -1,9 +1,10 @@
 #include <Rcpp.h>
-#include "distance_metrics.h"
+#include "distance_methods.h"
 #include "distance_matrix.h"
 #include "cost_matrix.h"
 #include "cost_path.h"
 #include "auto_sum.h"
+#include "permute.h"
 using namespace Rcpp;
 
 // This is a simple example of exporting a C++ function to R. You can
@@ -49,7 +50,7 @@ double distantia_pairwise_cpp(
     double cost_path_sum = sum(dist_vector);
 
     //auto sum sequences
-    double ab_sum = auto_sum_pairwise_cpp(
+    double ab_sum = auto_sum_no_path_cpp(
       a,
       b,
       method
@@ -129,7 +130,7 @@ double distantia_cpp(
   double cost_path_sum = cost_path_sum_cpp(cost_path);
 
   //auto sum sequences
-  double ab_sum = auto_sum_cpp(
+  double ab_sum = auto_sum_path_cpp(
     a,
     b,
     cost_path,

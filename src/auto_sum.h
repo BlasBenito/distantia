@@ -16,14 +16,14 @@ Rcpp::NumericMatrix subset_matrix_by_rows_cpp(
 );
 
 // Auto-sum function declaration
-double auto_sum_cpp(
+double auto_sum_path_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     Rcpp::DataFrame path,
     Rcpp::Nullable<std::string> method
 );
 
-double auto_sum_pairwise_cpp(
+double auto_sum_no_path_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
         Rcpp::Nullable<std::string> method

@@ -4,27 +4,9 @@ testthat::test_that("Distance Matrix", {
   a <- matrix(runif(1000), 100, 10)
   b <- matrix(runif(500), 50, 10)
 
-  methods <- c(
-    "euclidean",
-    "euc",
-    "manhattan",
-    "man",
-    "chi",
-    "hellinger",
-    "hel",
-    "canberra",
-    "can",
-    "russelrao",
-    "rus",
-    "cosine",
-    "cos",
-    "jaccard",
-    "jac",
-    "chebyshev",
-    "che"
-  )
+  method_names <- c(methods$name, methods$abbreviation)
 
-  for(method.i in methods){
+  for(method.i in method_names){
 
     d.cpp <- distance_matrix_cpp(a, b, method = method.i)
     d.r <- distance_matrix(a, b, method = method.i)
@@ -60,7 +42,7 @@ testthat::test_that("Distance Matrix", {
   a <- matrix(0, 100, 10)
   b <- matrix(0, 50, 10)
 
-  for(method.i in methods){
+  for(method.i in method_names){
 
     d <- distance_matrix_cpp(a, b, method = method.i)
 

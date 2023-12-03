@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "distance_metrics.h"
+#include "distance_methods.h"
 using namespace Rcpp;
 
 

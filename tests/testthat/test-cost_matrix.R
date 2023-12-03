@@ -5,7 +5,7 @@ testthat::test_that("Cost Matrix", {
   a <- matrix(runif(1000), 100, 10)
   b <- matrix(runif(500), 50, 10)
 
-  d <- distance_matrix_cpp(a, b, f = distance_manhattan_cpp)
+  d <- distance_matrix_cpp(a, b, method = "manhattan")
 
   least_cost <- cost_matrix_cpp(d = d)
 
