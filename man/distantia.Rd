@@ -4,7 +4,15 @@
 \alias{distantia}
 \title{Psi Distance Between Time Series}
 \usage{
-distantia(a, b, method, diagonal, weighted, trim_blocks, paired_samples)
+distantia(
+  a = NULL,
+  b = NULL,
+  method = "euclidean",
+  diagonal = FALSE,
+  weighted = FALSE,
+  trim_blocks = FALSE,
+  paired_samples = FALSE
+)
 }
 \arguments{
 \item{a}{(required, data frame or matrix) a time series.}

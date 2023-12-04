@@ -51,17 +51,23 @@ NumericMatrix permute(
   return x;
 }
 
+
 /*** R
 # Example usage in R
-a <- matrix(c(rep(1:6, 1)), nrow = 6, ncol = 1)  # Example time series matrix
-block_size <- 1  # Define the block size for shuffling
+a <- matrix(
+  c(rep(1:6, 1)),
+  nrow = 6,
+  ncol = 1
+  )
 
 a
 
-restricted_permutation(a, block_size, seed = 1)
+permute(a, 2)
 
-restricted_permutation(a, block_size, seed = 2)
+permute(a, 2)
 
-restricted_permutation(a, block_size, seed = 4)
+permute(a, 2)
+
+permute(a, 2)
 
 */

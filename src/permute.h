@@ -6,7 +6,7 @@
  Rcpp::NumericMatrix permute(
      Rcpp::NumericMatrix x,
      int block_size,
-     int seed = 1
+     int seed
  );
 
 #endif // RESTRICTED_PERMUTATION_H
