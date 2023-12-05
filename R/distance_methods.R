@@ -8,7 +8,7 @@
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @examples
 #'
-#' distance(
+#' distance_methods(
 #'   x = runif(100),
 #'   y = runif(100),
 #'   method = "euclidean"
@@ -16,7 +16,7 @@
 #'
 #' @autoglobal
 #' @export
-distance <- function(
+distance_methods <- function(
     x = NULL,
     y = NULL,
     method = "euclidean"

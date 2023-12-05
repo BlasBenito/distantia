@@ -7,11 +7,15 @@
 distantia(
   a = NULL,
   b = NULL,
-  method = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
-  trim_blocks = FALSE,
-  paired_samples = FALSE
+  method = c("euclidean", "manhattan"),
+  diagonal = c(FALSE, TRUE),
+  weighted = c(FALSE, TRUE),
+  trim_blocks = c(FALSE, TRUE),
+  paired_samples = FALSE,
+  p_value = FALSE,
+  block_size = c(10),
+  seed = 1,
+  repetitions = 100
 )
 }
 \arguments{
@@ -27,10 +31,18 @@ distantia(
 
 \item{trim_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{paired_samples}{(optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE}
+\item{paired_samples}{(optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+
+\item{p_value}{(optional, logical) If TRUE, the probability of finding a psi distance smaller than the observed one in permuted versions of the sequences/time-series is returned in the column "p_value". The observed psi distance is added to the distribution of permuted psi values to compute the p-value. Default: FALSE}
+
+\item{block_size}{(optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. Only relevant when `p_value = TRUE`. Default: c(2, 3, 4).}
+
+\item{seed}{(optional, integer) initial random seed to use for replicability. Only relevant when `p_value = TRUE`. Default: 1}
+
+\item{repetitions}{(optional, integer) number of permutations to compute the p-value of the psi distance. Only relevant when `p_value = TRUE`. Default: 100.}
 }
 \value{
-Psi distance
+Data frame with names of the sequences, combinations of arguments method, diagonal, weighted, and trim blocks, psi distance, and if `p_value = TRUE`, mean and standard deviation of the null distribution for the psi distance, and the p_value, interpreted as the probability of finding psi distances smaller than the observed one in permuted versions of the sequences.
 }
 \description{
 Psi Distance Between Time Series
