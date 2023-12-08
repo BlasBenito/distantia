@@ -1,0 +1,231 @@
+---
+title: "Comparison old and new versions: old version"
+author: "Blas M. Benito"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Installing old package version
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, eval = FALSE}
+library(here)
+Rcpp::compileAttributes(here::here())
+devtools::document()
+devtools::install()
+library(distantia)
+```
+
+#Preparing comparison data
+
+```{r}
+data(sequenceA)
+data(sequenceB)
+
+sequences <- prepareSequences(
+  sequence.A = sequenceA,
+  sequence.B = sequenceB,
+  merge.mode = "overlap",
+  if.empty.cases = "omit",
+  transformation = "hellinger"
+)
+```
+
+
+# Comparison
+
+## Distance matrix
+
+```{r}
+old_dist_matrix <- distanceMatrix(
+  sequences = sequences,
+  method = "euclidean"
+)
+old_dist_matrix[[1]][1:5, 1:5]
+old_dist_matrix[[1]][45:49, 28:32]
+```
+
+## Cost matrix
+
+
+```{r}
+old_cost_matrix <- leastCostMatrix(
+  distance.matrix = old_dist_matrix,
+  diagonal = FALSE
+)
+old_cost_matrix[[1]][1:5, 1:5]
+old_cost_matrix[[1]][45:49, 28:32]
+```
+
+## Cost path
+
+### Orthogonal
+
+```{r}
+#extracting least-cost path
+old_path <- leastCostPath(
+  distance.matrix = old_dist_matrix,
+  least.cost.matrix = old_cost_matrix
+  )
+
+nrow(old_path[[1]])
+old_path
+sum(old_path$`A|B`$distance)
+sum(old_path$`A|B`$cumulative.distance)
+```
+
+### Diagonal
+
+```{r}
+#extracting least-cost path
+old_path_diagonal <- leastCostPath(
+  distance.matrix = old_dist_matrix,
+  least.cost.matrix = old_cost_matrix,
+  diagonal = TRUE
+  )
+
+nrow(old_path_diagonal[[1]])
+old_path
+sum(old_path_diagonal$`A|B`$distance)
+sum(old_path_diagonal$`A|B`$cumulative.distance)
+```
+
+## Remove blocks
+
+There are differences here: the old version is wrong, as it removes the last orthogonal move.
+
+The old version generates a path file with one row less (21).
+
+```{r}
+old_path_no_blocks <- leastCostPathNoBlocks(
+    least.cost.path = old_path
+    )
+nrow(old_path_no_blocks[[1]])
+sum(old_path_no_blocks[[1]]$distance)
+sum(old_path_no_blocks[[1]]$cumulative.distance)
+old_path_no_blocks
+```
+```{r}
+names(old_path[[1]])[1:2] <- c("a", "b")
+names(old_path_no_blocks[[1]])[1:2] <- c("a", "b")
+plotMatrix(
+  distance.matrix = old_dist_matrix,
+  least.cost.path = old_path_no_blocks
+)
+```
+
+
+## Cost sum
+
+### No blocks path
+
+```{r}
+cost_sum <- leastCost(
+  least.cost.path = old_path_no_blocks
+  )
+cost_sum[[1]]
+```
+
+### Full path
+
+```{r}
+cost_sum <- leastCost(
+  least.cost.path = old_path
+  )
+cost_sum[[1]]
+```
+
+## Autosum
+
+### no blocks path
+
+```{r}
+sequence_sum <- autoSum(
+  sequences = sequences,
+  least.cost.path = old_path_no_blocks,
+  method = "euclidean"
+  )
+sequence_sum
+```
+
+### full path
+
+```{r}
+sequence_sum <- autoSum(
+  sequences = sequences,
+  least.cost.path = old_path,
+  method = "euclidean"
+  )
+sequence_sum
+```
+
+
+
+## Psi
+
+```{r}
+dissimilarity <- psi(
+  least.cost = cost_sum,
+  autosum = sequence_sum
+  )
+dissimilarity[[1]]
+```
+
+## Complete psi computation
+
+```{r}
+dissimilarity <- workflowPsi(
+  sequences = sequences,
+  grouping.column = "id",
+  method = "euclidean",
+  format = "list",
+  diagonal = FALSE,
+  ignore.blocks = TRUE
+)
+dissimilarity[[1]]
+```
+
+## P-value
+
+```{r}
+p_value <- workflowNullPsi(
+  sequences = sequences,
+  grouping.column = "id",
+  method = "euclidean",
+  diagonal = FALSE,
+  ignore.blocks = TRUE,
+  repetitions = 99,
+  parallel.execution = TRUE
+)
+```
+
+### Distribution
+
+```{r}
+p_value$psi[1, ]
+```
+### P-value
+
+```{r}
+p_value$p[["p"]]
+```
+
+## Importance
+
+```{r}
+importance <- workflowImportance(
+  sequences = sequences,
+  grouping.column = "id",
+  method = "euclidean",
+  diagonal = FALSE,
+  ignore.blocks = TRUE
+  )
+
+importance$psi
+
+importance$psi.drop
+```
+

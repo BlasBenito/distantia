@@ -48,7 +48,7 @@ double psi_paired_cpp(
 
 
   //compute psi
-  return ((cost_path_sum * 2) - ab_sum) / ab_sum;
+  return (((cost_path_sum * 2) - ab_sum) / ab_sum) + 1;
 
 }
 
@@ -128,7 +128,14 @@ double psi_full_cpp(
   );
 
   //compute psi
-  return ((cost_path_sum * 2) - ab_sum) / ab_sum;
+  double psi_score = ((cost_path_sum * 2) - ab_sum) / ab_sum;
+
+  //add one if diagonals were used
+  if(diagonal){
+    psi_score = psi_score + 1;
+  }
+
+  return psi_score;
 
 }
 

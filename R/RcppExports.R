@@ -279,6 +279,53 @@ distance_hamming_cpp <- function(x, y) {
     .Call(`_distantia_distance_hamming_cpp`, x, y)
 }
 
+select_column_cpp <- function(x, column_index) {
+    .Call(`_distantia_select_column_cpp`, x, column_index)
+}
+
+delete_column_cpp <- function(x, column_index) {
+    .Call(`_distantia_delete_column_cpp`, x, column_index)
+}
+
+#' Computes Psi Distance Between Two Time-Series With Paired Samples
+#' @description Computes the distance psi between two matrices
+#' \code{a} and \code{b} with the same number of columns and rows. Distances
+#' between \code{a} and \code{b} are computed row wise rather than via distance
+#' matrix and least-cost path computation.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @return Psi distance
+#' @export
+importance_paired_cpp <- function(a, b, method) {
+    .Call(`_distantia_importance_paired_cpp`, a, b, method)
+}
+
+#' Computes Per Column Psi Importance
+#' @description Computes the psi distance between a and b using all columns,
+#' with each column, and without each column
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Data frame with psi distances
+#' @export
+importance_full_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_blocks = FALSE) {
+    .Call(`_distantia_importance_full_cpp`, a, b, method, diagonal, weighted, trim_blocks)
+}
+
 #' Restricted permutation
 #' @description Divides a sequence or time-series in blocks and permutes rows
 #' within these blocks. Used to compute p-values for psi distances. Larger block

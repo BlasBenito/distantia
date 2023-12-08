@@ -286,6 +286,59 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// select_column_cpp
+NumericMatrix select_column_cpp(NumericMatrix x, int column_index);
+RcppExport SEXP _distantia_select_column_cpp(SEXP xSEXP, SEXP column_indexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type column_index(column_indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_column_cpp(x, column_index));
+    return rcpp_result_gen;
+END_RCPP
+}
+// delete_column_cpp
+NumericMatrix delete_column_cpp(NumericMatrix x, int column_index);
+RcppExport SEXP _distantia_delete_column_cpp(SEXP xSEXP, SEXP column_indexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type column_index(column_indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(delete_column_cpp(x, column_index));
+    return rcpp_result_gen;
+END_RCPP
+}
+// importance_paired_cpp
+DataFrame importance_paired_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method);
+RcppExport SEXP _distantia_importance_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(importance_paired_cpp(a, b, method));
+    return rcpp_result_gen;
+END_RCPP
+}
+// importance_full_cpp
+DataFrame importance_full_cpp(NumericMatrix a, NumericMatrix b, Rcpp::Nullable<std::string> method, bool diagonal, bool weighted, bool trim_blocks);
+RcppExport SEXP _distantia_importance_full_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP trim_blocksSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<std::string> >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
+    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
+    Rcpp::traits::input_parameter< bool >::type trim_blocks(trim_blocksSEXP);
+    rcpp_result_gen = Rcpp::wrap(importance_full_cpp(a, b, method, diagonal, weighted, trim_blocks));
+    return rcpp_result_gen;
+END_RCPP
+}
 // permute
 NumericMatrix permute(NumericMatrix x, int block_size, int seed);
 RcppExport SEXP _distantia_permute(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
@@ -388,6 +441,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_russelrao_cpp", (DL_FUNC) &_distantia_distance_russelrao_cpp, 2},
     {"_distantia_distance_cosine_cpp", (DL_FUNC) &_distantia_distance_cosine_cpp, 2},
     {"_distantia_distance_hamming_cpp", (DL_FUNC) &_distantia_distance_hamming_cpp, 2},
+    {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
+    {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
+    {"_distantia_importance_paired_cpp", (DL_FUNC) &_distantia_importance_paired_cpp, 3},
+    {"_distantia_importance_full_cpp", (DL_FUNC) &_distantia_importance_full_cpp, 6},
     {"_distantia_permute", (DL_FUNC) &_distantia_permute, 3},
     {"_distantia_psi_paired_cpp", (DL_FUNC) &_distantia_psi_paired_cpp, 3},
     {"_distantia_psi_full_cpp", (DL_FUNC) &_distantia_psi_full_cpp, 6},

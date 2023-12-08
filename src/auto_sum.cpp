@@ -82,10 +82,6 @@ double auto_sum_no_path_cpp(
     Rcpp::Nullable<std::string> method
 ){
 
-  if (a.nrow() != b.nrow()) {
-    Rcpp::stop("Number of rows in 'a' and 'b' must be the same.");
-  }
-
   //working with a
   double a_distance = auto_distance_cpp(
     a,

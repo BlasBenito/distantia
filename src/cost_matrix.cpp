@@ -1,16 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
-
 //' Least Cost Matrix Considering Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs.
@@ -41,6 +31,9 @@ NumericMatrix cost_matrix_diag_cpp(
       m(i, j) = std::min({m(i - 1, j), m(i, j - 1), m(i - 1, j - 1)}) + dist_matrix(i, j);
     }
   }
+
+  // Adjusting the last cell to include the return cost to the starting point
+  m(an - 1, bn - 1) += m(0, 0);
 
   return m;
 }
@@ -84,6 +77,9 @@ NumericMatrix cost_matrix_weighted_diag_cpp(
     }
   }
 
+  // Adjusting the last cell to include the return cost to the starting point
+  m(an - 1, bn - 1) += m(0, 0);
+
   return m;
 }
 
@@ -116,6 +112,9 @@ NumericMatrix cost_matrix_cpp(
        m(i, j) = std::min({m(i - 1, j), m(i, j - 1)}) + dist_matrix(i, j);
      }
    }
+
+   // Adjusting the last cell to include the return cost to the starting point
+   m(an - 1, bn - 1) += m(0, 0);
 
    return m;
  }
