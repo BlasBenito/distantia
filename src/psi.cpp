@@ -111,21 +111,32 @@ double psi_full_cpp(
     cost_path = cost_path_cpp(dist_matrix, cost_matrix);
   }
 
+  double ab_sum = 0;
+
   //trim cost path
   if (trim_blocks){
+
     cost_path = cost_path_trim_cpp(cost_path);
+
+    ab_sum = auto_sum_path_cpp(
+      a,
+      b,
+      cost_path,
+      method
+    );
+
+  } else {
+
+    ab_sum = auto_sum_no_path_cpp(
+      a,
+      b,
+      method
+    );
+
   }
 
   //sum cost path
   double cost_path_sum = cost_path_sum_cpp(cost_path);
-
-  //auto sum sequences
-  double ab_sum = auto_sum_path_cpp(
-    a,
-    b,
-    cost_path,
-    method
-  );
 
   //compute psi
   double psi_score = ((cost_path_sum * 2) - ab_sum) / ab_sum;
@@ -330,141 +341,57 @@ NumericVector null_psi_full_cpp(
 //
 
 /*** R
-library(distantia)
+data(sequenceA)
+data(sequenceB)
+method = "euclidean"
 
-a <- sequenceA |>
-  na.omit() |>
+sequences <- prepareSequences(
+  sequence.A = sequenceA,
+  sequence.B = sequenceB,
+  merge.mode = "overlap",
+  if.empty.cases = "omit",
+  transformation = "hellinger"
+)
+
+a <- sequences |>
+  dplyr::filter(
+    id == "A"
+  ) |>
+  dplyr::select(-id) |>
   as.matrix()
 
-b <- sequenceB |>
-  na.omit() |>
+b <- sequences |>
+  dplyr::filter(
+    id == "B"
+  ) |>
+  dplyr::select(-id) |>
   as.matrix()
 
-psi_full_cpp(
-  a = a,
-  b = b,
-  method = "euclidean",
-  diagonal = TRUE,
-  weighted = TRUE,
-  trim_blocks = TRUE
+
+dist_matrix = distance_matrix_cpp(
+  a,
+  b,
+  method
 )
 
-psi_full_cpp(
-  a = a,
-  b = b,
-  method = "euclidean",
-  diagonal = FALSE,
-  weighted = TRUE,
-  trim_blocks = TRUE
-)
+cost_matrix = cost_matrix_cpp(dist_matrix)
 
-psi_full_cpp(
-  a = a,
-  b = b,
-  method = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
-  trim_blocks = FALSE
+cost_path = cost_path_cpp(dist_matrix, cost_matrix)
+
+cost_path_sum = cost_path_sum_cpp(cost_path)
+cost_path_sum
+
+ab_sum = auto_sum_no_path_cpp(
+  a,
+  b,
+  method
 )
+ab_sum
+
+((cost_path_sum * 2) - ab_sum) / ab_sum
 
 psi_full_cpp(
-  a = a,
-  b = b,
-  method = "euclidean",
-  diagonal = TRUE,
-  weighted = FALSE,
-  trim_blocks = TRUE
+  a, b, method
 )
-
-psi_full_cpp(
-  a = a,
-  b = b,
-  method = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
-  trim_blocks = TRUE
-)
-
-a <- a[1:nrow(b), ]
-
-psi_paired_cpp(
-  a = a,
-  b = b,
-  method = "euclidean"
-)
-
-null_psi_paired_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 1,
-  repetitions = 9
-)
-
-null_psi_paired_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 1,
-  repetitions = 9
-)
-
-null_psi_paired_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 2,
-  repetitions = 9
-)
-
-null_psi_paired_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 2,
-  repetitions = 9
-)
-
-null_psi_full_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 1,
-  repetitions = 9
-)
-
-null_psi_full_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 1,
-  repetitions = 9
-)
-
-null_psi_full_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 2,
-  repetitions = 9
-)
-
-null_psi_full_cpp(
-  a,
-  b,
-  method = "euclidean",
-  block_size = 3:5,
-  seed = 2,
-  repetitions = 9
-)
-
-
 
 */

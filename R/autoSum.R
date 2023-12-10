@@ -89,13 +89,15 @@
 #'}
 #'
 #'@export
-autoSum <- function(sequences = NULL,
-                       least.cost.path = NULL,
-                       time.column = NULL,
-                       grouping.column = NULL,
-                       exclude.columns = NULL,
-                       method = "manhattan",
-                       parallel.execution = TRUE){
+autoSum <- function(
+    sequences = NULL,
+    least.cost.path = NULL,
+    time.column = NULL,
+    grouping.column = NULL,
+    exclude.columns = NULL,
+    method = "manhattan",
+    parallel.execution = TRUE
+    ){
 
   #checking sequences
   if(is.data.frame(sequences) == FALSE){
@@ -212,7 +214,7 @@ autoSum <- function(sequences = NULL,
         distances.A[1] <- 0
       } else {
         for (j in 1:(nrow.sequence.A-1)){
-          distances.A[j] <- distantia::distance(x = sequence.A[j, ], y = sequence.A[j+1, ], method = method)
+          distances.A[j] <- distance(x = sequence.A[j, ], y = sequence.A[j+1, ], method = method)
         }
       }
     }
@@ -235,7 +237,7 @@ autoSum <- function(sequences = NULL,
         distances.B[1] <- 0
       } else {
         for (j in 1:(nrow.sequence.B-1)){
-          distances.B[j] <- distantia::distance(x = sequence.B[j, ], y = sequence.B[j+1, ], method = method)
+          distances.B[j] <- distance(x = sequence.B[j, ], y = sequence.B[j+1, ], method = method)
         }
       }
     }

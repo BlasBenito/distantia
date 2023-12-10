@@ -111,23 +111,6 @@ sum(path_diagonal$cost)
 
 This version is better than the older one.
 
-There are differences here:
-
-The new version generates a path file one row longer (22 vs 21).
-
-There is a small difference
-old: last pairs are
-43 29
-43 31
-49 32
-new
-43 29
-43 31
-49 31
-49 32
-
-the old version uses B = 31 to build the block
-the new version uses A = 49 to build the block
 
 
 
@@ -153,8 +136,8 @@ plotMatrix(
 ### No blocks path
 
 Small difference here:
-old version: 6.217325
-new version: 6.736756
+old version: 6.217325 because it omits one data point
+new version: 6.736756 this is the rigth value
 
 ```{r}
 cost_sum <- cost_path_sum_cpp(
@@ -163,6 +146,8 @@ cost_sum <- cost_path_sum_cpp(
 cost_sum
 ```
 ### Full path
+
+Both versions are identical here
 
 ```{r}
 cost_sum <- cost_path_sum_cpp(
@@ -190,15 +175,12 @@ sequence_sum
 ```
 ### Full path
 
-Important difference here!
-old version: 17.60607
-new version: 48.86669
+Both versions return identical results
 
 ```{r}
-sequence_sum <- auto_sum_path_cpp(
+sequence_sum <- auto_sum_no_path_cpp(
   a,
   b,
-  path,
   method = "euclidean"
   )
 sequence_sum
@@ -206,12 +188,25 @@ sequence_sum
 
 ## Psi
 
+There is something very wrong here, as the result should be 2.07
+
 ```{r}
-dissimilarity <- psi(
-  least.cost = cost_sum,
-  autosum = sequence_sum
+old_cost_sum
+cost_sum
+old_sequence_sum
+sequence_sum
+
+((old_cost_sum[[1]] * 2) - old_sequence_sum[[1]]) / old_sequence_sum[[1]]
+
+((cost_sum * 2) - sequence_sum) / sequence_sum
+```
+
+
+```{r}
+dissimilarity <- psi_full_cpp(
+  a, b, "euclidean", FALSE, FALSE, FALSE
   )
-dissimilarity[[1]]
+dissimilarity
 ```
 
 ## Complete psi computation

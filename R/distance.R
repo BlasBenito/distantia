@@ -54,8 +54,8 @@ distance <- function(
 
   #handling NA
   df <- data.frame(
-    x = x,
-    y = y
+    x = as.numeric(x),
+    y = as.numeric(y)
   ) |>
     na.omit()
 

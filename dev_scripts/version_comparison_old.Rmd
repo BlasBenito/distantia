@@ -95,9 +95,7 @@ sum(old_path_diagonal$`A|B`$cumulative.distance)
 
 ## Remove blocks
 
-There are differences here: the old version is wrong, as it removes the last orthogonal move.
-
-The old version generates a path file with one row less (21).
+The old version removes valid data from the path file.
 
 ```{r}
 old_path_no_blocks <- leastCostPathNoBlocks(
@@ -122,6 +120,8 @@ plotMatrix(
 
 ### No blocks path
 
+
+
 ```{r}
 cost_sum <- leastCost(
   least.cost.path = old_path_no_blocks
@@ -131,11 +131,13 @@ cost_sum[[1]]
 
 ### Full path
 
+Both versions are identical here
+
 ```{r}
-cost_sum <- leastCost(
+old_cost_sum <- leastCost(
   least.cost.path = old_path
   )
-cost_sum[[1]]
+old_cost_sum[[1]]
 ```
 
 ## Autosum
@@ -148,30 +150,31 @@ sequence_sum <- autoSum(
   least.cost.path = old_path_no_blocks,
   method = "euclidean"
   )
-sequence_sum
+sequence_sum[[1]]
 ```
 
-### full path
+### Full path
+
+Both versions return identical results
 
 ```{r}
-sequence_sum <- autoSum(
+colnames(old_path[[1]])[1:2] <- c("A", "B")
+old_sequence_sum <- autoSum(
   sequences = sequences,
   least.cost.path = old_path,
   method = "euclidean"
   )
-sequence_sum
+old_sequence_sum
 ```
-
-
 
 ## Psi
 
 ```{r}
-dissimilarity <- psi(
-  least.cost = cost_sum,
-  autosum = sequence_sum
+old_dissimilarity <- psi(
+  least.cost = old_cost_sum,
+  autosum = old_sequence_sum
   )
-dissimilarity[[1]]
+old_dissimilarity[[1]]
 ```
 
 ## Complete psi computation

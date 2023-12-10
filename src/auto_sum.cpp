@@ -46,24 +46,27 @@ double auto_distance_cpp(
 NumericMatrix subset_matrix_by_rows_cpp(
     NumericMatrix m,
     NumericVector rows
-    ){
+){
 
-  //define output matrix
-  int rl = rows.length();
-  int m_cols = m.ncol();
-  NumericMatrix m_subset(rl, m_cols);
+  std::vector<int> uniqueRows;
+  std::unordered_set<int> seen;
 
-  //iterate over rows
-  for (int i = 0; i < rl; i++) {
-    NumericMatrix::Row old_row = m(rows[i] - 1, _);
-    NumericMatrix::Row new_row = m_subset(i, _);
-    new_row = old_row;
+  for (int row : rows) {
+    if (seen.insert(row).second) { // Check if row is already seen
+      uniqueRows.push_back(row);
+   }
+ }
+
+  int rl = uniqueRows.size();
+  NumericMatrix m_subset(rl, m.ncol());
+
+  int i = 0;
+  for (int row : uniqueRows) {
+    m_subset(i++, _) = m(row - 1, _);
   }
 
   return m_subset;
-
 }
-
 
 //'Auto-sum of Two Paired Sequences
 //' @description Sum of the the cumulative auto-sum of two sequences with paired samples. This is
@@ -120,12 +123,9 @@ double auto_sum_path_cpp(
 ){
 
   //working with a
-  NumericVector a_path = path["a"];
-  a_path = unique(a_path);
-
   NumericMatrix a_subset = subset_matrix_by_rows_cpp(
     a,
-    a_path
+    path["a"]
     );
 
   double a_distance = auto_distance_cpp(
@@ -134,12 +134,9 @@ double auto_sum_path_cpp(
   );
 
   //working with b
-  NumericVector b_path = path["b"];
-  b_path = unique(b_path);
-
   NumericMatrix b_subset = subset_matrix_by_rows_cpp(
     b,
-    b_path
+    path["b"]
   );
 
   double b_distance = auto_distance_cpp(
@@ -157,60 +154,112 @@ double auto_sum_path_cpp(
 //
 
 /*** R
+data(sequenceA)
+data(sequenceB)
+method = "euclidean"
 
-a <- sequenceA |>
-  na.omit() |>
+sequences <- prepareSequences(
+  sequence.A = sequenceA,
+  sequence.B = sequenceB,
+  merge.mode = "overlap",
+  if.empty.cases = "omit",
+  transformation = "hellinger"
+)
+
+a <- sequences |>
+  dplyr::filter(
+    id == "A"
+  ) |>
+  dplyr::select(-id) |>
   as.matrix()
 
-b <- sequenceB |>
-  na.omit() |>
+b <- sequences |>
+  dplyr::filter(
+    id == "B"
+  ) |>
+  dplyr::select(-id) |>
   as.matrix()
 
-message("Testing subset_matrix_by_rows_cpp().")
-m_subset <- subset_matrix_by_rows_cpp(m = a, rows = c(1, 2, 3, 4))
-m_subset
+#testing subset_matrix_by_rows_cpp
+a_test <- a[1:4, 1:3]
 
-message("Testing sauto_distance_cpp().")
+a_test
+
+subset_matrix_by_rows_cpp(
+  a_test, c(1, 3)
+  )
+
+a_test[c(1, 3), ]
+
 auto_distance_cpp(
   m = m_subset,
   method = "euclidean"
 )
 
-message("Testing all functions together.")
+#Testing all functions together
 
-d <- distance_matrix_cpp(
+dist_matrix <- distance_matrix_cpp(
   a,
   b,
-  method = "euclidean"
+  method
 )
 
-m <- cost_matrix_diag_cpp(
-  dist_matrix = d
+cost_matrix <- cost_matrix_cpp(
+  dist_matrix
 )
 
-path <- cost_path_diag_cpp(
-  dist_matrix = d,
-  cost_matrix = m
+path <- cost_path_cpp(
+  dist_matrix,
+  cost_matrix
 )
 
-nrow(path)
-
-path <- cost_path_trim_cpp(
-  path = path
+a_subset = subset_matrix_by_rows_cpp(
+  a,
+  path$a
 )
 
-nrow(path)
+nrow(a)
+nrow(a_subset)
+ncol(a)
+ncol(a_subset)
+sum(a)
+sum(a_subset)
 
-path_sum <- cost_path_sum(path)
-path_sum
-
-ab_sum <- auto_sum_path_cpp(
-  a = a,
-  b = b,
-  path = path,
-  method = "euclidean"
+auto_distance_cpp(
+  a,
+  method
 )
 
-ab_sum
+auto_distance_cpp(
+  a_subset,
+  method
+)
+
+
+
+
+b_subset = subset_matrix_by_rows_cpp(
+  b,
+  path$b
+)
+
+auto_distance_cpp(
+  b,
+  method
+)
+
+auto_distance_cpp(
+  b_subset,
+  method
+)
+
+
+auto_sum_no_path_cpp(a, b, method)
+
+auto_sum_path_cpp(a, b, path, method)
+
+path_trimmed <- cost_path_trim_cpp(path)
+
+auto_sum_path_cpp(a, b, path_trimmed, method)
 
 */
