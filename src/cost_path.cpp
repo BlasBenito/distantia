@@ -196,7 +196,7 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 }
 
 
-//' Sum of Least Cost Distance
+//' Sum of Least Cost Distance Times Two
 //' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
 //' @return Sum of distances
 //' @export
@@ -207,7 +207,7 @@ double cost_path_sum_cpp(
 
   NumericVector dist = path["dist"];
 
-  return(sum(dist));
+  return(sum(dist)*2);
 
 }
 

@@ -4,7 +4,7 @@
 \alias{auto_sum_no_path_cpp}
 \title{Auto-sum of Two Paired Sequences}
 \usage{
-auto_sum_no_path_cpp(a, b, method)
+auto_sum_no_path_cpp(a, b, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
@@ -16,7 +16,7 @@ distance method. Valid values are in the columns "names" and "abbreviation"
 of the dataset `methods`. Default: "euclidean".}
 }
 \value{
-Numeric.
+Auto sum of distances.
 }
 \description{
 Sum of the the cumulative auto-sum of two sequences with paired samples. This is

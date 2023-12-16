@@ -7,10 +7,10 @@
 importance_full_cpp(
   a,
   b,
-  method,
+  method = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
-  trim_blocks = FALSE
+  ignore_blocks = FALSE
 )
 }
 \arguments{
@@ -28,7 +28,7 @@ computation of the cost matrix. Default: FALSE.}
 \item{weighted}{(optional, logical). If TRUE, diagonal is set to TRUE, and
 diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 
-\item{trim_blocks}{(optional, logical). If TRUE, blocks of consecutive path
+\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 }
 \value{

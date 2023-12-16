@@ -11,7 +11,7 @@ auto_sum(a = NULL, b = NULL, path = NULL, method = "euclidean")
 
 \item{b}{(required, data frame) a time series. Default: NULL.}
 
-\item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [trim_blocks()] has been applied to `path`. Default: NULL.}
+\item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [ignore_blocks()] has been applied to `path`. Default: NULL.}
 
 \item{method}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
 }

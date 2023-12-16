@@ -4,7 +4,7 @@
 \alias{auto_sum_path_cpp}
 \title{Auto-sum of Two Sequences}
 \usage{
-auto_sum_path_cpp(a, b, path, method)
+auto_sum_path_cpp(a, b, path, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}

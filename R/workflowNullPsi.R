@@ -149,7 +149,15 @@ workflowNullPsi <- function(sequences = NULL,
       set.seed(i)
 
       #random matrix of -1, 0, and 1
-      decision.matrix <- matrix(sample(-1:1, sequences.matrix.ncol * sequences.matrix.nrow, replace = TRUE), ncol = sequences.matrix.ncol, nrow = sequences.matrix.nrow)
+      decision.matrix <- matrix(
+        sample(
+          -1:1,
+          sequences.matrix.ncol * sequences.matrix.nrow,
+          replace = TRUE
+          ),
+        ncol = sequences.matrix.ncol,
+        nrow = sequences.matrix.nrow
+        )
 
       #first row to zeros to avoid falling out of bounds
       decision.matrix[1,] <- 0

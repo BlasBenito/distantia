@@ -4,7 +4,7 @@
 \alias{auto_distance_cpp}
 \title{Auto Distance}
 \usage{
-auto_distance_cpp(m, method)
+auto_distance_cpp(m, method = "euclidean")
 }
 \arguments{
 \item{method}{(optional, character string) name or abbreviation of the

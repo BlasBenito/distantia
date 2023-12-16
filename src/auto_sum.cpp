@@ -18,11 +18,10 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 double auto_distance_cpp(
     NumericMatrix m,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 ){
 
-  std::string selected_method = Rcpp::as<std::string>(method);
-  DistanceFunction f = distance_function(selected_method);
+  DistanceFunction f = distance_function(method);
 
   int m_rows = m.nrow();
   double dist = 0.0;
@@ -76,13 +75,13 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @param method (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `methods`. Default: "euclidean".
-//' @return Numeric.
+//' @return Auto sum of distances.
 //' @export
 // [[Rcpp::export]]
 double auto_sum_no_path_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 ){
 
   //working with a
@@ -119,7 +118,7 @@ double auto_sum_path_cpp(
   NumericMatrix a,
   NumericMatrix b,
   DataFrame path,
-  Rcpp::Nullable<std::string> method
+  const std::string& method = "euclidean"
 ){
 
   //working with a
@@ -192,7 +191,7 @@ subset_matrix_by_rows_cpp(
 a_test[c(1, 3), ]
 
 auto_distance_cpp(
-  m = m_subset,
+  m = a_test,
   method = "euclidean"
 )
 

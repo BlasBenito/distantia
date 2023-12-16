@@ -8,53 +8,10 @@
 using namespace Rcpp;
 
 
-//' Computes Psi Distance Between Two Time-Series With Paired Samples
-//' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and rows. Distances
-//' between \code{a} and \code{b} are computed row wise rather than via distance
-//' matrix and least-cost path computation.
-//' NA values should be removed before using this function.
-//' If the selected distance function is "chi" or "cosine", pairs of zeros should
-//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
-//' @return Psi distance
-//' @export
-// [[Rcpp::export]]
-double psi_paired_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
-    Rcpp::Nullable<std::string> method
-){
-
-    //pairwise distances
-    NumericVector dist_vector = distance_pairwise_cpp(
-      a,
-      b,
-      method
-    );
-
-    double cost_path_sum = sum(dist_vector);
-
-    //auto sum sequences
-    double ab_sum = auto_sum_no_path_cpp(
-      a,
-      b,
-      method
-    );
-
-
-  //compute psi
-  return (((cost_path_sum * 2) - ab_sum) / ab_sum) + 1;
-
-}
-
-//' Computes Psi Distance Between Two Time-Series
-//' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' Generates Least Cost Path
+//' @description Least cost path between two sequences \code{a} and \code{b}
+//' with the same number of columns and arbitrary numbers of rows to compute the
+//' ABbetween component of the psi dissimilarity computation.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
@@ -67,18 +24,18 @@ double psi_paired_cpp(
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-//' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Psi distance
+//' @return Data frame with least cost path
 //' @export
 // [[Rcpp::export]]
-double psi_full_cpp(
+DataFrame psi_cost_path_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method,
+    const std::string& method = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool trim_blocks = false
+    bool ignore_blocks = false
 ){
 
   if(weighted){diagonal = true;}
@@ -111,17 +68,49 @@ double psi_full_cpp(
     cost_path = cost_path_cpp(dist_matrix, cost_matrix);
   }
 
+  //trim cost path
+  if (ignore_blocks){
+    cost_path = cost_path_trim_cpp(cost_path);
+  }
+
+  return cost_path;
+
+}
+
+//' Auto Sum of Two Sequences
+//' @description Cumulative sum times two of two sequences \code{a} and \code{b}
+//' with the same number of columns and arbitrary numbers of rows to compute the
+//' ABwithin component of the psi dissimilarity computation. This component is
+//' used to normalize the least cost distance between the sequences.
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param path (required, data frame) dataframe produced by [cost_path()].
+//' Default: NULL
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @return Auto sum of matrices a and b.
+//' @export
+// [[Rcpp::export]]
+double psi_auto_sum_cpp(
+    NumericMatrix a,
+    NumericMatrix b,
+    DataFrame path,
+    const std::string& method = "euclidean",
+    bool ignore_blocks = false
+){
+
   double ab_sum = 0;
 
   //trim cost path
-  if (trim_blocks){
-
-    cost_path = cost_path_trim_cpp(cost_path);
+  if (ignore_blocks){
 
     ab_sum = auto_sum_path_cpp(
       a,
       b,
-      cost_path,
+      path,
       method
     );
 
@@ -135,11 +124,33 @@ double psi_full_cpp(
 
   }
 
+  return(ab_sum);
+
+}
+
+//' Psi Dissimilarity Metric
+//' @description Computes the psi dissimilarity score between two sequences from
+//' their least cost path and their auto sums.
+//' @param path (required, data frame) dataframe produced by [cost_path()].
+//' Default: NULL
+//' @param autosum (required, numeric) auto sum of both sequences,
+//' result of psi_auto_sum_cpp().
+//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+//' computation of the cost matrix. Default: FALSE.
+//' @return Numeric, psi dissimilarity
+//' @export
+// [[Rcpp::export]]
+double psi_formula_cpp(
+    DataFrame path,
+    double auto_sum,
+    bool diagonal = false
+){
+
   //sum cost path
-  double cost_path_sum = cost_path_sum_cpp(cost_path);
+  double cost_path_sum = cost_path_sum_cpp(path);
 
   //compute psi
-  double psi_score = ((cost_path_sum * 2) - ab_sum) / ab_sum;
+  double psi_score = (cost_path_sum - auto_sum) / auto_sum;
 
   //add one if diagonals were used
   if(diagonal){
@@ -150,6 +161,48 @@ double psi_full_cpp(
 
 }
 
+
+
+//' Computes Psi Distance Between Two Time-Series With Paired Samples
+//' @description Computes the distance psi between two matrices
+//' \code{a} and \code{b} with the same number of columns and rows. Distances
+//' between \code{a} and \code{b} are computed row wise rather than via distance
+//' matrix and least-cost path computation.
+//' NA values should be removed before using this function.
+//' If the selected distance function is "chi" or "cosine", pairs of zeros should
+//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
+//' @return Psi distance
+//' @export
+// [[Rcpp::export]]
+double psi_paired_cpp(
+    NumericMatrix a,
+    NumericMatrix b,
+    const std::string& method = "euclidean"
+){
+
+    //pairwise distances
+    double cost_path_sum = distance_pairwise_cpp(
+      a,
+      b,
+      method
+    );
+
+    //auto sum sequences
+    double ab_sum = auto_sum_no_path_cpp(
+      a,
+      b,
+      method
+    );
+
+  //compute psi
+  return ((cost_path_sum  - ab_sum) / ab_sum) + 1;
+
+}
 
 
 //' Computes Null Distribution of Psi Distances Between Two Time-Series With Paired Samples
@@ -169,6 +222,8 @@ double psi_full_cpp(
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
 //' within a block of 3 adjacent rows. Default: c(2, 3, 4).
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+//' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
+//' and independently across columns. Useful when the columns are independent.
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 //' @return Psi distance
 //' @export
@@ -176,11 +231,15 @@ double psi_full_cpp(
 NumericVector null_psi_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method,
+    const std::string& method = "euclidean",
     IntegerVector block_size = IntegerVector::create(2, 3, 4),
     int seed = 1,
+    bool independent_columns = true,
     int repetitions = 100
 ){
+
+  // Use the integer seed value
+  std::srand(seed);
 
   // Calculate the minimum number of rows between matrices a and b
   int min_rows = std::min(a.nrow(), b.nrow());
@@ -191,41 +250,68 @@ NumericVector null_psi_paired_cpp(
   // Create numeric vector to store Psi distances
   NumericVector psi_null(repetitions);
 
-  // Add psi value of original matrices
-  psi_null[0] = psi_paired_cpp(a, b, method);
+  //pairwise distances
+  double cost_path_sum = distance_pairwise_cpp(
+    a,
+    b,
+    method
+  );
+
+  //auto sum sequences
+  double ab_sum = auto_sum_no_path_cpp(
+    a,
+    b,
+    method
+  );
+
+  //compute psi
+  psi_null[0] = ((cost_path_sum  - ab_sum) / ab_sum) + 1;
+
+  //select the permutation function
+  NumericMatrix (*permute_function)(NumericMatrix, int, int);
+  if (independent_columns){
+    permute_function = permute_independent_cpp;
+  } else{
+    permute_function = permute_cpp;
+  }
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    //new seed
-    int seed_i = seed + i;
-
-    // Use the integer seed value
-    std::srand(seed);
+    // Checking interruption every 1000 iterations
+    if (i % 1000 == 0){
+      Rcpp::checkUserInterrupt();
+    }
 
     // Select a block size
-    int block_size_i = block_size[rand() % block_size.size()];
+    int block_size_a = block_size[rand() % block_size.size()];
 
     // Permute matrix a
-    NumericMatrix permuted_a = permute(
+    NumericMatrix permuted_a = permute_function(
       a,
-      block_size_i,
-      seed_i
+      block_size_a,
+      seed + i
     );
+
+    // Select a block size
+    int block_size_b = block_size[rand() % block_size.size()];
 
     // Permute matrix b
-    NumericMatrix permuted_b = permute(
+    NumericMatrix permuted_b = permute_function(
       b,
-      block_size_i,
-      seed_i + 1
+      block_size_b,
+      seed + i + 1
     );
 
-    // Compute Psi distance on permuted matrices and store result
-    psi_null[i] = psi_paired_cpp(
+    //pairwise distances
+    double permuted_ab_distance = distance_pairwise_cpp(
       permuted_a,
       permuted_b,
       method
-      );
+    );
+
+    // Compute Psi distance on permuted matrices and store result
+    psi_null[i] = ((permuted_ab_distance - ab_sum) / ab_sum) + 1;
 
   }
 
@@ -250,26 +336,88 @@ NumericVector null_psi_paired_cpp(
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-//' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @return Psi distance
+//' @export
+// [[Rcpp::export]]
+double psi_cpp(
+    NumericMatrix a,
+    NumericMatrix b,
+    const std::string& method = "euclidean",
+    bool diagonal = false,
+    bool weighted = false,
+    bool ignore_blocks = false
+){
+
+  DataFrame path = psi_cost_path_cpp(
+    a,
+    b,
+    method,
+    diagonal,
+    weighted,
+    ignore_blocks
+  );
+
+  double ab_sum = psi_auto_sum_cpp(
+    a,
+    b,
+    path,
+    method,
+    ignore_blocks
+  );
+
+  double psi_score = psi_formula_cpp(
+    path,
+    ab_sum,
+    diagonal
+  );
+
+  return psi_score;
+
+}
+
+
+
+
+//' Computes Psi Distance Between Two Time-Series
+//' @description Computes the distance psi between two matrices
+//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' NA values should be removed before using this function.
+//' If the selected distance function is "chi" or "cosine", pairs of zeros should
+//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+//' @param a (required, numeric matrix).
+//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param method (optional, character string) name or abbreviation of the
+//' distance method. Valid values are in the columns "names" and "abbreviation"
+//' of the dataset `methods`. Default: "euclidean".
+//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+//' computation of the cost matrix. Default: FALSE.
+//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+//' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. This argument
 //' has nothing to do with block_size!. Default: FALSE.
 //' @param block_size (optional, integer vector) vector with block sizes for the
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
-//' within a block of 3 adjacent rows. Default: c(2, 3, 4).
+//' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+//' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
+//' and independently across columns. Useful when the columns are independent.
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
-NumericVector null_psi_full_cpp(
+NumericVector null_psi_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method,
+    const std::string& method = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool trim_blocks = false,
+    bool ignore_blocks = false,
     IntegerVector block_size = IntegerVector::create(2, 3, 4),
     int seed = 1,
+    bool independent_columns = true,
     int repetitions = 100
 ){
 
@@ -282,51 +430,87 @@ NumericVector null_psi_full_cpp(
   // Create numeric vector to store Psi distances
   NumericVector psi_null(repetitions);
 
-  // Add psi value of original matrices
-  psi_null[0] = psi_full_cpp(
+  // Create cost path
+  DataFrame path = psi_cost_path_cpp(
     a,
     b,
     method,
     diagonal,
     weighted,
-    trim_blocks
-    );
+    ignore_blocks
+  );
+
+  // auto sum of distances to normalize cost path sum
+  double ab_sum = psi_auto_sum_cpp(
+    a,
+    b,
+    path,
+    method,
+    ignore_blocks
+  );
+
+  // Add psi value of original matrices
+  psi_null[0] = psi_formula_cpp(
+    path,
+    ab_sum,
+    diagonal
+  );
+
+  //select the permutation function
+  NumericMatrix (*permute_function)(NumericMatrix, int, int);
+  if (independent_columns){
+    permute_function = permute_independent_cpp;
+  } else{
+    permute_function = permute_cpp;
+  }
+
+  // Use the seed value
+  std::srand(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    //new seed
-    int seed_i = seed + i;
-
-    // Use the integer seed value
-    std::srand(seed);
+    // Checking interruption every 1000 iterations
+    if (i % 1000 == 0){
+      Rcpp::checkUserInterrupt();
+    }
 
     // Select a block size
-    int block_size_i = block_size[rand() % block_size.size()];
+    int block_size_a = block_size[rand() % block_size.size()];
 
     // Permute matrix a
-    NumericMatrix permuted_a = permute(
+    NumericMatrix permuted_a = permute_function(
       a,
-      block_size_i,
-      seed_i
+      block_size_a,
+      seed + i
     );
+
+    // Select a block size
+    int block_size_b = block_size[rand() % block_size.size()];
 
     // Permute matrix b
-    NumericMatrix permuted_b = permute(
+    NumericMatrix permuted_b = permute_function(
       b,
-      block_size_i,
-      seed_i + 1
+      block_size_b,
+      seed + i + 1
     );
 
-    // Compute Psi distance on permuted matrices and store result
-    psi_null[i] = psi_full_cpp(
+    // Create cost path of permuted sequences
+    DataFrame permuted_path = psi_cost_path_cpp(
       permuted_a,
       permuted_b,
       method,
       diagonal,
       weighted,
-      trim_blocks
-      );
+      ignore_blocks
+    );
+
+    // Compute Psi distance on permuted matrices and store result
+    psi_null[i] = psi_formula_cpp(
+      permuted_path,
+      ab_sum,
+      diagonal
+    );
 
   }
 
@@ -335,12 +519,12 @@ NumericVector null_psi_full_cpp(
 
 }
 
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
+
+
 
 /*** R
+library(distantia)
+
 data(sequenceA)
 data(sequenceB)
 method = "euclidean"
@@ -367,31 +551,38 @@ b <- sequences |>
   dplyr::select(-id) |>
   as.matrix()
 
+psi_score <- psi_cpp(
+  a, b
+)
+psi_score
 
-dist_matrix = distance_matrix_cpp(
-  a,
-  b,
-  method
+null_values <- null_psi_cpp(
+  a, b, independent_columns = FALSE, repetitions = 1000
+)
+min(null_values)
+mean(null_values)
+sum(null_values <= psi_score) / 1000
+
+null_values <- null_psi_cpp(
+  a, b, independent_columns = TRUE, repetitions = 1000
 )
 
-cost_matrix = cost_matrix_cpp(dist_matrix)
+min(null_values)
+mean(null_values)
+sum(null_values <= psi_score) / 1000
 
-cost_path = cost_path_cpp(dist_matrix, cost_matrix)
-
-cost_path_sum = cost_path_sum_cpp(cost_path)
-cost_path_sum
-
-ab_sum = auto_sum_no_path_cpp(
-  a,
-  b,
-  method
+null_psi_cpp(
+  a, b, method, repetitions = 10, seed = 2
 )
-ab_sum
 
-((cost_path_sum * 2) - ab_sum) / ab_sum
-
-psi_full_cpp(
-  a, b, method
+null_psi_cpp(
+  a, b, method, repetitions = 10, seed = 2
 )
+
+null_psi_cpp(
+  a, b, method, repetitions = 10, seed = 3
+)
+
+
 
 */

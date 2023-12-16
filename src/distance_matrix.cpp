@@ -22,11 +22,10 @@ using namespace Rcpp;
 NumericMatrix distance_matrix_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 ){
 
-  std::string selected_method = Rcpp::as<std::string>(method);
-  DistanceFunction f = distance_function(selected_method);
+  DistanceFunction f = distance_function(method);
 
   int an = a.nrow();
   int bn = b.nrow();
@@ -42,8 +41,8 @@ NumericMatrix distance_matrix_cpp(
 }
 
 
-//' Distance Matrix
-//' @description Computes the vector of distances between paired rows in two
+//' Sum of Pairwise Distances Between Paired Sequences
+//' @description Computes the sum of distances between paired rows in two
 //' sequences of the same length.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -56,14 +55,13 @@ NumericMatrix distance_matrix_cpp(
 //' @return Vector of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]
-NumericVector distance_pairwise_cpp(
+double distance_pairwise_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 ){
 
-  std::string selected_method = Rcpp::as<std::string>(method);
-  DistanceFunction f = distance_function(selected_method);
+  DistanceFunction f = distance_function(method);
 
   int an = a.nrow();
 
@@ -77,7 +75,7 @@ NumericVector distance_pairwise_cpp(
     D(i) = f(a.row(i), b.row(i));
   }
 
-  return D;
+  return sum(D*2);
 }
 
 
@@ -100,8 +98,11 @@ b <- sequenceB |>
 a[a == 0] <- 0.0001
 b[b == 0] <- 0.0001
 
-message("distance_matrix_cpp")
 d <- distance_matrix_cpp(a, b, method = "euclidean")
+dim(d)
+d[1:5, 1:5]
+
+d <- distance_matrix_cpp(a, b)
 dim(d)
 d[1:5, 1:5]
 

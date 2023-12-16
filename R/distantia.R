@@ -5,11 +5,12 @@
 #' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param paired_samples (optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param p_value (optional, logical) If TRUE, the probability of finding a psi distance smaller than the observed one in permuted versions of the sequences/time-series is returned in the column "p_value". The observed psi distance is added to the distribution of permuted psi values to compute the p-value. Default: FALSE
 #' @param block_size (optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. Only relevant when `p_value = TRUE`. Default: c(2, 3, 4).
 #' @param seed (optional, integer) initial random seed to use for replicability. Only relevant when `p_value = TRUE`. Default: 1
+#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks and independently across columns. Useful when the columns in the time-series are independent. Default: TRUE
 #' @param repetitions (optional, integer) number of permutations to compute the p-value of the psi distance. Only relevant when `p_value = TRUE`. Default: 100.
 #' @examples
 #'
@@ -33,11 +34,12 @@ distantia <- function(
     method = c("euclidean", "manhattan"),
     diagonal = c(FALSE, TRUE),
     weighted = c(FALSE, TRUE),
-    trim_blocks = c(FALSE, TRUE),
+    ignore_blocks = c(FALSE, TRUE),
     paired_samples = FALSE,
     p_value = FALSE,
-    block_size = c(10),
+    block_size = c(2, 3, 4),
     seed = 1,
+    independent_columns = TRUE,
     repetitions = 100
 ){
 
@@ -122,7 +124,7 @@ distantia <- function(
     method = method,
     diagonal = diagonal,
     weighted = weighted,
-    trim_blocks = trim_blocks,
+    ignore_blocks = ignore_blocks,
     stringsAsFactors = FALSE
   ) |>
     dplyr::mutate(
@@ -147,47 +149,49 @@ distantia <- function(
     if(paired_samples == TRUE){
 
       psi_distance <- psi_paired_cpp(
-        a,
-        b,
-        df$method[i]
+        a = a,
+        b = b,
+        method = df$method[i]
       )
 
       if(p_value == TRUE){
 
         psi_null <- null_psi_paired_cpp(
-          a,
-          b,
-          df$method[i],
-          block_size,
-          seed,
-          repetitions
+          a = a,
+          b = b,
+          method = df$method[i],
+          block_size = block_size,
+          seed = seed,
+          independent_columns = independent_columns,
+          repetitions = repetitions
         )
 
       }
 
     } else {
 
-      psi_distance <- psi_full_cpp(
-        a,
-        b,
-        df$method[i],
-        df$diagonal[i],
-        df$weighted[i],
-        df$trim_blocks[i]
+      psi_distance <- psi_cpp(
+        a = a,
+        b = b,
+        method = df$method[i],
+        diagonal = df$diagonal[i],
+        weighted = df$weighted[i],
+        ignore_blocks = df$ignore_blocks[i]
       )
 
       if(p_value == TRUE){
 
-        psi_null <- null_psi_full_cpp(
-          a,
-          b,
-          df$method[i],
-          df$diagonal[i],
-          df$weighted[i],
-          df$trim_blocks[i],
-          block_size,
-          seed,
-          repetitions
+        psi_null <- null_psi_cpp(
+          a = a,
+          b = b,
+          method = df$method[i],
+          diagonal = df$diagonal[i],
+          weighted = df$weighted[i],
+          ignore_blocks = df$ignore_blocks[i],
+          block_size = block_size,
+          seed  = seed,
+          independent_columns = independent_columns,
+          repetitions = repetitions
         )
 
       }
@@ -198,7 +202,7 @@ distantia <- function(
     df$psi[i] <- psi_distance
     df$null_mean[i] <- mean(psi_null)
     df$null_sd[i] <- sd(psi_null)
-    df$p_value[i] <- sum(psi_null < psi_distance) / repetitions
+    df$p_value[i] <- sum(psi_null <= psi_distance) / repetitions
 
   } #end of iterations
 

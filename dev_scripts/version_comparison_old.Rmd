@@ -169,6 +169,8 @@ old_sequence_sum
 
 ## Psi
 
+Both versions yield the same result
+
 ```{r}
 old_dissimilarity <- psi(
   least.cost = old_cost_sum,
@@ -179,41 +181,42 @@ old_dissimilarity[[1]]
 
 ## Complete psi computation
 
+### With diagonals
+
+Both versions yield the same results
+
 ```{r}
-dissimilarity <- workflowPsi(
+old_dissimilarity <- workflowPsi(
   sequences = sequences,
   grouping.column = "id",
   method = "euclidean",
   format = "list",
-  diagonal = FALSE,
-  ignore.blocks = TRUE
+  diagonal = TRUE,
+  ignore.blocks = FALSE
 )
-dissimilarity[[1]]
+old_dissimilarity[[1]]
 ```
 
 ## P-value
 
 ```{r}
-p_value <- workflowNullPsi(
+old_p_value <- workflowNullPsi(
   sequences = sequences,
   grouping.column = "id",
   method = "euclidean",
   diagonal = FALSE,
-  ignore.blocks = TRUE,
+  ignore.blocks = FALSE,
   repetitions = 99,
   parallel.execution = TRUE
 )
+old_p_value$p
 ```
 
 ### Distribution
 
 ```{r}
-p_value$psi[1, ]
-```
-### P-value
-
-```{r}
-p_value$p[["p"]]
+old_null_values <- as.numeric(old_p_value$psi[1, 4:ncol(old_p_value$psi)])
+old_null_values
 ```
 
 ## Importance

@@ -4,7 +4,7 @@
 #'
 #' @param a (required, data frame) a time series. Default: NULL.
 #' @param b (required, data frame) a time series. Default: NULL.
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [trim_blocks()] has been applied to `path`. Default: NULL.
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [ignore_blocks()] has been applied to `path`. Default: NULL.
 #' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
 #' @return Named vector with the auto sums of `a` and `b`.
 #' @examples

@@ -59,7 +59,7 @@ ab_importance <- importance_full_cpp(
   method = "euclidean",
   diagonal = TRUE,
   weighted = FALSE,
-  trim_blocks = TRUE
+  ignore_blocks = TRUE
 )
 
 ab_importance

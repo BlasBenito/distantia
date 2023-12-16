@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_sum_cpp}
 \alias{cost_path_sum_cpp}
-\title{Sum of Least Cost Distance}
+\title{Sum of Least Cost Distance Times Two}
 \usage{
 cost_path_sum_cpp(path)
 }
@@ -13,5 +13,5 @@ cost_path_sum_cpp(path)
 Sum of distances
 }
 \description{
-Sum of Least Cost Distance
+Sum of Least Cost Distance Times Two
 }

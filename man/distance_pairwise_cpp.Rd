@@ -2,9 +2,9 @@
 % Please edit documentation in R/RcppExports.R
 \name{distance_pairwise_cpp}
 \alias{distance_pairwise_cpp}
-\title{Distance Matrix}
+\title{Sum of Pairwise Distances Between Paired Sequences}
 \usage{
-distance_pairwise_cpp(a, b, method)
+distance_pairwise_cpp(a, b, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
@@ -19,7 +19,7 @@ of the dataset `methods`. Default: "euclidean".}
 Vector of distances between 'a' (rows) and 'b' (columns).
 }
 \description{
-Computes the vector of distances between paired rows in two
+Computes the sum of distances between paired rows in two
 sequences of the same length.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should

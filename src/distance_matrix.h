@@ -7,13 +7,13 @@
 Rcpp::NumericMatrix distance_matrix_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 );
 
-Rcpp::NumericVector distance_pairwise_cpp(
+double distance_pairwise_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 );
 
 #endif // DISTANCE_MATRIX_CPP_H

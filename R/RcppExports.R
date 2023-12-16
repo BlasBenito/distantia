@@ -14,7 +14,7 @@
 #'  of the dataset `methods`. Default: "euclidean".
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
-auto_distance_cpp <- function(m, method) {
+auto_distance_cpp <- function(m, method = "euclidean") {
     .Call(`_distantia_auto_distance_cpp`, m, method)
 }
 
@@ -37,9 +37,9 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
 #' @param method (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
 #' of the dataset `methods`. Default: "euclidean".
-#' @return Numeric.
+#' @return Auto sum of distances.
 #' @export
-auto_sum_no_path_cpp <- function(a, b, method) {
+auto_sum_no_path_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_auto_sum_no_path_cpp`, a, b, method)
 }
 
@@ -55,7 +55,7 @@ auto_sum_no_path_cpp <- function(a, b, method) {
 #' of the dataset `methods`. Default: "euclidean".
 #' @return Numeric.
 #' @export
-auto_sum_path_cpp <- function(a, b, path, method) {
+auto_sum_path_cpp <- function(a, b, path, method = "euclidean") {
     .Call(`_distantia_auto_sum_path_cpp`, a, b, path, method)
 }
 
@@ -118,7 +118,7 @@ cost_path_trim_cpp <- function(path) {
     .Call(`_distantia_cost_path_trim_cpp`, path)
 }
 
-#' Sum of Least Cost Distance
+#' Sum of Least Cost Distance Times Two
 #' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
 #' @return Sum of distances
 #' @export
@@ -141,12 +141,12 @@ cost_path_sum_cpp <- function(path) {
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
 #' @name distance_matrix_cpp
-distance_matrix_cpp <- function(a, b, method) {
+distance_matrix_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_distance_matrix_cpp`, a, b, method)
 }
 
-#' Distance Matrix
-#' @description Computes the vector of distances between paired rows in two
+#' Sum of Pairwise Distances Between Paired Sequences
+#' @description Computes the sum of distances between paired rows in two
 #' sequences of the same length.
 #' NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -158,7 +158,7 @@ distance_matrix_cpp <- function(a, b, method) {
 #' of the dataset `methods`. Default: "euclidean".
 #' @return Vector of distances between 'a' (rows) and 'b' (columns).
 #' @export
-distance_pairwise_cpp <- function(a, b, method) {
+distance_pairwise_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_distance_pairwise_cpp`, a, b, method)
 }
 
@@ -302,7 +302,7 @@ delete_column_cpp <- function(x, column_index) {
 #' of the dataset `methods`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-importance_paired_cpp <- function(a, b, method) {
+importance_paired_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_importance_paired_cpp`, a, b, method)
 }
 
@@ -318,26 +318,100 @@ importance_paired_cpp <- function(a, b, method) {
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_full_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_blocks = FALSE) {
-    .Call(`_distantia_importance_full_cpp`, a, b, method, diagonal, weighted, trim_blocks)
+importance_full_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_full_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
-#' Restricted permutation
-#' @description Divides a sequence or time-series in blocks and permutes rows
-#' within these blocks. Used to compute p-values for psi distances. Larger block
-#' sizes disrupt the time-series structure in the data.
+#' Restricted Permutation by Blocks
+#' @description Divides a matrix in blocks of a given size and permutes rows
+#' within these blocks. Used to compute null distributions for psi distances.
+#' Larger block sizes increasingly disrupt data structure over time.
 #' @param x (required, numeric matrix). Numeric matrix to permute.
 #' @param block_size (optional, integer) block size in number of rows.
 #' Minimum value is 2, and maximum value is nrow(x).
 #' @param seed (optional, integer) random seed to use.
 #' @return Numeric matrix, permuted version of x.
 #' @export
-permute <- function(x, block_size, seed = 1L) {
-    .Call(`_distantia_permute`, x, block_size, seed)
+permute_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_cpp`, x, block_size, seed)
+}
+
+#' Restricted Permutation by Blocks and Columns
+#' @description Divides a sequence or time-series in blocks and permutes cases
+#' within these blocks, but independently by column.
+#' Used to compute p-values for psi distances when columns are independent.
+#' Larger block sizes increasingly disrupt data structure over time.
+#' @param x (required, numeric matrix). Numeric matrix to permute.
+#' @param block_size (optional, integer) block size in number of rows.
+#' Minimum value is 2, and maximum value is nrow(x).
+#' @param seed (optional, integer) random seed to use.
+#' @return Numeric matrix, permuted version of x.
+#' @export
+permute_independent_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_independent_cpp`, x, block_size, seed)
+}
+
+#' Generates Least Cost Path
+#' @description Least cost path between two sequences \code{a} and \code{b}
+#' with the same number of columns and arbitrary numbers of rows to compute the
+#' ABbetween component of the psi dissimilarity computation.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Data frame with least cost path
+#' @export
+psi_cost_path_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_cost_path_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+}
+
+#' Auto Sum of Two Sequences
+#' @description Cumulative sum times two of two sequences \code{a} and \code{b}
+#' with the same number of columns and arbitrary numbers of rows to compute the
+#' ABwithin component of the psi dissimilarity computation. This component is
+#' used to normalize the least cost distance between the sequences.
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param path (required, data frame) dataframe produced by [cost_path()].
+#' Default: NULL
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Auto sum of matrices a and b.
+#' @export
+psi_auto_sum_cpp <- function(a, b, path, method = "euclidean", ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_auto_sum_cpp`, a, b, path, method, ignore_blocks)
+}
+
+#' Psi Dissimilarity Metric
+#' @description Computes the psi dissimilarity score between two sequences from
+#' their least cost path and their auto sums.
+#' @param path (required, data frame) dataframe produced by [cost_path()].
+#' Default: NULL
+#' @param autosum (required, numeric) auto sum of both sequences,
+#' result of psi_auto_sum_cpp().
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @return Numeric, psi dissimilarity
+#' @export
+psi_formula_cpp <- function(path, auto_sum, diagonal = FALSE) {
+    .Call(`_distantia_psi_formula_cpp`, path, auto_sum, diagonal)
 }
 
 #' Computes Psi Distance Between Two Time-Series With Paired Samples
@@ -355,31 +429,8 @@ permute <- function(x, block_size, seed = 1L) {
 #' of the dataset `methods`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-psi_paired_cpp <- function(a, b, method) {
+psi_paired_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_psi_paired_cpp`, a, b, method)
-}
-
-#' Computes Psi Distance Between Two Time-Series
-#' @description Computes the distance psi between two matrices
-#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
-#' NA values should be removed before using this function.
-#' If the selected distance function is "chi" or "cosine", pairs of zeros should
-#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-#' @param a (required, numeric matrix).
-#' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
-#' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
-#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-#' computation of the cost matrix. Default: FALSE.
-#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
-#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @return Psi distance
-#' @export
-psi_full_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_blocks = FALSE) {
-    .Call(`_distantia_psi_full_cpp`, a, b, method, diagonal, weighted, trim_blocks)
 }
 
 #' Computes Null Distribution of Psi Distances Between Two Time-Series With Paired Samples
@@ -399,11 +450,13 @@ psi_full_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
 #' within a block of 3 adjacent rows. Default: c(2, 3, 4).
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
+#' and independently across columns. Useful when the columns are independent.
 #' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 #' @return Psi distance
 #' @export
-null_psi_paired_cpp <- function(a, b, method, block_size = as.integer( c(2, 3, 4)), seed = 1L, repetitions = 100L) {
-    .Call(`_distantia_null_psi_paired_cpp`, a, b, method, block_size, seed, repetitions)
+null_psi_paired_cpp <- function(a, b, method = "euclidean", block_size = as.integer( c(2, 3, 4)), seed = 1L, independent_columns = TRUE, repetitions = 100L) {
+    .Call(`_distantia_null_psi_paired_cpp`, a, b, method, block_size, seed, independent_columns, repetitions)
 }
 
 #' Computes Psi Distance Between Two Time-Series
@@ -421,17 +474,42 @@ null_psi_paired_cpp <- function(a, b, method, block_size = as.integer( c(2, 3, 4
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Psi distance
+#' @export
+psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+}
+
+#' Computes Psi Distance Between Two Time-Series
+#' @description Computes the distance psi between two matrices
+#' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+#' NA values should be removed before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. This argument
 #' has nothing to do with block_size!. Default: FALSE.
 #' @param block_size (optional, integer vector) vector with block sizes for the
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
-#' within a block of 3 adjacent rows. Default: c(2, 3, 4).
+#' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
+#' and independently across columns. Useful when the columns are independent.
 #' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 #' @return Psi distance
 #' @export
-null_psi_full_cpp <- function(a, b, method, diagonal = FALSE, weighted = FALSE, trim_blocks = FALSE, block_size = as.integer( c(2, 3, 4)), seed = 1L, repetitions = 100L) {
-    .Call(`_distantia_null_psi_full_cpp`, a, b, method, diagonal, weighted, trim_blocks, block_size, seed, repetitions)
+null_psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, block_size = as.integer( c(2, 3, 4)), seed = 1L, independent_columns = TRUE, repetitions = 100L) {
+    .Call(`_distantia_null_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks, block_size, seed, independent_columns, repetitions)
 }
 

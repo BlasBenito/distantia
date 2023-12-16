@@ -6,34 +6,34 @@
 double psi_paired_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
-        Rcpp::Nullable<std::string> method
+        const std::string& method = "euclidean"
 );
 
-double psi_full_cpp(
+double psi_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
-        Rcpp::Nullable<std::string> method,
+        const std::string& method = "euclidean",
         bool diagonal = false,
         bool weighted = false,
-        bool trim_blocks = false
+        bool ignore_blocks = false
 );
 
 Rcpp::NumericVector null_psi_paired_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
-        Rcpp::Nullable<std::string> method,
+        const std::string& method = "euclidean",
         Rcpp::IntegerVector block_size = Rcpp::IntegerVector::create(2, 3, 4),
         int seed = 1,
         int repetitions = 100
 );
 
-Rcpp::NumericVector null_psi_full_cpp(
+Rcpp::NumericVector null_psi_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
-        Rcpp::Nullable<std::string> method,
+        const std::string& method = "euclidean",
         bool diagonal = false,
         bool weighted = false,
-        bool trim_blocks = false,
+        bool ignore_blocks = false,
         Rcpp::IntegerVector block_size = Rcpp::IntegerVector::create(2, 3, 4),
         int seed = 1,
         int repetitions = 100

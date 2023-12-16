@@ -4,7 +4,7 @@
 \alias{distance_matrix_cpp}
 \title{Distance Matrix}
 \usage{
-distance_matrix_cpp(a, b, method)
+distance_matrix_cpp(a, b, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}

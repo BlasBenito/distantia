@@ -48,7 +48,7 @@ testthat::test_that("Distantia", {
       b,
       method = method.i,
       weighted = TRUE,
-      trim_blocks = TRUE
+      ignore_blocks = TRUE
       )
 
     testthat::expect_true(

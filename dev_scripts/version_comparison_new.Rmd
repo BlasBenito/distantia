@@ -22,6 +22,8 @@ library(distantia)
 #Preparing comparison data
 
 ```{r}
+library(distantia)
+
 data(sequenceA)
 data(sequenceB)
 
@@ -111,9 +113,6 @@ sum(path_diagonal$cost)
 
 This version is better than the older one.
 
-
-
-
 ```{r}
 path_no_blocks <- cost_path_trim_cpp(
     path = path
@@ -145,6 +144,7 @@ cost_sum <- cost_path_sum_cpp(
   )
 cost_sum
 ```
+
 ### Full path
 
 Both versions are identical here
@@ -173,6 +173,7 @@ sequence_sum <- auto_sum_path_cpp(
   )
 sequence_sum
 ```
+
 ### Full path
 
 Both versions return identical results
@@ -188,22 +189,11 @@ sequence_sum
 
 ## Psi
 
-There is something very wrong here, as the result should be 2.07
-
-```{r}
-old_cost_sum
-cost_sum
-old_sequence_sum
-sequence_sum
-
-((old_cost_sum[[1]] * 2) - old_sequence_sum[[1]]) / old_sequence_sum[[1]]
-
-((cost_sum * 2) - sequence_sum) / sequence_sum
-```
+Both versions yield the same result
 
 
 ```{r}
-dissimilarity <- psi_full_cpp(
+dissimilarity <- psi_cpp(
   a, b, "euclidean", FALSE, FALSE, FALSE
   )
 dissimilarity
@@ -211,41 +201,60 @@ dissimilarity
 
 ## Complete psi computation
 
+### With diagonals
+
+Both versions yield the same results
+
 ```{r}
-dissimilarity <- workflowPsi(
-  sequences = sequences,
-  grouping.column = "id",
-  method = "euclidean",
-  format = "list",
-  diagonal = FALSE,
-  ignore.blocks = TRUE
-)
-dissimilarity[[1]]
+dissimilarity <- psi_cpp(
+  a = a, 
+  b = b, 
+  method = "euclidean", 
+  diagonal = TRUE, 
+  weighted = FALSE, 
+  ignore_blocks = FALSE
+  )
+dissimilarity
 ```
+
+
 ## P-value
 
 ```{r}
-p_value <- workflowNullPsi(
-  sequences = sequences,
-  grouping.column = "id",
-  method = "euclidean",
-  diagonal = FALSE,
-  ignore.blocks = TRUE,
-  repetitions = 99,
-  parallel.execution = TRUE
-)
+p_value <- distantia(
+  a = a, 
+  b = b, 
+  method = "euclidean", 
+  diagonal = FALSE, 
+  weighted = FALSE, 
+  ignore_blocks = TRUE,
+  p_value = TRUE,
+  block_size = 2,
+  seed = 200,
+  independent_columns = FALSE,
+  repetitions = 100
+  )
+p_value$p_value
 ```
 
 ### Distribution
 
 ```{r}
-p_value$psi[1, ]
+null_values <- null_psi_cpp(
+  a, 
+  b, 
+  method = "euclidean", 
+  diagonal = FALSE, 
+  weighted = FALSE, 
+  ignore_blocks = FALSE,
+  block_size = 1,
+  seed = 1,
+  independent = FALSE,
+  repetitions = 1000
+  )
+null_values
 ```
-### P-value
 
-```{r}
-p_value$p[["p"]]
-```
 
 ## Importance
 

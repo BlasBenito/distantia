@@ -275,7 +275,7 @@ double distance_hamming_cpp(NumericVector x, NumericVector y) {
 typedef double (*DistanceFunction)(NumericVector, NumericVector);
 
 // Internal function to select a distance function
-DistanceFunction distance_function(const std::string& method) {
+DistanceFunction distance_function(const std::string& method = "euclidean") {
   if (method == "manhattan" || method.substr(0, 3) == "man") {
     return &distance_manhattan_cpp;
   } else if (method == "euclidean" || method.substr(0, 3) == "euc") {
@@ -297,14 +297,10 @@ DistanceFunction distance_function(const std::string& method) {
   } else if (method == "chi") {
     return &distance_chi_cpp;
   } else {
-    Rcpp::stop("Invalid method. Supported methods: manhattan, euclidean, hellinger, chi");
+    Rcpp::stop("Invalid distance method.");
   }
 }
 
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
 
 /*** R
 #generating data

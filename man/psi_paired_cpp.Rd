@@ -4,7 +4,7 @@
 \alias{psi_paired_cpp}
 \title{Computes Psi Distance Between Two Time-Series With Paired Samples}
 \usage{
-psi_paired_cpp(a, b, method)
+psi_paired_cpp(a, b, method = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}

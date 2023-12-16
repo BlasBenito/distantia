@@ -7,9 +7,10 @@
 null_psi_paired_cpp(
   a,
   b,
-  method,
+  method = "euclidean",
   block_size = as.integer(c(2, 3, 4)),
   seed = 1L,
+  independent_columns = TRUE,
   repetitions = 100L
 )
 }
@@ -27,6 +28,9 @@ restricted permutation. A block size of 3 indicates that a row can only be permu
 within a block of 3 adjacent rows. Default: c(2, 3, 4).}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability. Default: 1}
+
+\item{independent_columns}{(optional, logical) if TRUE, rows are permuted within blocks,
+and independently across columns. Useful when the columns are independent.}
 
 \item{repetitions}{(optional, integer) number of null psi values to generate. Default: 100}
 }

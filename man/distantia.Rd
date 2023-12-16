@@ -10,11 +10,12 @@ distantia(
   method = c("euclidean", "manhattan"),
   diagonal = c(FALSE, TRUE),
   weighted = c(FALSE, TRUE),
-  trim_blocks = c(FALSE, TRUE),
+  ignore_blocks = c(FALSE, TRUE),
   paired_samples = FALSE,
   p_value = FALSE,
-  block_size = c(10),
+  block_size = c(2, 3, 4),
   seed = 1,
+  independent_columns = TRUE,
   repetitions = 100
 )
 }
@@ -29,7 +30,7 @@ distantia(
 
 \item{weighted}{If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 
-\item{trim_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
 \item{paired_samples}{(optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
@@ -38,6 +39,8 @@ distantia(
 \item{block_size}{(optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. Only relevant when `p_value = TRUE`. Default: c(2, 3, 4).}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability. Only relevant when `p_value = TRUE`. Default: 1}
+
+\item{independent_columns}{(optional, logical) if TRUE, rows are permuted within blocks and independently across columns. Useful when the columns in the time-series are independent. Default: TRUE}
 
 \item{repetitions}{(optional, integer) number of permutations to compute the p-value of the psi distance. Only relevant when `p_value = TRUE`. Default: 100.}
 }

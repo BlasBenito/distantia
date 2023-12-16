@@ -59,7 +59,7 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 DataFrame importance_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method
+    const std::string& method = "euclidean"
 ){
 
   // Check dimensions of a and b
@@ -130,7 +130,7 @@ DataFrame importance_paired_cpp(
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-//' @param trim_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return Data frame with psi distances
 //' @export
@@ -138,10 +138,10 @@ DataFrame importance_paired_cpp(
 DataFrame importance_full_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    Rcpp::Nullable<std::string> method,
+    const std::string& method = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool trim_blocks = false
+    bool ignore_blocks = false
 ){
 
   // Check dimensions of a and b
@@ -155,13 +155,13 @@ DataFrame importance_full_cpp(
   NumericVector psi_without(a.ncol());
 
   //compute psi with all variables
-  double psi_all_variables = psi_full_cpp(
+  double psi_all_variables = psi_cpp(
     a,
     b,
     method,
     diagonal,
     weighted,
-    trim_blocks
+    ignore_blocks
   );
 
   //iterate over columns
@@ -175,13 +175,13 @@ DataFrame importance_full_cpp(
     NumericMatrix b_only_with = select_column_cpp(b, i);
 
     //compute psi for the column i
-    psi_only_with[i] = psi_full_cpp(
+    psi_only_with[i] = psi_cpp(
       a_only_with,
       b_only_with,
       method,
       diagonal,
       weighted,
-      trim_blocks
+      ignore_blocks
     );
 
     //create subsets
@@ -189,13 +189,13 @@ DataFrame importance_full_cpp(
     NumericMatrix b_without = delete_column_cpp(b, i);
 
     //compute psi without the column i
-    psi_without[i] = psi_full_cpp(
+    psi_without[i] = psi_cpp(
       a_without,
       b_without,
       method,
       diagonal,
       weighted,
-      trim_blocks
+      ignore_blocks
     );
 
   }
@@ -240,7 +240,7 @@ ab_importance <- importance_full_cpp(
   method = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
-  trim_blocks = FALSE
+  ignore_blocks = FALSE
 )
 
 ab_importance
