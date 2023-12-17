@@ -6,12 +6,14 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 NumericMatrix select_column_cpp(NumericMatrix x, int column_index) {
 
-  int rows = x.nrow();
+  NumericMatrix x_ = Rcpp::clone(x);
+
+  int rows = x_.nrow();
 
   NumericMatrix result(rows, 1);
 
   for (int i = 0; i < rows; ++i) {
-    result(i, 0) = x(i, column_index);
+    result(i, 0) = x_(i, column_index);
   }
 
   return result;
@@ -21,15 +23,14 @@ NumericMatrix select_column_cpp(NumericMatrix x, int column_index) {
 // [[Rcpp::export]]
 NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 
-  int rows = x.nrow();
-  int cols = x.ncol() - 1;
+  NumericMatrix x_ = Rcpp::clone(x);
 
-  NumericMatrix result(rows, cols);
+  NumericMatrix result(x_.nrow(), x_.ncol() - 1);
 
-  for (int j = 0; j < x.nrow(); ++j) {
-    for (int k = 0, l = 0; k < x.ncol(); ++k) {
+  for (int j = 0; j < x_.nrow(); ++j) {
+    for (int k = 0, l = 0; k < x_.ncol(); ++k) {
       if (k != column_index) {
-        result(j, l) = x(j, k);
+        result(j, l) = x_(j, k);
         ++l;
       }
     }
@@ -40,7 +41,7 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 }
 
 
-//' Computes Psi Distance Between Two Time-Series With Paired Samples
+//' Contribution of Individual Columns to Overall Psi Distance for Paired Sequences
 //' @description Computes the distance psi between two matrices
 //' \code{a} and \code{b} with the same number of columns and rows. Distances
 //' between \code{a} and \code{b} are computed row wise rather than via distance
@@ -135,7 +136,7 @@ DataFrame importance_paired_cpp(
 //' @return Data frame with psi distances
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_full_cpp(
+DataFrame importance_cpp(
     NumericMatrix a,
     NumericMatrix b,
     const std::string& method = "euclidean",
@@ -218,33 +219,43 @@ DataFrame importance_full_cpp(
 /*** R
 library(distantia)
 
-a <- sequenceA |>
-  na.omit() |>
-  as.matrix()
+data(sequenceA)
+data(sequenceB)
+method = "euclidean"
 
-b <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-ab_names <- intersect(
-  x = colnames(a),
-  y = colnames(b)
+sequences <- prepareSequences(
+  sequence.A = sequenceA,
+  sequence.B = sequenceB,
+  merge.mode = "overlap",
+  if.empty.cases = "omit",
+  transformation = "hellinger"
 )
 
-b <- b[, ab_names]
-a <- a[, ab_names]
+a <- sequences |>
+  dplyr::filter(
+    id == "A"
+  ) |>
+  dplyr::select(-id) |>
+  as.matrix()
 
-ab_importance <- importance_full_cpp(
+b <- sequences |>
+  dplyr::filter(
+    id == "B"
+  ) |>
+  dplyr::select(-id) |>
+  as.matrix()
+
+psi_cpp(a, b)
+
+ab_importance <- importance_cpp(
   a,
   b,
-  method = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
-  ignore_blocks = FALSE
+  method
 )
 
 ab_importance
 
+#paired
 a <- a[1:nrow(b), ]
 
 ab_importance <- importance_paired_cpp(

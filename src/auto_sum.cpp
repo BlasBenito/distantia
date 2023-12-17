@@ -21,7 +21,7 @@ double auto_distance_cpp(
     const std::string& method = "euclidean"
 ){
 
-  DistanceFunction f = distance_function(method);
+  DistanceFunction f = select_distance_function_cpp(method);
 
   int m_rows = m.nrow();
   double dist = 0.0;

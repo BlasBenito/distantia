@@ -205,11 +205,9 @@ double psi_paired_cpp(
 }
 
 
-//' Computes Null Distribution of Psi Distances Between Two Time-Series With Paired Samples
-//' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and rows. Distances
-//' between \code{a} and \code{b} are computed row wise rather than via distance
-//' matrix and least-cost path computation.
+//' Null Distribution of Psi Distances Between Two Paired Time-Series
+//' @description Computes null psi distances for permuted versions of the paired sequences
+//' \code{a} and \code{b} with the same number of rows and columns.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
@@ -218,34 +216,41 @@ double psi_paired_cpp(
 //' @param method (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `methods`. Default: "euclidean".
-//' @param block_size (optional, integer vector) vector with block sizes for the
-//' restricted permutation. A block size of 3 indicates that a row can only be permuted
-//' within a block of 3 adjacent rows. Default: c(2, 3, 4).
-//' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-//' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
-//' and independently across columns. Useful when the columns are independent.
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
-//' @return Psi distance
+//' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+//' \itemize{
+//'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+//'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+//'   \item "restricted": restricted shuffling of rows and columns within blocks.
+//'   \item "restricted_by_row": restricted shuffling of rows within blocks.
+//' }
+//' @param block_size (optional, integer vector) vector with block sizes for
+//' restricted permutation. A block size of 3 indicates that a row can only be permuted
+//' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+//' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+//' @return Numeric vector with null distribution of psi distances.
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
     const std::string& method = "euclidean",
+    int repetitions = 100,
+    const std::string& permutation = "restricted_by_row",
     IntegerVector block_size = IntegerVector::create(2, 3, 4),
-    int seed = 1,
-    bool independent_columns = true,
-    int repetitions = 100
+    int seed = 1
 ){
 
-  // Use the integer seed value
-  std::srand(seed);
+  // Select permutation function
+  PermutationFunction permutation_function = select_permutation_function_cpp(
+    permutation
+  );
 
-  // Calculate the minimum number of rows between matrices a and b
-  int min_rows = std::min(a.nrow(), b.nrow());
+  // Minimum number of repetitions
+  if (repetitions < 2) {
+    repetitions = 2;
+  }
 
-  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
-  block_size = block_size[block_size <= min_rows];
 
   // Create numeric vector to store Psi distances
   NumericVector psi_null(repetitions);
@@ -267,13 +272,14 @@ NumericVector null_psi_paired_cpp(
   //compute psi
   psi_null[0] = ((cost_path_sum  - ab_sum) / ab_sum) + 1;
 
-  //select the permutation function
-  NumericMatrix (*permute_function)(NumericMatrix, int, int);
-  if (independent_columns){
-    permute_function = permute_independent_cpp;
-  } else{
-    permute_function = permute_cpp;
-  }
+  // Calculate the minimum number of rows between matrices a and b
+  int min_rows = std::min(a.nrow(), b.nrow());
+
+  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
+  block_size = block_size[block_size <= min_rows];
+
+  // Use the integer seed value
+  std::srand(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
@@ -284,22 +290,19 @@ NumericVector null_psi_paired_cpp(
     }
 
     // Select a block size
-    int block_size_a = block_size[rand() % block_size.size()];
+    int block_size_i = block_size[rand() % block_size.size()];
 
     // Permute matrix a
-    NumericMatrix permuted_a = permute_function(
+    NumericMatrix permuted_a = permutation_function(
       a,
-      block_size_a,
+      block_size_i,
       seed + i
     );
 
-    // Select a block size
-    int block_size_b = block_size[rand() % block_size.size()];
-
     // Permute matrix b
-    NumericMatrix permuted_b = permute_function(
+    NumericMatrix permuted_b = permutation_function(
       b,
-      block_size_b,
+      block_size_i,
       seed + i + 1
     );
 
@@ -380,8 +383,9 @@ double psi_cpp(
 
 
 
-//' Computes Psi Distance Between Two Time-Series
-//' @description Computes the distance psi between two matrices
+
+//' Null Distribution of Psi Distances Between Two Time-Series
+//' @description Computes null psi distances for permuted versions of the sequences
 //' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -398,14 +402,19 @@ double psi_cpp(
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. This argument
 //' has nothing to do with block_size!. Default: FALSE.
-//' @param block_size (optional, integer vector) vector with block sizes for the
+//' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
+//' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+//' \itemize{
+//'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+//'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+//'   \item "restricted": restricted shuffling of rows and columns within blocks.
+//'   \item "restricted_by_row": restricted shuffling of rows within blocks.
+//' }
+//' @param block_size (optional, integer vector) vector with block sizes for
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-//' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
-//' and independently across columns. Useful when the columns are independent.
-//' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
-//' @return Psi distance
+//' @return Numeric vector with null distribution of psi distances.
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_cpp(
@@ -415,17 +424,21 @@ NumericVector null_psi_cpp(
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false,
+    int repetitions = 100,
+    const std::string& permutation = "restricted_by_row",
     IntegerVector block_size = IntegerVector::create(2, 3, 4),
-    int seed = 1,
-    bool independent_columns = true,
-    int repetitions = 100
+    int seed = 1
 ){
 
-  // Calculate the minimum number of rows between matrices a and b
-  int min_rows = std::min(a.nrow(), b.nrow());
+  // Select permutation function
+  PermutationFunction permutation_function = select_permutation_function_cpp(
+    permutation
+  );
 
-  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
-  block_size = block_size[block_size <= min_rows];
+  // Minimum number of repetitions
+  if (repetitions < 2) {
+    repetitions = 2;
+  }
 
   // Create numeric vector to store Psi distances
   NumericVector psi_null(repetitions);
@@ -456,13 +469,11 @@ NumericVector null_psi_cpp(
     diagonal
   );
 
-  //select the permutation function
-  NumericMatrix (*permute_function)(NumericMatrix, int, int);
-  if (independent_columns){
-    permute_function = permute_independent_cpp;
-  } else{
-    permute_function = permute_cpp;
-  }
+  // Calculate the minimum number of rows between matrices a and b
+  int min_rows = std::min(a.nrow(), b.nrow());
+
+  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
+  block_size = block_size[block_size <= min_rows];
 
   // Use the seed value
   std::srand(seed);
@@ -471,15 +482,15 @@ NumericVector null_psi_cpp(
   for (int i = 1; i < repetitions; ++i) {
 
     // Checking interruption every 1000 iterations
-    if (i % 1000 == 0){
-      Rcpp::checkUserInterrupt();
-    }
+    // if (i % 1000 == 0){
+    //   Rcpp::checkUserInterrupt();
+    // }
 
     // Select a block size
     int block_size_a = block_size[rand() % block_size.size()];
 
     // Permute matrix a
-    NumericMatrix permuted_a = permute_function(
+    NumericMatrix permuted_a = permutation_function(
       a,
       block_size_a,
       seed + i
@@ -489,7 +500,7 @@ NumericVector null_psi_cpp(
     int block_size_b = block_size[rand() % block_size.size()];
 
     // Permute matrix b
-    NumericMatrix permuted_b = permute_function(
+    NumericMatrix permuted_b = permutation_function(
       b,
       block_size_b,
       seed + i + 1
@@ -518,8 +529,6 @@ NumericVector null_psi_cpp(
   return psi_null;
 
 }
-
-
 
 
 /*** R
@@ -551,38 +560,39 @@ b <- sequences |>
   dplyr::select(-id) |>
   as.matrix()
 
-psi_score <- psi_cpp(
+psi_cpp(
   a, b
 )
-psi_score
 
 null_values <- null_psi_cpp(
-  a, b, independent_columns = FALSE, repetitions = 1000
+  a, b, permutation = "free", seed = 100
 )
-min(null_values)
+range(null_values)
 mean(null_values)
-sum(null_values <= psi_score) / 1000
 
 null_values <- null_psi_cpp(
-  a, b, independent_columns = TRUE, repetitions = 1000
+  a, b, permutation = "free_by_row"
 )
-
-min(null_values)
+range(null_values)
 mean(null_values)
-sum(null_values <= psi_score) / 1000
 
-null_psi_cpp(
-  a, b, method, repetitions = 10, seed = 2
+null_values <- null_psi_cpp(
+  a, b, permutation = "free_by_row"
 )
+range(null_values)
+mean(null_values)
 
-null_psi_cpp(
-  a, b, method, repetitions = 10, seed = 2
+null_values <- null_psi_cpp(
+  a, b, permutation = "restricted"
 )
+range(null_values)
+mean(null_values)
 
-null_psi_cpp(
-  a, b, method, repetitions = 10, seed = 3
+null_values <- null_psi_cpp(
+  a, b, permutation = "restricted_by_row"
 )
-
+range(null_values)
+mean(null_values)
 
 
 */

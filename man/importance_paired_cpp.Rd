@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_paired_cpp}
 \alias{importance_paired_cpp}
-\title{Computes Psi Distance Between Two Time-Series With Paired Samples}
+\title{Contribution of Individual Columns to Overall Psi Distance for Paired Sequences}
 \usage{
 importance_paired_cpp(a, b, method = "euclidean")
 }

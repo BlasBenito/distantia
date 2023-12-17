@@ -275,7 +275,7 @@ double distance_hamming_cpp(NumericVector x, NumericVector y) {
 typedef double (*DistanceFunction)(NumericVector, NumericVector);
 
 // Internal function to select a distance function
-DistanceFunction distance_function(const std::string& method = "euclidean") {
+DistanceFunction select_distance_function_cpp(const std::string& method = "euclidean") {
   if (method == "manhattan" || method.substr(0, 3) == "man") {
     return &distance_manhattan_cpp;
   } else if (method == "euclidean" || method.substr(0, 3) == "euc") {

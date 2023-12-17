@@ -323,9 +323,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// importance_full_cpp
-DataFrame importance_full_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_full_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+// importance_cpp
+DataFrame importance_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -335,33 +335,59 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_full_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_cpp(a, b, method, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
-// permute_cpp
-NumericMatrix permute_cpp(NumericMatrix x, int block_size, int seed);
-RcppExport SEXP _distantia_permute_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+// permute_restricted_by_row_cpp
+NumericMatrix permute_restricted_by_row_cpp(NumericMatrix x, int block_size, int seed);
+RcppExport SEXP _distantia_permute_restricted_by_row_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(permute_cpp(x, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(permute_restricted_by_row_cpp(x, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
-// permute_independent_cpp
-NumericMatrix permute_independent_cpp(NumericMatrix x, int block_size, int seed);
-RcppExport SEXP _distantia_permute_independent_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+// permute_free_by_row_cpp
+NumericMatrix permute_free_by_row_cpp(NumericMatrix x, int block_size, int seed);
+RcppExport SEXP _distantia_permute_free_by_row_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(permute_independent_cpp(x, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(permute_free_by_row_cpp(x, block_size, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// permute_restricted_cpp
+NumericMatrix permute_restricted_cpp(NumericMatrix x, int block_size, int seed);
+RcppExport SEXP _distantia_permute_restricted_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(permute_restricted_cpp(x, block_size, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// permute_free_cpp
+NumericMatrix permute_free_cpp(NumericMatrix x, int block_size, int seed);
+RcppExport SEXP _distantia_permute_free_cpp(SEXP xSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(permute_free_cpp(x, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -423,19 +449,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // null_psi_paired_cpp
-NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, IntegerVector block_size, int seed, bool independent_columns, int repetitions);
-RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP block_sizeSEXP, SEXP seedSEXP, SEXP independent_columnsSEXP, SEXP repetitionsSEXP) {
+NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    Rcpp::traits::input_parameter< bool >::type independent_columns(independent_columnsSEXP);
-    Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(a, b, method, block_size, seed, independent_columns, repetitions));
+    rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(a, b, method, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -456,8 +482,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // null_psi_cpp
-NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks, IntegerVector block_size, int seed, bool independent_columns, int repetitions);
-RcppExport SEXP _distantia_null_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP block_sizeSEXP, SEXP seedSEXP, SEXP independent_columnsSEXP, SEXP repetitionsSEXP) {
+NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+RcppExport SEXP _distantia_null_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -467,11 +493,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
+    Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    Rcpp::traits::input_parameter< bool >::type independent_columns(independent_columnsSEXP);
-    Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_cpp(a, b, method, diagonal, weighted, ignore_blocks, block_size, seed, independent_columns, repetitions));
+    rcpp_result_gen = Rcpp::wrap(null_psi_cpp(a, b, method, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -503,9 +529,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
     {"_distantia_importance_paired_cpp", (DL_FUNC) &_distantia_importance_paired_cpp, 3},
-    {"_distantia_importance_full_cpp", (DL_FUNC) &_distantia_importance_full_cpp, 6},
-    {"_distantia_permute_cpp", (DL_FUNC) &_distantia_permute_cpp, 3},
-    {"_distantia_permute_independent_cpp", (DL_FUNC) &_distantia_permute_independent_cpp, 3},
+    {"_distantia_importance_cpp", (DL_FUNC) &_distantia_importance_cpp, 6},
+    {"_distantia_permute_restricted_by_row_cpp", (DL_FUNC) &_distantia_permute_restricted_by_row_cpp, 3},
+    {"_distantia_permute_free_by_row_cpp", (DL_FUNC) &_distantia_permute_free_by_row_cpp, 3},
+    {"_distantia_permute_restricted_cpp", (DL_FUNC) &_distantia_permute_restricted_cpp, 3},
+    {"_distantia_permute_free_cpp", (DL_FUNC) &_distantia_permute_free_cpp, 3},
     {"_distantia_psi_cost_path_cpp", (DL_FUNC) &_distantia_psi_cost_path_cpp, 6},
     {"_distantia_psi_auto_sum_cpp", (DL_FUNC) &_distantia_psi_auto_sum_cpp, 5},
     {"_distantia_psi_formula_cpp", (DL_FUNC) &_distantia_psi_formula_cpp, 3},

@@ -287,7 +287,7 @@ delete_column_cpp <- function(x, column_index) {
     .Call(`_distantia_delete_column_cpp`, x, column_index)
 }
 
-#' Computes Psi Distance Between Two Time-Series With Paired Samples
+#' Contribution of Individual Columns to Overall Psi Distance for Paired Sequences
 #' @description Computes the distance psi between two matrices
 #' \code{a} and \code{b} with the same number of columns and rows. Distances
 #' between \code{a} and \code{b} are computed row wise rather than via distance
@@ -322,37 +322,59 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_full_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_full_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
-#' Restricted Permutation by Blocks
-#' @description Divides a matrix in blocks of a given size and permutes rows
-#' within these blocks. Used to compute null distributions for psi distances.
-#' Larger block sizes increasingly disrupt data structure over time.
+#' Restricted Permutation of Complete Rows Within Blocks
+#' @description Divides a sequence in blocks of a given size and permutes rows
+#' within these blocks.
+#' Larger block sizes increasingly disrupt the data structure over time.
 #' @param x (required, numeric matrix). Numeric matrix to permute.
 #' @param block_size (optional, integer) block size in number of rows.
 #' Minimum value is 2, and maximum value is nrow(x).
 #' @param seed (optional, integer) random seed to use.
 #' @return Numeric matrix, permuted version of x.
 #' @export
-permute_cpp <- function(x, block_size, seed = 1L) {
-    .Call(`_distantia_permute_cpp`, x, block_size, seed)
+permute_restricted_by_row_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_restricted_by_row_cpp`, x, block_size, seed)
 }
 
-#' Restricted Permutation by Blocks and Columns
+#' Unrestricted Permutation of Complete Rows
+#' @description Unrestricted shuffling of rows within the whole sequence.
+#' @param x (required, numeric matrix). Numeric matrix to permute.
+#' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
+#' @param seed (optional, integer) random seed to use.
+#' @return Numeric matrix, permuted version of x.
+#' @export
+permute_free_by_row_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_free_by_row_cpp`, x, block_size, seed)
+}
+
+#' Restricted Permutation of Cases Within Blocks
 #' @description Divides a sequence or time-series in blocks and permutes cases
-#' within these blocks, but independently by column.
-#' Used to compute p-values for psi distances when columns are independent.
-#' Larger block sizes increasingly disrupt data structure over time.
+#' within these blocks. This function does not preserve rows, and should not be
+#' used if the sequence has dependent columns.
+#' Larger block sizes increasingly disrupt the data structure over time.
 #' @param x (required, numeric matrix). Numeric matrix to permute.
 #' @param block_size (optional, integer) block size in number of rows.
 #' Minimum value is 2, and maximum value is nrow(x).
 #' @param seed (optional, integer) random seed to use.
 #' @return Numeric matrix, permuted version of x.
 #' @export
-permute_independent_cpp <- function(x, block_size, seed = 1L) {
-    .Call(`_distantia_permute_independent_cpp`, x, block_size, seed)
+permute_restricted_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_restricted_cpp`, x, block_size, seed)
+}
+
+#' Unrestricted Permutation of Cases
+#' @description Unrestricted shuffling of cases within the whole sequence.
+#' @param x (required, numeric matrix). Numeric matrix to permute.
+#' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
+#' @param seed (optional, integer) random seed to use.
+#' @return Numeric matrix, permuted version of x.
+#' @export
+permute_free_cpp <- function(x, block_size, seed = 1L) {
+    .Call(`_distantia_permute_free_cpp`, x, block_size, seed)
 }
 
 #' Generates Least Cost Path
@@ -433,11 +455,9 @@ psi_paired_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_psi_paired_cpp`, a, b, method)
 }
 
-#' Computes Null Distribution of Psi Distances Between Two Time-Series With Paired Samples
-#' @description Computes the distance psi between two matrices
-#' \code{a} and \code{b} with the same number of columns and rows. Distances
-#' between \code{a} and \code{b} are computed row wise rather than via distance
-#' matrix and least-cost path computation.
+#' Null Distribution of Psi Distances Between Two Paired Time-Series
+#' @description Computes null psi distances for permuted versions of the paired sequences
+#' \code{a} and \code{b} with the same number of rows and columns.
 #' NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
@@ -446,17 +466,22 @@ psi_paired_cpp <- function(a, b, method = "euclidean") {
 #' @param method (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
 #' of the dataset `methods`. Default: "euclidean".
-#' @param block_size (optional, integer vector) vector with block sizes for the
-#' restricted permutation. A block size of 3 indicates that a row can only be permuted
-#' within a block of 3 adjacent rows. Default: c(2, 3, 4).
-#' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
-#' and independently across columns. Useful when the columns are independent.
 #' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
-#' @return Psi distance
+#' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+#' \itemize{
+#'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+#'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+#'   \item "restricted": restricted shuffling of rows and columns within blocks.
+#'   \item "restricted_by_row": restricted shuffling of rows within blocks.
+#' }
+#' @param block_size (optional, integer vector) vector with block sizes for
+#' restricted permutation. A block size of 3 indicates that a row can only be permuted
+#' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+#' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
+#' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_paired_cpp <- function(a, b, method = "euclidean", block_size = as.integer( c(2, 3, 4)), seed = 1L, independent_columns = TRUE, repetitions = 100L) {
-    .Call(`_distantia_null_psi_paired_cpp`, a, b, method, block_size, seed, independent_columns, repetitions)
+null_psi_paired_cpp <- function(a, b, method = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+    .Call(`_distantia_null_psi_paired_cpp`, a, b, method, repetitions, permutation, block_size, seed)
 }
 
 #' Computes Psi Distance Between Two Time-Series
@@ -482,8 +507,8 @@ psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FAL
     .Call(`_distantia_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
-#' Computes Psi Distance Between Two Time-Series
-#' @description Computes the distance psi between two matrices
+#' Null Distribution of Psi Distances Between Two Time-Series
+#' @description Computes null psi distances for permuted versions of the sequences
 #' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
 #' NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -500,16 +525,21 @@ psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FAL
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. This argument
 #' has nothing to do with block_size!. Default: FALSE.
-#' @param block_size (optional, integer vector) vector with block sizes for the
+#' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
+#' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+#' \itemize{
+#'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+#'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+#'   \item "restricted": restricted shuffling of rows and columns within blocks.
+#'   \item "restricted_by_row": restricted shuffling of rows within blocks.
+#' }
+#' @param block_size (optional, integer vector) vector with block sizes for
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
 #' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks,
-#' and independently across columns. Useful when the columns are independent.
-#' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
-#' @return Psi distance
+#' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, block_size = as.integer( c(2, 3, 4)), seed = 1L, independent_columns = TRUE, repetitions = 100L) {
-    .Call(`_distantia_null_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks, block_size, seed, independent_columns, repetitions)
+null_psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+    .Call(`_distantia_null_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
 }
 

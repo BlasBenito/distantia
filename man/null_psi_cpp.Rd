@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{null_psi_cpp}
 \alias{null_psi_cpp}
-\title{Computes Psi Distance Between Two Time-Series}
+\title{Null Distribution of Psi Distances Between Two Time-Series}
 \usage{
 null_psi_cpp(
   a,
@@ -11,10 +11,10 @@ null_psi_cpp(
   diagonal = FALSE,
   weighted = FALSE,
   ignore_blocks = FALSE,
+  repetitions = 100L,
+  permutation = "restricted_by_row",
   block_size = as.integer(c(2, 3, 4)),
-  seed = 1L,
-  independent_columns = TRUE,
-  repetitions = 100L
+  seed = 1L
 )
 }
 \arguments{
@@ -36,22 +36,27 @@ diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 coordinates are trimmed to avoid inflating the psi distance. This argument
 has nothing to do with block_size!. Default: FALSE.}
 
-\item{block_size}{(optional, integer vector) vector with block sizes for the
+\item{repetitions}{(optional, integer) number of null psi values to generate. Default: 100}
+
+\item{permutation}{(optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+\itemize{
+  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+  \item "restricted": restricted shuffling of rows and columns within blocks.
+  \item "restricted_by_row": restricted shuffling of rows within blocks.
+}}
+
+\item{block_size}{(optional, integer vector) vector with block sizes for
 restricted permutation. A block size of 3 indicates that a row can only be permuted
 within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability. Default: 1}
-
-\item{independent_columns}{(optional, logical) if TRUE, rows are permuted within blocks,
-and independently across columns. Useful when the columns are independent.}
-
-\item{repetitions}{(optional, integer) number of null psi values to generate. Default: 100}
 }
 \value{
-Psi distance
+Numeric vector with null distribution of psi distances.
 }
 \description{
-Computes the distance psi between two matrices
+Computes null psi distances for permuted versions of the sequences
 \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should

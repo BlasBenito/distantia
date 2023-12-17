@@ -25,7 +25,7 @@ NumericMatrix distance_matrix_cpp(
     const std::string& method = "euclidean"
 ){
 
-  DistanceFunction f = distance_function(method);
+  DistanceFunction f = select_distance_function_cpp(method);
 
   int an = a.nrow();
   int bn = b.nrow();
@@ -61,7 +61,7 @@ double distance_pairwise_cpp(
     const std::string& method = "euclidean"
 ){
 
-  DistanceFunction f = distance_function(method);
+  DistanceFunction f = select_distance_function_cpp(method);
 
   int an = a.nrow();
 

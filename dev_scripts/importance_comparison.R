@@ -53,7 +53,7 @@ b <- sequences |>
   dplyr::select(-MIS) |>
   as.matrix()
 
-ab_importance <- importance_full_cpp(
+ab_importance <- importance_cpp(
   a,
   b,
   method = "euclidean",
