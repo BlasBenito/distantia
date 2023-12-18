@@ -7,7 +7,6 @@
 #include "permute.h"
 using namespace Rcpp;
 
-
 //' Generates Least Cost Path
 //' @description Least cost path between two sequences \code{a} and \code{b}
 //' with the same number of columns and arbitrary numbers of rows to compute the

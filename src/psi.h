@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 
 // Forward declarations of functions
+
 Rcpp::DataFrame psi_cost_path_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,

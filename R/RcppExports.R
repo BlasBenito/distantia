@@ -279,6 +279,15 @@ distance_hamming_cpp <- function(x, y) {
     .Call(`_distantia_distance_hamming_cpp`, x, y)
 }
 
+reverse_vector_cpp <- function(x) {
+    .Call(`_distantia_reverse_vector_cpp`, x)
+}
+
+#' @export
+update_path_dist_cpp <- function(a, b, path, method = "euclidean", ignore_blocks = FALSE) {
+    .Call(`_distantia_update_path_dist_cpp`, a, b, path, method, ignore_blocks)
+}
+
 select_column_cpp <- function(x, column_index) {
     .Call(`_distantia_select_column_cpp`, x, column_index)
 }
@@ -322,8 +331,28 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_classic_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_classic_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+}
+
+#' Computes Per Column Psi Importance
+#' @description Computes the psi distance between a and b using all columns,
+#' with each column, and without each column
+#' @param a (required, numeric matrix).
+#' @param b (required, numeric matrix) of same number of columns as 'a'.
+#' @param method (optional, character string) name or abbreviation of the
+#' distance method. Valid values are in the columns "names" and "abbreviation"
+#' of the dataset `methods`. Default: "euclidean".
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @return Data frame with psi distances
+#' @export
+importance_robust_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_robust_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
 #' Restricted Permutation of Complete Rows Within Blocks
