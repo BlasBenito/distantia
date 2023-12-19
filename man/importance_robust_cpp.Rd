@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_robust_cpp}
 \alias{importance_robust_cpp}
-\title{Computes Per Column Psi Importance}
+\title{Robust Computation of Variable Importance}
 \usage{
 importance_robust_cpp(
   a,
@@ -35,6 +35,12 @@ coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 Data frame with psi distances
 }
 \description{
-Computes the psi distance between a and b using all columns,
-with each column, and without each column
+Returns the contribution of each variable to the overall dissimilarity
+of two sequences. In opposition to the classic version, importance computation is
+performed over the least-cost path of the whole sequence. To compute importance,
+the function first computes the psi distance dissimilarity between seuqences
+ using all columns ("psi"), with each column separately ("psi_only_with"),
+ and without each column ("psi_without). Then, it computes "psi_difference" as
+psi_only_with - psi_without. Highest positive values highlight the variables that
+better explain the dissimilarity between the sequences.
 }

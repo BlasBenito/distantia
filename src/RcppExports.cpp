@@ -349,9 +349,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// importance_classic_cpp
-DataFrame importance_classic_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_classic_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+// importance_vintage_cpp
+DataFrame importance_vintage_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_vintage_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -361,7 +361,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_classic_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_vintage_cpp(a, b, method, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -573,7 +573,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
     {"_distantia_importance_paired_cpp", (DL_FUNC) &_distantia_importance_paired_cpp, 3},
-    {"_distantia_importance_classic_cpp", (DL_FUNC) &_distantia_importance_classic_cpp, 6},
+    {"_distantia_importance_vintage_cpp", (DL_FUNC) &_distantia_importance_vintage_cpp, 6},
     {"_distantia_importance_robust_cpp", (DL_FUNC) &_distantia_importance_robust_cpp, 6},
     {"_distantia_permute_restricted_by_row_cpp", (DL_FUNC) &_distantia_permute_restricted_by_row_cpp, 3},
     {"_distantia_permute_free_by_row_cpp", (DL_FUNC) &_distantia_permute_free_by_row_cpp, 3},

@@ -192,7 +192,15 @@ DataFrame importance_paired_cpp(
 
 }
 
-//' Computes Per Column Psi Importance
+//' Classic Computation of Variable Importance
+//' @description Returns the contribution of each variable to the overall dissimilarity
+//' of two sequences. In opposition to the robust version, least-cost paths for each combination
+//' of variables are computed independently. To compute importance,
+//' the function first computes the psi distance dissimilarity between seuqences
+//' using all columns ("psi"), with each column separately ("psi_only_with"),
+//' and without each column ("psi_without). Then, it computes "psi_difference" as
+//' psi_only_with - psi_without. Highest positive values in this column represent the
+//' variables that better explain the dissimilarity between the sequences.
 //' @description Computes the psi distance between a and b using all columns,
 //' with each column, and without each column
 //' @param a (required, numeric matrix).
@@ -209,7 +217,7 @@ DataFrame importance_paired_cpp(
 //' @return Data frame with psi distances
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_classic_cpp(
+DataFrame importance_vintage_cpp(
     NumericMatrix a,
     NumericMatrix b,
     const std::string& method = "euclidean",
@@ -289,9 +297,15 @@ DataFrame importance_classic_cpp(
 }
 
 
-//' Computes Per Column Psi Importance
-//' @description Computes the psi distance between a and b using all columns,
-//' with each column, and without each column
+//' Robust Computation of Variable Importance
+//' @description Returns the contribution of each variable to the overall dissimilarity
+//' of two sequences. In opposition to the classic version, importance computation is
+//' performed over the least-cost path of the whole sequence. To compute importance,
+//' the function first computes the psi distance dissimilarity between seuqences
+//'  using all columns ("psi"), with each column separately ("psi_only_with"),
+//'  and without each column ("psi_without). Then, it computes "psi_difference" as
+//' psi_only_with - psi_without. Highest positive values highlight the variables that
+//' better explain the dissimilarity between the sequences.
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
 //' @param method (optional, character string) name or abbreviation of the
@@ -486,7 +500,7 @@ path_update = update_path_dist_cpp(
 psi_cpp(a, b)
 
 #old importance
-ab_importance <- importance_classic_cpp(
+ab_importance <- importance_vintage_cpp(
   a,
   b
 )

@@ -315,7 +315,15 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
     .Call(`_distantia_importance_paired_cpp`, a, b, method)
 }
 
-#' Computes Per Column Psi Importance
+#' Classic Computation of Variable Importance
+#' @description Returns the contribution of each variable to the overall dissimilarity
+#' of two sequences. In opposition to the robust version, least-cost paths for each combination
+#' of variables are computed independently. To compute importance,
+#' the function first computes the psi distance dissimilarity between seuqences
+#' using all columns ("psi"), with each column separately ("psi_only_with"),
+#' and without each column ("psi_without). Then, it computes "psi_difference" as
+#' psi_only_with - psi_without. Highest positive values in this column represent the
+#' variables that better explain the dissimilarity between the sequences.
 #' @description Computes the psi distance between a and b using all columns,
 #' with each column, and without each column
 #' @param a (required, numeric matrix).
@@ -331,13 +339,19 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_classic_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_classic_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_vintage_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_vintage_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
-#' Computes Per Column Psi Importance
-#' @description Computes the psi distance between a and b using all columns,
-#' with each column, and without each column
+#' Robust Computation of Variable Importance
+#' @description Returns the contribution of each variable to the overall dissimilarity
+#' of two sequences. In opposition to the classic version, importance computation is
+#' performed over the least-cost path of the whole sequence. To compute importance,
+#' the function first computes the psi distance dissimilarity between seuqences
+#'  using all columns ("psi"), with each column separately ("psi_only_with"),
+#'  and without each column ("psi_without). Then, it computes "psi_difference" as
+#' psi_only_with - psi_without. Highest positive values highlight the variables that
+#' better explain the dissimilarity between the sequences.
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
 #' @param method (optional, character string) name or abbreviation of the
