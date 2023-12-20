@@ -12,11 +12,10 @@ distantia(
   weighted = c(FALSE, TRUE),
   ignore_blocks = c(FALSE, TRUE),
   paired_samples = FALSE,
-  p_value = FALSE,
+  repetitions = 100,
+  permutation = "restricted_by_row",
   block_size = c(2, 3, 4),
-  seed = 1,
-  independent_columns = TRUE,
-  repetitions = 100
+  seed = 1
 )
 }
 \arguments{
@@ -34,15 +33,19 @@ distantia(
 
 \item{paired_samples}{(optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
-\item{p_value}{(optional, logical) If TRUE, the probability of finding a psi distance smaller than the observed one in permuted versions of the sequences/time-series is returned in the column "p_value". The observed psi distance is added to the distribution of permuted psi values to compute the p-value. Default: FALSE}
+\item{repetitions}{(optional, integer) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
 
-\item{block_size}{(optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. Only relevant when `p_value = TRUE`. Default: c(2, 3, 4).}
+\item{permutation}{(optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+\itemize{
+  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+  \item "restricted": restricted shuffling of rows and columns within blocks.
+  \item "restricted_by_row": restricted shuffling of rows within blocks.
+}}
 
-\item{seed}{(optional, integer) initial random seed to use for replicability. Only relevant when `p_value = TRUE`. Default: 1}
+\item{block_size}{(optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}
 
-\item{independent_columns}{(optional, logical) if TRUE, rows are permuted within blocks and independently across columns. Useful when the columns in the time-series are independent. Default: TRUE}
-
-\item{repetitions}{(optional, integer) number of permutations to compute the p-value of the psi distance. Only relevant when `p_value = TRUE`. Default: 100.}
+\item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
 \value{
 Data frame with names of the sequences, combinations of arguments method, diagonal, weighted, and trim blocks, psi distance, and if `p_value = TRUE`, mean and standard deviation of the null distribution for the psi distance, and the p_value, interpreted as the probability of finding psi distances smaller than the observed one in permuted versions of the sequences.

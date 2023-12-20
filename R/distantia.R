@@ -7,11 +7,16 @@
 #' @param weighted If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param paired_samples (optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
-#' @param p_value (optional, logical) If TRUE, the probability of finding a psi distance smaller than the observed one in permuted versions of the sequences/time-series is returned in the column "p_value". The observed psi distance is added to the distribution of permuted psi values to compute the p-value. Default: FALSE
-#' @param block_size (optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. Only relevant when `p_value = TRUE`. Default: c(2, 3, 4).
-#' @param seed (optional, integer) initial random seed to use for replicability. Only relevant when `p_value = TRUE`. Default: 1
-#' @param independent_columns (optional, logical) if TRUE, rows are permuted within blocks and independently across columns. Useful when the columns in the time-series are independent. Default: TRUE
-#' @param repetitions (optional, integer) number of permutations to compute the p-value of the psi distance. Only relevant when `p_value = TRUE`. Default: 100.
+#' @param repetitions (optional, integer) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
+#' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+#' \itemize{
+#'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+#'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+#'   \item "restricted": restricted shuffling of rows and columns within blocks.
+#'   \item "restricted_by_row": restricted shuffling of rows within blocks.
+#' }
+#' @param block_size (optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
+#' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #' @examples
 #'
 #' data(
@@ -36,12 +41,32 @@ distantia <- function(
     weighted = c(FALSE, TRUE),
     ignore_blocks = c(FALSE, TRUE),
     paired_samples = FALSE,
-    p_value = FALSE,
+    repetitions = 100,
+    permutation = "restricted_by_row",
     block_size = c(2, 3, 4),
-    seed = 1,
-    independent_columns = TRUE,
-    repetitions = 100
+    seed = 1
 ){
+
+  permutation <- match.arg(
+    arg = permutation,
+    choices = c(
+      "free",
+      "free_by_row",
+      "restricted",
+      "restricted_by_row"
+    ),
+    several.ok = TRUE
+  )
+
+  #selecting method
+  method <- match.arg(
+    arg = method,
+    choices = c(
+      methods$name,
+      methods$abbreviation
+    ),
+    several.ok = TRUE
+  )
 
   if(is.null(a)){
     stop("Argument 'a' must not be NULL.")
@@ -93,22 +118,16 @@ distantia <- function(
     stop("Arguments 'a' and 'b' must have the same number of rows when 'paired_samples = TRUE'.")
   }
 
-  #selecting method
-  method <- match.arg(
-    arg = method,
-    choices = c(
-      methods$name,
-      methods$abbreviation
-    ),
-    several.ok = FALSE
-  )
 
   #methods that don't accept two zeros in same position
-  if(method %in% c(
-    "chi",
-    "cos",
-    "cosine"
-  )
+  if(
+    any(
+      c(
+        "chi",
+        "cos",
+        "cosine"
+      ) %in% method
+    )
   ){
 
     pseudozero <- mean(x = c(a, b)) * 0.0001
@@ -125,6 +144,8 @@ distantia <- function(
     diagonal = diagonal,
     weighted = weighted,
     ignore_blocks = ignore_blocks,
+    permutation = permutation,
+    seed = seed,
     stringsAsFactors = FALSE
   ) |>
     dplyr::mutate(
@@ -154,16 +175,16 @@ distantia <- function(
         method = df$method[i]
       )
 
-      if(p_value == TRUE){
+      if(repetitions > 0){
 
         psi_null <- null_psi_paired_cpp(
           a = a,
           b = b,
           method = df$method[i],
+          repetitions = repetitions,
+          permutation = df$permutation[i],
           block_size = block_size,
-          seed = seed,
-          independent_columns = independent_columns,
-          repetitions = repetitions
+          seed = df$seed[i]
         )
 
       }
@@ -179,7 +200,7 @@ distantia <- function(
         ignore_blocks = df$ignore_blocks[i]
       )
 
-      if(p_value == TRUE){
+      if(repetitions > 0){
 
         psi_null <- null_psi_cpp(
           a = a,
@@ -188,10 +209,10 @@ distantia <- function(
           diagonal = df$diagonal[i],
           weighted = df$weighted[i],
           ignore_blocks = df$ignore_blocks[i],
+          repetitions = repetitions,
+          permutation = df$permutation[i],
           block_size = block_size,
-          seed  = seed,
-          independent_columns = independent_columns,
-          repetitions = repetitions
+          seed = df$seed[i]
         )
 
       }
@@ -207,7 +228,7 @@ distantia <- function(
   } #end of iterations
 
   #removing p-value columns
-  if(p_value == FALSE){
+  if(repetitions == 0){
     df$null_mean <- NULL
     df$null_sd <- NULL
     df$p_value <- NULL

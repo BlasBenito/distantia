@@ -224,15 +224,15 @@ dissimilarity
 p_value <- distantia(
   a = a, 
   b = b, 
-  method = "euclidean", 
-  diagonal = FALSE, 
-  weighted = FALSE, 
-  ignore_blocks = TRUE,
-  p_value = TRUE,
+  method = "euclidean",
+  diagonal = FALSE,
+  weighted = FALSE,
+  ignore_blocks = FALSE,
+  paired_samples = FALSE,
+  repetitions = 1000,
+  permutation = "restricted_by_row",
   block_size = 2,
-  seed = 200,
-  independent_columns = FALSE,
-  repetitions = 100
+  seed = 1
   )
 p_value$p_value
 ```
@@ -243,14 +243,14 @@ p_value$p_value
 null_values <- null_psi_cpp(
   a, 
   b, 
-  method = "euclidean", 
-  diagonal = FALSE, 
-  weighted = FALSE, 
+  method = "euclidean",
+  diagonal = FALSE,
+  weighted = FALSE,
   ignore_blocks = FALSE,
-  block_size = 1,
-  seed = 1,
-  independent = FALSE,
-  repetitions = 1000
+  repetitions = 100,
+  permutation = "restricted_by_row",
+  block_size = 2,
+  seed = 1
   )
 null_values
 ```
@@ -259,16 +259,16 @@ null_values
 ## Importance
 
 ```{r}
-importance <- workflowImportance(
-  sequences = sequences,
-  grouping.column = "id",
+importance <- importance_vintage_cpp(
+  a = a,
+  b = b,
   method = "euclidean",
   diagonal = FALSE,
-  ignore.blocks = TRUE
+  weighted = FALSE,
+  ignore_blocks = FALSE
   )
 
-importance$psi
-
-importance$psi.drop
+importance$psi[1]
+importance[, c("name", "psi_drop")]
 ```
 

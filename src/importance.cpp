@@ -141,6 +141,7 @@ DataFrame importance_paired_cpp(
   NumericVector psi_only_with(a.ncol());
   NumericVector psi_without(a.ncol());
   NumericVector psi_difference(a.ncol());
+  NumericVector psi_drop(a.ncol());
 
   //compute psi with all variables
   double psi_all_variables = psi_paired_cpp(
@@ -177,7 +178,12 @@ DataFrame importance_paired_cpp(
       method
     );
 
+    //difference between only with and without
     psi_difference[i] = psi_only_with[i] - psi_without[i];
+
+    //psi drop as a percentage of psi_alll_variables
+    psi_drop[i] = (psi_difference[i] * 100) / psi_all_variables;
+
 
   }
 
@@ -187,7 +193,8 @@ DataFrame importance_paired_cpp(
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
-    _["psi_difference"] = psi_difference
+    _["psi_difference"] = psi_difference,
+    _["psi_drop"] = psi_drop
   );
 
 }
@@ -233,9 +240,8 @@ DataFrame importance_vintage_cpp(
 
   //vectors to store results
   NumericVector psi_all(a.ncol());
-  NumericVector psi_only_with(a.ncol());
   NumericVector psi_without(a.ncol());
-  NumericVector psi_difference(a.ncol());
+  NumericVector psi_drop(a.ncol());
 
   //compute psi with all variables
   double psi_all_variables = psi_cpp(
@@ -254,20 +260,6 @@ DataFrame importance_vintage_cpp(
     psi_all[i] = psi_all_variables;
 
     //create subsets
-    NumericMatrix a_only_with = select_column_cpp(a, i);
-    NumericMatrix b_only_with = select_column_cpp(b, i);
-
-    //compute psi for the column i
-    psi_only_with[i] = psi_cpp(
-      a_only_with,
-      b_only_with,
-      method,
-      diagonal,
-      weighted,
-      ignore_blocks
-    );
-
-    //create subsets
     NumericMatrix a_without = delete_column_cpp(a, i);
     NumericMatrix b_without = delete_column_cpp(b, i);
 
@@ -281,7 +273,7 @@ DataFrame importance_vintage_cpp(
       ignore_blocks
     );
 
-    psi_difference[i] = psi_only_with[i] - psi_without[i];
+    psi_drop[i] = ((psi_all_variables - psi_without[i]) * 100) / psi_all_variables;
 
   }
 
@@ -289,9 +281,8 @@ DataFrame importance_vintage_cpp(
   return DataFrame::create(
     _["name"] = colnames(a),
     _["psi"] = psi_all,
-    _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
-    _["psi_difference"] = psi_difference
+    _["psi_drop"] = psi_drop
   );
 
 }
@@ -339,6 +330,7 @@ DataFrame importance_robust_cpp(
   NumericVector psi_only_with(a.ncol());
   NumericVector psi_without(a.ncol());
   NumericVector psi_difference(a.ncol());
+  NumericVector psi_drop(a.ncol());
 
 
   //compute psi with all variables
@@ -431,7 +423,12 @@ DataFrame importance_robust_cpp(
       diagonal
     );
 
+    //difference between only with and without
     psi_difference[i] = psi_only_with[i] - psi_without[i];
+
+    //psi drop as a percentage of psi_alll_variables
+    psi_drop[i] = (psi_difference[i] * 100) / psi_all_variables;
+
 
   }
 
@@ -441,7 +438,8 @@ DataFrame importance_robust_cpp(
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
-    _["psi_difference"] = psi_difference
+    _["psi_difference"] = psi_difference,
+    _["psi_drop"] = psi_drop
   );
 
 }
@@ -500,28 +498,28 @@ path_update = update_path_dist_cpp(
 psi_cpp(a, b)
 
 #old importance
-ab_importance <- importance_vintage_cpp(
+importance_vintage <- importance_vintage_cpp(
   a,
   b
 )
 
-ab_importance
+importance_vintage
 
 #new importance
-ab_importance <- importance_robust_cpp(
+importance_robust <- importance_robust_cpp(
   a,
   b
 )
 
-ab_importance
+importance_robust
 
 #paired
 a <- a[1:nrow(b), ]
 
-ab_importance <- importance_paired_cpp(
+importance_paired <- importance_paired_cpp(
   a,
   b
 )
 
-ab_importance
+importance_paired
 */

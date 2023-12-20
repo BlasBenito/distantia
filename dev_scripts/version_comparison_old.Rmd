@@ -120,8 +120,6 @@ plotMatrix(
 
 ### No blocks path
 
-
-
 ```{r}
 cost_sum <- leastCost(
   least.cost.path = old_path_no_blocks
@@ -222,16 +220,16 @@ old_null_values
 ## Importance
 
 ```{r}
-importance <- workflowImportance(
+old_importance <- workflowImportance(
   sequences = sequences,
   grouping.column = "id",
   method = "euclidean",
   diagonal = FALSE,
-  ignore.blocks = TRUE
+  ignore.blocks = FALSE
   )
 
-importance$psi
+old_importance$psi
 
-importance$psi.drop
+old_importance$psi.drop
 ```
 
