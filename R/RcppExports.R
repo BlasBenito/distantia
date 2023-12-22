@@ -284,8 +284,8 @@ reverse_vector_cpp <- function(x) {
 }
 
 #' @export
-update_path_dist_cpp <- function(a, b, path, method = "euclidean", ignore_blocks = FALSE) {
-    .Call(`_distantia_update_path_dist_cpp`, a, b, path, method, ignore_blocks)
+update_path_dist_cpp <- function(a, b, path, method = "euclidean") {
+    .Call(`_distantia_update_path_dist_cpp`, a, b, path, method)
 }
 
 select_column_cpp <- function(x, column_index) {
@@ -339,8 +339,8 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_independent_paths_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_independent_paths_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
 #' Robust Computation of Variable Importance
@@ -365,8 +365,8 @@ importance_independent_paths_cpp <- function(a, b, method = "euclidean", diagona
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_same_path_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_same_path_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_robust_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_robust_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
 }
 
 #' Restricted Permutation of Complete Rows Within Blocks

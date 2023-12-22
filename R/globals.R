@@ -8,5 +8,13 @@ utils::globalVariables(c(
   "methods", # <distance_matrix>
   "methods", # <distance_methods>
   "methods", # <distantia>
+  "methods", # <importance>
+  "name_a", # <importance>
+  "name_b", # <importance>
+  "variable", # <importance>
+  "psi_only_with", # <importance>
+  "psi_without", # <importance>
+  "psi_difference", # <importance>
+  "psi_drop", # <importance>
   NULL
 ))

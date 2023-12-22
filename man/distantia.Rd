@@ -23,19 +23,19 @@ distantia(
 
 \item{b}{(required, data frame or matrix) a time series.}
 
-\item{method}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
+\item{method}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
 
-\item{diagonal}{(optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
+\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
 
-\item{weighted}{If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 
-\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{paired_samples}{(optional, logical) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{paired_samples}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
-\item{repetitions}{(optional, integer) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
+\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
 
-\item{permutation}{(optional, character) permutation method. Valid values are listed below from higher to lower randomness:
+\item{permutation}{(optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
 \itemize{
   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
@@ -48,7 +48,23 @@ distantia(
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
 \value{
-Data frame with names of the sequences, combinations of arguments method, diagonal, weighted, and trim blocks, psi distance, and if `p_value = TRUE`, mean and standard deviation of the null distribution for the psi distance, and the p_value, interpreted as the probability of finding psi distances smaller than the observed one in permuted versions of the sequences.
+Data frame with the following columns:
+\itemize(
+  \item `name_a`: name of the sequence `a`.
+  \item `name_bb`: name of the sequence `b`.
+  \item `method`: name of the distance metric.
+  \item `diagonal`: value of the argument `diagonal`.
+  \item `weighted`: value of the argument `weighted`.
+  \item `ignore_blocks`: value of the argument `ignore_blocks`.
+  \item `paired_samples`: value of the argument `paired_samples`.
+  \item `repetitions`: value of the argument `repetitions`.
+  \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
+  \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
+  \item `psi`: psi dissimilarity of the sequences `a` and `b`.
+  \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
+  \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
+  \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
+)
 }
 \description{
 Psi Distance Between Time Series

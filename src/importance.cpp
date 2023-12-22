@@ -12,63 +12,50 @@ NumericVector reverse_vector_cpp(NumericVector x) {
 }
 
 //' @export
- // [[Rcpp::export]]
- DataFrame update_path_dist_cpp(
-     NumericMatrix a,
-     NumericMatrix b,
-     DataFrame path,
-     const std::string& method = "euclidean",
-     bool ignore_blocks = false
- ){
+// [[Rcpp::export]]
+DataFrame update_path_dist_cpp(
+    NumericMatrix a,
+    NumericMatrix b,
+    DataFrame path,
+    const std::string& method = "euclidean"
+){
 
-   //Select distance function
-   DistanceFunction f = select_distance_function_cpp(method);
+  //Select distance function
+  DistanceFunction f = select_distance_function_cpp(method);
 
-   //trim cost path
-   if (ignore_blocks){
-     path = cost_path_trim_cpp(path);
-   }
+  //separate path in vectors
+  NumericVector path_a = path["a"];
+  NumericVector path_b = path["b"];
+  NumericVector path_dist = path["dist"];
+  NumericVector path_cost = path["cost"];
 
-   //separate path in vectors
-   NumericVector path_a = path["a"];
-   NumericVector path_b = path["b"];
-   NumericVector path_dist = path["dist"];
-   NumericVector path_cost = path["cost"];
+  //count path rows
+  int path_rows = path.nrow();
 
-   //reverse vectors path_a and path_b
-   path_a = reverse_vector_cpp(path_a);
-   path_b = reverse_vector_cpp(path_b);
+  //iterate over path rows
+  for (int i = 0; i < path_rows; i++) {
 
-   //count path rows
-   int path_rows = path.nrow();
+    //correct between 1-based and 0-based indexing
+    int path_a_row = path_a[i] - 1;
+    int path_b_row = path_b[i] - 1;
 
-   //iterate over path rows
-   for (int i = 0; i < path_rows; i++) {
+    //distance
+    path_dist[i] = f(a.row(path_a_row), b.row(path_b_row));
 
-     //correct between 1-based and 0-based indexing
-     int path_a_row = path_a[i] - 1;
-     int path_b_row = path_b[i] - 1;
+    //cost
+    path_cost[i] = 0;
 
-     //distance
-     path_dist[i] = f(a.row(path_a_row), b.row(path_b_row));
+  }
 
-     //cost
-     path_cost[i] = 0;
+  // Create a new DataFrame with filtered columns
+  return DataFrame::create(
+    _["a"] = path_a,
+    _["b"] = path_b,
+    _["dist"] = path_dist,
+    _["cost"] = path_cost
+  );
 
-   }
-
-   //add first element of path_dist to last element of path_cost
-   path_cost[path_rows] += path_dist[0];
-
-   // Create a new DataFrame with filtered columns
-   return DataFrame::create(
-     _["a"] = reverse_vector_cpp(path_a),
-     _["b"] = reverse_vector_cpp(path_b),
-     _["dist"] = reverse_vector_cpp(path_dist),
-     _["cost"] = path_cost
-   );
-
- }
+}
 
 // Function to extract one column from the matrix x
 // [[Rcpp::export]]
@@ -193,7 +180,7 @@ DataFrame importance_paired_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["name"] = colnames(a),
+    _["variable"] = colnames(a),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -229,7 +216,7 @@ DataFrame importance_paired_cpp(
 //' @return Data frame with psi distances
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_independent_paths_cpp(
+DataFrame importance_cpp(
     NumericMatrix a,
     NumericMatrix b,
     const std::string& method = "euclidean",
@@ -303,7 +290,7 @@ DataFrame importance_independent_paths_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["name"] = colnames(a),
+    _["variable"] = colnames(a),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -338,7 +325,7 @@ DataFrame importance_independent_paths_cpp(
 //' @return Data frame with psi distances
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_same_path_cpp(
+DataFrame importance_robust_cpp(
     NumericMatrix a,
     NumericMatrix b,
     const std::string& method = "euclidean",
@@ -397,8 +384,7 @@ DataFrame importance_same_path_cpp(
       a_only_with,
       b_only_with,
       path,
-      method,
-      ignore_blocks
+      method
     );
 
     //compute autosum of a_only_with and b_only_with for testing
@@ -426,8 +412,7 @@ DataFrame importance_same_path_cpp(
       a_without,
       b_without,
       path,
-      method,
-      ignore_blocks
+      method
     );
 
     //compute autosum of a_only_with and b_only_with for testing
@@ -460,7 +445,7 @@ DataFrame importance_same_path_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["name"] = colnames(a),
+    _["variable"] = colnames(a),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -501,6 +486,43 @@ b <- sequences |>
   dplyr::select(-id) |>
   as.matrix()
 
+#failing case
+df <- importance_robust_cpp(
+  a = a,
+  b = b,
+  method = "manhattan",
+  diagonal = TRUE,
+  weighted = TRUE,
+  ignore_blocks = TRUE
+)
+
+df <- importance_robust_cpp(
+  a = a,
+  b = b,
+  method = "manhattan",
+  diagonal = TRUE,
+  weighted = TRUE,
+  ignore_blocks = TRUE
+)
+
+df <- importance_robust_cpp(
+  a = a,
+  b = b,
+  method = "manhattan",
+  diagonal = TRUE,
+  weighted = TRUE,
+  ignore_blocks = TRUE
+)
+
+df <- importance_robust_cpp(
+  a = a,
+  b = b,
+  method = "manhattan",
+  diagonal = TRUE,
+  weighted = TRUE,
+  ignore_blocks = TRUE
+)
+
 #testing update_path_dist_cpp
 ########################################
 path = psi_cost_path_cpp(
@@ -525,7 +547,7 @@ path_update = update_path_dist_cpp(
 psi_cpp(a, b)
 
 #old importance
-importance_vintage <- importance_independent_paths_cpp(
+importance_vintage <- importance_cpp(
   a,
   b
 )
@@ -533,7 +555,7 @@ importance_vintage <- importance_independent_paths_cpp(
 importance_vintage
 
 #new importance
-importance_robust <- importance_same_path_cpp(
+importance_robust <- importance_robust_cpp(
   a,
   b
 )
