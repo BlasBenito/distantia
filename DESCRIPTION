@@ -18,23 +18,11 @@ Depends: R (>= 3.5.0)
 Imports: 
   plyr,
   grDevices,
-  foreach,
-  parallel,
-  doParallel,
-  fields,
   viridis,
   RColorBrewer,
-  data.table,
-  iterators,
   arrangements,
   Rcpp
 Suggests: 
-    devtools,
-    formatR,
-    kableExtra,
-    magrittr,
-    knitr,
-    rmarkdown,
     roxyglobals,
     testthat (>= 3.0.0)
 Roxygen: list(roclets = c("collate", "namespace", "rd",

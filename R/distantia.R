@@ -165,19 +165,23 @@ distantia <- function(
     permutation = permutation,
     seed = seed,
     stringsAsFactors = FALSE
-  ) |>
-    dplyr::mutate(
-      weighted = ifelse(
-        test = diagonal == FALSE,
-        yes = FALSE,
-        no = weighted
-      ),
-      psi = NA,
-      null_mean = NA,
-      null_sd = NA,
-      p_value = NA
-    ) |>
-    dplyr::distinct()
+  )
+
+  #remove combinations diagonal = FALSE weighted = TRUE
+  df$weighted <- ifelse(
+    test = df$diagonal == FALSE,
+    yes = FALSE,
+    no = df$weighted
+  )
+
+  #remove duplicates
+  df <- unique(df)
+
+  #add additional columns
+  df$psi <- NA
+  df$null_mean <- NA
+  df$null_sd <- NA
+  df$p_value <- NA
 
   #initialize psi_null
   psi_null <- NA

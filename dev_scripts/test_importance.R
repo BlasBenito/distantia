@@ -28,6 +28,19 @@ b <- sequences |>
   dplyr::select(-id) |>
   as.matrix()
 
+df <- importance(
+  a = a,
+  b = b,
+  method = c("euclidean", "manhattan"),
+  diagonal = c(TRUE, FALSE),
+  weighted = c(TRUE, FALSE),
+  ignore_blocks = c(TRUE, FALSE),
+  paired_samples = FALSE,
+  robust = TRUE
+)
+
+dplyr::glimpse(df)
+
 # *** caught segfault ***
 #   address 0x55f6c4000000, cause 'memory not mapped'
 df <- importance_robust_cpp(

@@ -22,7 +22,6 @@
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
-#' @examples
 #' @return Data frame with the following columns:
 #' \itemize{
 #'   \item `name_a`: name of the sequence `a`.
@@ -143,15 +142,17 @@ importance <- function(
     paired_samples = paired_samples,
     robust = robust,
     stringsAsFactors = FALSE
-  ) |>
-    dplyr::mutate(
-      weighted = ifelse(
-        test = diagonal == FALSE,
-        yes = FALSE,
-        no = weighted
-      )
-    ) |>
-    dplyr::distinct()
+  )
+
+  #remove combinations diagonal = FALSE weighted = TRUE
+  df$weighted <- ifelse(
+    test = df$diagonal == FALSE,
+    yes = FALSE,
+    no = df$weighted
+  )
+
+  #remove duplicates
+  df <- unique(df)
 
   #list to store results
   out <- list()
@@ -213,27 +214,30 @@ importance <- function(
 
   } #end of loop
 
-  #prepare output data frame
-  out.df <- out |>
-    dplyr::bind_rows() |>
-    dplyr::transmute(
-      name_a,
-      name_b,
-      method,
-      diagonal,
-      weighted,
-      ignore_blocks,
-      paired_samples,
-      robust,
-      variable,
-      psi,
-      psi_only_with,
-      psi_without,
-      psi_difference,
-      psi_drop,
-      importance
-    )
+  #list to data frame
+  out.df <- do.call(
+    what = "rbind",
+    args = out
+  )
 
-  out.df
+  #subset columns
+  out.df[,
+         c(
+           "name_a",
+           "name_b",
+           "method",
+           "diagonal",
+           "weighted",
+           "ignore_blocks",
+           "paired_samples",
+           "robust",
+           "variable",
+           "psi",
+           "psi_only_with",
+           "psi_without",
+           "psi_difference",
+           "psi_drop",
+           "importance"
+         )]
 
 }
