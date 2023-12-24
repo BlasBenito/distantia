@@ -4,9 +4,8 @@
 #'
 #' @param a (required, data frame, matrix, or numeric vector) a time series.
 #' @param b (required, data frame, matrix, or numeric vector) a time series.
-#' @param method (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
+#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
-#' @param pseudo_zero (optional, numeric) value to replace zero values if distance metrics "psi" and "cosine" are used. Default: 0.0001.
 #'
 #' @return A list containing the prepared sequences'a' and 'b'.
 #'
@@ -17,7 +16,7 @@
 #' ab <- prepare_ab(
 #'  a = na.omit(sequenceA),
 #'  b = na.omit(sequenceB),
-#'  method = "euclidean",
+#'  distance = "euclidean",
 #'  paired_samples = FALSE
 #'  )
 #'
@@ -29,17 +28,16 @@
 prepare_ab <- function(
     a = NULL,
     b = NULL,
-    method = "euclidean",
-    paired_samples = FALSE,
-    pseudo_zero = 0.0001
+    distance = "euclidean",
+    paired_samples = FALSE
     ){
 
-  #selecting method
-  method <- match.arg(
-    arg = method,
+  #selecting distance
+  distance <- match.arg(
+    arg = distance,
     choices = c(
-      methods$name,
-      methods$abbreviation
+      distances$name,
+      distances$abbreviation
     ),
     several.ok = TRUE
   )
@@ -128,19 +126,24 @@ prepare_ab <- function(
   }
 
 
-  #methods that don't accept two zeros in same position
+  #distances that don't accept two zeros in same position
   if(
     any(
       c(
         "chi",
         "cos",
         "cosine"
-      ) %in% method
+      ) %in% distance
     )
   ){
 
-    a[a == 0] <- pseudo_zero
-    b[b == 0] <- pseudo_zero
+    if(sum(a[a == 0]) > 0){
+      stop("Argument 'a' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+    }
+
+    if(sum(b[b == 0]) > 0){
+      stop("Argument 'b' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+    }
 
   }
 
