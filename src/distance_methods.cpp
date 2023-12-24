@@ -275,29 +275,29 @@ double distance_hamming_cpp(NumericVector x, NumericVector y) {
 typedef double (*DistanceFunction)(NumericVector, NumericVector);
 
 // Internal function to select a distance function
-DistanceFunction select_distance_function_cpp(const std::string& method = "euclidean") {
-  if (method == "manhattan" || method.substr(0, 3) == "man") {
+DistanceFunction select_distance_function_cpp(const std::string& distance = "euclidean") {
+  if (distance == "manhattan" || distance.substr(0, 3) == "man") {
     return &distance_manhattan_cpp;
-  } else if (method == "euclidean" || method.substr(0, 3) == "euc") {
+  } else if (distance == "euclidean" || distance.substr(0, 3) == "euc") {
     return &distance_euclidean_cpp;
-  } else if (method == "chebyshev" || method.substr(0, 3) == "che") {
+  } else if (distance == "chebyshev" || distance.substr(0, 3) == "che") {
     return &distance_chebyshev_cpp;
-  } else if (method == "canberra" || method.substr(0, 3) == "can") {
+  } else if (distance == "canberra" || distance.substr(0, 3) == "can") {
     return &distance_canberra_cpp;
-  } else if (method == "russelrao" || method.substr(0, 3) == "rus") {
+  } else if (distance == "russelrao" || distance.substr(0, 3) == "rus") {
     return &distance_russelrao_cpp;
-  } else if (method == "cosine" || method.substr(0, 3) == "cos") {
+  } else if (distance == "cosine" || distance.substr(0, 3) == "cos") {
     return &distance_cosine_cpp;
-  } else if (method == "jaccard" || method.substr(0, 3) == "jac") {
+  } else if (distance == "jaccard" || distance.substr(0, 3) == "jac") {
     return &distance_jaccard_cpp;
-  } else if (method == "hellinger" || method.substr(0, 3) == "hel") {
+  } else if (distance == "hellinger" || distance.substr(0, 3) == "hel") {
     return &distance_hellinger_cpp;
-  } else if (method == "hamming" || method.substr(0, 3) == "ham") {
+  } else if (distance == "hamming" || distance.substr(0, 3) == "ham") {
     return &distance_hamming_cpp;
-  } else if (method == "chi") {
+  } else if (distance == "chi") {
     return &distance_chi_cpp;
   } else {
-    Rcpp::stop("Invalid distance method.");
+    Rcpp::stop("Invalid distance.");
   }
 }
 

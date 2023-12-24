@@ -2,7 +2,7 @@
 #'
 #' @param a (required, data frame or matrix) a time series.
 #' @param b (required, data frame or matrix) a time series.
-#' @param method (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
+#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
@@ -27,14 +27,14 @@
 #' ab.psi <- distantia(
 #'   a = sequenceA,
 #'   b = sequenceB,
-#'   method = "manhattan"
+#'   distance = "manhattan"
 #' )
 #'
 #' @return Data frame with the following columns:
 #' \itemize(
 #'   \item `name_a`: name of the sequence `a`.
 #'   \item `name_bb`: name of the sequence `b`.
-#'   \item `method`: name of the distance metric.
+#'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
 #'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
@@ -52,7 +52,7 @@
 distantia <- function(
     a = NULL,
     b = NULL,
-    method = c("euclidean", "manhattan"),
+    distance = c("euclidean", "manhattan"),
     diagonal = c(FALSE, TRUE),
     weighted = c(FALSE, TRUE),
     ignore_blocks = c(FALSE, TRUE),
@@ -74,12 +74,12 @@ distantia <- function(
     several.ok = TRUE
   )
 
-  #selecting method
-  method <- match.arg(
-    arg = method,
+  #selecting distance
+  distance <- match.arg(
+    arg = distance,
     choices = c(
-      methods$name,
-      methods$abbreviation
+      distances$name,
+      distances$abbreviation
     ),
     several.ok = TRUE
   )
@@ -135,14 +135,14 @@ distantia <- function(
   }
 
 
-  #methods that don't accept two zeros in same position
+  #distances that don't accept two zeros in same position
   if(
     any(
       c(
         "chi",
         "cos",
         "cosine"
-      ) %in% method
+      ) %in% distance
     )
   ){
 
@@ -156,7 +156,7 @@ distantia <- function(
   df <- expand.grid(
     name_a = "a",
     name_b = "b",
-    method = method,
+    distance = distance,
     diagonal = diagonal,
     weighted = weighted,
     ignore_blocks = ignore_blocks,
@@ -194,7 +194,7 @@ distantia <- function(
       psi_distance <- psi_paired_cpp(
         a = a,
         b = b,
-        method = df$method[i]
+        distance = df$distance[i]
       )
 
       if(repetitions > 0){
@@ -202,7 +202,7 @@ distantia <- function(
         psi_null <- null_psi_paired_cpp(
           a = a,
           b = b,
-          method = df$method[i],
+          distance = df$distance[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
           block_size = block_size,
@@ -216,7 +216,7 @@ distantia <- function(
       psi_distance <- psi_cpp(
         a = a,
         b = b,
-        method = df$method[i],
+        distance = df$distance[i],
         diagonal = df$diagonal[i],
         weighted = df$weighted[i],
         ignore_blocks = df$ignore_blocks[i]
@@ -227,7 +227,7 @@ distantia <- function(
         psi_null <- null_psi_cpp(
           a = a,
           b = b,
-          method = df$method[i],
+          distance = df$distance[i],
           diagonal = df$diagonal[i],
           weighted = df$weighted[i],
           ignore_blocks = df$ignore_blocks[i],

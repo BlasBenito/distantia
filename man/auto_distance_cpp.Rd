@@ -4,12 +4,12 @@
 \alias{auto_distance_cpp}
 \title{Auto Distance}
 \usage{
-auto_distance_cpp(m, method = "euclidean")
+auto_distance_cpp(m, distance = "euclidean")
 }
 \arguments{
-\item{method}{(optional, character string) name or abbreviation of the
+\item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
- of the dataset `methods`. Default: "euclidean".}
+ of the dataset `distances`. Default: "euclidean".}
 
 \item{a}{(required, numeric matrix).}
 

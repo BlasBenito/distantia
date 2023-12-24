@@ -65,7 +65,7 @@ expression <- c(
   "sum(x == y)"
 )
 
-methods <- data.frame(
+distances <- data.frame(
   name,
   abbreviation,
   function_name,
@@ -73,4 +73,4 @@ methods <- data.frame(
   requires_pseudozeros
 )
 
-usethis::use_data(methods)
+usethis::use_data(distances)

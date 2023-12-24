@@ -4,16 +4,16 @@
 \alias{distance_matrix_cpp}
 \title{Distance Matrix}
 \usage{
-distance_matrix_cpp(a, b, method = "euclidean")
+distance_matrix_cpp(a, b, distance = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
 
 \item{b}{(required, numeric matrix) of same number of columns as 'a'.}
 
-\item{method}{(optional, character string) name or abbreviation of the
+\item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `methods`. Default: "euclidean".}
+of the dataset `distances`. Default: "euclidean".}
 }
 \value{
 Matrix of distances between 'a' (rows) and 'b' (columns).

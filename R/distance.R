@@ -3,23 +3,23 @@
 #' @description Computes the distance between two numeric or binary vectors.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
-#' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
+#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return A distance value.
 #' @author Blas Benito <blasbenito@gmail.com>
 #' @examples
 #'
-#' distance_methods(
+#' distance(
 #'   x = runif(100),
 #'   y = runif(100),
-#'   method = "euclidean"
+#'   distance = "euclidean"
 #' )
 #'
 #' @autoglobal
 #' @export
-distance_methods <- function(
+distance <- function(
     x = NULL,
     y = NULL,
-    method = "euclidean"
+    distance = "euclidean"
     ){
 
   if(is.null(x)){
@@ -42,11 +42,11 @@ distance_methods <- function(
     stop("Argument 'y' has NA values. Please remove or imputate them before the distance computation.")
   }
 
-  method <- match.arg(
-    arg = method,
+  distance <- match.arg(
+    arg = distance,
     choices = c(
-      methods$name,
-      methods$abbreviation
+      distances$name,
+      distances$abbreviation
     ),
     several.ok = FALSE
   )
@@ -59,7 +59,7 @@ distance_methods <- function(
     stats::na.omit()
 
   #methods that don't accept two zeros in same position
-  if(method %in% c(
+  if(distance %in% c(
     "chi",
     "cos",
     "cosine"
@@ -73,9 +73,9 @@ distance_methods <- function(
 
   #generate expression
   expression <- paste0(
-    methods[
-      methods$name %in% method |
-        methods$abbreviation %in% method,
+    distances[
+      distances$name %in% distance |
+        distances$abbreviation %in% distance,
       "function_name"
     ],
     "(df$x, df$y)"

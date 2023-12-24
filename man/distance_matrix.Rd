@@ -4,14 +4,14 @@
 \alias{distance_matrix}
 \title{Distance Matrix}
 \usage{
-distance_matrix(a = NULL, b = NULL, method = "euclidean")
+distance_matrix(a = NULL, b = NULL, distance = "euclidean")
 }
 \arguments{
 \item{a}{(required, data frame or matrix) a time series.}
 
 \item{b}{(required, data frame or matrix) a time series.}
 
-\item{method}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
+\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 }
 \value{
 A distance matrix.
@@ -29,7 +29,7 @@ data(
 distance.matrix <- distance_matrix(
   a = sequenceA,
   b = sequenceB,
-  method = "manhattan"
+  distance = "manhattan"
 )
 
 if(interactive()){

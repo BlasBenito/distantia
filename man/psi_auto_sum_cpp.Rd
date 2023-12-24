@@ -4,7 +4,7 @@
 \alias{psi_auto_sum_cpp}
 \title{Auto Sum of Two Sequences}
 \usage{
-psi_auto_sum_cpp(a, b, path, method = "euclidean", ignore_blocks = FALSE)
+psi_auto_sum_cpp(a, b, path, distance = "euclidean", ignore_blocks = FALSE)
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
@@ -14,9 +14,9 @@ psi_auto_sum_cpp(a, b, path, method = "euclidean", ignore_blocks = FALSE)
 \item{path}{(required, data frame) dataframe produced by [cost_path()].
 Default: NULL}
 
-\item{method}{(optional, character string) name or abbreviation of the
+\item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `methods`. Default: "euclidean".}
+of the dataset `distances`. Default: "euclidean".}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}

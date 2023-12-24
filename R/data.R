@@ -5,10 +5,10 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @name methods
-#' @usage data(methods)
+#' @name distances
+#' @usage data(distances)
 #' @format Dataframe with 5 columns and 10 rows
-"methods"
+"distances"
 
 
 

@@ -12,9 +12,9 @@ using namespace Rcpp;
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 //' @export
 //' @name distance_matrix_cpp
@@ -22,10 +22,10 @@ using namespace Rcpp;
 NumericMatrix distance_matrix_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
-  DistanceFunction f = select_distance_function_cpp(method);
+  DistanceFunction f = select_distance_function_cpp(distance);
 
   int an = a.nrow();
   int bn = b.nrow();
@@ -49,19 +49,19 @@ NumericMatrix distance_matrix_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns and rows as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Vector of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]
 double distance_pairwise_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
-  DistanceFunction f = select_distance_function_cpp(method);
+  DistanceFunction f = select_distance_function_cpp(distance);
 
   int an = a.nrow();
 
@@ -98,7 +98,7 @@ b <- sequenceB |>
 a[a == 0] <- 0.0001
 b[b == 0] <- 0.0001
 
-d <- distance_matrix_cpp(a, b, method = "euclidean")
+d <- distance_matrix_cpp(a, b, distance = "euclidean")
 dim(d)
 d[1:5, 1:5]
 
@@ -106,35 +106,35 @@ d <- distance_matrix_cpp(a, b)
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "manhattan")
+d <- distance_matrix_cpp(a, b, distance = "manhattan")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "jaccard")
+d <- distance_matrix_cpp(a, b, distance = "jaccard")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "hellinger")
+d <- distance_matrix_cpp(a, b, distance = "hellinger")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "chi")
+d <- distance_matrix_cpp(a, b, distance = "chi")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "canberra")
+d <- distance_matrix_cpp(a, b, distance = "canberra")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "chebyshev")
+d <- distance_matrix_cpp(a, b, distance = "chebyshev")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "russelrao")
+d <- distance_matrix_cpp(a, b, distance = "russelrao")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, method = "cosine")
+d <- distance_matrix_cpp(a, b, distance = "cosine")
 dim(d)
 d[1:5, 1:5]
 
@@ -143,30 +143,30 @@ message("distance_pairwise_cpp")
 
 a <- a[1:nrow(b), ]
 
-d <- distance_pairwise_cpp(a, b, method = "euclidean")
+d <- distance_pairwise_cpp(a, b, distance = "euclidean")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "manhattan")
+d <- distance_pairwise_cpp(a, b, distance = "manhattan")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "jaccard")
+d <- distance_pairwise_cpp(a, b, distance = "jaccard")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "hellinger")
+d <- distance_pairwise_cpp(a, b, distance = "hellinger")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "chi")
+d <- distance_pairwise_cpp(a, b, distance = "chi")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "canberra")
+d <- distance_pairwise_cpp(a, b, distance = "canberra")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "chebyshev")
+d <- distance_pairwise_cpp(a, b, distance = "chebyshev")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "russelrao")
+d <- distance_pairwise_cpp(a, b, distance = "russelrao")
 d[1:5]
 
-d <- distance_pairwise_cpp(a, b, method = "cosine")
+d <- distance_pairwise_cpp(a, b, distance = "cosine")
 d[1:5]
 */

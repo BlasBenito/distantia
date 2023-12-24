@@ -11,14 +11,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // auto_distance_cpp
-double auto_distance_cpp(NumericMatrix m, const std::string& method);
-RcppExport SEXP _distantia_auto_distance_cpp(SEXP mSEXP, SEXP methodSEXP) {
+double auto_distance_cpp(NumericMatrix m, const std::string& distance);
+RcppExport SEXP _distantia_auto_distance_cpp(SEXP mSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_distance_cpp(m, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_distance_cpp(m, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -35,29 +35,29 @@ BEGIN_RCPP
 END_RCPP
 }
 // auto_sum_no_path_cpp
-double auto_sum_no_path_cpp(NumericMatrix a, NumericMatrix b, const std::string& method);
-RcppExport SEXP _distantia_auto_sum_no_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+double auto_sum_no_path_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance);
+RcppExport SEXP _distantia_auto_sum_no_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_no_path_cpp(a, b, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_sum_no_path_cpp(a, b, distance));
     return rcpp_result_gen;
 END_RCPP
 }
 // auto_sum_path_cpp
-double auto_sum_path_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& method);
-RcppExport SEXP _distantia_auto_sum_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP) {
+double auto_sum_path_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& distance);
+RcppExport SEXP _distantia_auto_sum_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(a, b, path, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(a, b, path, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -141,28 +141,28 @@ BEGIN_RCPP
 END_RCPP
 }
 // distance_matrix_cpp
-NumericMatrix distance_matrix_cpp(NumericMatrix a, NumericMatrix b, const std::string& method);
-RcppExport SEXP _distantia_distance_matrix_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+NumericMatrix distance_matrix_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance);
+RcppExport SEXP _distantia_distance_matrix_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(distance_matrix_cpp(a, b, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_matrix_cpp(a, b, distance));
     return rcpp_result_gen;
 END_RCPP
 }
 // distance_pairwise_cpp
-double distance_pairwise_cpp(NumericMatrix a, NumericMatrix b, const std::string& method);
-RcppExport SEXP _distantia_distance_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+double distance_pairwise_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance);
+RcppExport SEXP _distantia_distance_pairwise_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(distance_pairwise_cpp(a, b, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_pairwise_cpp(a, b, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -298,16 +298,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // update_path_dist_cpp
-DataFrame update_path_dist_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& method);
-RcppExport SEXP _distantia_update_path_dist_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP) {
+DataFrame update_path_dist_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& distance);
+RcppExport SEXP _distantia_update_path_dist_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_path_dist_cpp(a, b, path, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(update_path_dist_cpp(a, b, path, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -336,47 +336,47 @@ BEGIN_RCPP
 END_RCPP
 }
 // importance_paired_cpp
-DataFrame importance_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& method);
-RcppExport SEXP _distantia_importance_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+DataFrame importance_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance);
+RcppExport SEXP _distantia_importance_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_paired_cpp(a, b, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(importance_paired_cpp(a, b, distance));
     return rcpp_result_gen;
 END_RCPP
 }
 // importance_cpp
-DataFrame importance_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame importance_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_cpp(a, b, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
 // importance_robust_cpp
-DataFrame importance_robust_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_robust_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame importance_robust_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_robust_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_robust_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_robust_cpp(a, b, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -433,33 +433,33 @@ BEGIN_RCPP
 END_RCPP
 }
 // psi_cost_path_cpp
-DataFrame psi_cost_path_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_cost_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame psi_cost_path_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_psi_cost_path_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_cost_path_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(psi_cost_path_cpp(a, b, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
 // psi_auto_sum_cpp
-double psi_auto_sum_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& method, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_auto_sum_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP methodSEXP, SEXP ignore_blocksSEXP) {
+double psi_auto_sum_cpp(NumericMatrix a, NumericMatrix b, DataFrame path, const std::string& distance, bool ignore_blocks);
+RcppExport SEXP _distantia_psi_auto_sum_cpp(SEXP aSEXP, SEXP bSEXP, SEXP pathSEXP, SEXP distanceSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_auto_sum_cpp(a, b, path, method, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(psi_auto_sum_cpp(a, b, path, distance, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -477,60 +477,60 @@ BEGIN_RCPP
 END_RCPP
 }
 // psi_paired_cpp
-double psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& method);
-RcppExport SEXP _distantia_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP) {
+double psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance);
+RcppExport SEXP _distantia_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_paired_cpp(a, b, method));
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(psi_paired_cpp(a, b, distance));
     return rcpp_result_gen;
 END_RCPP
 }
 // null_psi_paired_cpp
-NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
-RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(a, b, method, repetitions, permutation, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(a, b, distance, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // psi_cpp
-double psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+double psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_cpp(a, b, method, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(psi_cpp(a, b, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
 // null_psi_cpp
-NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& method, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
-RcppExport SEXP _distantia_null_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP methodSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+RcppExport SEXP _distantia_null_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
@@ -538,7 +538,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_cpp(a, b, method, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(null_psi_cpp(a, b, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }

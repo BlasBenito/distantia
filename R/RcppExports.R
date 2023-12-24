@@ -9,13 +9,13 @@
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#'  of the dataset `methods`. Default: "euclidean".
+#'  of the dataset `distances`. Default: "euclidean".
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
-auto_distance_cpp <- function(m, method = "euclidean") {
-    .Call(`_distantia_auto_distance_cpp`, m, method)
+auto_distance_cpp <- function(m, distance = "euclidean") {
+    .Call(`_distantia_auto_distance_cpp`, m, distance)
 }
 
 #' Subset Matrix by Rows
@@ -34,13 +34,13 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
 #' a key component of the psi computation.
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Auto sum of distances.
 #' @export
-auto_sum_no_path_cpp <- function(a, b, method = "euclidean") {
-    .Call(`_distantia_auto_sum_no_path_cpp`, a, b, method)
+auto_sum_no_path_cpp <- function(a, b, distance = "euclidean") {
+    .Call(`_distantia_auto_sum_no_path_cpp`, a, b, distance)
 }
 
 #'Auto-sum of Two Sequences
@@ -50,13 +50,13 @@ auto_sum_no_path_cpp <- function(a, b, method = "euclidean") {
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
 #' @param path (required, data frame) dataframe produced by [cost_path()].
 #' Default: NULL
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Numeric.
 #' @export
-auto_sum_path_cpp <- function(a, b, path, method = "euclidean") {
-    .Call(`_distantia_auto_sum_path_cpp`, a, b, path, method)
+auto_sum_path_cpp <- function(a, b, path, distance = "euclidean") {
+    .Call(`_distantia_auto_sum_path_cpp`, a, b, path, distance)
 }
 
 #' Least Cost Matrix Considering Diagonals
@@ -135,14 +135,14 @@ cost_path_sum_cpp <- function(path) {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 #' @export
 #' @name distance_matrix_cpp
-distance_matrix_cpp <- function(a, b, method = "euclidean") {
-    .Call(`_distantia_distance_matrix_cpp`, a, b, method)
+distance_matrix_cpp <- function(a, b, distance = "euclidean") {
+    .Call(`_distantia_distance_matrix_cpp`, a, b, distance)
 }
 
 #' Sum of Pairwise Distances Between Paired Sequences
@@ -153,13 +153,13 @@ distance_matrix_cpp <- function(a, b, method = "euclidean") {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns and rows as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Vector of distances between 'a' (rows) and 'b' (columns).
 #' @export
-distance_pairwise_cpp <- function(a, b, method = "euclidean") {
-    .Call(`_distantia_distance_pairwise_cpp`, a, b, method)
+distance_pairwise_cpp <- function(a, b, distance = "euclidean") {
+    .Call(`_distantia_distance_pairwise_cpp`, a, b, distance)
 }
 
 #' Chebyshev Distance Between Two Vectors
@@ -284,8 +284,8 @@ reverse_vector_cpp <- function(x) {
 }
 
 #' @export
-update_path_dist_cpp <- function(a, b, path, method = "euclidean") {
-    .Call(`_distantia_update_path_dist_cpp`, a, b, path, method)
+update_path_dist_cpp <- function(a, b, path, distance = "euclidean") {
+    .Call(`_distantia_update_path_dist_cpp`, a, b, path, distance)
 }
 
 select_column_cpp <- function(x, column_index) {
@@ -306,13 +306,13 @@ delete_column_cpp <- function(x, column_index) {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-importance_paired_cpp <- function(a, b, method = "euclidean") {
-    .Call(`_distantia_importance_paired_cpp`, a, b, method)
+importance_paired_cpp <- function(a, b, distance = "euclidean") {
+    .Call(`_distantia_importance_paired_cpp`, a, b, distance)
 }
 
 #' Classic Computation of Variable Importance
@@ -328,9 +328,9 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' with each column, and without each column
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -339,8 +339,8 @@ importance_paired_cpp <- function(a, b, method = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_cpp`, a, b, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' Robust Computation of Variable Importance
@@ -354,9 +354,9 @@ importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighte
 #' better explain the dissimilarity between the sequences.
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -365,8 +365,8 @@ importance_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighte
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_robust_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_robust_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+importance_robust_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_robust_cpp`, a, b, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' Restricted Permutation of Complete Rows Within Blocks
@@ -429,9 +429,9 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -440,8 +440,8 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with least cost path
 #' @export
-psi_cost_path_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_cost_path_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+psi_cost_path_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_cost_path_cpp`, a, b, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' Auto Sum of Two Sequences
@@ -453,15 +453,15 @@ psi_cost_path_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weig
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
 #' @param path (required, data frame) dataframe produced by [cost_path()].
 #' Default: NULL
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Auto sum of matrices a and b.
 #' @export
-psi_auto_sum_cpp <- function(a, b, path, method = "euclidean", ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_auto_sum_cpp`, a, b, path, method, ignore_blocks)
+psi_auto_sum_cpp <- function(a, b, path, distance = "euclidean", ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_auto_sum_cpp`, a, b, path, distance, ignore_blocks)
 }
 
 #' Psi Dissimilarity Metric
@@ -489,13 +489,13 @@ psi_formula_cpp <- function(path, auto_sum, diagonal = FALSE) {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-psi_paired_cpp <- function(a, b, method = "euclidean") {
-    .Call(`_distantia_psi_paired_cpp`, a, b, method)
+psi_paired_cpp <- function(a, b, distance = "euclidean") {
+    .Call(`_distantia_psi_paired_cpp`, a, b, distance)
 }
 
 #' Null Distribution of Psi Distances Between Two Paired Time-Series
@@ -506,9 +506,9 @@ psi_paired_cpp <- function(a, b, method = "euclidean") {
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 #' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 #' \itemize{
@@ -523,8 +523,8 @@ psi_paired_cpp <- function(a, b, method = "euclidean") {
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_paired_cpp <- function(a, b, method = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
-    .Call(`_distantia_null_psi_paired_cpp`, a, b, method, repetitions, permutation, block_size, seed)
+null_psi_paired_cpp <- function(a, b, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+    .Call(`_distantia_null_psi_paired_cpp`, a, b, distance, repetitions, permutation, block_size, seed)
 }
 
 #' Computes Psi Distance Between Two Time-Series
@@ -535,9 +535,9 @@ null_psi_paired_cpp <- function(a, b, method = "euclidean", repetitions = 100L, 
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -546,8 +546,8 @@ null_psi_paired_cpp <- function(a, b, method = "euclidean", repetitions = 100L, 
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Psi distance
 #' @export
-psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks)
+psi_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_cpp`, a, b, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' Null Distribution of Psi Distances Between Two Time-Series
@@ -558,9 +558,9 @@ psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FAL
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 #' @param a (required, numeric matrix).
 #' @param b (required, numeric matrix) of same number of columns as 'a'.
-#' @param method (optional, character string) name or abbreviation of the
+#' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
-#' of the dataset `methods`. Default: "euclidean".
+#' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -582,7 +582,7 @@ psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FAL
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_cpp <- function(a, b, method = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
-    .Call(`_distantia_null_psi_cpp`, a, b, method, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
+null_psi_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+    .Call(`_distantia_null_psi_cpp`, a, b, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
 }
 

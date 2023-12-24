@@ -16,9 +16,9 @@ using namespace Rcpp;
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -31,7 +31,7 @@ using namespace Rcpp;
 DataFrame psi_cost_path_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -43,7 +43,7 @@ DataFrame psi_cost_path_cpp(
   NumericMatrix dist_matrix = distance_matrix_cpp(
     a,
     b,
-    method
+    distance
   );
 
   //compute cost matrix
@@ -85,9 +85,9 @@ DataFrame psi_cost_path_cpp(
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
 //' @param path (required, data frame) dataframe produced by [cost_path()].
 //' Default: NULL
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return Auto sum of matrices a and b.
@@ -97,7 +97,7 @@ double psi_auto_sum_cpp(
     NumericMatrix a,
     NumericMatrix b,
     DataFrame path,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool ignore_blocks = false
 ){
 
@@ -110,7 +110,7 @@ double psi_auto_sum_cpp(
       a,
       b,
       path,
-      method
+      distance
     );
 
   } else {
@@ -118,7 +118,7 @@ double psi_auto_sum_cpp(
     ab_sum = auto_sum_no_path_cpp(
       a,
       b,
-      method
+      distance
     );
 
   }
@@ -172,30 +172,30 @@ double psi_formula_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
 double psi_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
     //pairwise distances
     double cost_path_sum = distance_pairwise_cpp(
       a,
       b,
-      method
+      distance
     );
 
     //auto sum sequences
     double ab_sum = auto_sum_no_path_cpp(
       a,
       b,
-      method
+      distance
     );
 
   //compute psi
@@ -212,9 +212,9 @@ double psi_paired_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 //' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 //' \itemize{
@@ -233,7 +233,7 @@ double psi_paired_cpp(
 NumericVector null_psi_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",
     IntegerVector block_size = IntegerVector::create(2, 3, 4),
@@ -258,14 +258,14 @@ NumericVector null_psi_paired_cpp(
   double cost_path_sum = distance_pairwise_cpp(
     a,
     b,
-    method
+    distance
   );
 
   //auto sum sequences
   double ab_sum = auto_sum_no_path_cpp(
     a,
     b,
-    method
+    distance
   );
 
   //compute psi
@@ -309,7 +309,7 @@ NumericVector null_psi_paired_cpp(
     double permuted_ab_distance = distance_pairwise_cpp(
       permuted_a,
       permuted_b,
-      method
+      distance
     );
 
     // Compute Psi distance on permuted matrices and store result
@@ -331,9 +331,9 @@ NumericVector null_psi_paired_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -346,7 +346,7 @@ NumericVector null_psi_paired_cpp(
 double psi_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -355,7 +355,7 @@ double psi_cpp(
   DataFrame path = psi_cost_path_cpp(
     a,
     b,
-    method,
+    distance,
     diagonal,
     weighted,
     ignore_blocks
@@ -365,7 +365,7 @@ double psi_cpp(
     a,
     b,
     path,
-    method,
+    distance,
     ignore_blocks
   );
 
@@ -391,9 +391,9 @@ double psi_cpp(
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -419,7 +419,7 @@ double psi_cpp(
 NumericVector null_psi_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false,
@@ -446,7 +446,7 @@ NumericVector null_psi_cpp(
   DataFrame path = psi_cost_path_cpp(
     a,
     b,
-    method,
+    distance,
     diagonal,
     weighted,
     ignore_blocks
@@ -457,7 +457,7 @@ NumericVector null_psi_cpp(
     a,
     b,
     path,
-    method,
+    distance,
     ignore_blocks
   );
 
@@ -509,7 +509,7 @@ NumericVector null_psi_cpp(
     DataFrame permuted_path = psi_cost_path_cpp(
       permuted_a,
       permuted_b,
-      method,
+      distance,
       diagonal,
       weighted,
       ignore_blocks
@@ -535,7 +535,7 @@ library(distantia)
 
 data(sequenceA)
 data(sequenceB)
-method = "euclidean"
+distance = "euclidean"
 
 sequences <- prepareSequences(
   sequence.A = sequenceA,

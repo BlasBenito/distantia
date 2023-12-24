@@ -2,7 +2,7 @@
 #'
 #' @param a (required, data frame or matrix) a time series.
 #' @param b (required, data frame or matrix) a time series.
-#' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
+#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @examples
 #'
 #' data(
@@ -13,7 +13,7 @@
 #' distance.matrix <- distance_matrix(
 #'   a = sequenceA,
 #'   b = sequenceB,
-#'   method = "manhattan"
+#'   distance = "manhattan"
 #' )
 #'
 #' if(interactive()){
@@ -26,7 +26,7 @@
 distance_matrix <- function(
     a = NULL,
     b = NULL,
-    method = "euclidean"
+    distance = "euclidean"
 ){
 
   if(is.null(a)){
@@ -75,18 +75,18 @@ distance_matrix <- function(
     b <- as.matrix(b)
   }
 
-  #selecting method
-  method <- match.arg(
-    arg = method,
+  #selecting distance
+  distance <- match.arg(
+    arg = distance,
     choices = c(
-      methods$name,
-      methods$abbreviation
+      distances$name,
+      distances$abbreviation
     ),
     several.ok = FALSE
   )
 
-  #methods that don't accept two zeros in same position
-  if(method %in% c(
+  #distances that don't accept two zeros in same position
+  if(distance %in% c(
     "chi",
     "cos",
     "cosine"
@@ -103,7 +103,7 @@ distance_matrix <- function(
   d <- distance_matrix_cpp(
     a = a,
     b = b,
-    method = method
+    distance = distance
     )
 
   #adding names

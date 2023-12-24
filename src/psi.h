@@ -8,7 +8,7 @@
 Rcpp::DataFrame psi_cost_path_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -18,7 +18,7 @@ double psi_auto_sum_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     Rcpp::DataFrame path,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool ignore_blocks = false
 );
 
@@ -31,13 +31,13 @@ double psi_formula_cpp(
 double psi_paired_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 );
 
 Rcpp::NumericVector null_psi_paired_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     Rcpp::IntegerVector block_size = Rcpp::IntegerVector::create(2, 3, 4),
     int seed = 1,
     bool independent_columns = true,
@@ -47,7 +47,7 @@ Rcpp::NumericVector null_psi_paired_cpp(
 double psi_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -56,7 +56,7 @@ double psi_cpp(
 Rcpp::NumericVector null_psi_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false,

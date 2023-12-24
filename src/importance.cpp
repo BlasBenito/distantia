@@ -17,11 +17,11 @@ DataFrame update_path_dist_cpp(
     NumericMatrix a,
     NumericMatrix b,
     DataFrame path,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
   //Select distance function
-  DistanceFunction f = select_distance_function_cpp(method);
+  DistanceFunction f = select_distance_function_cpp(distance);
 
   //separate path in vectors
   NumericVector path_a = path["a"];
@@ -106,16 +106,16 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_paired_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
   // Check dimensions of a and b
@@ -135,7 +135,7 @@ DataFrame importance_paired_cpp(
   double psi_all_variables = psi_paired_cpp(
     a,
     b,
-    method
+    distance
   );
 
   //iterate over columns
@@ -152,7 +152,7 @@ DataFrame importance_paired_cpp(
     psi_only_with[i] = psi_paired_cpp(
       a_only_with,
       b_only_with,
-      method
+      distance
     );
 
     //create subsets
@@ -163,7 +163,7 @@ DataFrame importance_paired_cpp(
     psi_without[i] = psi_paired_cpp(
       a_without,
       b_without,
-      method
+      distance
     );
 
     //difference between only with and without
@@ -204,9 +204,9 @@ DataFrame importance_paired_cpp(
 //' with each column, and without each column
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -219,7 +219,7 @@ DataFrame importance_paired_cpp(
 DataFrame importance_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -237,7 +237,7 @@ DataFrame importance_cpp(
   double psi_all_variables = psi_cpp(
     a,
     b,
-    method,
+    distance,
     diagonal,
     weighted,
     ignore_blocks
@@ -257,7 +257,7 @@ DataFrame importance_cpp(
     psi_only_with[i] = psi_cpp(
       a_only_with,
       b_only_with,
-      method,
+      distance,
       diagonal,
       weighted,
       ignore_blocks
@@ -271,7 +271,7 @@ DataFrame importance_cpp(
     psi_without[i] = psi_cpp(
       a_without,
       b_without,
-      method,
+      distance,
       diagonal,
       weighted,
       ignore_blocks
@@ -313,9 +313,9 @@ DataFrame importance_cpp(
 //' better explain the dissimilarity between the sequences.
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -328,7 +328,7 @@ DataFrame importance_cpp(
 DataFrame importance_robust_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean",
+    const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
     bool ignore_blocks = false
@@ -347,7 +347,7 @@ DataFrame importance_robust_cpp(
   DataFrame path = psi_cost_path_cpp(
     a,
     b,
-    method,
+    distance,
     diagonal,
     weighted,
     ignore_blocks
@@ -358,7 +358,7 @@ DataFrame importance_robust_cpp(
     a,
     b,
     path,
-    method,
+    distance,
     ignore_blocks
   );
 
@@ -384,7 +384,7 @@ DataFrame importance_robust_cpp(
       a_only_with,
       b_only_with,
       path,
-      method
+      distance
     );
 
     //compute autosum of a_only_with and b_only_with for testing
@@ -392,7 +392,7 @@ DataFrame importance_robust_cpp(
       a_only_with,
       b_only_with,
       path,
-      method,
+      distance,
       ignore_blocks
     );
 
@@ -412,7 +412,7 @@ DataFrame importance_robust_cpp(
       a_without,
       b_without,
       path,
-      method
+      distance
     );
 
     //compute autosum of a_only_with and b_only_with for testing
@@ -420,7 +420,7 @@ DataFrame importance_robust_cpp(
       a_without,
       b_without,
       path,
-      method,
+      distance,
       ignore_blocks
     );
 
@@ -462,7 +462,7 @@ library(distantia)
 
 data(sequenceA)
 data(sequenceB)
-method = "euclidean"
+distance = "euclidean"
 
 sequences <- prepareSequences(
   sequence.A = sequenceA,
@@ -490,7 +490,7 @@ b <- sequences |>
 df <- importance_robust_cpp(
   a = a,
   b = b,
-  method = "manhattan",
+  distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
   ignore_blocks = TRUE
@@ -499,7 +499,7 @@ df <- importance_robust_cpp(
 df <- importance_robust_cpp(
   a = a,
   b = b,
-  method = "manhattan",
+  distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
   ignore_blocks = TRUE
@@ -508,7 +508,7 @@ df <- importance_robust_cpp(
 df <- importance_robust_cpp(
   a = a,
   b = b,
-  method = "manhattan",
+  distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
   ignore_blocks = TRUE
@@ -517,7 +517,7 @@ df <- importance_robust_cpp(
 df <- importance_robust_cpp(
   a = a,
   b = b,
-  method = "manhattan",
+  distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
   ignore_blocks = TRUE

@@ -13,9 +13,9 @@ prepare_ab(
 )
 }
 \arguments{
-\item{a}{(required, data frame or matrix) a time series.}
+\item{a}{(required, data frame, matrix, or numeric vector) a time series.}
 
-\item{b}{(required, data frame or matrix) a time series.}
+\item{b}{(required, data frame, matrix, or numeric vector) a time series.}
 
 \item{method}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
 
@@ -27,7 +27,7 @@ prepare_ab(
 A list containing the prepared sequences'a' and 'b'.
 }
 \description{
-This function prepares two sequences 'a' and 'b' for dissimilarity analysis. Please make sure that 'a' and 'b' have matching column names, as the output will only contain their common columns.
+Prepares two sequences 'a' and 'b' for dissimilarity analysis. Please make sure that 'a' and 'b' have matching column names, as the output will only contain their common columns.
 }
 \details{
 This function checks and preprocesses the input data 'a' and 'b' for compatibility and consistency in preparation for dissimilarity analysis.

@@ -29,7 +29,7 @@ b <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-d <- distance_matrix(a, b, method = "euclidean")
+d <- distance_matrix(a, b, distance = "euclidean")
 
 m <- cost_matrix(dist_matrix = d)
 

@@ -1,9 +1,9 @@
 #' Prepare Two Sequences for Dissimilarity Analysis
 #'
-#' This function prepares two sequences 'a' and 'b' for dissimilarity analysis. Please make sure that 'a' and 'b' have matching column names, as the output will only contain their common columns.
+#' Prepares two sequences 'a' and 'b' for dissimilarity analysis. Please make sure that 'a' and 'b' have matching column names, as the output will only contain their common columns.
 #'
-#' @param a (required, data frame or matrix) a time series.
-#' @param b (required, data frame or matrix) a time series.
+#' @param a (required, data frame, matrix, or numeric vector) a time series.
+#' @param b (required, data frame, matrix, or numeric vector) a time series.
 #' @param method (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
 #' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param pseudo_zero (optional, numeric) value to replace zero values if distance metrics "psi" and "cosine" are used. Default: 0.0001.

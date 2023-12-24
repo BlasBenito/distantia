@@ -10,18 +10,18 @@ using namespace Rcpp;
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//'  of the dataset `methods`. Default: "euclidean".
+//'  of the dataset `distances`. Default: "euclidean".
 //' @return Matrix of distances between 'a' (rows) and 'b' (columns).
 //' @export
 // [[Rcpp::export]]
 double auto_distance_cpp(
     NumericMatrix m,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
-  DistanceFunction f = select_distance_function_cpp(method);
+  DistanceFunction f = select_distance_function_cpp(distance);
 
   int m_rows = m.nrow();
   double dist = 0.0;
@@ -72,28 +72,28 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' a key component of the psi computation.
 //' @param a (required, numeric matrix).
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Auto sum of distances.
 //' @export
 // [[Rcpp::export]]
 double auto_sum_no_path_cpp(
     NumericMatrix a,
     NumericMatrix b,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 ){
 
   //working with a
   double a_distance = auto_distance_cpp(
     a,
-    method
+    distance
   );
 
   //working with b
   double b_distance = auto_distance_cpp(
     b,
-    method
+    distance
   );
 
   return a_distance + b_distance;
@@ -108,9 +108,9 @@ double auto_sum_no_path_cpp(
 //' @param b (required, numeric matrix) of same number of columns as 'a'.
 //' @param path (required, data frame) dataframe produced by [cost_path()].
 //' Default: NULL
-//' @param method (optional, character string) name or abbreviation of the
+//' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `methods`. Default: "euclidean".
+//' of the dataset `distances`. Default: "euclidean".
 //' @return Numeric.
 //' @export
 // [[Rcpp::export]]
@@ -118,7 +118,7 @@ double auto_sum_path_cpp(
   NumericMatrix a,
   NumericMatrix b,
   DataFrame path,
-  const std::string& method = "euclidean"
+  const std::string& distance = "euclidean"
 ){
 
   //working with a
@@ -129,7 +129,7 @@ double auto_sum_path_cpp(
 
   double a_distance = auto_distance_cpp(
     a_subset,
-    method
+    distance
   );
 
   //working with b
@@ -140,7 +140,7 @@ double auto_sum_path_cpp(
 
   double b_distance = auto_distance_cpp(
     b_subset,
-    method
+    distance
   );
 
   return a_distance + b_distance;
@@ -155,7 +155,7 @@ double auto_sum_path_cpp(
 /*** R
 data(sequenceA)
 data(sequenceB)
-method = "euclidean"
+distance = "euclidean"
 
 sequences <- prepareSequences(
   sequence.A = sequenceA,
@@ -192,7 +192,7 @@ a_test[c(1, 3), ]
 
 auto_distance_cpp(
   m = a_test,
-  method = "euclidean"
+  distance = "euclidean"
 )
 
 #Testing all functions together
@@ -200,7 +200,7 @@ auto_distance_cpp(
 dist_matrix <- distance_matrix_cpp(
   a,
   b,
-  method
+  distance
 )
 
 cost_matrix <- cost_matrix_cpp(
@@ -226,12 +226,12 @@ sum(a_subset)
 
 auto_distance_cpp(
   a,
-  method
+  distance
 )
 
 auto_distance_cpp(
   a_subset,
-  method
+  distance
 )
 
 
@@ -244,21 +244,21 @@ b_subset = subset_matrix_by_rows_cpp(
 
 auto_distance_cpp(
   b,
-  method
+  distance
 )
 
 auto_distance_cpp(
   b_subset,
-  method
+  distance
 )
 
 
-auto_sum_no_path_cpp(a, b, method)
+auto_sum_no_path_cpp(a, b, distance)
 
-auto_sum_path_cpp(a, b, path, method)
+auto_sum_path_cpp(a, b, path, distance)
 
 path_trimmed <- cost_path_trim_cpp(path)
 
-auto_sum_path_cpp(a, b, path_trimmed, method)
+auto_sum_path_cpp(a, b, path_trimmed, distance)
 
 */

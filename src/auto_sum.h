@@ -6,7 +6,7 @@
 // Distance matrix function declaration
 double auto_distance_cpp(
     Rcpp::NumericMatrix m,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 );
 
 // Subset matrix by rows function declaration
@@ -20,13 +20,13 @@ double auto_sum_path_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     Rcpp::DataFrame path,
-    const std::string& method = "euclidean"
+    const std::string& distance = "euclidean"
 );
 
 double auto_sum_no_path_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
-        const std::string& method = "euclidean"
+        const std::string& distance = "euclidean"
 );
 
 #endif // AUTO_SUM_H

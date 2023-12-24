@@ -4,16 +4,16 @@
 \alias{psi_paired_cpp}
 \title{Computes Psi Distance Between Two Time-Series With Paired Samples}
 \usage{
-psi_paired_cpp(a, b, method = "euclidean")
+psi_paired_cpp(a, b, distance = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
 
 \item{b}{(required, numeric matrix) of same number of columns as 'a'.}
 
-\item{method}{(optional, character string) name or abbreviation of the
+\item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `methods`. Default: "euclidean".}
+of the dataset `distances`. Default: "euclidean".}
 }
 \value{
 Psi distance

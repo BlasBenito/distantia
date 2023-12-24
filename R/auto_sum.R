@@ -1,11 +1,11 @@
 #' Auto Sum
 #'
-#' @description Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed via the methods "manhattan", "euclidean", "chi", and "hellinger.
+#' @description Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 #'
 #' @param a (required, data frame) a time series. Default: NULL.
 #' @param b (required, data frame) a time series. Default: NULL.
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [ignore_blocks()] has been applied to `path`. Default: NULL.
-#' @param method (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".
+#' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.
+#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return Named vector with the auto sums of `a` and `b`.
 #' @examples
 #' data(sequenceA, sequenceB)
@@ -21,7 +21,7 @@
 #' ab_sum <- auto_sum(
 #'   a = a,
 #'   b = b,
-#'   method = "manhattan"
+#'   distance = "manhattan"
 #' )
 #'
 #' ab_sum
@@ -32,7 +32,7 @@ auto_sum <- function(
     a = NULL,
     b = NULL,
     path = NULL,
-    method = "euclidean"
+    distance = "euclidean"
     ){
 
   #check input arguments
@@ -79,17 +79,17 @@ auto_sum <- function(
   }
 
   #managing distance method
-  method <- match.arg(
-    arg = method,
+  distance <- match.arg(
+    arg = distance,
     choices = c(
-      methods$name,
-      methods$abbreviation
+      distances$name,
+      distances$abbreviation
     ),
     several.ok = FALSE
   )
 
   #methods that don't accept two zeros in same position
-  if(method %in% c(
+  if(distance %in% c(
     "chi",
     "cos",
     "cosine"
@@ -107,13 +107,13 @@ auto_sum <- function(
       a = a,
       b = b,
       path = path,
-      method = method
+      distance = distance
     )
   } else {
     ab_sum <- auto_sum_no_path_cpp(
       a = a,
       b = b,
-      method = method
+      distance = distance
     )
   }
 

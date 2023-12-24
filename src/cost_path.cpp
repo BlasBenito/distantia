@@ -225,7 +225,7 @@ b <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-dist_matrix <- distance_matrix(a, b, method = "euclidean")
+dist_matrix <- distance_matrix(a, b, distance = "euclidean")
 
 cost_matrix <- cost_matrix(dist_matrix = dist_matrix)
 

@@ -7,7 +7,7 @@
 distantia(
   a = NULL,
   b = NULL,
-  method = c("euclidean", "manhattan"),
+  distance = c("euclidean", "manhattan"),
   diagonal = c(FALSE, TRUE),
   weighted = c(FALSE, TRUE),
   ignore_blocks = c(FALSE, TRUE),
@@ -23,7 +23,7 @@ distantia(
 
 \item{b}{(required, data frame or matrix) a time series.}
 
-\item{method}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
 
@@ -52,7 +52,7 @@ Data frame with the following columns:
 \itemize(
   \item `name_a`: name of the sequence `a`.
   \item `name_bb`: name of the sequence `b`.
-  \item `method`: name of the distance metric.
+  \item `distance`: name of the distance metric.
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.
   \item `ignore_blocks`: value of the argument `ignore_blocks`.
@@ -79,7 +79,7 @@ data(
 ab.psi <- distantia(
   a = sequenceA,
   b = sequenceB,
-  method = "manhattan"
+  distance = "manhattan"
 )
 
 }

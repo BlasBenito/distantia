@@ -38,6 +38,6 @@ double distance_hamming_cpp(Rcpp::NumericVector x, Rcpp::NumericVector y);
 typedef double (*DistanceFunction)(Rcpp::NumericVector, Rcpp::NumericVector);
 
 // Internal function to select the distance method
-DistanceFunction select_distance_function_cpp(const std::string& method);
+DistanceFunction select_distance_function_cpp(const std::string& distance);
 
 #endif

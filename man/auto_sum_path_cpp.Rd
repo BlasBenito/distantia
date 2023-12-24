@@ -4,7 +4,7 @@
 \alias{auto_sum_path_cpp}
 \title{Auto-sum of Two Sequences}
 \usage{
-auto_sum_path_cpp(a, b, path, method = "euclidean")
+auto_sum_path_cpp(a, b, path, distance = "euclidean")
 }
 \arguments{
 \item{a}{(required, numeric matrix).}
@@ -14,9 +14,9 @@ auto_sum_path_cpp(a, b, path, method = "euclidean")
 \item{path}{(required, data frame) dataframe produced by [cost_path()].
 Default: NULL}
 
-\item{method}{(optional, character string) name or abbreviation of the
+\item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `methods`. Default: "euclidean".}
+of the dataset `distances`. Default: "euclidean".}
 }
 \value{
 Numeric.

@@ -4,22 +4,22 @@
 \alias{auto_sum}
 \title{Auto Sum}
 \usage{
-auto_sum(a = NULL, b = NULL, path = NULL, method = "euclidean")
+auto_sum(a = NULL, b = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
 \item{a}{(required, data frame) a time series. Default: NULL.}
 
 \item{b}{(required, data frame) a time series. Default: NULL.}
 
-\item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [ignore_blocks()] has been applied to `path`. Default: NULL.}
+\item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.}
 
-\item{method}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
+\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 }
 \value{
 Named vector with the auto sums of `a` and `b`.
 }
 \description{
-Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985). Distances can be computed via the methods "manhattan", "euclidean", "chi", and "hellinger.
+Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 }
 \examples{
 data(sequenceA, sequenceB)
@@ -35,7 +35,7 @@ b <- sequenceB |>
 ab_sum <- auto_sum(
   a = a,
   b = b,
-  method = "manhattan"
+  distance = "manhattan"
 )
 
 ab_sum

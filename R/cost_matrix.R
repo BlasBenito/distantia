@@ -23,7 +23,7 @@
 #' distance.matrix <- distance_matrix(
 #'   a = a,
 #'   b = b,
-#'   method = "manhattan"
+#'   distance = "manhattan"
 #' )
 #'
 #' cost.matrix <- cost_matrix(
