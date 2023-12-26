@@ -8,6 +8,5 @@ utils::globalVariables(c(
   "distances", # <distance_matrix>
   "distances", # <distantia>
   "distances", # <importance>
-  "methods", # <prepare_ab>
   NULL
 ))

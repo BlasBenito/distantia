@@ -4,24 +4,16 @@
 \alias{prepare_ab}
 \title{Prepare Two Sequences for Dissimilarity Analysis}
 \usage{
-prepare_ab(
-  a = NULL,
-  b = NULL,
-  method = "euclidean",
-  paired_samples = FALSE,
-  pseudo_zero = 1e-04
-)
+prepare_ab(a = NULL, b = NULL, distance = "euclidean", paired_samples = FALSE)
 }
 \arguments{
 \item{a}{(required, data frame, matrix, or numeric vector) a time series.}
 
 \item{b}{(required, data frame, matrix, or numeric vector) a time series.}
 
-\item{method}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `methods`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
 \item{paired_samples}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
-
-\item{pseudo_zero}{(optional, numeric) value to replace zero values if distance metrics "psi" and "cosine" are used. Default: 0.0001.}
 }
 \value{
 A list containing the prepared sequences'a' and 'b'.
@@ -37,7 +29,7 @@ This function checks and preprocesses the input data 'a' and 'b' for compatibili
 ab <- prepare_ab(
  a = na.omit(sequenceA),
  b = na.omit(sequenceB),
- method = "euclidean",
+ distance = "euclidean",
  paired_samples = FALSE
  )
 

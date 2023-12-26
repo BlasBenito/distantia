@@ -32,16 +32,6 @@ prepare_ab <- function(
     paired_samples = FALSE
     ){
 
-  #selecting distance
-  distance <- match.arg(
-    arg = distance,
-    choices = c(
-      distances$name,
-      distances$abbreviation
-    ),
-    several.ok = TRUE
-  )
-
   if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
     stop("Argument 'a' must be a data frame or matrix.")
   }
@@ -51,12 +41,20 @@ prepare_ab <- function(
   }
 
   #checking for NA
-  if(sum(is.na(a)) > 0){
-    stop("Argument 'a' has NA values. Please remove or imputate NA values before the dissimilarity analysis.")
+  a.na <- sum(is.na(a))
+  if(a.na > 0){
+    stop(
+      "Argument 'a' has ",
+      a.na,
+      " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+      )
   }
 
-  if(sum(is.na(b)) > 0){
-    stop("Argument 'b' has NA values. Please remove or imputate NA values before the dissimilarity analysis.")
+  b.na <- sum(is.na(b))
+  if(b.na > 0){
+    stop("Argument 'b' has ", b.na,
+         " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+         )
   }
 
   #if vector, one column data frame
@@ -72,38 +70,22 @@ prepare_ab <- function(
     )
   }
 
-  #check colnames
-  if(is.null(colnames(a))){
-
-    if(ncol(a) != ncol(b)){
-      warning("Sequence 'a' does not have column names and differs in the number of columns compared to 'b'. This might lead to inconsistent column matching and unreliable results during the dissimilarity analysis.")
-    }
-
-    colnames(a) <- seq(
-      from = 1,
-      to = ncol(a)
-    ) |>
-      as.character()
-
-  }
 
   #check colnames
-  if(is.null(colnames(b))){
+  if(
+    (is.null(colnames(a)) | is.null(colnames(b))) &&
+    ncol(a) != ncol(b)
+     ){
 
-    if(ncol(a) != ncol(b)){
-      warning("Sequence 'b' does not have column names and differs in the number of columns compared to 'a'. This might lead to inconsistent column matching and unreliable results during the dissimilarity analysis.")
+    stop("Arguments 'a' and 'b' must either have column names or the same number of columns.")
+
     }
 
-    colnames(b) <- seq(
-      from = 1,
-      to = ncol(b)
-    ) |>
-      as.character()
+  # keep only numeric columns
+  a <- a[, sapply(a, is.numeric)]
+  b <- b[, sapply(b, is.numeric)]
 
-  }
-
-
-  #preprocessing data
+  #subsetting to common columns
   if(ncol(a) != ncol(b)){
     common.cols <- intersect(
       x = colnames(a),
@@ -146,6 +128,7 @@ prepare_ab <- function(
     }
 
   }
+
 
   list(
     a = a,

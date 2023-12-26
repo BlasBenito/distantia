@@ -84,74 +84,6 @@ distantia <- function(
     several.ok = TRUE
   )
 
-  if(is.null(a)){
-    stop("Argument 'a' must not be NULL.")
-  }
-
-  if(is.null(b)){
-    stop("Argument 'b' must not be NULL.")
-  }
-
-  if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'a' must be a data frame or matrix.")
-  }
-
-  if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'b' must be a data frame or matrix.")
-  }
-
-  #checking for NA
-  if(sum(is.na(a)) > 0){
-    stop("Argument 'a' has NA values. Please remove or imputate them before the distance computation.")
-  }
-  if(sum(is.na(b)) > 0){
-    stop("Argument 'b' has NA values. Please remove or imputate them before the distance computation.")
-  }
-
-  #preprocessing data
-  if(ncol(a) != ncol(b)){
-    common.cols <- intersect(
-      x = colnames(a),
-      y = colnames(b)
-    )
-    a <- a[, common.cols]
-    b <- b[, common.cols]
-  }
-
-  #capture row names
-  a.names <- rownames(a)
-  b.names <- rownames(b)
-
-  if(!is.matrix(a)){
-    a <- as.matrix(a)
-  }
-
-  if(!is.matrix(b)){
-    b <- as.matrix(b)
-  }
-
-  if(paired_samples == TRUE && (nrow(a) != nrow(b))){
-    stop("Arguments 'a' and 'b' must have the same number of rows when 'paired_samples = TRUE'.")
-  }
-
-
-  #distances that don't accept two zeros in same position
-  if(
-    any(
-      c(
-        "chi",
-        "cos",
-        "cosine"
-      ) %in% distance
-    )
-  ){
-
-    pseudozero <- mean(x = c(a, b)) * 0.0001
-    a[a == 0] <- pseudozero
-    b[b == 0] <- pseudozero
-
-  }
-
   #preparing output data frame
   df <- expand.grid(
     name_a = "a",
@@ -189,19 +121,27 @@ distantia <- function(
   #iterating over combinations of arguments
   for(i in seq_len(nrow(df))){
 
+    #TODO take a and b from list?
+    ab <- prepare_ab(
+      a = a,
+      b = b,
+      distance = distance,
+      paired_samples = paired_samples
+    )
+
     if(df$paired_samples[i] == TRUE){
 
       psi_distance <- psi_paired_cpp(
-        a = a,
-        b = b,
+        a = ab$a,
+        b = ab$b,
         distance = df$distance[i]
       )
 
       if(repetitions > 0){
 
         psi_null <- null_psi_paired_cpp(
-          a = a,
-          b = b,
+          a = ab$a,
+          b = ab$b,
           distance = df$distance[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
@@ -214,8 +154,8 @@ distantia <- function(
     } else {
 
       psi_distance <- psi_cpp(
-        a = a,
-        b = b,
+        a = ab$a,
+        b = ab$b,
         distance = df$distance[i],
         diagonal = df$diagonal[i],
         weighted = df$weighted[i],
@@ -225,8 +165,8 @@ distantia <- function(
       if(repetitions > 0){
 
         psi_null <- null_psi_cpp(
-          a = a,
-          b = b,
+          a = ab$a,
+          b = ab$b,
           distance = df$distance[i],
           diagonal = df$diagonal[i],
           weighted = df$weighted[i],

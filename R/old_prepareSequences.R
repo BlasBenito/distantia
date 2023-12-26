@@ -69,19 +69,21 @@
 #'  )
 #'
 #' @export
-prepareSequences=function(sequence.A = NULL,
-                          sequence.A.name = "A",
-                          sequence.B = NULL,
-                          sequence.B.name = "B",
-                          merge.mode = "complete",
-                          sequences = NULL,
-                          grouping.column = NULL,
-                          time.column = NULL,
-                          exclude.columns = NULL,
-                          if.empty.cases = "zero",
-                          transformation = "none",
-                          paired.samples = FALSE,
-                          same.time = FALSE){
+prepareSequences=function(
+    sequence.A = NULL,
+    sequence.A.name = "A",
+    sequence.B = NULL,
+    sequence.B.name = "B",
+    merge.mode = "complete",
+    sequences = NULL,
+    grouping.column = NULL,
+    time.column = NULL,
+    exclude.columns = NULL,
+    if.empty.cases = "zero",
+    transformation = "none",
+    paired.samples = FALSE,
+    same.time = FALSE
+    ){
 
   #INTERNAL PARAMETERS
   input.mode <- NULL
