@@ -247,6 +247,15 @@ prepare_sequences <- function(
     )
   }
 
+  #add attribute to indicate the data frames are validated
+  sequences <- lapply(
+    X = sequences,
+    FUN = function(x){
+      attr(x, "validated") <- TRUE
+      return(x)
+    }
+  )
+
   sequences
 
 }
