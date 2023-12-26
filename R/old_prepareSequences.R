@@ -367,8 +367,10 @@ prepareSequences=function(
 #'   )
 #'
 #' @export
-handleNA <- function(sequence = NULL,
-                     if.empty.cases = "zero"){
+handleNA <- function(
+    sequence = NULL,
+    if.empty.cases = "zero"
+    ){
 
 
   #checking if.empty.cases
