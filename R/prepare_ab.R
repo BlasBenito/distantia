@@ -32,58 +32,111 @@ prepare_ab <- function(
     paired_samples = FALSE
     ){
 
-  if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'a' must be a data frame or matrix.")
-  }
+  #check validation flags
+  a.validated <- ifelse(
+    test = "validated" %in% names(attributes(a)),
+    yes = attributes(a)$validated,
+    no = FALSE
+  )
 
-  if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'b' must be a data frame or matrix.")
-  }
+  b.validated <- ifelse(
+    test = "validated" %in% names(attributes(b)),
+    yes = attributes(b)$validated,
+    no = FALSE
+  )
 
-  #checking for NA
-  a.na <- sum(is.na(a))
-  if(a.na > 0){
-    stop(
-      "Argument 'a' has ",
-      a.na,
-      " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+  #validating
+  if(any(c(a.validated, b.validated)) == FALSE){
+
+    if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
+      stop("Argument 'a' must be a data frame or matrix.")
+    }
+
+    if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
+      stop("Argument 'b' must be a data frame or matrix.")
+    }
+
+    #checking for NA
+    a.na <- sum(is.na(a))
+    if(a.na > 0){
+      stop(
+        "Argument 'a' has ",
+        a.na,
+        " NA values. Please remove or imputate NA values before the dissimilarity analysis."
       )
-  }
+    }
 
-  b.na <- sum(is.na(b))
-  if(b.na > 0){
-    stop("Argument 'b' has ", b.na,
-         " NA values. Please remove or imputate NA values before the dissimilarity analysis."
-         )
-  }
+    b.na <- sum(is.na(b))
+    if(b.na > 0){
+      stop("Argument 'b' has ", b.na,
+           " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+      )
+    }
 
-  #if vector, one column data frame
-  if(is.vector(a)){
-    a <- data.frame(
-      column_1 = a
-    )
-  }
+    #check colnames
+    if(
+      (is.null(colnames(a)) | is.null(colnames(b))) &&
+      ncol(a) != ncol(b)
+    ){
 
-  if(is.vector(b)){
-    b <- data.frame(
-      column_1 = b
-    )
-  }
-
-
-  #check colnames
-  if(
-    (is.null(colnames(a)) | is.null(colnames(b))) &&
-    ncol(a) != ncol(b)
-     ){
-
-    stop("Arguments 'a' and 'b' must either have column names or the same number of columns.")
+      stop("Arguments 'a' and 'b' must either have column names or the same number of columns.")
 
     }
 
-  # keep only numeric columns
-  a <- a[, sapply(a, is.numeric)]
-  b <- b[, sapply(b, is.numeric)]
+    # keep only numeric columns
+    a <- a[, sapply(a, is.numeric)]
+    b <- b[, sapply(b, is.numeric)]
+
+    #convert to matrix
+    if(!is.matrix(a)){
+      a <- as.matrix(a)
+    }
+
+    if(!is.matrix(b)){
+      b <- as.matrix(b)
+    }
+
+    if(paired_samples == TRUE && (nrow(a) != nrow(b))){
+      stop("Arguments 'a' and 'b' must have the same number of rows when 'paired_samples = TRUE'.")
+    }
+
+    #distances that don't accept two zeros in same position
+    if(
+      any(
+        c(
+          "chi",
+          "cos",
+          "cosine"
+        ) %in% distance
+      )
+    ){
+
+      if(sum(a[a == 0]) > 0){
+        stop("Argument 'a' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+      }
+
+      if(sum(b[b == 0]) > 0){
+        stop("Argument 'b' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+      }
+
+    }
+
+
+  }
+
+  #remove time column
+  a.validated <- ifelse(
+    test = "validated" %in% names(attributes(a)),
+    yes = attributes(a)$validated,
+    no = FALSE
+  )
+
+  b.validated <- ifelse(
+    test = "validated" %in% names(attributes(b)),
+    yes = attributes(b)$validated,
+    no = FALSE
+  )
+
 
   #subsetting to common columns
   if(ncol(a) != ncol(b)){
@@ -95,39 +148,11 @@ prepare_ab <- function(
     b <- b[, common.cols]
   }
 
-  if(!is.matrix(a)){
-    a <- as.matrix(a)
-  }
-
-  if(!is.matrix(b)){
-    b <- as.matrix(b)
-  }
-
-  if(paired_samples == TRUE && (nrow(a) != nrow(b))){
-    stop("Arguments 'a' and 'b' must have the same number of rows when 'paired_samples = TRUE'.")
-  }
 
 
-  #distances that don't accept two zeros in same position
-  if(
-    any(
-      c(
-        "chi",
-        "cos",
-        "cosine"
-      ) %in% distance
-    )
-  ){
 
-    if(sum(a[a == 0]) > 0){
-      stop("Argument 'a' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
-    }
 
-    if(sum(b[b == 0]) > 0){
-      stop("Argument 'b' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
-    }
 
-  }
 
 
   list(

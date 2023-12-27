@@ -3,6 +3,24 @@ library(dplyr)
 load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 
 id_column <- "MIS"
+
+x <- lapply(
+  x,
+  FUN = function(x){
+    as.matrix(x)
+  }
+)
+
+#WITHOUT TIME
+x <- prepare_sequences(
+  x = sequencesMIS,
+  id_column = id_column,
+  time_column = NULL,
+  transformation = f_hellinger,
+  paired_samples = FALSE
+)
+
+#WITH TIME
 time_column <- "time"
 
 sequences_time <- sequencesMIS |>
@@ -12,17 +30,13 @@ sequences_time <- sequencesMIS |>
   ) |>
   as.data.frame()
 
-
 x <- prepare_sequences(
-  sequences = sequences_time,
-  id_column = "MIS",
-  time_column = "time",
-  transformation = f_scale,
-  paired_samples = TRUE
+  x = sequences_time,
+  id_column = id_column,
+  time_column = time_column,
+  transformation = f_hellinger,
+  paired_samples = FALSE
 )
 
-dplyr::glimpse(x[[1]])
-
-
-
-sequences <- sequencesMIS
+a <- x[[1]]
+b <- x[[2]]

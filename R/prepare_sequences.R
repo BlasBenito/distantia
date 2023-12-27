@@ -1,17 +1,17 @@
-#' Prepare Sequences for Dissimilarity Analysis
+#' Prepare x for Dissimilarity Analysis
 #'
 #' @description
 #' This function performs the following steps:
 #' - Converts a data frame to a list by 'id_column'.
-#' - Checks the validity of input sequences.
-#' - Orders sequences by time if a time column is PROVIDED
+#' - Checks the validity of input x.
+#' - Orders x by time if a time column is PROVIDED
 #' - Handles missing values according to the specified action.
 #' - Handles zeros by replacing them with a pseudo-zero value, if provided.
 #' - Transforms the data if a transformation function is provided.
 #'
 #'
-#' @param sequences (required, list or data frame) A named list with sequences, or a long data frame with a grouping column. Default: NULL.
-#' @param id_column (optional, column name) Column name used for splitting a 'sequences' data frame into a list.
+#' @param x (required, list or data frame) A named list with ordered sequences, or a long data frame with a grouping column. Default: NULL.
+#' @param id_column (optional, column name) Column name used for splitting a 'x' data frame into a list.
 #' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
 #' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
 #' \itemize{
@@ -32,13 +32,13 @@
 #' @examples
 #' data(sequencesMIS)
 #' x <- prepare_sequences(
-#'   sequences = sequencesMIS,
+#'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )
 #' @autoglobal
 #' @export
 prepare_sequences <- function(
-    sequences = NULL,
+    x = NULL,
     id_column = NULL,
     time_column = NULL,
     transformation = NULL,
@@ -47,6 +47,11 @@ prepare_sequences <- function(
     na_action = "omit"
 ){
 
+  if(is.null(x)){
+    stop("Argument 'x' must not be NULL")
+  }
+
+  #check NA action argument
   na_action <- match.arg(
     arg = na_action,
     choices = c(
@@ -56,34 +61,125 @@ prepare_sequences <- function(
     )
   )
 
-  if(is.null(sequences)){
-    stop("Argument 'sequences' must not be NULL")
-  }
-
-  #DATA FRAME TO LIST BY id_column
-  if(inherits(x = sequences, what = "data.frame")){
+  #DATA FRAME TO LIST
+  #############################################
+  if(inherits(x = x, what = "data.frame")){
 
     if(is.null(id_column)){
-      stop("Argument 'id_column' cannot be NULL when 'sequences' is a data frame.")
+      stop("Argument 'id_column' cannot be NULL when 'x' is a data frame.")
     }
 
-    if(!(id_column %in% colnames(sequences))){
-      stop("Argument 'id_column' must be a column name of 'sequences'.")
+    if(!(id_column %in% colnames(x))){
+      stop("Argument 'id_column' must be a column name of 'x'.")
     }
 
-    sequences <- split(
-      x = sequences[, colnames(sequences) != id_column],
-      f = sequences[[id_column]]
+    #separate groups to list
+    x <- split(
+      x = x[, colnames(x) != id_column],
+      f = x[[id_column]]
+    )
+
+  }
+
+  #CHECK CLASSES IN X
+  ################################################
+  x.class <- lapply(
+    X = x,
+    FUN = class
+  ) |>
+    unlist() |>
+    as.data.frame()
+
+  colnames(x.class) <- "class"
+
+  if(length(unique(x.class[, 1])) > 1){
+
+    print(x.class)
+    stop("All objects in 'x' must be of the same class (data.frame, matrix, or vector).")
+
+  }
+
+  #CONVERTING VECTORS TO DATA FRAMES
+  #######################################
+  x.vector <- lapply(
+    X = x,
+    FUN = is.vector
+  ) |>
+    unlist()
+
+  if(sum(x.vector) == length(x)){
+
+    x <- lapply(
+      X = x,
+      FUN = function(x){
+        data.frame(
+          x = x
+        )
+      }
+    )
+
+  }
+
+  #CONVERTING MATRICES TO DATA FRAMES
+  #######################################
+  x.matrix <- lapply(
+    X = x,
+    FUN = is.matrix
+  ) |>
+    unlist()
+
+  #all elements are matrices
+  if(all(x.matrix) == TRUE){
+
+    #number of unique column names
+    x.matrix.colnames <- lapply(
+      X = x,
+      FUN = colnames
+    ) |>
+      unlist() |>
+      unique()
+
+    #number of columns per matrix
+    x.matrix.ncol <- lapply(
+      X = x,
+      FUN = ncol
+    ) |>
+      unlist() |>
+      unique() |>
+      length()
+
+    #error if matrices have different number of columns
+    #and no column names
+    if(is.null(x.matrix.colnames) && x.matrix.ncol > 1){
+      stop("Elements in 'x' are matrices without column names and different numbers of columns. Please provide matrices with column names or with the same number of columns.")
+
+    }
+
+    #fix matrices colnames
+
+
+    x <- lapply(
+      X = x,
+      FUN = function(x){
+        if(is.null(colnames(x))){
+          colnames(x) <- paste0("x", seq_len(ncol(x)))
+        }
+        x <- as.data.frame(x)
+
+        return(x)
+      }
     )
 
   }
 
 
+
+
   #add fake time column
   if(is.null(time_column)){
     time_column <- "row_id"
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x){
         n <- ifelse(
           test = is.data.frame(x) | is.matrix(x),
@@ -96,47 +192,47 @@ prepare_sequences <- function(
     )
   }
 
-  #sequences is not a list
-  if(inherits(x = sequences, what = "list") == FALSE){
-    stop("Argument 'sequences' must be a list.")
+  #x is not a list
+  if(inherits(x = x, what = "list") == FALSE){
+    stop("Argument 'x' must be a list.")
   }
 
-  #sequences is too short
-  if(length(sequences) < 2){
-    stop("Argument 'sequences' must be a list with a least two elements.")
+  #x is too short
+  if(length(x) < 2){
+    stop("Argument 'x' must be a list with a least two elements.")
   }
 
-  if(any(is.null(names(sequences)))){
-    stop("All elements in the list 'sequences' must be named.")
+  if(any(is.null(names(x)))){
+    stop("All elements in the list 'x' must be named.")
   }
 
-  #check classes in sequences
-  sequences.classes <- lapply(
-    X = sequences,
+  #check classes in x
+  x.classes <- lapply(
+    X = x,
     FUN = class
   ) |>
     unlist()
 
-  sequences.classes <- sequences.classes[!(sequences.classes %in% c("data.frame", "matrix", "numeric"))]
+  x.classes <- x.classes[!(x.classes %in% c("data.frame", "matrix"))]
 
-  if(length(sequences.classes) > 0){
-    warning("The elements of the list 'sequences' must be of the class 'data.frame', 'matrix', or 'numeric' (vector).")
+  if(length(x.classes) > 0){
+    warning("The elements of the list 'x' must be of the class 'data.frame' or 'matrix'.")
   }
 
   #order by time
   ###################################
-  sequences.with.time <- lapply(
-    X = sequences,
+  x.with.time <- lapply(
+    X = x,
     FUN = function(x) time_column %in% colnames(x)
   ) |>
     unlist() |>
     sum()
 
-  if(sequences.with.time == length(sequences)){
+  if(x.with.time == length(x)){
 
     #arrange by time
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x){
         x[order(x[[time_column]]), ]
       }
@@ -148,16 +244,16 @@ prepare_sequences <- function(
     if(paired_samples == TRUE){
 
       times <- lapply(
-        X = sequences,
+        X = x,
         FUN = function(x) unique(x[[time_column]])
       ) |>
         unlist() |>
         table()
 
-      times_common <- as.numeric(names(times)[times == length(sequences)])
+      times_common <- as.numeric(names(times)[times == length(x)])
 
-      sequences <- lapply(
-        X = sequences,
+      x <- lapply(
+        X = x,
         FUN = function(x) x[x[[time_column]] %in% times_common, ]
       )
 
@@ -165,11 +261,19 @@ prepare_sequences <- function(
 
   }
 
+  #keep numeric columns only
+  x <- lapply(
+    X = x,
+    FUN = function(x){
+      x <- x[, sapply(x, is.numeric)]
+    }
+  )
+
   #handle NA
   #####################################
   if(na_action == "omit"){
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x) na.omit(x)
     )
   }
@@ -182,8 +286,8 @@ prepare_sequences <- function(
       zero <- pseudo_zero
     }
 
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x) x[is.na(x)] <- zero
     )
 
@@ -197,8 +301,8 @@ prepare_sequences <- function(
   ##################################
   if(!is.null(pseudo_zero)){
 
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x){
         x.time <- x[[time_column]]
         x[[time_column]] <- NULL
@@ -215,8 +319,8 @@ prepare_sequences <- function(
   if(inherits(x = transformation, what = "function")){
 
     #apply transformation
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x){
         x.time <- x[[time_column]]
         x[[time_column]] <- NULL
@@ -229,8 +333,8 @@ prepare_sequences <- function(
   }
 
   #remove fake time column
-  sequences <- lapply(
-    X = sequences,
+  x <- lapply(
+    X = x,
     FUN = function(x){
       x[, colnames(x) != "row_id"]
     }
@@ -238,8 +342,8 @@ prepare_sequences <- function(
 
   #add attribute to ignore time column
   if(!is.null(time_column)){
-    sequences <- lapply(
-      X = sequences,
+    x <- lapply(
+      X = x,
       FUN = function(x){
         attr(x, "ignore_columns") <- time_column
         return(x)
@@ -247,15 +351,21 @@ prepare_sequences <- function(
     )
   }
 
+  #convert to matrix
+  x <- lapply(
+    X = x,
+    FUN = function(x) as.matrix(x)
+  )
+
   #add attribute to indicate the data frames are validated
-  sequences <- lapply(
-    X = sequences,
+  x <- lapply(
+    X = x,
     FUN = function(x){
       attr(x, "validated") <- TRUE
       return(x)
     }
   )
 
-  sequences
+  x
 
 }
