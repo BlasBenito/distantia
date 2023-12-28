@@ -51,15 +51,7 @@ prepare_sequences <- function(
     stop("Argument 'x' must not be NULL")
   }
 
-  #check NA action argument
-  na_action <- match.arg(
-    arg = na_action,
-    choices = c(
-      "omit",
-      "to_zero",
-      "impute"#not implemented yet
-    )
-  )
+
 
   #DATA FRAME TO LIST
   #############################################
@@ -79,6 +71,15 @@ prepare_sequences <- function(
       f = x[[id_column]]
     )
 
+  }
+
+  #x is too short
+  if(length(x) == 1){
+    stop("Argument 'x' must be a list with a least two elements.")
+  }
+
+  if(any(is.null(names(x)))){
+    stop("All elements in the list 'x' must be named.")
   }
 
   #CHECK CLASSES IN X
@@ -175,35 +176,11 @@ prepare_sequences <- function(
 
 
 
-  #add fake time column
-  if(is.null(time_column)){
-    time_column <- "row_id"
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        n <- ifelse(
-          test = is.data.frame(x) | is.matrix(x),
-          yes = nrow(x),
-          no = length(x)
-        )
-        x[[time_column]] <- 1:n
-        return(x)
-      }
-    )
-  }
+
 
   #x is not a list
   if(inherits(x = x, what = "list") == FALSE){
     stop("Argument 'x' must be a list.")
-  }
-
-  #x is too short
-  if(length(x) < 2){
-    stop("Argument 'x' must be a list with a least two elements.")
-  }
-
-  if(any(is.null(names(x)))){
-    stop("All elements in the list 'x' must be named.")
   }
 
   #check classes in x
@@ -219,151 +196,14 @@ prepare_sequences <- function(
     warning("The elements of the list 'x' must be of the class 'data.frame' or 'matrix'.")
   }
 
-  #order by time
-  ###################################
-  x.with.time <- lapply(
-    X = x,
-    FUN = function(x) time_column %in% colnames(x)
-  ) |>
-    unlist() |>
-    sum()
-
-  if(x.with.time == length(x)){
-
-    #arrange by time
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        x[order(x[[time_column]]), ]
-      }
-    )
-
-    #paired samples
-    #keep common times only
-    ####################################
-    if(paired_samples == TRUE){
-
-      times <- lapply(
-        X = x,
-        FUN = function(x) unique(x[[time_column]])
-      ) |>
-        unlist() |>
-        table()
-
-      times_common <- as.numeric(names(times)[times == length(x)])
-
-      x <- lapply(
-        X = x,
-        FUN = function(x) x[x[[time_column]] %in% times_common, ]
-      )
-
-    }
-
-  }
-
-  #keep numeric columns only
-  x <- lapply(
-    X = x,
-    FUN = function(x){
-      x <- x[, sapply(x, is.numeric)]
-    }
-  )
-
-  #handle NA
-  #####################################
-  if(na_action == "omit"){
-    x <- lapply(
-      X = x,
-      FUN = function(x) na.omit(x)
-    )
-  }
-
-  if(na_action == "to_zero"){
-
-    if(is.null(pseudo_zero)){
-      zero <- 0
-    } else {
-      zero <- pseudo_zero
-    }
-
-    x <- lapply(
-      X = x,
-      FUN = function(x) x[is.na(x)] <- zero
-    )
-
-  }
-
-  if(na_action == "impute"){
-    stop("Imputation of NAs is not implemented yet.")
-  }
-
-  #handle zeros
-  ##################################
-  if(!is.null(pseudo_zero)){
-
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        x.time <- x[[time_column]]
-        x[[time_column]] <- NULL
-        x[x == 0] <- pseudo_zero
-        x[[time_column]] <- x.time
-        return(x)
-      }
-    )
-
-  }
-
-  #transform
-  #####################################
-  if(inherits(x = transformation, what = "function")){
-
-    #apply transformation
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        x.time <- x[[time_column]]
-        x[[time_column]] <- NULL
-        x <- transformation(x = x)
-        x[[time_column]] <- x.time
-        return(x)
-      }
-    )
-
-  }
-
-  #remove fake time column
-  x <- lapply(
-    X = x,
-    FUN = function(x){
-      x[, colnames(x) != "row_id"]
-    }
-  )
-
-  #add attribute to ignore time column
-  if(!is.null(time_column)){
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        attr(x, "ignore_columns") <- time_column
-        return(x)
-      }
-    )
-  }
-
-  #convert to matrix
-  x <- lapply(
-    X = x,
-    FUN = function(x) as.matrix(x)
-  )
-
-  #add attribute to indicate the data frames are validated
-  x <- lapply(
-    X = x,
-    FUN = function(x){
-      attr(x, "validated") <- TRUE
-      return(x)
-    }
+  #HANDLE LIST OF DATA FRAMES
+  x <- prepare_df_list(
+    x = x,
+    time_column = time_column,
+    transformation = transformation,
+    paired_samples = paired_samples,
+    pseudo_zero = pseudo_zero,
+    na_action = na_action
   )
 
   x
