@@ -1,4 +1,4 @@
-#' Prepare x for Dissimilarity Analysis
+#' Prepare Data for Dissimilarity Analysis
 #'
 #' @description
 #' This function performs the following steps:
@@ -51,152 +51,33 @@ prepare_sequences <- function(
     stop("Argument 'x' must not be NULL")
   }
 
+  #INPUT IS A DATA FRAME OR MATRIX
 
+  #matrix to data frame
+  x <- prepare_matrix(
+    x = x
+  )
 
-  #DATA FRAME TO LIST
-  #############################################
-  if(inherits(x = x, what = "data.frame")){
+  #data frame to list of data frames
+  x <- prepare_df(
+    x = x,
+    id_column = id_column,
+    time_column = time_column
+  )
 
-    if(is.null(id_column)){
-      stop("Argument 'id_column' cannot be NULL when 'x' is a data frame.")
-    }
+  #INPUT IS A LIST
 
-    if(!(id_column %in% colnames(x))){
-      stop("Argument 'id_column' must be a column name of 'x'.")
-    }
+  #list of vectors to list of dfs
+  x <- prepare_vector_list(
+    x = x
+  )
 
-    #separate groups to list
-    x <- split(
-      x = x[, colnames(x) != id_column],
-      f = x[[id_column]]
-    )
+  #list of matrices to list of dfs
+  x <- prepare_matrix_list(
+    x = x
+  )
 
-  }
-
-  #x is too short
-  if(length(x) == 1){
-    stop("Argument 'x' must be a list with a least two elements.")
-  }
-
-  if(any(is.null(names(x)))){
-    stop("All elements in the list 'x' must be named.")
-  }
-
-  #CHECK CLASSES IN X
-  ################################################
-  x.class <- lapply(
-    X = x,
-    FUN = class
-  ) |>
-    unlist() |>
-    as.data.frame()
-
-  colnames(x.class) <- "class"
-
-  if(length(unique(x.class[, 1])) > 1){
-
-    print(x.class)
-    stop("All objects in 'x' must be of the same class (data.frame, matrix, or vector).")
-
-  }
-
-  #CONVERTING VECTORS TO DATA FRAMES
-  #######################################
-  x.vector <- lapply(
-    X = x,
-    FUN = is.vector
-  ) |>
-    unlist()
-
-  if(sum(x.vector) == length(x)){
-
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        data.frame(
-          x = x
-        )
-      }
-    )
-
-  }
-
-  #CONVERTING MATRICES TO DATA FRAMES
-  #######################################
-  x.matrix <- lapply(
-    X = x,
-    FUN = is.matrix
-  ) |>
-    unlist()
-
-  #all elements are matrices
-  if(all(x.matrix) == TRUE){
-
-    #number of unique column names
-    x.matrix.colnames <- lapply(
-      X = x,
-      FUN = colnames
-    ) |>
-      unlist() |>
-      unique()
-
-    #number of columns per matrix
-    x.matrix.ncol <- lapply(
-      X = x,
-      FUN = ncol
-    ) |>
-      unlist() |>
-      unique() |>
-      length()
-
-    #error if matrices have different number of columns
-    #and no column names
-    if(is.null(x.matrix.colnames) && x.matrix.ncol > 1){
-      stop("Elements in 'x' are matrices without column names and different numbers of columns. Please provide matrices with column names or with the same number of columns.")
-
-    }
-
-    #fix matrices colnames
-
-
-    x <- lapply(
-      X = x,
-      FUN = function(x){
-        if(is.null(colnames(x))){
-          colnames(x) <- paste0("x", seq_len(ncol(x)))
-        }
-        x <- as.data.frame(x)
-
-        return(x)
-      }
-    )
-
-  }
-
-
-
-
-
-
-  #x is not a list
-  if(inherits(x = x, what = "list") == FALSE){
-    stop("Argument 'x' must be a list.")
-  }
-
-  #check classes in x
-  x.classes <- lapply(
-    X = x,
-    FUN = class
-  ) |>
-    unlist()
-
-  x.classes <- x.classes[!(x.classes %in% c("data.frame", "matrix"))]
-
-  if(length(x.classes) > 0){
-    warning("The elements of the list 'x' must be of the class 'data.frame' or 'matrix'.")
-  }
-
-  #HANDLE LIST OF DATA FRAMES
+  #list of dfs
   x <- prepare_df_list(
     x = x,
     time_column = time_column,

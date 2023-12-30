@@ -1,33 +1,26 @@
 # Expected inputs:
 
-- matrix
-  + if nrow < 3 ERROR
-  + to data frame
+- DONE matrix
+  + DONE to data frame
 
-- data frame
-  + if nrow < 3 ERROR
-  + if grouping column: convert to list of data frames
-  + else
-    + if time column: convert to list of two column data frames
-    + else: convert to list of one column data frame
+- DONE data frame
+  + DONE if nrow < 3 ERROR
+  + DONE if grouping column: convert to list of data frames
+  +  DONE else
+    + DONE if time column: convert to list of two column data frames
+    + DONE else: convert to list of one column data frame
   
-- list
+- DONE list
   + if number of elements == 1: ERROR
   + if any element is not named: ERROR
 
-- if list of vectors
-  + if there are vectors of length < 3: ERROR
-  + set time column to row_id
-  + convert elements to two column data frame
+- DONE if list of vectors
+  + convert vectors to one column data frame
   
 - if list of matrices
-  + get column names
-  + get number of columns
-  + if no names and different columns: ERROR
-  + if no names and same columns: set new column names to col1, coln
   + convert to list of data frames
 
-- list of data frames
+- DONE list of data frames
   + if time column
     + set columns_to_ignore to time column
     + if not numeric: ERROR

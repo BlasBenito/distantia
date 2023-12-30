@@ -1,4 +1,5 @@
 library(dplyr)
+library(distantia)
 
 load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 
@@ -9,6 +10,20 @@ x <- sequencesMIS |>
 
 id_column <- NULL
 time_column <- NULL
+transformation = NULL
+paired_samples = FALSE
+pseudo_zero = NULL
+na_action = NULL
+
+x <- prepare_sequences(
+  x = x,
+  id_column = id_column,
+  time_column = time_column,
+  transformation = transformation,
+  paired_samples = paired_samples,
+  pseudo_zero = pseudo_zero,
+  na_action = na_action
+)
 
 #data frame without grouping column
 ####################################
@@ -35,6 +50,20 @@ x <- sequencesMIS |>
   as.data.frame()
 
 id_column <- "MIS"
+time_column <- "time"
+
+#data frame with time column without group column
+###################################
+x <- sequencesMIS |>
+  dplyr::group_by(MIS) |>
+  dplyr::mutate(
+    time = 1:dplyr::n()
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::select(-MIS) |>
+  as.data.frame()
+
+id_column <- NULL
 time_column <- "time"
 
 #list of vectors
