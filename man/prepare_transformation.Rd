@@ -4,10 +4,15 @@
 \alias{prepare_transformation}
 \title{Handles Transformation in List of Data Frames}
 \usage{
-prepare_transformation(x = NULL, transformation = NULL)
+prepare_transformation(
+  x = NULL,
+  id_column = NULL,
+  time_column = NULL,
+  transformation = NULL
+)
 }
 \arguments{
-\item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
+\item{x}{(required, data frame) Default: NULL.}
 
 \item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
 \itemize{

@@ -19,7 +19,7 @@ prepare_na <- function(
     na_action = NULL
 ){
 
-  if(is.null(na_action)){
+  if(is.null(na_action) && is.null(pseudo_zero)){
     return(x)
   }
 
@@ -33,13 +33,13 @@ prepare_na <- function(
     )
   )
 
-  # + apply na action
-  ###############################################################
+
+  if(is.numeric(pseudo_zero)){
+    x[x == 0] <- pseudo_zero
+  }
+
   if(na_action == "omit"){
-    x <- lapply(
-      X = x,
-      FUN = function(x) na.omit(x)
-    )
+    x <- na.omit(x)
   }
 
   if(na_action == "to_zero"){
@@ -50,10 +50,7 @@ prepare_na <- function(
       zero <- pseudo_zero
     }
 
-    x <- lapply(
-      X = x,
-      FUN = function(x) x[is.na(x)] <- zero
-    )
+    x[is.na(x)] <- zero
 
   }
 

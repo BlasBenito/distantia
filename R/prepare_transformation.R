@@ -1,6 +1,6 @@
 #' Handles Transformation in List of Data Frames
 #'
-#' @param x (required, list of data frames) A named list with data frames. Default: NULL.
+#' @param x (required, data frame) Default: NULL.
 #' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
 #' \itemize{
 #'   \item [f_proportion()]: to transform counts into proportions.
@@ -14,6 +14,8 @@
 #' @autoglobal
 prepare_transformation <- function(
     x = NULL,
+    id_column = NULL,
+    time_column = NULL,
     transformation = NULL
 ){
 
@@ -26,16 +28,11 @@ prepare_transformation <- function(
   }
 
   x <- tryCatch({
-    lapply(
-      X = x,
-      FUN = function(x){
-        x.time <- attributes(x)$time
-        x <- transformation(x = x)
-        attr(x = x, which = "time") <- x.time
-        return(x)
-      }
-    )
-  }, error = function(e) {
+
+    transformation(x = x)
+
+  },
+  error = function(e) {
     warning("Transformation failed, returning 'x' without any changes")
     return(x)
   })

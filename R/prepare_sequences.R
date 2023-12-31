@@ -13,6 +13,15 @@
 #' @param x (required, list or data frame) A named list with ordered sequences, or a long data frame with a grouping column. Default: NULL.
 #' @param id_column (optional, column name) Column name used for splitting a 'x' data frame into a list.
 #' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
+#' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
+#' @param pseudo_zero (optional, numeric) Value used to replace zeros in the data. Default: NULL.
+#' @param na_action (optional, character string) Action to handle missing values. default: NULL.
+#' \itemize{
+#'   \item NULL: returns the input without changes.
+#'   \item "omit": applies [na.omit()] to each sequence.
+#'   \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
+#'   \item "impute": not implemented yet.
+#' }
 #' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
 #' \itemize{
 #'   \item [f_proportion()]: to transform counts into proportions.
@@ -20,14 +29,6 @@
 #'   \item [f_hellinger()]: to apply a Hellinger transformation.
 #'   \item [f_scale()]: to center and scale the data.
 #'   }
-#' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
-#' @param pseudo_zero (optional, numeric) Value used to replace zeros in the data. Default: NULL.
-#' @param na_action (optional, character string) Action to handle missing values. default: NULL.
-#' \itemize{
-#'   \item "omit": applies [na.omit()] to each sequence.
-#'   \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-#'   \item "impute": not implemented yet.
-#' }
 #' @return A named list of data frames, matrices, or vectors.
 #' @examples
 #' data(sequencesMIS)
@@ -41,10 +42,10 @@ prepare_sequences <- function(
     x = NULL,
     id_column = NULL,
     time_column = NULL,
-    transformation = NULL,
     paired_samples = FALSE,
     pseudo_zero = NULL,
-    na_action = "omit"
+    na_action = "omit",
+    transformation = NULL
 ){
 
   if(is.null(x)){
@@ -62,7 +63,10 @@ prepare_sequences <- function(
   x <- prepare_df(
     x = x,
     id_column = id_column,
-    time_column = time_column
+    time_column = time_column,
+    pseudo_zero = pseudo_zero,
+    na_action = na_action,
+    transformation = transformation
   )
 
   #INPUT IS A LIST
@@ -81,10 +85,9 @@ prepare_sequences <- function(
   x <- prepare_df_list(
     x = x,
     time_column = time_column,
-    transformation = transformation,
-    paired_samples = paired_samples,
     pseudo_zero = pseudo_zero,
-    na_action = na_action
+    na_action = na_action,
+    paired_samples = paired_samples
   )
 
   x

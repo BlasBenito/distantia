@@ -8,10 +8,10 @@ prepare_sequences(
   x = NULL,
   id_column = NULL,
   time_column = NULL,
-  transformation = NULL,
   paired_samples = FALSE,
   pseudo_zero = NULL,
-  na_action = "omit"
+  na_action = "omit",
+  transformation = NULL
 )
 }
 \arguments{
@@ -21,6 +21,18 @@ prepare_sequences(
 
 \item{time_column}{(optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
 
+\item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
+
+\item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
+
+\item{na_action}{(optional, character string) Action to handle missing values. default: NULL.
+\itemize{
+  \item NULL: returns the input without changes.
+  \item "omit": applies [na.omit()] to each sequence.
+  \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
+  \item "impute": not implemented yet.
+}}
+
 \item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
 \itemize{
   \item [f_proportion()]: to transform counts into proportions.
@@ -28,17 +40,6 @@ prepare_sequences(
   \item [f_hellinger()]: to apply a Hellinger transformation.
   \item [f_scale()]: to center and scale the data.
   }}
-
-\item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
-
-\item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
-
-\item{na_action}{(optional, character string) Action to handle missing values. default: NULL.
-\itemize{
-  \item "omit": applies [na.omit()] to each sequence.
-  \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-  \item "impute": not implemented yet.
-}}
 }
 \value{
 A named list of data frames, matrices, or vectors.

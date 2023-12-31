@@ -55,13 +55,13 @@ prepare_list_class <- function(
 
   colnames(x.class) <- "class"
 
-  if(any(x.class$class != expected_class)){
+  if(any(x.class$class %in% expected_class)){
 
-    return(FALSE)
+    return(TRUE)
 
   } else {
 
-    return(TRUE)
+    return(FALSE)
 
   }
 

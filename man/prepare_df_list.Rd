@@ -7,26 +7,15 @@
 prepare_df_list(
   x = NULL,
   time_column = NULL,
-  transformation = NULL,
-  paired_samples = FALSE,
   pseudo_zero = NULL,
-  na_action = NULL
+  na_action = NULL,
+  paired_samples = FALSE
 )
 }
 \arguments{
 \item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
 
 \item{time_column}{(optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
-
-\item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
-\itemize{
-  \item [f_proportion()]: to transform counts into proportions.
-  \item [f_percentage()]: to transform counts into percentages.
-  \item [f_hellinger()]: to apply a Hellinger transformation.
-  \item [f_scale()]: to center and scale the data.
-  }}
-
-\item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 
 \item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
 
@@ -37,6 +26,8 @@ prepare_df_list(
   \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
   \item "impute": not implemented yet.
 }}
+
+\item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 }
 \value{
 A named list of data frames, matrices, or vectors.
