@@ -29,7 +29,7 @@
 #'   \item [f_hellinger()]: to apply a Hellinger transformation.
 #'   \item [f_scale()]: to center and scale the data.
 #'   }
-#' @return A named list of data frames, matrices, or vectors.
+#' @return A named list of matrices.
 #' @examples
 #' data(sequencesMIS)
 #' x <- prepare_sequences(

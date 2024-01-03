@@ -63,6 +63,12 @@ importance <- function(
     several.ok = TRUE
   )
 
+  abbreviation_indices <- which(distances$abbreviation %in% distance)
+
+  distance[abbreviation_indices] <- distances$name[abbreviation_indices]
+
+  distance <- unique(distance)
+
 
   #preparing iterations data frame
   df <- expand.grid(

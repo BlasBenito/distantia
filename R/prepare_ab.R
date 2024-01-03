@@ -49,11 +49,11 @@ prepare_ab <- function(
   if(any(c(a.validated, b.validated)) == FALSE){
 
     if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-      stop("Argument 'a' must be a data frame or matrix.")
+      stop("Argument 'a' must be a data frame, matrix, or vector.")
     }
 
     if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-      stop("Argument 'b' must be a data frame or matrix.")
+      stop("Argument 'b' must be a data frame, matrix, or vector")
     }
 
     #checking for NA
@@ -68,9 +68,28 @@ prepare_ab <- function(
 
     b.na <- sum(is.na(b))
     if(b.na > 0){
-      stop("Argument 'b' has ", b.na,
+      stop("Argument 'b' has ",
+           b.na,
            " NA values. Please remove or imputate NA values before the dissimilarity analysis."
       )
+    }
+
+    # keep only numeric columns
+    if(inherits(x = a, what = "data.frame")){
+      a <- a[, sapply(a, is.numeric)]
+    }
+
+    if(inherits(x = b, what = "data.frame")){
+      b <- b[, sapply(b, is.numeric)]
+    }
+
+    #convert to matrix
+    if(!is.matrix(a)){
+      a <- as.matrix(a)
+    }
+
+    if(!is.matrix(b)){
+      b <- as.matrix(b)
     }
 
     #check colnames
@@ -81,20 +100,16 @@ prepare_ab <- function(
 
       stop("Arguments 'a' and 'b' must either have column names or the same number of columns.")
 
+      if(is.null(attributes(a)$name)){
+        attr(a, "name") <- "a"
+      }
+
+      if(is.null(attributes(b)$name)){
+        attr(b, "name") <- "b"
+      }
+
     }
 
-    # keep only numeric columns
-    a <- a[, sapply(a, is.numeric)]
-    b <- b[, sapply(b, is.numeric)]
-
-    #convert to matrix
-    if(!is.matrix(a)){
-      a <- as.matrix(a)
-    }
-
-    if(!is.matrix(b)){
-      b <- as.matrix(b)
-    }
 
     if(paired_samples == TRUE && (nrow(a) != nrow(b))){
       stop("Arguments 'a' and 'b' must have the same number of rows when 'paired_samples = TRUE'.")
@@ -124,20 +139,6 @@ prepare_ab <- function(
 
   }
 
-  #remove time column
-  a.validated <- ifelse(
-    test = "validated" %in% names(attributes(a)),
-    yes = attributes(a)$validated,
-    no = FALSE
-  )
-
-  b.validated <- ifelse(
-    test = "validated" %in% names(attributes(b)),
-    yes = attributes(b)$validated,
-    no = FALSE
-  )
-
-
   #subsetting to common columns
   if(ncol(a) != ncol(b)){
     common.cols <- intersect(
@@ -148,16 +149,16 @@ prepare_ab <- function(
     b <- b[, common.cols]
   }
 
-
-
-
-
-
-
-
-  list(
+  out <- list(
     a = a,
     b = b
   )
+
+  names(out) <- c(
+    attributes(a)$name,
+    attributes(b)$name
+  )
+
+  out
 
 }

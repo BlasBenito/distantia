@@ -50,9 +50,8 @@
 #' @export
 #' @autoglobal
 distantia <- function(
-    a = NULL,
-    b = NULL,
-    distance = c("euclidean", "manhattan"),
+    x = NULL,
+    distance = c("euclidean", "euc", "manhattan"),
     diagonal = c(FALSE, TRUE),
     weighted = c(FALSE, TRUE),
     ignore_blocks = c(FALSE, TRUE),
@@ -62,6 +61,25 @@ distantia <- function(
     block_size = c(2, 3, 4),
     seed = 1
 ){
+
+  if(inherits(x = x, what = "list") == FALSE){
+    stop("Argument 'x' must be a list.")
+  }
+
+  if(is.null(names(x))){
+    stop("Argument 'x' must be a named list.")
+  }
+
+  validated <- lapply(
+    X = x,
+    FUN = function(x) attributes(x)$validated
+  ) |>
+    unlist() |>
+    unique()
+
+  if(validated != TRUE){
+    warning("Argument 'x' is not validated by distantia::prepare_sequences().")
+  }
 
   permutation <- match.arg(
     arg = permutation,
@@ -83,6 +101,13 @@ distantia <- function(
     ),
     several.ok = TRUE
   )
+
+  #disambiguating distance abbreviations
+  abbreviation_indices <- which(distances$abbreviation %in% distance)
+
+  distance[abbreviation_indices] <- distances$name[abbreviation_indices]
+
+  distance <- unique(distance)
 
   #preparing output data frame
   df <- expand.grid(

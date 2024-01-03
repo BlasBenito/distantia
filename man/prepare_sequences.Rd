@@ -42,7 +42,7 @@ prepare_sequences(
   }}
 }
 \value{
-A named list of data frames, matrices, or vectors.
+A named list of matrices.
 }
 \description{
 This function performs the following steps:
