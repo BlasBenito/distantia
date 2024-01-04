@@ -5,9 +5,8 @@
 \title{Psi Distance Between Time Series}
 \usage{
 distantia(
-  a = NULL,
-  b = NULL,
-  distance = c("euclidean", "manhattan"),
+  x = NULL,
+  distance = c("euclidean", "euc", "manhattan"),
   diagonal = c(FALSE, TRUE),
   weighted = c(FALSE, TRUE),
   ignore_blocks = c(FALSE, TRUE),
@@ -19,10 +18,6 @@ distantia(
 )
 }
 \arguments{
-\item{a}{(required, data frame or matrix) a time series.}
-
-\item{b}{(required, data frame or matrix) a time series.}
-
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
@@ -46,6 +41,10 @@ distantia(
 \item{block_size}{(optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
+
+\item{a}{(required, data frame or matrix) a time series.}
+
+\item{b}{(required, data frame or matrix) a time series.}
 }
 \value{
 Data frame with the following columns:
@@ -56,14 +55,14 @@ Data frame with the following columns:
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.
   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-  \item `paired_samples`: value of the argument `paired_samples`.
-  \item `repetitions`: value of the argument `repetitions`.
+  \item `paired_samples`: value of the argument `paired_samples`. Only available if TRUE appears in the argument and the sequences have the same number of rows.
+  \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
-  \item `psi`: psi dissimilarity of the sequences `a` and `b`.
   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
+  \item `psi`: psi dissimilarity of the sequences `a` and `b`.
 )
 }
 \description{

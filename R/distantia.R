@@ -38,14 +38,14 @@
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
 #'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-#'   \item `paired_samples`: value of the argument `paired_samples`.
-#'   \item `repetitions`: value of the argument `repetitions`.
+#'   \item `paired_samples`: value of the argument `paired_samples`. Only available if TRUE appears in the argument and the sequences have the same number of rows.
+#'   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
 #'   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
-#'   \item `psi`: psi dissimilarity of the sequences `a` and `b`.
 #'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
 #'   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
 #'   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
+#'   \item `psi`: psi dissimilarity of the sequences `a` and `b`.
 #' )
 #' @export
 #' @autoglobal
@@ -62,12 +62,9 @@ distantia <- function(
     seed = 1
 ){
 
+  #check input data
   if(inherits(x = x, what = "list") == FALSE){
     stop("Argument 'x' must be a list.")
-  }
-
-  if(is.null(names(x))){
-    stop("Argument 'x' must be a named list.")
   }
 
   validated <- lapply(
@@ -78,9 +75,18 @@ distantia <- function(
     unique()
 
   if(validated != TRUE){
-    warning("Argument 'x' is not validated by distantia::prepare_sequences().")
+    warning("To avoid unintended issues during the dissimilarity analysis, it is recommended to validate argument 'x' with the function distantia::prepare_sequences().")
   }
 
+  if(is.null(names(x))){
+    names(x) <- paste0(
+      "sequence_",
+      as.character(seq(1, length(x)))
+    )
+    warning("Argument 'x' was not named. The new sequence names are: ", paste(names(x), collapse = ", "))
+  }
+
+  #check arguments
   permutation <- match.arg(
     arg = permutation,
     choices = c(
@@ -92,27 +98,61 @@ distantia <- function(
     several.ok = TRUE
   )
 
-  #selecting distance
-  distance <- match.arg(
-    arg = distance,
+  distance <- argument_distance(
+    distance = distance
+  )
+
+  diagonal <- match.arg(
+    arg = diagonal,
     choices = c(
-      distances$name,
-      distances$abbreviation
+      TRUE,
+      FALSE
     ),
     several.ok = TRUE
   )
 
-  #disambiguating distance abbreviations
-  abbreviation_indices <- which(distances$abbreviation %in% distance)
+  weighted <- match.arg(
+    arg = weighted,
+    choices = c(
+      TRUE,
+      FALSE
+    ),
+    several.ok = TRUE
+  )
 
-  distance[abbreviation_indices] <- distances$name[abbreviation_indices]
+  ignore_blocks <- match.arg(
+    arg = ignore_blocks,
+    choices = c(
+      TRUE,
+      FALSE
+    ),
+    several.ok = TRUE
+  )
 
-  distance <- unique(distance)
+  paired_samples <- match.arg(
+    arg = paired_samples,
+    choices = c(
+      TRUE,
+      FALSE
+    ),
+    several.ok = TRUE
+  )
+
+
+  #combinations of sequences
+  sequence_combinations <- arrangements::combinations(
+    x = names(x),
+    k = 2
+    ) |>
+    as.data.frame()
+
+  names(sequence_combinations) <- c(
+    "name_a",
+    "name_b"
+  )
 
   #preparing output data frame
-  df <- expand.grid(
-    name_a = "a",
-    name_b = "b",
+  argument_combinations <- expand.grid(
     distance = distance,
     diagonal = diagonal,
     weighted = weighted,
@@ -125,10 +165,17 @@ distantia <- function(
   )
 
   #remove combinations diagonal = FALSE weighted = TRUE
-  df$weighted <- ifelse(
-    test = df$diagonal == FALSE,
+  argument_combinations$weighted <- ifelse(
+    test = argument_combinations$diagonal == FALSE,
     yes = FALSE,
-    no = df$weighted
+    no = argument_combinations$weighted
+  )
+
+
+  #cross join
+  df <- merge(
+    x = sequence_combinations,
+    y = argument_combinations
   )
 
   #remove duplicates
@@ -148,8 +195,8 @@ distantia <- function(
 
     #TODO take a and b from list?
     ab <- prepare_ab(
-      a = a,
-      b = b,
+      a = x[[df$name_a[i]]],
+      b = x[[df$name_b[i]]],
       distance = distance,
       paired_samples = paired_samples
     )
@@ -157,16 +204,16 @@ distantia <- function(
     if(df$paired_samples[i] == TRUE){
 
       psi_distance <- psi_paired_cpp(
-        a = ab$a,
-        b = ab$b,
+        a = ab[[1]],
+        b = ab[[2]],
         distance = df$distance[i]
       )
 
       if(repetitions > 0){
 
         psi_null <- null_psi_paired_cpp(
-          a = ab$a,
-          b = ab$b,
+          a = ab[[1]],
+          b = ab[[2]],
           distance = df$distance[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
@@ -179,8 +226,8 @@ distantia <- function(
     } else {
 
       psi_distance <- psi_cpp(
-        a = ab$a,
-        b = ab$b,
+        a = ab[[1]],
+        b = ab[[2]],
         distance = df$distance[i],
         diagonal = df$diagonal[i],
         weighted = df$weighted[i],
@@ -190,8 +237,8 @@ distantia <- function(
       if(repetitions > 0){
 
         psi_null <- null_psi_cpp(
-          a = ab$a,
-          b = ab$b,
+          a = ab[[1]],
+          b = ab[[2]],
           distance = df$distance[i],
           diagonal = df$diagonal[i],
           weighted = df$weighted[i],
@@ -217,9 +264,18 @@ distantia <- function(
   #removing p-value columns
   if(repetitions == 0){
     df$permutation <- NULL
+    df$repetitions <- NULL
     df$null_mean <- NULL
     df$null_sd <- NULL
     df$p_value <- NULL
+    df$seed <- NULL
+  }
+
+  #remove column paired samples
+  if(length(paired_samples) == 1){
+    if(paired_samples == FALSE){
+      df$paired_samples <- NULL
+    }
   }
 
   df
