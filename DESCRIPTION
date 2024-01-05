@@ -16,11 +16,12 @@ LazyData: true
 RoxygenNote: 7.2.3
 Depends: R (>= 3.5.0)
 Imports: 
-  plyr,
   grDevices,
-  viridis,
+  doFuture,
+  future,
+  foreach,
+  progressr,
   RColorBrewer,
-  arrangements,
   Rcpp
 Suggests: 
     roxyglobals,

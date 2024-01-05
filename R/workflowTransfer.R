@@ -175,8 +175,7 @@ workflowTransfer <- function(
     if(plot == TRUE){
       plotMatrix(
         distance.matrix = distance.matrix,
-        least.cost.path = least.cost.path,
-        color.palette = viridis(100, alpha = 0.7)
+        least.cost.path = least.cost.path
       )
     }
 
@@ -228,8 +227,7 @@ workflowTransfer <- function(
     if(plot == TRUE){
       plotMatrix(
         distance.matrix = distance.matrix,
-        least.cost.path = least.cost.path,
-        color.palette = viridis(100, alpha = 0.7)
+        least.cost.path = least.cost.path
       )
     }
 

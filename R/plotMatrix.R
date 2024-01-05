@@ -24,7 +24,7 @@
 #' @param plot.columns number of columns of the output plot if the inputs are lists. If not provided, it is computed automatically by \code{\link[grDevices]{n2mfrow}}.
 #' @param plot.rows number of rows of the output plot if the inputs are lists. If not provided, it is computed automatically by \code{\link[grDevices]{n2mfrow}}.
 #' @param legend boolean. If \code{TRUE}, the plot is made with \code{\link[fields]{image.plot}}, and includes a color scale on the right side. If \code{FALSE}, the plot is made with \code{\link[graphics]{image}}, and the color scale is omitted.
-#' @param color.palette string defining the color palette to be used, or a color palette. Accepted strings are "divergent" (default), which uses a red-white-blue divergent palette produced by the code \code{colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)}, and "viridis", which uses the default settings of the \code{\link[viridis]{viridis}} function to generate the palette. Both settings are color-blind friendly.
+#' @param color.palette string defining the color palette to be used, or a color palette. Accepted strings are "divergent" (default), which uses a red-white-blue divergent palette produced via \code{colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)}.
 #' @param path.color string, color of the line representing the least cost path if \code{least.cost.path} is provided.
 #' @param path.width line width (lwd) of the plotted path.
 #' @param margins a numeric vector with four positions indicating the margins of each plotted matrix. Order of margins in this vector is: bottom, left, top, right.
@@ -73,16 +73,6 @@
 #'#plot
 #'#plotMatrix(distance.matrix = AB.distance.matrix)
 #'
-#'#viridis palette
-#'#plotMatrix(
-#'#  distance.matrix = AB.distance.matrix,
-#'#  color.palette = "viridis"
-#'#)
-#'
-#'#custom palette
-#'#plotMatrix(
-#'#  distance.matrix = AB.distance.matrix,
-#'#  color.palette = viridis::viridis(8, option = "B", direction = -1))
 #'
 #' }
 #'
@@ -162,10 +152,6 @@ plotMatrix <- function(
   if(length(color.palette) == 1){
     if(color.palette %in% c("divergent", "Divergent", "DIVERGENT", "redblue", "rb")){
       color.palette <- colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)
-    } else {
-      if(color.palette %in% c("viridis", "Viridis", "VIRIDIS", "greens")){
-        color.palette <- viridis::viridis(100, direction = -1)
-      }
     }
   }
 

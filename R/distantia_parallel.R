@@ -17,6 +17,7 @@
 #' }
 #' @param block_size (optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
+#' @param workers (optional, integer) number of workers used to run the function in parallel. Requires the libraries `future` and `doFuture`. Default: 1
 #' @examples
 #'
 #' data(
@@ -51,15 +52,16 @@
 #' @autoglobal
 distantia <- function(
     x = NULL,
-    distance = c("euclidean", "euc", "manhattan"),
-    diagonal = c(FALSE, TRUE),
-    weighted = c(FALSE, TRUE),
+    distance = c("euclidean"),
+    diagonal = c(TRUE),
+    weighted = c(TRUE),
     ignore_blocks = c(FALSE, TRUE),
     paired_samples = FALSE,
-    repetitions = 100,
+    repetitions = 10,
     permutation = "restricted_by_row",
     block_size = c(2, 3, 4),
-    seed = 1
+    seed = 1,
+    workers = 3
 ){
 
   #check input data
@@ -108,9 +110,9 @@ distantia <- function(
       combn(
         names(x),
         m = 2
+        )
       )
     )
-  )
 
   names(sequence_combinations) <- c(
     "name_a",
@@ -137,7 +139,6 @@ distantia <- function(
     no = argument_combinations$weighted
   )
 
-
   #cross join
   df <- merge(
     x = sequence_combinations,
@@ -153,19 +154,56 @@ distantia <- function(
   df$null_sd <- NA
   df$p_value <- NA
 
-  #initialize psi_null
-  psi_null <- NA
+  #parallelization setup
+  if(workers > 1){
 
-  #iterating over combinations of arguments
-  for(i in seq_len(nrow(df))){
+    if(
+      requireNamespace("doFuture", quietly = TRUE)
+    ){
 
-    #TODO take a and b from list?
+      future::plan(
+        strategy = future::multisession,
+        workers = workers
+      )
+
+      #ignore warnings about rng during parallelization
+      user.options <- options()
+      options(doFuture.rng.onMisuse = "ignore")
+      on.exit(expr = options(user.options))
+
+    } else {
+
+      future::plan(
+        strategy = future::sequential()
+      )
+
+    }
+
+  }
+
+  iterations <- seq_len(nrow(df))
+
+  p <- progressr::progressor(along = iterations)
+
+  psi_df <- foreach::foreach(
+    i = iterations,
+    .combine = "rbind",
+    .errorhandling = "pass",
+    .options.future = list(seed = TRUE)
+  ) %dofuture% {
+
+    p()
+
     ab <- prepare_ab(
       a = x[[df$name_a[i]]],
       b = x[[df$name_b[i]]],
       distance = distance,
       paired_samples = paired_samples
     )
+
+    if(repetitions == 0){
+      psi_null <- NA
+    }
 
     if(df$paired_samples[i] == TRUE){
 
@@ -220,30 +258,33 @@ distantia <- function(
     }
 
     #storing iteration results
-    df$psi[i] <- psi_distance
-    df$null_mean[i] <- mean(psi_null)
-    df$null_sd[i] <- sd(psi_null)
-    df$p_value[i] <- sum(psi_null <= psi_distance) / repetitions
+    df.i <- df[i, ]
+    df.i$psi <- psi_distance
+    df.i$null_mean <- mean(psi_null)
+    df.i$null_sd <- sd(psi_null)
+    df.i$p_value <- sum(psi_null <= psi_distance) / repetitions
+
+    return(df.i)
 
   } #end of iterations
 
   #removing p-value columns
   if(repetitions == 0){
-    df$permutation <- NULL
-    df$repetitions <- NULL
-    df$null_mean <- NULL
-    df$null_sd <- NULL
-    df$p_value <- NULL
-    df$seed <- NULL
+    psi_df$permutation <- NULL
+    psi_df$repetitions <- NULL
+    psi_df$null_mean <- NULL
+    psi_df$null_sd <- NULL
+    psi_df$p_value <- NULL
+    psi_df$seed <- NULL
   }
 
   #remove column paired samples
   if(length(paired_samples) == 1){
     if(paired_samples == FALSE){
-      df$paired_samples <- NULL
+      psi_df$paired_samples <- NULL
     }
   }
 
-  df
+  psi_df
 
 }

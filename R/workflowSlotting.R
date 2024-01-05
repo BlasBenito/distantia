@@ -110,8 +110,7 @@ workflowSlotting <- function(sequences = NULL,
   if(plot == TRUE){
     plotMatrix(
       distance.matrix = distance.matrix,
-      least.cost.path = least.cost.path,
-      color.palette = "viridis"
+      least.cost.path = least.cost.path
     )
   }
 
