@@ -32,7 +32,7 @@ plotMatrix(
 
 \item{legend}{boolean. If \code{TRUE}, the plot is made with \code{\link[fields]{image.plot}}, and includes a color scale on the right side. If \code{FALSE}, the plot is made with \code{\link[graphics]{image}}, and the color scale is omitted.}
 
-\item{color.palette}{string defining the color palette to be used, or a color palette. Accepted strings are "divergent" (default), which uses a red-white-blue divergent palette produced by the code \code{colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)}, and "viridis", which uses the default settings of the \code{\link[viridis]{viridis}} function to generate the palette. Both settings are color-blind friendly.}
+\item{color.palette}{string defining the color palette to be used, or a color palette. Accepted strings are "divergent" (default), which uses a red-white-blue divergent palette produced via \code{colorRampPalette(rev(RColorBrewer::brewer.pal(9, "RdBu")))(100)}.}
 
 \item{path.color}{string, color of the line representing the least cost path if \code{least.cost.path} is provided.}
 
@@ -91,16 +91,6 @@ AB.distance.matrix <- distanceMatrix(
 #plot
 #plotMatrix(distance.matrix = AB.distance.matrix)
 
-#viridis palette
-#plotMatrix(
-#  distance.matrix = AB.distance.matrix,
-#  color.palette = "viridis"
-#)
-
-#custom palette
-#plotMatrix(
-#  distance.matrix = AB.distance.matrix,
-#  color.palette = viridis::viridis(8, option = "B", direction = -1))
 
 }
 

@@ -33,7 +33,15 @@ f_percentage <- function(x){
 #' @export
 #' @autoglobal
 f_hellinger <- function(x){
-  sqrt(
+  #TODO fails when full rows of zeros happen
+
+  x <- prepare_na(
+    x = x,
+    pseudo_zero = 0.0001,
+    na_action = "to_zero"
+  )
+
+  y <- sqrt(
     sweep(
       x = x,
       MARGIN = 1,
@@ -41,6 +49,9 @@ f_hellinger <- function(x){
       FUN = "/"
       )
     )
+
+  y
+
 }
 
 #' Scaling and centering

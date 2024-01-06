@@ -50,7 +50,7 @@
 #' )
 #' @export
 #' @autoglobal
-distantia <- function(
+distantia_parallel <- function(
     x = NULL,
     distance = c("euclidean"),
     diagonal = c(TRUE),
@@ -155,42 +155,45 @@ distantia <- function(
   df$p_value <- NA
 
   #parallelization setup
-  if(workers > 1){
-
-    if(
-      requireNamespace("doFuture", quietly = TRUE)
-    ){
-
-      future::plan(
-        strategy = future::multisession,
-        workers = workers
-      )
-
-      #ignore warnings about rng during parallelization
-      user.options <- options()
-      options(doFuture.rng.onMisuse = "ignore")
-      on.exit(expr = options(user.options))
-
-    } else {
-
-      future::plan(
-        strategy = future::sequential()
-      )
-
-    }
-
-  }
+  # if(workers > 1){
+  #
+  #   if(
+  #     requireNamespace("doFuture", quietly = TRUE)
+  #   ){
+  #
+  #     future::plan(
+  #       strategy = future::multisession,
+  #       workers = workers
+  #     )
+  #
+  #     #ignore warnings about rng during parallelization
+  #     user.options <- options()
+  #     options(doFuture.rng.onMisuse = "ignore")
+  #     on.exit(expr = options(user.options))
+  #
+  #   } else {
+  #
+  #     future::plan(
+  #       strategy = future::sequential()
+  #     )
+  #
+  #   }
+  #
+  # }
 
   iterations <- seq_len(nrow(df))
 
   p <- progressr::progressor(along = iterations)
+
+  `%iterator%` <- doFuture::`%dofuture%` |>
+    suppressPackageStartupMessages()
 
   psi_df <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %dofuture% {
+  ) %iterator% {
 
     p()
 

@@ -156,10 +156,16 @@ distantia <- function(
   #initialize psi_null
   psi_null <- NA
 
+  iterations <- seq_len(nrow(df))
+
+  p <- progressr::progressor(along = iterations)
+
   #iterating over combinations of arguments
   for(i in seq_len(nrow(df))){
 
-    #TODO take a and b from list?
+    p()
+
+    #prepare a and b
     ab <- prepare_ab(
       a = x[[df$name_a[i]]],
       b = x[[df$name_b[i]]],
