@@ -5,20 +5,17 @@
 \title{Importance of Individual Variables}
 \usage{
 importance(
-  a = NULL,
-  b = NULL,
-  distance = c("euclidean", "manhattan"),
-  diagonal = c(FALSE, TRUE),
-  weighted = c(FALSE, TRUE),
+  x = NULL,
+  distance = "euclidean",
+  diagonal = FALSE,
+  weighted = FALSE,
   ignore_blocks = c(FALSE, TRUE),
   paired_samples = FALSE,
   robust = TRUE
 )
 }
 \arguments{
-\item{a}{(required, data frame or matrix) a time series.}
-
-\item{b}{(required, data frame or matrix) a time series.}
+\item{x}{(required, list of matrices) list of input matrices generated with [prepare_sequences()].}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 

@@ -2,8 +2,8 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 #'
-#' @param a (required, data frame) a time series. Default: NULL.
-#' @param b (required, data frame) a time series. Default: NULL.
+#' @param a (required, data frame) a sequence. Default: NULL.
+#' @param b (required, data frame) a sequence. Default: NULL.
 #' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return Named vector with the auto sums of `a` and `b`.
@@ -35,86 +35,34 @@ auto_sum <- function(
     distance = "euclidean"
     ){
 
-  #check input arguments
-  if(is.null(a)){
-    stop("Argument 'a' must not be NULL.")
-  }
-
-  if(is.null(b)){
-    stop("Argument 'b' must not be NULL.")
-  }
-
-  if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'a' must be a data frame or matrix.")
-  }
-
-  if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'b' must be a data frame or matrix.")
-  }
-
-  #checking for NA
-  if(sum(is.na(a)) > 0){
-    stop("Argument 'a' has NA values.")
-  }
-  if(sum(is.na(b)) > 0){
-    stop("Argument 'b' has NA values.")
-  }
-
-  #preprocessing data
-  if(ncol(a) != ncol(b)){
-    common.cols <- intersect(
-      x = colnames(a),
-      y = colnames(b)
-    )
-    a <- a[, common.cols]
-    b <- b[, common.cols]
-  }
-
-  if(!is.matrix(a)){
-    a <- as.matrix(a)
-  }
-
-  if(!is.matrix(b)){
-    b <- as.matrix(b)
-  }
-
   #managing distance method
-  distance <- match.arg(
-    arg = distance,
-    choices = c(
-      distances$name,
-      distances$abbreviation
-    ),
-    several.ok = FALSE
+  distance <- check_args_distance(
+    distance = distance
+  )[1]
+
+  ab <- prepare_ab(
+    a = a,
+    b = b,
+    distance = distance
   )
-
-  #methods that don't accept two zeros in same position
-  if(distance %in% c(
-    "chi",
-    "cos",
-    "cosine"
-  )
-  ){
-
-    pseudozero <- mean(x = c(a, b)) * 0.001
-    a[a == 0] <- pseudozero
-    b[b == 0] <- pseudozero
-
-  }
 
   if(!is.null(path)){
+
     ab_sum <- auto_sum_path_cpp(
-      a = a,
-      b = b,
+      a = ab[[1]],
+      b = ab[[2]],
       path = path,
       distance = distance
     )
+
   } else {
+
     ab_sum <- auto_sum_no_path_cpp(
-      a = a,
-      b = b,
+      a = ab[[1]],
+      b = ab[[2]],
       distance = distance
     )
+
   }
 
  ab_sum

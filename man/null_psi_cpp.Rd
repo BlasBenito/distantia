@@ -13,7 +13,7 @@ null_psi_cpp(
   ignore_blocks = FALSE,
   repetitions = 100L,
   permutation = "restricted_by_row",
-  block_size = as.integer(c(2, 3, 4)),
+  block_size = 3L,
   seed = 1L
 )
 }
@@ -46,7 +46,7 @@ has nothing to do with block_size!. Default: FALSE.}
   \item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer vector) vector with block sizes for
+\item{block_size}{(optional, integer) block size in rows for
 restricted permutation. A block size of 3 indicates that a row can only be permuted
 within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).}
 

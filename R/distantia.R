@@ -1,7 +1,6 @@
 #' Psi Distance Between Time Series
 #'
-#' @param a (required, data frame or matrix) a time series.
-#' @param b (required, data frame or matrix) a time series.
+#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -15,20 +14,9 @@
 #'   \item "restricted": restricted shuffling of rows and columns within blocks.
 #'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 #' }
-#' @param block_size (optional, integer vector) vector with block sizes for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
+#' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #' @examples
-#'
-#' data(
-#'   sequenceA,
-#'   sequenceB
-#' )
-#'
-#' ab.psi <- distantia(
-#'   a = sequenceA,
-#'   b = sequenceB,
-#'   distance = "manhattan"
-#' )
 #'
 #' @return Data frame with the following columns:
 #' \itemize(
@@ -51,56 +39,35 @@
 #' @autoglobal
 distantia <- function(
     x = NULL,
-    distance = c("euclidean", "euc", "manhattan"),
-    diagonal = c(FALSE, TRUE),
-    weighted = c(FALSE, TRUE),
-    ignore_blocks = c(FALSE, TRUE),
+    distance = "euclidean",
+    diagonal = FALSE,
+    weighted = FALSE,
+    ignore_blocks = FALSE,
     paired_samples = FALSE,
-    repetitions = 100,
+    repetitions = 0L,
     permutation = "restricted_by_row",
-    block_size = c(2, 3, 4),
+    block_size = 3,
     seed = 1
 ){
 
-  #check input data
-  if(inherits(x = x, what = "list") == FALSE){
-    stop("Argument 'x' must be a list.")
-  }
+  #check input arguments
+  arguments <- check_args(
+    x = x,
+    distance = distance,
+    diagonal = diagonal,
+    weighted = weighted,
+    ignore_blocks = ignore_blocks,
+    paired_samples = paired_samples,
+    repetitions = repetitions,
+    block_size = block_size,
+    seed = seed
+  )
 
-  validated <- lapply(
-    X = x,
-    FUN = function(x) attributes(x)$validated
-  ) |>
-    unlist() |>
-    unique()
-
-  if(validated != TRUE){
-    warning("To avoid unintended issues during the dissimilarity analysis, it is recommended to validate argument 'x' with the function distantia::prepare_sequences().")
-  }
-
-  if(is.null(names(x))){
-    names(x) <- paste0(
-      "sequence_",
-      as.character(seq(1, length(x)))
+  list2env(
+    x = arguments,
+    envir = environment()
     )
-    warning("Argument 'x' was not named. The new sequence names are: ", paste(names(x), collapse = ", "))
-  }
 
-  #check arguments
-  permutation <- match.arg(
-    arg = permutation,
-    choices = c(
-      "free",
-      "free_by_row",
-      "restricted",
-      "restricted_by_row"
-    ),
-    several.ok = TRUE
-  )
-
-  distance <- argument_distance(
-    distance = distance
-  )
 
   #combinations of sequences
   sequence_combinations <- data.frame(
@@ -108,27 +75,43 @@ distantia <- function(
       combn(
         names(x),
         m = 2
+        )
       )
     )
-  )
 
   names(sequence_combinations) <- c(
     "name_a",
     "name_b"
   )
 
-  #preparing output data frame
-  argument_combinations <- expand.grid(
-    distance = distance,
-    diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
-    paired_samples = paired_samples,
-    repetitions = repetitions,
-    permutation = permutation,
-    seed = seed,
-    stringsAsFactors = FALSE
-  )
+  if(repetitions == 0){
+
+    #preparing output data frame
+    argument_combinations <- expand.grid(
+      distance = distance,
+      diagonal = diagonal,
+      weighted = weighted,
+      ignore_blocks = ignore_blocks,
+      paired_samples = paired_samples,
+      stringsAsFactors = FALSE
+    )
+
+  } else {
+
+    argument_combinations <- expand.grid(
+      distance = distance,
+      diagonal = diagonal,
+      weighted = weighted,
+      ignore_blocks = ignore_blocks,
+      paired_samples = paired_samples,
+      repetitions = repetitions,
+      permutation = permutation,
+      block_size = block_size,
+      seed = seed,
+      stringsAsFactors = FALSE
+    )
+
+  }
 
   #remove combinations diagonal = FALSE weighted = TRUE
   argument_combinations$weighted <- ifelse(
@@ -136,7 +119,6 @@ distantia <- function(
     yes = FALSE,
     no = argument_combinations$weighted
   )
-
 
   #cross join
   df <- merge(
@@ -149,23 +131,30 @@ distantia <- function(
 
   #add additional columns
   df$psi <- NA
-  df$null_mean <- NA
-  df$null_sd <- NA
-  df$p_value <- NA
 
-  #initialize psi_null
-  psi_null <- NA
+  if(repetitions > 0){
+    df$null_mean <- NA
+    df$null_sd <- NA
+    df$p_value <- NA
+  }
 
   iterations <- seq_len(nrow(df))
 
   p <- progressr::progressor(along = iterations)
 
-  #iterating over combinations of arguments
-  for(i in seq_len(nrow(df))){
+  `%iterator%` <- doFuture::`%dofuture%`
+
+  psi_df <- foreach::foreach(
+    i = iterations,
+    .combine = "rbind",
+    .errorhandling = "pass",
+    .options.future = list(seed = TRUE)
+  ) %iterator% {
 
     p()
 
-    #prepare a and b
+    df.i <- df[i, ]
+
     ab <- prepare_ab(
       a = x[[df$name_a[i]]],
       b = x[[df$name_b[i]]],
@@ -175,7 +164,7 @@ distantia <- function(
 
     if(df$paired_samples[i] == TRUE){
 
-      psi_distance <- psi_paired_cpp(
+      df.i$psi <- psi_paired_cpp(
         a = ab[[1]],
         b = ab[[2]],
         distance = df$distance[i]
@@ -189,7 +178,7 @@ distantia <- function(
           distance = df$distance[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
-          block_size = block_size,
+          block_size = df$block_size[i],
           seed = df$seed[i]
         )
 
@@ -197,7 +186,7 @@ distantia <- function(
 
     } else {
 
-      psi_distance <- psi_cpp(
+      df.i$psi <- psi_cpp(
         a = ab[[1]],
         b = ab[[2]],
         distance = df$distance[i],
@@ -217,39 +206,29 @@ distantia <- function(
           ignore_blocks = df$ignore_blocks[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
-          block_size = block_size,
+          block_size = df$block_size[i],
           seed = df$seed[i]
         )
+
+        df.i$null_mean <- mean(psi_null)
+        df.i$null_sd <- sd(psi_null)
+        df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
 
       }
 
     }
 
-    #storing iteration results
-    df$psi[i] <- psi_distance
-    df$null_mean[i] <- mean(psi_null)
-    df$null_sd[i] <- sd(psi_null)
-    df$p_value[i] <- sum(psi_null <= psi_distance) / repetitions
+    return(df.i)
 
   } #end of iterations
-
-  #removing p-value columns
-  if(repetitions == 0){
-    df$permutation <- NULL
-    df$repetitions <- NULL
-    df$null_mean <- NULL
-    df$null_sd <- NULL
-    df$p_value <- NULL
-    df$seed <- NULL
-  }
 
   #remove column paired samples
   if(length(paired_samples) == 1){
     if(paired_samples == FALSE){
-      df$paired_samples <- NULL
+      psi_df$paired_samples <- NULL
     }
   }
 
-  df
+  psi_df
 
 }

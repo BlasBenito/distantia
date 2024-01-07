@@ -10,7 +10,7 @@ null_psi_paired_cpp(
   distance = "euclidean",
   repetitions = 100L,
   permutation = "restricted_by_row",
-  block_size = as.integer(c(2, 3, 4)),
+  block_size = 3L,
   seed = 1L
 )
 }
@@ -33,9 +33,9 @@ of the dataset `distances`. Default: "euclidean".}
   \item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer vector) vector with block sizes for
+\item{block_size}{(optional, integer) block size in rows for
 restricted permutation. A block size of 3 indicates that a row can only be permuted
-within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).}
+within a block of 3 adjacent rows. Minimum value is 2. Default: 3.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability. Default: 1}
 }

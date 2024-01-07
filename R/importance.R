@@ -14,8 +14,7 @@
 #'
 #' When `paired_samples = TRUE` the computation method is only `robust`, as the comparison of paired samples does not require a least cost path.
 #'
-#' @param a (required, data frame or matrix) a time series.
-#' @param b (required, data frame or matrix) a time series.
+#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -43,37 +42,48 @@
 #' @export
 #' @autoglobal
 importance <- function(
-    a = NULL,
-    b = NULL,
-    distance = c("euclidean", "manhattan"),
-    diagonal = c(FALSE, TRUE),
-    weighted = c(FALSE, TRUE),
+    x = NULL,
+    distance = "euclidean",
+    diagonal = FALSE,
+    weighted = FALSE,
     ignore_blocks = c(FALSE, TRUE),
     paired_samples = FALSE,
     robust = TRUE
 ){
 
-  #selecting distance
-  distance <- match.arg(
-    arg = distance,
-    choices = c(
-      distances$name,
-      distances$abbreviation
-    ),
-    several.ok = TRUE
+  #check input arguments
+  arguments <- check_args(
+    x = x,
+    distance = distance,
+    diagonal = diagonal,
+    weighted = weighted,
+    ignore_blocks = ignore_blocks,
+    paired_samples = paired_samples,
+    robust = robust
   )
 
-  abbreviation_indices <- which(distances$abbreviation %in% distance)
+  list2env(
+    x = arguments,
+    envir = environment()
+  )
 
-  distance[abbreviation_indices] <- distances$name[abbreviation_indices]
+  #combinations of sequences
+  sequence_combinations <- data.frame(
+    t(
+      combn(
+        names(x),
+        m = 2
+      )
+    )
+  )
 
-  distance <- unique(distance)
-
+  names(sequence_combinations) <- c(
+    "name_a",
+    "name_b"
+  )
 
   #preparing iterations data frame
-  df <- expand.grid(
-    name_a = "a",
-    name_b = "b",
+  argument_combinations <- expand.grid(
     distance = distance,
     diagonal = diagonal,
     weighted = weighted,
@@ -84,107 +94,89 @@ importance <- function(
   )
 
   #remove combinations diagonal = FALSE weighted = TRUE
-  df$weighted <- ifelse(
-    test = df$diagonal == FALSE,
+  argument_combinations$weighted <- ifelse(
+    test = argument_combinations$diagonal == FALSE,
     yes = FALSE,
-    no = df$weighted
+    no = argument_combinations$weighted
   )
 
-  #remove duplicates
+  df <- merge(
+    x = sequence_combinations,
+    y = argument_combinations
+  )
+
   df <- unique(df)
 
-  #list to store results
-  out <- list()
+  iterations <- seq_len(nrow(df))
 
-  #iterating over df
-  for(i in seq_len(nrow(df))){
+  p <- progressr::progressor(along = iterations)
 
-    #TODO take a and b from list?
+  `%iterator%` <- doFuture::`%dofuture%`
+
+  importance_df <- foreach::foreach(
+    i = iterations,
+    .combine = "rbind",
+    .options.future = list(seed = TRUE)
+  ) %iterator% {
+
+    p()
+
+    df.i <- df[i, ]
+
     ab <- prepare_ab(
-      a = a,
-      b = b,
+      a = x[[df$name_a[i]]],
+      b = x[[df$name_b[i]]],
       distance = distance,
       paired_samples = paired_samples
     )
 
-    if(df$paired_samples[i] == TRUE){
+    if(df.i$paired_samples == TRUE){
 
-      df$robust[i] <- TRUE
+      df.i$robust <- TRUE
 
       importance.i <- importance_paired_cpp(
-        a = ab$a,
-        b = ab$b,
-        distance = df$distance[i]
+        a = ab[[1]],
+        b = ab[[2]],
+        distance = df.i$distance
       )
 
     } else {
 
-      if(df$robust[i] == TRUE){
+      if(df.i$robust == TRUE){
 
         importance.i <- importance_robust_cpp(
-          a = ab$a,
-          b = ab$b,
-          distance = df$distance[i],
-          diagonal = df$diagonal[i],
-          weighted = df$weighted[i],
-          ignore_blocks = df$ignore_blocks[i]
+          a = ab[[1]],
+          b = ab[[2]],
+          distance = df.i$distance,
+          diagonal = df.i$diagonal,
+          weighted = df.i$weighted,
+          ignore_blocks = df.i$ignore_blocks
         )
 
       } else {
 
         importance.i <- importance_cpp(
-          a = ab$a,
-          b = ab$b,
-          distance = df$distance[i],
-          diagonal = df$diagonal[i],
-          weighted = df$weighted[i],
-          ignore_blocks = df$ignore_blocks[i]
+          a = ab[[1]],
+          b = ab[[2]],
+          distance = df.i$distance,
+          diagonal = df.i$diagonal,
+          weighted = df.i$weighted,
+          ignore_blocks = df.i$ignore_blocks
         )
 
       }
 
-    } #end of importance.i
+    } #end of importance i
 
+    importance.i <- merge(
+      x = df.i,
+      y = importance.i
+    )
 
-    #prepare output data frame
-    importance.i$name_a <- df$name_a[i]
-    importance.i$name_b <- df$name_b[i]
-    importance.i$distance <- df$distance[i]
-    importance.i$diagonal <- df$diagonal[i]
-    importance.i$weighted <- df$weighted[i]
-    importance.i$ignore_blocks <- df$ignore_blocks[i]
-    importance.i$paired_samples <- df$paired_samples[i]
-    importance.i$robust <- df$robust[i]
-
-    #store importance data frame
-    out[[i]] <- importance.i
+    return(importance.i)
 
   } #end of loop
 
-  #list to data frame
-  out.df <- do.call(
-    what = "rbind",
-    args = out
-  )
-
-  #subset columns
-  out.df[,
-         c(
-           "name_a",
-           "name_b",
-           "distance",
-           "diagonal",
-           "weighted",
-           "ignore_blocks",
-           "paired_samples",
-           "robust",
-           "variable",
-           "psi",
-           "psi_only_with",
-           "psi_without",
-           "psi_difference",
-           "psi_drop",
-           "importance"
-         )]
+  importance_df
 
 }

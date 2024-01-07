@@ -490,7 +490,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // null_psi_paired_cpp
-NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+NumericVector null_psi_paired_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, int repetitions, const std::string& permutation, int block_size, int seed);
 RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -500,7 +500,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(a, b, distance, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
@@ -523,7 +523,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // null_psi_cpp
-NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, IntegerVector block_size, int seed);
+NumericVector null_psi_cpp(NumericMatrix a, NumericMatrix b, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, int block_size, int seed);
 RcppExport SEXP _distantia_null_psi_cpp(SEXP aSEXP, SEXP bSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -536,7 +536,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
     Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type block_size(block_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     rcpp_result_gen = Rcpp::wrap(null_psi_cpp(a, b, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;

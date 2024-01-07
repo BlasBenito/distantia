@@ -2,12 +2,12 @@
 
 utils::globalVariables(c(
   "distances", # <auto_sum>
-  "distances", # <argument_distance>
+  "distances", # <check_args_distance>
   "group_size_a", # <cost_path_trim>
   "cost", # <cost_path_trim>
   "group_size_b", # <cost_path_trim>
   "distances", # <distance_matrix>
-  "i", # <distantia_parallel>
-  "distances", # <importance>
+  "i", # <distantia>
+  "i", # <importance>
   NULL
 ))

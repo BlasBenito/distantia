@@ -223,9 +223,9 @@ double psi_paired_cpp(
 //'   \item "restricted": restricted shuffling of rows and columns within blocks.
 //'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 //' }
-//' @param block_size (optional, integer vector) vector with block sizes for
+//' @param block_size (optional, integer) block size in rows for
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
-//' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+//' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 //' @return Numeric vector with null distribution of psi distances.
 //' @export
@@ -236,7 +236,7 @@ NumericVector null_psi_paired_cpp(
     const std::string& distance = "euclidean",
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",
-    IntegerVector block_size = IntegerVector::create(2, 3, 4),
+    int block_size = 3,
     int seed = 1
 ){
 
@@ -271,37 +271,23 @@ NumericVector null_psi_paired_cpp(
   //compute psi
   psi_null[0] = ((cost_path_sum  - ab_sum) / ab_sum) + 1;
 
-  // Calculate the minimum number of rows between matrices a and b
-  int min_rows = std::min(a.nrow(), b.nrow());
-
-  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
-  block_size = block_size[block_size <= min_rows];
-
   // Use the integer seed value
   std::srand(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    // Checking interruption every 1000 iterations
-    if (i % 1000 == 0){
-      Rcpp::checkUserInterrupt();
-    }
-
-    // Select a block size
-    int block_size_i = block_size[rand() % block_size.size()];
-
     // Permute matrix a
     NumericMatrix permuted_a = permutation_function(
       a,
-      block_size_i,
+      block_size,
       seed + i
     );
 
     // Permute matrix b
     NumericMatrix permuted_b = permutation_function(
       b,
-      block_size_i,
+      block_size,
       seed + i + 1
     );
 
@@ -409,7 +395,7 @@ double psi_cpp(
 //'   \item "restricted": restricted shuffling of rows and columns within blocks.
 //'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 //' }
-//' @param block_size (optional, integer vector) vector with block sizes for
+//' @param block_size (optional, integer) block size in rows for
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
@@ -425,7 +411,7 @@ NumericVector null_psi_cpp(
     bool ignore_blocks = false,
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",
-    IntegerVector block_size = IntegerVector::create(2, 3, 4),
+    int block_size = 3,
     int seed = 1
 ){
 
@@ -468,40 +454,23 @@ NumericVector null_psi_cpp(
     diagonal
   );
 
-  // Calculate the minimum number of rows between matrices a and b
-  int min_rows = std::min(a.nrow(), b.nrow());
-
-  // Adjust block_size to ensure it doesn't exceed the minimum number of rows
-  block_size = block_size[block_size <= min_rows];
-
   // Use the seed value
   std::srand(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    // Checking interruption every 1000 iterations
-    // if (i % 1000 == 0){
-    //   Rcpp::checkUserInterrupt();
-    // }
-
-    // Select a block size
-    int block_size_a = block_size[rand() % block_size.size()];
-
     // Permute matrix a
     NumericMatrix permuted_a = permutation_function(
       a,
-      block_size_a,
+      block_size,
       seed + i
     );
-
-    // Select a block size
-    int block_size_b = block_size[rand() % block_size.size()];
 
     // Permute matrix b
     NumericMatrix permuted_b = permutation_function(
       b,
-      block_size_b,
+      block_size,
       seed + i + 1
     );
 

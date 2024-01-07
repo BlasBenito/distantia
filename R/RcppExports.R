@@ -517,13 +517,13 @@ psi_paired_cpp <- function(a, b, distance = "euclidean") {
 #'   \item "restricted": restricted shuffling of rows and columns within blocks.
 #'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 #' }
-#' @param block_size (optional, integer vector) vector with block sizes for
+#' @param block_size (optional, integer) block size in rows for
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
-#' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+#' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_paired_cpp <- function(a, b, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+null_psi_paired_cpp <- function(a, b, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
     .Call(`_distantia_null_psi_paired_cpp`, a, b, distance, repetitions, permutation, block_size, seed)
 }
 
@@ -576,13 +576,13 @@ psi_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = F
 #'   \item "restricted": restricted shuffling of rows and columns within blocks.
 #'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 #' }
-#' @param block_size (optional, integer vector) vector with block sizes for
+#' @param block_size (optional, integer) block size in rows for
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
 #' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = as.integer( c(2, 3, 4)), seed = 1L) {
+null_psi_cpp <- function(a, b, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
     .Call(`_distantia_null_psi_cpp`, a, b, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
 }
 

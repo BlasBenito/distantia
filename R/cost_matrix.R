@@ -38,7 +38,11 @@
 #'
 #' @autoglobal
 #' @export
-cost_matrix <- function(dist_matrix = NULL, diagonal = FALSE, weighted = FALSE){
+cost_matrix <- function(
+    dist_matrix = NULL,
+    diagonal = FALSE,
+    weighted = FALSE
+    ){
 
   if(is.null(dist_matrix)){
     stop("Argument 'dist_matrix' must not be NULL.")
@@ -59,8 +63,6 @@ cost_matrix <- function(dist_matrix = NULL, diagonal = FALSE, weighted = FALSE){
       m <- cost_matrix_diag_cpp(dist_matrix = dist_matrix)
 
     }
-
-
 
   } else {
 
