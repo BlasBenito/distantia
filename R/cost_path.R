@@ -31,6 +31,21 @@ cost_path <- function(
     diagonal = FALSE
 ){
 
+
+  if(is.null(dist_matrix)){
+    stop("Argument 'dist_matrix' must not be NULL.")
+  }
+  if(!is.numeric(dist_matrix) | !is.matrix(dist_matrix)){
+    stop("Argument 'dist_matrix' must be a numeric matrix.")
+  }
+
+  if(is.null(cost_matrix)){
+    stop("Argument 'cost_matrix' must not be NULL.")
+  }
+  if(!is.numeric(cost_matrix) | !is.matrix(cost_matrix)){
+    stop("Argument 'cost_matrix' must be a numeric matrix.")
+  }
+
   if(any(dim(dist_matrix) != dim(cost_matrix))){
     stop("Arguments 'dist_matrix' and 'cost_matrix' must have the same dimensions.")
   }

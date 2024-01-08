@@ -65,12 +65,14 @@
 #'}
 #'
 #'@export
-workflowSlotting <- function(sequences = NULL,
-                             grouping.column = NULL,
-                             time.column = NULL,
-                             exclude.columns = NULL,
-                             method = "manhattan",
-                             plot = TRUE){
+workflowSlotting <- function(
+    sequences = NULL,
+    grouping.column = NULL,
+    time.column = NULL,
+    exclude.columns = NULL,
+    method = "manhattan",
+    plot = TRUE
+    ){
 
   #checking there are only two sequences
   if(is.null(grouping.column)){

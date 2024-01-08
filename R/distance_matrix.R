@@ -29,80 +29,20 @@ distance_matrix <- function(
     distance = "euclidean"
 ){
 
-  if(is.null(a)){
-    stop("Argument 'a' must not be NULL.")
-  }
-
-  if(is.null(b)){
-    stop("Argument 'b' must not be NULL.")
-  }
-
-  if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'a' must be a data frame or matrix.")
-  }
-
-  if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-    stop("Argument 'b' must be a data frame or matrix.")
-  }
-
-  #checking for NA
-  if(sum(is.na(a)) > 0){
-    stop("Argument 'a' has NA values. Please remove or imputate them before the distance computation.")
-  }
-  if(sum(is.na(b)) > 0){
-    stop("Argument 'b' has NA values. Please remove or imputate them before the distance computation.")
-  }
-
-  #preprocessing data
-  if(ncol(a) != ncol(b)){
-    common.cols <- intersect(
-      x = colnames(a),
-      y = colnames(b)
-    )
-    a <- a[, common.cols]
-    b <- b[, common.cols]
-  }
-
-  #capture row names
-  a.names <- rownames(a)
-  b.names <- rownames(b)
-
-  if(!is.matrix(a)){
-    a <- as.matrix(a)
-  }
-
-  if(!is.matrix(b)){
-    b <- as.matrix(b)
-  }
-
-  #selecting distance
-  distance <- match.arg(
-    arg = distance,
-    choices = c(
-      distances$name,
-      distances$abbreviation
-    ),
-    several.ok = FALSE
+  ab <- prepare_ab(
+    a = a,
+    b = b,
+    distance = distance
   )
 
-  #distances that don't accept two zeros in same position
-  if(distance %in% c(
-    "chi",
-    "cos",
-    "cosine"
-  )
-  ){
-
-    pseudozero <- mean(x = c(a, b)) * 0.0001
-    a[a == 0] <- pseudozero
-    b[b == 0] <- pseudozero
-
-  }
+  distance <- check_args_distance(
+    distance = distance
+  )[1]
 
   #computing distance matrix
   d <- distance_matrix_cpp(
-    a = a,
-    b = b,
+    a = ab[[1]],
+    b = ab[[1]],
     distance = distance
     )
 

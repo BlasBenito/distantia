@@ -42,14 +42,9 @@ distance <- function(
     stop("Argument 'y' has NA values. Please remove or imputate them before the distance computation.")
   }
 
-  distance <- match.arg(
-    arg = distance,
-    choices = c(
-      distances$name,
-      distances$abbreviation
-    ),
-    several.ok = FALSE
-  )
+  distance <- check_args_distance(
+    distance = distance
+  )[1]
 
   #handling NA
   df <- data.frame(

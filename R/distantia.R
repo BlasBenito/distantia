@@ -16,7 +16,6 @@
 #' }
 #' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
-#' @examples
 #'
 #' @return Data frame with the following columns:
 #' \itemize(

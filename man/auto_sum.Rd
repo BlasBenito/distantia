@@ -7,9 +7,9 @@
 auto_sum(a = NULL, b = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, data frame) a time series. Default: NULL.}
+\item{a}{(required, data frame) a sequence. Default: NULL.}
 
-\item{b}{(required, data frame) a time series. Default: NULL.}
+\item{b}{(required, data frame) a sequence. Default: NULL.}
 
 \item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.}
 

@@ -35,6 +35,14 @@ auto_sum <- function(
     distance = "euclidean"
     ){
 
+  if(!is.data.frame(path)){
+    stop("Argument 'path' must be a data frame.")
+  }
+
+  if(all(c("a", "b", "dist", "cost") %in% colnames(path)) == FALSE){
+    stop("Argument 'path' must have the columns 'a', 'b', 'dist', and 'cost'.")
+  }
+
   #managing distance method
   distance <- check_args_distance(
     distance = distance

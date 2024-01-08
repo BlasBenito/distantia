@@ -6,12 +6,21 @@
 #' @export
 #' @autoglobal
 f_proportion <- function(x){
-  sweep(
+
+  x <- prepare_na(
+    x = x,
+    pseudo_zero = 0.0001,
+    na_action = "to_zero"
+  )
+
+  y <- sweep(
     x = x,
     MARGIN = 1,
     STATS = rowSums(x),
     FUN = "/"
     )
+
+  y
 }
 
 #' Transformation to Percentage
@@ -33,7 +42,6 @@ f_percentage <- function(x){
 #' @export
 #' @autoglobal
 f_hellinger <- function(x){
-  #TODO fails when full rows of zeros happen
 
   x <- prepare_na(
     x = x,
