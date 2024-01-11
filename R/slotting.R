@@ -5,11 +5,9 @@ slotting <- function(
 ){
 
   a <- sequenceA |>
-  na.omit() |>
-    as.matrix()
+  na.omit()
   b <- sequenceB |>
-    na.omit() |>
-    as.matrix()
+    na.omit()
 
   ab <- prepare_ab(
     a = a,
@@ -120,15 +118,15 @@ slotting <- function(
     na.omit() |>
     as.matrix()
 
+  distance <- check_args_distance(
+    distance = distance
+  )[1]
+
   ab <- prepare_ab(
     a = a,
     b = b,
     distance = distance
   )
-
-  distance <- check_args_distance(
-    distance = distance
-  )[1]
 
   #computing distance matrix
   dist_matrix <- distance_matrix_cpp(
@@ -151,56 +149,70 @@ slotting <- function(
   #reverse path
   path <- path[order(path$cost),]
 
-  #add NA at the end
-  path.NA <- path[1, ]
-  path.NA[1, ] <- rep(Inf, 4)
-  path <- rbind(
-    path, path.NA
-  )
+  path <- path |>
+    dplyr::group_by(a) |>
+    dplyr::mutate(
+      a = dplyr::case_when(
+        dist == min(dist) ~ a,
+        TRUE ~ NA
+      )
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::group_by(b) |>
+    dplyr::mutate(
+      b = dplyr::case_when(
+        dist == min(dist) ~ b,
+        TRUE ~ NA
+      )
+    ) |>
+    dplyr::ungroup() |>
+    as.data.frame()
 
-  #to data frame
-  a <- as.data.frame(ab[[1]])
-  b <- as.data.frame(ab[[2]])
+  ab[[1]] <- as.data.frame(ab[[1]])
+  ab[[2]] <- as.data.frame(ab[[2]])
+  ab[[1]]$sequence_name <- "a"
+  ab[[2]]$sequence_name <- "b"
+  ab[[1]]$sequence_row <- 1:nrow(ab[[1]])
+  ab[[2]]$sequence_row <- 1:nrow(ab[[2]])
 
-  a$sequence <- "a"
-  b$sequence <- "b"
-  a$row <- 1:nrow(a)
-  b$row <- 1:nrow(b)
-
-  #slotting
-  ab.df <- data.frame()
-  a.last.used <- 0
-  b.last.used <- 0
+  #output data frame
+  ab.combined <- a[0, ]
 
   #iterating over path
-  for(i in seq_len(nrow(path) - 1)){
+  for(i in seq_len(nrow(path))){
 
-    #add row from a
-    if(path$a[i] != path$a[i + 1]){
+    a.na <- is.na(path$a[i])
+    b.na <- is.na(path$b[i])
 
-      a.last.used <- path$a[i]
-
-      ab.df <- rbind(
-        ab.df,
-        a[a.last.used, ]
-      )
-
+    if(a.na && b.na){
+      next
     }
 
-    #add row from b
-    if(path$b[i] != path$b[i + 1]){
-
-      b.last.used <- path$b[i]
-
-      ab.df <- rbind(
-        ab.df,
-        b[b.last.used, ]
-      )
-
+    if(a.na){
+      new.row <- ab[[2]][path$b[i], ]
     }
 
-  }
+    if(b.na){
+      new.row <- ab[[1]][path$a[i], ]
+    }
 
+    if(!a.na && !b.na){
+      candidate.rows <- c(path$a[i], path$b[i])
+      j <- which.max(candidate.rows)
+      k <- which.min(candidate.rows)
+      new.row <- rbind(
+        ab[[j]][path[i, j], ],
+        ab[[k]][path[i, k], ]
+      )
+    }
 
+    ab.combined <- rbind(
+      ab.combined,
+      new.row
+    )
+
+  } #end of combination loop
+
+  ab.combined
 
 }

@@ -32,6 +32,10 @@ prepare_ab <- function(
     paired_samples = FALSE
     ){
 
+  distance <- check_args_distance(
+    distance = distance
+  )
+
   #check validation flags
   a.validated <- ifelse(
     test = "validated" %in% names(attributes(a)),
