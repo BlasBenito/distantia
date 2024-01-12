@@ -52,12 +52,19 @@ prepare_ab <- function(
   #validating
   if(any(c(a.validated, b.validated)) == FALSE){
 
-    if(!any(class(a) %in% c("data.frame", "matrix", "vector"))){
-      stop("Argument 'a' must be a data frame, matrix, or vector.")
+    target_classes <- c(
+      "data.frame",
+      "matrix",
+      "numeric",
+      "vector"
+      )
+
+    if(all(inherits(x = a, what = target_classes) == FALSE)){
+      stop("Argument 'a' must be a data frame, matrix, or numeric vector.")
     }
 
-    if(!any(class(b) %in% c("data.frame", "matrix", "vector"))){
-      stop("Argument 'b' must be a data frame, matrix, or vector")
+    if(all(inherits(x = b, what = target_classes) == FALSE)){
+      stop("Argument 'b' must be a data frame, matrix, or numeric vector.")
     }
 
     #checking for NA
@@ -159,8 +166,16 @@ prepare_ab <- function(
   )
 
   names(out) <- c(
-    attributes(a)$name,
-    attributes(b)$name
+    ifelse(
+      test = is.null(attributes(a)$name),
+      yes = "a",
+      no = attributes(a)$name
+    ),
+    ifelse(
+      test = is.null(attributes(b)$name),
+      yes = "b",
+      no = attributes(b)$name
+    )
   )
 
   out
