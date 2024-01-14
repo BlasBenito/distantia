@@ -49,22 +49,18 @@ prepare_ab <- function(
     no = FALSE
   )
 
-  #validating
-  if(any(c(a.validated, b.validated)) == FALSE){
+  target_classes <- c(
+    "data.frame",
+    "matrix",
+    "numeric",
+    "vector"
+  )
 
-    target_classes <- c(
-      "data.frame",
-      "matrix",
-      "numeric",
-      "vector"
-      )
+  #validate a
+  if(a.validated == FALSE){
 
     if(all(inherits(x = a, what = target_classes) == FALSE)){
       stop("Argument 'a' must be a data frame, matrix, or numeric vector.")
-    }
-
-    if(all(inherits(x = b, what = target_classes) == FALSE)){
-      stop("Argument 'b' must be a data frame, matrix, or numeric vector.")
     }
 
     #checking for NA
@@ -77,6 +73,21 @@ prepare_ab <- function(
       )
     }
 
+    # keep only numeric columns
+    if(inherits(x = a, what = "data.frame")){
+      a <- a[, sapply(a, is.numeric)]
+    }
+
+
+  }
+
+  #validate b
+  if(b.validated == FALSE){
+
+    if(all(inherits(x = b, what = target_classes) == FALSE)){
+      stop("Argument 'b' must be a data frame, matrix, or numeric vector.")
+    }
+
     b.na <- sum(is.na(b))
     if(b.na > 0){
       stop("Argument 'b' has ",
@@ -85,23 +96,12 @@ prepare_ab <- function(
       )
     }
 
-    # keep only numeric columns
-    if(inherits(x = a, what = "data.frame")){
-      a <- a[, sapply(a, is.numeric)]
-    }
-
     if(inherits(x = b, what = "data.frame")){
       b <- b[, sapply(b, is.numeric)]
     }
 
-    #convert to matrix
-    if(!is.matrix(a)){
-      a <- as.matrix(a)
-    }
 
-    if(!is.matrix(b)){
-      b <- as.matrix(b)
-    }
+  }
 
     #check colnames
     if(
@@ -110,14 +110,6 @@ prepare_ab <- function(
     ){
 
       stop("Arguments 'a' and 'b' must either have column names or the same number of columns.")
-
-      if(is.null(attributes(a)$name)){
-        attr(a, "name") <- "a"
-      }
-
-      if(is.null(attributes(b)$name)){
-        attr(b, "name") <- "b"
-      }
 
     }
 
@@ -147,8 +139,12 @@ prepare_ab <- function(
 
     }
 
+  #storing attributes
+  a.time <- attributes(a)$time
+  a.sequence_name <- attributes(a)$sequence_name
 
-  }
+  b.time <- attributes(b)$time
+  b.sequence_name <- attributes(b)$sequence_name
 
   #subsetting to common columns
   if(ncol(a) != ncol(b)){
@@ -156,9 +152,36 @@ prepare_ab <- function(
       x = colnames(a),
       y = colnames(b)
     )
-    a <- a[, common.cols]
-    b <- b[, common.cols]
+    a <- a[, common.cols, drop = FALSE]
+    b <- b[, common.cols, drop = FALSE]
   }
+
+  #convert to matrix
+  if(!is.matrix(a)){
+    a <- as.matrix(a)
+  }
+
+  if(!is.matrix(b)){
+    b <- as.matrix(b)
+  }
+
+  #restoring attributes
+  attr(x = a, which = "time") <- a.time
+  attr(x = a, which = "sequence_name") <- a.sequence_name
+
+  attr(x = b, which = "time") <- b.time
+  attr(x = b, which = "sequence_name") <- b.sequence_name
+
+  if(is.null(attributes(a)$sequence_name)){
+    attr(a, "name") <- "a"
+  }
+
+  if(is.null(attributes(b)$sequence_name)){
+    attr(b, "name") <- "b"
+  }
+
+  attr(a, "validated") <- TRUE
+  attr(b, "validated") <- TRUE
 
   out <- list(
     a = a,
@@ -167,14 +190,14 @@ prepare_ab <- function(
 
   names(out) <- c(
     ifelse(
-      test = is.null(attributes(a)$name),
+      test = is.null(attributes(a)$sequence_name),
       yes = "a",
-      no = attributes(a)$name
+      no = attributes(a)$sequence_name
     ),
     ifelse(
-      test = is.null(attributes(b)$name),
+      test = is.null(attributes(b)$sequence_name),
       yes = "b",
-      no = attributes(b)$name
+      no = attributes(b)$sequence_name
     )
   )
 

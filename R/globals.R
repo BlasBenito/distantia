@@ -9,5 +9,11 @@ utils::globalVariables(c(
   "b.names", # <distance_matrix>
   "i", # <distantia>
   "i", # <importance>
+  "b", # <slotting>
+  "a_", # <slotting>
+  "b_", # <slotting>
+  "b", # <slotting>
+  "a_", # <slotting>
+  "b_", # <slotting>
   NULL
 ))

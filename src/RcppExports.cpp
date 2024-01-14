@@ -94,6 +94,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cost_path_slotting_cpp
+DataFrame cost_path_slotting_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix);
+RcppExport SEXP _distantia_cost_path_slotting_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_slotting_cpp(dist_matrix, cost_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cost_path_cpp
 DataFrame cost_path_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix);
 RcppExport SEXP _distantia_cost_path_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP) {
@@ -551,6 +563,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
     {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
     {"_distantia_cost_matrix_cpp", (DL_FUNC) &_distantia_cost_matrix_cpp, 1},
+    {"_distantia_cost_path_slotting_cpp", (DL_FUNC) &_distantia_cost_path_slotting_cpp, 2},
     {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 2},
     {"_distantia_cost_path_diag_cpp", (DL_FUNC) &_distantia_cost_path_diag_cpp, 2},
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},

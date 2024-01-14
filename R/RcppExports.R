@@ -88,6 +88,21 @@ cost_matrix_cpp <- function(dist_matrix) {
     .Call(`_distantia_cost_matrix_cpp`, dist_matrix)
 }
 
+#' Least Cost Path for Sequence Slotting
+#' @description Computes the least cost matrix from a distance matrix.
+#' Considers diagonals during computation of least-costs. This version differs
+#' from cost_path_cpp() in the way it solves ties. In the case of a tie,
+#' cost_path_cpp() uses the first neighbor satisfying the minimum distance condition,
+#' while cost_path_slotting_cpp() selects the neighbor that changes the axis
+#' of movement within the least cost matrix.
+#' @param dist_matrix (required, distance matrix). Distance matrix.
+#' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
+#' @return A data frame with least-cost path coordiantes.
+#' @export
+cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
+    .Call(`_distantia_cost_path_slotting_cpp`, dist_matrix, cost_matrix)
+}
+
 #' Least Cost Path
 #' @description Computes the least cost matrix from a distance matrix.
 #' Considers diagonals during computation of least-costs.
@@ -101,7 +116,8 @@ cost_path_cpp <- function(dist_matrix, cost_matrix) {
 
 #' Least Cost Path Considering Diagonals
 #' @description Computes the least cost matrix from a distance matrix.
-#' Considers diagonals during computation of least-costs.
+#' Considers diagonals during computation of least-costs. In case of ties,
+#' diagonals are favored.
 #' @param dist_matrix (required, distance matrix). Distance matrix.
 #' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
 #' @return A data frame with least-cost path coordiantes.

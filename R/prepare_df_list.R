@@ -116,7 +116,7 @@ prepare_df_list <- function(
 
   #add attribute name
   for(i in seq_len(length(x))){
-    attr(x[[i]], "name") <- names(x)[[i]]
+    attr(x[[i]], "sequence_name") <- names(x)[[i]]
   }
 
   x

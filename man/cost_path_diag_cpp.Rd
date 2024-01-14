@@ -16,5 +16,6 @@ A data frame with least-cost path coordiantes.
 }
 \description{
 Computes the least cost matrix from a distance matrix.
-Considers diagonals during computation of least-costs.
+Considers diagonals during computation of least-costs. In case of ties,
+diagonals are favored.
 }

@@ -2,6 +2,112 @@
 #include "distance_methods.h"
 using namespace Rcpp;
 
+//' Least Cost Path for Sequence Slotting
+//' @description Computes the least cost matrix from a distance matrix.
+//' Considers diagonals during computation of least-costs. This version differs
+//' from cost_path_cpp() in the way it solves ties. In the case of a tie,
+//' cost_path_cpp() uses the first neighbor satisfying the minimum distance condition,
+//' while cost_path_slotting_cpp() selects the neighbor that changes the axis
+//' of movement within the least cost matrix.
+//' @param dist_matrix (required, distance matrix). Distance matrix.
+//' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
+//' @return A data frame with least-cost path coordiantes.
+//' @export
+// [[Rcpp::export]]
+DataFrame cost_path_slotting_cpp(
+    NumericMatrix dist_matrix,
+    NumericMatrix cost_matrix
+){
+
+  int d_rows = dist_matrix.nrow();
+  int d_cols = dist_matrix.ncol();
+
+  // Initialize the path vectors
+  std::vector<int> path_a;
+  std::vector<int> path_b;
+  std::vector<double> path_dist;
+  std::vector<double> path_cost;
+
+  // Define initial coordinates
+  int y = d_rows - 1;
+  int x = d_cols - 1;
+
+  // Index of path_a and path_b
+  int i = -1;
+
+  // Iterate to find the path
+  while (true) {
+
+    // Add current coordinates to the path
+    // Adding 1 to convert from 0-based index to 1-based index
+    path_a.push_back(y + 1);
+    path_b.push_back(x + 1);
+    path_dist.push_back(dist_matrix(y, x));
+    path_cost.push_back(cost_matrix(y, x));
+
+    // declare neighbors
+    std::vector<int> neighbor_y = {y - 1, y};
+    std::vector<int> neighbor_x = {x, x - 1};
+
+    // Increase index
+    i += 1;
+
+    if(i > 1){
+
+      // Modify order of neighbors if there are repeated indices
+      //in the rows axis
+      if(path_a[i] == path_a[i-1]){
+
+        neighbor_y = {y, y - 1};
+        neighbor_x = {x - 1, x};
+
+      }
+
+      // Modify order of neighbors if there are repeated indices
+      //in the columns axis
+      if(path_b[i] == path_b[i-1]){
+
+        neighbor_y = {y - 1, y};
+        neighbor_x = {x, x - 1};
+
+      }
+
+    }
+
+    // Find neighbor with minimum cost
+    int min_cost_neighbor = -1;
+    double min_cost = std::numeric_limits<double>::max();
+
+    for (int j = 0; j < 2; ++j) {
+      if (neighbor_y[j] != -1 && neighbor_x[j] != -1) {
+        if (cost_matrix(neighbor_y[j], neighbor_x[j]) < min_cost) {
+          min_cost = cost_matrix(neighbor_y[j], neighbor_x[j]);
+          min_cost_neighbor = j;
+        }
+      }
+    }
+
+    // Check for termination
+    if (min_cost_neighbor == -1) {
+      break;
+    }
+
+    // Update current coordinates
+    y = neighbor_y[min_cost_neighbor];
+    x = neighbor_x[min_cost_neighbor];
+
+  }
+
+  // Create output data frame
+  return DataFrame::create(
+    _["a"] = path_a,
+    _["b"] = path_b,
+    _["dist"] = path_dist,
+    _["cost"] = path_cost
+  );
+
+}
+
 //' Least Cost Path
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs.
@@ -32,12 +138,13 @@ DataFrame cost_path_cpp(
   while (true) {
 
     // Add current coordinates to the path
-    path_a.push_back(y + 1); // Adding 1 to convert from 0-based index to 1-based index
+    // Adding 1 to convert from 0-based index to 1-based index
+    path_a.push_back(y + 1);
     path_b.push_back(x + 1);
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
-    // Find neighbors
+    // declare neighbors
     std::vector<int> neighbor_y = {y - 1, y};
     std::vector<int> neighbor_x = {x, x - 1};
 
@@ -45,11 +152,11 @@ DataFrame cost_path_cpp(
     int min_cost_neighbor = -1;
     double min_cost = std::numeric_limits<double>::max();
 
-    for (int i = 0; i < 2; ++i) {
-      if (neighbor_y[i] != -1 && neighbor_x[i] != -1) {
-        if (cost_matrix(neighbor_y[i], neighbor_x[i]) < min_cost) {
-          min_cost = cost_matrix(neighbor_y[i], neighbor_x[i]);
-          min_cost_neighbor = i;
+    for (int j = 0; j < 2; ++j) {
+      if (neighbor_y[j] != -1 && neighbor_x[j] != -1) {
+        if (cost_matrix(neighbor_y[j], neighbor_x[j]) < min_cost) {
+          min_cost = cost_matrix(neighbor_y[j], neighbor_x[j]);
+          min_cost_neighbor = j;
         }
       }
     }
@@ -62,6 +169,7 @@ DataFrame cost_path_cpp(
     // Update current coordinates
     y = neighbor_y[min_cost_neighbor];
     x = neighbor_x[min_cost_neighbor];
+
   }
 
   // Create output data frame
@@ -77,7 +185,8 @@ DataFrame cost_path_cpp(
 
 //' Least Cost Path Considering Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
-//' Considers diagonals during computation of least-costs.
+//' Considers diagonals during computation of least-costs. In case of ties,
+//' diagonals are favored.
 //' @param dist_matrix (required, distance matrix). Distance matrix.
 //' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
 //' @return A data frame with least-cost path coordiantes.
@@ -112,7 +221,7 @@ DataFrame cost_path_diag_cpp(
 
     // Find neighbors
     std::vector<int> neighbor_y = {y-1, y-1, y};
-    std::vector<int> neighbor_x = {x, x-1, x-1};
+    std::vector<int> neighbor_x = {x-1, x, x-1};
 
     // Find neighbor with minimum cost
     int min_cost_neighbor = -1;
@@ -217,6 +326,8 @@ double cost_path_sum_cpp(
 //
 
 /*** R
+library(distantia)
+
 a <- sequenceA |>
   na.omit() |>
   as.matrix()
@@ -225,33 +336,37 @@ b <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-dist_matrix <- distance_matrix(a, b, distance = "euclidean")
+dist_matrix <- distance_matrix_cpp(a, b, distance = "euclidean")
 
-cost_matrix <- cost_matrix(dist_matrix = dist_matrix)
+cost_matrix <- cost_matrix_cpp(dist_matrix = dist_matrix)
 
-message("Computing least cost path without diagonals.")
 cost_path <- cost_path_cpp(
   dist_matrix = dist_matrix,
   cost_matrix = cost_matrix
 )
 
-head(cost_path)
-
-message("Trimming blocks from least cost path.")
-cost_path_trimmed <- cost_path_trim_cpp(path)
-
-nrow(cost_path)
-nrow(cost_path_trimmed)
-
-message("Computing least cost path with diagonals")
-cost_path_diag <- cost_path_diag_cpp(
+cost_path_slotting <- cost_path_slotting_cpp(
   dist_matrix = dist_matrix,
   cost_matrix = cost_matrix
 )
-
-head(cost_path_diag)
-
-message("Sum of distances in least cost paths")
-cost_path_sum_cpp(cost_path_diag)
+#
+# head(cost_path)
+#
+# message("Trimming blocks from least cost path.")
+# cost_path_trimmed <- cost_path_trim_cpp(cost_path)
+#
+# nrow(cost_path)
+# nrow(cost_path_trimmed)
+#
+# message("Computing least cost path with diagonals")
+# cost_path_diag <- cost_path_diag_cpp(
+#   dist_matrix = dist_matrix,
+#   cost_matrix = cost_matrix
+# )
+#
+# head(cost_path_diag)
+#
+# message("Sum of distances in least cost paths")
+# cost_path_sum_cpp(cost_path_diag)
 
 */
