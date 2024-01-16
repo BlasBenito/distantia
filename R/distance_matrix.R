@@ -42,13 +42,20 @@ distance_matrix <- function(
   #computing distance matrix
   d <- distance_matrix_cpp(
     a = ab[[1]],
-    b = ab[[1]],
+    b = ab[[2]],
     distance = distance
     )
 
   #adding names
-  rownames(d) <- a.names
-  colnames(d) <- b.names
+  dimnames(d) <- list(
+    attributes(ab[[1]])$time,
+    attributes(ab[[2]])$time
+  )
+
+  #adding attributes
+  attr(x = d, which = "a_name") <- attributes(ab[[1]])$sequence_name
+  attr(x = d, which = "b_name") <- attributes(ab[[2]])$sequence_name
+  attr(x = d, which = "distance") <- distance
 
   d
 
