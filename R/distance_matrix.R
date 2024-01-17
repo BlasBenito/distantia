@@ -55,6 +55,7 @@ distance_matrix <- function(
   #adding attributes
   attr(x = d, which = "a_name") <- attributes(ab[[1]])$sequence_name
   attr(x = d, which = "b_name") <- attributes(ab[[2]])$sequence_name
+  attr(x = d, which = "type") <- "distance"
   attr(x = d, which = "distance") <- distance
 
   d
