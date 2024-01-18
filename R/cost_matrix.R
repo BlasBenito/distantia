@@ -71,8 +71,13 @@ cost_matrix <- function(
   }
 
   #adding names
-  rownames(m) <- rownames(dist_matrix)
-  colnames(m) <- colnames(dist_matrix)
+  dimnames(m) <- dimnames(dist_matrix)
+
+  #adding attributes
+  attr(x = m, which = "a_name") <- attributes(dist_matrix)$a_name
+  attr(x = m, which = "b_name") <- attributes(dist_matrix)$b_name
+  attr(x = m, which = "type") <- "cost"
+  attr(x = m, which = "distance") <- attributes(dist_matrix)$distance
 
   m
 

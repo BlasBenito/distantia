@@ -13,10 +13,24 @@ x <- prepare_sequences(
   na_action = "to_zero"
 )
 
-m <- distance_matrix(
+dist_matrix <- distance_matrix(
   a = x[[1]],
   b = x[[2]],
   distance = "euclidean"
 )
 
+plot_matrix(dist_matrix)
 
+cost_matrix <- cost_matrix(dist_matrix = dist_matrix)
+
+plot_matrix(m = cost_matrix)
+
+path <- cost_path(
+  dist_matrix = dist_matrix,
+  cost_matrix = cost_matrix
+)
+
+plot_matrix(
+  m = cost_matrix,
+  path = path
+  )
