@@ -13,14 +13,58 @@
 #' @param path (optional, data frame) least cost path generated with [cost_path()]. This data frame must have the attribute `type == "cost_path`, or otherwise it will be ignored. Default: NULL.
 #' @param path_width (optional, numeric) width of the least-cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
+#' @param cex (optional, numeric) multiplicator for the text size. Default: 1
 #'
-#' @return
+#' @return A plot
+#' @examples
+#'
+#' #' library(distantia)
+#'
+#' load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
+#'
+#' #data frame with grouping column
+#' ###################################
+#' data(sequencesMIS)
+#'
+#' #prepare list of sequences
+#' x <- prepare_sequences(
+#'   x = sequencesMIS,
+#'   id_column = "MIS",
+#'   time_column = NULL,
+#'   paired_samples = FALSE,
+#'   pseudo_zero =  0.001,
+#'   na_action = "to_zero"
+#' )
+#'
+#' #distance matrix of the first two sequences
+#' dist_matrix <- distance_matrix(
+#'   a = x[[1]],
+#'   b = x[[2]],
+#'   distance = "euclidean"
+#' )
+#'
+#' #cost matrix
+#' cost_matrix <- cost_matrix(
+#'   dist_matrix = dist_matrix
+#'   )
+#'
+#' #least cost path
+#' path <- cost_path(
+#'   dist_matrix = dist_matrix,
+#'   cost_matrix = cost_matrix
+#' )
+#'
+#' #plot cost matrix and least cost path
+#' plot_matrix(
+#'   m = cost_matrix,
+#'   path = path
+#'   )
+#'
 #' @export
 #' @autoglobal
-#' @examples
 plot_matrix <- function(
     m = NULL,
-    col = grDevices::hcl.colors(
+    m_colors = grDevices::hcl.colors(
       n = 100,
       palette = "Zissou 1"
     ),
@@ -30,7 +74,8 @@ plot_matrix <- function(
     guide_title = NULL,
     path = NULL,
     path_width = 1,
-    path_color = "black"
+    path_color = "black",
+    cex = 1
 ){
 
   #a few hardcoded guide parameters
@@ -38,12 +83,12 @@ plot_matrix <- function(
   guide_width = 1.2
   guide_margin <- 5.1
 
-  #title sizes
-  main_title_cex <- 1.2
-  main_axis_title_cex <- 1
-  main_axis_labels_cex <- 0.8
-  guide_title_cex <- 0.9
-  guide_axis_labels_cex <- 0.7
+  #text sizes
+  main_title_cex <- 1 * cex
+  main_axis_title_cex <- 0.9 * cex
+  main_axis_labels_cex <- 0.8 * cex
+  guide_title_cex <- 0.8 * cex
+  guide_axis_labels_cex <- 0.7 * cex
 
   #title distances
   guide_title_distance <- 0.75
@@ -51,7 +96,7 @@ plot_matrix <- function(
   main_axis_title_distance <- 2.2
 
   if(inherits(x = m, what = "matrix") == FALSE){
-    stop("Argument 'm' must be a matrix preferably generated with distantia::distance_matrix() or distantia::cost_matrix().")
+    stop("Argument 'm' must be a distance or cost matrix resulting from distantia::distance_matrix() or distantia::cost_matrix().")
   }
 
   #handling cost path
@@ -112,7 +157,7 @@ plot_matrix <- function(
   a <- seq(
     from = limz[1],
     to = limz[2],
-    length.out = length(col)
+    length.out = length(m_colors)
   )
 
   b <- (a[2]- a[1])/2
@@ -145,7 +190,7 @@ plot_matrix <- function(
     y = y,
     z = z,
     breaks = breaks,
-    col = col,
+    col = m_colors,
     xlab = "",
     ylab = "",
     axes = FALSE,
@@ -195,8 +240,6 @@ plot_matrix <- function(
       col = path_color
     )
   }
-
-
 
   big.par <- par(no.readonly = TRUE)
 

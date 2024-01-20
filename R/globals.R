@@ -9,8 +9,7 @@ utils::globalVariables(c(
   "group_size_a", # <cost_path_trim>
   "cost", # <cost_path_trim>
   "group_size_b", # <cost_path_trim>
-  "a.names", # <distance_matrix>
-  "b.names", # <distance_matrix>
+  "distances", # <distance>
   "i", # <distantia>
   "i", # <importance>
   NULL
