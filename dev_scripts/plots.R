@@ -9,19 +9,18 @@ data(sequencesMIS)
 #prepare list of sequences
 x <- prepare_sequences(
   x = sequencesMIS,
-  id_column = "MIS",
-  time_column = NULL,
-  paired_samples = FALSE,
-  pseudo_zero =  0.001,
-  na_action = "to_zero"
+  id_column = "MIS"
 )
 
 #distance matrix of the first two sequences
 dist_matrix <- distance_matrix(
-  a = x[[1]],
-  b = x[[2]],
+  a = x[["MIS-3"]],
+  b = x[["MIS-5"]],
   distance = "euclidean"
 )
+
+plot_guide(m = dist_matrix)
+plot_matrix(m = dist_matrix)
 
 #cost matrix
 cost_matrix <- cost_matrix(
@@ -36,7 +35,16 @@ path <- cost_path(
 )
 
 #plot cost matrix and least cost path
+plot_guide(
+  m = cost_matrix
+)
+
 plot_matrix(
   m = cost_matrix,
   path = path
   )
+
+plot_panel(
+  m = cost_matrix,
+  path = path
+)

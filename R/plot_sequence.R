@@ -1,35 +1,16 @@
-library(distantia)
-
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
-
-#data frame with grouping column
-###################################
-data(sequencesMIS)
-
-#prepare list of sequences
-x <- prepare_sequences(
-  x = sequencesMIS,
-  id_column = "MIS",
-  time_column = NULL,
-  paired_samples = FALSE,
-  pseudo_zero =  0.001,
-  na_action = "to_zero"
-)
-
-x <- x[[1]]
-
-colors = grDevices::hcl.colors(
-  n = 6,
-  palette = "Zissou 1"
-)
-
-plot_sequence(
+plot_sequence <- function(
   x,
   vertical = FALSE,
   center = FALSE,
   scale = FALSE,
-  colors = colors
+  color = NULL,
+  width = NULL,
+  cex = 1
 ){
+
+  axis_labels_cex <- 0.7 * cex
+  axis_title_cex <- 0.9 * cex
+  axis_title_distance <- 1.2
 
   #x to data frame
   if(any(c(center, scale))){
@@ -55,24 +36,46 @@ plot_sequence(
   #names of columns to plot
   df.columns <- colnames(df)
 
+  #color
+  if(is.null(color)){
+    color <- grDevices::hcl.colors(
+      n = length(df.columns),
+      palette = "Grays"
+    )
+  }
+
   #first plot
   if(vertical == FALSE){
 
-    plot(
+    graphics::plot(
       x = df.time,
       y = df[, df.columns[1]],
       xlab = df.name,
       type = "l",
       ylab = "",
+      xaxt = "n",
+      yaxt = "n",
       ylim = range(df, na.rm = TRUE),
-      col = colors[1]
+      col = color[1]
+    )
+
+    graphics::title(
+      xlab = df.name,
+      cex.lab = axis_title_cex,
+      line = axis_title_distance
+    )
+
+    graphics::axis(
+      side = 1,
+      las = 1,
+      cex.axis = axis_labels_cex
     )
 
     for(i in seq(2, length(df.columns))){
       lines(
         x = df.time,
         y = df[, df.columns[i]],
-        col = colors[i]
+        col = color[i]
       )
     }
 
@@ -81,26 +84,38 @@ plot_sequence(
     plot(
       y = df.time,
       x = df[, df.columns[1]],
-      ylab = df.name,
+      ylab = "",
       type = "l",
       xlab = "",
+      xaxt = "n",
+      yaxt = "n",
       xlim = rev(range(df, na.rm = TRUE)),
-      col = colors[1]
+      col = color[1],
+      lwd = width
+    )
+
+    graphics::title(
+      ylab = df.name,
+      cex.lab = axis_title_cex,
+      line = axis_title_distance
+    )
+
+    graphics::axis(
+      side = 2,
+      las = 2,
+      cex.axis = axis_labels_cex
     )
 
     for(i in seq(2, length(df.columns))){
       lines(
         y = df.time,
         x = df[, df.columns[i]],
-        col = colors[i]
+        col = color[i],
+        lwd = width
       )
     }
 
 
   }
-
-
-
-
 
 }

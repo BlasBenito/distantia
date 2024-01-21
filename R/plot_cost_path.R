@@ -9,11 +9,7 @@ data(sequencesMIS)
 #prepare list of sequences
 x <- prepare_sequences(
   x = sequencesMIS,
-  id_column = "MIS",
-  time_column = NULL,
-  paired_samples = FALSE,
-  pseudo_zero =  0.001,
-  na_action = "to_zero"
+  id_column = "MIS"
 )
 
 name_a <- "MIS-5"
@@ -23,6 +19,15 @@ diagonal <- FALSE
 weighted <- FALSE
 ignore_blocks <- FALSE
 matrix <- "cost"
+col = NULL
+main_title = NULL
+xlab = NULL
+ylab = NULL
+guide_title = NULL
+path = NULL
+path_width = 1
+path_color = "black"
+cex = 1
 
 
 #main function
@@ -34,20 +39,15 @@ plot_cost_path <- function(
     diagonal = FALSE,
     weighted = FALSE,
     ignore_blocks = FALSE,
-    matrix = "cost",
-    col = grDevices::hcl.colors(
-      n = 100,
-      palette = "Zissou 1"
-    ),
-    main_title = NULL,
-    xlab = NULL,
-    ylab = NULL,
-    guide_title = NULL,
-    path = NULL,
-    path_width = 1,
-    path_color = "black",
-    cex = 1
+    matrix_type = "cost",
+    matrix_color = NULL,
+    curve_center = FALSE,
+    curve_scale = FALSE,
+    curve_color = NULL,
+    curve_width = NULL
 ){
+
+  # Check arguments ----
 
   #check x
   x <- check_args_x(x = x)
@@ -58,11 +58,18 @@ plot_cost_path <- function(
   }
 
   #check matrix argument
-  matrix <- match.arg(
-    arg = matrix,
+  matrix_type <- match.arg(
+    arg = matrix_type,
     choices =  c("cost", "distance", "dist"),
     several.ok = FALSE
   )
+
+  if(is.null(matrix_color)){
+    matrix_color = grDevices::hcl.colors(
+      n = 100,
+      palette = "Zissou 1"
+    )
+  }
 
   # compute psi ----
   ab_psi <- distantia(
@@ -84,27 +91,89 @@ plot_cost_path <- function(
 
   cost_m <- cost_matrix(
     dist_matrix = dist_m,
-    diagonal = diagnoal,
+    diagonal = diagonal,
     weighted = weighted
   )
 
   path <- cost_path(
     dist_matrix = dist_m,
     cost_matrix = cost_m,
-    diagonal = diagnoal
+    diagonal = diagonal
   )
 
   # select matrix to plot
-  if(matrix %in% c("distance", "dist")){
+  if(matrix_type %in% c("distance", "dist")){
     m <- dist_m
   } else {
     m <- cost_m
   }
 
+  # Preserve user's config
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
 
+  # General plot configuration ----
+  plt_a <- c(0.2, 0.35, 0.25, 0.8)
+  plt_b <- c(0.35, 0.8, 0.1, 0.25)
+  plt_m <- c(0.35, 0.8, 0.25, 0.8)
+  plt_guide <- c(0.85, 0.9, 0.25, 0.8)
 
+  # Plot matrix ----
+  par(plt = plt_m)
+  plot_matrix(
+    m = m,
+    matrix_color = matrix_color,
+    path = path,
+    path_width = path_width,
+    path_color = path_color,
+    cex = cex
+  )
 
+  # Plot sequence a ----
+  par(
+    plt = plt_a,
+    new = TRUE,
+    mgp = c(0, 0.5, 0)
+    )
+  plot_sequence(
+    x = x[[name_a]],
+    vertical = TRUE,
+    center = curve_center,
+    scale = curve_scale,
+    color = curve_color,
+    width = curve_width,
+    cex = cex
+  )
 
+  # Plot sequence b ----
+  par(
+    plt = plt_b,
+    new = TRUE,
+    mgp = c(3, 0.5, 0)
+    )
+
+  plot_sequence(
+    x = x[[name_b]],
+    vertical = FALSE,
+    center = curve_center,
+    scale = curve_scale,
+    color = curve_color,
+    width = curve_width,
+    cex = cex
+  )
+
+  # Plot guide ----
+  par(
+    plt = plt_guide,
+    new = TRUE,
+    mgp = c(3, 0.5, 0)
+  )
+
+  plot_guide(
+    m = m,
+    color = matrix_color,
+    cex = cex
+  )
 
 
 
