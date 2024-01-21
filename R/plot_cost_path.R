@@ -116,7 +116,7 @@ plot_cost_path <- function(
   plt_a <- c(0.2, 0.35, 0.25, 0.8)
   plt_b <- c(0.35, 0.8, 0.1, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
-  plt_guide <- c(0.85, 0.9, 0.25, 0.8)
+  plt_guide <- c(0.85, 0.87, 0.25, 0.8)
 
   # Plot matrix ----
   par(plt = plt_m)
@@ -133,8 +133,10 @@ plot_cost_path <- function(
   par(
     plt = plt_a,
     new = TRUE,
-    mgp = c(0, 0.5, 0)
+    mgp = c(0, 0.5, 0),
+    bty="n"
     )
+
   plot_sequence(
     x = x[[name_a]],
     vertical = TRUE,
@@ -149,7 +151,8 @@ plot_cost_path <- function(
   par(
     plt = plt_b,
     new = TRUE,
-    mgp = c(3, 0.5, 0)
+    mgp = c(3, 0.5, 0),
+    bty="n"
     )
 
   plot_sequence(
@@ -180,76 +183,3 @@ plot_cost_path <- function(
 
 }
 
-
-a <- data.frame(
-  value = as.numeric(x[[1]][, "Quercus"]),
-  time = as.numeric(attributes(x[[1]])$time)
-  )
-
-b <- data.frame(
-  value = as.numeric(x[[2]][, "Quercus"]),
-  time = as.numeric(attributes(x[[2]])$time)
-)
-
-plt_a <- c(0.2, 0.35, 0.25, 0.8)
-plt_b <- c(0.35, 0.8, 0.1, 0.25)
-plt_m <- c(0.35, 0.8, 0.25, 0.8)
-
-#plot a
-par(plt = plt_a)
-plot(
-  x = a$value,
-  y = a$time,
-  type = "l",
-  xlab = "",
-  ylab = "",
-  xlim = rev(range(a$value))
-  )
-
-#plot b
-par(
-  new = TRUE,
-  pty = "m",
-  plt = plt_b,
-  err = -1
-)
-
-plot(
-  x = b$time,
-  y = b$value,
-  type = "l",
-  xlab = "",
-  ylab = ""
-  )
-
-#plot matrix
-par(
-  new = TRUE,
-  pty = "m",
-  plt = plt_m,
-  err = -1
-)
-
-y <- seq_len(nrow(cost_matrix))
-x <- seq_len(ncol(cost_matrix))
-z <- t(cost_matrix)
-
-graphics::image(
-  x = x,
-  y = y,
-  z = z,
-  col = grDevices::hcl.colors(
-    n = 100,
-    palette = "Zissou 1"
-  ),
-  xlab = "",
-  ylab = "",
-  axes = FALSE,
-  useRaster = FALSE,
-  add = FALSE
-)
-
-graphics::lines(
-  x = path[["b"]],
-  y = path[["a"]]
-)

@@ -40,8 +40,12 @@ plot_sequence <- function(
   if(is.null(color)){
     color <- grDevices::hcl.colors(
       n = length(df.columns),
-      palette = "Grays"
+      palette = "Zissou 1"
     )
+  } else {
+    if(length(color) > (length(df.columns) * 2)){
+      color <- color[seq(from = 1, to = length(color), length.out = length(df.columns))]
+    }
   }
 
   #first plot
@@ -56,7 +60,8 @@ plot_sequence <- function(
       xaxt = "n",
       yaxt = "n",
       ylim = range(df, na.rm = TRUE),
-      col = color[1]
+      col = color[1],
+      box = FALSE
     )
 
     graphics::title(
@@ -67,6 +72,12 @@ plot_sequence <- function(
 
     graphics::axis(
       side = 1,
+      las = 1,
+      cex.axis = axis_labels_cex
+    )
+
+    graphics::axis(
+      side = 2,
       las = 1,
       cex.axis = axis_labels_cex
     )
@@ -84,14 +95,15 @@ plot_sequence <- function(
     plot(
       y = df.time,
       x = df[, df.columns[1]],
+      xlab = "",
       ylab = "",
       type = "l",
-      xlab = "",
       xaxt = "n",
       yaxt = "n",
       xlim = rev(range(df, na.rm = TRUE)),
       col = color[1],
-      lwd = width
+      lwd = width,
+      box = FALSE
     )
 
     graphics::title(
@@ -103,6 +115,12 @@ plot_sequence <- function(
     graphics::axis(
       side = 2,
       las = 2,
+      cex.axis = axis_labels_cex
+    )
+
+    graphics::axis(
+      side = 3,
+      las = 1,
       cex.axis = axis_labels_cex
     )
 
