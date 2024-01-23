@@ -41,7 +41,8 @@ plot_guide(
 
 plot_matrix(
   m = cost_matrix,
-  path = path
+  path = path,
+  axes = TRUE
   )
 
 plot_panel(

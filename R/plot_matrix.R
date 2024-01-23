@@ -1,21 +1,33 @@
 plot_matrix <- function(
     m = NULL,
-    matrix_color = NULL,
+    color = NULL,
     title = NULL,
+    subtitle = NULL,
     xlab = NULL,
     ylab = NULL,
     path = NULL,
-    axes = FALSE,
+    axes = TRUE,
     path_width = 1,
     path_color = "black",
     cex = 1
 ){
 
-  axis_title_cex <- 0.9 * cex
   axis_title_distance <- 2.2
-  main_title_distance <- 1.2
-  main_title_cex <- 1 * cex
+  axis_title_cex <- 0.9 * cex
+
   axis_labels_cex <- 0.8 * cex
+
+  main_title_distance <- ifelse(
+    test = is.null(subtitle),
+    yes = 1.2,
+    no = 2
+  )
+  main_title_cex <- 1.2 * cex
+
+  subtitle_distance <- 0.5
+  subtitle_cex <- 1 * cex
+
+
 
   if(inherits(x = m, what = "matrix") == FALSE){
     stop("Argument 'm' must be a distance or cost matrix resulting from distantia::distance_matrix() or distantia::cost_matrix().")
@@ -39,8 +51,8 @@ plot_matrix <- function(
 
   }
 
-  if(is.null(matrix_color)){
-    matrix_color = grDevices::hcl.colors(
+  if(is.null(color)){
+    color = grDevices::hcl.colors(
       n = 100,
       palette = "Zissou 1"
     )
@@ -84,7 +96,7 @@ plot_matrix <- function(
   #handling breaks
   breaks <- auto_breaks(
     m = m,
-    n = length(matrix_color)
+    n = length(color)
   )
 
   #plot matrix
@@ -93,7 +105,7 @@ plot_matrix <- function(
     y = y,
     z = z,
     breaks = breaks,
-    col = matrix_color,
+    col = color,
     xlab = "",
     ylab = "",
     axes = FALSE,
@@ -129,18 +141,32 @@ plot_matrix <- function(
 
   }
 
+  # matrix title ----
   graphics::title(
     main = ifelse(
-      test = is.null(main_title),
+      test = is.null(title),
       yes = paste0(ylab, " vs. ", xlab),
-      no = main_title
+      no = title
     ),
     cex.main = main_title_cex,
     line = main_title_distance
   )
 
+  # matrix subtitle ----
+  if(!is.null(subtitle)){
+    graphics::mtext(
+      side = 3,
+      line = subtitle_distance,
+      at = NA,
+      adj = NA,
+      padj = NA,
+      outer = FALSE,
+      cex = subtitle_cex,
+      subtitle
+      )
+  }
 
-
+  # least cost path ----
   if(!is.null(path)){
     graphics::lines(
       x = path[[xlab]],

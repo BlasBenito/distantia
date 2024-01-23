@@ -10,7 +10,7 @@ plot_sequence <- function(
 
   axis_labels_cex <- 0.7 * cex
   axis_title_cex <- 0.9 * cex
-  axis_title_distance <- 1.2
+  axis_title_distance <- 1.4
 
   #x to data frame
   if(any(c(center, scale))){
@@ -60,8 +60,7 @@ plot_sequence <- function(
       xaxt = "n",
       yaxt = "n",
       ylim = range(df, na.rm = TRUE),
-      col = color[1],
-      box = FALSE
+      col = color[1]
     )
 
     graphics::title(
@@ -102,8 +101,7 @@ plot_sequence <- function(
       yaxt = "n",
       xlim = rev(range(df, na.rm = TRUE)),
       col = color[1],
-      lwd = width,
-      box = FALSE
+      lwd = width
     )
 
     graphics::title(

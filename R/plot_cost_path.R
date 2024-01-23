@@ -12,22 +12,18 @@ x <- prepare_sequences(
   id_column = "MIS"
 )
 
-name_a <- "MIS-5"
-name_b <- "MIS-3"
-distance <- "euclidean"
-diagonal <- FALSE
-weighted <- FALSE
-ignore_blocks <- FALSE
-matrix <- "cost"
-col = NULL
-main_title = NULL
-xlab = NULL
-ylab = NULL
-guide_title = NULL
-path = NULL
-path_width = 1
-path_color = "black"
-cex = 1
+name_a = "MIS-5"
+name_b = "MIS-12"
+distance = "euclidean"
+diagonal = FALSE
+weighted = FALSE
+ignore_blocks = FALSE
+matrix_type = "cost"
+matrix_color = NULL
+curve_center = FALSE
+curve_scale = FALSE
+curve_color = NULL
+curve_width = NULL
 
 
 #main function
@@ -53,7 +49,11 @@ plot_cost_path <- function(
   x <- check_args_x(x = x)
 
   #check name a and b
-  if(any(c(is.null(name_a), is.null(name_b)))){
+  if(
+    any(
+      c(is.null(name_a), is.null(name_b))
+      ) == TRUE
+    ){
     stop("Arguments 'name_a' and 'name_b' must be names of 'x'. Valid values are: ", paste(names(x), collapse = ", "))
   }
 
@@ -104,8 +104,10 @@ plot_cost_path <- function(
   # select matrix to plot
   if(matrix_type %in% c("distance", "dist")){
     m <- dist_m
+    rm(cost_m)
   } else {
     m <- cost_m
+    rm(dist_m)
   }
 
   # Preserve user's config
@@ -119,11 +121,19 @@ plot_cost_path <- function(
   plt_guide <- c(0.85, 0.87, 0.25, 0.8)
 
   # Plot matrix ----
-  par(plt = plt_m)
+  par(
+    plt = plt_m
+    )
+
   plot_matrix(
     m = m,
-    matrix_color = matrix_color,
+    color = matrix_color,
     path = path,
+    axes = FALSE,
+    subtitle = paste0(
+      "Psi = ",
+      ab_psi
+    ),
     path_width = path_width,
     path_color = path_color,
     cex = cex
@@ -134,7 +144,7 @@ plot_cost_path <- function(
     plt = plt_a,
     new = TRUE,
     mgp = c(0, 0.5, 0),
-    bty="n"
+    bty = "n"
     )
 
   plot_sequence(
@@ -152,7 +162,7 @@ plot_cost_path <- function(
     plt = plt_b,
     new = TRUE,
     mgp = c(3, 0.5, 0),
-    bty="n"
+    bty = "n"
     )
 
   plot_sequence(

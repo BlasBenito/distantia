@@ -12,5 +12,6 @@ utils::globalVariables(c(
   "distances", # <distance>
   "i", # <distantia>
   "i", # <importance>
+  "breaks", # <plot_panel>
   NULL
 ))
