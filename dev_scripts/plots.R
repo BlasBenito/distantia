@@ -7,10 +7,24 @@ load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 data(sequencesMIS)
 
 #prepare list of sequences
-x <- prepare_sequences(
+y <- prepare_sequences(
   x = sequencesMIS,
   id_column = "MIS"
 )
+
+plot_sequence(
+  x = y[[1]],
+  color = NULL,
+  title = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  vertical = FALSE,
+  center = FALSE,
+  scale = FALSE,
+  width = NULL,
+  subpanel = FALSE,
+  cex = 1
+  )
 
 #distance matrix of the first two sequences
 dist_matrix <- distance_matrix(

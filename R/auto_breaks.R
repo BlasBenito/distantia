@@ -4,6 +4,7 @@
 #' @param n (required, integer) number of colors to compute the breaks for. Default: 100
 #'
 #' @return Numeric vector
+#' @autoglobal
 #' @export
 auto_breaks <- function(
     m = NULL,

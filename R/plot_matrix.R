@@ -6,17 +6,20 @@ plot_matrix <- function(
     xlab = NULL,
     ylab = NULL,
     path = NULL,
-    axes = TRUE,
+    subpanel = FALSE,
     path_width = 1,
     path_color = "black",
     cex = 1
 ){
 
+  #axis title
   axis_title_distance <- 2.2
   axis_title_cex <- 0.9 * cex
 
+  #axis labels
   axis_labels_cex <- 0.8 * cex
 
+  #title
   main_title_distance <- ifelse(
     test = is.null(subtitle),
     yes = 1.2,
@@ -24,6 +27,7 @@ plot_matrix <- function(
   )
   main_title_cex <- 1.2 * cex
 
+  #subtitle
   subtitle_distance <- 0.5
   subtitle_cex <- 1 * cex
 
@@ -113,7 +117,7 @@ plot_matrix <- function(
     add = FALSE
   )
 
-  if(axes == TRUE){
+  if(subpanel == FALSE){
 
     graphics::title(
       xlab = xlab,

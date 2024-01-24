@@ -1,32 +1,3 @@
-library(distantia)
-
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
-
-#data frame with grouping column
-###################################
-data(sequencesMIS)
-
-#prepare list of sequences
-x <- prepare_sequences(
-  x = sequencesMIS,
-  id_column = "MIS"
-)
-
-name_a = "MIS-5"
-name_b = "MIS-12"
-distance = "euclidean"
-diagonal = FALSE
-weighted = FALSE
-ignore_blocks = FALSE
-matrix_type = "cost"
-matrix_color = NULL
-curve_center = FALSE
-curve_scale = FALSE
-curve_color = NULL
-curve_width = NULL
-
-
-#main function
 plot_cost_path <- function(
     x = NULL,
     name_a = NULL,
