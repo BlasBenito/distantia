@@ -116,7 +116,6 @@ plot_sequence <- function(
         length.out = length(df.columns)
       )
     }
-
   }
 
 
