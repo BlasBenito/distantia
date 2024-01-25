@@ -28,7 +28,7 @@
 #'
 #' @export
 #' @autoglobal
-plot_guide <- function(
+plot_matrix_guide <- function(
     m = NULL,
     color = NULL,
     breaks = NULL,

@@ -153,14 +153,31 @@ plot_cost_path <- function(
     mgp = c(3, 0.5, 0)
   )
 
-  plot_guide(
+  plot_matrix_guide(
     m = m,
     color = matrix_color,
     cex = cex
   )
 
 
-
+  mfg.save <- par()$mfg
+  if (graphics.reset | add) {
+    par(old.par)
+    par(mfg = mfg.save, new = FALSE)
+    invisible()
+  }
+  else {
+    par(big.par)
+    par(plt = big.par$plt, xpd = FALSE)
+    par(mfg = mfg.save, new = FALSE)
+    # Suggestion from Karline Soetaert <Karline.Soetaert@nioz.nl>
+    # this is to reset margins to be based on the mar arguments
+    #      par(mar = par("mar"))  or
+    #      par(mar = big.par$mar)
+    # unfortunately this causes problems by allowing plotting outside of the
+    # original plot region.
+    invisible()
+  }
 
 }
 

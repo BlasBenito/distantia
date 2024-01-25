@@ -12,18 +12,19 @@ y <- prepare_sequences(
   id_column = "MIS"
 )
 
+# plot_sequence ----
 plot_sequence(
   x = y[[1]],
-  color = NULL,
-  title = NULL,
-  xlab = NULL,
-  ylab = NULL,
-  vertical = FALSE,
   center = FALSE,
   scale = FALSE,
-  width = NULL,
-  subpanel = FALSE,
-  cex = 1
+  color = NULL,
+  width = c(10, 1),
+  title = "title",
+  xlab = "xlab",
+  ylab = "ylab",
+  cex = 1,
+  vertical = FALSE,
+  subpanel = FALSE
   )
 
 #distance matrix of the first two sequences
