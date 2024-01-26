@@ -9,6 +9,9 @@
 #' @param xlab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, the word "Time" is used. Default: NULL
 #' @param ylab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
 #' @param cex (optional, numeric) Multiplicator of the text size. Default: 1
+#' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
+#' @param guide_position (optional, character string) Position of the guide. Accepted values are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright"
+#' @param guide_cex (optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.
 #' @param vertical (optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if `subpanel = FALSE`. Default: FALSE
 #' @param subpanel (optional, logical) For internal use within the package in multipanel plots. Strips down the plot for a sub-panel. Default: FALSE
 #'
@@ -26,6 +29,11 @@ plot_sequence <- function(
     xlab = NULL,
     ylab = NULL,
     cex = 1,
+    box = FALSE,
+    guide = TRUE,
+    guide_position = "topright",
+    guide_horiz = FALSE,
+    guide_cex = 0.8,
     vertical = FALSE,
     subpanel = FALSE
 ){
@@ -118,15 +126,11 @@ plot_sequence <- function(
     }
   }
 
-
-
-
-
   #first plot
   if(vertical == FALSE){
 
-    x <- df.time
-    y <- df[, df.columns[1]]
+    plot.x <- df.time
+    plot.y <- df[, df.columns[1]]
     x.axis.side <- 1
     y.axis.side <- 2
     y.lim <- range(df, na.rm = TRUE)
@@ -136,22 +140,25 @@ plot_sequence <- function(
 
   } else {
 
-    x <- df[, df.columns[1]]
-    y <- df.time
+    plot.x <- df[, df.columns[1]]
+    plot.y <- df.time
     x.axis.side <- 2
     y.axis.side <- 3
     y.lim <- NULL
     x.lim <- rev(range(df, na.rm = TRUE))
     df.name.x <- NULL
     df.name.y <- df.name
-    axis_title_distance <- axis_title_distance + 0.5
 
+  }
+
+  if(box == FALSE){
+    par(bty = "n")
   }
 
   #first plot
   graphics::plot(
-    x = x,
-    y = y,
+    x = plot.x,
+    y = plot.y,
     xlab = "",
     type = "l",
     ylab = "",
@@ -179,16 +186,16 @@ plot_sequence <- function(
   for(i in seq(2, length(df.columns))){
 
     if(vertical == FALSE){
-      x <- df.time
-      y <- df[, df.columns[i]]
+      line.x <- df.time
+      line.y <- df[, df.columns[i]]
     } else {
-      x <- df[, df.columns[i]]
-      y <- df.time
+      line.x <- df[, df.columns[i]]
+      line.y <- df.time
     }
 
     graphics::lines(
-      x = x,
-      y = y,
+      x = line.x,
+      y = line.y,
       lwd = width[i],
       col = color[i]
     )
@@ -237,6 +244,21 @@ plot_sequence <- function(
       line = axis_title_distance
     )
 
+
+  }
+
+  if(guide == TRUE){
+
+    plot_line_guide(
+      x = x,
+      position = guide_position,
+      color = color,
+      width = width,
+      title = NULL,
+      cex = guide_cex,
+      box = box,
+      subpanel = FALSE
+    )
 
   }
 

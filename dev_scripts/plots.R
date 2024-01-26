@@ -12,17 +12,22 @@ y <- prepare_sequences(
   id_column = "MIS"
 )
 
+
 # plot_sequence ----
 plot_sequence(
   x = y[[1]],
   center = FALSE,
   scale = FALSE,
   color = NULL,
-  width = c(10, 1),
+  width = c(2, 1),
   title = "title",
   xlab = "xlab",
   ylab = "ylab",
   cex = 1,
+  box = FALSE,
+  guide = TRUE,
+  guide_position = "topright",
+  guide_cex = 0.8,
   vertical = FALSE,
   subpanel = FALSE
   )

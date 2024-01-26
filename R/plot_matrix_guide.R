@@ -116,7 +116,8 @@ plot_matrix_guide <- function(
   graphics::title(
     main = title,
     cex.main = title_cex,
-    line = title_distance
+    line = title_distance,
+    adj = 0
   )
 
   graphics::axis(

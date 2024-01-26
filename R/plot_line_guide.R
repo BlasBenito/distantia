@@ -1,12 +1,11 @@
 plot_line_guide <- function(
     x,
-    position_x = "center",
-    position_y = "center",
-    horiz = FALSE,
+    position = "center",
     color = NULL,
     width = 1,
     title = NULL,
-    cex = 1,
+    cex = 0.7,
+    box = FALSE,
     subpanel = FALSE
 ){
 
@@ -65,23 +64,36 @@ plot_line_guide <- function(
     }
   }
 
-  if(subpanel == TRUE){
-    bty <- "n"
+
+  if(is.numeric(position)){
+    position_x <- position[1]
+    position_y <- position[2]
   } else {
+    position_x <- position
+    position_y <- NULL
+  }
+
+  if(box == TRUE){
     bty <- "o"
+  } else {
+    bty <- "n"
   }
 
   #plot legend
-  plot(
-    NULL,
-    xaxt='n',
-    yaxt='n',
-    bty='n',
-    ylab='',
-    xlab='',
-    xlim=0:1,
-    ylim=0:1
+  if(subpanel == TRUE){
+
+    plot(
+      NULL,
+      xaxt = 'n',
+      yaxt = 'n',
+      bty = 'n',
+      ylab = '',
+      xlab = '',
+      xlim = 0:1,
+      ylim = 0:1
     )
+
+  }
 
   graphics::legend(
     x = position_x,
@@ -96,8 +108,11 @@ plot_line_guide <- function(
     box.lty = par("lty"),
     box.col = par("fg"),
     cex = cex,
-    horiz = horiz,
-    title = title
+    horiz = FALSE,
+    title = title,
+    y.intersp = cex,
+    x.intersp = cex,
+    xjust = 0.5
   )
 
 

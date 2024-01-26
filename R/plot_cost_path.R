@@ -1,32 +1,25 @@
 plot_cost_path <- function(
-    x = NULL,
-    name_a = NULL,
-    name_b = NULL,
+    a = NULL,
+    b = NULL,
     distance = "euclidean",
     diagonal = FALSE,
     weighted = FALSE,
     ignore_blocks = FALSE,
     matrix_type = "cost",
     matrix_color = NULL,
-    curve_center = FALSE,
-    curve_scale = FALSE,
-    curve_color = NULL,
-    curve_width = NULL
+    path_width = 1,
+    path_color = "black",
+    line_center = FALSE,
+    line_scale = FALSE,
+    line_color = NULL,
+    line_width = 1
 ){
 
   # Check arguments ----
 
   #check x
-  x <- check_args_x(x = x)
-
-  #check name a and b
-  if(
-    any(
-      c(is.null(name_a), is.null(name_b))
-      ) == TRUE
-    ){
-    stop("Arguments 'name_a' and 'name_b' must be names of 'x'. Valid values are: ", paste(names(x), collapse = ", "))
-  }
+  a <- check_args_x(x = a, arg_name = "a")
+  b <- check_args_x(x = b, arg_name = "b")
 
   #check matrix argument
   matrix_type <- match.arg(
@@ -42,9 +35,16 @@ plot_cost_path <- function(
     )
   }
 
+  #prepare ab for psi computation
+  ab <- prepare_ab(
+    a = a,
+    b = b,
+    distance = distance
+  )
+
   # compute psi ----
   ab_psi <- distantia(
-    x = x[c(name_a, name_b)],
+    x = ab,
     distance = distance[1],
     diagonal = diagonal[1],
     weighted = weighted[1],
@@ -55,8 +55,8 @@ plot_cost_path <- function(
 
   # compute matrices and path ----
   dist_m <- distance_matrix(
-    a = x[[name_a]],
-    b = x[[name_b]],
+    a = a,
+    b = b,
     distance = distance
   )
 
@@ -85,13 +85,21 @@ plot_cost_path <- function(
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
 
-  # General plot configuration ----
+  plt_all <- par()$plt
+
+  # Plotting areas ----
+  plt_all <- c(0, 1, 0, 1)
   plt_a <- c(0.2, 0.35, 0.25, 0.8)
   plt_b <- c(0.35, 0.8, 0.1, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
-  plt_guide <- c(0.85, 0.87, 0.25, 0.8)
+  plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
+  plt_line_guide <- c(0.80, 0.95, 0.1, 0.245)
 
   # Plot matrix ----
+  par(
+    oma = c(1, 0, 0, 1)
+  )
+
   par(
     plt = plt_m
     )
@@ -99,12 +107,12 @@ plot_cost_path <- function(
   plot_matrix(
     m = m,
     color = matrix_color,
-    path = path,
-    axes = FALSE,
     subtitle = paste0(
       "Psi = ",
       ab_psi
     ),
+    path = path,
+    subpanel = TRUE,
     path_width = path_width,
     path_color = path_color,
     cex = cex
@@ -119,13 +127,15 @@ plot_cost_path <- function(
     )
 
   plot_sequence(
-    x = x[[name_a]],
+    x = a,
+    center = line_center,
+    scale = line_scale,
+    color = line_color,
+    width = line_width,
+    cex = cex,
+    guide = FALSE,
     vertical = TRUE,
-    center = curve_center,
-    scale = curve_scale,
-    color = curve_color,
-    width = curve_width,
-    cex = cex
+    subpanel = TRUE
   )
 
   # Plot sequence b ----
@@ -137,18 +147,20 @@ plot_cost_path <- function(
     )
 
   plot_sequence(
-    x = x[[name_b]],
+    x = b,
+    center = line_center,
+    scale = line_scale,
+    color = line_color,
+    width = line_width,
+    cex = cex,
+    guide = FALSE,
     vertical = FALSE,
-    center = curve_center,
-    scale = curve_scale,
-    color = curve_color,
-    width = curve_width,
-    cex = cex
+    subpanel = TRUE
   )
 
-  # Plot guide ----
+  # Plot matrix guide ----
   par(
-    plt = plt_guide,
+    plt = plt_matrix_guide,
     new = TRUE,
     mgp = c(3, 0.5, 0)
   )
@@ -159,25 +171,23 @@ plot_cost_path <- function(
     cex = cex
   )
 
+  # Plot line guide ----
+  par(
+    plt = plt_line_guide,
+    new = TRUE
+  )
 
-  mfg.save <- par()$mfg
-  if (graphics.reset | add) {
-    par(old.par)
-    par(mfg = mfg.save, new = FALSE)
-    invisible()
-  }
-  else {
-    par(big.par)
-    par(plt = big.par$plt, xpd = FALSE)
-    par(mfg = mfg.save, new = FALSE)
-    # Suggestion from Karline Soetaert <Karline.Soetaert@nioz.nl>
-    # this is to reset margins to be based on the mar arguments
-    #      par(mar = par("mar"))  or
-    #      par(mar = big.par$mar)
-    # unfortunately this causes problems by allowing plotting outside of the
-    # original plot region.
-    invisible()
-  }
+  plot_line_guide(
+    x = a,
+    color = matrix_color,
+    cex = cex * 0.7,
+    width = line_width,
+    subpanel = TRUE
+  )
+
+  par(plt = plt_all)
+
+  invisible()
 
 }
 
