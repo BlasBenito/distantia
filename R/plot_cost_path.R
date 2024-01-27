@@ -12,7 +12,8 @@ plot_cost_path <- function(
     line_center = FALSE,
     line_scale = FALSE,
     line_color = NULL,
-    line_width = 1
+    line_width = 1,
+    cex = 1
 ){
 
   # Check arguments ----
@@ -88,7 +89,6 @@ plot_cost_path <- function(
   plt_all <- par()$plt
 
   # Plotting areas ----
-  plt_all <- c(0, 1, 0, 1)
   plt_a <- c(0.2, 0.35, 0.25, 0.8)
   plt_b <- c(0.35, 0.8, 0.1, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
@@ -185,6 +185,7 @@ plot_cost_path <- function(
     subpanel = TRUE
   )
 
+  #reset to main plotting area
   par(plt = plt_all)
 
   invisible()

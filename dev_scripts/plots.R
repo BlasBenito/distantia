@@ -12,6 +12,26 @@ y <- prepare_sequences(
   id_column = "MIS"
 )
 
+m_dist <- distance_matrix(
+  a = y[[1]],
+  b = y[[2]]
+)
+
+m_cost <- cost_matrix(
+  dist_matrix = m_dist
+)
+
+path <- cost_path(
+  dist_matrix = m_dist,
+  cost_matrix = m_cost
+)
+
+plot_matrix(
+  m = m_dist,
+  path = path,
+  guide = TRUE
+)
+
 
 # plot_sequence ----
 plot_sequence(
@@ -32,40 +52,17 @@ plot_sequence(
   subpanel = FALSE
   )
 
-#distance matrix of the first two sequences
-dist_matrix <- distance_matrix(
-  a = x[["MIS-3"]],
-  b = x[["MIS-5"]],
-  distance = "euclidean"
-)
-
-plot_guide(m = dist_matrix)
-plot_matrix(m = dist_matrix)
-
-#cost matrix
-cost_matrix <- cost_matrix(
-  dist_matrix = dist_matrix
-  )
-
-#least cost path
-path <- cost_path(
-  dist_matrix = dist_matrix,
-  cost_matrix = cost_matrix,
-  diagonal = TRUE
-)
-
-#plot cost matrix and least cost path
-plot_guide(
-  m = cost_matrix
-)
-
-plot_matrix(
-  m = cost_matrix,
-  path = path,
-  axes = TRUE
-  )
-
-plot_panel(
-  m = cost_matrix,
-  path = path
+# plot cost path ----
+plot_cost_path(
+    a = y[["MIS-1"]],
+    b = y[["MIS-11"]],
+    distance = "euclidean",
+    diagonal = FALSE,
+    weighted = FALSE,
+    ignore_blocks = FALSE,
+    matrix_type = "cost",
+    matrix_color = NULL,
+    line_center = FALSE,
+    line_scale = FALSE,
+    line_color = NULL
 )

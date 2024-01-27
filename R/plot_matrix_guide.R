@@ -36,6 +36,9 @@ plot_matrix_guide <- function(
     cex = 1
 ){
 
+  #check m
+  m <- check_args_matrix(m = m)
+
   title_cex <- 0.8 * cex
   axis_labels_cex <- 0.7 * cex
   title_distance <- 0.75

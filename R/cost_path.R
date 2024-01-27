@@ -68,8 +68,9 @@ cost_path <- function(
 
   attr(x = path, which = "a_name") <- attributes(dist_matrix)$a_name
   attr(x = path, which = "b_name") <- attributes(dist_matrix)$b_name
-  attr(x = path, which = "distance") <- attributes(dist_matrix)$distance
   attr(x = path, which = "type") <- "cost_path"
+  attr(x = path, which = "distance") <- attributes(dist_matrix)$distance
+
 
   path
 

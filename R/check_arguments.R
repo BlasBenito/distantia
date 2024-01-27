@@ -127,6 +127,87 @@ check_args <- function(
 
 }
 
+check_args_path <- function(
+    path = NULL,
+    arg_name = "path"
+){
+
+  if(is.null(path)){
+    stop(
+      "Argument ",
+      arg_name,
+      " must not be NULL."
+    )
+  }
+
+  if(
+    inherits(x = path, what = "data.frame") == FALSE |
+    any(
+      is.null(
+        attributes(path)[c(
+          "a_name",
+          "b_name",
+          "type",
+          "distance"
+        )]
+      )
+    )
+  ){
+    stop(
+      "Argument ",
+      arg_name,
+      " must be a data frame resulting from distantia::cost_path()."
+    )
+  }
+
+  path
+
+}
+
+#' Checks Input Matrix
+#'
+#' @param m (required, matrix) distance or cost matrix resulting from [distance_matrix()] or [cost_matrix()]. Default: NULL
+#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
+#'
+#' @return Argument m.
+#' @export
+#' @autoglobal
+check_args_matrix <- function(
+    m = NULL,
+    arg_name = "m"
+){
+
+  if(is.null(m)){
+    stop(
+      "Argument ",
+      arg_name,
+      " must not be NULL."
+    )
+  }
+
+  if(
+    inherits(x = m, what = "matrix") == FALSE |
+    any(
+      is.null(
+        attributes(m)[c(
+          "a_name",
+          "b_name",
+          "type",
+          "distance"
+          )]
+        )
+      )
+    ){
+    stop(
+      "Argument ",
+      arg_name,
+      " must be a distance or cost matrix resulting from distantia::distance_matrix() or distantia::cost_matrix()."
+      )
+  }
+
+ m
+
+}
 
 #' Checks Argument x
 #'
@@ -142,7 +223,11 @@ check_args_x <- function(
     ){
 
   if(is.null(x)){
-    stop("Argument ", arg_name, "must not be NULL.")
+    stop(
+      "Argument ",
+      arg_name,
+      "must not be NULL."
+      )
   }
 
   #check input data
@@ -209,7 +294,7 @@ check_args_x <- function(
 #'   )
 #'
 check_args_distance <- function(
-    distance
+    distance = NULL
     ){
 
   #checking distance values
