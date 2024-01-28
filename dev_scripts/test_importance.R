@@ -1,37 +1,35 @@
 library(distantia)
 
-# library(Rcpp)
-# sourceCpp("src/importance.cpp")
+data(sequencesMIS)
 
-data(sequenceA)
-data(sequenceB)
-
-sequences <- prepareSequences(
-  sequence.A = sequenceA,
-  sequence.B = sequenceB,
-  merge.mode = "overlap",
-  if.empty.cases = "omit",
-  transformation = "hellinger"
+x <- prepare_sequences(
+  x = sequencesMIS,
+  id_column = "MIS"
 )
 
-a <- sequences |>
-  dplyr::filter(
-    id == "A"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+y <- x[[1]]
+x <- x[[2]]
 
-b <- sequences |>
-  dplyr::filter(
-    id == "B"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+path = psi_cost_path_cpp(
+  x,
+  y
+)
+
+psi_auto_sum_cpp(
+  x,
+  y,
+  path
+)
+
+imp <- importance_robust_cpp(
+  x,
+  y
+)
+
 
 df <- importance(
-  a = a,
-  b = b,
-  method = c("euclidean", "manhattan"),
+  x = x,
+  distance = c("euclidean", "manhattan"),
   diagonal = c(TRUE, FALSE),
   weighted = c(TRUE, FALSE),
   ignore_blocks = c(TRUE, FALSE),

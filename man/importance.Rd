@@ -32,8 +32,8 @@ importance(
 \value{
 Data frame with the following columns:
 \itemize{
-  \item `name_a`: name of the sequence `a`.
-  \item `name_bb`: name of the sequence `b`.
+  \item `name_y`: name of the sequence `y`.
+  \item `name_y`: name of the sequence `x`.
   \item `distance`: name of the distance metric.
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.

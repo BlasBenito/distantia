@@ -41,15 +41,15 @@ DataFrame psi_cost_path_cpp(
 
   //distance matrix
   NumericMatrix dist_matrix = distance_matrix_cpp(
-    y,
     x,
+    y,
     distance
   );
 
   //compute cost matrix
-  int an = dist_matrix.nrow();
-  int bn = dist_matrix.ncol();
-  NumericMatrix cost_matrix(an, bn);
+  int yn = dist_matrix.nrow();
+  int xn = dist_matrix.ncol();
+  NumericMatrix cost_matrix(yn, xn);
 
   if (diagonal && weighted) {
     cost_matrix = cost_matrix_weighted_diag_cpp(dist_matrix);
@@ -107,8 +107,8 @@ double psi_auto_sum_cpp(
   if (ignore_blocks){
 
     xy_sum = auto_sum_path_cpp(
-      y,
       x,
+      y,
       path,
       distance
     );
@@ -116,8 +116,8 @@ double psi_auto_sum_cpp(
   } else {
 
     xy_sum = auto_sum_no_path_cpp(
-      y,
       x,
+      y,
       distance
     );
 
@@ -186,15 +186,15 @@ double psi_paired_cpp(
 
     //pairwise distances
     double cost_path_sum = distance_pairwise_cpp(
-      y,
       x,
+      y,
       distance
     );
 
     //auto sum sequences
     double xy_sum = auto_sum_no_path_cpp(
-      y,
       x,
+      y,
       distance
     );
 
@@ -330,8 +330,8 @@ NumericVector null_psi_paired_cpp(
 //' @export
 // [[Rcpp::export]]
 double psi_cpp(
-    NumericMatrix y,
     NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -339,8 +339,8 @@ double psi_cpp(
 ){
 
   DataFrame path = psi_cost_path_cpp(
-    y,
     x,
+    y,
     distance,
     diagonal,
     weighted,
@@ -348,8 +348,8 @@ double psi_cpp(
   );
 
   double xy_sum = psi_auto_sum_cpp(
-    y,
     x,
+    y,
     path,
     distance,
     ignore_blocks
@@ -430,8 +430,8 @@ NumericVector null_psi_cpp(
 
   // Create cost path
   DataFrame path = psi_cost_path_cpp(
-    y,
     x,
+    y,
     distance,
     diagonal,
     weighted,
@@ -440,8 +440,8 @@ NumericVector null_psi_cpp(
 
   // auto sum of distances to normalize cost path sum
   double xy_sum = psi_auto_sum_cpp(
-    y,
     x,
+    y,
     path,
     distance,
     ignore_blocks

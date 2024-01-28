@@ -409,16 +409,16 @@ DataFrame importance_robust_cpp(
 
     //update dist in path
     DataFrame path_without = update_path_dist_cpp(
-      y_without,
       x_without,
+      y_without,
       path,
       distance
     );
 
     //compute autosum of y_only_with and x_only_with for testing
     double xy_sum_without = psi_auto_sum_cpp(
-      y_without,
       x_without,
+      y_without,
       path,
       distance,
       ignore_blocks
@@ -476,8 +476,8 @@ y <- sequences[[2]]
 
 #failing case
 df <- importance_robust_cpp(
-  y = y,
   x = x,
+  y = y,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -485,8 +485,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  y = y,
   x = x,
+  y = y,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -494,8 +494,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  y = y,
   x = x,
+  y = y,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -503,8 +503,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  y = y,
   x = x,
+  y = y,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -514,38 +514,38 @@ df <- importance_robust_cpp(
 #testing update_path_dist_cpp
 ########################################
 path = psi_cost_path_cpp(
-  y,
-  x
-);
+  x,
+  y
+)
 
 path_update = update_path_dist_cpp(
-  y,
   x,
+  y,
   path
 )
 
 path_update = update_path_dist_cpp(
-  y[, 1, drop = FALSE],
   x[, 1, drop = FALSE],
+  y[, 1, drop = FALSE],
   path
 )
 
 
 #overall psi value
-psi_cpp(y, x)
+psi_cpp(x, y)
 
 #old importance
 importance_vintage <- importance_cpp(
-  y,
-  x
+  x,
+  y
 )
 
 importance_vintage
 
 #new importance
 importance_robust <- importance_robust_cpp(
-  y,
-  x
+  x,
+  y
 )
 
 importance_robust
@@ -554,8 +554,8 @@ importance_robust
 y <- y[1:nrow(x), ]
 
 importance_paired <- importance_paired_cpp(
-  y,
-  x
+  x,
+  y
 )
 
 importance_paired

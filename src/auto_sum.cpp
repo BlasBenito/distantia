@@ -79,24 +79,23 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @export
 // [[Rcpp::export]]
 double auto_sum_no_path_cpp(
-    NumericMatrix y,
     NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
-  //working with y
-  double a_distance = auto_distance_cpp(
-    y,
-    distance
-  );
-
-  //working with x
-  double b_distance = auto_distance_cpp(
+  double x_distance = auto_distance_cpp(
     x,
     distance
   );
 
-  return a_distance + b_distance;
+
+  double y_distance = auto_distance_cpp(
+    y,
+    distance
+  );
+
+  return x_distance + y_distance;
 
 }
 
@@ -115,35 +114,35 @@ double auto_sum_no_path_cpp(
 //' @export
 // [[Rcpp::export]]
 double auto_sum_path_cpp(
-  NumericMatrix y,
   NumericMatrix x,
+  NumericMatrix y,
   DataFrame path,
   const std::string& distance = "euclidean"
 ){
 
-  //working with y
-  NumericMatrix a_subset = subset_matrix_by_rows_cpp(
-    y,
-    path["y"]
-    );
-
-  double a_distance = auto_distance_cpp(
-    a_subset,
-    distance
-  );
-
-  //working with x
-  NumericMatrix b_subset = subset_matrix_by_rows_cpp(
+  NumericMatrix x_subset = subset_matrix_by_rows_cpp(
     x,
     path["x"]
   );
 
-  double b_distance = auto_distance_cpp(
-    b_subset,
+  double x_distance = auto_distance_cpp(
+    x_subset,
     distance
   );
 
-  return a_distance + b_distance;
+
+  NumericMatrix y_subset = subset_matrix_by_rows_cpp(
+    y,
+    path["y"]
+    );
+
+  double y_distance = auto_distance_cpp(
+    y_subset,
+    distance
+  );
+
+
+  return x_distance + y_distance;
 
 }
 
@@ -198,17 +197,17 @@ path <- cost_path_cpp(
   cost_matrix
 )
 
-a_subset = subset_matrix_by_rows_cpp(
+y_subset = subset_matrix_by_rows_cpp(
   y,
   path$y
 )
 
 nrow(y)
-nrow(a_subset)
+nrow(y_subset)
 ncol(y)
-ncol(a_subset)
+ncol(y_subset)
 sum(y)
-sum(a_subset)
+sum(y_subset)
 
 auto_distance_cpp(
   y,
@@ -216,14 +215,14 @@ auto_distance_cpp(
 )
 
 auto_distance_cpp(
-  a_subset,
+  y_subset,
   distance
 )
 
 
 
 
-b_subset = subset_matrix_by_rows_cpp(
+x_subset = subset_matrix_by_rows_cpp(
   x,
   path$x
 )
@@ -234,7 +233,7 @@ auto_distance_cpp(
 )
 
 auto_distance_cpp(
-  b_subset,
+  x_subset,
   distance
 )
 

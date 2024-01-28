@@ -24,7 +24,7 @@
 #' @return Data frame with the following columns:
 #' \itemize{
 #'   \item `name_y`: name of the sequence `y`.
-#'   \item `name_b`: name of the sequence `x`.
+#'   \item `name_y`: name of the sequence `x`.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
@@ -78,8 +78,8 @@ importance <- function(
   )
 
   names(sequence_combinations) <- c(
-    "name_a",
-    "name_b"
+    "name_x",
+    "name_y"
   )
 
   #preparing iterations data frame
@@ -124,8 +124,8 @@ importance <- function(
     df.i <- df[i, ]
 
     xy <- prepare_xy(
-      x = x[[df$name_b[i]]],
-      y = x[[df$name_a[i]]],
+      x = x[[df$name_y[i]]],
+      y = x[[df$name_x[i]]],
       distance = distance,
       paired_samples = paired_samples
     )

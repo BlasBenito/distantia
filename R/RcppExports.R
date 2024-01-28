@@ -562,8 +562,8 @@ null_psi_paired_cpp <- function(x, y, distance = "euclidean", repetitions = 100L
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Psi distance
 #' @export
-psi_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
+psi_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' Null Distribution of Psi Distances Between Two Time-Series

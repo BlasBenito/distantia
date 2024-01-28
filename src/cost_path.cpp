@@ -23,8 +23,8 @@ DataFrame cost_path_slotting_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_y;
   std::vector<int> path_x;
+  std::vector<int> path_y;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
@@ -93,15 +93,16 @@ DataFrame cost_path_slotting_cpp(
     }
 
     // Update current coordinates
-    y = neighbor_y[min_cost_neighbor];
     x = neighbor_x[min_cost_neighbor];
+    y = neighbor_y[min_cost_neighbor];
+
 
   }
 
   // Create output data frame
   return DataFrame::create(
-    _["y"] = path_y,
     _["x"] = path_x,
+    _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -125,28 +126,29 @@ DataFrame cost_path_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_y;
   std::vector<int> path_x;
+  std::vector<int> path_y;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
   // Define initial coordinates
-  int y = d_rows - 1;
   int x = d_cols - 1;
+  int y = d_rows - 1;
+
 
   // Iterate to find the path
   while (true) {
 
     // Add current coordinates to the path
     // Adding 1 to convert from 0-based index to 1-based index
-    path_y.push_back(y + 1);
     path_x.push_back(x + 1);
+    path_y.push_back(y + 1);
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
     // declare neighbors
-    std::vector<int> neighbor_y = {y - 1, y};
     std::vector<int> neighbor_x = {x, x - 1};
+    std::vector<int> neighbor_y = {y - 1, y};
 
     // Find neighbor with minimum cost
     int min_cost_neighbor = -1;
@@ -167,15 +169,15 @@ DataFrame cost_path_cpp(
     }
 
     // Update current coordinates
-    y = neighbor_y[min_cost_neighbor];
     x = neighbor_x[min_cost_neighbor];
+    y = neighbor_y[min_cost_neighbor];
 
   }
 
   // Create output data frame
   return DataFrame::create(
-    _["y"] = path_y,
     _["x"] = path_x,
+    _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -201,27 +203,27 @@ DataFrame cost_path_diag_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_y;
   std::vector<int> path_x;
+  std::vector<int> path_y;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
   // Define initial coordinates
-  int y = d_rows - 1;
   int x = d_cols - 1;
+  int y = d_rows - 1;
 
   // Iterate to find the path
   while (true) {
 
     // Add current coordinates to the path
-    path_y.push_back(y + 1); // Adding 1 to convert from 0-based index to 1-based index
     path_x.push_back(x + 1);
+    path_y.push_back(y + 1); // Adding 1 to convert from 0-based index to 1-based index
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
     // Find neighbors
-    std::vector<int> neighbor_y = {y-1, y-1, y};
     std::vector<int> neighbor_x = {x-1, x, x-1};
+    std::vector<int> neighbor_y = {y-1, y-1, y};
 
     // Find neighbor with minimum cost
     int min_cost_neighbor = -1;
@@ -242,15 +244,15 @@ DataFrame cost_path_diag_cpp(
     }
 
     // Update current coordinates
-    y = neighbor_y[min_cost_neighbor];
     x = neighbor_x[min_cost_neighbor];
+    y = neighbor_y[min_cost_neighbor];
 
   }
 
   // Create output data frame
   return DataFrame::create(
-    _["y"] = path_y,
     _["x"] = path_x,
+    _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -269,24 +271,24 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
   NumericVector y = path["y"];
   NumericVector dist = path["dist"];
   NumericVector cost = path["cost"];
-  LogicalVector keep_a(y.size(), true);
-  LogicalVector keep_b(x.size(), true);
+  LogicalVector keep_y(y.size(), true);
+  LogicalVector keep_x(x.size(), true);
 
   // Mark sequences in 'y'
   for (int i = 1; i < y.size() - 1; ++i) {
     if (y[i] == y[i - 1] && y[i] == y[i + 1]) {
-      keep_a[i] = false;
+      keep_y[i] = false;
     }
   }
 
   // Mark sequences in 'x'
   for (int i = 1; i < x.size() - 1; ++i) {
     if (x[i] == x[i - 1] && x[i] == x[i + 1]) {
-      keep_b[i] = false;
+      keep_x[i] = false;
     }
   }
 
-  LogicalVector keep_final = keep_a & keep_b;
+  LogicalVector keep_final = keep_y & keep_x;
 
   // Logical indexing to subset the DataFrame
   NumericVector filtered_x = x[keep_final];
@@ -336,7 +338,7 @@ x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-dist_matrix <- distance_matrix_cpp(y, x, distance = "euclidean")
+dist_matrix <- distance_matrix_cpp(x, y, distance = "euclidean")
 
 cost_matrix <- cost_matrix_cpp(dist_matrix = dist_matrix)
 

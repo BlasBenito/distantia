@@ -5,8 +5,8 @@
 \title{Computes Psi Distance Between Two Time-Series}
 \usage{
 psi_cpp(
-  y,
   x,
+  y,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -14,9 +14,9 @@ psi_cpp(
 )
 }
 \arguments{
-\item{y}{(required, numeric matrix).}
-
 \item{x}{(required, numeric matrix) of same number of columns as 'y'.}
+
+\item{y}{(required, numeric matrix).}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
