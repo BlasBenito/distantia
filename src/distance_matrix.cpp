@@ -5,35 +5,35 @@ using namespace Rcpp;
 
 //' Distance Matrix
 //' @description Computes the distance matrix between the rows of two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers
+//' \code{y} and \code{x} with the same number of columns and arbitrary numbers
 //' of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
-//' @return Matrix of distances between 'a' (rows) and 'b' (columns).
+//' @return Matrix of distances between 'y' (rows) and 'x' (columns).
 //' @export
 //' @name distance_matrix_cpp
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
   DistanceFunction f = select_distance_function_cpp(distance);
 
-  int an = a.nrow();
-  int bn = b.nrow();
-  NumericMatrix D(an, bn);
+  int yn = y.nrow();
+  int xn = x.nrow();
+  NumericMatrix D(yn, xn);
 
-  for (int i = 0; i < an; i++) {
-    for (int j = 0; j < bn; j++) {
-      D(i, j) = f(a.row(i), b.row(j));
+  for (int i = 0; i < yn; i++) {
+    for (int j = 0; j < xn; j++) {
+      D(i, j) = f(y.row(i), x.row(j));
     }
   }
 
@@ -47,32 +47,32 @@ NumericMatrix distance_matrix_cpp(
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns and rows as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns and rows as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
-//' @return Vector of distances between 'a' (rows) and 'b' (columns).
+//' @return Vector of distances between 'y' (rows) and 'x' (columns).
 //' @export
 // [[Rcpp::export]]
 double distance_pairwise_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix y,
+    NumericMatrix x,
     const std::string& distance = "euclidean"
 ){
 
   DistanceFunction f = select_distance_function_cpp(distance);
 
-  int an = a.nrow();
+  int yn = y.nrow();
 
-  if (an != b.nrow()) {
-    Rcpp::stop("Number of rows in 'a' and 'b' must be the same.");
+  if (yn != x.nrow()) {
+    Rcpp::stop("Number of rows in 'y' and 'x' must be the same.");
   }
 
-  NumericVector D(an);
+  NumericVector D(yn);
 
-  for (int i = 0; i < an; i++) {
-    D(i) = f(a.row(i), b.row(i));
+  for (int i = 0; i < yn; i++) {
+    D(i) = f(y.row(i), x.row(i));
   }
 
   return sum(D*2);
@@ -87,86 +87,80 @@ double distance_pairwise_cpp(
 /*** R
 library(distantia)
 
-a <- sequenceA |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-a[a == 0] <- 0.0001
-b[b == 0] <- 0.0001
+y[y == 0] <- 0.0001
+x[x == 0] <- 0.0001
 
-d <- distance_matrix_cpp(a, b, distance = "euclidean")
+nrow(y)
+nrow(x)
+
+d <- distance_matrix_cpp(x, y, distance = "euclidean")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b)
+d <- distance_matrix_cpp(x, y)
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "manhattan")
+d <- distance_matrix_cpp(x, y, distance = "manhattan")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "jaccard")
+d <- distance_matrix_cpp(x, y, distance = "jaccard")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "hellinger")
+d <- distance_matrix_cpp(x, y, distance = "hellinger")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "chi")
+d <- distance_matrix_cpp(x, y, distance = "chi")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "canberra")
+d <- distance_matrix_cpp(x, y, distance = "canberra")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "chebyshev")
+d <- distance_matrix_cpp(x, y, distance = "chebyshev")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "russelrao")
+d <- distance_matrix_cpp(x, y, distance = "russelrao")
 dim(d)
 d[1:5, 1:5]
 
-d <- distance_matrix_cpp(a, b, distance = "cosine")
+d <- distance_matrix_cpp(x, y, distance = "cosine")
 dim(d)
 d[1:5, 1:5]
 
 
 message("distance_pairwise_cpp")
 
-a <- a[1:nrow(b), ]
+y <- y[1:nrow(x), ]
 
-d <- distance_pairwise_cpp(a, b, distance = "euclidean")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "euclidean")
 
-d <- distance_pairwise_cpp(a, b, distance = "manhattan")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "manhattan")
 
-d <- distance_pairwise_cpp(a, b, distance = "jaccard")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "jaccard")
 
-d <- distance_pairwise_cpp(a, b, distance = "hellinger")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "hellinger")
 
-d <- distance_pairwise_cpp(a, b, distance = "chi")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "chi")
 
-d <- distance_pairwise_cpp(a, b, distance = "canberra")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "canberra")
 
-d <- distance_pairwise_cpp(a, b, distance = "chebyshev")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "chebyshev")
 
-d <- distance_pairwise_cpp(a, b, distance = "russelrao")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "russelrao")
 
-d <- distance_pairwise_cpp(a, b, distance = "cosine")
-d[1:5]
+distance_pairwise_cpp(x, y, distance = "cosine")
 */

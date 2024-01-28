@@ -2,35 +2,35 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 #'
-#' @param a (required, data frame) a sequence. Default: NULL.
-#' @param b (required, data frame) a sequence. Default: NULL.
+#' @param y (required, data frame) a sequence. Default: NULL.
+#' @param x (required, data frame) a sequence. Default: NULL.
 #' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @return Named vector with the auto sums of `a` and `b`.
+#' @return Named vector with the auto sums of `y` and `x`.
 #' @examples
 #' data(sequenceA, sequenceB)
 #'
-#' a <- sequenceA |>
+#' y <- sequenceA |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' b <- sequenceB |>
+#' x <- sequenceB |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' ab_sum <- auto_sum(
-#'   a = a,
-#'   b = b,
+#' xy_sum <- auto_sum(
+#'   y = y,
+#'   x = x,
 #'   distance = "manhattan"
 #' )
 #'
-#' ab_sum
+#' xy_sum
 #'
 #' @export
 #' @autoglobal
 auto_sum <- function(
-    a = NULL,
-    b = NULL,
+    y = NULL,
+    x = NULL,
     path = NULL,
     distance = "euclidean"
     ){
@@ -39,8 +39,8 @@ auto_sum <- function(
     stop("Argument 'path' must be a data frame.")
   }
 
-  if(all(c("a", "b", "dist", "cost") %in% colnames(path)) == FALSE){
-    stop("Argument 'path' must have the columns 'a', 'b', 'dist', and 'cost'.")
+  if(all(c("y", "x", "dist", "cost") %in% colnames(path)) == FALSE){
+    stop("Argument 'path' must have the columns 'y', 'x', 'dist', and 'cost'.")
   }
 
   #managing distance method
@@ -48,31 +48,31 @@ auto_sum <- function(
     distance = distance
   )[1]
 
-  ab <- prepare_ab(
-    a = a,
-    b = b,
+  xy <- prepare_xy(
+    x = x,
+    y = y,
     distance = distance
   )
 
   if(!is.null(path)){
 
-    ab_sum <- auto_sum_path_cpp(
-      a = ab[[1]],
-      b = ab[[2]],
+    xy_sum <- auto_sum_path_cpp(
+      x = xy[[1]],
+      y = xy[[2]],
       path = path,
       distance = distance
     )
 
   } else {
 
-    ab_sum <- auto_sum_no_path_cpp(
-      a = ab[[1]],
-      b = ab[[2]],
+    xy_sum <- auto_sum_no_path_cpp(
+      y = xy[[1]],
+      x = xy[[2]],
       distance = distance
     )
 
   }
 
- ab_sum
+ xy_sum
 
 }

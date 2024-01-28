@@ -37,7 +37,7 @@ combine <- function(
   # combine sequences sequentially ----
 
   # create output sequence
-  a <- x[[x.names[1]]]
+  x <- x[[x.names[1]]]
 
   #remove it from x.names
   x.names <- x.names[-1]
@@ -46,75 +46,75 @@ combine <- function(
   while(length(x.names) > 0){
 
     #prepare sequences to merge them
-    ab <- prepare_ab(
-      a = a,
-      b = x[[x.names[1]]],
+    xy <- prepare_xy(
+      x = x,
+      y = x[[x.names[1]]],
       distance = distance
     )
 
     #generate least cost path to combine sequences
     path <- combination_path(
-      x = ab,
+      x = xy,
       distance = distance
     )
 
     #add provenance columns
-    ab[[1]] <- as.data.frame(ab[[1]])
-    ab[[2]] <- as.data.frame(ab[[2]])
-    ab[[1]]$name <- names(ab)[1]
-    ab[[2]]$name <- names(ab)[2]
-    ab[[1]]$row <- 1:nrow(ab[[1]])
-    ab[[2]]$row <- 1:nrow(ab[[2]])
+    xy[[1]] <- as.data.frame(xy[[1]])
+    xy[[2]] <- as.data.frame(xy[[2]])
+    xy[[1]]$name <- names(xy)[1]
+    xy[[2]]$name <- names(xy)[2]
+    xy[[1]]$row <- 1:nrow(xy[[1]])
+    xy[[2]]$row <- 1:nrow(xy[[2]])
 
-    #remove b from x.names
+    #remove y from x.names
     x.names <- x.names[-1]
 
     #output data frame
-    ab.combined <- ab[[1]][0, ]
+    xy.combined <- xy[[1]][0, ]
 
     #iterating over path
     for(i in seq_len(nrow(path))){
 
-      a.na <- is.na(path$a[i])
-      b.na <- is.na(path$b[i])
+      x.na <- is.na(path$x[i])
+      y.na <- is.na(path$y[i])
 
       #never happens?
-      if(a.na && b.na){
+      if(x.na && y.na){
         next
       }
 
-      if(a.na){
-        new.row <- ab[[2]][path$b[i], ]
+      if(x.na){
+        new.row <- xy[[2]][path$y[i], ]
       }
 
-      if(b.na){
-        new.row <- ab[[1]][path$a[i], ]
+      if(y.na){
+        new.row <- xy[[1]][path$x[i], ]
       }
 
-      if(!a.na && !b.na){
-        candidate.rows <- c(path$a[i], path$b[i])
+      if(!x.na && !y.na){
+        candidate.rows <- c(path$x[i], path$y[i])
         j <- which.max(candidate.rows)
         k <- which.min(candidate.rows)
         new.row <- rbind(
-          ab[[j]][path[i, j], ],
-          ab[[k]][path[i, k], ]
+          xy[[j]][path[i, j], ],
+          xy[[k]][path[i, k], ]
         ) |>
           na.omit()
       }
 
-      ab.combined <- rbind(
-        ab.combined,
+      xy.combined <- rbind(
+        xy.combined,
         new.row
       )
 
     } #end of combination loop
 
-    rownames(ab.combined) <- NULL
+    rownames(xy.combined) <- NULL
 
-    a <- ab.provenance <- ab.combined
+    x <- xy.provenance <- xy.combined
 
   }
 
-  ab.combined
+  xy.combined
 
 }

@@ -9,12 +9,12 @@
 #' @param title (optional, character string) plot title. By default, names of the sequences used to compute the matrix `m`. Default: NULL
 #' @param xlab (optional, character string) title of the x axis (matrix columns). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
 #' @param ylab (optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
-#' @param cex (optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1
+#' @param text_cex (optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1
 #' @param path (optional, data frame) least cost path generated with [cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
 #' @param path_width (optional, numeric) width of the least-cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [plot_matrix_guide()].
-#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [plot_cost_path()].
+#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].
 #'
 #' @return A plot
 #' @examples
@@ -39,8 +39,8 @@
 #'
 #' #distance matrix of the first two sequences
 #' dist_matrix <- distance_matrix(
-#'   a = x[[1]],
-#'   b = x[[2]],
+#'   x = x[[1]],
+#'   y = x[[2]],
 #'   distance = "euclidean"
 #' )
 #'
@@ -71,7 +71,7 @@ plot_matrix <- function(
     subtitle = NULL,
     xlab = NULL,
     ylab = NULL,
-    cex = 1,
+    text_cex = 1,
     path = NULL,
     path_width = 1,
     path_color = "black",
@@ -84,10 +84,10 @@ plot_matrix <- function(
 
   #axis title
   axis_title_distance <- 2.2
-  axis_title_cex <- 0.9 * cex
+  axis_title_cex <- 0.9 * text_cex
 
   #axis labels
-  axis_labels_cex <- 0.8 * cex
+  axis_labels_cex <- 0.8 * text_cex
 
   # Preserve user's config
   old.par <- par(no.readonly = TRUE)
@@ -121,11 +121,11 @@ plot_matrix <- function(
     yes = 1.2,
     no = 2
   )
-  main_title_cex <- 1.2 * cex
+  main_title_cex <- 1.2 * text_cex
 
   #subtitle
   subtitle_distance <- 0.5
-  subtitle_cex <- 1 * cex
+  subtitle_cex <- 1 * text_cex
 
   if(is.null(color)){
     color = grDevices::hcl.colors(
@@ -162,7 +162,7 @@ plot_matrix <- function(
     graphics::title(
       xlab = ifelse(
         test = is.null(xlab),
-        yes = attributes(m)$b_name,
+        yes = attributes(m)$x_name,
         no = "b"
       ),
       line = axis_title_distance,
@@ -172,7 +172,7 @@ plot_matrix <- function(
     graphics::title(
       ylab = ifelse(
         test = is.null(xlab),
-        yes = attributes(m)$a_name,
+        yes = attributes(m)$y_name,
         no = "b"
       ),
       line = axis_title_distance,
@@ -202,9 +202,9 @@ plot_matrix <- function(
     main = ifelse(
       test = is.null(title),
       yes = paste0(
-        attributes(m)$a_name,
+        attributes(m)$y_name,
         " vs. ",
-        attributes(m)$b_name)
+        attributes(m)$x_name)
       ,
       no = title
     ),
@@ -234,20 +234,20 @@ plot_matrix <- function(
     )
 
     if(
-      attributes(path)$a_name != attributes(m)$a_name ||
-      attributes(path)$b_name != attributes(m)$b_name
+      attributes(path)$y_name != attributes(m)$y_name ||
+      attributes(path)$x_name != attributes(m)$x_name
     ){
-      stop("Arguments 'm' and 'path' must have the same values in the attributes 'a_name' and 'b_name'. Please ensure that both were computed for the same pair of sequences.")
+      stop("Arguments 'm' and 'path' must have the same values in the attributes 'x_name' and 'y_name'. Please ensure that both were computed for the same pair of sequences.")
     }
 
     #rename path columns
-    colnames(path)[colnames(path) == "a"] <- attributes(path)$a_name
-    colnames(path)[colnames(path) == "b"] <- attributes(path)$b_name
+    colnames(path)[colnames(path) == "y"] <- attributes(path)$y_name
+    colnames(path)[colnames(path) == "x"] <- attributes(path)$x_name
 
     #plot cost path
     graphics::lines(
-      x = path[[attributes(m)$b_name]],
-      y = path[[attributes(m)$a_name]],
+      x = path[[attributes(m)$x_name]],
+      y = path[[attributes(m)$y_name]],
       lwd = path_width,
       col = path_color
     )
@@ -268,7 +268,7 @@ plot_matrix <- function(
       color = color,
       breaks = breaks,
       title = title,
-      cex = cex
+      text_cex = text_cex
     )
 
   }

@@ -11,16 +11,16 @@ auto_distance_cpp(m, distance = "euclidean")
 distance method. Valid values are in the columns "names" and "abbreviation"
  of the dataset `distances`. Default: "euclidean".}
 
-\item{a}{(required, numeric matrix).}
+\item{y}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 }
 \value{
-Matrix of distances between 'a' (rows) and 'b' (columns).
+Matrix of distances between 'y' (rows) and 'x' (columns).
 }
 \description{
 Computes the distance matrix between the rows of two matrices
-\code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+\code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
 NA values should be removed before using this function.
 If the selected distance function is [distance_chi_cpp], pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).

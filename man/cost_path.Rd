@@ -21,15 +21,15 @@ Least Cost Path
 }
 \examples{
 
-a <- sequenceA |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
-d <- distance_matrix(a, b, distance = "euclidean")
+d <- distance_matrix(x, y, distance = "euclidean")
 
 m <- cost_matrix(dist_matrix = d)
 

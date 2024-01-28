@@ -12,17 +12,17 @@
 #'   sequenceB
 #' )
 #'
-#' a <- sequenceA |>
+#' x <- sequenceB |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' b <- sequenceB |>
+#' y <- sequenceA |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
 #' distance.matrix <- distance_matrix(
-#'   a = a,
-#'   b = b,
+#'   x = x,
+#'   y = y,
 #'   distance = "manhattan"
 #' )
 #'
@@ -74,8 +74,8 @@ cost_matrix <- function(
   dimnames(m) <- dimnames(dist_matrix)
 
   #adding attributes
-  attr(x = m, which = "a_name") <- attributes(dist_matrix)$a_name
-  attr(x = m, which = "b_name") <- attributes(dist_matrix)$b_name
+  attr(x = m, which = "y_name") <- attributes(dist_matrix)$y_name
+  attr(x = m, which = "x_name") <- attributes(dist_matrix)$x_name
   attr(x = m, which = "type") <- "cost"
   attr(x = m, which = "distance") <- attributes(dist_matrix)$distance
 

@@ -1,0 +1,206 @@
+#' Prepare Two Sequences for Dissimilarity Analysis
+#'
+#' Prepares two sequences 'x' and 'y' for dissimilarity analysis. Please make sure that 'x' and 'y' have matching column names, as the output will only contain their common columns.
+#'
+#' @param x (required, data frame, matrix, or numeric vector) a sequence. Default: NULL
+#' @param y (required, data frame, matrix, or numeric vector) a sequence. Default: NULL
+#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
+#' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#'
+#' @return A list containing the prepared sequences'x' and 'y'.
+#'
+#' @details This function checks and preprocesses the input data 'x' and 'y' for compatibility and consistency in preparation for dissimilarity analysis.
+#'
+#' @examples
+#'
+#' xy <- prepare_xy(
+#'  x = na.omit(sequenceA),
+#'  y = na.omit(sequenceB),
+#'  distance = "euclidean",
+#'  paired_samples = FALSE
+#'  )
+#'
+#'  x <- xy$x
+#'  y <- xy$y
+#'
+#' @autoglobal
+#' @export
+prepare_xy <- function(
+    x = NULL,
+    y = NULL,
+    distance = "euclidean",
+    paired_samples = FALSE
+    ){
+
+  distance <- check_args_distance(
+    distance = distance
+  )
+
+  #check validation flags
+  x.validated <- ifelse(
+    test = "validated" %in% names(attributes(x)),
+    yes = attributes(x)$validated,
+    no = FALSE
+  )
+
+  y.validated <- ifelse(
+    test = "validated" %in% names(attributes(y)),
+    yes = attributes(y)$validated,
+    no = FALSE
+  )
+
+  target_classes <- c(
+    "data.frame",
+    "matrix",
+    "numeric",
+    "vector"
+  )
+
+  #validate x
+  if(x.validated == FALSE){
+
+    if(all(inherits(x = x, what = target_classes) == FALSE)){
+      stop("Argument 'x' must be a data frame, matrix, or numeric vector.")
+    }
+
+    #checking for NA
+    x.na <- sum(is.na(x))
+    if(x.na > 0){
+      stop(
+        "Argument 'x' has ",
+        x.na,
+        " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+      )
+    }
+
+    # keep only numeric columns
+    if(inherits(x = x, what = "data.frame")){
+      x <- x[, sapply(x, is.numeric)]
+    }
+
+
+  }
+
+  #validate y
+  if(y.validated == FALSE){
+
+    if(all(inherits(x = y, what = target_classes) == FALSE)){
+      stop("Argument 'y' must be a data frame, matrix, or numeric vector.")
+    }
+
+    y.na <- sum(is.na(y))
+    if(y.na > 0){
+      stop("Argument 'y' has ",
+           y.na,
+           " NA values. Please remove or imputate NA values before the dissimilarity analysis."
+      )
+    }
+
+    if(inherits(x = y, what = "data.frame")){
+      y <- y[, sapply(y, is.numeric)]
+    }
+
+
+  }
+
+    #check colnames
+    if(
+      (is.null(colnames(x)) | is.null(colnames(y))) &&
+      ncol(x) != ncol(y)
+    ){
+
+      stop("Arguments 'x' and 'y' must either have column names or the same number of columns.")
+
+    }
+
+
+    if(paired_samples == TRUE && (nrow(x) != nrow(y))){
+      stop("Arguments 'x' and 'y' must have the same number of rows when 'paired_samples = TRUE'.")
+    }
+
+    #distances that don't accept two zeros in same position
+    if(
+      any(
+        c(
+          "chi",
+          "cos",
+          "cosine"
+        ) %in% distance
+      )
+    ){
+
+      if(sum(x[x == 0]) > 0){
+        stop("Argument 'x' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+      }
+
+      if(sum(y[y == 0]) > 0){
+        stop("Argument 'y' has zeros incompatible with the 'chi' and 'cosine' distances. Please replace these zeros with pseudo-zeros, or choose a different distance metric.")
+      }
+
+    }
+
+  #storing attributes
+  x.time <- attributes(x)$time
+  x.sequence_name <- attributes(x)$sequence_name
+
+  y.time <- attributes(y)$time
+  y.sequence_name <- attributes(y)$sequence_name
+
+  #subsetting to common columns
+  if(ncol(x) != ncol(y)){
+    common.cols <- intersect(
+      x = colnames(x),
+      y = colnames(y)
+    )
+    x <- x[, common.cols, drop = FALSE]
+    y <- y[, common.cols, drop = FALSE]
+  }
+
+  #convert to matrix
+  if(!is.matrix(x)){
+    x <- as.matrix(x)
+  }
+
+  if(!is.matrix(y)){
+    y <- as.matrix(y)
+  }
+
+  #restoring attributes
+  attr(x = x, which = "time") <- x.time
+  attr(x = x, which = "sequence_name") <- x.sequence_name
+
+  attr(x = y, which = "time") <- y.time
+  attr(x = y, which = "sequence_name") <- y.sequence_name
+
+  if(is.null(attributes(x)$sequence_name)){
+    attr(x, "name") <- "x"
+  }
+
+  if(is.null(attributes(y)$sequence_name)){
+    attr(y, "name") <- "y"
+  }
+
+  attr(x, "validated") <- TRUE
+  attr(y, "validated") <- TRUE
+
+  out <- list(
+    x = x,
+    y = y
+  )
+
+  names(out) <- c(
+    ifelse(
+      test = is.null(attributes(x)$sequence_name),
+      yes = "x",
+      no = attributes(x)$sequence_name
+    ),
+    ifelse(
+      test = is.null(attributes(y)$sequence_name),
+      yes = "y",
+      no = attributes(y)$sequence_name
+    )
+  )
+
+  out
+
+}

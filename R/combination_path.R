@@ -17,8 +17,8 @@ combination_path <- function(
 
   #computing distance matrix
   dist_matrix <- distance_matrix_cpp(
-    a = x[[1]],
-    b = x[[2]],
+    x = x[[1]],
+    y = x[[2]],
     distance = distance
   )
 
@@ -43,21 +43,19 @@ combination_path <- function(
   ]
 
   #maximum rows of each sequence
-  nrow.a <- max(path$a)
-  nrow.b <- max(path$b)
   nrow.path <- nrow(path)
 
   #last fake row
   last.row <- data.frame(
-    a = ifelse(
-      test = path$a[nrow.path] == path$a[nrow.path - 1],
-      yes = path$a[nrow.path] + 1,
-      no = path$a[nrow.path]
+    x = ifelse(
+      test = path$x[nrow.path] == path$x[nrow.path - 1],
+      yes = path$x[nrow.path] + 1,
+      no = path$x[nrow.path]
     ),
-    b = ifelse(
-      test = path$b[nrow.path] == path$b[nrow.path - 1],
-      yes = path$b[nrow.path] + 1,
-      no = path$b[nrow.path]
+    y = ifelse(
+      test = path$y[nrow.path] == path$y[nrow.path - 1],
+      yes = path$y[nrow.path] + 1,
+      no = path$y[nrow.path]
     ),
     dist = path$dist[nrow.path],
     cost = path$cost[nrow.path]
@@ -71,25 +69,25 @@ combination_path <- function(
 
   #edit path to facilitate slotting
   path <- path |>
-    dplyr::group_by(a) |>
+    dplyr::group_by(y) |>
     dplyr::mutate(
-      a_ = dplyr::case_when(
-        dplyr::n() > 1 & b < max(b, na.rm = TRUE) ~ NA,
-        TRUE ~ a
+      y_ = dplyr::case_when(
+        dplyr::n() > 1 & x < max(x, na.rm = TRUE) ~ NA,
+        TRUE ~ y
       )
     ) |>
     dplyr::ungroup() |>
-    dplyr::group_by(b) |>
+    dplyr::group_by(x) |>
     dplyr::mutate(
-      b_ = dplyr::case_when(
-        dplyr::n() > 1 & a < max(a, na.rm = TRUE) ~ NA,
-        TRUE ~ b
+      x_ = dplyr::case_when(
+        dplyr::n() > 1 & y < max(y, na.rm = TRUE) ~ NA,
+        TRUE ~ x
       )
     ) |>
     dplyr::ungroup() |>
     dplyr::transmute(
-      a = a_,
-      b = b_
+      y = y_,
+      x = x_
     ) |>
     as.data.frame()
 

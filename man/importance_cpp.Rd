@@ -5,8 +5,8 @@
 \title{Classic Computation of Variable Importance}
 \usage{
 importance_cpp(
-  a,
-  b,
+  y,
+  x,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -14,9 +14,9 @@ importance_cpp(
 )
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{y}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
@@ -44,6 +44,6 @@ and without each column ("psi_without). Then, it computes "psi_difference" as
 psi_only_with - psi_without. Highest positive values in this column represent the
 variables that better explain the dissimilarity between the sequences.
 
-Computes the psi distance between a and b using all columns,
+Computes the psi distance between y and x using all columns,
 with each column, and without each column
 }

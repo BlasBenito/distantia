@@ -17,17 +17,18 @@
 #'
 #' data(sequenceA, sequenceB)
 #'
-#' a <- sequenceA |>
+#' x <- sequenceB |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' b <- sequenceB |>
+#' y <- sequenceA |>
 #'   na.omit() |>
 #'   as.matrix()
+#'
 #'
 #' d <- distance_matrix(
-#'   a,
-#'   b
+#'   x,
+#'   y
 #' )
 #'
 #' m <- cost_matrix(
@@ -41,15 +42,15 @@
 #'
 #' path_sum <- path_sum(path)
 #'
-#' ab_sum <- auto_sum(
-#'   a = a,
-#'   b = b,
+#' xy_sum <- auto_sum(
+#'   x = x,
+#'   y = y,
 #'   path = path
 #' )
 #'
 #' psi <- psi(
 #'   path_sum = path_sum,
-#'   auto_sum = ab_sum
+#'   auto_sum = xy_sum
 #' )
 #'
 #' @autoglobal

@@ -14,8 +14,8 @@ NumericVector reverse_vector_cpp(NumericVector x) {
 //' @export
 // [[Rcpp::export]]
 DataFrame update_path_dist_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     DataFrame path,
     const std::string& distance = "euclidean"
 ){
@@ -24,8 +24,8 @@ DataFrame update_path_dist_cpp(
   DistanceFunction f = select_distance_function_cpp(distance);
 
   //separate path in vectors
-  NumericVector path_a = path["a"];
-  NumericVector path_b = path["b"];
+  NumericVector path_x = path["x"];
+  NumericVector path_y = path["y"];
   NumericVector path_dist = path["dist"];
   NumericVector path_cost = path["cost"];
 
@@ -36,11 +36,11 @@ DataFrame update_path_dist_cpp(
   for (int i = 0; i < path_rows; i++) {
 
     //correct between 1-based and 0-based indexing
-    int path_a_row = path_a[i] - 1;
-    int path_b_row = path_b[i] - 1;
+    int path_x_row = path_x[i] - 1;
+    int path_y_row = path_y[i] - 1;
 
     //distance
-    path_dist[i] = f(a.row(path_a_row), b.row(path_b_row));
+    path_dist[i] = f(y.row(path_y_row), x.row(path_x_row));
 
     //cost
     path_cost[i] = 0;
@@ -49,8 +49,8 @@ DataFrame update_path_dist_cpp(
 
   // Create a new DataFrame with filtered columns
   return DataFrame::create(
-    _["a"] = path_a,
-    _["b"] = path_b,
+    _["x"] = path_x,
+    _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -98,14 +98,14 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 
 //' Contribution of Individual Columns to Overall Psi Distance for Paired Sequences
 //' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and rows. Distances
-//' between \code{a} and \code{b} are computed row wise rather than via distance
+//' \code{y} and \code{x} with the same number of columns and rows. Distances
+//' between \code{y} and \code{x} are computed row wise rather than via distance
 //' matrix and least-cost path computation.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -113,56 +113,56 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_paired_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
-  // Check dimensions of a and b
-  if (a.nrow() != b.nrow() || a.ncol() != b.ncol()) {
-    Rcpp::stop("Matrices a and b must have the same dimensions.");
+  // Check dimensions of y and x
+  if (y.nrow() != x.nrow() || y.ncol() != x.ncol()) {
+    Rcpp::stop("Matrices y and x must have the same dimensions.");
   }
 
   //vectors to store results
-  NumericVector psi_all(a.ncol());
-  NumericVector psi_without(a.ncol());
-  NumericVector psi_only_with(a.ncol());
-  NumericVector psi_drop(a.ncol());
-  NumericVector psi_difference(a.ncol());
-  NumericVector importance(a.ncol());
+  NumericVector psi_all(y.ncol());
+  NumericVector psi_without(y.ncol());
+  NumericVector psi_only_with(y.ncol());
+  NumericVector psi_drop(y.ncol());
+  NumericVector psi_difference(y.ncol());
+  NumericVector importance(y.ncol());
 
   //compute psi with all variables
   double psi_all_variables = psi_paired_cpp(
-    a,
-    b,
+    x,
+    y,
     distance
   );
 
   //iterate over columns
-  for (int i = 0; i < a.ncol(); ++i){
+  for (int i = 0; i < y.ncol(); ++i){
 
     //fill psi_all
     psi_all[i] = psi_all_variables;
 
     //create subsets
-    NumericMatrix a_only_with = select_column_cpp(a, i);
-    NumericMatrix b_only_with = select_column_cpp(b, i);
+    NumericMatrix y_only_with = select_column_cpp(y, i);
+    NumericMatrix x_only_with = select_column_cpp(x, i);
 
     //compute psi for the column i
     psi_only_with[i] = psi_paired_cpp(
-      a_only_with,
-      b_only_with,
+      y_only_with,
+      x_only_with,
       distance
     );
 
     //create subsets
-    NumericMatrix a_without = delete_column_cpp(a, i);
-    NumericMatrix b_without = delete_column_cpp(b, i);
+    NumericMatrix y_without = delete_column_cpp(y, i);
+    NumericMatrix x_without = delete_column_cpp(x, i);
 
     //compute psi without the column i
     psi_without[i] = psi_paired_cpp(
-      a_without,
-      b_without,
+      y_without,
+      x_without,
       distance
     );
 
@@ -180,7 +180,7 @@ DataFrame importance_paired_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["variable"] = colnames(a),
+    _["variable"] = colnames(y),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -200,10 +200,10 @@ DataFrame importance_paired_cpp(
 //' and without each column ("psi_without). Then, it computes "psi_difference" as
 //' psi_only_with - psi_without. Highest positive values in this column represent the
 //' variables that better explain the dissimilarity between the sequences.
-//' @description Computes the psi distance between a and b using all columns,
+//' @description Computes the psi distance between y and x using all columns,
 //' with each column, and without each column
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -217,8 +217,8 @@ DataFrame importance_paired_cpp(
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix y,
+    NumericMatrix x,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -226,17 +226,17 @@ DataFrame importance_cpp(
 ){
 
   //vectors to store results
-  NumericVector psi_all(a.ncol());
-  NumericVector psi_without(a.ncol());
-  NumericVector psi_only_with(a.ncol());
-  NumericVector psi_drop(a.ncol());
-  NumericVector psi_difference(a.ncol());
-  NumericVector importance(a.ncol());
+  NumericVector psi_all(y.ncol());
+  NumericVector psi_without(y.ncol());
+  NumericVector psi_only_with(y.ncol());
+  NumericVector psi_drop(y.ncol());
+  NumericVector psi_difference(y.ncol());
+  NumericVector importance(y.ncol());
 
   //compute psi with all variables
   double psi_all_variables = psi_cpp(
-    a,
-    b,
+    x,
+    y,
     distance,
     diagonal,
     weighted,
@@ -244,19 +244,19 @@ DataFrame importance_cpp(
   );
 
   //iterate over columns
-  for (int i = 0; i < a.ncol(); ++i){
+  for (int i = 0; i < y.ncol(); ++i){
 
     //fill psi_all
     psi_all[i] = psi_all_variables;
 
     //create subsets
-    NumericMatrix a_only_with = select_column_cpp(a, i);
-    NumericMatrix b_only_with = select_column_cpp(b, i);
+    NumericMatrix x_only_with = select_column_cpp(x, i);
+    NumericMatrix y_only_with = select_column_cpp(y, i);
 
     //compute psi only with the column i
     psi_only_with[i] = psi_cpp(
-      a_only_with,
-      b_only_with,
+      x_only_with,
+      y_only_with,
       distance,
       diagonal,
       weighted,
@@ -264,13 +264,13 @@ DataFrame importance_cpp(
     );
 
     //create subsets
-    NumericMatrix a_without = delete_column_cpp(a, i);
-    NumericMatrix b_without = delete_column_cpp(b, i);
+    NumericMatrix x_without = delete_column_cpp(x, i);
+    NumericMatrix y_without = delete_column_cpp(y, i);
 
     //compute psi without the column i
     psi_without[i] = psi_cpp(
-      a_without,
-      b_without,
+      x_without,
+      y_without,
       distance,
       diagonal,
       weighted,
@@ -290,7 +290,7 @@ DataFrame importance_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["variable"] = colnames(a),
+    _["variable"] = colnames(y),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -311,8 +311,8 @@ DataFrame importance_cpp(
 //'  and without each column ("psi_without). Then, it computes "psi_difference" as
 //' psi_only_with - psi_without. Highest positive values highlight the variables that
 //' better explain the dissimilarity between the sequences.
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -326,8 +326,8 @@ DataFrame importance_cpp(
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_robust_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -335,18 +335,18 @@ DataFrame importance_robust_cpp(
 ){
 
   //vectors to store results
-  NumericVector psi_all(a.ncol());
-  NumericVector psi_only_with(a.ncol());
-  NumericVector psi_without(a.ncol());
-  NumericVector psi_drop(a.ncol());
-  NumericVector psi_difference(a.ncol());
-  NumericVector importance(a.ncol());
+  NumericVector psi_all(y.ncol());
+  NumericVector psi_only_with(y.ncol());
+  NumericVector psi_without(y.ncol());
+  NumericVector psi_drop(y.ncol());
+  NumericVector psi_difference(y.ncol());
+  NumericVector importance(y.ncol());
 
 
   //compute psi with all variables
   DataFrame path = psi_cost_path_cpp(
-    a,
-    b,
+    x,
+    y,
     distance,
     diagonal,
     weighted,
@@ -354,9 +354,9 @@ DataFrame importance_robust_cpp(
   );
 
   // auto sum of distances to normalize cost path sum
-  double ab_sum = psi_auto_sum_cpp(
-    a,
-    b,
+  double xy_sum = psi_auto_sum_cpp(
+    x,
+    y,
     path,
     distance,
     ignore_blocks
@@ -365,69 +365,69 @@ DataFrame importance_robust_cpp(
   // overall psi distance
   double psi_all_variables = psi_formula_cpp(
     path,
-    ab_sum,
+    xy_sum,
     diagonal
   );
 
   //iterate over columns
-  for (int i = 0; i < a.ncol(); ++i){
+  for (int i = 0; i < y.ncol(); ++i){
 
     //fill psi_all
     psi_all[i] = psi_all_variables;
 
     //create subsets
-    NumericMatrix a_only_with = select_column_cpp(a, i);
-    NumericMatrix b_only_with = select_column_cpp(b, i);
+    NumericMatrix x_only_with = select_column_cpp(x, i);
+    NumericMatrix y_only_with = select_column_cpp(y, i);
 
     //update dist in path
     DataFrame path_only_with = update_path_dist_cpp(
-      a_only_with,
-      b_only_with,
+      x_only_with,
+      y_only_with,
       path,
       distance
     );
 
-    //compute autosum of a_only_with and b_only_with for testing
-    double ab_sum_only_with = psi_auto_sum_cpp(
-      a_only_with,
-      b_only_with,
+    //compute autosum of y_only_with and x_only_with for testing
+    double xy_sum_only_with = psi_auto_sum_cpp(
+      x_only_with,
+      y_only_with,
       path,
       distance,
       ignore_blocks
     );
 
-    //compute psi normalizing by the original ab_sum
+    //compute psi normalizing by the original xy_sum
     psi_only_with[i] = psi_formula_cpp(
       path_only_with,
-      ab_sum_only_with,
+      xy_sum_only_with,
       diagonal
     );
 
     //create subsets
-    NumericMatrix a_without = delete_column_cpp(a, i);
-    NumericMatrix b_without = delete_column_cpp(b, i);
+    NumericMatrix y_without = delete_column_cpp(y, i);
+    NumericMatrix x_without = delete_column_cpp(x, i);
 
     //update dist in path
     DataFrame path_without = update_path_dist_cpp(
-      a_without,
-      b_without,
+      y_without,
+      x_without,
       path,
       distance
     );
 
-    //compute autosum of a_only_with and b_only_with for testing
-    double ab_sum_without = psi_auto_sum_cpp(
-      a_without,
-      b_without,
+    //compute autosum of y_only_with and x_only_with for testing
+    double xy_sum_without = psi_auto_sum_cpp(
+      y_without,
+      x_without,
       path,
       distance,
       ignore_blocks
     );
 
-    //compute psi normalizing by the original ab_sum
+    //compute psi normalizing by the original xy_sum
     psi_without[i] = psi_formula_cpp(
       path_without,
-      ab_sum_without,
+      xy_sum_without,
       diagonal
     );
 
@@ -445,7 +445,7 @@ DataFrame importance_robust_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["variable"] = colnames(a),
+    _["variable"] = colnames(y),
     _["psi"] = psi_all,
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
@@ -464,32 +464,20 @@ data(sequenceA)
 data(sequenceB)
 distance = "euclidean"
 
-sequences <- prepareSequences(
-  sequence.A = sequenceA,
-  sequence.B = sequenceB,
-  merge.mode = "overlap",
-  if.empty.cases = "omit",
-  transformation = "hellinger"
+sequences <- prepare_xy(
+  x = na.omit(sequenceB),
+  y = na.omit(sequenceA)
 )
 
-a <- sequences |>
-  dplyr::filter(
-    id == "A"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+x <- sequences[[1]]
+y <- sequences[[2]]
 
-b <- sequences |>
-  dplyr::filter(
-    id == "B"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+
 
 #failing case
 df <- importance_robust_cpp(
-  a = a,
-  b = b,
+  y = y,
+  x = x,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -497,8 +485,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  a = a,
-  b = b,
+  y = y,
+  x = x,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -506,8 +494,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  a = a,
-  b = b,
+  y = y,
+  x = x,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -515,8 +503,8 @@ df <- importance_robust_cpp(
 )
 
 df <- importance_robust_cpp(
-  a = a,
-  b = b,
+  y = y,
+  x = x,
   distance = "manhattan",
   diagonal = TRUE,
   weighted = TRUE,
@@ -526,48 +514,48 @@ df <- importance_robust_cpp(
 #testing update_path_dist_cpp
 ########################################
 path = psi_cost_path_cpp(
-  a,
-  b
+  y,
+  x
 );
 
 path_update = update_path_dist_cpp(
-  a,
-  b,
+  y,
+  x,
   path
 )
 
 path_update = update_path_dist_cpp(
-  a[, 1, drop = FALSE],
-  b[, 1, drop = FALSE],
+  y[, 1, drop = FALSE],
+  x[, 1, drop = FALSE],
   path
 )
 
 
 #overall psi value
-psi_cpp(a, b)
+psi_cpp(y, x)
 
 #old importance
 importance_vintage <- importance_cpp(
-  a,
-  b
+  y,
+  x
 )
 
 importance_vintage
 
 #new importance
 importance_robust <- importance_robust_cpp(
-  a,
-  b
+  y,
+  x
 )
 
 importance_robust
 
 #paired
-a <- a[1:nrow(b), ]
+y <- y[1:nrow(x), ]
 
 importance_paired <- importance_paired_cpp(
-  a,
-  b
+  y,
+  x
 )
 
 importance_paired

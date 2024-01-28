@@ -12,28 +12,28 @@ NumericMatrix cost_matrix_diag_cpp(
     NumericMatrix dist_matrix
 ){
 
-  int an = dist_matrix.nrow();
-  int bn = dist_matrix.ncol();
-  NumericMatrix m(an, bn);
+  int yn = dist_matrix.nrow();
+  int xn = dist_matrix.ncol();
+  NumericMatrix m(yn, xn);
 
   m(0, 0) = dist_matrix(0, 0);
 
-  for (int i = 1; i < an; ++i) {
+  for (int i = 1; i < yn; ++i) {
     m(i, 0) = m(i - 1, 0) + dist_matrix(i, 0);
   }
 
-  for (int j = 1; j < bn; ++j) {
+  for (int j = 1; j < xn; ++j) {
     m(0, j) = m(0, j - 1) + dist_matrix(0, j);
   }
 
-  for (int i = 1; i < an; ++i) {
-    for (int j = 1; j < bn; ++j) {
+  for (int i = 1; i < yn; ++i) {
+    for (int j = 1; j < xn; ++j) {
       m(i, j) = std::min({m(i - 1, j), m(i, j - 1), m(i - 1, j - 1)}) + dist_matrix(i, j);
     }
   }
 
   // Adjusting the last cell to include the return cost to the starting point
-  m(an - 1, bn - 1) += m(0, 0);
+  m(yn - 1, xn - 1) += m(0, 0);
 
   return m;
 }
@@ -49,25 +49,25 @@ NumericMatrix cost_matrix_weighted_diag_cpp(
     NumericMatrix dist_matrix
 ){
 
-  int an = dist_matrix.nrow();
-  int bn = dist_matrix.ncol();
-  NumericMatrix m(an, bn);
+  int yn = dist_matrix.nrow();
+  int xn = dist_matrix.ncol();
+  NumericMatrix m(yn, xn);
 
   // Define the diagonal weight
   double diagonal_weight = 1.414214;
 
   m(0, 0) = dist_matrix(0, 0);
 
-  for (int i = 1; i < an; ++i) {
+  for (int i = 1; i < yn; ++i) {
     m(i, 0) = m(i - 1, 0) + dist_matrix(i, 0);
   }
 
-  for (int j = 1; j < bn; ++j) {
+  for (int j = 1; j < xn; ++j) {
     m(0, j) = m(0, j - 1) + dist_matrix(0, j);
   }
 
-  for (int i = 1; i < an; ++i) {
-    for (int j = 1; j < bn; ++j) {
+  for (int i = 1; i < yn; ++i) {
+    for (int j = 1; j < xn; ++j) {
       // Apply the weight factor for diagonal movements
       if (i == j) {
         m(i, j) = std::min({m(i - 1, j), m(i, j - 1), m(i - 1, j - 1)}) + dist_matrix(i, j) * diagonal_weight;
@@ -78,7 +78,7 @@ NumericMatrix cost_matrix_weighted_diag_cpp(
   }
 
   // Adjusting the last cell to include the return cost to the starting point
-  m(an - 1, bn - 1) += m(0, 0);
+  m(yn - 1, xn - 1) += m(0, 0);
 
   return m;
 }
@@ -93,28 +93,28 @@ NumericMatrix cost_matrix_cpp(
      NumericMatrix dist_matrix
  ){
 
-   int an = dist_matrix.nrow();
-   int bn = dist_matrix.ncol();
-   NumericMatrix m(an, bn);
+   int yn = dist_matrix.nrow();
+   int xn = dist_matrix.ncol();
+   NumericMatrix m(yn, xn);
 
    m(0, 0) = dist_matrix(0, 0);
 
-   for (int i = 1; i < an; ++i) {
+   for (int i = 1; i < yn; ++i) {
      m(i, 0) = m(i - 1, 0) + dist_matrix(i, 0);
    }
 
-   for (int j = 1; j < bn; ++j) {
+   for (int j = 1; j < xn; ++j) {
      m(0, j) = m(0, j - 1) + dist_matrix(0, j);
    }
 
-   for (int i = 1; i < an; ++i) {
-     for (int j = 1; j < bn; ++j) {
+   for (int i = 1; i < yn; ++i) {
+     for (int j = 1; j < xn; ++j) {
        m(i, j) = std::min({m(i - 1, j), m(i, j - 1)}) + dist_matrix(i, j);
      }
    }
 
    // Adjusting the last cell to include the return cost to the starting point
-   m(an - 1, bn - 1) += m(0, 0);
+   m(yn - 1, xn - 1) += m(0, 0);
 
    return m;
  }
@@ -128,15 +128,18 @@ NumericMatrix cost_matrix_cpp(
 /*** R
 library(distantia)
 
-a <- sequenceA |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-d <- distance_matrix_cpp(a, b, f = distance_euclidean_cpp)
+y[y == 0] <- 0.0001
+x[x == 0] <- 0.0001
+
+d <- distance_matrix_cpp(x, y)
 
 m <- cost_matrix_cpp(dist_matrix = d)
 m[1:5, 1:5]

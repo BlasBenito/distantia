@@ -154,9 +154,9 @@ distantia <- function(
 
     df.i <- df[i, ]
 
-    ab <- prepare_ab(
-      a = x[[df$name_a[i]]],
-      b = x[[df$name_b[i]]],
+    xy <- prepare_xy(
+      x = x[[df$name_b[i]]],
+      y = x[[df$name_a[i]]],
       distance = distance,
       paired_samples = paired_samples
     )
@@ -164,16 +164,16 @@ distantia <- function(
     if(df$paired_samples[i] == TRUE){
 
       df.i$psi <- psi_paired_cpp(
-        a = ab[[1]],
-        b = ab[[2]],
+        x = xy[[1]],
+        y = xy[[2]],
         distance = df$distance[i]
       )
 
       if(repetitions > 0){
 
         psi_null <- null_psi_paired_cpp(
-          a = ab[[1]],
-          b = ab[[2]],
+          x = xy[[1]],
+          y = xy[[2]],
           distance = df$distance[i],
           repetitions = df$repetitions[i],
           permutation = df$permutation[i],
@@ -186,8 +186,8 @@ distantia <- function(
     } else {
 
       df.i$psi <- psi_cpp(
-        a = ab[[1]],
-        b = ab[[2]],
+        x = xy[[1]],
+        y = xy[[2]],
         distance = df$distance[i],
         diagonal = df$diagonal[i],
         weighted = df$weighted[i],
@@ -197,8 +197,8 @@ distantia <- function(
       if(repetitions > 0){
 
         psi_null <- null_psi_cpp(
-          a = ab[[1]],
-          b = ab[[2]],
+          x = xy[[1]],
+          y = xy[[2]],
           distance = df$distance[i],
           diagonal = df$diagonal[i],
           weighted = df$weighted[i],

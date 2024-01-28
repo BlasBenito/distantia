@@ -25,17 +25,17 @@ data(
   sequenceB
 )
 
-a <- sequenceA |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
 distance.matrix <- distance_matrix(
-  a = a,
-  b = b,
+  x = x,
+  y = y,
   distance = "manhattan"
 )
 

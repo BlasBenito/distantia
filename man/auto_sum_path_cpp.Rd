@@ -4,12 +4,12 @@
 \alias{auto_sum_path_cpp}
 \title{Auto-sum of Two Sequences}
 \usage{
-auto_sum_path_cpp(a, b, path, distance = "euclidean")
+auto_sum_path_cpp(y, x, path, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{y}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
 \item{path}{(required, data frame) dataframe produced by [cost_path()].
 Default: NULL}

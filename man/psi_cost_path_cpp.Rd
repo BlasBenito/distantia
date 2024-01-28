@@ -5,8 +5,8 @@
 \title{Generates Least Cost Path}
 \usage{
 psi_cost_path_cpp(
-  a,
-  b,
+  x,
+  y,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -14,9 +14,9 @@ psi_cost_path_cpp(
 )
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
@@ -26,7 +26,7 @@ of the dataset `distances`. Default: "euclidean".}
 computation of the cost matrix. Default: FALSE.}
 
 \item{weighted}{(optional, logical). If TRUE, diagonal is set to TRUE, and
-diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+diagonal cost is weighted by y factor of 1.414214. Default: FALSE.}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
@@ -35,7 +35,7 @@ coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 Data frame with least cost path
 }
 \description{
-Least cost path between two sequences \code{a} and \code{b}
+Least cost path between two sequences \code{y} and \code{x}
 with the same number of columns and arbitrary numbers of rows to compute the
 ABbetween component of the psi dissimilarity computation.
 NA values should be removed before using this function.

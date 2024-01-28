@@ -1,16 +1,40 @@
+#' Legend for Sequence Plots
+#'
+#' @param x (required, sequence) a sequence generated via [prepare_sequences()]. Default: NULL
+#' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
+#' @param color (optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
+#' @param width (optional, numeric vector) Widths of the sequence curves. Default: 1
+#' @param text_cex (optional, numeric) Multiplier of the text size. Default: 0.7
+#' @param box (optional, logical) If TRUE, a box is drawn around the guide. The box features can be controlled with the [par()] arguments  `"lwd"` (line width of the box), `"lty"` (line type of the box) `"bg"` (background color), and `"fg"` (line color). Default: FALSE
+#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].
+#'
+#' @return A plot.
+#' @examples
+#' data(sequencesMIS)
+#'
+#' x <- prepare_sequences(
+#'   x = sequencesMIS,
+#'   id_column = "MIS"
+#' )
+#'
+#' plot_line_guide(
+#'   x = x[["MIS-9"]],
+#'   position = "center"
+#' )
+#' @autoglobal
+#' @export
 plot_line_guide <- function(
     x,
-    position = "center",
+    position = "topright",
     color = NULL,
     width = 1,
-    title = NULL,
-    cex = 0.7,
+    text_cex = 0.7,
     box = FALSE,
     subpanel = FALSE
 ){
 
-  title_cex <- 0.8 * cex
-  axis_labels_cex <- 0.7 * cex
+  title_cex <- 0.8 * text_cex
+  axis_labels_cex <- 0.7 * text_cex
   title_distance <- 0.75
 
   #check x
@@ -107,11 +131,11 @@ plot_line_guide <- function(
     box.lwd = par("lwd"),
     box.lty = par("lty"),
     box.col = par("fg"),
-    cex = cex,
+    cex = text_cex,
     horiz = FALSE,
-    title = title,
-    y.intersp = cex,
-    x.intersp = cex,
+    title = NULL,
+    y.intersp = text_cex,
+    x.intersp = text_cex,
     xjust = 0.5
   )
 

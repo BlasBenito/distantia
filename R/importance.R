@@ -23,8 +23,8 @@
 #' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #' @return Data frame with the following columns:
 #' \itemize{
-#'   \item `name_a`: name of the sequence `a`.
-#'   \item `name_bb`: name of the sequence `b`.
+#'   \item `name_y`: name of the sequence `y`.
+#'   \item `name_b`: name of the sequence `x`.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
@@ -123,9 +123,9 @@ importance <- function(
 
     df.i <- df[i, ]
 
-    ab <- prepare_ab(
-      a = x[[df$name_a[i]]],
-      b = x[[df$name_b[i]]],
+    xy <- prepare_xy(
+      x = x[[df$name_b[i]]],
+      y = x[[df$name_a[i]]],
       distance = distance,
       paired_samples = paired_samples
     )
@@ -135,8 +135,8 @@ importance <- function(
       df.i$robust <- TRUE
 
       importance.i <- importance_paired_cpp(
-        a = ab[[1]],
-        b = ab[[2]],
+        x = xy[[1]],
+        y = xy[[2]],
         distance = df.i$distance
       )
 
@@ -145,8 +145,8 @@ importance <- function(
       if(df.i$robust == TRUE){
 
         importance.i <- importance_robust_cpp(
-          a = ab[[1]],
-          b = ab[[2]],
+          x = xy[[1]],
+          y = xy[[2]],
           distance = df.i$distance,
           diagonal = df.i$diagonal,
           weighted = df.i$weighted,
@@ -156,8 +156,8 @@ importance <- function(
       } else {
 
         importance.i <- importance_cpp(
-          a = ab[[1]],
-          b = ab[[2]],
+          x = xy[[1]],
+          y = xy[[2]],
           distance = df.i$distance,
           diagonal = df.i$diagonal,
           weighted = df.i$weighted,

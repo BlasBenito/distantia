@@ -11,6 +11,9 @@ auto_breaks(m = NULL, n = 100)
 
 \item{n}{(required, integer) number of colors to compute the breaks for. Default: 100}
 }
+\value{
+Numeric vector
+}
 \description{
 Auto Breaks for Matrix Plotting Functions
 }

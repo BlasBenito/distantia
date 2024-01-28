@@ -4,19 +4,19 @@
 \alias{auto_sum}
 \title{Auto Sum}
 \usage{
-auto_sum(a = NULL, b = NULL, path = NULL, distance = "euclidean")
+auto_sum(y = NULL, x = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, data frame) a sequence. Default: NULL.}
+\item{y}{(required, data frame) a sequence. Default: NULL.}
 
-\item{b}{(required, data frame) a sequence. Default: NULL.}
+\item{x}{(required, data frame) a sequence. Default: NULL.}
 
 \item{path}{(required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.}
 
 \item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 }
 \value{
-Named vector with the auto sums of `a` and `b`.
+Named vector with the auto sums of `y` and `x`.
 }
 \description{
 Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
@@ -24,20 +24,20 @@ Computes the sum of distances between consecutive samples in two multivariate ti
 \examples{
 data(sequenceA, sequenceB)
 
-a <- sequenceA |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-ab_sum <- auto_sum(
-  a = a,
-  b = b,
+xy_sum <- auto_sum(
+  y = y,
+  x = x,
   distance = "manhattan"
 )
 
-ab_sum
+xy_sum
 
 }

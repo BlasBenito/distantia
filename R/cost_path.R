@@ -7,15 +7,15 @@
 #' @export
 #' @examples
 #'
-#' a <- sequenceA |>
+#' x <- sequenceB |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' b <- sequenceB |>
+#' y <- sequenceA |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' d <- distance_matrix(a, b, distance = "euclidean")
+#' d <- distance_matrix(x, y, distance = "euclidean")
 #'
 #' m <- cost_matrix(dist_matrix = d)
 #'
@@ -66,8 +66,8 @@ cost_path <- function(
 
   }
 
-  attr(x = path, which = "a_name") <- attributes(dist_matrix)$a_name
-  attr(x = path, which = "b_name") <- attributes(dist_matrix)$b_name
+  attr(x = path, which = "y_name") <- attributes(dist_matrix)$y_name
+  attr(x = path, which = "x_name") <- attributes(dist_matrix)$x_name
   attr(x = path, which = "type") <- "cost_path"
   attr(x = path, which = "distance") <- attributes(dist_matrix)$distance
 

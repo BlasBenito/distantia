@@ -4,7 +4,7 @@
 \alias{check_args_distance}
 \title{Check Distance Argument}
 \usage{
-check_args_distance(distance)
+check_args_distance(distance = NULL)
 }
 \arguments{
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}

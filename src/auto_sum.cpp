@@ -4,16 +4,16 @@ using namespace Rcpp;
 
 //' Auto Distance
 //' @description Computes the distance matrix between the rows of two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' \code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is [distance_chi_cpp], pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //'  of the dataset `distances`. Default: "euclidean".
-//' @return Matrix of distances between 'a' (rows) and 'b' (columns).
+//' @return Matrix of distances between 'y' (rows) and 'x' (columns).
 //' @export
 // [[Rcpp::export]]
 double auto_distance_cpp(
@@ -70,8 +70,8 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //'Auto-sum of Two Paired Sequences
 //' @description Sum of the the cumulative auto-sum of two sequences with paired samples. This is
 //' a key component of the psi computation.
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -79,20 +79,20 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @export
 // [[Rcpp::export]]
 double auto_sum_no_path_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix y,
+    NumericMatrix x,
     const std::string& distance = "euclidean"
 ){
 
-  //working with a
+  //working with y
   double a_distance = auto_distance_cpp(
-    a,
+    y,
     distance
   );
 
-  //working with b
+  //working with x
   double b_distance = auto_distance_cpp(
-    b,
+    x,
     distance
   );
 
@@ -104,8 +104,8 @@ double auto_sum_no_path_cpp(
 //'Auto-sum of Two Sequences
 //' @description Sum of the the cumulative auto-sum of two sequences. This is
 //' a key component of the psi computation.
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param path (required, data frame) dataframe produced by [cost_path()].
 //' Default: NULL
 //' @param distance (optional, character string) name or abbreviation of the
@@ -115,16 +115,16 @@ double auto_sum_no_path_cpp(
 //' @export
 // [[Rcpp::export]]
 double auto_sum_path_cpp(
-  NumericMatrix a,
-  NumericMatrix b,
+  NumericMatrix y,
+  NumericMatrix x,
   DataFrame path,
   const std::string& distance = "euclidean"
 ){
 
-  //working with a
+  //working with y
   NumericMatrix a_subset = subset_matrix_by_rows_cpp(
-    a,
-    path["a"]
+    y,
+    path["y"]
     );
 
   double a_distance = auto_distance_cpp(
@@ -132,10 +132,10 @@ double auto_sum_path_cpp(
     distance
   );
 
-  //working with b
+  //working with x
   NumericMatrix b_subset = subset_matrix_by_rows_cpp(
-    b,
-    path["b"]
+    x,
+    path["x"]
   );
 
   double b_distance = auto_distance_cpp(
@@ -157,30 +157,16 @@ data(sequenceA)
 data(sequenceB)
 distance = "euclidean"
 
-sequences <- prepareSequences(
-  sequence.A = sequenceA,
-  sequence.B = sequenceB,
-  merge.mode = "overlap",
-  if.empty.cases = "omit",
-  transformation = "hellinger"
+sequences <- prepare_xy(
+  x = na.omit(sequenceB),
+  y = na.omit(sequenceA)
 )
 
-a <- sequences |>
-  dplyr::filter(
-    id == "A"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
-
-b <- sequences |>
-  dplyr::filter(
-    id == "B"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+x <- sequences[[1]]
+y <- sequences[[2]]
 
 #testing subset_matrix_by_rows_cpp
-a_test <- a[1:4, 1:3]
+a_test <- y[1:4, 1:3]
 
 a_test
 
@@ -198,8 +184,8 @@ auto_distance_cpp(
 #Testing all functions together
 
 dist_matrix <- distance_matrix_cpp(
-  a,
-  b,
+  y,
+  x,
   distance
 )
 
@@ -213,19 +199,19 @@ path <- cost_path_cpp(
 )
 
 a_subset = subset_matrix_by_rows_cpp(
-  a,
-  path$a
+  y,
+  path$y
 )
 
-nrow(a)
+nrow(y)
 nrow(a_subset)
-ncol(a)
+ncol(y)
 ncol(a_subset)
-sum(a)
+sum(y)
 sum(a_subset)
 
 auto_distance_cpp(
-  a,
+  y,
   distance
 )
 
@@ -238,12 +224,12 @@ auto_distance_cpp(
 
 
 b_subset = subset_matrix_by_rows_cpp(
-  b,
-  path$b
+  x,
+  path$x
 )
 
 auto_distance_cpp(
-  b,
+  x,
   distance
 )
 
@@ -253,12 +239,12 @@ auto_distance_cpp(
 )
 
 
-auto_sum_no_path_cpp(a, b, distance)
+auto_sum_no_path_cpp(y, x, distance)
 
-auto_sum_path_cpp(a, b, path, distance)
+auto_sum_path_cpp(y, x, path, distance)
 
 path_trimmed <- cost_path_trim_cpp(path)
 
-auto_sum_path_cpp(a, b, path_trimmed, distance)
+auto_sum_path_cpp(y, x, path_trimmed, distance)
 
 */

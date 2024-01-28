@@ -5,8 +5,8 @@
 \title{Null Distribution of Psi Distances Between Two Paired Time-Series}
 \usage{
 null_psi_paired_cpp(
-  a,
-  b,
+  x,
+  y,
   distance = "euclidean",
   repetitions = 100L,
   permutation = "restricted_by_row",
@@ -15,9 +15,9 @@ null_psi_paired_cpp(
 )
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
@@ -44,7 +44,7 @@ Numeric vector with null distribution of psi distances.
 }
 \description{
 Computes null psi distances for permuted versions of the paired sequences
-\code{a} and \code{b} with the same number of rows and columns.
+\code{y} and \code{x} with the same number of rows and columns.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).

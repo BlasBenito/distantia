@@ -127,6 +127,14 @@ check_args <- function(
 
 }
 
+#' Checks Least Cost Path
+#'
+#' @param path (required, data frame) least cost path generated with [cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
+#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
+#'
+#' @return Least cost path
+#' @export
+#' @autoglobal
 check_args_path <- function(
     path = NULL,
     arg_name = "path"
@@ -145,8 +153,8 @@ check_args_path <- function(
     any(
       is.null(
         attributes(path)[c(
-          "a_name",
-          "b_name",
+          "y_name",
+          "x_name",
           "type",
           "distance"
         )]
@@ -190,8 +198,8 @@ check_args_matrix <- function(
     any(
       is.null(
         attributes(m)[c(
-          "a_name",
-          "b_name",
+          "y_name",
+          "x_name",
           "type",
           "distance"
           )]

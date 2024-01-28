@@ -5,8 +5,8 @@
 \title{Computes Psi Distance Between Two Time-Series}
 \usage{
 psi_cpp(
-  a,
-  b,
+  y,
+  x,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -14,9 +14,9 @@ psi_cpp(
 )
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{y}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
@@ -36,7 +36,7 @@ Psi distance
 }
 \description{
 Computes the distance psi between two matrices
-\code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+\code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).

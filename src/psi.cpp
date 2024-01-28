@@ -8,29 +8,29 @@
 using namespace Rcpp;
 
 //' Generates Least Cost Path
-//' @description Least cost path between two sequences \code{a} and \code{b}
+//' @description Least cost path between two sequences \code{y} and \code{x}
 //' with the same number of columns and arbitrary numbers of rows to compute the
 //' ABbetween component of the psi dissimilarity computation.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+//' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return Data frame with least cost path
 //' @export
 // [[Rcpp::export]]
 DataFrame psi_cost_path_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -41,8 +41,8 @@ DataFrame psi_cost_path_cpp(
 
   //distance matrix
   NumericMatrix dist_matrix = distance_matrix_cpp(
-    a,
-    b,
+    y,
+    x,
     distance
   );
 
@@ -77,12 +77,12 @@ DataFrame psi_cost_path_cpp(
 }
 
 //' Auto Sum of Two Sequences
-//' @description Cumulative sum times two of two sequences \code{a} and \code{b}
+//' @description Cumulative sum times two of two sequences \code{y} and \code{x}
 //' with the same number of columns and arbitrary numbers of rows to compute the
 //' ABwithin component of the psi dissimilarity computation. This component is
 //' used to normalize the least cost distance between the sequences.
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param path (required, data frame) dataframe produced by [cost_path()].
 //' Default: NULL
 //' @param distance (optional, character string) name or abbreviation of the
@@ -90,40 +90,40 @@ DataFrame psi_cost_path_cpp(
 //' of the dataset `distances`. Default: "euclidean".
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Auto sum of matrices a and b.
+//' @return Auto sum of matrices y and x.
 //' @export
 // [[Rcpp::export]]
 double psi_auto_sum_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     DataFrame path,
     const std::string& distance = "euclidean",
     bool ignore_blocks = false
 ){
 
-  double ab_sum = 0;
+  double xy_sum = 0;
 
   //trim cost path
   if (ignore_blocks){
 
-    ab_sum = auto_sum_path_cpp(
-      a,
-      b,
+    xy_sum = auto_sum_path_cpp(
+      y,
+      x,
       path,
       distance
     );
 
   } else {
 
-    ab_sum = auto_sum_no_path_cpp(
-      a,
-      b,
+    xy_sum = auto_sum_no_path_cpp(
+      y,
+      x,
       distance
     );
 
   }
 
-  return(ab_sum);
+  return(xy_sum);
 
 }
 
@@ -164,14 +164,14 @@ double psi_formula_cpp(
 
 //' Computes Psi Distance Between Two Time-Series With Paired Samples
 //' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and rows. Distances
-//' between \code{a} and \code{b} are computed row wise rather than via distance
+//' \code{y} and \code{x} with the same number of columns and rows. Distances
+//' between \code{y} and \code{x} are computed row wise rather than via distance
 //' matrix and least-cost path computation.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -179,39 +179,39 @@ double psi_formula_cpp(
 //' @export
 // [[Rcpp::export]]
 double psi_paired_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
     //pairwise distances
     double cost_path_sum = distance_pairwise_cpp(
-      a,
-      b,
+      y,
+      x,
       distance
     );
 
     //auto sum sequences
-    double ab_sum = auto_sum_no_path_cpp(
-      a,
-      b,
+    double xy_sum = auto_sum_no_path_cpp(
+      y,
+      x,
       distance
     );
 
   //compute psi
-  return ((cost_path_sum  - ab_sum) / ab_sum) + 1;
+  return ((cost_path_sum  - xy_sum) / xy_sum) + 1;
 
 }
 
 
 //' Null Distribution of Psi Distances Between Two Paired Time-Series
 //' @description Computes null psi distances for permuted versions of the paired sequences
-//' \code{a} and \code{b} with the same number of rows and columns.
+//' \code{y} and \code{x} with the same number of rows and columns.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -231,8 +231,8 @@ double psi_paired_cpp(
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_paired_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean",
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",
@@ -256,20 +256,20 @@ NumericVector null_psi_paired_cpp(
 
   //pairwise distances
   double cost_path_sum = distance_pairwise_cpp(
-    a,
-    b,
+    x,
+    y,
     distance
   );
 
   //auto sum sequences
-  double ab_sum = auto_sum_no_path_cpp(
-    a,
-    b,
+  double xy_sum = auto_sum_no_path_cpp(
+    x,
+    y,
     distance
   );
 
   //compute psi
-  psi_null[0] = ((cost_path_sum  - ab_sum) / ab_sum) + 1;
+  psi_null[0] = ((cost_path_sum  - xy_sum) / xy_sum) + 1;
 
   // Use the integer seed value
   std::srand(seed);
@@ -277,29 +277,29 @@ NumericVector null_psi_paired_cpp(
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    // Permute matrix a
-    NumericMatrix permuted_a = permutation_function(
-      a,
+    // Permute matrix y
+    NumericMatrix permuted_y = permutation_function(
+      y,
       block_size,
       seed + i
     );
 
-    // Permute matrix b
-    NumericMatrix permuted_b = permutation_function(
-      b,
+    // Permute matrix x
+    NumericMatrix permuted_x = permutation_function(
+      x,
       block_size,
       seed + i + 1
     );
 
     //pairwise distances
     double permuted_ab_distance = distance_pairwise_cpp(
-      permuted_a,
-      permuted_b,
+      permuted_y,
+      permuted_x,
       distance
     );
 
     // Compute Psi distance on permuted matrices and store result
-    psi_null[i] = ((permuted_ab_distance - ab_sum) / ab_sum) + 1;
+    psi_null[i] = ((permuted_ab_distance - xy_sum) / xy_sum) + 1;
 
   }
 
@@ -311,12 +311,12 @@ NumericVector null_psi_paired_cpp(
 
 //' Computes Psi Distance Between Two Time-Series
 //' @description Computes the distance psi between two matrices
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' \code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -330,8 +330,8 @@ NumericVector null_psi_paired_cpp(
 //' @export
 // [[Rcpp::export]]
 double psi_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix y,
+    NumericMatrix x,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -339,17 +339,17 @@ double psi_cpp(
 ){
 
   DataFrame path = psi_cost_path_cpp(
-    a,
-    b,
+    y,
+    x,
     distance,
     diagonal,
     weighted,
     ignore_blocks
   );
 
-  double ab_sum = psi_auto_sum_cpp(
-    a,
-    b,
+  double xy_sum = psi_auto_sum_cpp(
+    y,
+    x,
     path,
     distance,
     ignore_blocks
@@ -357,7 +357,7 @@ double psi_cpp(
 
   double psi_score = psi_formula_cpp(
     path,
-    ab_sum,
+    xy_sum,
     diagonal
   );
 
@@ -371,12 +371,12 @@ double psi_cpp(
 
 //' Null Distribution of Psi Distances Between Two Time-Series
 //' @description Computes null psi distances for permuted versions of the sequences
-//' \code{a} and \code{b} with the same number of columns and arbitrary numbers of rows.
+//' \code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param a (required, numeric matrix).
-//' @param b (required, numeric matrix) of same number of columns as 'a'.
+//' @param y (required, numeric matrix).
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
@@ -403,8 +403,8 @@ double psi_cpp(
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_cpp(
-    NumericMatrix a,
-    NumericMatrix b,
+    NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
@@ -430,8 +430,8 @@ NumericVector null_psi_cpp(
 
   // Create cost path
   DataFrame path = psi_cost_path_cpp(
-    a,
-    b,
+    y,
+    x,
     distance,
     diagonal,
     weighted,
@@ -439,9 +439,9 @@ NumericVector null_psi_cpp(
   );
 
   // auto sum of distances to normalize cost path sum
-  double ab_sum = psi_auto_sum_cpp(
-    a,
-    b,
+  double xy_sum = psi_auto_sum_cpp(
+    y,
+    x,
     path,
     distance,
     ignore_blocks
@@ -450,7 +450,7 @@ NumericVector null_psi_cpp(
   // Add psi value of original matrices
   psi_null[0] = psi_formula_cpp(
     path,
-    ab_sum,
+    xy_sum,
     diagonal
   );
 
@@ -460,24 +460,24 @@ NumericVector null_psi_cpp(
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
 
-    // Permute matrix a
-    NumericMatrix permuted_a = permutation_function(
-      a,
-      block_size,
-      seed + i
-    );
-
-    // Permute matrix b
-    NumericMatrix permuted_b = permutation_function(
-      b,
+    // Permute matrix x
+    NumericMatrix permuted_x = permutation_function(
+      x,
       block_size,
       seed + i + 1
     );
 
+    // Permute matrix y
+    NumericMatrix permuted_y = permutation_function(
+      y,
+      block_size,
+      seed + i
+    );
+
     // Create cost path of permuted sequences
     DataFrame permuted_path = psi_cost_path_cpp(
-      permuted_a,
-      permuted_b,
+      permuted_x,
+      permuted_y,
       distance,
       diagonal,
       weighted,
@@ -487,7 +487,7 @@ NumericVector null_psi_cpp(
     // Compute Psi distance on permuted matrices and store result
     psi_null[i] = psi_formula_cpp(
       permuted_path,
-      ab_sum,
+      xy_sum,
       diagonal
     );
 
@@ -506,58 +506,44 @@ data(sequenceA)
 data(sequenceB)
 distance = "euclidean"
 
-sequences <- prepareSequences(
-  sequence.A = sequenceA,
-  sequence.B = sequenceB,
-  merge.mode = "overlap",
-  if.empty.cases = "omit",
-  transformation = "hellinger"
+sequences <- prepare_xy(
+  x = na.omit(sequenceB),
+  y = na.omit(sequenceA)
 )
 
-a <- sequences |>
-  dplyr::filter(
-    id == "A"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
-
-b <- sequences |>
-  dplyr::filter(
-    id == "B"
-  ) |>
-  dplyr::select(-id) |>
-  as.matrix()
+x <- sequences[[1]]
+y <- sequences[[2]]
 
 psi_cpp(
-  a, b
+  x, y
 )
 
 null_values <- null_psi_cpp(
-  a, b, permutation = "free", seed = 100
-)
-range(null_values)
-mean(null_values)
-
-null_values <- null_psi_cpp(
-  a, b, permutation = "free_by_row"
+  x, y, permutation = "free", seed = 100
 )
 range(null_values)
 mean(null_values)
 
 null_values <- null_psi_cpp(
-  a, b, permutation = "free_by_row"
+  x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
 null_values <- null_psi_cpp(
-  a, b, permutation = "restricted"
+  x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
 null_values <- null_psi_cpp(
-  a, b, permutation = "restricted_by_row"
+  x, y, permutation = "restricted"
+)
+range(null_values)
+mean(null_values)
+
+null_values <- null_psi_cpp(
+  x, y, permutation = "restricted_by_row"
 )
 range(null_values)
 mean(null_values)

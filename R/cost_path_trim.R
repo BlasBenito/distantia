@@ -7,17 +7,18 @@
 #'
 #' @examples
 #'
-#' a <- sequenceA |>
+#' x <- sequenceB |>
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' b <- sequenceB |>
+#' y <- sequenceA |>
 #'   na.omit() |>
 #'   as.matrix()
+#'
 #'
 #' dm <- distance_matrix(
-#'   a = a,
-#'   b = b
+#'   x = x,
+#'   y = y
 #'   )
 #'
 #' cm <- cost_matrix(
@@ -55,28 +56,28 @@ cost_path_trim <- function(path = NULL){
     stop("Argument 'path' must be a data frame.")
   }
 
-  if(all(c("a", "b", "dist", "cost") %in% colnames(path)) == FALSE){
-    stop("Argument 'path' must have the columns 'a', 'b', 'dist', and 'cost'.")
+  if(all(c("x", "y", "dist", "cost") %in% colnames(path)) == FALSE){
+    stop("Argument 'path' must have the columns 'x', 'y', 'dist', and 'cost'.")
   }
 
   #group by A and create the group size
-  path$group_size_a <- stats::ave(
-    x = path$a,
-    path$a,
+  path$group_size_y <- stats::ave(
+    x = path$y,
+    path$y,
     FUN = function(x) length(x)
     )
 
   #keep groups with n < 3
   #from groups with n >= 3, keep the extremes
-  path$keep_a <- with(
+  path$keep_y <- with(
     data = path,
     expr = ifelse(
-      test = group_size_a %in% c(1, 2),
+      test = group_size_y %in% c(1, 2),
       yes = TRUE,
       no = ifelse(
-        test = group_size_a > 2 &
-          cost == stats::ave(x = cost, path$a, FUN = max) |
-          cost == stats::ave(x = cost, path$a, FUN = min),
+        test = group_size_y > 2 &
+          cost == stats::ave(x = cost, path$y, FUN = max) |
+          cost == stats::ave(x = cost, path$y, FUN = min),
         yes = TRUE,
         no = FALSE
         )
@@ -84,24 +85,24 @@ cost_path_trim <- function(path = NULL){
     )
 
   #keep cases with keep == TRUE
-  path <- path[path$keep_a, ]
+  path <- path[path$keep_y, ]
 
   # Step 2: Group by b and create 'group_size' and 'keep' columns based on conditions
-  path$group_size_b <- stats::ave(
-    x = path$b,
-    path$b,
+  path$group_size_x <- stats::ave(
+    x = path$x,
+    path$x,
     FUN = function(x) length(x)
     )
 
-  path$keep_b <- with(
+  path$keep_x <- with(
     data = path,
     expr = ifelse(
-      test = group_size_b %in% c(1, 2),
+      test = group_size_x %in% c(1, 2),
       yes = TRUE,
       no = ifelse(
-        test = group_size_b > 2 &
-          cost == stats::ave(x = cost, path$b, FUN = max) |
-          cost == stats::ave(x = cost, path$b, FUN = min),
+        test = group_size_x > 2 &
+          cost == stats::ave(x = cost, path$x, FUN = max) |
+          cost == stats::ave(x = cost, path$x, FUN = min),
         yes = TRUE,
         no = FALSE
         )
@@ -109,10 +110,10 @@ cost_path_trim <- function(path = NULL){
     )
 
   #keep selected rows in b
-  path <- path[path$keep_b, ]
+  path <- path[path$keep_x, ]
 
   #remove extra columns
-  path <- path[, !(names(path) %in% c("group_size_a", "keep_a", "group_size_b", "keep_b"))]
+  path <- path[, !(names(path) %in% c("group_size_y", "keep_y", "group_size_x", "keep_x"))]
 
   path
 

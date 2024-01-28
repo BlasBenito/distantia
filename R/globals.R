@@ -2,16 +2,14 @@
 
 utils::globalVariables(c(
   "distances", # <check_args_distance>
-  "a", # <combination_path>
-  "b", # <combination_path>
-  "a_", # <combination_path>
-  "b_", # <combination_path>
-  "group_size_a", # <cost_path_trim>
+  "y", # <combination_path>
+  "y_", # <combination_path>
+  "x_", # <combination_path>
+  "group_size_y", # <cost_path_trim>
   "cost", # <cost_path_trim>
-  "group_size_b", # <cost_path_trim>
+  "group_size_x", # <cost_path_trim>
   "distances", # <distance>
   "i", # <distantia>
   "i", # <importance>
-  "breaks", # <plot_panel>
   NULL
 ))

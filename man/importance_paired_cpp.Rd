@@ -4,12 +4,12 @@
 \alias{importance_paired_cpp}
 \title{Contribution of Individual Columns to Overall Psi Distance for Paired Sequences}
 \usage{
-importance_paired_cpp(a, b, distance = "euclidean")
+importance_paired_cpp(x, y, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
@@ -20,8 +20,8 @@ Psi distance
 }
 \description{
 Computes the distance psi between two matrices
-\code{a} and \code{b} with the same number of columns and rows. Distances
-between \code{a} and \code{b} are computed row wise rather than via distance
+\code{y} and \code{x} with the same number of columns and rows. Distances
+between \code{y} and \code{x} are computed row wise rather than via distance
 matrix and least-cost path computation.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should

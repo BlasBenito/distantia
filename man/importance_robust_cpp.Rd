@@ -5,8 +5,8 @@
 \title{Robust Computation of Variable Importance}
 \usage{
 importance_robust_cpp(
-  a,
-  b,
+  x,
+  y,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -14,9 +14,9 @@ importance_robust_cpp(
 )
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"

@@ -4,12 +4,12 @@
 \alias{psi_auto_sum_cpp}
 \title{Auto Sum of Two Sequences}
 \usage{
-psi_auto_sum_cpp(a, b, path, distance = "euclidean", ignore_blocks = FALSE)
+psi_auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
 \item{path}{(required, data frame) dataframe produced by [cost_path()].
 Default: NULL}
@@ -22,10 +22,10 @@ of the dataset `distances`. Default: "euclidean".}
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 }
 \value{
-Auto sum of matrices a and b.
+Auto sum of matrices y and x.
 }
 \description{
-Cumulative sum times two of two sequences \code{a} and \code{b}
+Cumulative sum times two of two sequences \code{y} and \code{x}
 with the same number of columns and arbitrary numbers of rows to compute the
 ABwithin component of the psi dissimilarity computation. This component is
 used to normalize the least cost distance between the sequences.

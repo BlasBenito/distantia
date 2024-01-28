@@ -7,7 +7,7 @@
 #' @param color (optional, character vector) vector of colors. Default: NULL
 #' @param breaks (optional, numeric vector) vector of breaks for the color guide. Default: NULL
 #' @param title (optional, character string) guide title. Default: NULL
-#' @param cex (optional, numeric) multiplier for the text size. Default: 1
+#' @param text_cex (optional, numeric) multiplier for the text size. Default: 1
 #' @return Plot
 #' @examples
 #' data(sequencesMIS)
@@ -20,8 +20,8 @@
 #'
 #' #distance matrix of the first two sequences
 #' dist_matrix <- distance_matrix(
-#'   a = x[["MIS-3"]],
-#'   b = x[["MIS-5"]]
+#'   x = x[["MIS-3"]],
+#'   y = x[["MIS-5"]]
 #' )
 #'
 #' plot_guide(m = dist_matrix)
@@ -33,14 +33,14 @@ plot_matrix_guide <- function(
     color = NULL,
     breaks = NULL,
     title = NULL,
-    cex = 1
+    text_cex = 1
 ){
 
   #check m
   m <- check_args_matrix(m = m)
 
-  title_cex <- 0.8 * cex
-  axis_labels_cex <- 0.7 * cex
+  title_cex <- 0.8 * text_cex
+  axis_labels_cex <- 0.7 * text_cex
   title_distance <- 0.75
 
   if(inherits(x = m, what = "matrix") == FALSE){

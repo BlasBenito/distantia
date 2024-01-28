@@ -6,11 +6,27 @@ load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 ###################################
 data(sequencesMIS)
 
-#prepare list of sequences
 y <- prepare_sequences(
   x = sequencesMIS,
   id_column = "MIS"
 )
+
+plot_distantia(
+  x = y[["MIS-11"]],
+  y = y[["MIS-9"]]
+)
+
+
+plot_sequence(
+  x = y[[1]]
+)
+
+x11()
+par(
+  mfrow = c(floor(length(y)/2), 2),
+  mar = c(2, 2, 2, 2)
+  )
+lapply(y, plot_sequence)
 
 m_dist <- distance_matrix(
   a = y[[1]],

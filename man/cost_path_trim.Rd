@@ -17,17 +17,18 @@ Removes blocks (straight segments of the path that appear in highly dissimilar r
 }
 \examples{
 
-a <- sequenceA |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
+
 
 dm <- distance_matrix(
-  a = a,
-  b = b
+  x = x,
+  y = y
   )
 
 cm <- cost_matrix(

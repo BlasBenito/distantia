@@ -186,39 +186,39 @@ PermutationFunction select_permutation_function_cpp(const std::string& permutati
 
 /*** R
 # Example usage in R
-a <- matrix(
+x <- matrix(
   c(rep(1:6, 2)),
   nrow = 6,
   ncol = 2
   )
 
-a
+x
 
 #checking seed
-permute_restricted_by_row_cpp(a, 3, 1)
+permute_restricted_by_row_cpp(x, 3, 1)
 
-permute_restricted_by_row_cpp(a, 3, 1)
+permute_restricted_by_row_cpp(x, 3, 1)
 
-permute_restricted_by_row_cpp(a, 3, 2)
+permute_restricted_by_row_cpp(x, 3, 2)
 
-permute_restricted_cpp(a, 3, 1)
+permute_restricted_cpp(x, 3, 1)
 
-permute_restricted_cpp(a, 3, 1)
+permute_restricted_cpp(x, 3, 1)
 
-permute_restricted_cpp(a, 3, 2)
+permute_restricted_cpp(x, 3, 2)
 
 #free versions
-permute_free_by_row_cpp(a, 3, 1)
+permute_free_by_row_cpp(x, 3, 1)
 
-permute_free_by_row_cpp(a, 3, 1)
+permute_free_by_row_cpp(x, 3, 1)
 
-permute_free_by_row_cpp(a, 3, 2)
+permute_free_by_row_cpp(x, 3, 2)
 
-permute_free_cpp(a, 3, 1)
+permute_free_cpp(x, 3, 1)
 
-permute_free_cpp(a, 3, 1)
+permute_free_cpp(x, 3, 1)
 
-permute_free_cpp(a, 3, 2)
+permute_free_cpp(x, 3, 2)
 
 
 */

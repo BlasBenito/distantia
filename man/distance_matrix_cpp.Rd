@@ -4,23 +4,23 @@
 \alias{distance_matrix_cpp}
 \title{Distance Matrix}
 \usage{
-distance_matrix_cpp(a, b, distance = "euclidean")
+distance_matrix_cpp(x, y, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{b}{(required, numeric matrix) of same number of columns as 'a'.}
+\item{y}{(required, numeric matrix).}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
 of the dataset `distances`. Default: "euclidean".}
 }
 \value{
-Matrix of distances between 'a' (rows) and 'b' (columns).
+Matrix of distances between 'y' (rows) and 'x' (columns).
 }
 \description{
 Computes the distance matrix between the rows of two matrices
-\code{a} and \code{b} with the same number of columns and arbitrary numbers
+\code{y} and \code{x} with the same number of columns and arbitrary numbers
 of rows.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should

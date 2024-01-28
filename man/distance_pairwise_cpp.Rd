@@ -4,19 +4,19 @@
 \alias{distance_pairwise_cpp}
 \title{Sum of Pairwise Distances Between Paired Sequences}
 \usage{
-distance_pairwise_cpp(a, b, distance = "euclidean")
+distance_pairwise_cpp(y, x, distance = "euclidean")
 }
 \arguments{
-\item{a}{(required, numeric matrix).}
+\item{y}{(required, numeric matrix).}
 
-\item{b}{(required, numeric matrix) of same number of columns and rows as 'a'.}
+\item{x}{(required, numeric matrix) of same number of columns and rows as 'y'.}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
 of the dataset `distances`. Default: "euclidean".}
 }
 \value{
-Vector of distances between 'a' (rows) and 'b' (columns).
+Vector of distances between 'y' (rows) and 'x' (columns).
 }
 \description{
 Computes the sum of distances between paired rows in two

@@ -23,8 +23,8 @@ DataFrame cost_path_slotting_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_a;
-  std::vector<int> path_b;
+  std::vector<int> path_y;
+  std::vector<int> path_x;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
@@ -32,7 +32,7 @@ DataFrame cost_path_slotting_cpp(
   int y = d_rows - 1;
   int x = d_cols - 1;
 
-  // Index of path_a and path_b
+  // Index of path_y and path_x
   int i = -1;
 
   // Iterate to find the path
@@ -40,8 +40,8 @@ DataFrame cost_path_slotting_cpp(
 
     // Add current coordinates to the path
     // Adding 1 to convert from 0-based index to 1-based index
-    path_a.push_back(y + 1);
-    path_b.push_back(x + 1);
+    path_y.push_back(y + 1);
+    path_x.push_back(x + 1);
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
@@ -56,7 +56,7 @@ DataFrame cost_path_slotting_cpp(
 
       // Modify order of neighbors if there are repeated indices
       //in the rows axis
-      if(path_a[i] == path_a[i-1]){
+      if(path_y[i] == path_y[i-1]){
 
         neighbor_y = {y, y - 1};
         neighbor_x = {x - 1, x};
@@ -65,7 +65,7 @@ DataFrame cost_path_slotting_cpp(
 
       // Modify order of neighbors if there are repeated indices
       //in the columns axis
-      if(path_b[i] == path_b[i-1]){
+      if(path_x[i] == path_x[i-1]){
 
         neighbor_y = {y - 1, y};
         neighbor_x = {x, x - 1};
@@ -100,8 +100,8 @@ DataFrame cost_path_slotting_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["a"] = path_a,
-    _["b"] = path_b,
+    _["y"] = path_y,
+    _["x"] = path_x,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -125,8 +125,8 @@ DataFrame cost_path_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_a;
-  std::vector<int> path_b;
+  std::vector<int> path_y;
+  std::vector<int> path_x;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
@@ -139,8 +139,8 @@ DataFrame cost_path_cpp(
 
     // Add current coordinates to the path
     // Adding 1 to convert from 0-based index to 1-based index
-    path_a.push_back(y + 1);
-    path_b.push_back(x + 1);
+    path_y.push_back(y + 1);
+    path_x.push_back(x + 1);
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
@@ -174,8 +174,8 @@ DataFrame cost_path_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["a"] = path_a,
-    _["b"] = path_b,
+    _["y"] = path_y,
+    _["x"] = path_x,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -201,8 +201,8 @@ DataFrame cost_path_diag_cpp(
   int d_cols = dist_matrix.ncol();
 
   // Initialize the path vectors
-  std::vector<int> path_a;
-  std::vector<int> path_b;
+  std::vector<int> path_y;
+  std::vector<int> path_x;
   std::vector<double> path_dist;
   std::vector<double> path_cost;
 
@@ -214,8 +214,8 @@ DataFrame cost_path_diag_cpp(
   while (true) {
 
     // Add current coordinates to the path
-    path_a.push_back(y + 1); // Adding 1 to convert from 0-based index to 1-based index
-    path_b.push_back(x + 1);
+    path_y.push_back(y + 1); // Adding 1 to convert from 0-based index to 1-based index
+    path_x.push_back(x + 1);
     path_dist.push_back(dist_matrix(y, x));
     path_cost.push_back(cost_matrix(y, x));
 
@@ -249,8 +249,8 @@ DataFrame cost_path_diag_cpp(
 
   // Create output data frame
   return DataFrame::create(
-    _["a"] = path_a,
-    _["b"] = path_b,
+    _["y"] = path_y,
+    _["x"] = path_x,
     _["dist"] = path_dist,
     _["cost"] = path_cost
   );
@@ -265,23 +265,23 @@ DataFrame cost_path_diag_cpp(
 // [[Rcpp::export]]
 DataFrame cost_path_trim_cpp(DataFrame path) {
 
-  NumericVector a = path["a"];
-  NumericVector b = path["b"];
+  NumericVector x = path["x"];
+  NumericVector y = path["y"];
   NumericVector dist = path["dist"];
   NumericVector cost = path["cost"];
-  LogicalVector keep_a(a.size(), true);
-  LogicalVector keep_b(b.size(), true);
+  LogicalVector keep_a(y.size(), true);
+  LogicalVector keep_b(x.size(), true);
 
-  // Mark sequences in 'a'
-  for (int i = 1; i < a.size() - 1; ++i) {
-    if (a[i] == a[i - 1] && a[i] == a[i + 1]) {
+  // Mark sequences in 'y'
+  for (int i = 1; i < y.size() - 1; ++i) {
+    if (y[i] == y[i - 1] && y[i] == y[i + 1]) {
       keep_a[i] = false;
     }
   }
 
-  // Mark sequences in 'b'
-  for (int i = 1; i < b.size() - 1; ++i) {
-    if (b[i] == b[i - 1] && b[i] == b[i + 1]) {
+  // Mark sequences in 'x'
+  for (int i = 1; i < x.size() - 1; ++i) {
+    if (x[i] == x[i - 1] && x[i] == x[i + 1]) {
       keep_b[i] = false;
     }
   }
@@ -289,15 +289,15 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
   LogicalVector keep_final = keep_a & keep_b;
 
   // Logical indexing to subset the DataFrame
-  NumericVector filtered_a = a[keep_final];
-  NumericVector filtered_b = b[keep_final];
+  NumericVector filtered_x = x[keep_final];
+  NumericVector filtered_y = y[keep_final];
   NumericVector filtered_dist = dist[keep_final];
   NumericVector filtered_cost = cost[keep_final];
 
   // Create a new DataFrame with filtered columns
   return DataFrame::create(
-    _["a"] = filtered_a,
-    _["b"] = filtered_b,
+    _["x"] = filtered_x,
+    _["y"] = filtered_y,
     _["dist"] = filtered_dist,
     _["cost"] = filtered_cost
   );
@@ -328,15 +328,15 @@ double cost_path_sum_cpp(
 /*** R
 library(distantia)
 
-a <- sequenceA |>
+y <- sequenceA |>
   na.omit() |>
   as.matrix()
 
-b <- sequenceB |>
+x <- sequenceB |>
   na.omit() |>
   as.matrix()
 
-dist_matrix <- distance_matrix_cpp(a, b, distance = "euclidean")
+dist_matrix <- distance_matrix_cpp(y, x, distance = "euclidean")
 
 cost_matrix <- cost_matrix_cpp(dist_matrix = dist_matrix)
 
@@ -349,24 +349,24 @@ cost_path_slotting <- cost_path_slotting_cpp(
   dist_matrix = dist_matrix,
   cost_matrix = cost_matrix
 )
-#
-# head(cost_path)
-#
-# message("Trimming blocks from least cost path.")
-# cost_path_trimmed <- cost_path_trim_cpp(cost_path)
-#
-# nrow(cost_path)
-# nrow(cost_path_trimmed)
-#
-# message("Computing least cost path with diagonals")
-# cost_path_diag <- cost_path_diag_cpp(
-#   dist_matrix = dist_matrix,
-#   cost_matrix = cost_matrix
-# )
-#
-# head(cost_path_diag)
-#
-# message("Sum of distances in least cost paths")
-# cost_path_sum_cpp(cost_path_diag)
+
+head(cost_path)
+
+message("Trimming blocks from least cost path.")
+cost_path_trimmed <- cost_path_trim_cpp(cost_path)
+
+nrow(cost_path)
+nrow(cost_path_trimmed)
+
+message("Computing least cost path with diagonals")
+cost_path_diag <- cost_path_diag_cpp(
+  dist_matrix = dist_matrix,
+  cost_matrix = cost_matrix
+)
+
+head(cost_path_diag)
+
+message("Sum of distances in least cost paths")
+cost_path_sum_cpp(cost_path_diag)
 
 */

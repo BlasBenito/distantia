@@ -4,10 +4,12 @@
 \alias{check_args_x}
 \title{Checks Argument x}
 \usage{
-check_args_x(x = NULL)
+check_args_x(x = NULL, arg_name = "x")
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [prepare_sequences()].}
+\item{x}{(required, list of matrices) list of input matrices generated with [prepare_sequences()]. Default: NULL}
+
+\item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }
 \value{
 Argument x.
