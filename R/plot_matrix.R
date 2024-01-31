@@ -237,7 +237,7 @@ plot_matrix <- function(
       attributes(path)$y_name != attributes(m)$y_name ||
       attributes(path)$x_name != attributes(m)$x_name
     ){
-      stop("Arguments 'm' and 'path' must have the same values in the attributes 'x_name' and 'y_name'. Please ensure that both were computed for the same pair of sequences.")
+      stop("Arguments 'm' and 'path' must be computed for the same sequences.")
     }
 
     #rename path columns

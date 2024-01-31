@@ -32,6 +32,16 @@ prepare_xy <- function(
     paired_samples = FALSE
     ){
 
+  x <- check_args_x(
+    x = x,
+    arg_name = "x"
+  )
+
+  y <- check_args_x(
+    x = y,
+    arg_name = "y"
+  )
+
   distance <- check_args_distance(
     distance = distance
   )

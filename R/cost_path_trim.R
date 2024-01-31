@@ -48,19 +48,16 @@
 #'@autoglobal
 cost_path_trim <- function(path = NULL){
 
-  if(is.null(path)){
-    stop("Argument 'path' must not be NULL.")
-  }
+  path <- check_args_path(
+    path = path
+  )
 
-  if(!is.data.frame(path)){
-    stop("Argument 'path' must be a data frame.")
-  }
+  #keep path attributes
+  path.attributes <- attributes(path)[
+    c("y_name", "x_name", "type", "distance")
+    ]
 
-  if(all(c("x", "y", "dist", "cost") %in% colnames(path)) == FALSE){
-    stop("Argument 'path' must have the columns 'x', 'y', 'dist', and 'cost'.")
-  }
-
-  #group by A and create the group size
+  #group by y and create the group size
   path$group_size_y <- stats::ave(
     x = path$y,
     path$y,
@@ -114,6 +111,12 @@ cost_path_trim <- function(path = NULL){
 
   #remove extra columns
   path <- path[, !(names(path) %in% c("group_size_y", "keep_y", "group_size_x", "keep_x"))]
+
+  #return attributes
+  attr(x = path, which = "y_name") <- path.attributes$y_name
+  attr(x = path, which = "x_name") <- path.attributes$x_name
+  attr(x = path, which = "type") <- path.attributes$cost_path
+  attr(x = path, which = "distance") <- path.attributes$distance
 
   path
 

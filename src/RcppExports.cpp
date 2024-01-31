@@ -35,29 +35,29 @@ BEGIN_RCPP
 END_RCPP
 }
 // auto_sum_no_path_cpp
-double auto_sum_no_path_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance);
-RcppExport SEXP _distantia_auto_sum_no_path_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP) {
+double auto_sum_no_path_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
+RcppExport SEXP _distantia_auto_sum_no_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_no_path_cpp(y, x, distance));
+    rcpp_result_gen = Rcpp::wrap(auto_sum_no_path_cpp(x, y, distance));
     return rcpp_result_gen;
 END_RCPP
 }
 // auto_sum_path_cpp
-double auto_sum_path_cpp(NumericMatrix y, NumericMatrix x, DataFrame path, const std::string& distance);
-RcppExport SEXP _distantia_auto_sum_path_cpp(SEXP ySEXP, SEXP xSEXP, SEXP pathSEXP, SEXP distanceSEXP) {
+double auto_sum_path_cpp(NumericMatrix x, NumericMatrix y, DataFrame path, const std::string& distance);
+RcppExport SEXP _distantia_auto_sum_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP pathSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(y, x, path, distance));
+    rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(x, y, path, distance));
     return rcpp_result_gen;
 END_RCPP
 }

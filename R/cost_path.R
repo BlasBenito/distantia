@@ -31,23 +31,18 @@ cost_path <- function(
     diagonal = FALSE
 ){
 
+  dist_matrix <- check_args_matrix(
+    m = dist_matrix,
+    arg_name = "dist_matrix"
+  )
 
-  if(is.null(dist_matrix)){
-    stop("Argument 'dist_matrix' must not be NULL.")
-  }
-  if(!is.numeric(dist_matrix) | !is.matrix(dist_matrix)){
-    stop("Argument 'dist_matrix' must be a numeric matrix.")
-  }
+  cost_matrix <- check_args_matrix(
+    m = cost_matrix,
+    arg_name = "cost_matrix"
+  )
 
-  if(is.null(cost_matrix)){
-    stop("Argument 'cost_matrix' must not be NULL.")
-  }
-  if(!is.numeric(cost_matrix) | !is.matrix(cost_matrix)){
-    stop("Argument 'cost_matrix' must be a numeric matrix.")
-  }
-
-  if(any(dim(dist_matrix) != dim(cost_matrix))){
-    stop("Arguments 'dist_matrix' and 'cost_matrix' must have the same dimensions.")
+  if(is.logical(diagonal) == FALSE){
+    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
   }
 
   if(diagonal == FALSE){

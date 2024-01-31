@@ -44,11 +44,17 @@ cost_matrix <- function(
     weighted = FALSE
     ){
 
-  if(is.null(dist_matrix)){
-    stop("Argument 'dist_matrix' must not be NULL.")
+  dist_matrix <- check_args_matrix(
+    m = dist_matrix,
+    arg_name = "dist_matrix"
+  )
+
+  if(is.logical(diagonal) == FALSE){
+    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
   }
-  if(!is.numeric(dist_matrix) | !is.matrix(dist_matrix)){
-    stop("Argument 'dist_matrix' must be a numeric matrix.")
+
+  if(is.logical(weighted) == FALSE){
+    stop("Argument 'weighted' must be logical (TRUE or FALSE)")
   }
 
   #diagonal is TRUE

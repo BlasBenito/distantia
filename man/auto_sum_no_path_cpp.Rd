@@ -4,12 +4,12 @@
 \alias{auto_sum_no_path_cpp}
 \title{Auto-sum of Two Paired Sequences}
 \usage{
-auto_sum_no_path_cpp(y, x, distance = "euclidean")
+auto_sum_no_path_cpp(x, y, distance = "euclidean")
 }
 \arguments{
-\item{y}{(required, numeric matrix).}
-
 \item{x}{(required, numeric matrix) of same number of columns as 'y'.}
+
+\item{y}{(required, numeric matrix).}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"

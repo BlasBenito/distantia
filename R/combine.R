@@ -19,7 +19,7 @@ combine <- function(
   )
 
   distance <- check_args_distance(
-    distance = distance
+    distance = distance[1]
   )
 
   # sort sequences by similarity ----

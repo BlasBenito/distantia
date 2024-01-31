@@ -58,10 +58,6 @@ plot_distantia <- function(
 
   # Check arguments ----
 
-  #check x
-  y <- check_args_x(x = y, arg_name = "y")
-  x <- check_args_x(x = x, arg_name = "x")
-
   #prepare xy for psi computation
   xy <- prepare_xy(
     x = x,
@@ -83,7 +79,7 @@ plot_distantia <- function(
     )
   }
 
-  # compute psi ----
+  # Psi computation ----
   xy_psi <- distantia(
     x = xy,
     distance = distance[1],
@@ -94,7 +90,7 @@ plot_distantia <- function(
 
   xy_psi <- round(xy_psi, 3)
 
-  # compute matrices and path ----
+  # Distance and cost matrices ----
   dist_m <- distance_matrix(
     x = xy[[1]],
     y = xy[[2]],
@@ -107,6 +103,7 @@ plot_distantia <- function(
     weighted = weighted
   )
 
+  # Cost path ----
   path <- cost_path(
     dist_matrix = dist_m,
     cost_matrix = cost_m,
@@ -121,6 +118,21 @@ plot_distantia <- function(
     m <- cost_m
     rm(dist_m)
   }
+
+  #remove blocks and re-compute sum
+  if(ignore_blocks == TRUE){
+
+    path <- cost_path_trim(
+      path = path
+    )
+
+  }
+
+  #path sum
+  path_sum <- cost_path_sum(
+    path = path
+  ) |>
+    round(2)
 
   # Preserve user's config
   old.par <- par(no.readonly = TRUE)
@@ -159,6 +171,16 @@ plot_distantia <- function(
     subpanel = TRUE,
   )
 
+  graphics::mtext(
+    text = paste(
+      "Cost sum = ",
+      path_sum
+    ),
+    line = -1.3,
+    cex = 0.9 * text_cex,
+    adj = 0.05
+  )
+
   # Plot sequence y ----
   par(
     plt = plt_y,
@@ -179,6 +201,24 @@ plot_distantia <- function(
     subpanel = TRUE
   )
 
+  y_sum <- auto_distance(
+    x = y,
+    path = path,
+    distance = distance
+  ) |>
+    round(2)
+
+  graphics::mtext(
+    text = paste(
+      "Auto sum = ",
+      y_sum
+    ),
+    side = 2,
+    line = -1.3,
+    cex = 0.9 * text_cex,
+    adj = 0.05
+  )
+
   # Plot sequence x ----
   par(
     plt = plt_x,
@@ -197,6 +237,24 @@ plot_distantia <- function(
     guide = FALSE,
     vertical = FALSE,
     subpanel = TRUE
+  )
+
+  x_sum <- auto_distance(
+    x = x,
+    path = path,
+    distance = distance
+  ) |>
+    round(2)
+
+  graphics::mtext(
+    text = paste(
+      "Auto sum = ",
+      x_sum
+    ),
+    side = 3,
+    line = -1.3,
+    cex = 0.9 * text_cex,
+    adj = 0.05
   )
 
   # Plot matrix guide ----

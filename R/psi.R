@@ -61,12 +61,16 @@ psi <- function(
     diagonal = FALSE
     ){
 
-  if(is.null(path_sum)){
-    stop("Argument 'cost_sum' is required.")
+  if(!is.numeric(path_sum)){
+    stop("Argument 'cost_sum' must be numeric.")
   }
 
-  if(is.null(auto_sum)){
-    stop("Argument 'auto_sum' is required.")
+  if(!is.numeric(auto_sum)){
+    stop("Argument 'auto_sum' must be numeric.")
+  }
+
+  if(is.logical(diagonal) == FALSE){
+    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
   }
 
   psi <- ((path_sum * 2) - auto_sum) / auto_sum

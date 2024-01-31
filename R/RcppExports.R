@@ -39,8 +39,8 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
 #' of the dataset `distances`. Default: "euclidean".
 #' @return Auto sum of distances.
 #' @export
-auto_sum_no_path_cpp <- function(y, x, distance = "euclidean") {
-    .Call(`_distantia_auto_sum_no_path_cpp`, y, x, distance)
+auto_sum_no_path_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_auto_sum_no_path_cpp`, x, y, distance)
 }
 
 #'Auto-sum of Two Sequences
@@ -55,8 +55,8 @@ auto_sum_no_path_cpp <- function(y, x, distance = "euclidean") {
 #' of the dataset `distances`. Default: "euclidean".
 #' @return Numeric.
 #' @export
-auto_sum_path_cpp <- function(y, x, path, distance = "euclidean") {
-    .Call(`_distantia_auto_sum_path_cpp`, y, x, path, distance)
+auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
+    .Call(`_distantia_auto_sum_path_cpp`, x, y, path, distance)
 }
 
 #' Least Cost Matrix Considering Diagonals

@@ -15,6 +15,10 @@ combination_path <- function(
     distance = "euclidean"
     ){
 
+  x <- check_args_x(
+    x = x
+  )
+
   #computing distance matrix
   dist_matrix <- distance_matrix_cpp(
     x = x[[1]],

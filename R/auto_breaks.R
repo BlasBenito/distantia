@@ -11,12 +11,7 @@ auto_breaks <- function(
     n = 100
     ){
 
-  #check m
   m <- check_args_matrix(m = m)
-
-  if(inherits(x = m, what = "matrix") == FALSE){
-    stop("Argument 'm' must be a distance or cost matrix resulting from distantia::distance_matrix() or distantia::cost_matrix().")
-  }
 
   m.range <- range(m, na.rm = TRUE)
 

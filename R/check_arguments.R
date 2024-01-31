@@ -43,7 +43,7 @@ check_args <- function(
     distance = distance
   )
 
-  logical_message <- "must be logical/boolean. Accepted values are; TRUE; FALSE; c(TRUE, FALSE)."
+  logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
 
   if(any(is.logical(diagonal) == FALSE)){
     stop("Argument 'diagonal'", logical_message)
