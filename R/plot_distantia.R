@@ -56,6 +56,10 @@ plot_distantia <- function(
     text_cex = 1
 ){
 
+  # Preserve user's config
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+
   # Check arguments ----
 
   #prepare xy for psi computation
@@ -134,10 +138,6 @@ plot_distantia <- function(
   ) |>
     round(2)
 
-  # Preserve user's config
-  old.par <- par(no.readonly = TRUE)
-  on.exit(par(old.par))
-
   plt_all <- par()$plt
 
   # Plotting areas ----
@@ -145,7 +145,7 @@ plot_distantia <- function(
   plt_x <- c(0.35, 0.8, 0.1, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
   plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
-  plt_line_guide <- c(0.80, 0.95, 0.1, 0.245)
+  plt_line_guide <- c(0.80, 0.95, 0.05, 0.25)
 
   # Plot matrix ----
   par(

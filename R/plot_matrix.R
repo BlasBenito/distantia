@@ -79,6 +79,12 @@ plot_matrix <- function(
     subpanel = FALSE
 ){
 
+  # Preserve user's config
+  if(subpanel == FALSE){
+    old.par <- par(no.readonly = TRUE)
+    on.exit(par(old.par))
+  }
+
   #check m
   m <- check_args_matrix(m = m)
 
@@ -88,10 +94,6 @@ plot_matrix <- function(
 
   #axis labels
   axis_labels_cex <- 0.8 * text_cex
-
-  # Preserve user's config
-  old.par <- par(no.readonly = TRUE)
-  on.exit(par(old.par))
 
   #plotting areas
   plt_all <- par()$plt
@@ -272,9 +274,6 @@ plot_matrix <- function(
     )
 
   }
-
-  #reset to main plotting area
-  par(plt = plt_all)
 
   invisible()
 

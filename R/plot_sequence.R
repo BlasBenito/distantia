@@ -20,7 +20,7 @@
 #'
 #' @examples
 plot_sequence <- function(
-    x,
+    x = NULL,
     center = FALSE,
     scale = FALSE,
     color = NULL,
@@ -32,11 +32,16 @@ plot_sequence <- function(
     box = FALSE,
     guide = TRUE,
     guide_position = "topright",
-    guide_horiz = FALSE,
     guide_cex = 0.8,
     vertical = FALSE,
     subpanel = FALSE
 ){
+
+  # Preserve user's config
+  if(subpanel == FALSE){
+    old.par <- par(no.readonly = TRUE)
+    on.exit(par(old.par))
+  }
 
   #check x
   x <- check_args_x(x = x)
@@ -126,6 +131,21 @@ plot_sequence <- function(
     }
   }
 
+  #data limits
+  df.min <- min(df, na.rm = TRUE)
+  df.max <- max(df, na.rm = TRUE)
+  df.range <- df.max - df.min
+
+  if(subpanel == TRUE){
+    df.lim <- c(
+      df.min,
+      df.max + (df.range / 5)
+    )
+  } else {
+    df.lim <- df.range
+  }
+
+
   #first plot
   if(vertical == FALSE){
 
@@ -133,7 +153,7 @@ plot_sequence <- function(
     plot.y <- df[, df.columns[1]]
     x.axis.side <- 1
     y.axis.side <- 2
-    y.lim <- range(df, na.rm = TRUE)
+    y.lim <- df.lim
     x.lim <- NULL
     df.name.x <- df.name
     df.name.y <- NULL
@@ -145,7 +165,7 @@ plot_sequence <- function(
     x.axis.side <- 2
     y.axis.side <- 3
     y.lim <- NULL
-    x.lim <- rev(range(df, na.rm = TRUE))
+    x.lim <- rev(df.lim)
     df.name.x <- NULL
     df.name.y <- df.name
 
@@ -218,7 +238,7 @@ plot_sequence <- function(
     graphics::title(
       xlab = ifelse(
         test = is.null(xlab),
-        yes = "Time",
+        yes = "",
         no = xlab
       ),
       line = axis_title_distance,
@@ -228,7 +248,7 @@ plot_sequence <- function(
     graphics::title(
       ylab = ifelse(
         test = is.null(ylab),
-        yes = "Value",
+        yes = "",
         no = ylab
       ),
       line = axis_title_distance,
@@ -254,8 +274,7 @@ plot_sequence <- function(
       position = guide_position,
       color = color,
       width = width,
-      title = NULL,
-      cex = guide_cex,
+      text_cex = guide_cex,
       box = box,
       subpanel = FALSE
     )
