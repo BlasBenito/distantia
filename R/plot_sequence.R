@@ -97,6 +97,8 @@ plot_sequence <- function(
     )
   }
 
+  color <- color[names(color) %in% x_colnames]
+
   #width
   if(length(width) == 1){
     width <- rep(
