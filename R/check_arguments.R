@@ -264,8 +264,8 @@ check_args_x <- function(
     unlist() |>
     unique()
 
-  if(validated != TRUE){
-    warning("To avoid unintended issues during the dissimilarity analysis, it is recommended to validate argument ", arg_name, " with the function distantia::prepare_sequences().")
+  if(any(c(validated != TRUE, is.null(validated))) == TRUE){
+    warning("To avoid unintended issues while using 'distantia', it is recommended to validate the argument ", arg_name, " with the function distantia::prepare_sequences().")
   }
 
   if(is.null(names(x))){

@@ -84,49 +84,39 @@ plot_sequence <- function(
   df.time <- as.numeric(attributes(x)$time)
 
   #name
-  df.name <- attributes(x)$sequence_name
+  sequence_name <- attributes(x)$sequence_name
 
   #names of columns to plot
-  df.columns <- colnames(df)
+  x_colnames <- colnames(df)
 
   #default palette
-  if(is.null(color)){
-    color <- grDevices::hcl.colors(
-      n = length(df.columns),
-      palette = "Zissou 1"
+  if(is.null(names(color))){
+    color <- auto_line_color(
+      x = x,
+      color = color
     )
-  } else {
-    #subset input palette
-    if(length(color) > (length(df.columns) * 2)){
-      color <- color[
-        seq(
-          from = 1,
-          to = length(color),
-          length.out = length(df.columns))
-      ]
-    }
   }
 
   #width
   if(length(width) == 1){
     width <- rep(
       x = width,
-      times = length(df.columns)
+      times = length(x_colnames)
     )
   }
 
-  if(length(width) != length(df.columns)){
+  if(length(width) != length(x_colnames)){
     if(width[1] < width[length(width)]){
       width <- seq(
         from = min(width),
         to = max(width),
-        length.out = length(df.columns)
+        length.out = length(x_colnames)
       )
     } else {
       width <- seq(
         from = max(width),
         to = min(width),
-        length.out = length(df.columns)
+        length.out = length(x_colnames)
       )
     }
   }
@@ -142,7 +132,10 @@ plot_sequence <- function(
       df.max + (df.range / 5)
     )
   } else {
-    df.lim <- df.range
+    df.lim <- c(
+      df.min,
+      df.max
+    )
   }
 
 
@@ -150,24 +143,24 @@ plot_sequence <- function(
   if(vertical == FALSE){
 
     plot.x <- df.time
-    plot.y <- df[, df.columns[1]]
+    plot.y <- df[, names(color)[1]]
     x.axis.side <- 1
     y.axis.side <- 2
     y.lim <- df.lim
     x.lim <- NULL
-    df.name.x <- df.name
-    df.name.y <- NULL
+    sequence_name.x <- sequence_name
+    sequence_name.y <- NULL
 
   } else {
 
-    plot.x <- df[, df.columns[1]]
+    plot.x <- df[, names(color)[1]]
     plot.y <- df.time
     x.axis.side <- 2
     y.axis.side <- 3
     y.lim <- NULL
     x.lim <- rev(df.lim)
-    df.name.x <- NULL
-    df.name.y <- df.name
+    sequence_name.x <- NULL
+    sequence_name.y <- sequence_name
 
   }
 
@@ -203,13 +196,13 @@ plot_sequence <- function(
   )
 
   #add all the other lines
-  for(i in seq(2, length(df.columns))){
+  for(i in seq(from = 2, to = length(x_colnames), by = 1)){
 
     if(vertical == FALSE){
       line.x <- df.time
-      line.y <- df[, df.columns[i]]
+      line.y <- df[, names(color)[i]]
     } else {
-      line.x <- df[, df.columns[i]]
+      line.x <- df[, names(color)[i]]
       line.y <- df.time
     }
 
@@ -228,7 +221,7 @@ plot_sequence <- function(
     graphics::title(
       main = ifelse(
         test = is.null(title),
-        yes = df.name,
+        yes = sequence_name,
         no = title
       ),
       cex.main = main_title_cex,
@@ -258,8 +251,8 @@ plot_sequence <- function(
   } else {
 
     graphics::title(
-      xlab = df.name.x,
-      ylab = df.name.y,
+      xlab = sequence_name.x,
+      ylab = sequence_name.y,
       cex.lab = axis_title_cex,
       line = axis_title_distance
     )

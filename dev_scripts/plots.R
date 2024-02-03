@@ -21,6 +21,16 @@ plot_sequence(
   x = y[[1]]
 )
 
+#remove one column
+y[[1]] <- y[[1]][, -1]
+y <- prepare_sequences(x = y)
+
+
+plot_sequences(
+  x = y,
+  columns = 2
+)
+
 x11()
 par(
   mfrow = c(floor(length(y)/2), 2),
