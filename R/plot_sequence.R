@@ -37,12 +37,6 @@ plot_sequence <- function(
     subpanel = FALSE
 ){
 
-  # Preserve user's config
-  if(subpanel == FALSE){
-    old.par <- par(no.readonly = TRUE)
-    on.exit(par(old.par))
-  }
-
   #check x
   x <- check_args_x(x = x)
 
@@ -65,20 +59,13 @@ plot_sequence <- function(
 
   }
 
-  #x to data frame
-  if(any(c(center, scale))){
 
-    df <- scale(
-      x = x,
-      scale = scale,
-      center = center,
-    ) |>
-      as.data.frame()
-
-  } else {
-    #to data frame
-    df <- as.data.frame(x)
-  }
+  df <- scale(
+    x = x,
+    scale = scale,
+    center = center
+  ) |>
+    as.data.frame()
 
   #time column
   df.time <- as.numeric(attributes(x)$time)
@@ -166,9 +153,7 @@ plot_sequence <- function(
 
   }
 
-  if(box == FALSE){
-    par(bty = "n")
-  }
+  # par(bty = "n")
 
   #first plot
   graphics::plot(
@@ -179,6 +164,7 @@ plot_sequence <- function(
     ylab = "",
     xaxt = "n",
     yaxt = "n",
+    frame.plot = FALSE,
     ylim = y.lim,
     xlim = x.lim,
     lwd = width[1],
@@ -270,7 +256,6 @@ plot_sequence <- function(
       color = color,
       width = width,
       text_cex = guide_cex,
-      box = box,
       subpanel = FALSE
     )
 

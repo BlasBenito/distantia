@@ -5,7 +5,6 @@
 #' @param color (optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param width (optional, numeric vector) Widths of the sequence curves. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 0.7
-#' @param box (optional, logical) If TRUE, a box is drawn around the guide. The box features can be controlled with the [par()] arguments  `"lwd"` (line width of the box), `"lty"` (line type of the box) `"bg"` (background color), and `"fg"` (line color). Default: FALSE
 #' @param ncol (optional, integer) Number of columns in which to set the legend items. Default: 1.
 #' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].
 #'
@@ -30,7 +29,6 @@ plot_line_guide <- function(
     color = NULL,
     width = 1,
     text_cex = 0.7,
-    box = FALSE,
     ncol = 1,
     subpanel = FALSE
 ){
@@ -78,22 +76,15 @@ plot_line_guide <- function(
     position_y <- NULL
   }
 
-  if(box == TRUE){
-    bty <- "o"
-  } else {
-    bty <- "n"
-  }
-
   #plot legend
   if(subpanel == TRUE){
 
-    par(mar = c(1, 1, 1, 1))
-
-    plot(
+    graphics::plot(
       NULL,
       xaxt = 'n',
       yaxt = 'n',
       bty = 'n',
+      frame.plot = FALSE,
       ylab = '',
       xlab = '',
       xlim = 0:1,
@@ -109,11 +100,7 @@ plot_line_guide <- function(
     col = color,
     border = "black",
     lwd = width,
-    bty = bty,
-    bg = par("bg"),
-    box.lwd = par("lwd"),
-    box.lty = par("lty"),
-    box.col = par("fg"),
+    bty = 'n',
     cex = text_cex,
     ncol = ncol,
     horiz = FALSE,

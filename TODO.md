@@ -1,33 +1,11 @@
-#in progress: least_cost_matrix.R
-convert least_cost_matrix to cost_matrix_cpp
+# plotting functions
+- add xlim and ylim to plot_sequence()
+- add xlim and ylim to plot_sequences()
+- add keyword to xlim in plot_sequences() so xlim in all sequences is c(min(x), max(x)).
+- investigate why lower margin is different between even and odd sets of sequences in plot_sequences()
 
+# function to fill gaps in sequences with GAMs
 
-# new C++ backend
+# new version of workflowPartialMatch
 
-- distance DONE
-  -distance_manhattan_cpp
-  -distance_euclidean_cpp
-  -distance_hellinger_cpp
-  -distance_chi_cpp
-  -distance (wrapper)
-  
-- distance matrix DONE
-  -distance_matrix_cpp
-  -distance_matrix (wrapper)
-  
-- cost matrix DONE
-  -cost_matrix_cpp
-  -cost_matrix_diag_cpp
-  -cost_matrix (wrapper)
-  
-- least cost path
-  -cost_path (wrapper) IN PROGRESS
-  -cost_path_cpp
-  -remove_blocks_cpp?
-
-
-
-
-#functions to remove?
-distance.R
-distanceMatrix.R (maybe refactor it to write matrices to disk instead?)
+# new version of workflowTransfer

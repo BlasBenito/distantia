@@ -5,7 +5,6 @@ plot_sequences <- function(
     color = NULL,
     width = 1,
     text_cex = 1,
-    box = FALSE,
     guide = TRUE,
     guide_cex = 0.8,
     columns = 1
@@ -39,17 +38,34 @@ plot_sequences <- function(
   #define new par
   rows <- ceiling((length(x) + 1)/columns)
 
-  n <- rows * columns
+  n_panels <- length(x)
 
   par(
-    mfrow = c(rows, columns),
-    mar = c(1, 4, 0.5, 0.5),
-    oma = c(2, 0, 1, 1)
+    mfrow = c(rows, columns)
   )
 
-  for(i in seq_len(length(x) + 1)){
+  #even number of sequences
+  if((n_panels %% 2) == 0){
 
-    #plot first sequence
+    par(
+      oma = c(1.2, 0, 0, 1),
+      mar = c(1, 3.5, 0.5, 0.5)
+      )
+
+  } else {
+
+    par(
+      oma = c(1.2, 0, 0, 1),
+      mar = c(1, 3.5, 0.5, 0.5)
+      )
+
+    n_panels <- n_panels + 1
+
+  }
+
+  #plot panels
+  for(i in seq_len(n_panels)){
+
     if(i <= length(x)){
 
       plot_sequence(
@@ -62,8 +78,8 @@ plot_sequences <- function(
         xlab = NULL,
         ylab = "",
         text_cex = text_cex,
-        box = box,
-        guide = subplot_guide,
+        box = FALSE,
+        guide = FALSE,
         guide_position = "right",
         guide_cex = guide_cex,
         subpanel = TRUE
@@ -83,12 +99,18 @@ plot_sequences <- function(
         color = color,
         width = width,
         text_cex = guide_cex,
-        box = FALSE,
         ncol = 2,
         subpanel = TRUE
       )
 
     }
+
+  }
+
+  #legend in outer margin
+  if(i == length(x)){
+
+
 
   }
 

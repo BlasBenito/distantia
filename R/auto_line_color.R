@@ -25,7 +25,8 @@ auto_line_color <- function(
       FUN = colnames
     ) |>
       unlist() |>
-      unique()
+      unique() |>
+      sort()
 
   } else {
 

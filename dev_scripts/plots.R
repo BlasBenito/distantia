@@ -18,17 +18,30 @@ plot_distantia(
 
 
 plot_sequence(
-  x = y[[1]]
+  x = y[[1]],
+  scale = FALSE,
+  center = FALSE
 )
 
-#remove one column
+#remove one column and one sequence
+#even sequences
+y.even <- y
 y[[1]] <- y[[1]][, -1]
-y <- prepare_sequences(x = y)
-
+y[[2]] <- NULL
+y.odd <- prepare_sequences(x = y)
 
 plot_sequences(
-  x = y,
-  columns = 2
+  x = y.even,
+  columns = 2,
+  scale = TRUE,
+  center = TRUE
+)
+
+plot_sequences(
+  x = y.odd,
+  columns = 2,
+  scale = TRUE,
+  center = TRUE
 )
 
 x11()
