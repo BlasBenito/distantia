@@ -32,16 +32,12 @@ y.odd <- prepare_sequences(x = y)
 
 plot_sequences(
   x = y.even,
-  columns = 2,
-  scale = TRUE,
-  center = TRUE
+  columns = 2
 )
 
 plot_sequences(
   x = y.odd,
-  columns = 2,
-  scale = TRUE,
-  center = TRUE
+  columns = 2
 )
 
 x11()
