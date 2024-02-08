@@ -77,10 +77,16 @@ plot_distantia <- function(
   )
 
   if(is.null(matrix_color)){
+
     matrix_color = grDevices::hcl.colors(
       n = 100,
       palette = "Zissou 1"
     )
+
+    if(is.null(line_color)){
+      line_color <- matrix_color
+    }
+
   }
 
   # Psi computation ----
@@ -279,7 +285,7 @@ plot_distantia <- function(
   plot_line_guide(
     x = y,
     position = "center",
-    color = matrix_color,
+    color = line_color,
     text_cex = text_cex * 0.7,
     width = line_width,
     subpanel = TRUE

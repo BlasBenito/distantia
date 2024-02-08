@@ -1,7 +1,7 @@
 Package: distantia
 Type: Package
-Title: Assessing Dissimilarity Between Multivariate Time Series
-Version: 1.0.2
+Title: Time Series Dissimilarity Assessment with Dynamic Time Warping
+Version: 2.0.0
 Authors@R: 
     person(given = "Blas M.", 
           family = "Benito", , 
@@ -9,21 +9,19 @@ Authors@R:
           role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-5105-7232"))
 URL: https://github.com/blasbenito/distantia/
-Description: Provides tools to assess the dissimilarity between multivariate time-series. It is based on the psi measure described  by Birks and Gordon (1985 <doi:10.1002/jqs.3390020110>), which computes dissimilarity between irregular time-series constrained by sample order. However, in this package the original idea has been extended to work with any kind of multivariate time-series, no matter whether they are regular, irregular, aligned or unaligned. Furthermore, the package allows to assess the significance of dissimilarity values by applying a restricted permutation test, allows to measure the contribution of individual variables to dissimilarity, and offers tools to transfer attributes (generally time or age, but other are possible) between sequences based on the similarity of their samples.
+Description: Fast C++ implementation of dynamic time warping for time series dissimilarity assessment, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) <doi:doi.org/10.1111/ecog.04895>, provides tools for analyzing time series of varying lengths and structures, including multivariate time-series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Depends: 
-  R (>= 3.5.0),
+  R (>= 3.5.0)
+Imports: 
+  Rcpp,
   doFuture,
   future,
   foreach,
-  progressr,
-  Rcpp
-Imports: 
-  grDevices,
-  RColorBrewer
+  progressr
 Suggests: 
     roxyglobals,
     testthat (>= 3.0.0)

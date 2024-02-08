@@ -11,17 +11,26 @@ y <- prepare_sequences(
   id_column = "MIS"
 )
 
+plot_sequence(
+  x = y[[1]]
+)
+
+plot_sequences(
+  x = y,
+  x_subset = c("MIS-1", "MIS-3"),
+  columns = 1,
+  guide_columns = 1
+)
+
+
+
 plot_distantia(
   x = y[["MIS-11"]],
   y = y[["MIS-9"]]
 )
 
 
-plot_sequence(
-  x = y[[1]],
-  scale = FALSE,
-  center = FALSE
-)
+
 
 #remove one column and one sequence
 #even sequences

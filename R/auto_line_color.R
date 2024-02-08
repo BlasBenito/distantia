@@ -38,9 +38,32 @@ auto_line_color <- function(
   #generate default colors
   if(is.null(color)){
 
-    color <- grDevices::hcl.colors(
+    # color <- grDevices::hcl.colors(
+    #   n = length(x_colnames),
+    #   palette = "Dark 3"
+    # )
+
+    #select palette
+    n <- length(x_colnames)
+    if(n <= 9){
+      pal <- "Okabe-Ito"
+    }
+    if(n == 10){
+      pal <- "Tableau 10"
+    }
+    if(n > 10 && n <= 12){
+      pal <- "Paired"
+    }
+    if(n > 12 && n <= 26){
+      pal <- "Alphabet"
+    }
+    if(n > 26 && n <= 36){
+      pal <- "Polychrome 36"
+    }
+
+    color <- grDevices::palette.colors(
       n = length(x_colnames),
-      palette = "Zissou 1"
+      palette = pal
     )
 
     names(color) <- x_colnames
