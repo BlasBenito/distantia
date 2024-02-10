@@ -7,33 +7,10 @@ x <- prepare_sequences(
   id_column = "MIS"
 )
 
-y <- x[[1]]
-x <- x[[2]]
-
-path = psi_cost_path_cpp(
-  x,
-  y
-)
-
-psi_auto_sum_cpp(
-  x,
-  y,
-  path
-)
-
-imp <- importance_robust_cpp(
-  x,
-  y
-)
-
 
 df <- importance(
   x = x,
-  distance = c("euclidean", "manhattan"),
-  diagonal = c(TRUE, FALSE),
-  weighted = c(TRUE, FALSE),
-  ignore_blocks = c(TRUE, FALSE),
-  paired_samples = FALSE,
+  distance = "euclidean",
   robust = TRUE
 )
 

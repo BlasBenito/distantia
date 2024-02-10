@@ -11,16 +11,24 @@ y <- prepare_sequences(
   id_column = "MIS"
 )
 
+y <- subset_sequences(
+  x = y,
+  sequences = c("MIS-1", "MIS-2", "MIS-3"),
+  variables = c("Quercus", "Carpinus"),
+  time = c(1, 10)
+)
+
 plot_sequence(
   x = y[[1]]
 )
 
 plot_sequences(
   x = y,
-  x_subset = c("MIS-1", "MIS-3"),
+  x_subset = c("MIS-2", "MIS-3"),
   columns = 1,
   guide_columns = 1
 )
+
 
 
 

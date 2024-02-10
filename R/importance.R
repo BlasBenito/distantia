@@ -168,6 +168,9 @@ importance <- function(
 
     } #end of importance i
 
+    #set NaN to zero for constant pairs of sequences
+    importance.i[is.na(importance.i)] <- 0
+
     importance.i <- merge(
       x = df.i,
       y = importance.i
