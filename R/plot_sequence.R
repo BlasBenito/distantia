@@ -72,7 +72,7 @@ plot_sequence <- function(
     as.data.frame()
 
   #time column
-  df.time <- as.numeric(attributes(x)$time)
+  df.time <- as.numeric(attributes(x)$index)
 
   #name
   sequence_name <- attributes(x)$sequence_name

@@ -150,10 +150,10 @@ prepare_xy <- function(
     }
 
   #storing attributes
-  x.time <- attributes(x)$time
+  x.time <- attributes(x)$index
   x.sequence_name <- attributes(x)$sequence_name
 
-  y.time <- attributes(y)$time
+  y.time <- attributes(y)$index
   y.sequence_name <- attributes(y)$sequence_name
 
   #subsetting to common columns

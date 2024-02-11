@@ -2,12 +2,14 @@
 % Please edit documentation in R/plot_sequence.R
 \name{plot_sequence}
 \alias{plot_sequence}
-\title{Plots Multivariate Sequences}
+\title{Plot Multivariate Sequence}
 \usage{
 plot_sequence(
-  x,
+  x = NULL,
   center = FALSE,
   scale = FALSE,
+  xlim = NULL,
+  ylim = NULL,
   color = NULL,
   width = 1,
   title = NULL,
@@ -17,7 +19,6 @@ plot_sequence(
   box = FALSE,
   guide = TRUE,
   guide_position = "topright",
-  guide_horiz = FALSE,
   guide_cex = 0.8,
   vertical = FALSE,
   subpanel = FALSE
@@ -30,7 +31,11 @@ plot_sequence(
 
 \item{scale}{(optional, logical) If TRUE, the columns of `x` are scaled via [scale()]. Default: FALSE}
 
-\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL}
+\item{xlim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
+
+\item{ylim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
+
+\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL}
 
 \item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
 
@@ -56,5 +61,5 @@ plot_sequence(
 A plot.
 }
 \description{
-Plots Multivariate Sequences
+Plot Multivariate Sequence
 }

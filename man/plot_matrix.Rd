@@ -38,7 +38,7 @@ plot_matrix(
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
 
-\item{guide}{(optional, logical) if TRUE, a color guide for the matrix `m` is added by [plot_matrix_guide()].}
+\item{guide}{(optional, logical) if TRUE, a color guide for the matrix `m` is added by [plot_utils_matrix_guide()].}
 
 \item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].}
 }

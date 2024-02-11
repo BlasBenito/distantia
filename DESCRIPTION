@@ -21,7 +21,8 @@ Imports:
   doFuture,
   future,
   foreach,
-  progressr
+  progressr,
+  zoo
 Suggests: 
     roxyglobals,
     testthat (>= 3.0.0)

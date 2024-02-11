@@ -15,13 +15,13 @@
 #' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
 #' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
 #' @param pseudo_zero (optional, numeric) Value used to replace zeros in the data. Default: NULL.
-#' @param na_action (optional, character string) Action to handle missing values. default: NULL.
+#' @param na_action (optional, character string) Action to handle missing values. Accepted values are:
 #' \itemize{
 #'   \item NULL: returns the input without changes.
 #'   \item "omit": applies [na.omit()] to each sequence.
-#'   \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-#'   \item "impute": not implemented yet.
-#' }
+#'   \item "zero": replaces NA values with zero or `pseudo_zero`, if provided.
+#'   \item "impute": NA cases are imputed via [zoo::na.spline()]
+#' }. Default: NULL
 #' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
 #' \itemize{
 #'   \item [f_proportion()]: to transform counts into proportions.
@@ -81,8 +81,8 @@ prepare_sequences <- function(
     x = x
   )
 
-  #list of dfs
-  x <- prepare_df_list(
+  #list of matrices
+  x <- prepare_zoo_list(
     x = x,
     time_column = time_column,
     pseudo_zero = pseudo_zero,

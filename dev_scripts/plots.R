@@ -2,6 +2,22 @@ library(distantia)
 
 load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 
+a <- sequenceA
+b <- sequenceB
+
+b <- zoo::zoo(
+  x = b
+)
+
+b.spline <- zoo::na.spline(
+  object = b
+)
+
+b.approx <- zoo::na.approx(
+  object = b
+)
+
+
 #data frame with grouping column
 ###################################
 data(sequencesMIS)
@@ -14,8 +30,7 @@ y <- prepare_sequences(
 y <- subset_sequences(
   x = y,
   sequences = c("MIS-1", "MIS-2", "MIS-3"),
-  variables = c("Quercus", "Carpinus"),
-  time = c(1, 10)
+  variables = c("Quercus", "Carpinus")
 )
 
 plot_sequence(
@@ -24,17 +39,17 @@ plot_sequence(
 
 plot_sequences(
   x = y,
-  x_subset = c("MIS-2", "MIS-3"),
-  columns = 1,
-  guide_columns = 1
+  columns = 2
 )
 
 
 
 
 plot_distantia(
-  x = y[["MIS-11"]],
-  y = y[["MIS-9"]]
+  x = y[[1]],
+  y = y[[2]],
+  line_scale = TRUE,
+  line_center = TRUE
 )
 
 

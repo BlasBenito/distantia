@@ -21,7 +21,7 @@
 #' )
 #' @autoglobal
 #' @export
-prepare_df_list <- function(
+prepare_zoo_list <- function(
     x = NULL,
     time_column = NULL,
     pseudo_zero = NULL,
@@ -88,17 +88,16 @@ prepare_df_list <- function(
     X = x,
     FUN = function(x){
 
-      x.time <- attributes(x)$time
+      x <- zoo::zoo(
+        x = x,
+        order.by = attributes(x)$index
+        )
 
       x <- prepare_na(
         x = x,
         pseudo_zero = pseudo_zero,
         na_action = na_action
       )
-
-      x <- as.matrix(x)
-
-      attr(x = x, which = "time") <- x.time
 
       return(x)
 

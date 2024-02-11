@@ -99,7 +99,7 @@ subset_sequences <- function(
     all_times <- lapply(
       X = x,
       FUN = function(z){
-        attributes(z)$time
+        attributes(z)$index
       }
     ) |>
       unlist() |>

@@ -48,8 +48,8 @@ distance_matrix <- function(
 
   #adding names
   dimnames(m) <- list(
-    attributes(xy[[2]])$time,
-    attributes(xy[[1]])$time
+    attributes(xy[[2]])$index,
+    attributes(xy[[1]])$index
   )
 
   #adding attributes

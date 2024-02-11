@@ -110,7 +110,7 @@ prepare_time <- function(
   x <- lapply(
     X = x,
     FUN = function(x){
-      attr(x = x, which = "time") <- x[[time_column]]
+      attr(x = x, which = "index") <- x[[time_column]]
       x[[time_column]] <- NULL
       return(x)
     }

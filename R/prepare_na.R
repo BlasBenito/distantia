@@ -2,13 +2,13 @@
 #'
 #' @param x (required, list of data frames) A named list with data frames. Default: NULL.
 #' @param pseudo_zero (optional, numeric) Value used to replace zeros in the data. Default: NULL.
-#' @param na_action (optional, character string) Action to handle missing values. default: NULL.
+#' @param na_action (optional, character string) Action to handle missing values. Accepted values are:
 #' \itemize{
 #'   \item NULL: returns the input without changes.
 #'   \item "omit": applies [na.omit()] to each sequence.
-#'   \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-#'   \item "impute": not implemented yet.
-#' }
+#'   \item "zero": replaces NA values with zero or `pseudo_zero`, if provided.
+#'   \item "impute": NA cases are imputed via [zoo::na.spline()]
+#' }. Default: NULL
 #'
 #' @return Named list of data frames
 #' @export
@@ -28,7 +28,7 @@ prepare_na <- function(
     arg = na_action,
     choices = c(
       "omit",
-      "to_zero",
+      "zero",
       "impute"#not implemented yet
     )
   )
@@ -55,7 +55,9 @@ prepare_na <- function(
   }
 
   if(na_action == "impute"){
-    stop("Imputation of NAs is not implemented yet.")
+    x <- zoo::na.spline(
+      object = x
+    )
   }
 
   x
