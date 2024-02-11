@@ -5,11 +5,13 @@
 #'
 #'
 #' @param x (required, sequence) a single sequence or set of sequences generated via [prepare_sequences()]. Default: NULL
-#' @param color (optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
+#' @param color (optional, character vector) vector of colors for the sequence columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return Named vector of colors
+#' @noRd
+#' @keywords internal
 #' @export
-auto_line_color <- function(
+plot_utils_line_color <- function(
     x = NULL,
     color = NULL
 ){
@@ -38,11 +40,6 @@ auto_line_color <- function(
   #generate default colors
   if(is.null(color)){
 
-    # color <- grDevices::hcl.colors(
-    #   n = length(x_colnames),
-    #   palette = "Dark 3"
-    # )
-
     #select palette
     n <- length(x_colnames)
     if(n <= 9){
@@ -66,8 +63,6 @@ auto_line_color <- function(
       palette = pal
     )
 
-    names(color) <- x_colnames
-
   }
 
 
@@ -83,8 +78,6 @@ auto_line_color <- function(
           to = length(color),
           length.out = length(x_colnames))
       ]
-
-      names(color) <- x_colnames
 
       #if names, subset by name
     } else {
@@ -110,6 +103,8 @@ auto_line_color <- function(
 
   }
 
- color
+  names(color) <- x_colnames
+
+  color
 
 }

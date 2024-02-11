@@ -56,7 +56,7 @@ plot_sequences <- function(
     unique()
 
   #generate colors
-  color <- auto_line_color(
+  color <- plot_utils_line_color(
     x = x,
     color = color
   )
@@ -109,7 +109,7 @@ plot_sequences <- function(
     } else {
 
       if(guide == TRUE){
-        plot_line_guide(
+        plot_utils_line_guide(
           x = x,
           position = "center",
           color = color,

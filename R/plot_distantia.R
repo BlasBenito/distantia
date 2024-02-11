@@ -270,7 +270,7 @@ plot_distantia <- function(
     mgp = c(3, 0.5, 0)
   )
 
-  plot_matrix_guide(
+  plot_utils_matrix_guide(
     m = m,
     color = matrix_color,
     text_cex = text_cex
@@ -282,7 +282,7 @@ plot_distantia <- function(
     new = TRUE
   )
 
-  plot_line_guide(
+  plot_utils_line_guide(
     x = y,
     position = "center",
     color = line_color,

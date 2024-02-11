@@ -82,7 +82,7 @@ plot_sequence <- function(
 
   #default palette
   if(is.null(names(color))){
-    color <- auto_line_color(
+    color <- plot_utils_line_color(
       x = x,
       color = color
     )
@@ -262,7 +262,7 @@ plot_sequence <- function(
 
   if(guide == TRUE){
 
-    plot_line_guide(
+    plot_utils_line_guide(
       x = x,
       position = guide_position,
       color = color,
