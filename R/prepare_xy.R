@@ -46,29 +46,15 @@ prepare_xy <- function(
     distance = distance
   )
 
-  #check validation flags
-  x.validated <- ifelse(
-    test = "validated" %in% names(attributes(x)),
-    yes = attributes(x)$validated,
-    no = FALSE
-  )
-
-  y.validated <- ifelse(
-    test = "validated" %in% names(attributes(y)),
-    yes = attributes(y)$validated,
-    no = FALSE
-  )
-
   target_classes <- c(
     "data.frame",
     "matrix",
     "numeric",
-    "vector"
+    "vector",
+    "zoo"
   )
 
   #validate x
-  if(x.validated == FALSE){
-
     if(all(inherits(x = x, what = target_classes) == FALSE)){
       stop("Argument 'x' must be a data frame, matrix, or numeric vector.")
     }
@@ -88,12 +74,7 @@ prepare_xy <- function(
       x <- x[, sapply(x, is.numeric)]
     }
 
-
-  }
-
   #validate y
-  if(y.validated == FALSE){
-
     if(all(inherits(x = y, what = target_classes) == FALSE)){
       stop("Argument 'y' must be a data frame, matrix, or numeric vector.")
     }
@@ -109,9 +90,6 @@ prepare_xy <- function(
     if(inherits(x = y, what = "data.frame")){
       y <- y[, sapply(y, is.numeric)]
     }
-
-
-  }
 
     #check colnames
     if(

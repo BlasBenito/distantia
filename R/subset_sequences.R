@@ -78,7 +78,6 @@ subset_sequences <- function(
         i_attributes <- attributes(i)
         i <- i[, variables, drop = FALSE]
         attr(x = i, which = "time") <- i_attributes$time
-        attr(x = i, which = "validated") <- i_attributes$validated
         attr(x = i, which = "sequence_name") <- i_attributes$sequence_name
         return(i)
       }
@@ -149,7 +148,6 @@ subset_sequences <- function(
 
           attr(x = i, which = "time") <- i_time
           attr(x = i, which = "validated") <- i_attributes$validated
-          attr(x = i, which = "sequence_name") <- i_attributes$sequence_name
           return(i)
         }
       )

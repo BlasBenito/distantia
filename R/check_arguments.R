@@ -257,17 +257,6 @@ check_args_x <- function(
 
   }
 
-  validated <- lapply(
-    X = x,
-    FUN = function(x) attributes(x)$validated
-  ) |>
-    unlist() |>
-    unique()
-
-  if(any(c(validated != TRUE, is.null(validated))) == TRUE){
-    warning("To avoid unintended issues while using 'distantia', it is recommended to validate the argument ", arg_name, " with the function distantia::prepare_sequences().")
-  }
-
   if(is.null(names(x))){
     names(x) <- paste0(
       "sequence_",

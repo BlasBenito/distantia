@@ -11,13 +11,13 @@ prepare_na(x = NULL, pseudo_zero = NULL, na_action = NULL)
 
 \item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
 
-\item{na_action}{(optional, character string) Action to handle missing values. default: NULL.
+\item{na_action}{(optional, character string) Action to handle missing values. Accepted values are:
 \itemize{
   \item NULL: returns the input without changes.
   \item "omit": applies [na.omit()] to each sequence.
-  \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-  \item "impute": not implemented yet.
-}}
+  \item "zero": replaces NA values with zero or `pseudo_zero`, if provided.
+  \item "impute": NA cases are imputed via [zoo::na.spline()]
+}. Default: NULL}
 }
 \value{
 Named list of data frames

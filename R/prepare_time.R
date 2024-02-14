@@ -34,7 +34,9 @@ prepare_time <- function(
       }
     )
 
-  } else {
+  }
+
+
 
     #check that the time column is numeric
     x.time.numeric <- lapply(
@@ -43,6 +45,18 @@ prepare_time <- function(
     ) |>
       unlist()
 
+    #check if it can be coerced into numeric
+    if(all(x.time.numeric) == FALSE){
+      x.time.numeric <- lapply(
+        X = x,
+        FUN = function(x) {
+          x[[time_column]] <- as.numeric(x[[time_column]])
+          is.numeric(x[[time_column]])
+        }
+      ) |>
+        unlist()
+    }
+
     #names of elements with no time
     x.time.numeric <- names(x.time.numeric[!x.time.numeric])
 
@@ -50,9 +64,6 @@ prepare_time <- function(
     if(length(x.time.numeric) > 0){
 
       stop("The time column '", time_column, "' is not numeric in these elements of 'x': ", paste(x.time.numeric, collapse = ", "))
-
-    }
-
 
     #check that time column is in all elements
     x.no.time <- lapply(

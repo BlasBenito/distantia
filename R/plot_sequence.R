@@ -63,6 +63,9 @@ plot_sequence <- function(
 
   }
 
+  if(vertical == TRUE){
+    axis_title_distance <- 2.4
+  }
 
   df <- scale(
     x = x,
@@ -72,7 +75,7 @@ plot_sequence <- function(
     as.data.frame()
 
   #time column
-  df.time <- as.numeric(attributes(x)$index)
+  df.time <- attributes(x)$index
 
   #name
   sequence_name <- attributes(x)$sequence_name
@@ -149,6 +152,8 @@ plot_sequence <- function(
     plot.y <- df[, names(color)[1]]
     x.axis.side <- 1
     y.axis.side <- 2
+    xlim <- NULL
+    ylim <- NULL
     sequence_name.x <- sequence_name
     sequence_name.y <- NULL
 
@@ -156,8 +161,8 @@ plot_sequence <- function(
 
     plot.x <- df[, names(color)[1]]
     plot.y <- df.time
-    x.axis.side <- 2
-    y.axis.side <- 3
+    x.axis.side <- 3
+    y.axis.side <- 2
     xlim <- rev(ylim)
     ylim <- NULL
     sequence_name.x <- NULL
@@ -183,37 +188,59 @@ plot_sequence <- function(
     col = color[1]
   )
 
-  graphics::axis(
-    side = x.axis.side,
-    las = 1,
-    cex.axis = axis_labels_cex
-  )
 
-  graphics::axis(
-    side = y.axis.side,
-    las = 1,
-    cex.axis = axis_labels_cex
-  )
+  if(inherits(x = plot.x, what = "Date") == TRUE){
+    graphics::axis.Date(
+      side = x.axis.side,
+      las = 1,
+      cex.axis = axis_labels_cex
+    )
+  } else {
+    graphics::axis(
+      side = x.axis.side,
+      las = 1,
+      cex.axis = axis_labels_cex
+    )
+  }
+
+  if(inherits(x = plot.y, what = "Date") == TRUE){
+    graphics::axis.Date(
+      side = y.axis.side,
+      las = 1,
+      cex.axis = axis_labels_cex
+    )
+  } else {
+    graphics::axis(
+      side = y.axis.side,
+      las = 1,
+      cex.axis = axis_labels_cex
+    )
+  }
 
   #add all the other lines
-  for(i in seq(from = 2, to = length(x_colnames), by = 1)){
+  if(length(x_colnames) > 1){
 
-    if(vertical == FALSE){
-      line.x <- df.time
-      line.y <- df[, names(color)[i]]
-    } else {
-      line.x <- df[, names(color)[i]]
-      line.y <- df.time
+    for(i in seq(from = 2, to = length(x_colnames), by = 1)){
+
+      if(vertical == FALSE){
+        line.x <- df.time
+        line.y <- df[, names(color)[i]]
+      } else {
+        line.x <- df[, names(color)[i]]
+        line.y <- df.time
+      }
+
+      graphics::lines(
+        x = line.x,
+        y = line.y,
+        lwd = width[i],
+        col = color[i]
+      )
+
     }
 
-    graphics::lines(
-      x = line.x,
-      y = line.y,
-      lwd = width[i],
-      col = color[i]
-    )
-
   }
+
 
   #decoration
   if(subpanel == FALSE){

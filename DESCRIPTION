@@ -21,11 +21,11 @@ Imports:
   doFuture,
   future,
   foreach,
-  progressr,
   zoo
 Suggests: 
-    roxyglobals,
-    testthat (>= 3.0.0)
+  progressr,
+  roxyglobals,
+  testthat (>= 3.0.0)
 Roxygen: list(roclets = c("collate", "namespace", "rd",
     "roxyglobals::global_roclet"))
 Config/roxyglobals/filename: globals.R

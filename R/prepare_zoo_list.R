@@ -52,17 +52,17 @@ prepare_zoo_list <- function(
 
   # + keep numeric columns
   ###################################################################
-  x <- lapply(
-    X = x,
-    FUN = function(x){
-      x <- x[, sapply(x, is.numeric), drop = FALSE]
-    }
-  )
-
-  # check column names
-  x <- prepare_column_names(
-    x = x
-  )
+  # x <- lapply(
+  #   X = x,
+  #   FUN = function(x){
+  #     x <- x[, sapply(x, is.numeric), drop = FALSE]
+  #   }
+  # )
+  #
+  # # check column names
+  # x <- prepare_column_names(
+  #   x = x
+  # )
 
   #handle time column
   ####################
@@ -88,11 +88,16 @@ prepare_zoo_list <- function(
     X = x,
     FUN = function(x){
 
+      #get numeric columns only
+      x <- x[, sapply(x, is.numeric), drop = FALSE]
+
+      #convert to zoo
       x <- zoo::zoo(
         x = x,
         order.by = attributes(x)$index
         )
 
+      #handle na
       x <- prepare_na(
         x = x,
         pseudo_zero = pseudo_zero,
@@ -101,15 +106,6 @@ prepare_zoo_list <- function(
 
       return(x)
 
-    }
-  )
-
-  # + add attribute validated
-  x <- lapply(
-    X = x,
-    FUN = function(x){
-      attr(x, "validated") <- TRUE
-      return(x)
     }
   )
 

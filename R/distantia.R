@@ -139,7 +139,12 @@ distantia <- function(
 
   iterations <- seq_len(nrow(df))
 
-  p <- progressr::progressor(along = iterations)
+  if(requireNamespace("progressor", quietly = TRUE)){
+    p <- progressr::progressor(along = iterations)
+  } else {
+    p <- function(...){}
+  }
+
 
   `%iterator%` <- doFuture::`%dofuture%`
 
