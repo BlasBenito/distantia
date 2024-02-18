@@ -75,13 +75,18 @@ subset_sequences <- function(
     x <- lapply(
       X = x,
       FUN = function(i){
-        i_attributes <- attributes(i)
+        i.name <- attributes(i)$name
         i <- i[, variables, drop = FALSE]
-        attr(x = i, which = "time") <- i_attributes$time
-        attr(x = i, which = "sequence_name") <- i_attributes$sequence_name
+        colnames(i) <- variables
+        dimnames(i) <- list(
+          attributes(i)$index,
+          variables
+          )
+        attr(x = i, which = "name") <- i.name
         return(i)
       }
-    )
+    ) |>
+      suppressWarnings()
 
   }
 
@@ -106,8 +111,6 @@ subset_sequences <- function(
       as.numeric() |>
       sort()
 
-    time <- as.numeric(time)
-
     all_times.range <- range(all_times, na.rm = TRUE)
 
     if(
@@ -129,26 +132,18 @@ subset_sequences <- function(
         X = x,
         FUN = function(i){
 
-          i_attributes <- attributes(i)
+          i.name <- attributes(i)$name
 
-          i_time <- i_attributes$time
+          i <- stats::window(
+            i,
+            start = min(time),
+            end = max(time)
+          )
 
-          i_rows <- which(
-            i_time >= min(time) &
-              i_time <= max(time)
-            )
+          attr(x = i, which = "name") <- i.name
 
-          i_time <- i_time[i_rows]
-
-          if(length(i_rows) == 0){
-            return(NULL)
-          }
-
-          i <- i[i_rows, , drop = FALSE]
-
-          attr(x = i, which = "time") <- i_time
-          attr(x = i, which = "validated") <- i_attributes$validated
           return(i)
+
         }
       )
 

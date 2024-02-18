@@ -81,7 +81,25 @@ prepare_sequences <- function(
     x = x
   )
 
-  #list of matrices
+
+  #handle time column
+  ####################
+  # + if time column
+  #   + if not numeric: ERROR
+  #   + else if arrange by time column
+  # + if no time column
+  #   + if paired samples: ERROR
+  #   + add row_id
+  #   + set time_column to row_id
+  # + if paired samples, keep paired samples only
+  # + add time column to attribute "time" and remove from df
+  x <- prepare_time(
+    x = x,
+    time_column = time_column,
+    paired_samples = paired_samples
+  )
+
+  #list of zoo objects
   x <- prepare_zoo_list(
     x = x,
     time_column = time_column,

@@ -39,7 +39,7 @@ auto_distance <- function(
 
     #error if path does not correspond to the sequences
     if(
-      !(attributes(x)$sequence_name %in% names(path)[c(1, 2)])
+      !(attributes(x)$name %in% names(path)[c(1, 2)])
     ){
       stop(
         "Argument 'path' was computed for the sequences ",
@@ -48,7 +48,7 @@ auto_distance <- function(
           collapse =  " and "
         ),
         ", but sequence 'x' is named ",
-        attributes(x)$sequence_name,
+        attributes(x)$name,
         "."
         )
     }
@@ -56,7 +56,7 @@ auto_distance <- function(
     #subset sequence
     x.path <- subset_matrix_by_rows_cpp(
       m = x,
-      rows = path[[attributes(x)$sequence_name]]
+      rows = path[[attributes(x)$name]]
     )
 
   }

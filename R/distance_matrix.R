@@ -53,8 +53,8 @@ distance_matrix <- function(
   )
 
   #adding attributes
-  attr(x = m, which = "x_name") <- attributes(xy[[1]])$sequence_name
-  attr(x = m, which = "y_name") <- attributes(xy[[2]])$sequence_name
+  attr(x = m, which = "x_name") <- attributes(xy[[1]])$name
+  attr(x = m, which = "y_name") <- attributes(xy[[2]])$name
   attr(x = m, which = "type") <- "distance"
   attr(x = m, which = "distance") <- distance
 

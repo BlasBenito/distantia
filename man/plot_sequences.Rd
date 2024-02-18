@@ -15,7 +15,7 @@ plot_sequences(
   width = 1,
   text_cex = 1,
   guide = TRUE,
-  guide_columns = 1,
+  guide_columns = 2,
   guide_cex = 0.8
 )
 }

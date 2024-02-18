@@ -32,7 +32,7 @@ plot_sequences <- function(
     width = 1,
     text_cex = 1,
     guide = TRUE,
-    guide_columns = 1,
+    guide_columns = 2,
     guide_cex = 0.8
 ){
 
@@ -101,7 +101,7 @@ plot_sequences <- function(
       )
 
       graphics::title(
-        ylab = attributes(x[[i]])$sequence_name,
+        ylab = attributes(x[[i]])$name,
         line = axis_title_distance,
         cex.lab = text_cex
       )

@@ -93,6 +93,11 @@ plot_utils_line_guide <- function(
 
   }
 
+  xcoords <- c(0, cumsum( strwidth(names(color), cex = 0.5))[-length(names(color))])
+  secondvector <- (1:length(names(color)))-1
+  textwidths <- xcoords/secondvector
+  textwidths[1] <- 0
+
   graphics::legend(
     x = position_x,
     y = position_y,
@@ -107,7 +112,8 @@ plot_utils_line_guide <- function(
     title = NULL,
     y.intersp = text_cex,
     x.intersp = text_cex,
-    xjust = 0.5
+    xjust = 0.5,
+    text.width = textwidths
   )
 
 

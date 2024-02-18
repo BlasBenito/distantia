@@ -50,68 +50,41 @@ prepare_zoo_list <- function(
     stop("All elements in the list 'x' must be named.")
   }
 
-  # + keep numeric columns
-  ###################################################################
-  # x <- lapply(
-  #   X = x,
-  #   FUN = function(x){
-  #     x <- x[, sapply(x, is.numeric), drop = FALSE]
-  #   }
-  # )
-  #
-  # # check column names
-  # x <- prepare_column_names(
-  #   x = x
-  # )
-
-  #handle time column
-  ####################
-  # + if time column
-  #   + if not numeric: ERROR
-  #   + else if arrange by time column
-  # + if no time column
-  #   + if paired samples: ERROR
-  #   + add row_id
-  #   + set time_column to row_id
-  # + if paired samples, keep paired samples only
-  # + add time column to attribute "time" and remove from df
-  x <- prepare_time(
-    x = x,
-    time_column = time_column,
-    paired_samples = paired_samples
-  )
-
-
   # + convert to matrix
   ###################
   x <- lapply(
     X = x,
-    FUN = function(x){
+    FUN = function(i){
+
+      i.name <- attributes(i)$name
+      i.index <- attributes(i)$index
 
       #get numeric columns only
-      x <- x[, sapply(x, is.numeric), drop = FALSE]
+      i <- i[, sapply(i, is.numeric), drop = FALSE]
 
       #convert to zoo
-      x <- zoo::zoo(
-        x = x,
-        order.by = attributes(x)$index
+      i <- zoo::zoo(
+        x = i,
+        order.by = i.index
         )
 
       #handle na
-      x <- prepare_na(
-        x = x,
+      i <- prepare_na(
+        x = i,
         pseudo_zero = pseudo_zero,
         na_action = na_action
       )
 
-      return(x)
+      attr(x = i, which = "name") <- i.name
+
+      return(i)
 
     }
   )
 
   #add attribute name
   for(i in seq_len(length(x))){
-    attr(x[[i]], "sequence_name") <- names(x)[[i]]
+    attr(x[[i]], "name") <- names(x)[[i]]
   }
 
   x

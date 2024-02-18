@@ -20,21 +20,22 @@ b.approx <- zoo::na.approx(
 
 #data frame with grouping column
 ###################################
-data(sequencesMIS)
+data(mis)
 
 y <- prepare_sequences(
-  x = sequencesMIS,
+  x = mis,
   id_column = "MIS"
 )
 
 y <- subset_sequences(
   x = y,
   sequences = c("MIS-1", "MIS-2", "MIS-3"),
-  variables = c("Quercus", "Carpinus")
+  variables = c("Quercus", "Carpinus"),
+  time = c(1, 10)
 )
 
 plot_sequence(
-  x = y[[1]]
+  x = y[[3]]
 )
 
 plot_sequences(

@@ -129,10 +129,10 @@ prepare_xy <- function(
 
   #storing attributes
   x.time <- attributes(x)$index
-  x.sequence_name <- attributes(x)$sequence_name
+  x.name <- attributes(x)$name
 
   y.time <- attributes(y)$index
-  y.sequence_name <- attributes(y)$sequence_name
+  y.name <- attributes(y)$name
 
   #subsetting to common columns
   if(ncol(x) != ncol(y)){
@@ -155,16 +155,16 @@ prepare_xy <- function(
 
   #restoring attributes
   attr(x = x, which = "time") <- x.time
-  attr(x = x, which = "sequence_name") <- x.sequence_name
+  attr(x = x, which = "name") <- x.name
 
   attr(x = y, which = "time") <- y.time
-  attr(x = y, which = "sequence_name") <- y.sequence_name
+  attr(x = y, which = "name") <- y.name
 
-  if(is.null(attributes(x)$sequence_name)){
+  if(is.null(attributes(x)$name)){
     attr(x, "name") <- "x"
   }
 
-  if(is.null(attributes(y)$sequence_name)){
+  if(is.null(attributes(y)$name)){
     attr(y, "name") <- "y"
   }
 
@@ -178,14 +178,14 @@ prepare_xy <- function(
 
   names(out) <- c(
     ifelse(
-      test = is.null(attributes(x)$sequence_name),
+      test = is.null(attributes(x)$name),
       yes = "x",
-      no = attributes(x)$sequence_name
+      no = attributes(x)$name
     ),
     ifelse(
-      test = is.null(attributes(y)$sequence_name),
+      test = is.null(attributes(y)$name),
       yes = "y",
-      no = attributes(y)$sequence_name
+      no = attributes(y)$name
     )
   )
 

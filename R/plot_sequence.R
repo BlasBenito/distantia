@@ -75,10 +75,10 @@ plot_sequence <- function(
     as.data.frame()
 
   #time column
-  df.time <- attributes(x)$index
+  df.time <- zoo::index(x)
 
   #name
-  sequence_name <- attributes(x)$sequence_name
+  name <- attributes(x)$name
 
   #names of columns to plot
   x_colnames <- colnames(df)
@@ -119,31 +119,15 @@ plot_sequence <- function(
 
   #data limits
   if(is.null(ylim)){
-    ymin <- min(df, na.rm = TRUE)
-  } else {
-    ymin <- ylim[1]
+    ylim <- range(df, na.rm = TRUE)
   }
-
-  if(is.null(ylim)){
-    ymax <- max(df, na.rm = TRUE)
-  } else {
-    ymax <- ylim[2]
+  if(is.null(xlim)){
+    xlim <- range(zoo::index(x))
   }
-
-  yrange <- ymax - ymin
 
   if(subpanel == TRUE){
-    ylim <- c(
-      ymin,
-      ymax + (yrange / 5)
-    )
-  } else {
-    ylim <- c(
-      ymin,
-      ymax
-    )
+    ylim[which.max(ylim)] <- ylim[which.max(ylim)] + (ylim[which.max(ylim)]/5)
   }
-
 
   #first plot
   if(vertical == FALSE){
@@ -152,10 +136,8 @@ plot_sequence <- function(
     plot.y <- df[, names(color)[1]]
     x.axis.side <- 1
     y.axis.side <- 2
-    xlim <- NULL
-    ylim <- NULL
-    sequence_name.x <- sequence_name
-    sequence_name.y <- NULL
+    name.x <- name
+    name.y <- NULL
 
   } else {
 
@@ -165,8 +147,8 @@ plot_sequence <- function(
     y.axis.side <- 2
     xlim <- rev(ylim)
     ylim <- NULL
-    sequence_name.x <- NULL
-    sequence_name.y <- sequence_name
+    name.x <- NULL
+    name.y <- name
 
   }
 
@@ -248,7 +230,7 @@ plot_sequence <- function(
     graphics::title(
       main = ifelse(
         test = is.null(title),
-        yes = sequence_name,
+        yes = name,
         no = title
       ),
       cex.main = main_title_cex,
@@ -278,8 +260,8 @@ plot_sequence <- function(
   } else {
 
     graphics::title(
-      xlab = sequence_name.x,
-      ylab = sequence_name.y,
+      xlab = name.x,
+      ylab = name.y,
       cex.lab = axis_title_cex,
       line = axis_title_distance
     )
