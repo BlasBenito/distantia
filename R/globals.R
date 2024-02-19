@@ -11,5 +11,6 @@ utils::globalVariables(c(
   "distances", # <distance>
   "i", # <distantia>
   "i", # <importance>
+  "pseudo_zero", # <ts_initialize>
   NULL
 ))

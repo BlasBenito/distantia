@@ -14,7 +14,7 @@
 #'
 #' When `paired_samples = TRUE` the computation method is only `robust`, as the comparison of paired samples does not require a least cost path.
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()].
+#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.

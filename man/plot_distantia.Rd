@@ -23,9 +23,9 @@ plot_distantia(
 )
 }
 \arguments{
-\item{x}{(required, sequence) a sequence generated via [prepare_sequences()] for the X axis of the multi-panel plot. Default: NULL}
+\item{x}{(required, sequence) a sequence generated via [ts_prepare()] for the X axis of the multi-panel plot. Default: NULL}
 
-\item{y}{(required, sequence) a sequence generated via [prepare_sequences()] for the Y axis of the multi-panel plot. Default: NULL}
+\item{y}{(required, sequence) a sequence generated via [ts_prepare()] for the Y axis of the multi-panel plot. Default: NULL}
 
 \item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
@@ -66,7 +66,7 @@ The argument `paired_samples` is not available because this multipanel plot does
 \examples{
 data(sequencesMIS)
 
-x <- prepare_sequences(
+x <- ts_prepare(
   x = sequencesMIS,
   id_column = "MIS"
 )

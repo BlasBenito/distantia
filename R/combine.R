@@ -2,7 +2,7 @@
 #'
 #' @description Combines two sequences by arranging their cases as defined in their orthogonal least cost path. When more than two sequences are provided in `x`, all sequences are first ordered according to their psi scores. Then, the first two sequences (the more similar ones) are combined first, and the remaining ones are added to the composite sequence one by one.
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()].
+#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
 #' @return Data frame with composite sequence and columns identifying the origin of each new row.
@@ -121,7 +121,7 @@ combine <- function(
 #' @description
 #' Arranges sequences in a list by similarity. This is an internal function for the [combine()] function.
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()].
+#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -188,7 +188,7 @@ arrange_by_similarity <- function(
 #' This is an internal function of [combine()].
 #'
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [prepare_sequences()]. For this function, only the first two elements in `x` are used.
+#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()]. For this function, only the first two elements in `x` are used.
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
 #' @return A least cost path

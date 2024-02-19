@@ -14,14 +14,14 @@
 #' @param id_column (optional, column name) Column name used for splitting a 'x' data frame into a list.
 #' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
 #' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
-#' @param pseudo_zero (optional, numeric) Value used to replace zeros in the data. Default: NULL.
-#' @param na_action (optional, character string) Action to handle missing values. Accepted values are:
+#' @param na_action (required, character) Action to handle NA data in `x`. Current options are:
 #' \itemize{
-#'   \item NULL: returns the input without changes.
-#'   \item "omit": applies [na.omit()] to each sequence.
-#'   \item "zero": replaces NA values with zero or `pseudo_zero`, if provided.
-#'   \item "impute": NA cases are imputed via [zoo::na.spline()]
-#' }. Default: NULL
+#'   \item "impute" (default): NA cases are interpolated against time via splines with [zoo::na.spline()].
+#'   \item "omit": rows with NA cases are removed.
+#'   \item "fill": NA cases are replaced with the value in `na_fill`.
+#' }
+#' @param na_fill (optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001
+#'
 #' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
 #' \itemize{
 #'   \item [f_proportion()]: to transform counts into proportions.
@@ -32,19 +32,19 @@
 #' @return A named list of matrices.
 #' @examples
 #' data(sequencesMIS)
-#' x <- prepare_sequences(
+#' x <- ts_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )
 #' @autoglobal
 #' @export
-prepare_sequences <- function(
+ts_initialize <- function(
     x = NULL,
     id_column = NULL,
     time_column = NULL,
     paired_samples = FALSE,
-    pseudo_zero = NULL,
-    na_action = "omit",
+    na_action = "impute",
+    na_fill = 0.0001,
     transformation = NULL
 ){
 
@@ -64,8 +64,6 @@ prepare_sequences <- function(
     x = x,
     id_column = id_column,
     time_column = time_column,
-    pseudo_zero = pseudo_zero,
-    na_action = na_action,
     transformation = transformation
   )
 
@@ -103,11 +101,20 @@ prepare_sequences <- function(
   x <- prepare_zoo_list(
     x = x,
     time_column = time_column,
-    pseudo_zero = pseudo_zero,
-    na_action = na_action,
     paired_samples = paired_samples
+  )
+
+  #handle NA
+  x <- ts_handle_NA(
+    x = x,
+    na_action = na_action,
+    na_fill = na_fill
   )
 
   x
 
 }
+
+#' @rdname ts_initialize
+#' @export
+ts_init <- ts_initialize

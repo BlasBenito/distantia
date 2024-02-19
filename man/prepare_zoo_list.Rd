@@ -7,8 +7,8 @@
 prepare_zoo_list(
   x = NULL,
   time_column = NULL,
-  pseudo_zero = NULL,
-  na_action = NULL,
+  na_action = "impute",
+  na_fill = 1e-04,
   paired_samples = FALSE
 )
 }
@@ -17,15 +17,14 @@ prepare_zoo_list(
 
 \item{time_column}{(optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
 
-\item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
-
-\item{na_action}{(optional, character string) Action to handle missing values. default: NULL.
+\item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
 \itemize{
-  \item NULL: returns the input without changes.
-  \item "omit": applies [na.omit()] to each sequence.
-  \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-  \item "impute": not implemented yet.
+  \item "impute" (default): NA cases are interpolated against time via splines with [zoo::na.spline()].
+  \item "omit": rows with NA cases are removed.
+  \item "fill": NA cases are replaced with the value in `na_fill`.
 }}
+
+\item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
 
 \item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 }
@@ -37,7 +36,7 @@ Prepare List of Data Frames for Dissimilarity Analysis
 }
 \examples{
 data(sequencesMIS)
-x <- prepare_sequences(
+x <- ts_prepare(
   x = sequencesMIS,
   id_column = "MIS"
 )

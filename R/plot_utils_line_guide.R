@@ -1,6 +1,6 @@
 #' Legend for Sequence Plots
 #'
-#' @param x (required, sequence) a single sequence or set of sequences generated via [prepare_sequences()]. Default: NULL
+#' @param x (required, sequence) a single sequence or set of sequences generated via [ts_prepare()]. Default: NULL
 #' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
 #' @param color (optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param width (optional, numeric vector) Widths of the sequence curves. Default: 1
@@ -12,7 +12,7 @@
 #' @examples
 #' data(sequencesMIS)
 #'
-#' x <- prepare_sequences(
+#' x <- ts_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )

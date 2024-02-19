@@ -7,7 +7,7 @@
 combine(x = NULL, distance = "euclidean")
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [prepare_sequences()].}
+\item{x}{(required, list of matrices) list of input matrices generated with [ts_prepare()].}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 }

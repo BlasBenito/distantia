@@ -8,8 +8,6 @@ prepare_df(
   x = NULL,
   id_column = NULL,
   time_column = NULL,
-  pseudo_zero = NULL,
-  na_action = NULL,
   transformation = NULL
 )
 }
@@ -19,16 +17,6 @@ prepare_df(
 \item{id_column}{(optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL}
 
 \item{time_column}{(optional, column name) Name of the column representing time, if any. Default: NULL.}
-
-\item{pseudo_zero}{(optional, numeric) Value used to replace zeros in the data. Default: NULL.}
-
-\item{na_action}{(optional, character string) Action to handle missing values. default: NULL.
-\itemize{
-  \item NULL: returns the input without changes.
-  \item "omit": applies [na.omit()] to each sequence.
-  \item "to_zero": replaces NA values with zero or `pseudo_zero`, if provided.
-  \item "impute": not implemented yet.
-}}
 
 \item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
 \itemize{

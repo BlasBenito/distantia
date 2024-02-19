@@ -40,10 +40,9 @@ plot_sequence(
 
 plot_sequences(
   x = y,
-  columns = 2
+  columns = 2,
+  guide_columns = 1
 )
-
-
 
 
 plot_distantia(

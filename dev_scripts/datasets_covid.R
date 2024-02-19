@@ -30,3 +30,8 @@ y <- prepare_sequences(
   id_column = "county",
   time_column = "date"
 )
+
+plot_distantia(
+  x = y[[1]],
+  y = y[[2]]
+)

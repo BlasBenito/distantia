@@ -4,7 +4,7 @@
 #' This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.
 #'
 #'
-#' @param x (required, sequence) a single sequence or set of sequences generated via [prepare_sequences()]. Default: NULL
+#' @param x (required, sequence) a single sequence or set of sequences generated via [ts_prepare()]. Default: NULL
 #' @param color (optional, character vector) vector of colors for the sequence columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return Named vector of colors
