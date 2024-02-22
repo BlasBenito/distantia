@@ -10,7 +10,7 @@
 #'   sequenceB
 #' )
 #'
-#' distance.matrix <- distance_matrix(
+#' distance.matrix <- psi_dist_matrix(
 #'   y = sequenceA,
 #'   x = sequenceB,
 #'   distance = "manhattan"
@@ -23,7 +23,7 @@
 #' @return A distance matrix.
 #' @export
 #' @autoglobal
-distance_matrix <- function(
+psi_dist_matrix <- function(
     x = NULL,
     y = NULL,
     distance = "euclidean"

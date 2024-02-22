@@ -38,7 +38,7 @@
 #' @return A plot.
 #' @autoglobal
 #' @export
-plot_distantia <- function(
+psi_plot <- function(
     x = NULL,
     y = NULL,
     distance = "euclidean",
@@ -101,20 +101,20 @@ plot_distantia <- function(
   xy_psi <- round(xy_psi, 3)
 
   # Distance and cost matrices ----
-  dist_m <- distance_matrix(
+  dist_m <- psi_dist_matrix(
     x = xy[[1]],
     y = xy[[2]],
     distance = distance
   )
 
-  cost_m <- cost_matrix(
+  cost_m <- psi_cost_matrix(
     dist_matrix = dist_m,
     diagonal = diagonal,
     weighted = weighted
   )
 
   # Cost path ----
-  path <- cost_path(
+  path <- psi_cost_path(
     dist_matrix = dist_m,
     cost_matrix = cost_m,
     diagonal = diagonal
@@ -132,14 +132,14 @@ plot_distantia <- function(
   #remove blocks and re-compute sum
   if(ignore_blocks == TRUE){
 
-    path <- cost_path_trim(
+    path <- psi_cost_path_trim_blocks(
       path = path
     )
 
   }
 
   #path sum
-  path_sum <- cost_path_sum(
+  path_sum <- psi_cost_path_sum(
     path = path
   ) |>
     round(2)
@@ -151,7 +151,7 @@ plot_distantia <- function(
   plt_x <- c(0.35, 0.8, 0.1, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
   plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
-  plt_line_guide <- c(0.80, 0.95, 0.05, 0.25)
+  plt_line_guide <- c(0.70, 0.95, 0.05, 0.25)
 
   # Plot matrix ----
   par(
@@ -195,7 +195,7 @@ plot_distantia <- function(
     bty = "n"
     )
 
-  plot_sequence(
+  plot_utils_line_plot(
     x = y,
     center = line_center,
     scale = line_scale,
@@ -207,7 +207,7 @@ plot_distantia <- function(
     subpanel = TRUE
   )
 
-  y_sum <- auto_distance(
+  y_sum <- psi_auto_distance(
     x = y,
     path = path,
     distance = distance
@@ -233,7 +233,7 @@ plot_distantia <- function(
     bty = "n"
     )
 
-  plot_sequence(
+  plot_utils_line_plot(
     x = x,
     center = line_center,
     scale = line_scale,
@@ -245,7 +245,7 @@ plot_distantia <- function(
     subpanel = TRUE
   )
 
-  x_sum <- auto_distance(
+  x_sum <- psi_auto_distance(
     x = x,
     path = path,
     distance = distance

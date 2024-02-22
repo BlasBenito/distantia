@@ -2,7 +2,7 @@
 #'
 #' @description Computes the dissimilarity metric \code{psi} (Birks and Gordon 1985).
 #' @param path_sum (required, numeric) Result of [path_sum()] on the least cost path between the sequences to compare.
-#' @param auto_sum (required, numeric) Result of [auto_sum()] on the sequences to compare. Default: NULL
+#' @param auto_sum (required, numeric) Result of [psi_auto_sum()] on the sequences to compare. Default: NULL
 #' @param diagonal (optional, logical) If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Used to correct the computation of `psi` when diagonals are used.
 #' @details The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
 #'
@@ -26,23 +26,23 @@
 #'   as.matrix()
 #'
 #'
-#' d <- distance_matrix(
+#' d <- psi_dist_matrix(
 #'   x,
 #'   y
 #' )
 #'
-#' m <- cost_matrix(
+#' m <- psi_cost_matrix(
 #'   dist_matrix = d
 #' )
 #'
-#' path <- cost_path(
+#' path <- psi_cost_path(
 #'   dist_matrix = d,
 #'   cost_matrix = m
 #' )
 #'
 #' path_sum <- path_sum(path)
 #'
-#' xy_sum <- auto_sum(
+#' xy_sum <- psi_auto_sum(
 #'   x = x,
 #'   y = y,
 #'   path = path

@@ -19,13 +19,13 @@
 #'
 #' m <- cost_matrix(dist_matrix = d)
 #'
-#' path <- cost_path(
+#' path <- psi_cost_path(
 #'   dist_matrix = d,
 #'   cost_matrix = m
 #'   )
 #'
 #' @autoglobal
-cost_path <- function(
+psi_cost_path <- function(
     dist_matrix = NULL,
     cost_matrix = NULL,
     diagonal = FALSE

@@ -4,27 +4,12 @@
 \alias{prepare_zoo_list}
 \title{Prepare List of Data Frames for Dissimilarity Analysis}
 \usage{
-prepare_zoo_list(
-  x = NULL,
-  time_column = NULL,
-  na_action = "impute",
-  na_fill = 1e-04,
-  paired_samples = FALSE
-)
+prepare_zoo_list(x = NULL, time_column = NULL, paired_samples = FALSE)
 }
 \arguments{
 \item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
 
 \item{time_column}{(optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
-
-\item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
-\itemize{
-  \item "impute" (default): NA cases are interpolated against time via splines with [zoo::na.spline()].
-  \item "omit": rows with NA cases are removed.
-  \item "fill": NA cases are replaced with the value in `na_fill`.
-}}
-
-\item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
 
 \item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 }

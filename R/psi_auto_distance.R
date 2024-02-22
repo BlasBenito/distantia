@@ -1,14 +1,14 @@
 #' Sum of Auto Distances Between Adjacent Cases in a Sequence
 #'
-#' @param y (required, data frame or matrix) a sequence.
-#' @param path (optional, data frame) result of [cost_path_trim()], only required if blocks in the least cost path were ignored.
+#' @param x (required, data frame or matrix) a sequence.
+#' @param path (optional, data frame) result of [psi_cost_path_trim_blocks()], only required if blocks in the least cost path were ignored.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
 #' @return Sum of auto distances
 #' @export
 #' @autoglobal
 #' @examples #TODO
-auto_distance <- function(
+psi_auto_distance <- function(
     x = NULL,
     path = NULL,
     distance = "euclidean"

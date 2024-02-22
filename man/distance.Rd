@@ -2,7 +2,7 @@
 % Please edit documentation in R/distance.R
 \name{distance}
 \alias{distance}
-\title{Distance Between Two Numeric or Binary Vectors}
+\title{Distance Between Numeric Vectors}
 \usage{
 distance(x = NULL, y = NULL, distance = "euclidean")
 }

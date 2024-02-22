@@ -129,7 +129,7 @@ check_args <- function(
 
 #' Checks Least Cost Path
 #'
-#' @param path (required, data frame) least cost path generated with [cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
+#' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return Least cost path
@@ -164,7 +164,7 @@ check_args_path <- function(
     stop(
       "Argument ",
       arg_name,
-      " must be a data frame resulting from distantia::cost_path()."
+      " must be a data frame resulting from distantia::psi_cost_path()."
     )
   }
 
@@ -174,7 +174,7 @@ check_args_path <- function(
 
 #' Checks Input Matrix
 #'
-#' @param m (required, matrix) distance or cost matrix resulting from [distance_matrix()] or [cost_matrix()]. Default: NULL
+#' @param m (required, matrix) distance or cost matrix resulting from [psi_dist_matrix()] or [psi_cost_matrix()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return Argument m.
@@ -209,7 +209,7 @@ check_args_matrix <- function(
     stop(
       "Argument ",
       arg_name,
-      " must be a distance or cost matrix resulting from distantia::distance_matrix() or distantia::cost_matrix()."
+      " must be a distance or cost matrix resulting from distantia::psi_dist_matrix() or distantia::psi_cost_matrix()."
       )
   }
 

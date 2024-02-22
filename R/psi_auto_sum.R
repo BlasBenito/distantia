@@ -4,7 +4,7 @@
 #'
 #' @param y (required, data frame) a sequence. Default: NULL.
 #' @param x (required, data frame) a sequence. Default: NULL.
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Only required when [cost_path_trim()] has been applied to `path`. Default: NULL.
+#' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Only required when [psi_cost_path_trim_blocks()] has been applied to `path`. Default: NULL.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return Named vector with the auto sums of `y` and `x`.
 #' @examples
@@ -18,7 +18,7 @@
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' xy_sum <- auto_sum(
+#' xy_sum <- psi_auto_sum(
 #'   y = y,
 #'   x = x,
 #'   distance = "manhattan"
@@ -28,7 +28,7 @@
 #'
 #' @export
 #' @autoglobal
-auto_sum <- function(
+psi_auto_sum <- function(
     y = NULL,
     x = NULL,
     path = NULL,

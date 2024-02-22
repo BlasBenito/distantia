@@ -7,7 +7,7 @@
 check_args_path(path = NULL, arg_name = "path")
 }
 \arguments{
-\item{path}{(required, data frame) least cost path generated with [cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.}
+\item{path}{(required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.}
 
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }

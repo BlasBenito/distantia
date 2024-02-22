@@ -1,6 +1,6 @@
 #' Sum of Distances in Least-cost Path
 #'
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Default: NULL
 #' @return Sum of distances.
 #' @examples
 #'
@@ -18,7 +18,7 @@
 #'
 #' m <- cost_matrix(dist_matrix = d)
 #'
-#' path <- cost_path(
+#' path <- psi_cost_path(
 #'   dist_matrix = d,
 #'   cost_matrix = m
 #'   )
@@ -27,7 +27,7 @@
 #'
 #' @autoglobal
 #' @export
-cost_path_sum <- function(path = NULL){
+psi_cost_path_sum <- function(path = NULL){
 
   path <- check_args_path(
     path = path

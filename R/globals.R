@@ -5,12 +5,11 @@ utils::globalVariables(c(
   "y", # <combination_path>
   "y_", # <combination_path>
   "x_", # <combination_path>
-  "group_size_y", # <cost_path_trim>
-  "cost", # <cost_path_trim>
-  "group_size_x", # <cost_path_trim>
   "distances", # <distance>
   "i", # <distantia>
   "i", # <importance>
-  "pseudo_zero", # <ts_initialize>
+  "group_size_y", # <psi_cost_path_trim_blocks>
+  "cost", # <psi_cost_path_trim_blocks>
+  "group_size_x", # <psi_cost_path_trim_blocks>
   NULL
 ))

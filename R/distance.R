@@ -1,4 +1,4 @@
-#' Distance Between Two Numeric or Binary Vectors
+#' Distance Between Numeric Vectors
 #'
 #' @description Computes the distance between two numeric or binary vectors.
 #' @param x (required, numeric vector).
@@ -34,18 +34,6 @@ distance <- function(
     stop("Arguments 'x' and 'y' must be of the same length.")
   }
 
-  #checking for NA
-  if(sum(is.na(x)) > 0){
-    stop("Argument 'x' has NA values. Please remove or imputate them before the distance computation.")
-  }
-  if(sum(is.na(y)) > 0){
-    stop("Argument 'y' has NA values. Please remove or imputate them before the distance computation.")
-  }
-
-  distance <- check_args_distance(
-    distance = distance
-  )[1]
-
   #handling NA
   df <- data.frame(
     x = x,
@@ -65,6 +53,10 @@ distance <- function(
     df[df == 0] <- pseudozero
 
   }
+
+  distance <- check_args_distance(
+    distance = distance
+  )[1]
 
   #generate expression
   expression <- paste0(

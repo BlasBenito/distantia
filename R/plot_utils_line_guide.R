@@ -28,6 +28,7 @@ plot_utils_line_guide <- function(
     position = "topright",
     color = NULL,
     width = 1,
+    length = 1,
     text_cex = 0.7,
     ncol = 1,
     subpanel = FALSE
@@ -113,7 +114,8 @@ plot_utils_line_guide <- function(
     y.intersp = text_cex,
     x.intersp = text_cex,
     xjust = 0.5,
-    text.width = textwidths
+    text.width = textwidths,
+    seg.len = length
   )
 
 

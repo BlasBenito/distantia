@@ -26,6 +26,13 @@ ts_handle_NA <- function(
 
   x.class <- class(x)
 
+  x.names <- lapply(
+    X = x,
+    FUN = function(x){
+      attributes(x)$name
+    }
+  )
+
   #check NA action argument
   na_action <- match.arg(
     arg = na_action,
@@ -62,6 +69,16 @@ ts_handle_NA <- function(
   }
 
   class(x) <- x.class
+
+  #reset name attributes
+  x <- Map(
+    f = function(df, name) {
+      attr(x = df, which = "name") <- name
+      df
+    },
+    x,
+    x.names
+  )
 
   x
 

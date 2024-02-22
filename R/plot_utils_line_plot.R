@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-plot_sequence <- function(
+plot_utils_line_plot <- function(
     x = NULL,
     center = FALSE,
     scale = FALSE,

@@ -81,7 +81,7 @@ ts_plot <- function(
 
     if(i <= length(x)){
 
-      plot_sequence(
+      plot_utils_line_plot(
         x = x[[i]],
         center = center,
         scale = scale,

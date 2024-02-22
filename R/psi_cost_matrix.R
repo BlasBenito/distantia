@@ -20,13 +20,13 @@
 #'   na.omit() |>
 #'   as.matrix()
 #'
-#' distance.matrix <- distance_matrix(
+#' distance.matrix <- psi_dist_matrix(
 #'   x = x,
 #'   y = y,
 #'   distance = "manhattan"
 #' )
 #'
-#' cost.matrix <- cost_matrix(
+#' cost.matrix <- psi_cost_matrix(
 #'   dist_matrix = distance.matrix,
 #'   diagonal = FALSE
 #'   )
@@ -38,7 +38,7 @@
 #'
 #' @autoglobal
 #' @export
-cost_matrix <- function(
+psi_cost_matrix <- function(
     dist_matrix = NULL,
     diagonal = FALSE,
     weighted = FALSE

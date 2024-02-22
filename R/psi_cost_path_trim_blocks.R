@@ -2,7 +2,7 @@
 #'
 #' @description Removes blocks (straight segments of the path that appear in highly dissimilar regions of the sequences) from least-cost paths. Blocks inflate psi values when two sequences are similar but have very different numbers of rows.
 #'
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Default: NULL
 #' @return A data frame with a least-cost path with no blocks.
 #'
 #' @examples
@@ -16,16 +16,16 @@
 #'   as.matrix()
 #'
 #'
-#' dm <- distance_matrix(
+#' dm <- psi_dist_matrix(
 #'   x = x,
 #'   y = y
 #'   )
 #'
-#' cm <- cost_matrix(
+#' cm <- psi_cost_matrix(
 #'   dist_matrix = dm
 #'   )
 #'
-#' path <- cost_path(
+#' path <- psi_cost_path(
 #'   dist_matrix = dm,
 #'   cost_matrix = cm
 #' )
@@ -36,7 +36,7 @@
 #'   plotMatrix(cm, path)
 #' }
 #'
-#' path <- cost_path_trim(path = path)
+#' path <- psi_cost_path_trim_blocks((path = path)
 #'
 #' nrow(path)
 #'
@@ -46,7 +46,7 @@
 #'
 #'@export
 #'@autoglobal
-cost_path_trim <- function(path = NULL){
+psi_cost_path_trim_blocks <- function(path = NULL){
 
   path <- check_args_path(
     path = path

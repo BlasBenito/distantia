@@ -9,7 +9,7 @@ psi(path_sum = NULL, auto_sum = NULL, diagonal = FALSE)
 \arguments{
 \item{path_sum}{(required, numeric) Result of [path_sum()] on the least cost path between the sequences to compare.}
 
-\item{auto_sum}{(required, numeric) Result of [auto_sum()] on the sequences to compare. Default: NULL}
+\item{auto_sum}{(required, numeric) Result of [psi_auto_sum()] on the sequences to compare. Default: NULL}
 
 \item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Used to correct the computation of `psi` when diagonals are used.}
 }
@@ -35,23 +35,23 @@ y <- sequenceA |>
   as.matrix()
 
 
-d <- distance_matrix(
+d <- psi_dist_matrix(
   x,
   y
 )
 
-m <- cost_matrix(
+m <- psi_cost_matrix(
   dist_matrix = d
 )
 
-path <- cost_path(
+path <- psi_cost_path(
   dist_matrix = d,
   cost_matrix = m
 )
 
 path_sum <- path_sum(path)
 
-xy_sum <- auto_sum(
+xy_sum <- psi_auto_sum(
   x = x,
   y = y,
   path = path
