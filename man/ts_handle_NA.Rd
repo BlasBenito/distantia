@@ -4,19 +4,22 @@
 \alias{ts_handle_NA}
 \title{Handle NA data in Time Series}
 \usage{
-ts_handle_NA(x = NULL, na_action = "impute", na_fill = 1e-04)
+ts_handle_NA(x = NULL, na_action = "none", na_fill = 1e-04, verbose = TRUE)
 }
 \arguments{
 \item{x}{(required, list of zoo objects) List of time series. Default: NULL}
 
 \item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
 \itemize{
-  \item "impute" (default): NA cases are interpolated against time via splines with [zoo::na.spline()].
+  \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
+  \item "impute" : NA cases are interpolated against time via splines with [zoo::na.spline()].
   \item "omit": rows with NA cases are removed.
   \item "fill": NA cases are replaced with the value in `na_fill`.
 }}
 
 \item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
+
+\item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }
 \description{
 Handle NA data in Time Series

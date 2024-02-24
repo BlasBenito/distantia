@@ -4,7 +4,7 @@
 \alias{f_percentage}
 \title{Transformation to Percentage}
 \usage{
-f_percentage(x)
+f_percentage(x, ...)
 }
 \arguments{
 \item{x}{Data frame or matrix.}

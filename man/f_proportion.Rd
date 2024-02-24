@@ -4,7 +4,7 @@
 \alias{f_proportion}
 \title{Transformation to Proportions}
 \usage{
-f_proportion(x)
+f_proportion(x, ...)
 }
 \arguments{
 \item{x}{Data frame or matrix.}

@@ -4,7 +4,7 @@
 \alias{f_hellinger}
 \title{Hellinger Transformation}
 \usage{
-f_hellinger(x)
+f_hellinger(x, ...)
 }
 \arguments{
 \item{x}{Data frame or matrix.}

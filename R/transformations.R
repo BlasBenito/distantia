@@ -5,13 +5,7 @@
 #' @return Data frame or matrix
 #' @export
 #' @autoglobal
-f_proportion <- function(x){
-
-  x <- prepare_na(
-    x = x,
-    pseudo_zero = 0.0001,
-    na_action = "to_zero"
-  )
+f_proportion <- function(x, ...){
 
   y <- sweep(
     x = x,
@@ -30,7 +24,7 @@ f_proportion <- function(x){
 #' @return Data frame or matrix
 #' @export
 #' @autoglobal
-f_percentage <- function(x){
+f_percentage <- function(x, ...){
   f_proportion(x)*100
 }
 
@@ -41,13 +35,7 @@ f_percentage <- function(x){
 #' @return Data frame or matrix
 #' @export
 #' @autoglobal
-f_hellinger <- function(x){
-
-  x <- prepare_na(
-    x = x,
-    pseudo_zero = 0.0001,
-    na_action = "to_zero"
-  )
+f_hellinger <- function(x, ...){
 
   y <- sqrt(
     sweep(
@@ -69,12 +57,12 @@ f_hellinger <- function(x){
 #' @return Data frame or matrix
 #' @export
 #' @autoglobal
-f_scale <- function(x){
-  as.data.frame(
-    scale(
-      x = x,
-      center = TRUE,
-      scale = TRUE
-    )
+f_scale <- function(x, ...){
+
+  scale(
+    x = x,
+    center = TRUE,
+    scale = TRUE
   )
+
 }

@@ -4,12 +4,7 @@
 \alias{prepare_df}
 \title{Data Frame to List of Data Frames}
 \usage{
-prepare_df(
-  x = NULL,
-  id_column = NULL,
-  time_column = NULL,
-  transformation = NULL
-)
+prepare_df(x = NULL, id_column = NULL, time_column = NULL)
 }
 \arguments{
 \item{x}{(required, data frame) Input data frame. Default: NULL.}
@@ -17,14 +12,6 @@ prepare_df(
 \item{id_column}{(optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL}
 
 \item{time_column}{(optional, column name) Name of the column representing time, if any. Default: NULL.}
-
-\item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
-\itemize{
-  \item [f_proportion()]: to transform counts into proportions.
-  \item [f_percentage()]: to transform counts into percentages.
-  \item [f_hellinger()]: to apply a Hellinger transformation.
-  \item [f_scale()]: to center and scale the data.
-  }}
 }
 \value{
 List of data frames

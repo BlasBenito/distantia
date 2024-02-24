@@ -3,19 +3,31 @@ library(distantia)
 data("abernethy_a")
 data("abernethy_b")
 
-aber <- ts_initialize(
+x <- ts_initialize(
   x = list(
     a = abernethy_a,
     b = abernethy_b
   )
 )
 
-ts_plot(aber, guide_columns = 2)
+ts_plot(x, guide_columns = 2)
 
-aber <- ts_handle_NA(
-  x = aber,
+x <- ts_handle_NA(
+  x = x,
   na_action = "impute"
   )
+
+x <- ts_transform(
+  x = x,
+  f = f_scale
+)
+
+x <- ts_transform(
+  x = x,
+  f = scale,
+  center = TRUE,
+  scale = TRUE
+)
 
 
 data(mis)

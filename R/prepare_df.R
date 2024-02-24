@@ -3,21 +3,13 @@
 #' @param x (required, data frame) Input data frame. Default: NULL.
 #' @param id_column (optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL
 #' @param time_column (optional, column name) Name of the column representing time, if any. Default: NULL.
-#' @param transformation  (optional, function) A function to transform the data within each sequence. A few options are:
-#' \itemize{
-#'   \item [f_proportion()]: to transform counts into proportions.
-#'   \item [f_percentage()]: to transform counts into percentages.
-#'   \item [f_hellinger()]: to apply a Hellinger transformation.
-#'   \item [f_scale()]: to center and scale the data.
-#'   }
 #' @return List of data frames
 #' @export
 #' @autoglobal
 prepare_df <- function(
     x = NULL,
     id_column = NULL,
-    time_column = NULL,
-    transformation = NULL
+    time_column = NULL
 ){
 
   if(inherits(x = x, what = "data.frame") == FALSE){
@@ -47,11 +39,6 @@ prepare_df <- function(
   }
 
   x <- x[, sapply(x, is.numeric)]
-
-  x <- prepare_transformation(
-    x = x,
-    transformation = transformation
-  )
 
   if(exists(x = "x.time")){
     x[[time_column]] <- x.time

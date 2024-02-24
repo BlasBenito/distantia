@@ -10,9 +10,7 @@ ts_initialize(
   id_column = NULL,
   time_column = NULL,
   paired_samples = FALSE,
-  na_action = "impute",
-  na_fill = 1e-04,
-  transformation = NULL
+  verbose = TRUE
 )
 
 ts_init(
@@ -20,9 +18,7 @@ ts_init(
   id_column = NULL,
   time_column = NULL,
   paired_samples = FALSE,
-  na_action = "impute",
-  na_fill = 1e-04,
-  transformation = NULL
+  verbose = TRUE
 )
 }
 \arguments{
@@ -34,22 +30,7 @@ ts_init(
 
 \item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 
-\item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
-\itemize{
-  \item "impute" (default): NA cases are interpolated against time via splines with [zoo::na.spline()].
-  \item "omit": rows with NA cases are removed.
-  \item "fill": NA cases are replaced with the value in `na_fill`.
-}}
-
-\item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
-
-\item{transformation}{(optional, function) A function to transform the data within each sequence. A few options are:
-\itemize{
-  \item [f_proportion()]: to transform counts into proportions.
-  \item [f_percentage()]: to transform counts into percentages.
-  \item [f_hellinger()]: to apply a Hellinger transformation.
-  \item [f_scale()]: to center and scale the data.
-  }}
+\item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }
 \value{
 A named list of matrices.
