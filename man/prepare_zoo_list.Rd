@@ -21,7 +21,7 @@ Prepare List of Data Frames for Dissimilarity Analysis
 }
 \examples{
 data(sequencesMIS)
-x <- ts_prepare(
+x <- tsl_prepare(
   x = sequencesMIS,
   id_column = "MIS"
 )

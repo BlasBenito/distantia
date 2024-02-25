@@ -7,8 +7,8 @@
 #'
 #' The argument `paired_samples` is not available because this multipanel plot does not make sense in such a case.
 #'
-#' @param x (required, sequence) a sequence generated via [ts_prepare()] for the X axis of the multi-panel plot. Default: NULL
-#' @param y (required, sequence) a sequence generated via [ts_prepare()] for the Y axis of the multi-panel plot. Default: NULL
+#' @param x (required, sequence) a sequence generated via [tsl_prepare()] for the X axis of the multi-panel plot. Default: NULL
+#' @param y (required, sequence) a sequence generated via [tsl_prepare()] for the Y axis of the multi-panel plot. Default: NULL
 #' @param distance (optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted @param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -26,7 +26,7 @@
 #' @examples
 #' data(sequencesMIS)
 #'
-#' x <- ts_prepare(
+#' x <- tsl_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )

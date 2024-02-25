@@ -33,7 +33,7 @@ Plots a color legend for a distance or cost matrix for multi-panel plots or exte
 data(sequencesMIS)
 
 #prepare list of sequences
-x <- ts_prepare(
+x <- tsl_prepare(
   x = sequencesMIS,
   id_column = "MIS"
 )

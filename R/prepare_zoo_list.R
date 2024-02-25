@@ -7,7 +7,7 @@
 #' @return A named list of data frames, matrices, or vectors.
 #' @examples
 #' data(sequencesMIS)
-#' x <- ts_prepare(
+#' x <- tsl_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )

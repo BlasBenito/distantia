@@ -3,26 +3,51 @@ library(distantia)
 data("abernethy_a")
 data("abernethy_b")
 
-x <- ts_initialize(
+tsl <- tsl_initialize(
   x = list(
     a = abernethy_a,
     b = abernethy_b
   )
 )
 
-ts_plot(x, guide_columns = 2)
-
-x <- ts_handle_NA(
-  x = x,
+tsl <- tsl_handle_NA(
+  tsl = tsl,
   na_action = "impute"
+)
+
+tsl_names(tsl)
+tsl <- tsl_set_names(
+  x = tsl,
+  names = c("Aber_A", "Aber_B")
+)
+tsl_names(tsl)
+
+tsl_colnames(tsl)
+tsl_colnames(tsl, common = TRUE)
+
+tsl <- tsl_subset(
+  tsl = tsl,
+  names = c("a", "b"),
+  colnames = c("betula", "corylu"),
+  time = c(1, 20)
+)
+
+
+tsl_plot(
+  tsl = tsl,
+  guide_columns = 2
   )
 
-x <- ts_transform(
+
+
+
+
+x <- tsl_transform(
   x = x,
   f = f_scale
 )
 
-x <- ts_transform(
+x <- tsl_transform(
   x = x,
   f = scale,
   center = TRUE,
@@ -33,7 +58,7 @@ x <- ts_transform(
 data(mis)
 
 #function to initialize a set of time series
-y <- ts_initialize(
+y <- tsl_initialize(
   x = mis,
   id_column = "MIS"
 )
@@ -41,7 +66,7 @@ y <- ts_initialize(
 
 
 #function to subset a set time series
-y <- ts_subset(
+y <- tsl_subset(
   x = y,
   sequences = c("MIS-1", "MIS-2", "MIS-3"),
   variables = c("Quercus", "Carpinus"),
@@ -49,7 +74,7 @@ y <- ts_subset(
 )
 
 #function to plot a set of time-series
-ts_plot(
+tsl_plot(
   x = y,
   columns = 2
 )

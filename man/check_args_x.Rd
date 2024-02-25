@@ -7,7 +7,7 @@
 check_args_x(x = NULL, arg_name = "x")
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [ts_prepare()]. Default: NULL}
+\item{x}{(required, list of matrices) list of input matrices generated with [tsl_prepare()]. Default: NULL}
 
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }

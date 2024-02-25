@@ -1,6 +1,6 @@
 #' Handle NA data in Time Series
 #'
-#' @param x (required, list of zoo objects) List of time series. Default: NULL
+#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
 #' @param na_action (required, character) Action to handle NA data in `x`. Current options are:
 #' \itemize{
 #'   \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
@@ -15,20 +15,20 @@
 #' @export
 #'
 #' @examples
-ts_handle_NA <- function(
-    x = NULL,
+tsl_handle_NA <- function(
+    tsl = NULL,
     na_action = "none",
     na_fill = 0.0001,
     verbose = TRUE
 ){
 
-  x <- check_args_x(
-    x = x,
+  tsl <- check_args_x(
+    x = tsl,
     arg_name = "x"
   )
 
-  na_count <- ts_count_NA(
-    x = x,
+  na_count <- tsl_count_NA(
+    tsl = tsl,
     verbose = FALSE
   )
 
@@ -38,19 +38,19 @@ ts_handle_NA <- function(
       message("There are no NA cases in 'x', returning it with no change.")
     }
 
-    return(x)
+    return(tsl)
 
   } else {
 
     if(na_action == "none"){
 
       #here again for the message alone
-      na_count <- ts_count_NA(
-        x = x,
+      na_count <- tsl_count_NA(
+        tsl = tsl,
         verbose = verbose
       )
 
-      return(x)
+      return(tsl)
 
     }
 
@@ -73,8 +73,8 @@ ts_handle_NA <- function(
       message("Rows with NA data removed.")
     }
 
-    x <- lapply(
-      X = x,
+    tsl <- lapply(
+      X = tsl,
       FUN = na.omit
     )
 
@@ -86,8 +86,8 @@ ts_handle_NA <- function(
       message("NA cases imputed as a function of time via zoo::na.spline()")
     }
 
-    x <- lapply(
-      X = x,
+    tsl <- lapply(
+      X = tsl,
       FUN = zoo::na.spline
     )
 
@@ -99,17 +99,17 @@ ts_handle_NA <- function(
       message("NA data was replaced with ", na_fill)
     }
 
-    x <- lapply(
-      X = x,
+    tsl <- lapply(
+      X = tsl,
       FUN = zoo::na.fill,
       fill = na_fill
     )
   }
 
-  x <- ts_set_names(
-    x = x
+  tsl <- tsl_set_names(
+    tsl = tsl
   )
 
-  x
+  tsl
 
 }

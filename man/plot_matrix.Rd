@@ -59,7 +59,7 @@ load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
 data(sequencesMIS)
 
 #prepare list of sequences
-x <- ts_prepare(
+x <- tsl_prepare(
   x = sequencesMIS,
   id_column = "MIS",
   time_column = NULL,

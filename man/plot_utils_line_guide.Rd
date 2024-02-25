@@ -16,7 +16,7 @@ plot_utils_line_guide(
 )
 }
 \arguments{
-\item{x}{(required, sequence) a single sequence or set of sequences generated via [ts_prepare()]. Default: NULL}
+\item{x}{(required, sequence) a single sequence or set of sequences generated via [tsl_prepare()]. Default: NULL}
 
 \item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
@@ -39,7 +39,7 @@ Legend for Sequence Plots
 \examples{
 data(sequencesMIS)
 
-x <- ts_prepare(
+x <- tsl_prepare(
   x = sequencesMIS,
   id_column = "MIS"
 )

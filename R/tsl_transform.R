@@ -1,4 +1,4 @@
-ts_transform <- function(
+tsl_transform <- function(
     x = NULL,
     f = NULL,
     verbose = TRUE,

@@ -1,27 +1,27 @@
 #' Counts NA Cases in Time Series
 #'
-#' @param x (required, list of zoo objects) List of time series. Default: NULL
+#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #'
 #' @return Integer, sum of NA cases
 #' @export
 #' @autoglobal
 #' @examples
-ts_count_NA <- function(
-    x = NULL,
+tsl_count_NA <- function(
+    tsl = NULL,
     verbose = TRUE
     ){
 
-  x <- check_args_x(
-    x = x,
-    arg_name = "x"
+  tsl <- check_args_x(
+    x = tsl,
+    arg_name = "TSL"
   )
 
-  if(inherits(x = x, what = "list")){
+  if(inherits(x = tsl, what = "list")){
 
     na_per_ts <- lapply(
-      X = x,
-      FUN = function(x) sum(is.na(x))
+      X = tsl,
+      FUN = function(tsl) sum(is.na(tsl))
     ) |>
       utils::stack()
 
@@ -32,9 +32,9 @@ ts_count_NA <- function(
 
   }
 
-  if(inherits(x = x, what = "zoo")){
+  if(inherits(x = tsl, what = "zoo")){
 
-    na_sum <- na_per_ts <- sum(is.na(x))
+    na_sum <- na_per_ts <- sum(is.na(tsl))
 
   }
 
@@ -44,7 +44,7 @@ ts_count_NA <- function(
       warning(
         "There are NA cases in 'x': \n",
         paste(capture.output(print(na_per_ts)), collapse = "\n"),
-        "\nPlease impute, replace, or remove them with ts_handle_NA().",
+        "\nPlease impute, replace, or remove them with tsl_handle_NA().",
         call. = FALSE
         )
     }

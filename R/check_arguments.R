@@ -1,6 +1,6 @@
 #' Check Input Arguments
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()].
+#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -219,7 +219,7 @@ check_args_matrix <- function(
 
 #' Checks Argument x
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [ts_prepare()]. Default: NULL
+#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return Argument x.
@@ -242,7 +242,7 @@ check_args_x <- function(
   if(inherits(x = x, what = "list") == FALSE){
 
     if(zoo::is.zoo(x) == FALSE){
-      stop("Argument ", arg_name, " must be a zoo object from a list generated with distantia::ts_initialize().")
+      stop("Argument ", arg_name, " must be a zoo object from a list generated with distantia::tsl_initialize().")
     }
 
     name <- attributes(x)$name

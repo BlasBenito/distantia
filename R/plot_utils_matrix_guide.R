@@ -13,7 +13,7 @@
 #' data(sequencesMIS)
 #'
 #' #prepare list of sequences
-#' x <- ts_prepare(
+#' x <- tsl_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )
