@@ -11,7 +11,7 @@
 #' @param na_fill (optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #'
-#' @return
+#' @return time series list
 #' @export
 #'
 #' @examples
@@ -22,39 +22,11 @@ tsl_handle_NA <- function(
     verbose = TRUE
 ){
 
-  tsl <- check_args_x(
-    x = tsl,
-    arg_name = "x"
-  )
-
-  na_count <- tsl_count_NA(
+  tsl <- tsl_is_valid(
     tsl = tsl,
-    verbose = FALSE
-  )
-
-  if(na_count == 0){
-
-    if(verbose == TRUE){
-      message("There are no NA cases in 'x', returning it with no change.")
-    }
-
-    return(tsl)
-
-  } else {
-
-    if(na_action == "none"){
-
-      #here again for the message alone
-      na_count <- tsl_count_NA(
-        tsl = tsl,
-        verbose = verbose
-      )
-
-      return(tsl)
-
-    }
-
-  }
+    test_valid = TRUE
+  ) |>
+    suppressWarnings()
 
   na_action <- match.arg(
     arg = na_action,
@@ -93,10 +65,10 @@ tsl_handle_NA <- function(
 
   }
 
-  if(na_action == "zero"){
+  if(na_action == "fill"){
 
     if(verbose == TRUE){
-      message("NA data was replaced with ", na_fill)
+      message("NA data was filled with ", na_fill)
     }
 
     tsl <- lapply(
@@ -107,7 +79,8 @@ tsl_handle_NA <- function(
   }
 
   tsl <- tsl_set_names(
-    tsl = tsl
+    tsl = tsl,
+    test_valid = FALSE
   )
 
   tsl

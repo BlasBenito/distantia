@@ -46,7 +46,7 @@ distantia(
 }
 \value{
 Data frame with the following columns:
-\itemize(
+\itemize{
   \item `name_a`: name of the sequence `a`.
   \item `name_bb`: name of the sequence `b`.
   \item `distance`: name of the distance metric.
@@ -61,7 +61,7 @@ Data frame with the following columns:
   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
   \item `psi`: psi dissimilarity of the sequences `a` and `b`.
-)
+}
 }
 \description{
 Psi Distance Between Time Series

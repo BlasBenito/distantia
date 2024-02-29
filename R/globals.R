@@ -11,6 +11,5 @@ utils::globalVariables(c(
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>
-  "tsi", # <tsl_is_valid>
   NULL
 ))

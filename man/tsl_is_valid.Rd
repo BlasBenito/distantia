@@ -4,13 +4,15 @@
 \alias{tsl_is_valid}
 \title{Checks Structure Validity of a Time Series List}
 \usage{
-tsl_is_valid(tsl = NULL)
+tsl_is_valid(tsl = NULL, test_valid = TRUE)
 }
 \arguments{
-\item{tsl}{(required, list of zoo time series) Default NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+
+\item{test_valid}{(optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE}
 }
 \value{
-Logical
+time series list or error.
 }
 \description{
 Checks that the input argument is a valid time series list. The required features for a valid time series list are:

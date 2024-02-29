@@ -1,4 +1,6 @@
-# Continue working on ts_transform(). Particularly, think on how to implement the computation of the mean and sd across all time series when the transformation is scale.
+# Continue working on tsl_transform(). 
+
+# tsl_scale()
 
 # replace dplyr verbs in combine.R with base R
 

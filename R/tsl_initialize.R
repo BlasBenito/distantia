@@ -60,18 +60,18 @@ tsl_initialize <- function(
     paired_samples = paired_samples
   )
 
-  x <- prepare_zoo_list(
+  tsl <- prepare_zoo_list(
     x = x,
     time_column = time_column,
     paired_samples = paired_samples
   )
 
-  tsl_count_NA(
-    tsl = x,
-    verbose = verbose
+  tsl <- tsl_is_valid(
+    tsl = tsl,
+    test_valid = TRUE
   )
 
-  x
+  tsl
 
 }
 

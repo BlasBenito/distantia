@@ -21,6 +21,9 @@ tsl_handle_NA(tsl = NULL, na_action = "none", na_fill = 1e-04, verbose = TRUE)
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }
+\value{
+time series list
+}
 \description{
 Handle NA data in Time Series
 }

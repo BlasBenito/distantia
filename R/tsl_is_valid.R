@@ -14,88 +14,77 @@
 #' }
 #'
 #'
-#' @param tsl (required, list of zoo time series) Default NULL
+#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param test_valid (optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE
 #'
-#' @return Logical
+#' @return time series list or error.
 #' @export
 #' @autoglobal
 #' @examples
-tsl_is_valid <- function(tsl = NULL){
+tsl_is_valid <- function(
+    tsl = NULL,
+    test_valid = TRUE
+    ){
+
+  if(test_valid == FALSE){
+    return(tsl)
+  }
 
   #tsl is a list
   if(!is.list(tsl)){
 
-    warning(
-      "Argument 'tsl' must be a list.",
-      call. = FALSE
-    )
-
-    return(FALSE)
+    stop("Argument 'tsl' must be a list.")
 
   }
 
   #is a named list
   if(is.null(names(tsl))){
 
-    warning(
-      "List 'tsl' must have names.",
-      call. = FALSE
+    stop(
+      "List 'tsl' must have names. The function distantia::tsl_set_names() may fix this issue."
     )
-
-    return(FALSE)
 
   }
 
   #is a named list
-  if(any(duplicated(names(tsi)))){
+  if(any(duplicated(names(tsl)))){
 
-    warning(
-      "List 'tsl' must be unique names.",
-      call. = FALSE
+    stop(
+      "List 'tsl' must be unique names."
     )
-
-    return(FALSE)
 
   }
 
   #list with two elements
   if(length(tsl) < 2){
 
-    warning(
-      "List 'tsl' must have more than one object",
-      call. = FALSE
+    stop(
+      "List 'tsl' must have more than one zoo object"
     )
-
-    return(FALSE)
 
   }
 
   #elements in tsl must be zoo
   if(!all(sapply(X = tsl, FUN = zoo::is.zoo))){
 
-    warning(
-      "Objects in list 'tsl' must be of class 'zoo'.",
-      call. = FALSE
+    stop(
+      "Objects in list 'tsl' must be of class 'zoo'. The function distantia::tsl_initialize() may fix this issue."
       )
 
-    return(FALSE)
   }
 
   #zoo objects are named
-  zoo.names <- sapply(
-    X = tsl,
-    FUN = function(x){
-      attributes(x)$name
-    })
+  zoo.names <- tsl_get_names(
+    tsl = tsl,
+    test_valid = FALSE
+  )
 
   if(length(zoo.names) == 0){
 
     warning(
-      "Zoo objects in  list'tsl' must have the attribute 'name'.",
+      "Zoo objects in  list'tsl' must have the attribute 'name'. The function distantia::tsl_set_names() may fix this issue.",
       call. = FALSE
     )
-
-    return(FALSE)
 
   }
 
@@ -103,48 +92,42 @@ tsl_is_valid <- function(tsl = NULL){
   if(any(duplicated(zoo.names))){
 
     warning(
-      "Zoo objects in list 'tsl' must have unique attributes 'name'.",
+      "Zoo objects in list 'tsl' must have unique attributes 'name'. The function distantia::tsl_set_names() may fix this issue.",
       call. = FALSE
     )
-
-    return(FALSE)
 
   }
 
   #common names
-  common.names <- tsl_colnames(
+  shared.names <- tsl_get_colnames(
     tsl = tsl,
-    common = TRUE
+    get = "shared",
+    test_valid = FALSE
     )
 
-  if(length(common.names) == 0) {
+  if(length(shared.names) == 0) {
 
-    warning(
-      "Zoo objects in list 'tsl' must have at least one common column name.",
-      call. = FALSE
+    stop(
+      "Zoo objects in list 'tsl' must have at least one shared column name."
       )
-
-    return(FALSE)
 
   }
 
   #non NA
   na.count <- tsl_count_NA(
-    tsl = NULL,
+    tsl = tsl,
+    test_valid = FALSE,
     verbose = FALSE
     )
 
   if(na.count > 0){
 
     warning(
-      "Zoo objects in list 'tsl' must not have NA cases.",
+      "Zoo objects in list 'tsl' must not have NA cases. The function distantia::tsl_handle_NA() may fix this issue.",
       call. = FALSE
     )
 
-    return(FALSE)
-
   }
 
-
-  TRUE
+  tsl
 }
