@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_get_names(x)`.
+#' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_names(x)`.
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
 #' @param test_valid (optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE
@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-tsl_get_names <- function(
+tsl_names <- function(
     tsl = NULL,
     test_valid = TRUE
 ){

@@ -49,16 +49,6 @@ tsl_plot <- function(
     test_valid = test_valid
   )
 
-  #get column names
-  # tsl_colnames <- lapply(
-  #   X = tsl,
-  #   FUN = function(z){
-  #     attributes(z)$dimnames[[2]]
-  #   }
-  # ) |>
-  #   unlist() |>
-  #   unique()
-
   #generate colors
   color <- plot_utils_line_color(
     x = tsl,

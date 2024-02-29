@@ -15,24 +15,54 @@ tsl <- tsl_handle_NA(
   na_action = "impute"
 )
 
-tsl_get_names(tsl)
+tsl_names(tsl)
 
 tsl <- tsl_set_names(
   tsl = tsl,
   names = c("Aber_A", "Aber_B")
 )
 
-tsl_get_names(tsl)
+tsl_names(tsl)
 
-tsl_get_colnames(
+tsl_colnames(
   tsl = tsl,
-  get = "all"
+  names = "all"
   )
+
+tsl_colnames(
+  tsl = tsl,
+  names = "shared"
+)
+
+tsl_colnames(
+  tsl = tsl,
+  names = "exclusive"
+)
+
+tsl <- tsl_set_colnames(
+  tsl = tsl,
+  new_names = list(
+    artemi = "Artemisia",
+    gramin = "Gramineas"
+  )
+)
+
+tsl <- tsl_clean_colnames(
+  tsl = tsl,
+  as_title = TRUE,
+  length = 5
+)
+
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
 
 tsl <- tsl_subset(
   tsl = tsl,
   names = c("Aber_A", "Aber_B"),
-  colnames = c("betula", "corylu")
+  colnames = c("betula", "corylu", "pinus")
 )
 
 

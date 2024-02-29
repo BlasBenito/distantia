@@ -60,9 +60,9 @@ tsl_subset <- function(
   if(!is.null(colnames)){
 
     #get all variable names
-    all_colnames <- tsl_get_colnames(
+    all_colnames <- tsl_colnames(
       tsl = tsl,
-      get = "all",
+      names = "all",
       test_valid = FALSE
     ) |>
       unlist() |>
@@ -96,7 +96,7 @@ tsl_subset <- function(
       stop("Argument 'time' must be a vector with at least two elements.")
     }
 
-    tsl_names <- tsl_get_names(
+    tsl_names <- tsl_names(
       tsl = tsl,
       test_valid = FALSE
     )
@@ -149,7 +149,7 @@ tsl_subset <- function(
 
       tsl_removed <- setdiff(
         x = tsl_names,
-        y = tsl_get_names(
+        y = tsl_names(
           tsl = tsl,
           test_valid = FALSE
         )

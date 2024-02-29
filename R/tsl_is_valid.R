@@ -74,7 +74,7 @@ tsl_is_valid <- function(
   }
 
   #zoo objects are named
-  zoo.names <- tsl_get_names(
+  zoo.names <- tsl_names(
     tsl = tsl,
     test_valid = FALSE
   )
@@ -99,9 +99,9 @@ tsl_is_valid <- function(
   }
 
   #common names
-  shared.names <- tsl_get_colnames(
+  shared.names <- tsl_colnames(
     tsl = tsl,
-    get = "shared",
+    names = "shared",
     test_valid = FALSE
     )
 
