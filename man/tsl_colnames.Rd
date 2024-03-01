@@ -7,7 +7,7 @@
 tsl_colnames(
   tsl = NULL,
   names = c("all", "shared", "exclusive"),
-  test_valid = TRUE
+  tsl_test = FALSE
 )
 }
 \arguments{
@@ -20,7 +20,7 @@ tsl_colnames(
   \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
 }}
 
-\item{test_valid}{(optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE}
+\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 character vector of common column names if `common = TRUE`, or list with character vector of column names otherwise.

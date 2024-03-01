@@ -1,7 +1,7 @@
 #' Counts NA Cases in Time Series
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param test_valid (optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE
+#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #'
 #' @return Integer, sum of NA cases
@@ -10,13 +10,13 @@
 #' @examples
 tsl_count_NA <- function(
     tsl = NULL,
-    test_valid = TRUE,
+    tsl_test = FALSE,
     verbose = TRUE
 ){
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    test_valid = test_valid
+    tsl_test = tsl_test
   )
 
   na_per_ts <- lapply(

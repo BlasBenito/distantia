@@ -9,7 +9,7 @@ tsl_subset(
   names = NULL,
   colnames = NULL,
   time = NULL,
-  test_valid = TRUE
+  tsl_test = FALSE
 )
 }
 \arguments{

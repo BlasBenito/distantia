@@ -15,7 +15,7 @@
 #'
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param test_valid (optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE
+#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #'
 #' @return time series list or error.
 #' @export
@@ -23,10 +23,10 @@
 #' @examples
 tsl_is_valid <- function(
     tsl = NULL,
-    test_valid = TRUE
+    tsl_test = FALSE
     ){
 
-  if(test_valid == FALSE){
+  if(tsl_test == FALSE){
     return(tsl)
   }
 
@@ -41,7 +41,7 @@ tsl_is_valid <- function(
   if(is.null(names(tsl))){
 
     stop(
-      "List 'tsl' must have names. The function distantia::tsl_set_names() may fix this issue."
+      "List 'tsl' must have names. The function distantia::tsl_names_set() may fix this issue."
     )
 
   }
@@ -76,13 +76,13 @@ tsl_is_valid <- function(
   #zoo objects are named
   zoo.names <- tsl_names(
     tsl = tsl,
-    test_valid = FALSE
+    tsl_test = FALSE
   )
 
   if(length(zoo.names) == 0){
 
     warning(
-      "Zoo objects in  list'tsl' must have the attribute 'name'. The function distantia::tsl_set_names() may fix this issue.",
+      "Zoo objects in  list'tsl' must have the attribute 'name'. The function distantia::tsl_names_set() may fix this issue.",
       call. = FALSE
     )
 
@@ -92,7 +92,7 @@ tsl_is_valid <- function(
   if(any(duplicated(zoo.names))){
 
     warning(
-      "Zoo objects in list 'tsl' must have unique attributes 'name'. The function distantia::tsl_set_names() may fix this issue.",
+      "Zoo objects in list 'tsl' must have unique attributes 'name'. The function distantia::tsl_names_set() may fix this issue.",
       call. = FALSE
     )
 
@@ -102,7 +102,7 @@ tsl_is_valid <- function(
   shared.names <- tsl_colnames(
     tsl = tsl,
     names = "shared",
-    test_valid = FALSE
+    tsl_test = FALSE
     )
 
   if(length(shared.names) == 0) {
@@ -116,7 +116,7 @@ tsl_is_valid <- function(
   #non NA
   na.count <- tsl_count_NA(
     tsl = tsl,
-    test_valid = FALSE,
+    tsl_test = FALSE,
     verbose = FALSE
     )
 

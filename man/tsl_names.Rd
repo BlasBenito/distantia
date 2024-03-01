@@ -4,12 +4,12 @@
 \alias{tsl_names}
 \title{Get Names of a Time Series List}
 \usage{
-tsl_names(tsl = NULL, test_valid = TRUE)
+tsl_names(tsl = NULL, tsl_test = FALSE)
 }
 \arguments{
 \item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
 
-\item{test_valid}{(optional, logical) If FALSE, the validity test performed by [tsl_is_valid()] is ignored. Useful to improve performance when the user knows that `tsl` is valid. Default: TRUE}
+\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 Character vector of names.

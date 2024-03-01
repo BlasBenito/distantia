@@ -9,6 +9,7 @@
 #'   \item "fill": NA cases are replaced with the value in `na_fill`.
 #' }
 #' @param na_fill (optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001
+#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #'
 #' @return time series list
@@ -19,14 +20,14 @@ tsl_handle_NA <- function(
     tsl = NULL,
     na_action = "none",
     na_fill = 0.0001,
+    tsl_test = FALSE,
     verbose = TRUE
 ){
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    test_valid = TRUE
-  ) |>
-    suppressWarnings()
+    tsl_test = tsl_tsl_test
+  )
 
   na_action <- match.arg(
     arg = na_action,
@@ -60,7 +61,19 @@ tsl_handle_NA <- function(
 
     tsl <- lapply(
       X = tsl,
-      FUN = zoo::na.spline
+      FUN = function(x){
+
+        x.integer <- is.integer(x)
+
+        x <- zoo::na.spline(object = x)
+
+        if(x.integer == TRUE){
+          mode(x) <- "integer"
+        }
+
+        x
+
+      }
     )
 
   }
@@ -76,11 +89,12 @@ tsl_handle_NA <- function(
       FUN = zoo::na.fill,
       fill = na_fill
     )
+
   }
 
-  tsl <- tsl_set_names(
+  tsl <- tsl_names_set(
     tsl = tsl,
-    test_valid = FALSE
+    tsl_test = FALSE
   )
 
   tsl

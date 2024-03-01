@@ -68,7 +68,7 @@ tsl_initialize <- function(
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    test_valid = TRUE
+    tsl_test = FALSE
   )
 
   tsl

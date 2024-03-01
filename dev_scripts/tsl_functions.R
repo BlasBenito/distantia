@@ -17,9 +17,9 @@ tsl <- tsl_handle_NA(
 
 tsl_names(tsl)
 
-tsl <- tsl_set_names(
+tsl <- tsl_names_set(
   tsl = tsl,
-  names = c("Aber_A", "Aber_B")
+  names = c("A", "B")
 )
 
 tsl_names(tsl)
@@ -39,17 +39,17 @@ tsl_colnames(
   names = "exclusive"
 )
 
-tsl <- tsl_set_colnames(
+tsl <- tsl_colnames_set(
   tsl = tsl,
-  new_names = list(
+  names = list(
     artemi = "Artemisia",
     gramin = "Gramineas"
   )
 )
 
-tsl <- tsl_clean_colnames(
+tsl <- tsl_colnames_clean(
   tsl = tsl,
-  as_title = TRUE,
+  capitalize_all = FALSE,
   length = 5
 )
 

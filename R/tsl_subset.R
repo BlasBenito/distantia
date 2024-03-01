@@ -17,12 +17,12 @@ tsl_subset <- function(
     names = NULL,
     colnames = NULL,
     time = NULL,
-    test_valid = TRUE
+    tsl_test = FALSE
 ){
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    test_valid = test_valid
+    tsl_test = tsl_test
   )
 
   # subset names ----
@@ -63,7 +63,7 @@ tsl_subset <- function(
     all_colnames <- tsl_colnames(
       tsl = tsl,
       names = "all",
-      test_valid = FALSE
+      tsl_test = FALSE
     ) |>
       unlist() |>
       unique()
@@ -98,7 +98,7 @@ tsl_subset <- function(
 
     tsl_names <- tsl_names(
       tsl = tsl,
-      test_valid = FALSE
+      tsl_test = FALSE
     )
 
     #get full range of time
@@ -151,7 +151,7 @@ tsl_subset <- function(
         x = tsl_names,
         y = tsl_names(
           tsl = tsl,
-          test_valid = FALSE
+          tsl_test = FALSE
         )
       )
 
@@ -168,9 +168,9 @@ tsl_subset <- function(
 
   }
 
-  tsl <- tsl_set_names(
+  tsl <- tsl_names_set(
     tsl = tsl,
-    test_valid = FALSE
+    tsl_test = FALSE
   )
 
   tsl
