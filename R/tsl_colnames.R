@@ -80,7 +80,7 @@ tsl_colnames <- function(
 
   if(length(exclusive.names) == 0){
     message("There are no exclusive column names in 'tsl'.")
-    return(invisible())
+    return(exclusive.names)
   }
 
   exclusive.names
@@ -126,7 +126,7 @@ tsl_colnames_set <- function(
   tsl <- lapply(
     X = tsl,
     FUN = function(i){
-      colnames(i)[colnames(i) %in% names(names)] <- names
+      colnames(i)[colnames(i) %in% names(names)] <- names[names %in% colnames(i)]
       i
     }
   )

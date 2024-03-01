@@ -4,7 +4,7 @@
 \alias{f_scale}
 \title{Scaling and centering}
 \usage{
-f_scale(x, ...)
+f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 }
 \arguments{
 \item{x}{Data frame or matrix.}

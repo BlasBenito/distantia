@@ -15,6 +15,11 @@ tsl <- tsl_handle_NA(
   na_action = "impute"
 )
 
+tsl <- tsl_transform(
+  tsl = tsl,
+  f = f_scale
+)
+
 tsl_names(tsl)
 
 tsl <- tsl_names_set(
@@ -58,11 +63,20 @@ tsl_colnames(
   names = "all"
 )
 
+tsl <- tsl_remove_exclusive_cols(
+  tsl = tsl
+)
+
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
 
 tsl <- tsl_subset(
   tsl = tsl,
-  names = c("Aber_A", "Aber_B"),
-  colnames = c("betula", "corylu", "pinus")
+  names = c("A", "B"),
+  colnames = c("betul", "pinus")
 )
 
 
@@ -70,6 +84,7 @@ tsl_plot(
   tsl = tsl,
   guide_columns = 2
   )
+
 
 
 

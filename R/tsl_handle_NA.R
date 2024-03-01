@@ -26,7 +26,7 @@ tsl_handle_NA <- function(
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    tsl_test = tsl_tsl_test
+    tsl_test = tsl_test
   )
 
   na_action <- match.arg(
