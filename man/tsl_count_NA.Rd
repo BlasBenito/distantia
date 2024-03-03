@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_count_NA.R
 \name{tsl_count_NA}
 \alias{tsl_count_NA}
-\title{Counts NA Cases in Time Series}
+\title{Counts NA and Inf Cases in Time Series}
 \usage{
 tsl_count_NA(tsl = NULL, tsl_test = FALSE, verbose = TRUE)
 }
@@ -17,5 +17,5 @@ tsl_count_NA(tsl = NULL, tsl_test = FALSE, verbose = TRUE)
 Integer, sum of NA cases
 }
 \description{
-Counts NA Cases in Time Series
+Counts NA and Inf Cases in Time Series
 }

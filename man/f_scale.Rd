@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_scale}
 \alias{f_scale}
-\title{Scaling and centering}
+\title{Global Centering and scaling}
 \usage{
 f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 }
@@ -13,5 +13,5 @@ f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 Data frame or matrix
 }
 \description{
-Scaling and centering
+Centers and scales using the global average  and standard deviation of all zoo objects within a time series list. Please use [base::scale()] to center and scale each time series independently.
 }

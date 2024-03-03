@@ -2,7 +2,9 @@
 % Please edit documentation in R/tsl_handle_NA.R
 \name{tsl_handle_NA}
 \alias{tsl_handle_NA}
-\title{Handle NA data in Time Series}
+\alias{tsl_Inf_to_NA}
+\alias{tsl_NaN_to_NA}
+\title{Handle NA and Inf data in Time Series}
 \usage{
 tsl_handle_NA(
   tsl = NULL,
@@ -11,6 +13,10 @@ tsl_handle_NA(
   tsl_test = FALSE,
   verbose = TRUE
 )
+
+tsl_Inf_to_NA(tsl = NULL, tsl_test = FALSE)
+
+tsl_NaN_to_NA(tsl = NULL, tsl_test = FALSE)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
@@ -33,5 +39,5 @@ tsl_handle_NA(
 time series list
 }
 \description{
-Handle NA data in Time Series
+Handle NA and Inf data in Time Series
 }

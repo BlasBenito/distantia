@@ -1,4 +1,4 @@
-#' Handle NA data in Time Series
+#' Handle NA and Inf data in Time Series
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
 #' @param na_action (required, character) Action to handle NA data in `x`. Current options are:
@@ -27,6 +27,18 @@ tsl_handle_NA <- function(
   tsl <- tsl_is_valid(
     tsl = tsl,
     tsl_test = tsl_test
+  )
+
+  #replaces Inf with Na
+  tsl <- tsl_Inf_to_NA(
+    tsl = tsl,
+    tsl_test = FALSE
+  )
+
+  #replaces NaN with NA
+  tsl <- tsl_NaN_to_NA(
+    tsl = tsl,
+    tsl_test = FALSE
   )
 
   na_action <- match.arg(
@@ -65,13 +77,42 @@ tsl_handle_NA <- function(
 
         x.integer <- is.integer(x)
 
-        x <- zoo::na.spline(object = x)
+        x.index <- zoo::index(x)
 
-        if(x.integer == TRUE){
-          mode(x) <- "integer"
+        x.min <- lapply(
+          X = x,
+          FUN = min,
+          na.rm = TRUE
+        )
+
+        x.max <- lapply(
+          X = x,
+          FUN = max,
+          na.rm = TRUE
+        )
+
+        x.interpolated <- zoo::na.spline(
+          object = x,
+          na.rm = FALSE
+          )
+
+        x.interpolated <- as.matrix(x.interpolated)
+
+        for(i in seq_len(length(x.min))){
+          x.interpolated[x.interpolated[, i] < x.min[[i]], i] <- x.min[[i]]
+          x.interpolated[x.interpolated[, i] > x.max[[i]], i] <- x.max[[i]]
         }
 
-        x
+        if(x.integer == TRUE){
+          mode(x.interpolated) <- "integer"
+        }
+
+        x.interpolated <- zoo::zoo(
+          x = x.interpolated,
+          order.by = x.index
+        )
+
+        x.interpolated
 
       }
     )
@@ -92,10 +133,77 @@ tsl_handle_NA <- function(
 
   }
 
+  na.count <- tsl_count_NA(
+    tsl = tsl,
+    tsl_test = FALSE,
+    verbose = TRUE
+  )
+
   tsl <- tsl_names_set(
     tsl = tsl,
     tsl_test = FALSE
   )
+
+  tsl
+
+}
+
+
+#' @rdname tsl_handle_NA
+#' @export
+#' @autoglobal
+tsl_Inf_to_NA <- function(
+    tsl = NULL,
+    tsl_test = FALSE
+){
+
+  tsl <- tsl_is_valid(
+    tsl = tsl,
+    tsl_test = tsl_test
+  )
+
+  tsl <- lapply(
+    X = tsl,
+    FUN = function(x){
+      x.index <- zoo::index(x)
+      x <- as.matrix(x)
+      x[is.infinite(x)] <- NA
+      x <- zoo::zoo(
+        x = x,
+        order.by = x.index
+      )
+      x
+    }
+  )
+
+  tsl <- tsl_names_set(tsl = tsl)
+
+  tsl
+
+}
+
+#' @rdname tsl_handle_NA
+#' @export
+#' @autoglobal
+tsl_NaN_to_NA <- function(
+    tsl = NULL,
+    tsl_test = FALSE
+){
+
+  tsl <- tsl_is_valid(
+    tsl = tsl,
+    tsl_test = tsl_test
+  )
+
+  tsl <- lapply(
+    X = tsl,
+    FUN = function(x){
+      x[is.nan(x)] <- NA
+      x
+    }
+  )
+
+  tsl <- tsl_names_set(tsl = tsl)
 
   tsl
 

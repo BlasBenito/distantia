@@ -4,10 +4,12 @@
 \alias{f_hellinger}
 \title{Hellinger Transformation}
 \usage{
-f_hellinger(x = NULL, ...)
+f_hellinger(x = NULL, pseudozero = 1e-04, ...)
 }
 \arguments{
 \item{x}{Data frame or matrix.}
+
+\item{pseudozero}{(required, numeric) Small number above zero to replace zeroes with.}
 }
 \value{
 Data frame or matrix

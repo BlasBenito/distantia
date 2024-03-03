@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_transform.R
 \name{tsl_transform}
 \alias{tsl_transform}
-\title{Title}
+\title{Transform Values of a Time Series List}
 \usage{
 tsl_transform(tsl = NULL, tsl_test = FALSE, f = NULL, ...)
 }
@@ -19,11 +19,11 @@ tsl_transform(tsl = NULL, tsl_test = FALSE, f = NULL, ...)
   \item f_scale: Centering and scaling computed by column using the overall mean and standard deviation across all zoo objects within `tsl`.
 }}
 
-\item{...}{(optional, arguments of `f`) Optional arguments for the transformation function.}
+\item{...}{(optional, additional arguments of `f`) Optional arguments for the transformation function.}
 }
 \value{
 time series list
 }
 \description{
-Title
+Transform values of the zoo objects within a time series list using transformation functions.
 }

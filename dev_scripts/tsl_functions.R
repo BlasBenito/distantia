@@ -10,14 +10,76 @@ tsl <- tsl_initialize(
   )
 )
 
+tsl.hellinger <- tsl_transform(
+  tsl = tsl,
+  f = f_hellinger
+)
+
 tsl <- tsl_handle_NA(
   tsl = tsl,
   na_action = "impute"
 )
 
-tsl <- tsl_transform(
+tsl.hellinger <- tsl_transform(
+  tsl = tsl,
+  f = f_hellinger
+)
+
+tsl.raw <- tsl_transform(
+  tsl = tsl,
+  f = base::scale,
+  center = TRUE,
+  scale = TRUE
+)
+
+tsl.scale <- tsl_transform(
   tsl = tsl,
   f = f_scale
+)
+
+tsl.center <- tsl_transform(
+  tsl = tsl,
+  f = f_center
+)
+
+tsl.prop <- tsl_transform(
+  tsl = tsl,
+  f = f_proportion
+)
+
+tsl.rollmean <- tsl_transform(
+  tsl = tsl,
+  f = zoo::rollmean,
+  k = 5
+)
+
+tsl_plot(tsl.rollmean)
+
+tsl.smooth <- tsl_transform(
+  tsl = tsl,
+  f = f_smooth,
+  w = 10
+)
+
+tsl_plot(tsl.smooth)
+
+tsl.stat <- tsl_transform(
+  tsl = tsl,
+  f = f_stat,
+  statistic = sd,
+  w = 10
+)
+
+tsl_plot(tsl.stat)
+
+tsl.perc <- tsl_transform(
+  tsl = tsl,
+  f = f_percentage
+)
+
+tsl.hellinger <- tsl_transform(
+  tsl = tsl,
+  f = f_hellinger
 )
 
 tsl_names(tsl)
