@@ -7,10 +7,12 @@
 f_center(x = NULL, center = TRUE, scale = FALSE, ...)
 }
 \arguments{
-\item{x}{Data frame or matrix.}
+\item{x}{(required, zoo object) Zoo time series object to transform.}
+
+\item{center}{(optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.}
 }
 \value{
-Data frame or matrix
+Transformed zoo object.
 }
 \description{
 Centers using the global average of all zoo objects within a time series list. Please use [base::scale()] to scale each time series independently.

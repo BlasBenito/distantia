@@ -10,20 +10,49 @@ tsl <- tsl_initialize(
   )
 )
 
-tsl.hellinger <- tsl_transform(
-  tsl = tsl,
-  f = f_hellinger
-)
-
 tsl <- tsl_handle_NA(
   tsl = tsl,
   na_action = "impute"
 )
 
+tsl_plot(tsl)
+
+
+tsl.pca <- tsl_transform(
+  tsl = tsl,
+  f = f_pca
+)
+
+tsl_plot(tsl.pca)
+
+tsl.detrend <- tsl_transform(
+  tsl = tsl,
+  f = f_detrend_difference
+)
+
+tsl_plot(tsl.detrend)
+
+tsl.detrend <- tsl_transform(
+  tsl = tsl,
+  f = f_detrend_gam
+)
+
+tsl_plot(tsl.detrend)
+
+tsl.center <- tsl_transform(
+  tsl = tsl,
+  f = f_center
+)
+
+tsl_plot(tsl.center)
+
+x <- tsl[[1]]
+
 tsl.hellinger <- tsl_transform(
   tsl = tsl,
   f = f_hellinger
 )
+
 
 tsl.raw <- tsl_transform(
   tsl = tsl,

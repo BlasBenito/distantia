@@ -2,18 +2,20 @@
 % Please edit documentation in R/transformations.R
 \name{f_smooth}
 \alias{f_smooth}
-\title{Rolling Mean Smoothing}
+\title{Moving Window Smoothing}
 \usage{
-f_smooth(x = NULL, w = 3, ...)
+f_smooth(x = NULL, w = 3, stat = mean, ...)
 }
 \arguments{
-\item{x}{(required, zoo object).}
+\item{x}{(required, zoo object) Zoo time series object to transform.}
 
-\item{w}{(required, window width) width of the window to compute the rolling mean of the time series.}
+\item{w}{(required, window width) width of the window to compute the rolling statistics of the time series.}
+
+\item{stat}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Default: `mean`.}
 }
 \value{
-Data frame or matrix
+Transformed zoo object.
 }
 \description{
-Rolling Mean Smoothing
+Moving Window Smoothing
 }

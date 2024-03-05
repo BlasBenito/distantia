@@ -7,10 +7,10 @@
 f_proportion(x = NULL, ...)
 }
 \arguments{
-\item{x}{Data frame or matrix.}
+\item{x}{(required, zoo object) Zoo time series object to transform.}
 }
 \value{
-Data frame or matrix
+Transformed zoo object.
 }
 \description{
 Transformation to Proportions

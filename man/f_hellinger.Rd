@@ -7,12 +7,12 @@
 f_hellinger(x = NULL, pseudozero = 1e-04, ...)
 }
 \arguments{
-\item{x}{Data frame or matrix.}
+\item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{pseudozero}{(required, numeric) Small number above zero to replace zeroes with.}
 }
 \value{
-Data frame or matrix
+Transformed zoo object.
 }
 \description{
 Hellinger Transformation
