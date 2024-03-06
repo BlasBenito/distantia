@@ -68,7 +68,13 @@ tsl_initialize <- function(
 
   tsl <- tsl_is_valid(
     tsl = tsl,
-    tsl_test = FALSE
+    tsl_test = TRUE
+  )
+
+  na.count <- tsl_count_NA(
+    tsl = tsl,
+    tsl_test = FALSE,
+    verbose = TRUE
   )
 
   tsl

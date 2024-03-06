@@ -21,7 +21,8 @@ Imports:
   doFuture,
   future,
   foreach,
-  zoo
+  zoo,
+  lubridate
 Suggests: 
   progressr,
   mgcv,

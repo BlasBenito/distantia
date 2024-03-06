@@ -38,7 +38,7 @@ prepare_df <- function(
     x[[id_column]] <- NULL
   }
 
-  x <- x[, sapply(x, is.numeric)]
+  x <- x[, sapply(x, is.numeric), drop = FALSE]
 
   if(exists(x = "x.time")){
     x[[time_column]] <- x.time

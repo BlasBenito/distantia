@@ -1,5 +1,29 @@
 library(distantia)
 
+data("covid")
+
+tsl <- tsl_initialize(
+  x = covid,
+  id_column = "county",
+  time_column = "date"
+)
+
+x <- tsl[[1]]
+
+
+
+
+as.Date(cut(as.Date(c("2022-10-27", "2022-10-24")), "semester"))
+
+x <- aggregate(x, as.Date(cut(time(x), "month")), max)
+plot(x)
+
+x <- aggregate(
+  x = x,
+
+)
+
+
 data("abernethy_a")
 data("abernethy_b")
 

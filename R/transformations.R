@@ -5,10 +5,12 @@
 #' @autoglobal
 f_list <- function(){
 
-  ls(
+ f_funs <-  ls(
     name = "package:distantia",
     pattern = "^f_"
   )
+
+ f_funs[f_funs != "f_list"]
 
 }
 
@@ -175,7 +177,7 @@ f_detrend_difference <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param w (required, window width) width of the window to compute the rolling statistics of the time series.
-#' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Default: `mean`.
+#' @param fun (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -183,14 +185,14 @@ f_detrend_difference <- function(
 f_smooth <- function(
     x = NULL,
     w = 3,
-    stat = mean,
+    fun = mean,
     ...
 ){
 
-  if(is.function(stat) == FALSE){
+  if(is.function(fun) == FALSE){
 
     stop(
-      "Argument 'stat' must be a function name with no quotes"
+      "Argument 'fun' must be a function name."
       )
 
   }
@@ -203,7 +205,7 @@ f_smooth <- function(
       "extend",
       "extend"
     ),
-    FUN = stat,
+    FUN = fun,
     ... = ...
   )
 
