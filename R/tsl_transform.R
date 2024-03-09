@@ -48,15 +48,19 @@ tsl_transform <- function(
     tsl_test = tsl_test
   )
 
-  na.count <- tsl_count_NA(
-    tsl = tsl,
-    tsl_test = tsl_test,
-    verbose = FALSE
-  ) |>
-    suppressWarnings()
+  if(tsl_test == TRUE){
 
-  if(na.count > 0){
-    stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
+    na.count <- tsl_count_NA(
+      tsl = tsl,
+      tsl_test = tsl_test,
+      verbose = FALSE
+    ) |>
+      suppressWarnings()
+
+    if(na.count > 0){
+      stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
+    }
+
   }
 
   #handle scaling
@@ -103,11 +107,14 @@ tsl_transform <- function(
     tsl_test = FALSE
   )
 
-  na.count <- tsl_count_NA(
-    tsl = tsl,
-    tsl_test = FALSE,
-    verbose = TRUE
-  )
+  if(tsl_test == TRUE){
+    na.count <- tsl_count_NA(
+      tsl = tsl,
+      tsl_test = FALSE,
+      verbose = TRUE
+    )
+  }
+
 
   tsl
 

@@ -14,6 +14,90 @@ f_list <- function(){
 
 }
 
+#' @title Rescales Numeric Vector to a New Range
+#' @param x (required, numeric vector) Numeric vector. Default: `NULL`
+#' @param new_min (optional, numeric) New minimum value. Default: `0`
+#' @param new_max (optional_numeric) New maximum value. Default: `1`
+#' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
+#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
+#' @return Numeric vector
+#' @examples
+#'
+#'  out <- rescale_vector(
+#'    x = rnorm(100),
+#'    new_min = 0,
+#'    new_max = 100,
+#'    integer = TRUE
+#'    )
+#'    out
+#'
+#' @export
+#' @autoglobal
+rescale_vector <- function(
+    x = NULL,
+    new_min = 0,
+    new_max = 1,
+    old_min = NULL,
+    old_max = NULL
+){
+
+  if(!is.vector(x) || !is.numeric(x)){
+    stop("x must be a numeric vector.")
+  }
+
+  if(is.null(old_min)){
+    old_min <- min(x, na.rm = TRUE)
+  }
+
+  if(is.null(old_max)){
+    old_max <- max(x, na.rm = TRUE)
+  }
+
+  ((x - old_min) / (old_max - old_min)) * (new_max - new_min) + new_min
+
+
+}
+
+#' @title Rescales Zoo Object to a New Range
+#' @param x (required, zoo object) Numeric vector. Default: `NULL`
+#' @param new_min (optional, numeric) New minimum value. Default: `0`
+#' @param new_max (optional_numeric) New maximum value. Default: `1`
+#' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
+#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
+#' @return Zoo object
+#' @export
+#' @autoglobal
+f_rescale <- function(
+    x = NULL,
+    new_min = 0,
+    new_max = 1,
+    old_min = NULL,
+    old_max = NULL
+){
+
+  x.index <- zoo::index(x)
+
+  x <- as.matrix(x)
+
+  x <- apply(
+    X = x,
+    MARGIN = 2,
+    FUN = rescale_vector,
+    new_min = new_min,
+    new_max = new_max,
+    old_min = old_min,
+    old_max = old_max
+  )
+
+  x <- zoo::zoo(
+    x = x,
+    order.by = x.index
+  )
+
+  x
+
+}
+
 
 #' Principal Components of a Time Series
 #'

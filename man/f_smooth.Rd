@@ -4,14 +4,14 @@
 \alias{f_smooth}
 \title{Moving Window Smoothing}
 \usage{
-f_smooth(x = NULL, w = 3, stat = mean, ...)
+f_smooth(x = NULL, w = 3, fun = mean, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{w}{(required, window width) width of the window to compute the rolling statistics of the time series.}
 
-\item{stat}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Default: `mean`.}
+\item{fun}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.}
 }
 \value{
 Transformed zoo object.

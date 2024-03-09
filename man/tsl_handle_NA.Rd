@@ -8,9 +8,9 @@
 \usage{
 tsl_handle_NA(
   tsl = NULL,
+  tsl_test = FALSE,
   na_action = "none",
   na_fill = 1e-04,
-  tsl_test = FALSE,
   verbose = TRUE
 )
 
@@ -21,6 +21,8 @@ tsl_NaN_to_NA(tsl = NULL, tsl_test = FALSE)
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
 
+\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
+
 \item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
 \itemize{
   \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
@@ -30,8 +32,6 @@ tsl_NaN_to_NA(tsl = NULL, tsl_test = FALSE)
 }}
 
 \item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }
