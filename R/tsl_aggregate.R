@@ -4,9 +4,9 @@
 #' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param by (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
-#'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", "week", "day", "hour", "minute", and "second".
+#'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 #' }
-#' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Default: `mean`.
+#' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `median`, and `sd`. Default: `mean`.
 #'
 #' @return time series list
 #' @export
@@ -16,7 +16,8 @@ tsl_aggregate <- function(
     tsl = NULL,
     tsl_test = FALSE,
     by = NULL,
-    fun = mean
+    fun = mean,
+    ...
 ){
 
   # handling tsl ----
@@ -51,7 +52,7 @@ tsl_aggregate <- function(
 
   # handling by ----
   by <- c("2022-01-10", "2024-02-20")
-  by <- c("2022-10-27 12:34:56", "2021-10-27 12:34:56")
+  by <- c("2022-10-27 12:34:56", "2021-10-27 16:35:40")
   by <- 1000
   by <- c()
 
