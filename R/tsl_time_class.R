@@ -7,7 +7,7 @@
 #' @export
 #' @examples
 #' @autoglobal
-tsl_time_range <- function(
+tsl_time_class <- function(
     tsl = NULL,
     tsl_test = FALSE
 ){

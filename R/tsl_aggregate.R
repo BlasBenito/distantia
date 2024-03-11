@@ -1,8 +1,8 @@
 #' Aggregates Time Series List
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
-#' @param by (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
+#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed breaks [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
+#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 #' }
@@ -15,92 +15,135 @@
 tsl_aggregate <- function(
     tsl = NULL,
     tsl_test = FALSE,
-    by = NULL,
+    breaks = NULL,
     fun = mean,
     ...
 ){
 
-  # handling tsl ----
   tsl <- tsl_is_valid(
     tsl = tsl,
     tsl_test = tsl_test
   )
 
-  time.class <- lapply(
-    X = tsl,
-    FUN = function(x){
-      class(stats::time(x))
-    }
+  factor_df <- data.frame(
+    keyword = c(
+      "millennium",
+      "century",
+      "decade",
+      "1e6",
+      "1e5",
+      "1e4",
+      "1e3",
+      "1e2",
+      "1e1"
+    ),
+    factor = c(
+      1000,
+      100,
+      10,
+      1000000,
+      100000,
+      10000,
+      1000,
+      100,
+      10
+    )
+  )
+
+  time_range <- tsl_time_range(
+    tsl = tsl,
+    tsl_test = FALSE
+  ) |>
+    unlist() |>
+    unique() |>
+    range()
+
+  time_units <- tsl_time_units(
+    tsl = tsl,
+    tsl_test = FALSE
   ) |>
     unlist() |>
     unique()
 
-  by_date_keywords <- c(
-    "year",
-    "quarter",
-    "month",
-    "week",
-    "day"
-  )
+  time_class <- tsl_time_class(
+    tsl = tsl,
+    tsl_test = FALSE
+  ) |>
+    unlist() |>
+    unique()
 
-  by_datetime_keywords <- c(
-    by_date_keywords,
-    "hour",
-    "minute",
-    "second"
-  )
-
-  # handling by ----
-  by <- c("2022-01-10", "2024-02-20")
-  by <- c("2022-10-27 12:34:56", "2021-10-27 16:35:40")
-  by <- 1000
-  by <- c()
-
-
-
-  #by <- "month"
-  by.type <- switch(
-    by,
-    date = {
-      all(lubridate::hour(as.POSIXct(by)) == 0)
-    },
-    datetime = {
-      all(lubridate::hour(as.POSIXct(by)) != 0)
-    }
-  )
-
-  by.class <- class(by)
-
-
-
-  by.is.date <-  as.Date(x = by)
-
-  # handling stat ----
-  if(is.function(fun) == FALSE){
-
-    stop(
-      "Argument 'fun' must be a function name."
-    )
-
+  if(length(time_class) > 1){
+    stop("The time class of all elements in 'tsl' must be the same. Please apply distantia::tsl_time_class() to identify and fix or remove objects with a discordant time class.")
   }
 
-  if(time.class == "Date"){
+  time_class <- tsl_time_class(
+    tsl = tsl,
+    tsl_test = FALSE
+  )
 
-    if(by.class == "character"){
-      by <- by[1]
+  #remove last element
+  time_resolution <- tail(time_units, n = 1)
+  time_units <- time_units[-length(time_units)]
+
+  #examples of breaks
+  # breaks <- "year"
+  # breaks <- "quarter"
+  # breaks <- "month"
+  # breaks <- "week"
+
+  #breaks is a single element
+  if(length(breaks) == 1){
+
+    #handling breaks as a keyword
+    if(!(breaks %in% time_units)){
+
+      stop(
+        "Value of argument 'breaks' must be one of: ",
+        paste(
+          time_units, collapse = ", "
+        ),
+        "."
+      )
+
     }
 
+    #convert not supported keywords to integer
+    if(breaks %in% factor_df$keyword){
+
+      breaks <- factor_df[factor_df$keyword == breaks, "factor"]
+
+    }
 
   }
 
-  if(
-    is.character(by) &&
-    by[1] %in% keywords
-    ){
+
+  #breaks is numeric
+  if(is.numeric(breaks)){
+
+    if(length(breaks) == 1){
+
+      breaks <- seq(
+        from = min(time_range),
+        to = max(time_range),
+        by = breaks
+      )
+
+      breaks <- pretty(
+        x = breaks,
+        n = length(breaks)
+      )
+
+    }
 
 
 
   }
+
+
+
+
+
+
 
 
 

@@ -94,7 +94,6 @@ tsl_time_units <- function(
         )
       )
 
-
     } else {
 
       df_time <- data.frame(
@@ -131,9 +130,9 @@ tsl_time_units <- function(
     unique()
 
   if(length(time_units) == 1){
-    time_units <- time_units_list[[1]]
+    time_units_list <- time_units[[1]]
   }
 
-  time_units
+  time_units_list
 
 }

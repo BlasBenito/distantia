@@ -12,21 +12,25 @@ tsl <- tsl_initialize(
 
 
 
-
+#aggregation by keyword
 x <- tsl[[1]]
 
+breaks <- x |>
+  stats::time() |>
+  cut(breaks = "week") |>
+  as.Date()
 
-
-
-as.Date(cut(as.Date(c("2022-10-27", "2022-10-24")), "semester"))
-
-x <- aggregate(x, as.Date(cut(time(x), "month")), max)
-plot(x)
-
-x <- aggregate(
+y <- stats::aggregate(
   x = x,
+  by = breaks
+  )
 
-)
+plot(y)
+
+
+
+
+
 
 
 data("abernethy_a")
