@@ -20,6 +20,11 @@ breaks <- x |>
   cut(breaks = "week") |>
   as.Date()
 
+breaks <- x |>
+  stats::time() |>
+  cut(breaks = 10) |>
+  as.Date()
+
 y <- stats::aggregate(
   x = x,
   by = breaks
