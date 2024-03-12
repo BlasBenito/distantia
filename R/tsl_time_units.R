@@ -63,7 +63,7 @@ tsl_time_units <- function(
     x.time.class <- class(x.time.range)
 
     #handling date types
-    if(x.time.class %in% c("Date", "POSIXct", "POSIXt")){
+    if(x.time.class %in% c("Date", "POSIXct", "POSIXlt")){
 
       df_time <- data.frame(
         units = c(

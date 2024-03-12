@@ -10,7 +10,7 @@ tsl_handle_NA(
   tsl = NULL,
   tsl_test = FALSE,
   na_action = "none",
-  na_fill = 1e-04,
+  na_fill = 0.0001,
   verbose = TRUE
 )
 
