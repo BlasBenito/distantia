@@ -6,7 +6,6 @@
 \usage{
 tsl_colnames_clean(
   tsl = NULL,
-  tsl_test = FALSE,
   separator = "_",
   capitalize_first = FALSE,
   capitalize_all = FALSE,
@@ -17,8 +16,6 @@ tsl_colnames_clean(
 }
 \arguments{
 \item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".}
 

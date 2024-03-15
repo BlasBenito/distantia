@@ -4,12 +4,10 @@
 \alias{tsl_remove_exclusive_cols}
 \title{Remove Exclusive Columns from Time Series List}
 \usage{
-tsl_remove_exclusive_cols(tsl = NULL, tsl_test = FALSE)
+tsl_remove_exclusive_cols(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 time series list

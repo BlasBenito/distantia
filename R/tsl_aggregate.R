@@ -1,7 +1,6 @@
 #' Aggregates Time Series List
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed breaks [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
@@ -14,11 +13,14 @@
 #' @examples
 tsl_aggregate <- function(
     tsl = NULL,
-    tsl_test = FALSE,
     breaks = NULL,
     f = mean,
     ...
 ){
+
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
 
   if(is.function(f) == FALSE){
 
@@ -26,11 +28,6 @@ tsl_aggregate <- function(
       "Argument 'f' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
 
   }
-
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
 
   non_standard_keywords <- data.frame(
     keyword = c(
@@ -58,23 +55,20 @@ tsl_aggregate <- function(
   )
 
   time_range <- tsl_time_range(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   ) |>
     unlist() |>
     unique() |>
     range()
 
   time_units <- tsl_time_units(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   ) |>
     unlist() |>
     unique()
 
   time_class <- tsl_time_class(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   ) |>
     unlist() |>
     unique()
@@ -181,19 +175,8 @@ tsl_aggregate <- function(
 
   }
 
-
-
-
-
-
-
-
-
-
-
   tsl <- tsl_names_set(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   tsl

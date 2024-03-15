@@ -4,12 +4,10 @@
 \alias{tsl_rows}
 \title{Number of rows of a Time Series List}
 \usage{
-tsl_rows(tsl = NULL, tsl_test = FALSE)
+tsl_rows(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 A list if each time series has a different number of rows, and a integer otherwise.

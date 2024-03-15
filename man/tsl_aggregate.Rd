@@ -4,12 +4,10 @@
 \alias{tsl_aggregate}
 \title{Aggregates Time Series List}
 \usage{
-tsl_aggregate(tsl = NULL, tsl_test = FALSE, breaks = NULL, f = mean, ...)
+tsl_aggregate(tsl = NULL, breaks = NULL, f = mean, ...)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed breaks [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 
 \item{breaks}{(required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 \itemize{

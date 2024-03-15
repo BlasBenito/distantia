@@ -9,117 +9,18 @@
 #'
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #'
 #' @return List of character vector or character vector with the time units.
 #' @export
 #' @examples
 #' @autoglobal
 tsl_time_units <- function(
-    tsl = NULL,
-    tsl_test = FALSE
+    tsl = NULL
 ){
 
   tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
+    tsl = tsl
   )
-
-  df_time_summary <- function(df){
-
-    df_time_large <- utils::head(
-      x = df[df$value >= 1, "units"],
-      n = 1
-    )
-
-    df_time_small <- utils::tail(
-      x = df[df$value >= 1, "units"],
-      n = 1
-    )
-
-    df_time_large_index <- which(df$units == df_time_large)
-    df_time_small_index <- which(df$units == df_time_small)
-
-    df$units[
-      seq(
-        from = df_time_large_index,
-        to = df_time_small_index,
-        by = 1)
-    ]
-
-  }
-
-
-  zoo_time_units <- function(x){
-
-    if(!zoo::is.zoo(x)){
-      stop("Argument 'x' must be of class 'zoo'.")
-    }
-
-    x.time.range <- x |>
-      stats::time() |>
-      range()
-
-    x.time.class <- class(x.time.range)
-
-    #handling date types
-    if(x.time.class %in% c("Date", "POSIXct", "POSIXlt")){
-
-      df_time <- data.frame(
-        units = c(
-          "millennium",
-          "century",
-          "decade",
-          "year",
-          "quarter",
-          "month",
-          "week",
-          "day",
-          "hour",
-          "minute",
-          "second"
-        ),
-        value = c(
-          diff(lubridate::year(x.time.range))/1000,
-          diff(lubridate::year(x.time.range))/100,
-          diff(lubridate::year(x.time.range))/10,
-          diff(lubridate::year(x.time.range)),
-          diff(lubridate::month(x.time.range))/3,
-          diff(lubridate::month(x.time.range)),
-          diff(lubridate::day(x.time.range))/7,
-          diff(lubridate::day(x.time.range)),
-          diff(lubridate::hour(x.time.range)),
-          diff(lubridate::minute(x.time.range)),
-          diff(lubridate::second(x.time.range))
-        )
-      )
-
-    } else {
-
-      df_time <- data.frame(
-        units = c(
-          "1e6",
-          "1e5",
-          "1e4",
-          "1e3",
-          "1e2",
-          "1e1"
-        ),
-        value = c(
-          diff(x.time.range)/1000000,
-          diff(x.time.range)/100000,
-          diff(x.time.range)/10000,
-          diff(x.time.range)/1000,
-          diff(x.time.range)/100,
-          diff(x.time.range)/10
-        )
-      )
-
-    }
-
-    df_time_summary(df = df_time)
-
-  }
 
   time_units_list <- lapply(
     X = tsl,

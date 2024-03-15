@@ -1,7 +1,6 @@
 #' Counts NA and Inf Cases in Time Series
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #'
 #' @return Integer, sum of NA cases
@@ -10,25 +9,17 @@
 #' @examples
 tsl_count_NA <- function(
     tsl = NULL,
-    tsl_test = FALSE,
     verbose = TRUE
 ){
 
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
-
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
     )
 
   #replaces NaN with NA
   tsl <- tsl_NaN_to_NA(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   na_per_ts <- lapply(

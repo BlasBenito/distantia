@@ -13,5 +13,7 @@ utils::globalVariables(c(
   "group_size_x", # <psi_cost_path_trim_blocks>
   "na.omit", # <f_detrend_gam>
   "sd", # <scaling_parameters>
+  "tsl_test", # <tsl_transform>
+  "df", # <zoo_time_units>
   NULL
 ))

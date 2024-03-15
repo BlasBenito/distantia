@@ -1,17 +1,32 @@
-#' Supported Time Units
+#' Data Frame with Supported Time Units
 #'
 #' @description
 #' Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the R expression used to identify what time units can be used when aggregating a time series.
 #'
+#' @param expression (optional, logical) If TRUE, the column "expression" is returned. Default: FALSE
+#' @param factor (optional, logical) If TRUE, the column "factor" is returned. Default: FALSE.
 #' @return data frame
 #' @export
 #' @autoglobal
 #' @examples
-utils_time_units <- function(){
+#'
+#' df <- utils_time_units()
+#' head(df)
+#'
+utils_time_units_df <- function(
+    expression = FALSE,
+    factor = FALSE
+    ){
 
   #TODO: check expressions for negative numerics
 
-  data.frame(
+  df <- data.frame(
+    factor = c(
+      1000,
+      100,
+      10,
+      1
+    ),
     units = c(
       "millennium",
       "century",
@@ -144,4 +159,13 @@ utils_time_units <- function(){
     )
   )
 
+  if(expression == FALSE){
+    df$expression <- NULL
+  }
+
+  if(factor == FALSE){
+    df$factor <- NULL
+  }
+
+  df
 }

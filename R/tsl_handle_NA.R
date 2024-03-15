@@ -1,7 +1,6 @@
 #' Handle NA and Inf data in Time Series
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param na_action (required, character) Action to handle NA data in `x`. Current options are:
 #' \itemize{
 #'   \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
@@ -18,27 +17,23 @@
 #' @examples
 tsl_handle_NA <- function(
     tsl = NULL,
-    tsl_test = FALSE,
     na_action = "none",
     na_fill = 0.0001,
     verbose = TRUE
 ){
 
   tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
+    tsl = tsl
   )
 
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   #replaces NaN with NA
   tsl <- tsl_NaN_to_NA(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   na_action <- match.arg(
@@ -135,13 +130,11 @@ tsl_handle_NA <- function(
 
   na.count <- tsl_count_NA(
     tsl = tsl,
-    tsl_test = FALSE,
     verbose = TRUE
   )
 
   tsl <- tsl_names_set(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   tsl
@@ -153,14 +146,8 @@ tsl_handle_NA <- function(
 #' @export
 #' @autoglobal
 tsl_Inf_to_NA <- function(
-    tsl = NULL,
-    tsl_test = FALSE
+    tsl = NULL
 ){
-
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
 
   tsl <- lapply(
     X = tsl,
@@ -186,14 +173,8 @@ tsl_Inf_to_NA <- function(
 #' @export
 #' @autoglobal
 tsl_NaN_to_NA <- function(
-    tsl = NULL,
-    tsl_test = FALSE
+    tsl = NULL
 ){
-
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
 
   tsl <- lapply(
     X = tsl,

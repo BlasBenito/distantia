@@ -6,22 +6,14 @@
 \alias{tsl_NaN_to_NA}
 \title{Handle NA and Inf data in Time Series}
 \usage{
-tsl_handle_NA(
-  tsl = NULL,
-  tsl_test = FALSE,
-  na_action = "none",
-  na_fill = 0.0001,
-  verbose = TRUE
-)
+tsl_handle_NA(tsl = NULL, na_action = "none", na_fill = 1e-04, verbose = TRUE)
 
-tsl_Inf_to_NA(tsl = NULL, tsl_test = FALSE)
+tsl_Inf_to_NA(tsl = NULL)
 
-tsl_NaN_to_NA(tsl = NULL, tsl_test = FALSE)
+tsl_NaN_to_NA(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 
 \item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
 \itemize{

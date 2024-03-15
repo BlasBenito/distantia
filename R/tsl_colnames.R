@@ -7,7 +7,6 @@
 #'   \item "shared": character vector with the shared column names in `tsl`.
 #'   \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
 #' }
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #'
 #' @return character vector of common column names if `common = TRUE`, or list with character vector of column names otherwise.
 #' @export
@@ -15,14 +14,13 @@
 #' @examples
 tsl_colnames <- function(
     tsl = NULL,
-    names = c("all", "shared", "exclusive"),
-    tsl_test = FALSE
+    names = c(
+      "all",
+      "shared",
+      "exclusive"
+      )
 ){
 
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
 
   names <- match.arg(
     arg = names,
@@ -92,7 +90,6 @@ tsl_colnames <- function(
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
 #' @param names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #'
 #' @return
 #' @export
@@ -100,14 +97,9 @@ tsl_colnames <- function(
 #' @examples
 tsl_colnames_set <- function(
     tsl = NULL,
-    names = NULL,
-    tsl_test = FALSE
+    names = NULL
 ){
 
-  tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
-  )
 
   if(is.list(names) == FALSE){
     stop(
@@ -132,8 +124,7 @@ tsl_colnames_set <- function(
   )
 
   tsl <- tsl_names_set(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   tsl
@@ -143,7 +134,6 @@ tsl_colnames_set <- function(
 #' Clean Column Names of a Time Series List
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
@@ -158,7 +148,6 @@ tsl_colnames_set <- function(
 #' @export
 tsl_colnames_clean <- function(
     tsl = NULL,
-    tsl_test = FALSE,
     separator = "_",
     capitalize_first = FALSE,
     capitalize_all = FALSE,
@@ -170,7 +159,6 @@ tsl_colnames_clean <- function(
   tsl.colnames <- tsl.old.names <- tsl_colnames(
     tsl = tsl,
     names = "all",
-    tsl_test = tsl_test
   ) |>
     unlist() |>
     unique()
@@ -187,8 +175,7 @@ tsl_colnames_clean <- function(
 
   tsl <- tsl_colnames_set(
     tsl = tsl,
-    names = as.list(tsl.colnames),
-    tsl_test = FALSE
+    names = as.list(tsl.colnames)
   )
 
   tsl

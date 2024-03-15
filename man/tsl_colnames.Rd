@@ -4,11 +4,7 @@
 \alias{tsl_colnames}
 \title{Column Names of Zoo Objects in Time Series List}
 \usage{
-tsl_colnames(
-  tsl = NULL,
-  names = c("all", "shared", "exclusive"),
-  tsl_test = FALSE
-)
+tsl_colnames(tsl = NULL, names = c("all", "shared", "exclusive"))
 }
 \arguments{
 \item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
@@ -19,8 +15,6 @@ tsl_colnames(
   \item "shared": character vector with the shared column names in `tsl`.
   \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
 }}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 character vector of common column names if `common = TRUE`, or list with character vector of column names otherwise.

@@ -4,12 +4,10 @@
 \alias{tsl_transform}
 \title{Transform Values of a Time Series List}
 \usage{
-tsl_transform(tsl = NULL, tsl_test = FALSE, f = NULL, ...)
+tsl_transform(tsl = NULL, f = NULL, ...)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 
 \item{f}{(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, [scale()]) should work as well:
 \itemize{

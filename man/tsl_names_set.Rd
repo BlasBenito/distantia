@@ -4,14 +4,12 @@
 \alias{tsl_names_set}
 \title{Set Names of a Time Series List}
 \usage{
-tsl_names_set(tsl = NULL, names = NULL, tsl_test = FALSE)
+tsl_names_set(tsl = NULL, names = NULL)
 }
 \arguments{
 \item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
 
 \item{names}{(optional, character vector) names to set. Must be of the same length of `x`. If NULL, and the list `x` has names, then the names of the zoo objects inside of the list are taken from the names of the list elements.}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 time series list

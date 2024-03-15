@@ -4,12 +4,10 @@
 \alias{tsl_time_units}
 \title{Time Units of Time Series List}
 \usage{
-tsl_time_units(tsl = NULL, tsl_test = FALSE)
+tsl_time_units(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{tsl_test}{(optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE}
 }
 \value{
 List of character vector or character vector with the time units.

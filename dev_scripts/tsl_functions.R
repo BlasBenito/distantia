@@ -9,6 +9,9 @@ tsl <- tsl_initialize(
 )
 
 
+tsl_time_units(
+  tsl = tsl
+)
 
 
 

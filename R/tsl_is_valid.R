@@ -15,19 +15,20 @@
 #'
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #'
 #' @return time series list or error.
 #' @export
 #' @autoglobal
 #' @examples
 tsl_is_valid <- function(
-    tsl = NULL,
-    tsl_test = FALSE
+    tsl = NULL
     ){
 
-  if(tsl_test == FALSE){
-    return(tsl)
+  #check valid flag
+  if("valid" %in% names(attributes(tsl))){
+    if(attributes(tsl)$is_valid == TRUE){
+      return(tsl)
+    }
   }
 
   #tsl is a list
@@ -75,8 +76,7 @@ tsl_is_valid <- function(
 
   #zoo objects are named
   zoo.names <- tsl_names(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
   if(length(zoo.names) == 0){
@@ -101,8 +101,7 @@ tsl_is_valid <- function(
   #common names
   shared.names <- tsl_colnames(
     tsl = tsl,
-    names = "shared",
-    tsl_test = FALSE
+    names = "shared"
     )
 
   if(length(shared.names) == 0) {
@@ -116,7 +115,6 @@ tsl_is_valid <- function(
   #non NA
   na.count <- tsl_count_NA(
     tsl = tsl,
-    tsl_test = FALSE,
     verbose = FALSE
     )
 
@@ -128,6 +126,12 @@ tsl_is_valid <- function(
     )
 
   }
+
+  #set valid flag
+  attr(
+    x = tsl,
+    which = "valid"
+  ) <- TRUE
 
   tsl
 }

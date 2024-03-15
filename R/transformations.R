@@ -464,8 +464,7 @@ scaling_parameters <- function(
       message("Removing exclusive columns before scaling.")
 
       tsl <- tsl_remove_exclusive_cols(
-        tsl = tsl,
-        tsl_test = FALSE
+        tsl = tsl
       )
 
     }

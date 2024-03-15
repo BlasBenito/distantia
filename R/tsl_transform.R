@@ -4,7 +4,6 @@
 #' Transforms values of the zoo objects within a time series list. Generally, functions introduced via the argument `f` should not change the dimensions of the output time series list. However, there are glaring exceptions. For example, [f_center()] and [f_scale()] compute the overall mean and standard deviation across all zoo objects in the time series list to apply a common transformation. This requires removing exclusive columns from the zoo objects via [tsl_remove_exclusive_cols()].
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param tsl_test (optional, logical) If TRUE, a validity test on the argument `tsl` is performed by [tsl_is_valid()]. It might be useful to set it to TRUE if something goes wrong while executing this function. Default: FALSE
 #' @param f (required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, [scale()]) should work as well:
 #' \itemize{
 #'   \item f_proportion: proportion computed by row.
@@ -25,7 +24,6 @@
 #' @examples
 tsl_transform <- function(
     tsl = NULL,
-    tsl_test = FALSE,
     f = NULL,
     ...
 ){
@@ -44,24 +42,19 @@ tsl_transform <- function(
   }
 
   tsl <- tsl_is_valid(
-    tsl = tsl,
-    tsl_test = tsl_test
+    tsl = tsl
   )
 
-  if(tsl_test == TRUE){
+  na.count <- tsl_count_NA(
+    tsl = tsl,
+    verbose = FALSE
+  ) |>
+    suppressWarnings()
 
-    na.count <- tsl_count_NA(
-      tsl = tsl,
-      tsl_test = tsl_test,
-      verbose = FALSE
-    ) |>
-      suppressWarnings()
-
-    if(na.count > 0){
-      stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
-    }
-
+  if(na.count > 0){
+    stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
   }
+
 
   #handle scaling
   scaling_params <- scaling_parameters(
@@ -110,7 +103,6 @@ tsl_transform <- function(
   if(tsl_test == TRUE){
     na.count <- tsl_count_NA(
       tsl = tsl,
-      tsl_test = FALSE,
       verbose = TRUE
     )
   }
