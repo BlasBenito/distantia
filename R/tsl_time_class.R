@@ -26,6 +26,12 @@ tsl_time_class <- function(
 
   if(length(time_unique) == 1){
     time <- time_unique[[1]]
+  } else {
+    time <- time_unique
+    warning(
+      "The time class of all elements in 'tsl' must be the same. Having different time classes in a 'tsl' object might cause unintended issues in other functions of this package.",
+      call. = FALSE
+      )
   }
 
   time

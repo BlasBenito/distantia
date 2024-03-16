@@ -2,12 +2,12 @@
 % Please edit documentation in R/tsl_time_units.R
 \name{tsl_time_units}
 \alias{tsl_time_units}
-\title{Time Units of Time Series List}
+\title{Time Units of a Time Series List}
 \usage{
 tsl_time_units(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
+\item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
 }
 \value{
 List of character vector or character vector with the time units.

@@ -29,57 +29,32 @@ tsl_aggregate <- function(
 
   }
 
-  non_standard_keywords <- data.frame(
-    keyword = c(
-      "millennium",
-      "century",
-      "decade",
-      "1e6",
-      "1e5",
-      "1e4",
-      "1e3",
-      "1e2",
-      "1e1"
-    ),
-    factor = c(
-      1000,
-      100,
-      10,
-      1000000,
-      100000,
-      10000,
-      1000,
-      100,
-      10
-    )
+  #gather tsl time features
+  tsl_time <- tsl_time_summary(
+    tsl = tsl
   )
 
-  time_range <- tsl_time_range(
-    tsl = tsl
-  ) |>
-    unlist() |>
-    unique() |>
-    range()
+  #units data frame
+  tsl_time_units <- utils_time_units_df(
+    all_columns = TRUE
+  )
 
-  time_units <- tsl_time_units(
-    tsl = tsl
-  ) |>
-    unlist() |>
-    unique()
+  #subset by units
+  tsl_time_units <- tsl_time_units[tsl_time_units$units %in% tsl_time$units, ]
 
-  time_class <- tsl_time_class(
-    tsl = tsl
-  ) |>
-    unlist() |>
-    unique()
+  #subset by class
+  tsl_time_class_column <- paste0(
+    "class_",
+    tsl_time$class
+  )
 
-  if(length(time_class) > 1){
-    stop("The time class of all elements in 'tsl' must be the same. Please apply distantia::tsl_time_class() to identify and fix or remove objects with a discordant time class.")
+  if(tsl_time_class_column %in% colnames(tsl_time_units)){
+    tsl_time_units <- tsl_time_units[tsl_time_units[[tsl_time_class_column]] == TRUE, ]
+  } else {
+    stop("Supported time classes for aggregation are 'Date', 'POSIXct', and 'numeric'.")
   }
 
-  #remove last element
-  time_resolution <- tail(time_units, n = 1)
-  time_units <- time_units[-length(time_units)]
+  # breaks ----
 
   #examples of breaks
   # breaks <- "year"
@@ -88,88 +63,74 @@ tsl_aggregate <- function(
   # breaks <- "week"
   # breaks <-
 
-  #breaks is a vector
-  if(length(breaks) > 1){
+  #breaks is a keyword or a number
+  if(length(breaks) == 1){
 
-    #convert to date
+    #breaks is a keyword
     if(is.character(breaks)){
 
-      if(time_class == "Date"){
-        breaks <- as.Date(breaks)
+      if(breaks %in% tsl_time_units$units){
+
+        breaks_factor <- tsl_time_units[tsl_time_units$units == breaks, "factor"]
+
+        #breaks is an accepted aggregation keyword
+        if(is.na(breaks_factor)){
+
+          breaks_ready <- breaks
+
+        } else {
+
+          #recompute factor
+          tsl_time_units$factor <- rev(
+            c(
+              1,
+              10^seq(
+                from = 1,
+                to = (nrow(tsl_time_units) - 1),
+                by = 1
+              )
+            )
+          )
+
+          breaks_factor <- tsl_time_units[tsl_time_units$units == breaks, "factor"]
+
+          #raw breaks
+          breaks_raw <- seq(
+            from = min(tsl_time$range),
+            to = max(tsl_time$range),
+            by = breaks_factor
+          )
+
+          #pretty breaks
+          breaks_ready <- pretty(
+            x = breaks_raw,
+            n = length(breaks_raw)
+          )
+
+        }
+
+      } else {
+
+        stop(
+          "Valid options for 'breaks' keywords are: '",
+          paste0(
+            tsl_time_units$units[tsl_time_units$units != tsl_time$resolution],
+            collapse = "',
+            '"
+            ),
+          "'."
+        )
+
       }
 
-      if(time_class == "POSIXct"){
-        breaks <- as.POSIXct(breaks)
-      }
 
-      if(time_class == "POSIXlt"){
-        breaks <- as.POSIXlt(breaks)
-      }
-
-    }
-
-    #subset breaks to the time range
-    breaks <- breaks[
-      breaks >= min(time_range) &
-        breaks <= max(time_range)
-    ]
-
-    if(length(breaks) == 0){
-      stop("The time ranges of 'breaks' and 'tsl' do not overlap.")
-    }
-
-  #breaks is a keyword
-  } else {
-
-    #remove non-allowed keywords from non_standard_keywords
-
-    accepted_keywords <- c(
-      time_units,
-      non_standard_keywords$keyword
-      )
-
-    #handling breaks as a keyword
-    if(
-      !(breaks %in%
-        c(time_units, non_standard_keywords$keyword))
-      ){
-
+    #breaks is a number
+    } else {
 
 
     }
 
-    #convert not supported keywords to integer
-    if(breaks %in% non_standard_keywords$keyword){
-
-      breaks <- non_standard_keywords[non_standard_keywords$keyword == breaks, "factor"]
-
-    }
-
-
-  }
-
-
-
-
-
-
-  #breaks is numeric
-  if(is.numeric(breaks)){
-
-    if(length(breaks) == 1){
-
-      breaks <- seq(
-        from = min(time_range),
-        to = max(time_range),
-        by = breaks
-      )
-
-      breaks <- pretty(
-        x = breaks,
-        n = length(breaks)
-      )
-
-    }
+    #breaks is in tsl_time_units
 
 
 

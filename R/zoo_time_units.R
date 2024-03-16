@@ -9,7 +9,7 @@
 zoo_time_units <- function(x){
 
   time_units <- utils_time_units_df(
-    expression = TRUE
+    all_columns = TRUE
   )
 
   time_class <- class(stats::time(x))
@@ -43,12 +43,10 @@ zoo_time_units <- function(x){
 
   time_units$units[
     seq(
-      from = which(df$units == time_units_head),
-      to = which(df$units == time_units_tail),
+      from = which(time_units$units == time_units_head),
+      to = which(time_units$units == time_units_tail),
       by = 1
     )
   ]
-
-  time_units
 
 }

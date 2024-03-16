@@ -4,10 +4,10 @@
 \alias{utils_time_units_df}
 \title{Data Frame with Supported Time Units}
 \usage{
-utils_time_units_df(expression = FALSE)
+utils_time_units_df(all_columns = FALSE)
 }
 \arguments{
-\item{expression}{(optional, logical) if TRUE, the column "expression" is returned. Default: FALSE}
+\item{all_columns}{(optional, logical) If TRUE, all columns are returned. Default: FALSE}
 }
 \value{
 data frame

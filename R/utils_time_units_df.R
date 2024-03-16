@@ -3,8 +3,7 @@
 #' @description
 #' Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the R expression used to identify what time units can be used when aggregating a time series.
 #'
-#' @param expression (optional, logical) If TRUE, the column "expression" is returned. Default: FALSE
-#' @param factor (optional, logical) If TRUE, the column "factor" is returned. Default: FALSE.
+#' @param all_columns (optional, logical) If TRUE, all columns are returned. Default: FALSE
 #' @return data frame
 #' @export
 #' @autoglobal
@@ -14,8 +13,7 @@
 #' head(df)
 #'
 utils_time_units_df <- function(
-    expression = FALSE,
-    factor = FALSE
+    all_columns = FALSE
     ){
 
   #TODO: check expressions for negative numerics
@@ -25,7 +23,27 @@ utils_time_units_df <- function(
       1000,
       100,
       10,
-      1
+      NA,
+      NA,
+      NA,
+      NA,
+      NA,
+      NA,
+      NA,
+      NA,
+      as.numeric("1e6"),
+      as.numeric("1e5"),
+      as.numeric("1e4"),
+      as.numeric("1e3"),
+      as.numeric("1e2"),
+      as.numeric("1e1"),
+      as.numeric("1"),
+      as.numeric("1e-1"),
+      as.numeric("1e-2"),
+      as.numeric("1e-3"),
+      as.numeric("1e-4"),
+      as.numeric("1e-5"),
+      as.numeric("1e-6")
     ),
     units = c(
       "millennium",
@@ -159,11 +177,8 @@ utils_time_units_df <- function(
     )
   )
 
-  if(expression == FALSE){
+  if(all_columns == FALSE){
     df$expression <- NULL
-  }
-
-  if(factor == FALSE){
     df$factor <- NULL
   }
 

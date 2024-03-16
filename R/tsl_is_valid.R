@@ -26,7 +26,7 @@ tsl_is_valid <- function(
 
   #check valid flag
   if("valid" %in% names(attributes(tsl))){
-    if(attributes(tsl)$is_valid == TRUE){
+    if(attributes(tsl)$valid == TRUE){
       return(tsl)
     }
   }
