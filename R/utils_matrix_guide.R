@@ -28,7 +28,7 @@
 #'
 #' @export
 #' @autoglobal
-plot_utils_matrix_guide <- function(
+utils_matrix_guide <- function(
     m = NULL,
     color = NULL,
     breaks = NULL,
@@ -55,7 +55,7 @@ plot_utils_matrix_guide <- function(
   }
 
   if(is.null(breaks)){
-    breaks <- plot_utils_color_breaks(
+    breaks <- utils_color_breaks(
       m = m,
       n = length(color)
     )

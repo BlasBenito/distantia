@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-plot_utils_line_plot <- function(
+utils_line_plot <- function(
     x = NULL,
     center = FALSE,
     scale = FALSE,
@@ -85,7 +85,7 @@ plot_utils_line_plot <- function(
 
   #default palette
   if(is.null(names(color))){
-    color <- plot_utils_line_color(
+    color <- utils_line_color(
       x = x,
       color = color
     )
@@ -271,7 +271,7 @@ plot_utils_line_plot <- function(
 
   if(guide == TRUE){
 
-    plot_utils_line_guide(
+    utils_line_guide(
       x = x,
       position = guide_position,
       color = color,

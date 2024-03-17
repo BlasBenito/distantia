@@ -11,7 +11,7 @@
 #' @noRd
 #' @keywords internal
 #' @export
-plot_utils_line_color <- function(
+utils_line_color <- function(
     x = NULL,
     color = NULL
 ){

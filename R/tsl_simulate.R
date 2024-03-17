@@ -47,7 +47,7 @@ tsl_simulate <- function(
   tsl <- list()
   for(i in seq_len(n)){
 
-    simulated.i <- zoo_simulated(
+    simulated.i <- zoo_simulate(
       cols = cols,
       rows = rows,
       time_range = time_range,

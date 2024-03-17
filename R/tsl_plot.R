@@ -47,7 +47,7 @@ tsl_plot <- function(
   )
 
   #generate colors
-  color <- plot_utils_line_color(
+  color <- utils_line_color(
     x = tsl,
     color = color
   )
@@ -72,7 +72,7 @@ tsl_plot <- function(
 
     if(i <= length(tsl)){
 
-      plot_utils_line_plot(
+      utils_line_plot(
         x = tsl[[i]],
         center = center,
         scale = scale,
@@ -100,7 +100,7 @@ tsl_plot <- function(
     } else {
 
       if(guide == TRUE){
-        plot_utils_line_guide(
+        utils_line_guide(
           x = tsl,
           position = "center",
           color = color,

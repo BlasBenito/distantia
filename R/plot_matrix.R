@@ -13,7 +13,7 @@
 #' @param path (optional, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
 #' @param path_width (optional, numeric) width of the least-cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
-#' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [plot_utils_matrix_guide()].
+#' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].
 #' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].
 #'
 #' @return A plot
@@ -136,7 +136,7 @@ plot_matrix <- function(
     )
   }
 
-  breaks <- plot_utils_color_breaks(
+  breaks <- utils_color_breaks(
     m = m,
     n = length(color)
   )
@@ -265,7 +265,7 @@ plot_matrix <- function(
       new = TRUE
     )
 
-    plot_utils_matrix_guide(
+    utils_matrix_guide(
       m = m,
       color = color,
       breaks = breaks,

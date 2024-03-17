@@ -8,7 +8,7 @@
 #' @examples
 zoo_time_units <- function(x){
 
-  time_units <- utils_time_units_df(
+  time_units <- utils_time_units(
     all_columns = TRUE
   )
 

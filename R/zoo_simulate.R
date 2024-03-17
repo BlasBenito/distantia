@@ -58,15 +58,17 @@ zoo_simulate <- function(
   }
 
   # irregular ----
-  time_range <- sort(time_range[c(1, 2)])
-
-  if(is.character(time_range)){
-    time_range <- as.Date(time_range)
-    time_range_days <- as.numeric(diff(time_range))
-    if(time_range_days < rows){
-      time_range[which.max(time_range)] <- max(time_range) + (rows - time_range_days)
-    }
+  if(length(time_range) != 2){
+    stop("Argument 'time_range' must be a vector of length 2.")
   }
+
+  # handling time range
+  time_range <- utils_time_class(
+    x = time_range,
+    quiet = FALSE
+  )
+
+  time_range <- sort(time_range[c(1, 2)])
 
   time_names <- seq(
     from = min(time_range),

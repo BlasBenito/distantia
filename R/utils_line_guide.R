@@ -17,13 +17,13 @@
 #'   id_column = "MIS"
 #' )
 #'
-#' plot_utils_line_guide(
+#' utils_line_guide(
 #'   x = x[["MIS-9"]],
 #'   position = "center"
 #' )
 #' @autoglobal
 #' @export
-plot_utils_line_guide <- function(
+utils_line_guide <- function(
     x,
     position = "topright",
     color = NULL,
@@ -39,7 +39,7 @@ plot_utils_line_guide <- function(
   title_distance <- 0.75
 
   #default palette
-  color <- plot_utils_line_color(
+  color <- utils_line_color(
     x = x,
     color = color
   )

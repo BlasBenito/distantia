@@ -195,7 +195,7 @@ psi_plot <- function(
     bty = "n"
     )
 
-  plot_utils_line_plot(
+  utils_line_plot(
     x = y,
     center = line_center,
     scale = line_scale,
@@ -233,7 +233,7 @@ psi_plot <- function(
     bty = "n"
     )
 
-  plot_utils_line_plot(
+  utils_line_plot(
     x = x,
     center = line_center,
     scale = line_scale,
@@ -270,7 +270,7 @@ psi_plot <- function(
     mgp = c(3, 0.5, 0)
   )
 
-  plot_utils_matrix_guide(
+  utils_matrix_guide(
     m = m,
     color = matrix_color,
     text_cex = text_cex
@@ -282,7 +282,7 @@ psi_plot <- function(
     new = TRUE
   )
 
-  plot_utils_line_guide(
+  utils_line_guide(
     x = y,
     position = "center",
     color = line_color,

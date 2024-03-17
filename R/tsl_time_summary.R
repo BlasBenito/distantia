@@ -33,7 +33,7 @@ tsl_time_summary <- function(
       unique() |>
       range(),
     units = tsl_units,
-    resolution = tail(time_units, n = 1)
+    resolution = tail(tsl_units, n = 1)
   )
 
 }

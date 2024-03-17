@@ -96,17 +96,13 @@ tsl_transform <- function(
 
   #reset names of zoo objects
   tsl <- tsl_names_set(
-    tsl = tsl,
-    tsl_test = FALSE
+    tsl = tsl
   )
 
-  if(tsl_test == TRUE){
-    na.count <- tsl_count_NA(
-      tsl = tsl,
-      verbose = TRUE
-    )
-  }
-
+  na.count <- tsl_count_NA(
+    tsl = tsl,
+    verbose = TRUE
+  )
 
   tsl
 

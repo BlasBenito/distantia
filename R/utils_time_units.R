@@ -12,7 +12,7 @@
 #' df <- utils_time_units()
 #' head(df)
 #'
-utils_time_units_df <- function(
+utils_time_units <- function(
     all_columns = FALSE
     ){
 
