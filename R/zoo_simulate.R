@@ -65,7 +65,7 @@ zoo_simulate <- function(
   # handling time range
   time_range <- utils_time_class(
     x = time_range,
-    quiet = FALSE
+    quiet = TRUE
   )
 
   time_range <- sort(time_range[c(1, 2)])
@@ -80,7 +80,12 @@ zoo_simulate <- function(
     )
   )
 
-  time_names <- sort(sample(x = time_names, size = rows))
+  time_names <- sort(
+    sample(
+      x = time_names,
+      size = rows
+      )
+    )
 
   # data_range ----
   if(!is.numeric(data_range)){

@@ -63,60 +63,28 @@ utils_time_class <- function(
   # x <- as.POSIXct(c("2022-03-17 12:30:45", "2024-02-05 11:15:45"))
   # x <- c("2022-03-17", "2024-02-05")
 
-  # x is numeric
-  if(
-    all(
-      sapply(
-        X = x,
-        FUN = function(y) inherits(y, "numeric")
-      )
-    )
-  ){
+  #valid time class
+  time_class <- sapply(
+    X = x,
+    FUN = class
+  ) |>
+    unique()
+
+
+  if(time_class %in% c("numeric", "Date", "POSIXct")){
     if(quiet == FALSE){
-      message("Time class: 'numeric'.", call. = FALSE)
+      message(
+        "Time class is '",
+        time_class,
+        "'."
+      )
     }
     return(x)
   }
 
-  # x is Date
-  if(
-    all(
-      sapply(
-        X = x,
-        FUN = function(y) inherits(y, "Date")
-      )
-    )
-  ){
-    if(quiet == FALSE){
-      message("Time class: 'Date'.", call. = FALSE)
-    }
-    return(x)
-  }
 
-  # x is POSIXct
-  if(
-    all(
-      sapply(
-        X = x,
-        FUN = function(y) inherits(y, "POSIXct")
-      )
-    )
-  ){
-    if(quiet == FALSE){
-      message("Time class: 'POSIXct'.", call. = FALSE)
-    }
-    return(x)
-  }
-
-  # x is character
-  if(
-    all(
-      sapply(
-        X = x,
-        FUN = function(y) inherits(y, "character")
-      )
-    )
-  ){
+  # x is character, coerce to Date or POSIXct
+  if(time_class == "character"){
 
     #count characters
     x_nchar <- sapply(
@@ -146,7 +114,9 @@ utils_time_class <- function(
       if(x_nchar == 4){
 
         if(quiet == FALSE){
-          message("Adding month and day '-01-01' to year strings.", call. = FALSE)
+          message(
+            "Adding month and day '-01-01' to year strings."
+            )
         }
 
         x <- paste0(
@@ -160,7 +130,9 @@ utils_time_class <- function(
       if(x_nchar == 7){
 
         if(quiet == FALSE){
-          message("Adding day '-01' to year-month strings.", call. = FALSE)
+          message(
+            "Adding day '-01' to year-month strings."
+            )
         }
 
         x <- paste0(
@@ -171,7 +143,9 @@ utils_time_class <- function(
       }
 
       if(quiet == FALSE){
-        message("Coercing to Date class with format '%Y-%m-%d'.", call. = FALSE)
+        message(
+          "Coercing to Date class with format '%Y-%m-%d'."
+          )
       }
 
       x <- as.Date(
@@ -184,7 +158,7 @@ utils_time_class <- function(
     } else {
 
       if(quiet == FALSE){
-        message("Coercing to POSIXct class with format '%Y-%m-%d %H:%M:%S'.", call. = FALSE)
+        message("Coercing to POSIXct class with format '%Y-%m-%d %H:%M:%S'.")
       }
 
       x <- as.POSIXct(
@@ -202,6 +176,5 @@ utils_time_class <- function(
     "Argument 'x' cannot be coerced to a valid time class. Supported time classes are 'numeric' (for arbitrary time scales), or any character string coercible to 'Date' (format '%Y-%m-%d') or 'POSIXct' (format '%Y-%m-%d %H:%M:%S').",
     call. = FALSE
   )
-
 
 }

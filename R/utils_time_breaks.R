@@ -3,23 +3,14 @@ utils_time_breaks <- function(
     breaks = NULL
 ){
 
-  # data("covid")
-  #
-  # tsl <- tsl_initialize(
-  #   x = covid,
-  #   id_column = "county",
-  #   time_column = "date"
+
+  # tsl <- tsl_simulate()
+  # tsl <- tsl_simulate(
+  #   time_range = c(-123120, 1200)
   # )
-
-  tsl <- tsl_simulate()
-  tsl <- tsl_simulate(
-    time_range = c(-123120, 1200)
-  )
-  tsl <- tsl_simulate(
-    time_range = c("2022-03-17 12:30:45", "2024-02-05 11:15:45")
-  )
-
-  as.POSIXct("2024-03-17 12:30:45")
+  # tsl <- tsl_simulate(
+  #   time_range = c("2022-03-17 12:30:45", "2024-02-05 11:15:45")
+  # )
 
   tsl <- tsl_is_valid(
     tsl = tsl
@@ -45,7 +36,12 @@ utils_time_breaks <- function(
   )
 
   if(tsl_time_class_column %in% colnames(tsl_time_units)){
+
     tsl_time_units <- tsl_time_units[tsl_time_units[[tsl_time_class_column]] == TRUE, ]
+
+    #remove resolution
+    keywords <- tsl_time_units[tsl_time_units$units != tsl_time$resolution, "units"]
+
   } else {
     stop("Supported time classes for aggregation are 'Date', 'POSIXct', and 'numeric'.")
   }
