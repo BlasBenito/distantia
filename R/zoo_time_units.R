@@ -9,19 +9,9 @@
 zoo_time_units <- function(x){
 
   time_units <- utils_time_units(
-    all_columns = TRUE
+    all_columns = TRUE,
+    class = class(stats::time(x))
   )
-
-  time_class <- class(stats::time(x))
-
-  time_class <- paste0(
-    "class_", time_class
-  )
-
-  time_units <- time_units[
-    time_units[[time_class]] == TRUE,
-    c("units", "expression")
-  ]
 
   time_units$select <- lapply(
     X = time_units$expression,

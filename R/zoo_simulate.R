@@ -63,7 +63,7 @@ zoo_simulate <- function(
   }
 
   # handling time range
-  time_range <- utils_time_class(
+  time_range <- utils_as_time(
     x = time_range,
     quiet = TRUE
   )

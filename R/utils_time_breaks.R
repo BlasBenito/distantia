@@ -11,122 +11,78 @@ utils_time_breaks <- function(
   # tsl <- tsl_simulate(
   #   time_range = c("2022-03-17 12:30:45", "2024-02-05 11:15:45")
   # )
-
-  tsl <- tsl_is_valid(
-    tsl = tsl
-  )
-
-  #gather tsl time features
-  tsl_time <- tsl_time_summary(
-    tsl = tsl
-  )
-
-  #units data frame
-  tsl_time_units <- utils_time_units(
-    all_columns = TRUE
-  )
-
-  #subset by units
-  tsl_time_units <- tsl_time_units[tsl_time_units$units %in% tsl_time$units, ]
-
-  #subset by class
-  tsl_time_class_column <- paste0(
-    "class_",
-    tsl_time$class
-  )
-
-  if(tsl_time_class_column %in% colnames(tsl_time_units)){
-
-    tsl_time_units <- tsl_time_units[tsl_time_units[[tsl_time_class_column]] == TRUE, ]
-
-    #remove resolution
-    keywords <- tsl_time_units[tsl_time_units$units != tsl_time$resolution, "units"]
-
-  } else {
-    stop("Supported time classes for aggregation are 'Date', 'POSIXct', and 'numeric'.")
-  }
-
-  # breaks ----
-
   #examples of breaks
   # breaks <- "year"
   # breaks <- "quarter"
   # breaks <- "month"
   # breaks <- "week"
-  # breaks <-
+  # breaks <- 200
+  # breaks <- 1000
 
-  #breaks is a keyword or a number
-  if(length(breaks) == 1){
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
 
-    #breaks is a keyword
-    if(is.character(breaks)){
+  tsl_time <- tsl_time_summary(
+    tsl = tsl
+  )
 
-      if(breaks %in% tsl_time_units$units){
+  time_units <- utils_time_units(
+    all_columns = TRUE,
+    class = tsl_time$class
+  )
 
-        breaks_factor <- tsl_time_units[tsl_time_units$units == breaks, "factor"]
+  breaks <- utils_as_time(
+    x = breaks,
+    quiet = TRUE
+  )
 
-        #breaks is an accepted aggregation keyword
-        if(is.na(breaks_factor)){
+  #breaks is time
+  if(class(breaks) == tsl_time$class){
 
-          breaks_ready <- breaks
+    #breaks length is 1
+    if(length(breaks) == 1){
 
-        } else {
+      #breaks from time interval
+      breaks <- seq(
+        from = min(tsl_time$range),
+        to = max(tsl_time$range),
+        by = breaks
+      )
 
-          #recompute factor
-          tsl_time_units$factor <- rev(
-            c(
-              1,
-              10^seq(
-                from = 1,
-                to = (nrow(tsl_time_units) - 1),
-                by = 1
-              )
-            )
-          )
-
-          breaks_factor <- tsl_time_units[tsl_time_units$units == breaks, "factor"]
-
-          #raw breaks
-          breaks_raw <- seq(
-            from = min(tsl_time$range),
-            to = max(tsl_time$range),
-            by = breaks_factor
-          )
-
-          #pretty breaks
-          breaks_ready <- pretty(
-            x = breaks_raw,
-            n = length(breaks_raw)
-          )
-
-        }
-
-      } else {
-
-        stop(
-          "Valid options for 'breaks' keywords are: '",
-          paste0(
-            tsl_time_units$units[tsl_time_units$units != tsl_time$resolution],
-            collapse = "',
-            '"
-          ),
-          "'."
-        )
-
-      }
-
-
-      #breaks is a number
-    } else {
-
+      #pretty breaks
+      breaks <- pretty(
+        x = breaks,
+        n = length(breaks)
+      )
 
     }
 
-    #breaks is in tsl_time_units
 
+  #breaks should be a keyword
+  } else {
+
+    #find breaks in units
+    time_factor <- time_units[
+      time_units$units %in% breaks,
+      "factor"
+    ]
+
+  }
+
+
+  #not in time_units
+  if(length(time_factor) == 0){
+
+
+
+  } else {
 
 
   }
 
 
 }
+
+
+

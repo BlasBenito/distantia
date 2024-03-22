@@ -4,6 +4,7 @@
 #' Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the R expression used to identify what time units can be used when aggregating a time series.
 #'
 #' @param all_columns (optional, logical) If TRUE, all columns are returned. Default: FALSE
+#' @param class (optional, class name). Used to filter rows and columns. Accepted values are "numeric", "Date", and "POSIXct". Default: NULL
 #' @return data frame
 #' @export
 #' @autoglobal
@@ -13,7 +14,8 @@
 #' head(df)
 #'
 utils_time_units <- function(
-    all_columns = FALSE
+    all_columns = FALSE,
+    class = NULL
     ){
 
   #TODO: check expressions for negative numerics
@@ -71,7 +73,7 @@ utils_time_units <- function(
       "1e-5",
       "1e-6"
     ),
-    class_Date = c(
+    Date = c(
       TRUE,
       TRUE,
       TRUE,
@@ -97,7 +99,7 @@ utils_time_units <- function(
       FALSE,
       FALSE
     ),
-    class_POSIXct = c(
+    POSIXct = c(
       TRUE,
       TRUE,
       TRUE,
@@ -123,7 +125,7 @@ utils_time_units <- function(
       FALSE,
       FALSE
     ),
-    class_numeric = c(
+    numeric = c(
       FALSE,
       FALSE,
       FALSE,
@@ -180,6 +182,18 @@ utils_time_units <- function(
   if(all_columns == FALSE){
     df$expression <- NULL
     df$factor <- NULL
+  }
+
+  if(class %in% c(
+    "Date",
+    "POSIXct",
+    "numeric"
+  )){
+
+    df <- df[
+      df[[class]] == TRUE,
+      c("factor", "units", class, "expression")]
+
   }
 
   df
