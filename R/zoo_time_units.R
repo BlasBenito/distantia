@@ -8,9 +8,15 @@
 #' @examples
 zoo_time_units <- function(x){
 
+  time_class <- class(stats::time(x))
+
+  if("POSIXct" %in% time_class){
+    time_class <- "POSIXct"
+  }
+
   time_units <- utils_time_units(
     all_columns = TRUE,
-    class = class(stats::time(x))
+    class = time_class
   )
 
   time_units$select <- lapply(

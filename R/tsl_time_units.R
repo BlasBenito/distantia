@@ -22,24 +22,18 @@ tsl_time_units <- function(
     tsl = tsl
   )
 
-  time_units_list <- lapply(
+  time <- lapply(
     X = tsl,
     FUN = zoo_time_units
   )
 
-  time_units_unique <- time_units_list |>
+  time_unique <- time |>
     unique()
 
-  if(length(time_units_unique) == 1){
-    time_units <- time_units_unique[[1]]
-  } else {
-    time_units <- time_units_unique
-    warning(
-      "The time units of all elements in 'tsl' must be the same. Having different time units in a 'tsl' object might cause unintended issues in other functions of this package.",
-      call. = FALSE
-      )
+  if(length(time_unique) == 1){
+    time <- time_unique[[1]]
   }
 
-  time_units
+  time
 
 }

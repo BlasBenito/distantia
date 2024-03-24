@@ -10,15 +10,8 @@ utils_is_time <- function(
     x = NULL
     ){
 
-  #valid time class
-  time_class <- sapply(
-    X = x,
-    FUN = class
-  ) |>
-    unique()
-
   #x is valid time class
-  if(time_class %in% c(
+  if(base::class(x) %in% c(
     "numeric",
     "Date",
     "POSIXct"

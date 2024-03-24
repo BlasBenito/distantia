@@ -3,21 +3,63 @@ utils_time_breaks <- function(
     breaks = NULL
 ){
 
+  #EXAMPLES
+  ########################################
 
-  # tsl <- tsl_simulate()
-  # tsl <- tsl_simulate(
-  #   time_range = c(-123120, 1200)
-  # )
-  # tsl <- tsl_simulate(
-  #   time_range = c("2022-03-17 12:30:45", "2024-02-05 11:15:45")
-  # )
-  #examples of breaks
-  # breaks <- "year"
-  # breaks <- "quarter"
-  # breaks <- "month"
-  # breaks <- "week"
-  # breaks <- 200
-  # breaks <- 1000
+  #Date
+  tsl <- tsl_simulate(
+    time_range = c(
+      "0100-01-01",
+      "2024-12-31"
+    )
+  )
+
+  breaks <- "millennium"
+  breaks <- "century"
+  breaks <- "decade"
+  breaks <- "year"
+  breaks <- "quarter"
+  breaks <- "month"
+  breaks <- "week"
+  breaks <- c(
+    "0150-01-01",
+    "1500-12-02",
+    "1800-12-02",
+    "2000-01-02"
+  )
+
+  #POSIXct
+  tsl <- tsl_simulate(
+    time_range = c(
+      "0100-01-01 12:00:25",
+      "2024-12-31 11:15:45"
+    )
+  )
+
+  breaks <- "millennium"
+  breaks <- "century"
+  breaks <- "decade"
+  breaks <- "year"
+  breaks <- "quarter"
+  breaks <- "month"
+  breaks <- "week"
+  breaks <- "hour"
+  breaks <- c(
+    "0150-01-01",
+    "1500-12-02",
+    "1800-12-02",
+    "2000-01-02"
+  )
+
+
+  #numeric
+  tsl <- tsl_simulate(
+    time_range = c(-123120, 1200)
+  )
+
+  breaks <- 1000
+  breaks <- 100
+  #######################################
 
   tsl <- tsl_is_valid(
     tsl = tsl
@@ -32,55 +74,122 @@ utils_time_breaks <- function(
     class = tsl_time$class
   )
 
-  breaks <- utils_as_time(
-    x = breaks,
-    quiet = TRUE
-  )
+  #remove data resolution
+  time_units <- time_units[
+    time_units$units != tsl_time$resolution,
+  ]
 
-  #breaks is time
-  if(class(breaks) == tsl_time$class){
+  #breaks length is 1, convert to vector
+  if(length(breaks) == 1){
 
-    #breaks length is 1
-    if(length(breaks) == 1){
+    #breaks is a keyword
+    if(breaks %in% time_units$units){
 
-      #breaks from time interval
-      breaks <- seq(
-        from = min(tsl_time$range),
-        to = max(tsl_time$range),
-        by = breaks
-      )
+      #subset time units
+      time_units <- time_units[
+        time_units$units == breaks,
+      ]
 
-      #pretty breaks
-      breaks <- pretty(
-        x = breaks,
-        n = length(breaks)
-      )
+      #if invalid keyword, round dates and convert to vector
+      if(time_units$keyword == FALSE){
 
-    }
+        unit <- paste0(time_units$factor, " years")
+
+        tsl_time$range <- as.Date(tsl_time$range)
+
+        breaks <- seq.Date(
+          from = lubridate::round_date(
+            min(tsl_time$range),
+            unit = unit
+          ),
+          to = lubridate::round_date(
+            max(tsl_time$range),
+            unit = unit
+          ),
+          by = unit
+        )
+
+      } else {
+
+        if("Date" %in% class(tsl_time$range)){
+
+          breaks <- seq.Date(
+            from = min(tsl_time$range),
+            to = max(tsl_time$range),
+            by = breaks
+          )
+
+        }
+
+        if("POSIXct" %in% class(tsl_time$range)){
+          breaks <- seq.POSIXt(
+            from = min(tsl_time$range),
+            to = max(tsl_time$range),
+            by = breaks
+          )
+
+        }
+
+      } #END of if(time_units$keyword == FALSE){
+
+    } #END of if(breaks %in% time_units$units){
+
+  } #END of if(length(breaks) == 1){
 
 
-  #breaks should be a keyword
-  } else {
-
-    #find breaks in units
-    time_factor <- time_units[
-      time_units$units %in% breaks,
-      "factor"
-    ]
-
-  }
-
-
-  #not in time_units
-  if(length(time_factor) == 0){
-
-
-
-  } else {
-
-
-  }
-
+#
+#       else {
+#
+#         if(tsl_time$class == "Date"){
+#
+#           breaks <- seq.Date(
+#             from = min(tsl_time$range),
+#             to = max(tsl_time$range),
+#             by = breaks
+#           )
+#
+#         }
+#
+#         if(tsl_time$class == "POSIXct"){
+#
+#           breaks <- seq.POSIXt(
+#             from = as.POSIXct(min(tsl_time$range)),
+#             to = as.POSIXct(max(tsl_time$range)),
+#             by = breaks
+#           )
+#
+#         }
+#
+#       }
+#
+#
+#
+#     } else {
+#
+#       #breaks from time interval
+#       breaks <- seq(
+#         from = min(tsl_time$range),
+#         to = max(tsl_time$range),
+#         by = breaks
+#       )
+#
+#     }
+#
+#     #pretty breaks
+#     breaks <- pretty(
+#       x = breaks,
+#       n = length(breaks)
+#     )
+#
+#   } #end of if(length(breaks) == 1){
+#
+#   breaks <- utils_as_time(
+#     x = breaks
+#   ) |>
+#     suppressWarnings()
+#
+#
+#
 
 }
 

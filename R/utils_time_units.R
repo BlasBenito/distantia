@@ -47,6 +47,32 @@ utils_time_units <- function(
       as.numeric("1e-5"),
       as.numeric("1e-6")
     ),
+    keyword = c(
+      FALSE,
+      FALSE,
+      FALSE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE
+    ),
     units = c(
       "millennium",
       "century",
@@ -179,9 +205,8 @@ utils_time_units <- function(
     )
   )
 
-  if(all_columns == FALSE){
-    df$expression <- NULL
-    df$factor <- NULL
+  if("POSIXct" %in% class){
+    class <- "POSIXct"
   }
 
   if(class %in% c(
@@ -192,8 +217,14 @@ utils_time_units <- function(
 
     df <- df[
       df[[class]] == TRUE,
-      c("factor", "units", class, "expression")]
+      c("factor", "keyword", "units", class, "expression")]
 
+  }
+
+  if(all_columns == FALSE){
+    df$factor <- NULL
+    df$expression <- NULL
+    df$keyword <- NULL
   }
 
   df

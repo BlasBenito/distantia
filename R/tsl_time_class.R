@@ -17,7 +17,11 @@ tsl_time_class <- function(
   time <- lapply(
     X = tsl,
     FUN = function(x){
-      class(stats::time(x))
+      x_class <- class(stats::time(x))
+      if("POSIXct" %in% x_class){
+        x_class <- "POSIXct"
+      }
+      return(x_class)
     }
   )
 

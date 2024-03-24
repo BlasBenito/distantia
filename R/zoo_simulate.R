@@ -64,8 +64,7 @@ zoo_simulate <- function(
 
   # handling time range
   time_range <- utils_as_time(
-    x = time_range,
-    quiet = TRUE
+    x = time_range
   )
 
   time_range <- sort(time_range[c(1, 2)])

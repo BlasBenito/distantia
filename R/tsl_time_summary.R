@@ -14,26 +14,46 @@ tsl_time_summary <- function(
     tsl = tsl
   )
 
-  tsl_units <- tsl_time_units(
+  time_class <- tsl_time_class(
     tsl = tsl
-  ) |>
-    unlist() |>
-    unique()
+  )
+
+  if(is.list(time_class)){
+    time_class <- do.call(
+      what = "c",
+      args = time_class
+    )
+  }
+
+
+  time_units <- tsl_time_units(
+    tsl = tsl
+  )
+
+  if(is.list(time_units)){
+    time_units <- do.call(
+      what = "c",
+      args = time_units
+    ) |>
+      unique()
+  }
+
+  time_range <- tsl_time_range(
+    tsl = tsl
+  )
+
+  if(is.list(time_range)){
+    time_range <- do.call(
+      what = "c",
+      args = time_range
+    )
+  }
 
   list(
-    class = tsl_time_class(
-      tsl = tsl
-    ) |>
-      unlist() |>
-      unique(),
-    range = tsl_time_range(
-      tsl = tsl
-    ) |>
-      unlist() |>
-      unique() |>
-      range(),
-    units = tsl_units,
-    resolution = tail(tsl_units, n = 1)
+    class = time_class,
+    range = range(time_range),
+    units = time_units,
+    resolution = tail(time_units, n = 1)
   )
 
 }

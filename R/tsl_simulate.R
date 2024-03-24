@@ -43,6 +43,12 @@ tsl_simulate <- function(
     seed <- sample.int(2^31 - 1, 1) - 2^30
   }
 
+  # if irregular, higher number of rows
+  old_rows <- rows
+  if(irregular == TRUE){
+    rows <-  rows + floor(rows/2)
+  }
+
   # generate tsl ----
   tsl <- list()
   for(i in seq_len(n)){
@@ -69,37 +75,16 @@ tsl_simulate <- function(
   #irregular ----
   if(irregular == TRUE){
 
-    time_range <- sort(time_range[c(1, 2)])
-
-    if(is.character(time_range)){
-      time_range <- as.Date(time_range)
-      time_range_days <- as.numeric(diff(time_range))
-      if(time_range_days < rows){
-        time_range[which.max(time_range)] <- max(time_range) + (rows - time_range_days)
-      }
-    }
-
-    time_names <- seq(
-      from = min(time_range),
-      to = max(time_range),
-      length.out = rows * 2
-    )
-
     for(i in seq_len(n)){
 
       set.seed(seed + i)
 
-      time_names.i <- sort(
+      tsl[[i]] <- tsl[[i]][
         sample(
-          x = time_names,
-          size = rows
-          )
+        x = zoo::index(tsl[[i]]),
+        size = old_rows
         )
-
-      tsl[[i]] <- zoo::zoo(
-        x = as.matrix(tsl[[i]]),
-        order.by = time_names.i
-      )
+        ]
 
     }
 
