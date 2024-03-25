@@ -72,7 +72,7 @@ tsl_plot <- function(
 
     if(i <= length(tsl)){
 
-      utils_line_plot(
+      zoo_plot(
         x = tsl[[i]],
         center = center,
         scale = scale,

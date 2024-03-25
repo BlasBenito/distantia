@@ -69,6 +69,11 @@ utils_as_time <- function(
     return(x)
   }
 
+  #coerce factors to character
+  if(is.factor(x)){
+    x <- as.character(x)
+  }
+
   #valid time class
   time_class <- sapply(
     X = x,
@@ -86,20 +91,31 @@ utils_as_time <- function(
       x = x
     )
 
-    #count hyphens and colos
-    x_hyphens <- sum(
-      grepl(
-        pattern = "-",
-        x = x
+    #count hyphens and colons
+    x_hyphens <- lengths(
+      regmatches(
+        x = x,
+        m = gregexpr(
+          pattern = "-",
+          text = x
+          )
         )
-      )
+      ) |>
+      unique() |>
+      max()
 
-    x_colons <- sum(
-      grepl(
-        pattern = ":",
-        x = x
+
+    x_colons <- lengths(
+      regmatches(
+        x = x,
+        m = gregexpr(
+          pattern = ":",
+          text = x
         )
       )
+    ) |>
+      unique() |>
+      max()
 
     #Date and POSIXct
     if(x_hyphens == 2){

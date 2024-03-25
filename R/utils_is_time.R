@@ -10,8 +10,13 @@ utils_is_time <- function(
     x = NULL
     ){
 
+  x_class <- class(x)
+  if("POSIXct" %in% x_class){
+    x_class <- "POSIXct"
+  }
+
   #x is valid time class
-  if(base::class(x) %in% c(
+  if(x_class %in% c(
     "numeric",
     "Date",
     "POSIXct"

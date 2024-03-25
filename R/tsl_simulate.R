@@ -79,12 +79,16 @@ tsl_simulate <- function(
 
       set.seed(seed + i)
 
-      tsl[[i]] <- tsl[[i]][
-        sample(
-        x = zoo::index(tsl[[i]]),
-        size = old_rows
-        )
-        ]
+      selected_index <- tsl[[i]] |>
+        zoo::index() |>
+        sample(size = old_rows) |>
+        sort()
+
+      selected_rows <- which(
+        x = zoo::index(tsl[[i]]) %in% selected_index
+      )
+
+      tsl[[i]] <- tsl[[i]][selected_rows]
 
     }
 

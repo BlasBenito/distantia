@@ -1,65 +1,19 @@
+#' Time Breaks for Time Series Aggregation
+#'
+#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
+#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
+#' \itemize{
+#'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
+#' }
+#'
+#' @return Vector of class numeric, Date, or POSIXct
+#' @export
+#' @autoglobal
+#' @examples
 utils_time_breaks <- function(
     tsl = NULL,
     breaks = NULL
 ){
-
-  #EXAMPLES
-  ########################################
-
-  #Date
-  tsl <- tsl_simulate(
-    time_range = c(
-      "0100-01-01",
-      "2024-12-31"
-    )
-  )
-
-  breaks <- "millennium"
-  breaks <- "century"
-  breaks <- "decade"
-  breaks <- "year"
-  breaks <- "quarter"
-  breaks <- "month"
-  breaks <- "week"
-  breaks <- c(
-    "0150-01-01",
-    "1500-12-02",
-    "1800-12-02",
-    "2000-01-02"
-  )
-
-  #POSIXct
-  tsl <- tsl_simulate(
-    time_range = c(
-      "0100-01-01 12:00:25",
-      "2024-12-31 11:15:45"
-    )
-  )
-
-  breaks <- "millennium"
-  breaks <- "century"
-  breaks <- "decade"
-  breaks <- "year"
-  breaks <- "quarter"
-  breaks <- "month"
-  breaks <- "week"
-  breaks <- "hour"
-  breaks <- c(
-    "0150-01-01",
-    "1500-12-02",
-    "1800-12-02",
-    "2000-01-02"
-  )
-
-
-  #numeric
-  tsl <- tsl_simulate(
-    time_range = c(-123120, 1200)
-  )
-
-  breaks <- 1000
-  breaks <- 100
-  #######################################
 
   tsl <- tsl_is_valid(
     tsl = tsl
@@ -132,64 +86,26 @@ utils_time_breaks <- function(
 
       } #END of if(time_units$keyword == FALSE){
 
+    } else {
+      #breaks must be numeric
+
+      if(!is.numeric(breaks)){
+        stop("Argument 'breaks' must be of the classes Date, POSIXct, or numeric.")
+      }
+
+      breaks <- seq(
+        from = min(tsl_time$range),
+        to = max(tsl_time$range),
+        by = breaks
+      )
+
     } #END of if(breaks %in% time_units$units){
 
   } #END of if(length(breaks) == 1){
 
+  breaks <- utils_as_time(x = breaks)
 
-#
-#       else {
-#
-#         if(tsl_time$class == "Date"){
-#
-#           breaks <- seq.Date(
-#             from = min(tsl_time$range),
-#             to = max(tsl_time$range),
-#             by = breaks
-#           )
-#
-#         }
-#
-#         if(tsl_time$class == "POSIXct"){
-#
-#           breaks <- seq.POSIXt(
-#             from = as.POSIXct(min(tsl_time$range)),
-#             to = as.POSIXct(max(tsl_time$range)),
-#             by = breaks
-#           )
-#
-#         }
-#
-#       }
-#
-#
-#
-#     } else {
-#
-#       #breaks from time interval
-#       breaks <- seq(
-#         from = min(tsl_time$range),
-#         to = max(tsl_time$range),
-#         by = breaks
-#       )
-#
-#     }
-#
-#     #pretty breaks
-#     breaks <- pretty(
-#       x = breaks,
-#       n = length(breaks)
-#     )
-#
-#   } #end of if(length(breaks) == 1){
-#
-#   breaks <- utils_as_time(
-#     x = breaks
-#   ) |>
-#     suppressWarnings()
-#
-#
-#
+  breaks
 
 }
 

@@ -21,7 +21,7 @@
 #' @export
 #'
 #' @examples
-utils_line_plot <- function(
+zoo_plot <- function(
     x = NULL,
     center = FALSE,
     scale = FALSE,
@@ -79,6 +79,9 @@ utils_line_plot <- function(
 
   #name
   name <- attributes(x)$name
+  if(is.null(name)){
+    name <- ""
+  }
 
   #names of columns to plot
   x_colnames <- colnames(df)

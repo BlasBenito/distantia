@@ -195,7 +195,7 @@ psi_plot <- function(
     bty = "n"
     )
 
-  utils_line_plot(
+  zoo_plot(
     x = y,
     center = line_center,
     scale = line_scale,
@@ -233,7 +233,7 @@ psi_plot <- function(
     bty = "n"
     )
 
-  utils_line_plot(
+  zoo_plot(
     x = x,
     center = line_center,
     scale = line_scale,
