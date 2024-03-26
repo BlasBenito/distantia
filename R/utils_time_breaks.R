@@ -23,12 +23,18 @@ utils_time_breaks <- function(
     tsl = tsl
   )
 
+  #time units data frame
   time_units <- utils_time_units(
     all_columns = TRUE,
     class = tsl_time$class
   )
 
-  #remove data resolution
+  #subset valid units
+  time_units <- time_units[
+    time_units$units %in% tsl_time$units,
+  ]
+
+  #remove data resolution to get valid time units
   time_units <- time_units[
     time_units$units != tsl_time$resolution,
   ]
@@ -47,29 +53,45 @@ utils_time_breaks <- function(
       #if invalid keyword, round dates and convert to vector
       if(time_units$keyword == FALSE){
 
-        unit <- paste0(time_units$factor, " years")
+        if(tsl_time$class == "numeric"){
 
-        tsl_time$range <- as.Date(tsl_time$range)
+          breaks_tail <- time_units$factor / 10
 
-        breaks <- seq.Date(
-          from = lubridate::round_date(
-            min(tsl_time$range),
-            unit = unit
-          ),
-          to = lubridate::round_date(
-            max(tsl_time$range),
-            unit = unit
-          ),
-          by = unit
-        )
+          breaks <- seq(
+            from = min(tsl_time$range) - breaks_tail,
+            to = max(tsl_time$range) + breaks_tail,
+            by = time_units$factor
+          )
+
+        } else {
+
+          unit <- paste0(time_units$factor, " years")
+
+          tsl_time$range <- as.Date(tsl_time$range)
+
+          breaks <- seq.Date(
+            from = lubridate::round_date(
+              min(tsl_time$range) - 1,
+              unit = unit
+            ),
+            to = lubridate::round_date(
+              max(tsl_time$range) + 1,
+              unit = unit
+            ),
+            by = unit
+          )
+
+
+        }
+
 
       } else {
 
         if("Date" %in% class(tsl_time$range)){
 
           breaks <- seq.Date(
-            from = min(tsl_time$range),
-            to = max(tsl_time$range),
+            from = min(tsl_time$range) - 1,
+            to = max(tsl_time$range) + 1,
             by = breaks
           )
 
@@ -77,8 +99,8 @@ utils_time_breaks <- function(
 
         if("POSIXct" %in% class(tsl_time$range)){
           breaks <- seq.POSIXt(
-            from = min(tsl_time$range),
-            to = max(tsl_time$range),
+            from = min(tsl_time$range) - 1,
+            to = max(tsl_time$range) + 1,
             by = breaks
           )
 
@@ -87,15 +109,18 @@ utils_time_breaks <- function(
       } #END of if(time_units$keyword == FALSE){
 
     } else {
+
       #breaks must be numeric
 
       if(!is.numeric(breaks)){
         stop("Argument 'breaks' must be of the classes Date, POSIXct, or numeric.")
       }
 
+      breaks_tail <- breaks / 10
+
       breaks <- seq(
-        from = min(tsl_time$range),
-        to = max(tsl_time$range),
+        from = min(tsl_time$range) - breaks_tail,
+        to = max(tsl_time$range) + breaks_tail,
         by = breaks
       )
 

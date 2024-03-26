@@ -1,9 +1,17 @@
 #' Aggregates Time Series List
 #'
-#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
+#' @param tsl (required, list) Time series list. Default: NULL
+#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups across time. Valid options, arranged per time class, are:
 #' \itemize{
-#'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
+#'   \item keyword:
+#'   \itemize{
+#'     \item Date (ISO 8601 standard YYYY-MM-DD): "millennium", "century", "decade", "year", "quarter", "month", and "week".
+#'     \item POSIXct (ISO 8601 standard YYYY-MM-DD): All of the above plus "hour", "minute", and "second".
+#'     \item numeric (arbitrary time):
+#'   \item POSIXct (ISO 8601 standard YYYY-MM-DD):
+#'   \item numeric:
+#'
+#'   keyword: For class Date in format "YYYY-MM-DD" or POSIXct "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 #' }
 #' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.
 #'
@@ -15,117 +23,103 @@ tsl_aggregate <- function(
     tsl = NULL,
     breaks = NULL,
     f = mean,
+    quiet = TRUE,
     ...
 ){
 
   # EXAMPLES
   # #######################################
   #
-  #   #Date
-  #   tsl <- tsl_simulate(
-  #     time_range = c(
-  #       "0100-01-01",
-  #       "2024-12-31"
-  #     )
+  # #Date
+  # tsl <- tsl_simulate(
+  #   time_range = c(
+  #     "0100-01-01",
+  #     "2024-12-31"
   #   )
+  # )
   #
-  #   breaks <- "millennium"
-  #   breaks <- "century"
-  #   breaks <- "decade"
-  #   breaks <- "year"
-  #   breaks <- "quarter"
-  #   breaks <- "month"
-  #   breaks <- "week"
-  #   breaks <- c(
-  #     "0150-01-01",
-  #     "1500-12-02",
-  #     "1800-12-02",
-  #     "2000-01-02"
+  # breaks <- "millennium"
+  # breaks <- "century"
+  # breaks <- "decade"
+  # breaks <- "year"
+  # breaks <- "quarter"
+  # breaks <- "month"
+  # breaks <- "week"
+  # breaks <- c(
+  #   "0150-01-01",
+  #   "1500-12-02",
+  #   "1800-12-02",
+  #   "2000-01-02"
+  # )
+  #
+  # #POSIXct
+  # tsl <- tsl_simulate(
+  #   time_range = c(
+  #     "0100-01-01 12:00:25",
+  #     "2024-12-31 11:15:45"
   #   )
+  # )
   #
-  #   #POSIXct
-  #   tsl <- tsl_simulate(
-  #     time_range = c(
-  #       "0100-01-01 12:00:25",
-  #       "2024-12-31 11:15:45"
-  #     )
-  #   )
-  #
-  #   breaks <- "millennium"
-  #   breaks <- "century"
-  #   breaks <- "decade"
-  #   breaks <- "year"
-  #   breaks <- "quarter"
-  #   breaks <- "month"
-  #   breaks <- "week"
-  #   breaks <- "hour"
-  #   breaks <- c(
-  #     "0150-01-01",
-  #     "1500-12-02",
-  #     "1800-12-02",
-  #     "2000-01-02"
-  #   )
+  # breaks <- "millennium"
+  # breaks <- "century"
+  # breaks <- "decade"
+  # breaks <- "year"
+  # breaks <- "quarter"
+  # breaks <- "month"
+  # breaks <- "week"
+  # breaks <- "hour"
+  # breaks <- c(
+  #   "0150-01-01",
+  #   "1500-12-02",
+  #   "1800-12-02",
+  #   "2000-01-02"
+  # )
   #
   #
-  #   #numeric
-  #   tsl <- tsl_simulate(
-  #     time_range = c(-123120, 1200)
-  #   )
+  # #numeric
+  # tsl <- tsl_simulate(
+  #   time_range = c(-123120, 1200)
+  # )
   #
-  #   breaks <- 1000
-  #   breaks <- 100
+  # breaks <- "1e4"
+  # breaks <- 1000
+  # breaks <- 100
+  #
+  # #decimal
+  # tsl <- tsl_simulate(
+  #   time_range = c(0.01, 0.09)
+  # )
+  #
+  # breaks <- 0.001
+
   ######################################
 
   tsl <- tsl_is_valid(
     tsl = tsl
   )
 
-  if(is.function(f) == FALSE){
-
-    stop(
-      "Argument 'f' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
-
-  }
-
   breaks <- utils_time_breaks(
     tsl = tsl,
     breaks = breaks
   )
 
-  #aggregate here
+  if(quiet == FALSE){
+    message(
+      "Aggregation breaks: ",
+      paste(breaks, collapse = ", ")
+      )
+  }
+
   tsl <- lapply(
     X = tsl,
     FUN = function(x){
 
-
-      #create breaks
-      x_breaks_factor <- x |>
-        stats::time() |>
-        cut(breaks = breaks)
-
-      #replace NAs in breaks
-      x_breaks_factor[is.na(x_breaks_factor)] <- as.factor(
-        tail(
-          x = na.omit(x_breaks_factor),
-          n = 1
-        )
-      )
-
-      #aggregate x
-      x <- stats::aggregate(
+      x <- zoo_aggregate(
         x = x,
-        by = as.numeric(x_breaks_factor),
-        FUN = f
+        breaks = breaks,
+        f = f#,
+        # ... = ...
       )
-
-      #fix index in x
-      x_breaks_dates <- x_breaks_factor |>
-        unique() |>
-        utils_as_time()
-
-      zoo::index(x) <- x_breaks_dates
-
-      return(x)
 
     }
   )

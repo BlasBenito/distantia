@@ -1,5 +1,4 @@
-
-#' Simulated Zoo Time Series
+#' Simulate Zoo Time Series
 #'
 #' @description
 #' Generates a simulated zoo time series.

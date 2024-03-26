@@ -18,8 +18,6 @@ utils_time_units <- function(
     class = NULL
     ){
 
-  #TODO: check expressions for negative numerics
-
   df <- data.frame(
     factor = c(
       1000,
@@ -33,6 +31,8 @@ utils_time_units <- function(
       NA,
       NA,
       NA,
+      as.numeric("1e8"),
+      as.numeric("1e7"),
       as.numeric("1e6"),
       as.numeric("1e5"),
       as.numeric("1e4"),
@@ -45,7 +45,9 @@ utils_time_units <- function(
       as.numeric("1e-3"),
       as.numeric("1e-4"),
       as.numeric("1e-5"),
-      as.numeric("1e-6")
+      as.numeric("1e-6"),
+      as.numeric("1e-7"),
+      as.numeric("1e-8")
     ),
     keyword = c(
       FALSE,
@@ -59,6 +61,10 @@ utils_time_units <- function(
       TRUE,
       TRUE,
       TRUE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
       FALSE,
       FALSE,
       FALSE,
@@ -85,6 +91,8 @@ utils_time_units <- function(
       "hour",
       "minute",
       "second",
+      "1e8",
+      "1e7",
       "1e6",
       "1e5",
       "1e4",
@@ -97,7 +105,9 @@ utils_time_units <- function(
       "1e-3",
       "1e-4",
       "1e-5",
-      "1e-6"
+      "1e-6",
+      "1e-7",
+      "1e-8"
     ),
     Date = c(
       TRUE,
@@ -108,6 +118,10 @@ utils_time_units <- function(
       TRUE,
       TRUE,
       TRUE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
       FALSE,
       FALSE,
       FALSE,
@@ -149,6 +163,10 @@ utils_time_units <- function(
       FALSE,
       FALSE,
       FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
       FALSE
     ),
     numeric = c(
@@ -175,6 +193,10 @@ utils_time_units <- function(
       TRUE,
       TRUE,
       TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
       TRUE
     ),
     expression = c(
@@ -189,35 +211,43 @@ utils_time_units <- function(
       "as.numeric(diff(lubridate::hour(range(stats::time(x))))) > 1",
       "as.numeric(diff(lubridate::minute(range(stats::time(x))))) > 1",
       "as.numeric(diff(lubridate::second(range(stats::time(x))))) > 1",
-      "(diff(range(stats::time(x)))/1000000) > 1",
-      "(diff(range(stats::time(x)))/100000) > 1",
-      "(diff(range(stats::time(x)))/10000) > 1",
-      "(diff(range(stats::time(x)))/1000) > 1",
-      "(diff(range(stats::time(x)))/100) > 1",
-      "(diff(range(stats::time(x)))/10) > 1",
-      "(diff(range(stats::time(x)))/1) > 1",
-      "(diff(range(stats::time(x)))/0.1) > 1",
-      "(diff(range(stats::time(x)))/0.01) > 1",
-      "(diff(range(stats::time(x)))/0.001) > 1",
-      "(diff(range(stats::time(x)))/0.0001) > 1",
-      "(diff(range(stats::time(x)))/0.00001) > 1",
-      "(diff(range(stats::time(x)))/0.000001) > 1"
+      "(diff(range(stats::time(x)))/1e8) > 1",
+      "(diff(range(stats::time(x)))/1e7) > 1",
+      "(diff(range(stats::time(x)))/1e6) > 1",
+      "(diff(range(stats::time(x)))/1e5) > 1",
+      "(diff(range(stats::time(x)))/1e4) > 1",
+      "(diff(range(stats::time(x)))/1e3) > 1",
+      "(diff(range(stats::time(x)))/1e2) > 1",
+      "(diff(range(stats::time(x)))/1e1) > 1",
+      "diff(range(stats::time(x))) > 1",
+      "diff(range(stats::time(x))) > 1e-1",
+      "diff(range(stats::time(x))) > 1e-2",
+      "diff(range(stats::time(x))) > 1e-3",
+      "diff(range(stats::time(x))) > 1e-4",
+      "diff(range(stats::time(x))) > 1e-5",
+      "diff(range(stats::time(x))) > 1e-6",
+      "diff(range(stats::time(x))) > 1e-7",
+      "diff(range(stats::time(x))) > 1e-8"
     )
   )
 
-  if("POSIXct" %in% class){
-    class <- "POSIXct"
-  }
+  if(!is.null(class)){
 
-  if(class %in% c(
-    "Date",
-    "POSIXct",
-    "numeric"
-  )){
+    if("POSIXct" %in% class){
+      class <- "POSIXct"
+    }
 
-    df <- df[
-      df[[class]] == TRUE,
-      c("factor", "keyword", "units", class, "expression")]
+    if(class %in% c(
+      "Date",
+      "POSIXct",
+      "numeric"
+    )){
+
+      df <- df[
+        df[[class]] == TRUE,
+        c("factor", "keyword", "units", class, "expression")]
+
+    }
 
   }
 
