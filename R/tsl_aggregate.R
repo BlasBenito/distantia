@@ -29,68 +29,68 @@ tsl_aggregate <- function(
 
   # EXAMPLES
   # #######################################
-  #
-  # #Date
-  # tsl <- tsl_simulate(
-  #   time_range = c(
-  #     "0100-01-01",
-  #     "2024-12-31"
-  #   )
-  # )
-  #
-  # breaks <- "millennium"
-  # breaks <- "century"
-  # breaks <- "decade"
-  # breaks <- "year"
-  # breaks <- "quarter"
-  # breaks <- "month"
-  # breaks <- "week"
-  # breaks <- c(
-  #   "0150-01-01",
-  #   "1500-12-02",
-  #   "1800-12-02",
-  #   "2000-01-02"
-  # )
-  #
-  # #POSIXct
-  # tsl <- tsl_simulate(
-  #   time_range = c(
-  #     "0100-01-01 12:00:25",
-  #     "2024-12-31 11:15:45"
-  #   )
-  # )
-  #
-  # breaks <- "millennium"
-  # breaks <- "century"
-  # breaks <- "decade"
-  # breaks <- "year"
-  # breaks <- "quarter"
-  # breaks <- "month"
-  # breaks <- "week"
-  # breaks <- "hour"
-  # breaks <- c(
-  #   "0150-01-01",
-  #   "1500-12-02",
-  #   "1800-12-02",
-  #   "2000-01-02"
-  # )
-  #
-  #
-  # #numeric
-  # tsl <- tsl_simulate(
-  #   time_range = c(-123120, 1200)
-  # )
-  #
-  # breaks <- "1e4"
-  # breaks <- 1000
-  # breaks <- 100
-  #
-  # #decimal
-  # tsl <- tsl_simulate(
-  #   time_range = c(0.01, 0.09)
-  # )
-  #
-  # breaks <- 0.001
+
+  #Date
+  tsl <- tsl_simulate(
+    time_range = c(
+      "0100-02-08",
+      "2024-12-31"
+    )
+  )
+
+  breaks <- "millennium"
+  breaks <- "century"
+  breaks <- "decade"
+  breaks <- "year"
+  breaks <- "quarter"
+  breaks <- "month"
+  breaks <- "week"
+  breaks <- c(
+    "0150-01-01",
+    "1500-12-02",
+    "1800-12-02",
+    "2000-01-02"
+  )
+
+  #POSIXct
+  tsl <- tsl_simulate(
+    time_range = c(
+      "0100-01-01 12:00:25",
+      "2024-12-31 11:15:45"
+    )
+  )
+
+  breaks <- "millennium"
+  breaks <- "century"
+  breaks <- "decade"
+  breaks <- "year"
+  breaks <- "quarter"
+  breaks <- "month"
+  breaks <- "week"
+  breaks <- "hour"
+  breaks <- c(
+    "0150-01-01",
+    "1500-12-02",
+    "1800-12-02",
+    "2000-01-02"
+  )
+
+
+  #numeric
+  tsl <- tsl_simulate(
+    time_range = c(-123120, 1200)
+  )
+
+  breaks <- "1e4"
+  breaks <- 1000
+  breaks <- 100
+
+  #decimal
+  tsl <- tsl_simulate(
+    time_range = c(0.01, 0.09)
+  )
+
+  breaks <- 0.001
 
   ######################################
 

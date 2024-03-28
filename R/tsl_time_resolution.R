@@ -1,4 +1,8 @@
-#' Time Range of a Time Series List
+#' Time Resolution of a Time Series List
+#'
+#' @description
+#' For irregular time series it returns the average resolution of each zoo object in the time series list via the expression `mean(diff(stats::time(zoo_object)))`
+#'
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
 #'
@@ -6,7 +10,7 @@
 #' @export
 #' @examples
 #' @autoglobal
-tsl_time_range <- function(
+tsl_time_resolution <- function(
     tsl = NULL
 ){
 
@@ -16,7 +20,7 @@ tsl_time_range <- function(
 
   lapply(
     X = tsl,
-    FUN = zoo_time_range
+    FUN = zoo_time_resolution
   ) |>
     utils_simplify_list()
 

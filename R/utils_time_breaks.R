@@ -23,7 +23,6 @@ utils_time_breaks <- function(
     tsl = tsl
   )
 
-  #time units data frame
   time_units <- utils_time_units(
     all_columns = TRUE,
     class = tsl_time$class
