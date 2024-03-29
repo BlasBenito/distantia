@@ -1,0 +1,141 @@
+#' Time Features of a Zoo Object
+#'
+#' @param x (required, zoo object) Default: NULL.
+#' @param keywords (optional, logical) If TRUE, the output list contains the slot keywords with valid aggregation keywords. Default: FALSE
+#'
+#' @return List with time features of the zoo object.
+#' @export
+#' @autoglobal
+#' @examples
+zoo_time <- function(
+    x = NULL,
+    keywords = FALSE
+    ){
+
+  # #centuries and millenia
+  # x <- zoo_simulate(
+  #   time_range = c(
+  #     "0100-02-08",
+  #     "2024-12-31"
+  #   )
+  # )
+  #
+  # #days
+  # x <- zoo_simulate(
+  #   time_range = c(
+  #     "2024-12-20 10:00:25",
+  #     "2024-12-31 11:15:45"
+  #   )
+  # )
+  #
+  # #hours
+  # x <- zoo_simulate(
+  #   time_range = c(
+  #     "2024-12-20 10:00:25",
+  #     "2024-12-20 11:15:45"
+  #   )
+  # )
+  #
+  # #minutes
+  # x <- zoo_simulate(
+  #   time_range = c(
+  #     "2024-12-20 10:00:25",
+  #     "2024-12-20 10:27:32"
+  #   )
+  # )
+  #
+  # #seconds
+  # x <- zoo_simulate(
+  #   time_range = c(
+  #     "2024-12-20 10:00:25",
+  #     "2024-12-20 10:00:55"
+  #   )
+  # )
+  #
+  # x <- zoo_simulate(
+  #   time_range = c(-123120, 1200)
+  # )
+  #
+  # x <- zoo_simulate(
+  #   time_range = c(0.01, 0.09)
+  # )
+
+  ################################
+
+  if(zoo::is.zoo(x) == FALSE){
+    stop("Argument 'x' must be a zoo time series.")
+  }
+
+  x_time <- stats::time(x)
+
+  #class
+  x_class <- class(x_time)
+  if("POSIXct" %in% x_class){
+    x_class <- "POSIXct"
+  }
+
+  #n
+  x_n <- length(x_time)
+
+  #range
+  x_range <- range(x_time)
+
+  #length
+  x_length <- diff(x_range)
+  x_length_units <- attributes(x_length)$units
+  if(is.null(x_length_units)){
+    x_length_units <- x_class
+  }
+  x_length <- as.numeric(x_length)
+
+  #resolution
+  x_time_diff <- diff(x_time)
+  if(x_class != "numeric"){
+    units(x_time_diff) <- x_length_units
+  }
+  x_resolution <- as.numeric(mean(x_time_diff))
+
+  out_list <- list(
+    n = x_n,
+    class = x_class,
+    units = x_length_units,
+    range = x_range,
+    length = x_length,
+    resolution = x_resolution
+  )
+
+  #keywords
+  if(keywords == TRUE){
+
+    #units
+    df_units <- utils_time_units(
+      all_columns = TRUE,
+      class = x_class
+    )
+
+    #subset by x_length_units
+    df_units <- df_units[
+      seq(
+        from = min(which(df_units$base_units == x_length_units)),
+        to = nrow(df_units),
+        by = 1
+      ),
+    ]
+
+    df_units <- df_units[
+      df_units$threshold <= x_length & df_units$threshold >= x_resolution,
+    ]
+
+    if(nrow(df_units) > 0){
+      out_list$keywords <- df_units$units
+    } else {
+      if(x_class != "numeric"){
+        out_list$keywords <- x_length_units
+      }
+    }
+
+  }
+
+  out_list
+
+}

@@ -19,6 +19,24 @@ utils_simplify_list <- function(x){
     x <- x_unique[[1]]
   }
 
-  x
+  list_names <- names(x)
+  slot_names <- names(x[[1]])
+  out <- x[[1]]
+
+  for(slot.i in slot_names){
+
+    values <- vector()
+
+    for(list.i in list_names){
+
+      values <- c(values, x[[list.i]][slot.i])
+
+    }
+
+    out[[slot.i]] <- unlist(unique(values))
+
+  }
+
+
 
 }
