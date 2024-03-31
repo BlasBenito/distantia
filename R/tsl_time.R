@@ -7,39 +7,39 @@
 #' @export
 #' @autoglobal
 #' @examples
-tsl_time_summary <- function(
+tsl_time <- function(
     tsl = NULL,
     keywords = FALSE
 ){
 
-  # EXAMPLES
-  # #######################################
-
-  #Date
-  tsl <- tsl_simulate(
-    time_range = c(
-      "0100-02-08",
-      "2024-12-31"
-    )
-  )
-
-  #POSIXct
-  tsl <- tsl_simulate(
-    time_range = c(
-      "0100-01-01 12:00:25",
-      "2024-12-31 11:15:45"
-    )
-  )
-
-  #numeric
-  tsl <- tsl_simulate(
-    time_range = c(-123120, 1200)
-  )
-
-  #decimal
-  tsl <- tsl_simulate(
-    time_range = c(0.01, 0.09)
-  )
+  # # EXAMPLES
+  # # #######################################
+  #
+  # #Date
+  # tsl <- tsl_simulate(
+  #   time_range = c(
+  #     "0100-02-08",
+  #     "2024-12-31"
+  #   )
+  # )
+  #
+  # #POSIXct
+  # tsl <- tsl_simulate(
+  #   time_range = c(
+  #     "0100-01-01 12:00:25",
+  #     "2024-12-31 11:15:45"
+  #   )
+  # )
+  #
+  # #numeric
+  # tsl <- tsl_simulate(
+  #   time_range = c(-123120, 1200)
+  # )
+  #
+  # #decimal
+  # tsl <- tsl_simulate(
+  #   time_range = c(0.01, 0.09)
+  # )
 
   ######################################
 
@@ -47,13 +47,15 @@ tsl_time_summary <- function(
     tsl = tsl
   )
 
-  tsl_time_list <- lapply(
+  time_list <- lapply(
     X = tsl,
     FUN = zoo_time,
     keywords = keywords
   )
 
-  #TODO: modify function to simplify time list
-  utils_simplify_list(x = tsl_time_list)
+  do.call(
+    what = "rbind",
+    args = time_list
+  )
 
 }

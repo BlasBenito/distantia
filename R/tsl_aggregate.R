@@ -5,8 +5,8 @@
 #' \itemize{
 #'   \item keyword:
 #'   \itemize{
-#'     \item Date (ISO 8601 standard YYYY-MM-DD): "millennium", "century", "decade", "year", "quarter", "month", and "week".
-#'     \item POSIXct (ISO 8601 standard YYYY-MM-DD): All of the above plus "hour", "minute", and "second".
+#'     \item Date (ISO 8601 standard YYYY-MM-DD): "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks".
+#'     \item POSIXct (ISO 8601 standard YYYY-MM-DD): All of the above plus "hours", "mins", and "secs".
 #'     \item numeric (arbitrary time):
 #'   \item POSIXct (ISO 8601 standard YYYY-MM-DD):
 #'   \item numeric:
@@ -38,13 +38,13 @@ tsl_aggregate <- function(
     )
   )
 
-  breaks <- "millennium"
-  breaks <- "century"
-  breaks <- "decade"
-  breaks <- "year"
-  breaks <- "quarter"
-  breaks <- "month"
-  breaks <- "week"
+  breaks <- "millennia"
+  breaks <- "centuries"
+  breaks <- "decades"
+  breaks <- "years"
+  breaks <- "quarters"
+  breaks <- "months"
+  breaks <- "weeks"
   breaks <- c(
     "0150-01-01",
     "1500-12-02",
@@ -61,19 +61,20 @@ tsl_aggregate <- function(
   )
 
   breaks <- "millennium"
-  breaks <- "century"
-  breaks <- "decade"
-  breaks <- "year"
-  breaks <- "quarter"
-  breaks <- "month"
-  breaks <- "week"
-  breaks <- "hour"
+  breaks <- "centuries"
+  breaks <- "decades"
+  breaks <- "years"
+  breaks <- "quarters"
+  breaks <- "months"
+  breaks <- "weeks"
+  breaks <- "hours"
   breaks <- c(
     "0150-01-01",
     "1500-12-02",
     "1800-12-02",
     "2000-01-02"
   )
+  breaks <- 50000
 
 
   #numeric
@@ -93,10 +94,6 @@ tsl_aggregate <- function(
   breaks <- 0.001
 
   ######################################
-
-  tsl <- tsl_is_valid(
-    tsl = tsl
-  )
 
   breaks <- utils_time_breaks(
     tsl = tsl,

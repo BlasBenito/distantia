@@ -4,16 +4,18 @@
 \alias{utils_time_units}
 \title{Data Frame with Supported Time Units}
 \usage{
-utils_time_units(all_columns = FALSE)
+utils_time_units(all_columns = FALSE, class = NULL)
 }
 \arguments{
 \item{all_columns}{(optional, logical) If TRUE, all columns are returned. Default: FALSE}
+
+\item{class}{(optional, class name). Used to filter rows and columns. Accepted values are "numeric", "Date", and "POSIXct". Default: NULL}
 }
 \value{
 data frame
 }
 \description{
-Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the R expression used to identify what time units can be used when aggregating a time series.
+Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the threshold used to identify what time units can be used when aggregating a time series.
 }
 \examples{
 

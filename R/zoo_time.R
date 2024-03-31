@@ -66,6 +66,11 @@ zoo_time <- function(
     stop("Argument 'x' must be a zoo time series.")
   }
 
+  x_name <- attributes(x)$name
+  if(is.null(x_name)){
+    x_name <- ""
+  }
+
   x_time <- stats::time(x)
 
   #class
@@ -95,11 +100,14 @@ zoo_time <- function(
   }
   x_resolution <- as.numeric(mean(x_time_diff))
 
-  out_list <- list(
+  #output data frame
+  df <- data.frame(
+    name = x_name,
     n = x_n,
     class = x_class,
     units = x_length_units,
-    range = x_range,
+    begin = min(x_range),
+    end = max(x_range),
     length = x_length,
     resolution = x_resolution
   )
@@ -127,15 +135,15 @@ zoo_time <- function(
     ]
 
     if(nrow(df_units) > 0){
-      out_list$keywords <- df_units$units
+      df$keywords <- I(list(df_units$units))
     } else {
       if(x_class != "numeric"){
-        out_list$keywords <- x_length_units
+        df$keywords <- x_length_units
       }
     }
 
   }
 
-  out_list
+  df
 
 }

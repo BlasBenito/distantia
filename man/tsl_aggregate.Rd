@@ -4,15 +4,10 @@
 \alias{tsl_aggregate}
 \title{Aggregates Time Series List}
 \usage{
-tsl_aggregate(tsl = NULL, breaks = NULL, f = mean, ...)
+tsl_aggregate(tsl = NULL, breaks = NULL, f = mean, quiet = TRUE, ...)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
-
-\item{breaks}{(required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
-\itemize{
-  \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
-}}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{stat}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.}
 }

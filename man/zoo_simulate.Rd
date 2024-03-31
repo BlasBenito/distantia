@@ -2,7 +2,7 @@
 % Please edit documentation in R/zoo_simulate.R
 \name{zoo_simulate}
 \alias{zoo_simulate}
-\title{Simulated Zoo Time Series}
+\title{Simulate Zoo Time Series}
 \usage{
 zoo_simulate(
   cols = 5,
