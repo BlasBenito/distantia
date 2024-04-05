@@ -27,36 +27,48 @@ zoo_aggregate <- function(
     stop("Argument 'f' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
   }
 
-  #store name
   x_name <- attributes(x)$name
 
-  #create breaks
-  x_breaks_factor <- x |>
-    stats::time() |>
-    cut(breaks = breaks)
+  x_time <- stats::time(x)
+
+  x_class <- zoo_time(
+    x = x
+  )$class
+
+  x_breaks <- cut(
+    x = x_time,
+    breaks = breaks
+    )
 
   #replace NAs in breaks
-  x_breaks_factor[is.na(x_breaks_factor)] <- as.factor(
-    tail(
-      x = na.omit(x_breaks_factor),
-      n = 1
-    )
-  )
+  # x_breaks[is.na(x_breaks)] <- as.factor(
+  #   tail(
+  #     x = na.omit(x_breaks),
+  #     n = 1
+  #   )
+  # )
 
   #aggregate
   y <- stats::aggregate(
     x = x,
-    by = as.numeric(x_breaks_factor),
-    FUN = f#,
-    # ... = ...
+    by = as.numeric(x_breaks),
+    FUN = f,
+    ... = ...
   )
 
-  #reset index to break center points
-  x_breaks_dates <- x_breaks_factor |>
-    unique() |>
-    utils_as_time()
+  #reset index
+  x_breaks <- unique(x_breaks)
+  if(x_class == "numeric"){
+    y_index <- as.numeric(x_breaks)
+  }
+  if(x_class == "Date"){
+    y_index <- as.Date(x_breaks)
+  }
+  if(x_class == "POSIXct"){
+    y_index <- as.POSIXct(x_breaks)
+  }
 
-  zoo::index(y) <- x_breaks_dates
+  zoo::index(y) <- y_index
 
   #reset name
   attr(

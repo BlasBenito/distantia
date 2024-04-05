@@ -24,6 +24,16 @@ utils_time_breaks <- function(
     keywords = TRUE
   )
 
+  time_class <- unique(time_df$class)
+
+  if(length(time_class) > 1){
+    stop(
+      "All time classes in argument 'tsl' must be of the same type, but they are ",
+      paste(time_class, collapse = ", "),
+      "."
+    )
+  }
+
   keywords <- time_df$keywords |>
     unlist() |>
     unique()
@@ -49,14 +59,15 @@ utils_time_breaks <- function(
         time_units$units == breaks,
       ]
 
-      #if invalid keyword, round dates and convert to vector
-      if(time_units$keyword == FALSE){
+      #if non-standard keyword
+      #round dates and convert to vector
+      if(unique(time_units$keyword) == FALSE){
 
-        if(all(time_df$class == "numeric")){
+        if(time_class == "numeric"){
 
           breaks <- seq(
-            from = min(time_df$begin) + time_units$factor,
-            to = max(time_df$end) - time_units$factor,
+            from = floor(min(time_df$begin)),
+            to = ceiling(max(time_df$end)),
             by = time_units$factor
           )
 
@@ -65,42 +76,45 @@ utils_time_breaks <- function(
             n = length(breaks)
           )
 
-        } else {
+        }
 
-          #TODO: does not work for POSIXct
-          unit <- paste0(time_units$factor, " years")
+        unit <- paste0(time_units$factor, " years")
 
-          breaks <- seq.Date(
-            from = lubridate::round_date(
-              min(time_df$begin),
-              unit = unit
-            ),
-            to = lubridate::round_date(
-              max(time_df$end),
-              unit = unit
-            ),
-            by = unit
-          )
+        breaks <- seq.Date(
+          from = lubridate::floor_date(
+            x = min(time_df$begin),
+            unit = unit
+          ),
+          to = lubridate::ceiling_date(
+            x = max(time_df$end),
+            unit = unit
+          ),
+          by = unit
+        )
+
+        if(time_class == "POSIXct"){
+
+          breaks <- as.POSIXct(x = breaks)
 
         }
 
-
       } else {
 
-        if(all(time_df$class == "Date")){
+        if(time_class == "Date"){
 
           breaks <- seq.Date(
-            from = min(time_df$begin),
-            to = max(time_df$end),
+            from = floor(min(time_df$begin)),
+            to = ceiling(max(time_df$end)),
             by = breaks
           )
 
         }
 
-        if(all(time_df$class == "POSIXct")){
+        if(time_class == "POSIXct"){
+
           breaks <- seq.POSIXt(
-            from = min(time_df$begin),
-            to = max(time_df$end),
+            from = floor(min(time_df$begin)),
+            to = ceiling(max(time_df$end)),
             by = breaks
           )
 
@@ -113,6 +127,7 @@ utils_time_breaks <- function(
       #breaks must be numeric
 
       if(!is.numeric(breaks)){
+
         stop(
           "Argument 'breaks' must be:\n - a vector of class '",
           time_df$class[1],
@@ -122,13 +137,15 @@ utils_time_breaks <- function(
           min(time_units$threshold),
           ".\n - a valid keyword: '",
           paste0(keywords, collapse = "', '"),
-          "'."
-          )
+          "'.",
+          call. = FALSE
+        )
+
       }
 
       breaks <- seq(
-        from = min(time_df$begin) + breaks,
-        to = max(time_df$end) - breaks,
+        from = floor(min(time_df$begin)),
+        to = ceiling(max(time_df$end)),
         by = breaks
       )
 
@@ -140,15 +157,6 @@ utils_time_breaks <- function(
     } #END of if(breaks %in% time_units$units){
 
   } #END of if(length(breaks) == 1){
-
-  #subset breaks
-  breaks <- breaks[
-    breaks > min(time_df$begin) &
-      breaks < max(time_df$end)
-  ]
-
-  #convert to time
-  breaks <- utils_as_time(x = breaks)
 
   breaks
 
