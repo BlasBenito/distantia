@@ -180,6 +180,11 @@ zoo_simulate <- function(
     order.by = time_names
   )
 
+  attr(
+    x = m,
+    which = "name"
+  ) <- "A"
+
   m
 
 }

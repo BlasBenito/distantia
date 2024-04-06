@@ -56,15 +56,6 @@ tsl_is_valid <- function(
 
   }
 
-  #list with two elements
-  if(length(tsl) < 2){
-
-    stop(
-      "List 'tsl' must have more than one zoo object"
-    )
-
-  }
-
   #elements in tsl must be zoo
   if(!all(sapply(X = tsl, FUN = zoo::is.zoo))){
 

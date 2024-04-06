@@ -1,18 +1,37 @@
-# EXAMPLES
-# #######################################
-
-#Date
-tsl <- tsl_simulate(
+#testing utils_time_breaks_match.R
+x <- tsl_simulate(
   time_range = c(
     "0100-02-08",
     "2024-12-31"
   )
 )
 
-tsl_plot(tsl)
+breaks <- "millennia"
+breaks <- "centuries"
+breaks <- "decades"
+
+
+
+
+# EXAMPLES
+# #######################################
+
+#Date
+x <- tsl_simulate(
+  time_range = c(
+    "0100-02-08",
+    "2024-12-31"
+  )
+)
+
+breaks <- "millenia"
+breaks <- "centuries"
+breaks <- "decades"
+
+tsl_plot(x)
 
 tsl_new <- tsl_aggregate(
-  tsl = tsl,
+  x = x,
   breaks = "millennia"
 )
 
@@ -31,9 +50,10 @@ tsl_new <- tsl_aggregate(
   breaks = "decades"
 )
 
+#does not work
 tsl_new <- tsl_aggregate(
   tsl = tsl,
-  breaks = 100
+  breaks = 50000
 )
 
 
