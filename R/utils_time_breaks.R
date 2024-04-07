@@ -23,6 +23,17 @@ utils_time_breaks <- function(
     tsl = tsl
   )
 
+  #if breaks is a wrong keyword, correct it
+  breaks <- utils_time_keywords_translate(
+    keyword = breaks
+  )
+
+  #type of breaks
+  breaks_type <- utils_time_breaks_type(
+    x = tsl,
+    breaks = breaks
+  )
+
   # get time features of tsl ----
   time_df <- tsl_time(
     tsl = tsl,

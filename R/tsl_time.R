@@ -1,47 +1,19 @@
 #' Time Summary of a Time Series List
 #'
-#' @param tsl (required, list of zoo objects) Time series list. Default: NULL
-#' @param keywords (optional, logical) If TRUE, the output list contains the slot keywords with valid aggregation keywords. Default: FALSE
+#' @description
+#' [tsl_time()] returns a data frame with one row per time series in the argument 'tsl' with key time features.
 #'
-#' @return List with class, range, units, and resolution of the time in `tsl`.
+#' [tsl_time_summayr()] is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
+#'
+#' @param tsl (required, list of zoo objects) Time series list. Default: NULL
+#'
+#' @return Data frame for [tsl_time()], and list for [tsl_time_summary()].
 #' @export
 #' @autoglobal
 #' @examples
 tsl_time <- function(
-    tsl = NULL,
-    keywords = FALSE
+    tsl = NULL
 ){
-
-  # # EXAMPLES
-  # # #######################################
-  #
-  # #Date
-  # tsl <- tsl_simulate(
-  #   time_range = c(
-  #     "0100-02-08",
-  #     "2024-12-31"
-  #   )
-  # )
-  #
-  # #POSIXct
-  # tsl <- tsl_simulate(
-  #   time_range = c(
-  #     "0100-01-01 12:00:25",
-  #     "2024-12-31 11:15:45"
-  #   )
-  # )
-  #
-  # #numeric
-  # tsl <- tsl_simulate(
-  #   time_range = c(-123120, 1200)
-  # )
-  #
-  # #decimal
-  # tsl <- tsl_simulate(
-  #   time_range = c(0.01, 0.09)
-  # )
-
-  ######################################
 
   tsl <- tsl_is_valid(
     tsl = tsl
@@ -49,13 +21,41 @@ tsl_time <- function(
 
   time_list <- lapply(
     X = tsl,
-    FUN = zoo_time,
-    keywords = keywords
+    FUN = zoo_time
   )
 
-  do.call(
+  out <- do.call(
     what = "rbind",
     args = time_list
+  )
+
+  out
+
+}
+
+
+#' @rdname tsl_time
+tsl_time_summary <- function(
+    tsl = NULL
+){
+
+  df <- tsl_time(tsl = tsl)
+
+  keywords <- unique(unlist(df$keywords))
+
+  tsl_units <- utils_time_units(
+    all_columns = TRUE
+  )
+
+  list(
+    class = unique(df$class),
+    units = unique(df$units),
+    begin = min(df$begin),
+    end = max(df$end),
+    keywords = keywords,
+    units_df = tsl_units[
+      tsl_units$units %in% keywords,
+    ]
   )
 
 }

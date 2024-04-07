@@ -1,18 +1,13 @@
-#' Dictionary of Time Keywords and Accepted Patterns for Date and POSIXct Time Classes
+#' Dictionary of Time Keywords
 #'
 #' @description
-#' Dictionary of accepted time keywords for time aggregation for the classes Date and POSIXct.
+#' Data frame to help translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
 #'
-#'
-#' @param keyword (optional, keyword) If provided, it is compared with the "pattern" column of the dictionary, and the matching keyword is returned. If NULL, the complete dictionary is returned. Default: NULL
-#'
-#' @return Corrected keyword, or data frame with dictionary.
+#' @return Data frame.
 #' @export
 #' @autoglobal
 #' @examples
-utils_time_keywords_dictionary <- function(
-  keyword = NULL
-){
+utils_time_keywords_dictionary <- function(){
 
   # millennia ----
   millennia <- c(
@@ -180,21 +175,9 @@ utils_time_keywords_dictionary <- function(
   ) |>
     stack()
 
+  dictionary$ind <- as.character(dictionary$ind)
+
   names(dictionary) <- c("pattern", "keyword")
-
-
-  if(!is.null(keyword)){
-    if(keyword %in% dictionary$pattern){
-      return(
-        dictionary[
-          dictionary$pattern == keyword,
-          "keyword"]
-      )
-    } else {
-      return(NULL)
-    }
-  }
-
 
   dictionary
 

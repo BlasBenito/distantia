@@ -1,16 +1,14 @@
 #' Time Features of a Zoo Object
 #'
 #' @param x (required, zoo object) Default: NULL.
-#' @param keywords (optional, logical) If TRUE, the output list contains the slot keywords with valid aggregation keywords. Default: FALSE
 #'
 #' @return List with time features of the zoo object.
 #' @export
 #' @autoglobal
 #' @examples
 zoo_time <- function(
-    x = NULL,
-    keywords = FALSE
-    ){
+    x = NULL
+){
 
   # #centuries and millenia
   # x <- zoo_simulate(
@@ -112,36 +110,31 @@ zoo_time <- function(
     resolution = x_resolution
   )
 
-  #keywords
-  if(keywords == TRUE){
+  #units
+  df_units <- utils_time_units(
+    all_columns = TRUE,
+    class = x_class
+  )
 
-    #units
-    df_units <- utils_time_units(
-      all_columns = TRUE,
-      class = x_class
-    )
+  #subset by x_length_units
+  df_units <- df_units[
+    seq(
+      from = min(which(df_units$base_units == x_length_units)),
+      to = nrow(df_units),
+      by = 1
+    ),
+  ]
 
-    #subset by x_length_units
-    df_units <- df_units[
-      seq(
-        from = min(which(df_units$base_units == x_length_units)),
-        to = nrow(df_units),
-        by = 1
-      ),
-    ]
+  df_units <- df_units[
+    df_units$threshold <= x_length & df_units$threshold >= x_resolution,
+  ]
 
-    df_units <- df_units[
-      df_units$threshold <= x_length & df_units$threshold >= x_resolution,
-    ]
-
-    if(nrow(df_units) > 0){
-      df$keywords <- I(list(df_units$units))
-    } else {
-      if(x_class != "numeric"){
-        df$keywords <- x_length_units
-      }
+  if(nrow(df_units) > 0){
+    df$keywords <- I(list(df_units$units))
+  } else {
+    if(x_class != "numeric"){
+      df$keywords <- x_length_units
     }
-
   }
 
   df

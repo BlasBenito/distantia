@@ -1,20 +1,3 @@
-#testing utils_time_breaks_match.R
-x <- tsl_simulate(
-  time_range = c(
-    "0100-02-08",
-    "2024-12-31"
-  )
-)
-
-breaks <- "millennia"
-breaks <- "centuries"
-breaks <- "decades"
-
-
-
-
-# EXAMPLES
-# #######################################
 
 #Date
 x <- tsl_simulate(
@@ -24,37 +7,55 @@ x <- tsl_simulate(
   )
 )
 
-breaks <- "millenia"
-breaks <- "centuries"
-breaks <- "decades"
+#works
+utils_time_breaks_type(
+  x = x,
+  breaks = "millenia"
+)
 
-tsl_plot(x)
-
-tsl_new <- tsl_aggregate(
+#works
+utils_time_breaks_type(
   x = x,
   breaks = "millennia"
 )
 
-tsl_plot(tsl_new)
-
-tsl_new <- tsl_aggregate(
-  tsl = tsl,
-  breaks = "centuries"
+#works
+utils_time_breaks_type(
+  x = x,
+  breaks = "century"
 )
 
-tsl_plot(tsl_new)
-
-#yields error, as expected
-tsl_new <- tsl_aggregate(
-  tsl = tsl,
-  breaks = "decades"
+#works
+utils_time_breaks_type(
+  x = x,
+  breaks = "decade"
 )
 
-#does not work
-tsl_new <- tsl_aggregate(
-  tsl = tsl,
+#works
+utils_time_breaks_type(
+  x = x,
+  breaks = 10000
+)
+
+
+#works
+utils_time_breaks_type(
+  x = x,
   breaks = 50000
 )
+
+#works
+utils_time_breaks_type(
+  x = x,
+  breaks = c(
+    "0150-01-01",
+    "1500-12-02",
+    "1800-12-02",
+    "2000-01-02"
+  )
+)
+
+
 
 
 breaks <- "centuries"

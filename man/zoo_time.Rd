@@ -4,12 +4,10 @@
 \alias{zoo_time}
 \title{Time Features of a Zoo Object}
 \usage{
-zoo_time(x = NULL, keywords = FALSE)
+zoo_time(x = NULL)
 }
 \arguments{
 \item{x}{(required, zoo object) Default: NULL.}
-
-\item{keywords}{(optional, logical) If TRUE, the output list contains the slot keywords with valid aggregation keywords. Default: FALSE}
 }
 \value{
 List with time features of the zoo object.
