@@ -23,6 +23,10 @@ utils_time_breaks_type <- function(
     x = x
   )
 
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
+
   tsl_time <- tsl_time_summary(
     tsl = tsl
   )
@@ -37,33 +41,80 @@ utils_time_breaks_type <- function(
     )
   }
 
+  # numeric ----
+  if("numeric" %in% class(breaks)){
+
+    # length 1 ----
+    if(length(breaks) == 1){
+
+      if(
+        tsl_time$class == "numeric")
+
+      if(breaks >= min(tsl_time$units_df$threshold)){
+
+        attr(
+          x = breaks,
+          which = "type"
+        ) <- "numeric"
+
+        return(breaks)
+
+    }
+
+  }
+
+
   # breaks length 1 ----
   if(length(breaks) == 1){
 
-
-    if(
-      "POSIXct" %in% class(breaks) &&
-      tsl_time$class == "POSIXct"
-    ){
-      return("POSIXct")
-    }
-
-
-    if(
-      "Date" %in% class(breaks) &&
-      tsl_time$class == "Date"
-    ){
-      return("Date")
-    }
-
     # numeric ----
-    if(is.numeric(breaks)){
+    if("numeric" %in% class(breaks)){
 
-      if(breaks >= min(tsl_units$threshold)){
-        return("numeric")
+      if(breaks >= min(tsl_time$units_df$threshold)){
+
+        attr(
+          x = breaks,
+          which = "type"
+        ) <- "numeric"
+
+        return(breaks)
+
       }
 
     }
+
+
+    # Date or POSIXct
+    breaks <- utils_coerce_time_class(
+      x = breaks,
+      to = tsl_time$class
+    )
+
+    # POSIXct ----
+      if("POSIXct" %in% class(breaks)){
+
+        attr(
+          x = breaks,
+          which = "type"
+        ) <- "POSIXct"
+
+        return(breaks)
+
+    }
+
+    # Date ----
+      if("Date" %in% class(breaks)){
+
+        attr(
+          x = breaks,
+          which = "type"
+        ) <- "Date"
+
+        return(breaks)
+
+    }
+
+
 
     # keyword ----
     if(is.character(breaks)){
@@ -72,12 +123,15 @@ utils_time_breaks_type <- function(
         keyword = breaks
       )
 
-      valid_keywords <- utils_time_keywords(
-        x = x
-      )
+      if(breaks %in% tsl_time$keywords){
 
-      if(breaks %in% valid_keywords){
-        return("keyword")
+        attr(
+          x = breaks,
+          which = "type"
+        ) <- "keyword"
+
+        return(breaks)
+
       }
 
     }
@@ -86,37 +140,45 @@ utils_time_breaks_type <- function(
 
   }
 
-  # breaks vector ----
-  breaks_test <- breaks[
-    breaks >= tsl_begin & breaks <= tsl_end
-  ]
-
-
   # numeric_vector ----
   if(is.numeric(breaks) && tsl_time$class == "numeric"){
-    return("numeric_vector")
-  }
 
-  if(is.character(breaks)){
-    breaks <- utils_as_time(
-      x = breaks
-    )
-  }
+    attr(
+      x = breaks,
+      which = "type"
+    ) <- "numeric_vector"
 
+    return(breaks)
+
+  }
 
   if(
     "POSIXct" %in% class(breaks) &&
     tsl_time$class == "POSIXct"
-    ){
-    return("POSIXct_vector")
+  ){
+
+    attr(
+      x = breaks,
+      which = "type"
+    ) <- "POSIXct_vector"
+
+    return(breaks)
+
   }
 
 
   if(
     "Date" %in% class(breaks) &&
     tsl_time$class == "Date"
-    ){
-    return("Date_vector")
+  ){
+
+    attr(
+      x = breaks,
+      which = "type"
+    ) <- "Date_vector"
+
+    return(breaks)
+
   }
 
   NA
