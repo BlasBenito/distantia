@@ -4,19 +4,15 @@
 #' Internal function to obtain valid aggregation keywords from a zoo object or a time series list.
 #'
 #'
-#' @param x (required, zoo object or time series list) Default: NULL
+#' @param tsl (required, time series list) Default: NULL
 #'
 #' @return Character string, aggregation keyword, or "none".
 #' @export
 #' @autoglobal
 #' @examples
 utils_time_keywords <- function(
-    x = NULL
+    tsl = NULL
 ){
-
-  tsl <- zoo_to_tsl(
-    x = x
-  )
 
   tsl <- tsl_is_valid(
     tsl = tsl

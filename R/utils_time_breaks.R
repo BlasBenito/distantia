@@ -1,6 +1,6 @@
 #' Time Breaks for Time Series Aggregation
 #'
-#' @param x (required, list of zoo objects or zoo object) Time series that will be aggregated using 'breaks'. Default: NULL
+#' @param tsl (required, time series list) Time series that will be aggregated using 'breaks'. Default: NULL
 #' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
@@ -11,13 +11,9 @@
 #' @autoglobal
 #' @examples
 utils_time_breaks <- function(
-    x = NULL,
+    tsl = NULL,
     breaks = NULL
 ){
-
-  tsl <- zoo_to_tsl(
-    x = x
-  )
 
   tsl <- tsl_is_valid(
     tsl = tsl

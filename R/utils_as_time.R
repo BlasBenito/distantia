@@ -5,7 +5,7 @@
 #' This function guesses the class of a vector based on its elements. It can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.
 #'
 #' @param x (required, vector) Vectors of the classes 'numeric', 'Date', and 'POSIXct' are valid and returned without any transformation. Character vectors are analyzed to determine their more probable type, and are coerced to 'Date' or 'POSIXct' depending on their number of elements. Generally, any character vector representing an ISO 8601 standard, like "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS" will be converted to a valid class. If a character vector cannot be coerced to date, it is returned as is. Default: NULL
-#'
+#' @param to_class (optional, class) Options are: NULL, "numeric", "Date", and "POSIXct". If NULL, 'x' is returned as whatever class is more appropriate. Otherwise, 'x' is coerced to the given class.
 #' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default is TRUE
 #'
 #' @return Input vector if its class is 'numeric', 'Date', or 'POSIXct', or input vector coerced to one of these classes otherwise.
@@ -48,7 +48,8 @@
 #' @export
 #' @autoglobal
 utils_as_time <- function(
-    x = NULL
+    x = NULL,
+    to_class = NULL
 ){
 
   #examples of x to guide development
@@ -62,10 +63,25 @@ utils_as_time <- function(
   # x <- as.POSIXct(c("2022-03-17 12:30:45", "2024-02-05 11:15:45"))
   # x <- c("2022-03-17", "2024-02-05")
 
-
+  if(is.null(to_class)){
+    to_class <- ""
+  }
 
   #x is valid time class
   if(utils_is_time(x) == TRUE){
+
+    if(to_class == "Date"){
+      x <- as.Date(x)
+    }
+
+    if(to_class == "POSIXct"){
+      x <- as.POSIXct(x)
+    }
+
+    if(to_class == "numeric"){
+      x <- as.numeric(x)
+    }
+
     return(x)
   }
 
@@ -152,6 +168,18 @@ utils_as_time <- function(
 
     }
 
+  }
+
+  if(to_class == "Date"){
+    x <- as.Date(x)
+  }
+
+  if(to_class == "POSIXct"){
+    x <- as.POSIXct(x)
+  }
+
+  if(to_class == "numeric"){
+    x <- as.numeric(x)
   }
 
   x

@@ -3,7 +3,7 @@
 #' @description
 #' Internal function to identify the type of time breaks used for time series aggregation.
 #'
-#'
+#' @param tsl (required, time series list)
 #' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
@@ -14,152 +14,150 @@
 #' @autoglobal
 #' @examples
 utils_time_breaks_type <- function(
-    x = NULL,
+    tsl = NULL,
     breaks = NULL
 ){
-
-  # tsl
-  tsl <- zoo_to_tsl(
-    x = x
-  )
 
   tsl <- tsl_is_valid(
     tsl = tsl
   )
 
-  tsl_time <- tsl_time_summary(
+  tsl_time_ <- tsl_time_summary(
     tsl = tsl
   )
 
+  tsl_time_min_threshold <- min(tsl_time_$units_df$threshold)
+
   # ERROR: too many time classes ----
-  if(length(tsl_time$class) > 1){
+  if(length(tsl_time_$class) > 1){
     #TODO: implement function to homogenize time class of tsl
     stop(
       "The time class of all zoo objects in 'tsl' must be the same, but they are: '",
-      paste(tsl_time$class, collapse = "', '"),
+      paste(tsl_time_$class, collapse = "', '"),
       "'."
     )
   }
 
-  # numeric ----
-  if("numeric" %in% class(breaks)){
-
-    # length 1 ----
-    if(length(breaks) == 1){
-
-      if(
-        tsl_time$class == "numeric")
-
-      if(breaks >= min(tsl_time$units_df$threshold)){
-
-        attr(
-          x = breaks,
-          which = "type"
-        ) <- "numeric"
-
-        return(breaks)
-
-    }
-
-  }
-
-
-  # breaks length 1 ----
+  # intervals ----
   if(length(breaks) == 1){
 
-    # numeric ----
-    if("numeric" %in% class(breaks)){
+    # numeric interval ----
+    if(
+      is.numeric(breaks) &&
+      breaks > tsl_time_min_threshold
+    ){
 
-      if(breaks >= min(tsl_time$units_df$threshold)){
+      attr(
+        x = breaks,
+        which = "breaks_type"
+      ) <- "numeric_interval"
 
-        attr(
-          x = breaks,
-          which = "type"
-        ) <- "numeric"
-
-        return(breaks)
-
-      }
+      return(breaks)
 
     }
 
 
-    # Date or POSIXct
-    breaks <- utils_coerce_time_class(
-      x = breaks,
-      to = tsl_time$class
+    ## keyword ----
+    breaks <- utils_time_keywords_translate(
+      keyword = breaks
     )
 
-    # POSIXct ----
-      if("POSIXct" %in% class(breaks)){
+    ### keyword for numerics ----
+    if(breaks %in% tsl_time_$keywords){
+
+      if(tsl_time_$class == "numeric"){
+
+        breaks <- as.numeric(breaks)
+
+          attr(
+            x = breaks,
+            which = "breaks_type"
+          ) <- "numeric_interval"
+
+          return(breaks)
+
+      }
+
+      ### keyword for Date or POSIXct ----
+      standard_keyword <- tsl_time_$units_df[
+        tsl_time_$units_df$units == breaks,
+        "keyword"
+      ]
+
+      #### standard keyword ----
+      if(standard_keyword == TRUE){
 
         attr(
           x = breaks,
-          which = "type"
-        ) <- "POSIXct"
-
-        return(breaks)
-
-    }
-
-    # Date ----
-      if("Date" %in% class(breaks)){
-
-        attr(
-          x = breaks,
-          which = "type"
-        ) <- "Date"
-
-        return(breaks)
-
-    }
-
-
-
-    # keyword ----
-    if(is.character(breaks)){
-
-      breaks <- utils_time_keywords_translate(
-        keyword = breaks
-      )
-
-      if(breaks %in% tsl_time$keywords){
-
-        attr(
-          x = breaks,
-          which = "type"
-        ) <- "keyword"
+          which = "breaks_type"
+        ) <- "standard_keyword"
 
         return(breaks)
 
       }
 
+      #### non-standard keyword ----
+      attr(
+        x = breaks,
+        which = "breaks_type"
+      ) <- "non_standard_keyword"
+
+      return(breaks)
+
     }
 
-    return(NA)
+    stop(
+      "Argument 'breaks' of length 1 must be:\n",
+      "  - one of these keywords: '",
+      paste0(tsl_time_$keywords, collapse = "', '"),
+      ".\n",
+      "  - a number higher than ",
+      tsl_time_min_threshold,
+      " "
+    )
 
   }
 
-  # numeric_vector ----
-  if(is.numeric(breaks) && tsl_time$class == "numeric"){
+  # break points ----
+
+  ## numeric_vector ----
+  if(
+    is.numeric(breaks) &&
+    tsl_time_$class == "numeric"
+    ){
+
+    breaks <- breaks[
+      breaks >= tsl_time_$begin &
+        breaks <= tsl_time_$end
+    ]
 
     attr(
       x = breaks,
-      which = "type"
+      which = "breaks_type"
     ) <- "numeric_vector"
 
     return(breaks)
 
   }
 
+  ## Date or POSIXct vector ----
+  breaks <- utils_as_time(
+    x = breaks,
+    to_class = tsl_time_$class
+  )
+
+  breaks <- breaks[
+    breaks >= tsl_time_$begin &
+      breaks <= tsl_time_$end
+  ]
+
   if(
-    "POSIXct" %in% class(breaks) &&
-    tsl_time$class == "POSIXct"
+    "POSIXct" %in% class(breaks)
   ){
 
     attr(
       x = breaks,
-      which = "type"
+      which = "breaks_type"
     ) <- "POSIXct_vector"
 
     return(breaks)
@@ -168,20 +166,26 @@ utils_time_breaks_type <- function(
 
 
   if(
-    "Date" %in% class(breaks) &&
-    tsl_time$class == "Date"
+    "Date" %in% class(breaks)
   ){
 
     attr(
       x = breaks,
-      which = "type"
+      which = "breaks_type"
     ) <- "Date_vector"
 
     return(breaks)
 
   }
 
-  NA
+  stop(
+    "Argument 'breaks' of length higher than one must be a vector of class ",
+    tsl_time_$class,
+    " with values between ",
+    tsl_time_$begin, " and ",
+    tsl_time_$end,
+    "."
+  )
 
 }
 

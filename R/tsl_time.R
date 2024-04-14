@@ -47,15 +47,26 @@ tsl_time_summary <- function(
     all_columns = TRUE
   )
 
+  begin <- min(df$begin)
+  if(is.numeric(begin)){
+    if(!is.integer(begin)){
+      begin <- round(x = begin, digits = 4)
+      end <- round(x = begin, digits = 4)
+    }
+  }
+
+  units_df <- tsl_units[
+    tsl_units$units %in% keywords,
+    c("factor", "base_units", "units", "threshold", "keyword")
+  ]
+
   list(
     class = unique(df$class),
     units = unique(df$units),
     begin = min(df$begin),
     end = max(df$end),
     keywords = keywords,
-    units_df = tsl_units[
-      tsl_units$units %in% keywords,
-    ]
+    units_df = units_df
   )
 
 }
