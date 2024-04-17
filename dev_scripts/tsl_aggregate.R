@@ -1,3 +1,23 @@
+tsl <- tsl_simulate(
+  time_range = c(
+    "0100-01-01 12:00:25",
+    "2024-12-31 11:15:45"
+  )
+)
+
+
+#DOES NOT WORK, FIX THIS!
+x <- tsl_aggregate(
+  tsl = tsl,
+  breaks = 50000
+)
+tsl_plot(x)
+
+
+
+
+
+
 # numeric ----
 tsl <- tsl_simulate(
   time_range = c(
@@ -6,20 +26,16 @@ tsl <- tsl_simulate(
   )
 )
 
-breaks <- utils_time_breaks_type(
+tsl_plot(tsl)
+
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = 0.1
 )
-attributes(breaks)
 
+tsl_plot(x)
 
-breaks <- utils_time_breaks_type(
-  tsl = tsl,
-  breaks = 0.01
-)
-attributes(breaks)
-
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = c(
     0.25,
@@ -27,18 +43,17 @@ breaks <- utils_time_breaks_type(
     0.75
   )
 )
-attributes(breaks)
 
-breaks <- utils_time_breaks_type(
+tsl_plot(x)
+
+x <- tsl_aggregate(
   tsl = tsl,
-  breaks = c(
-    0.01,
-    0.50,
-    0.75,
-    2
-  )
+  breaks = "1e-1"
 )
-attributes(breaks)
+
+tsl_plot(x)
+
+
 
 
 
@@ -50,45 +65,55 @@ tsl <- tsl_simulate(
   )
 )
 
-#works
-breaks <- utils_time_breaks_type(
-  tsl = tsl,
-  breaks = "millenia"
-)
-attributes(breaks)
+tsl_plot(tsl, guide = FALSE)
 
-
-#works
-breaks <- utils_time_breaks_type(
+tsl_aggregated <- tsl_aggregate(
   tsl = tsl,
   breaks = "century"
 )
-attributes(breaks)
+tsl_plot(x, guide = FALSE)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
+  tsl = tsl,
+  breaks = "millenia"
+)
+tsl_plot(x)
+
+
+
+
+#works
+x <- tsl_aggregate(
+  tsl = tsl,
+  breaks = "century"
+)
+tsl_plot(x)
+
+#works
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = "decade"
 )
-attributes(breaks)
+tsl_plot(x)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = 10000
 )
-attributes(breaks)
+tsl_plot(x)
 
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = 50000
 )
-attributes(breaks)
+tsl_plot(x)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = c(
     "0150-01-01",
@@ -97,9 +122,9 @@ breaks <- utils_time_breaks_type(
     "2000-01-02"
   )
 )
-attributes(breaks)
+tsl_plot(x)
 
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = c(
     "0150-01-01 12:00:25",
@@ -108,7 +133,7 @@ breaks <- utils_time_breaks_type(
     "2000-01-02 12:00:25"
   )
 )
-attributes(breaks)
+tsl_plot(x)
 
 # POSItslct ----
 tsl <- tsl_simulate(
@@ -120,43 +145,38 @@ tsl <- tsl_simulate(
 
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = "millenia"
 )
-attributes(breaks)
+tsl_plot(x)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = "century"
 )
-attributes(breaks)
+tsl_plot(x)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = "decade"
 )
-attributes(breaks)
+tsl_plot(x)
 
 #works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = 10000
 )
-attributes(breaks)
+tsl_plot(x)
+
+
 
 
 #works
-breaks <- utils_time_breaks_type(
-  tsl = tsl,
-  breaks = 50000
-)
-attributes(breaks)
-
-#works
-breaks <- utils_time_breaks_type(
+x <- tsl_aggregate(
   tsl = tsl,
   breaks = c(
     "0150-01-01",
@@ -165,7 +185,7 @@ breaks <- utils_time_breaks_type(
     "2000-01-02"
   )
 )
-attributes(breaks)
+tsl_plot(x)
 
 
 
@@ -203,13 +223,13 @@ attributes(breaks)
 
 
 
-breaks <- "centuries"
-breaks <- "decades"
-breaks <- "years"
-breaks <- "quarters"
-breaks <- "months"
-breaks <- "weeks"
-breaks <- c(
+x <- "centuries"
+x <- "decades"
+x <- "years"
+x <- "quarters"
+x <- "months"
+x <- "weeks"
+x <- c(
   "0150-01-01",
   "1500-12-02",
   "1800-12-02",
@@ -224,21 +244,21 @@ tsl <- tsl_simulate(
   )
 )
 
-breaks <- "millennia"
-breaks <- "centuries"
-breaks <- "decades"
-breaks <- "years"
-breaks <- "quarters"
-breaks <- "months"
-breaks <- "weeks"
-breaks <- "hours"
-breaks <- c(
+x <- "millennia"
+x <- "centuries"
+x <- "decades"
+x <- "years"
+x <- "quarters"
+x <- "months"
+x <- "weeks"
+x <- "hours"
+x <- c(
   "0150-01-01",
   "1500-12-02",
   "1800-12-02",
   "2000-01-02"
 )
-breaks <- 50000
+x <- 50000
 
 
 #numeric
@@ -246,13 +266,13 @@ tsl <- tsl_simulate(
   time_range = c(-123120, 1200)
 )
 
-breaks <- "1e4"
-breaks <- 1000
-breaks <- 100
+x <- "1e4"
+x <- 1000
+x <- 100
 
 #decimal
 tsl <- tsl_simulate(
   time_range = c(0.01, 0.09)
 )
 
-breaks <- 0.001
+x <- 0.001

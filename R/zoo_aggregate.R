@@ -27,54 +27,68 @@ zoo_aggregate <- function(
     stop("Argument 'f' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
   }
 
-  x_name <- attributes(x)$name
-
   x_time <- stats::time(x)
 
-  x_class <- zoo_time(
+  x_time_class <- zoo_time(
     x = x
   )$class
 
   x_breaks <- cut(
     x = x_time,
-    breaks = breaks
-    )
-
-  #replace NAs in breaks
-  # x_breaks[is.na(x_breaks)] <- as.factor(
-  #   tail(
-  #     x = na.omit(x_breaks),
-  #     n = 1
-  #   )
-  # )
+    breaks = breaks,
+    include.lowest = TRUE,
+    right = TRUE
+  ) |>
+    as.numeric()
 
   #aggregate
   y <- stats::aggregate(
     x = x,
-    by = as.numeric(x_breaks),
-    FUN = f,
-    ... = ...
+    by = x_breaks,
+    FUN = f#,
+    # ... = ...
   )
 
   #reset index
-  x_breaks <- unique(x_breaks)
-  if(x_class == "numeric"){
-    y_index <- as.numeric(x_breaks)
-  }
-  if(x_class == "Date"){
-    y_index <- as.Date(x_breaks)
-  }
-  if(x_class == "POSIXct"){
-    y_index <- as.POSIXct(x_breaks)
+
+  #transform y_time as required
+  if(x_time_class == "numeric"){
+
+    y_time <- stats::aggregate(
+      x = zoo::as.zoo(x_time),
+      by = x_breaks,
+      FUN = median
+    ) |>
+      as.numeric()
+
+    x_time_digits <- utils_digits(
+      x = diff(range(x_time))
+    )
+
+    y_time <- round(
+      x = y_time,
+      digits = x_time_digits
+    )
+
   }
 
-  zoo::index(y) <- y_index
+  if(x_time_class %in% c("Date", "POSIXct")){
+
+    y_time <- stats::aggregate(
+      x = x_time,
+      by = list(x_breaks),
+      FUN = median
+    )$x
+
+  }
+
+  zoo::index(y) <- y_time
 
   #reset name
   attr(
     x = y,
     which = "name"
-  ) <- x_name
+  ) <- attributes(x)$name
 
   y
 

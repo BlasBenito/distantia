@@ -22,18 +22,18 @@ utils_time_breaks_type <- function(
     tsl = tsl
   )
 
-  tsl_time_ <- tsl_time_summary(
+  time_summary <- tsl_time_summary(
     tsl = tsl
   )
 
-  tsl_time_min_threshold <- min(tsl_time_$units_df$threshold)
+  time_summary_min_threshold <- min(time_summary$units_df$threshold)
 
   # ERROR: too many time classes ----
-  if(length(tsl_time_$class) > 1){
+  if(length(time_summary$class) > 1){
     #TODO: implement function to homogenize time class of tsl
     stop(
       "The time class of all zoo objects in 'tsl' must be the same, but they are: '",
-      paste(tsl_time_$class, collapse = "', '"),
+      paste(time_summary$class, collapse = "', '"),
       "'."
     )
   }
@@ -44,7 +44,7 @@ utils_time_breaks_type <- function(
     # numeric interval ----
     if(
       is.numeric(breaks) &&
-      breaks > tsl_time_min_threshold
+      breaks > time_summary_min_threshold
     ){
 
       attr(
@@ -63,9 +63,9 @@ utils_time_breaks_type <- function(
     )
 
     ### keyword for numerics ----
-    if(breaks %in% tsl_time_$keywords){
+    if(breaks %in% time_summary$keywords){
 
-      if(tsl_time_$class == "numeric"){
+      if(time_summary$class == "numeric"){
 
         breaks <- as.numeric(breaks)
 
@@ -79,8 +79,8 @@ utils_time_breaks_type <- function(
       }
 
       ### keyword for Date or POSIXct ----
-      standard_keyword <- tsl_time_$units_df[
-        tsl_time_$units_df$units == breaks,
+      standard_keyword <- time_summary$units_df[
+        time_summary$units_df$units == breaks,
         "keyword"
       ]
 
@@ -109,10 +109,10 @@ utils_time_breaks_type <- function(
     stop(
       "Argument 'breaks' of length 1 must be:\n",
       "  - one of these keywords: '",
-      paste0(tsl_time_$keywords, collapse = "', '"),
+      paste0(time_summary$keywords, collapse = "', '"),
       ".\n",
       "  - a number higher than ",
-      tsl_time_min_threshold,
+      time_summary_min_threshold,
       " "
     )
 
@@ -123,13 +123,8 @@ utils_time_breaks_type <- function(
   ## numeric_vector ----
   if(
     is.numeric(breaks) &&
-    tsl_time_$class == "numeric"
+    time_summary$class == "numeric"
     ){
-
-    breaks <- breaks[
-      breaks >= tsl_time_$begin &
-        breaks <= tsl_time_$end
-    ]
 
     attr(
       x = breaks,
@@ -143,13 +138,8 @@ utils_time_breaks_type <- function(
   ## Date or POSIXct vector ----
   breaks <- utils_as_time(
     x = breaks,
-    to_class = tsl_time_$class
+    to_class = time_summary$class
   )
-
-  breaks <- breaks[
-    breaks >= tsl_time_$begin &
-      breaks <= tsl_time_$end
-  ]
 
   if(
     "POSIXct" %in% class(breaks)
@@ -180,10 +170,10 @@ utils_time_breaks_type <- function(
 
   stop(
     "Argument 'breaks' of length higher than one must be a vector of class ",
-    tsl_time_$class,
+    time_summary$class,
     " with values between ",
-    tsl_time_$begin, " and ",
-    tsl_time_$end,
+    time_summary$begin, " and ",
+    time_summary$end,
     "."
   )
 

@@ -19,167 +19,177 @@ utils_time_breaks <- function(
     tsl = tsl
   )
 
-  #if breaks is a wrong keyword, correct it
-  breaks <- utils_time_keywords_translate(
-    keyword = breaks
-  )
-
-  #type of breaks
-  breaks_type <- utils_time_breaks_type(
-    x = tsl,
+  # breaks types ----
+  breaks <- utils_time_breaks_type(
+    tsl = tsl,
     breaks = breaks
   )
 
-  # get time features of tsl ----
-  time_df <- tsl_time(
-    tsl = tsl,
-    keywords = TRUE
-  )
+  breaks_type <- attributes(breaks)$breaks_type
 
-  time_class <- unique(time_df$class)
-
-  if(length(time_class) > 1){
-    stop(
-      "The time class of all zoo objects in 'tsl' must be the same, but they are: '",
-      paste(time_class, collapse = "', '"),
-      "'."
-    )
-  }
-
-  time_keywords <- utils_time_keywords(
+  # time summary of tsl ----
+  time_summary <- tsl_time_summary(
     tsl = tsl
   )
 
-  breaks_type <- utils_time_breaks_type(
-    breaks = breaks,
-    keywords = time_keywords
-  )
+  # compute breaks ----
 
-  #time units
-  time_units <- utils_time_units(
-    all_columns = TRUE,
-    class = time_class
-  )
+  ## standard_keyword ----
+  if(breaks_type == "standard_keyword"){
 
-  time_units <- time_units[
-    time_units$units %in% time_keywords,
-  ]
+    if(time_summary$class == "Date"){
 
-  #breaks class
-
-  #breaks length is 1, convert to vector
-  if(length(breaks) == 1){
-
-    #breaks is a keyword
-    if(breaks %in% time_keywords){
-
-      #subset time units
-      time_units <- time_units[
-        time_units$units == breaks,
-      ]
-
-      #if non-standard keyword
-      #round dates and convert to vector
-      if(unique(time_units$keyword) == FALSE){
-
-        if(time_class == "numeric"){
-
-          breaks <- seq(
-            from = floor(min(time_df$begin)),
-            to = ceiling(max(time_df$end)),
-            by = time_units$factor
-          )
-
-          breaks <- pretty(
-            x = breaks,
-            n = length(breaks)
-          )
-
-        }
-
-        unit <- paste0(time_units$factor, " years")
-
-        breaks <- seq.Date(
-          from = lubridate::floor_date(
-            x = min(time_df$begin),
-            unit = unit
-          ),
-          to = lubridate::ceiling_date(
-            x = max(time_df$end),
-            unit = unit
-          ),
-          by = unit
-        )
-
-        if(time_class == "POSIXct"){
-
-          breaks <- as.POSIXct(x = breaks)
-
-        }
-
-      } else {
-
-        if(time_class == "Date"){
-
-          breaks <- seq.Date(
-            from = floor(min(time_df$begin)),
-            to = ceiling(max(time_df$end)),
-            by = breaks
-          )
-
-        }
-
-        if(time_class == "POSIXct"){
-
-          breaks <- seq.POSIXt(
-            from = floor(min(time_df$begin)),
-            to = ceiling(max(time_df$end)),
-            by = breaks
-          )
-
-        }
-
-      } #END of if(time_units$keyword == FALSE){
-
-    } else {
-
-      #breaks must be numeric
-
-      if(!is.numeric(breaks)){
-
-        stop(
-          "Argument 'breaks' must be:\n - a vector of class '",
-          time_df$class[1],
-          ".\n - a valid keyword: '",
-          paste0(time_keywords, collapse = "', '"),
-          "'.\n - a number of ",
-          time_df$units[1],
-          " higher than ",
-          min(time_units$threshold),
-          "'.",
-          call. = FALSE
-        )
-
-      }
-
-      breaks <- seq(
-        from = floor(min(time_df$begin)),
-        to = ceiling(max(time_df$end)),
+      breaks_vector <- seq.Date(
+        from = time_summary$begin,
+        to = time_summary$end,
         by = breaks
       )
 
-      breaks <- pretty(
-        x = breaks,
-        n = length(breaks)
+    }
+
+    if(time_summary$class == "POSIXct"){
+
+      breaks_vector <- seq.POSIXt(
+        from = time_summary$begin,
+        to = time_summary$end,
+        by = breaks
       )
 
-    } #END of if(breaks %in% time_units$units){
+    }
 
-  } #END of if(length(breaks) == 1){
+  } #end of standard keyword
 
-  breaks
+
+  ## non_standard_keyword ----
+  if(breaks_type == "non_standard_keyword"){
+
+    # time units
+    time_units <- time_summary$units_df[
+      time_summary$units_df$units == breaks,
+    ]
+
+    #non-standard are always in "years"
+    unit <- paste0(time_units$factor, " years")
+
+    if(time_summary$class == "Date"){
+
+      breaks_vector <- seq.Date(
+        from = lubridate::floor_date(
+          x = time_summary$begin,
+          unit = unit
+        ),
+        to = lubridate::ceiling_date(
+          x = time_summary$end,
+          unit = unit
+        ),
+        by = unit
+      )
+
+    }
+
+    if(time_summary$class == "POSIXct"){
+
+      breaks_vector <- seq.POSIXt(
+        from = lubridate::floor_date(
+          x = time_summary$begin,
+          unit = unit
+        ),
+        to = lubridate::ceiling_date(
+          x = time_summary$end,
+          unit = unit
+        ),
+        by = unit
+      )
+
+    }
+
+  }
+
+
+  ## numeric_interval ----
+  if(breaks_type == "numeric_interval"){
+
+    if(time_summary$class == "numeric"){
+
+      breaks_vector <- seq(
+        from = time_summary$begin - breaks,
+        to = time_summary$end + breaks,
+        by = breaks
+      )
+
+    }
+
+    if(time_summary$class == "Date"){
+      stop("Not implemented yet.")
+    }
+
+
+    if(time_summary$class == "POSIXct"){
+      stop("Not implemented yet.")
+    }
+
+
+
+  } #end of numeric_interval
+
+
+  ## numeric_vector ----
+  if(breaks_type == "numeric_vector"){
+
+    begin <- min(breaks) - min(diff(breaks))
+
+    if(min(breaks) > time_summary$begin){
+      breaks <- c(
+        min(breaks) - min(diff(breaks)),
+        breaks
+        )
+    }
+
+    if(max(breaks) < time_summary$end){
+      breaks <- c(
+        breaks,
+        max(breaks) + min(diff(breaks))
+        )
+    }
+
+    breaks_vector <- breaks
+
+  }
+
+  ## POSIXct_vector ----
+  ## Date_vector ----
+  if(breaks_type %in% c(
+    "POSIXct_vector",
+    "Date_vector"
+  )
+  ){
+
+    return(breaks)
+
+  }
+
+
+  # pretty
+  breaks_vector_pretty <- pretty(
+    x = breaks_vector,
+    n = length(breaks_vector)
+  )
+
+  #criteria to accept breaks_vector_pretty
+  if(
+    length(breaks_vector) == length(breaks_vector_pretty) &&
+    abs(
+      diff(range(breaks_vector)) - diff(range(breaks_vector_pretty))
+      ) < 1e-5
+  ){
+
+    breaks_vector <- breaks_vector_pretty
+
+  }
+
+
+  breaks_vector
 
 }
-
 
 
