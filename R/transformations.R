@@ -5,12 +5,12 @@
 #' @autoglobal
 f_list <- function(){
 
- f_funs <-  ls(
+  f_funs <-  ls(
     name = "package:distantia",
     pattern = "^f_"
   )
 
- f_funs[f_funs != "f_list"]
+  f_funs[f_funs != "f_list"]
 
 }
 
@@ -167,8 +167,7 @@ f_detrend_gam <- function(
 
       m.i <- mgcv::gam(
         formula =
-          zoo::coredata(i) ~
-          s(zoo::index(i), k = k),
+          zoo::coredata(i) ~ s(zoo::index(i), k = k),
         na.action = na.omit,
         select = select
       )
@@ -176,7 +175,7 @@ f_detrend_gam <- function(
       stats::predict(
         object = m.i,
         type = "response"
-        )
+      )
 
     }
   )
@@ -226,12 +225,12 @@ f_detrend_difference <- function(
     x = NULL,
     lag = 1,
     ...
-    ) {
+) {
 
   y <- diff(
     x = as.matrix(x),
     lag = as.integer(lag[1])
-    )
+  )
 
   first.row <- matrix(
     data = 0,
@@ -277,7 +276,7 @@ f_smooth <- function(
 
     stop(
       "Argument 'fun' must be a function name."
-      )
+    )
 
   }
 
@@ -521,5 +520,61 @@ scaling_parameters <- function(
   }
 
   NULL
+
+}
+
+
+#' Slope of Time Series via Linear Regression
+#'
+#' @description
+#' Calculates the slope of a numeric vector using linear regression. If the length of the input vector is 1, it returns 0. If linear regression fails, it returns NA.
+#'
+#' Useful for [tsl_transform()] or [tsl_aggregate()].
+#'
+#'
+#' @param x (required, numeric vector) input vector. Default: NULL
+#' @return Slope of the numeric vector
+#' @export
+#' @autoglobal
+#'
+#' @examples
+#' # Numeric vector of any length
+#' f_slope(x = cumsum(runif(10)))
+#'
+#' # Numeric vector with length = 1
+#' f_slope(x = 10)
+#'
+#' # Numeric vector with length = 0
+#' f_slope(x = numeric(0))
+#'
+f_slope <- function(x = NULL) {
+
+  if(!is.numeric(x)) {
+    stop("Input must be a numeric vector.")
+  }
+
+  if(length(x) <= 1){
+
+    slope <- 0
+
+  } else {
+
+    slope <- tryCatch(
+      {
+        summary(
+          stats::lm(
+            formula = x ~ seq_along(x)
+            )
+          )$coefficients[2, 1]
+      },
+      error = function(e){
+        return(NA)
+      }
+    ) |>
+      suppressWarnings()
+
+  }
+
+  slope
 
 }

@@ -1,9 +1,16 @@
 #' Time Breaks for Time Series Aggregation
 #'
+#' @description
+#' Internal function of [tsl_aggregate()] to check input breaks for time series aggregation and returns a proper aggregation vector.
+#'
+#'
 #' @param tsl (required, time series list) Time series that will be aggregated using 'breaks'. Default: NULL
-#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
+#' @param breaks (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 #' \itemize{
-#'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
+#'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
+#'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
+#'   \item numeric: defines fixed with time intervals for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
+#'   \item keyword (see [utils_time_units()] and [tsl_time_summary()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 #' }
 #'
 #' @return Vector of class numeric, Date, or POSIXct
@@ -119,16 +126,29 @@ utils_time_breaks <- function(
 
     }
 
-    if(time_summary$class == "Date"){
-      stop("Not implemented yet.")
-    }
+    #non-standard are always in "years"
+    breaks <- as.integer(breaks)
+    unit <- paste0(breaks, " days")
 
+    if(time_summary$class == "Date"){
+
+      breaks_vector <- seq.Date(
+        from = time_summary$begin,
+        to = time_summary$end,
+        by = unit
+      )
+
+    }
 
     if(time_summary$class == "POSIXct"){
-      stop("Not implemented yet.")
+
+      breaks_vector <- seq.POSIXt(
+        from = time_summary$begin,
+        to = time_summary$end,
+        by = unit
+      )
+
     }
-
-
 
   } #end of numeric_interval
 

@@ -4,10 +4,12 @@
 \alias{utils_as_time}
 \title{Ensures Correct Class for Time Arguments}
 \usage{
-utils_as_time(x = NULL)
+utils_as_time(x = NULL, to_class = NULL)
 }
 \arguments{
 \item{x}{(required, vector) Vectors of the classes 'numeric', 'Date', and 'POSIXct' are valid and returned without any transformation. Character vectors are analyzed to determine their more probable type, and are coerced to 'Date' or 'POSIXct' depending on their number of elements. Generally, any character vector representing an ISO 8601 standard, like "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS" will be converted to a valid class. If a character vector cannot be coerced to date, it is returned as is. Default: NULL}
+
+\item{to_class}{(optional, class) Options are: NULL, "numeric", "Date", and "POSIXct". If NULL, 'x' is returned as whatever class is more appropriate. Otherwise, 'x' is coerced to the given class.}
 
 \item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default is TRUE}
 }

@@ -87,7 +87,20 @@ x <- tsl_aggregate(
 tsl_plot(x)
 
 
-
+#' tsl <- tsl_simulate(
+#'   n = 3,
+#'   rows = 10,
+#'   time_range = c(
+#'     "2010-01-01",
+#'     "2020-01-01"
+#'   )
+#' )
+#'
+#' df <- tsl_to_df(
+#'   tsl = tsl
+#' )
+#'
+#' names(df)
 
 
 # Date ----

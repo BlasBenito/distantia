@@ -4,9 +4,11 @@
 \alias{utils_time_breaks_type}
 \title{Type of Aggregation Time Breaks}
 \usage{
-utils_time_breaks_type(x = NULL, breaks = NULL)
+utils_time_breaks_type(tsl = NULL, breaks = NULL)
 }
 \arguments{
+\item{tsl}{(required, time series list)}
+
 \item{breaks}{(required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 \itemize{
   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
@@ -16,5 +18,5 @@ utils_time_breaks_type(x = NULL, breaks = NULL)
 Character string, breaks type.
 }
 \description{
-Internal function to identify the type of time breaks used for time series aggregation.
+Internal function of [utils_time_breaks()] to identify the type of time breaks used for time series aggregation.
 }

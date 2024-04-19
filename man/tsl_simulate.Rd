@@ -17,7 +17,7 @@ tsl_simulate(
 )
 }
 \arguments{
-\item{n}{(optional, integer) Number of time series to simulate.}
+\item{n}{(optional, integer) Number of time series to simulate. Default: 2.}
 
 \item{cols}{(optional, integer) Number of columns of each time series. Default: 5}
 

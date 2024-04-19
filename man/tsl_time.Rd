@@ -2,16 +2,21 @@
 % Please edit documentation in R/tsl_time.R
 \name{tsl_time}
 \alias{tsl_time}
+\alias{tsl_time_summary}
 \title{Time Summary of a Time Series List}
 \usage{
 tsl_time(tsl = NULL)
+
+tsl_time_summary(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
 }
 \value{
-List with class, range, units, and resolution of the time in `tsl`.
+Data frame for [tsl_time()], and list for [tsl_time_summary()].
 }
 \description{
-Time Summary of a Time Series List
+[tsl_time()] returns a data frame with one row per time series in the argument 'tsl' with key time features.
+
+[tsl_time_summayr()] is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
 }

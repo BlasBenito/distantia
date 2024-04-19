@@ -91,7 +91,7 @@ tsl_colnames <- function(
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
 #' @param names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
 #'
-#' @return
+#' @return time series list with new names
 #' @export
 #'
 #' @examples

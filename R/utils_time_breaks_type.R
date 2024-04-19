@@ -1,7 +1,7 @@
 #' Type of Aggregation Time Breaks
 #'
 #' @description
-#' Internal function to identify the type of time breaks used for time series aggregation.
+#' Internal function of [utils_time_breaks()] to identify the type of time breaks used for time series aggregation.
 #'
 #' @param tsl (required, time series list)
 #' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
@@ -44,7 +44,7 @@ utils_time_breaks_type <- function(
     # numeric interval ----
     if(
       is.numeric(breaks) &&
-      breaks > time_summary_min_threshold
+      breaks >= time_summary_min_threshold
     ){
 
       attr(

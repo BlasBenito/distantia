@@ -1,19 +1,15 @@
 #' Aggregates Time Series List
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups across time. Valid options, arranged per time class, are:
+#' @param breaks (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 #' \itemize{
-#'   \item keyword:
-#'   \itemize{
-#'     \item Date (ISO 8601 standard YYYY-MM-DD): "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks".
-#'     \item POSIXct (ISO 8601 standard YYYY-MM-DD): All of the above plus "hours", "mins", and "secs".
-#'     \item numeric (arbitrary time):
-#'   \item POSIXct (ISO 8601 standard YYYY-MM-DD):
-#'   \item numeric:
-#'
-#'   keyword: For class Date in format "YYYY-MM-DD" or POSIXct "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
+#'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
+#'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
+#'   \item numeric: defines fixed with time intervals for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
+#'   \item keyword (see [utils_time_units()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 #' }
-#' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.
+#' @param f (required, function) name without quotes and parenthesis of a standard or user-defined function to aggregate a vector series. Typical examples are `mean`, `max`,`min`, `median`, and `sd`, but others such as [f_slope()] are available as well. Default: `mean`.
+#' @param ... (optional) further arguments for `f`.
 #'
 #' @return time series list
 #' @export
@@ -23,7 +19,6 @@ tsl_aggregate <- function(
     tsl = NULL,
     breaks = NULL,
     f = mean,
-    quiet = TRUE,
     ...
 ){
 
@@ -32,27 +27,21 @@ tsl_aggregate <- function(
     breaks = breaks
   )
 
-  if(quiet == FALSE){
-    message(
-      "Aggregation breaks: ",
-      paste(breaks, collapse = ", ")
-      )
-  }
-
   tsl <- lapply(
     X = tsl,
-    FUN = function(x){
+    FUN = function(x, ...){
 
       # x <- tsl[[1]]
 
       x <- zoo_aggregate(
         x = x,
         breaks = breaks,
-        f = f#,
-        # ... = ...
+        f = f,
+        ... = ...
       )
 
-    }
+    },
+    ... = ...
   )
 
   tsl <- tsl_names_set(

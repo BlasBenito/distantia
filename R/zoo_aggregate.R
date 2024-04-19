@@ -45,8 +45,8 @@ zoo_aggregate <- function(
   y <- stats::aggregate(
     x = x,
     by = x_breaks,
-    FUN = f#,
-    # ... = ...
+    FUN = f,
+    ... = ...
   )
 
   #reset index
