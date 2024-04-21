@@ -35,28 +35,21 @@ psi_auto_sum <- function(
     distance = "euclidean"
     ){
 
-  #check and prepare arguments
-  xy <- prepare_xy(
-    x = x,
-    y = y,
-    distance = distance
-  )
-
   #managing distance method
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )[1]
 
 
   if(!is.null(path)){
 
-    path <- check_args_path(
+    path <- utils_check_path_args(
       path = path
     )
 
     xy_sum <- auto_sum_path_cpp(
-      x = xy[[1]],
-      y = xy[[2]],
+      x = x,
+      y = y,
       path = path,
       distance = distance
     )
@@ -64,8 +57,8 @@ psi_auto_sum <- function(
   } else {
 
     xy_sum <- auto_sum_no_path_cpp(
-      y = xy[[1]],
-      x = xy[[2]],
+      y = x,
+      x = y,
       distance = distance
     )
 

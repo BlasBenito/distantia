@@ -7,9 +7,9 @@
 combine(x = NULL, distance = "euclidean")
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [tsl_prepare()].}
-
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+
+\item{tsl}{(required, list of matrices) list of input matrices generated with [tsl_prepare()].}
 }
 \value{
 Data frame with composite sequence and columns identifying the origin of each new row.

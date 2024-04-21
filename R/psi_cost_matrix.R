@@ -44,7 +44,7 @@ psi_cost_matrix <- function(
     weighted = FALSE
     ){
 
-  dist_matrix <- check_args_matrix(
+  dist_matrix <- utils_check_matrix_args(
     m = dist_matrix,
     arg_name = "dist_matrix"
   )

@@ -54,7 +54,7 @@ distance <- function(
 
   }
 
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )[1]
 

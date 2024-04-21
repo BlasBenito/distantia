@@ -7,8 +7,7 @@
 #'
 #' The argument `paired_samples` is not available because this multipanel plot does not make sense in such a case.
 #'
-#' @param x (required, sequence) a sequence generated via [tsl_prepare()] for the X axis of the multi-panel plot. Default: NULL
-#' @param y (required, sequence) a sequence generated via [tsl_prepare()] for the Y axis of the multi-panel plot. Default: NULL
+#' @param tsl (required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are plotted. Default: NULL
 #' @param distance (optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted @param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -26,21 +25,19 @@
 #' @examples
 #' data(sequencesMIS)
 #'
-#' x <- tsl_prepare(
+#' tsl <- tsl_prepare(
 #'   x = sequencesMIS,
 #'   id_column = "MIS"
 #' )
 #'
 #' plot_distantia(
-#'   y = x[["MIS-9"]],
-#'   x = x[["MIS-11"]]
+#'   tsl = tsl[c("MIS-9", "MIS-11")],
 #' )
 #' @return A plot.
 #' @autoglobal
 #' @export
-psi_plot <- function(
-    x = NULL,
-    y = NULL,
+distantia_plot <- function(
+    tsl = NULL,
     distance = "euclidean",
     diagonal = FALSE,
     weighted = FALSE,
@@ -56,18 +53,23 @@ psi_plot <- function(
     text_cex = 1
 ){
 
+  if(length(tsl) > 2){
+
+    warning("Argument 'tsl' must be of length 2. Using elements ", paste0(names(tsl)[1:2], collapse = " and "), " for this plot.")
+
+    tsl <- tsl[c(1, 2)]
+
+  }
+
+  tsl <- tsl_remove_exclusive_cols(
+    tsl = tsl
+  )
+
   # Preserve user's config
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par))
 
   # Check arguments ----
-
-  #prepare xy for psi computation
-  xy <- prepare_xy(
-    x = x,
-    y = y,
-    distance = distance
-  )
 
   #check matrix argument
   matrix_type <- match.arg(
@@ -91,7 +93,7 @@ psi_plot <- function(
 
   # Psi computation ----
   xy_psi <- distantia(
-    x = xy,
+    tsl = tsl,
     distance = distance[1],
     diagonal = diagonal[1],
     weighted = weighted[1],
@@ -102,8 +104,8 @@ psi_plot <- function(
 
   # Distance and cost matrices ----
   dist_m <- psi_dist_matrix(
-    x = xy[[1]],
-    y = xy[[2]],
+    x = tsl[[1]],
+    y = tsl[[2]],
     distance = distance
   )
 
@@ -196,7 +198,7 @@ psi_plot <- function(
     )
 
   zoo_plot(
-    x = y,
+    x = tsl[[2]],
     center = line_center,
     scale = line_scale,
     color = line_color,
@@ -208,7 +210,7 @@ psi_plot <- function(
   )
 
   y_sum <- psi_auto_distance(
-    x = y,
+    x = tsl[[2]],
     path = path,
     distance = distance
   ) |>
@@ -234,7 +236,7 @@ psi_plot <- function(
     )
 
   zoo_plot(
-    x = x,
+    x = tsl[[1]],
     center = line_center,
     scale = line_scale,
     color = line_color,
@@ -246,7 +248,7 @@ psi_plot <- function(
   )
 
   x_sum <- psi_auto_distance(
-    x = x,
+    x = tsl[[1]],
     path = path,
     distance = distance
   ) |>
@@ -283,7 +285,7 @@ psi_plot <- function(
   )
 
   utils_line_guide(
-    x = y,
+    x = tsl[[2]],
     position = "center",
     color = line_color,
     text_cex = text_cex * 0.7,

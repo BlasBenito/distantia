@@ -42,7 +42,7 @@ zoo_plot <- function(
 ){
 
   #check x
-  x <- check_args_x(x = x)
+  x <- utils_check_zoo_args(x = x)
 
   #axis title
   axis_title_distance <- 1.4

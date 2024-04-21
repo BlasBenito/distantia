@@ -2,7 +2,7 @@
 #'
 #' @description Combines two sequences by arranging their cases as defined in their orthogonal least cost path. When more than two sequences are provided in `x`, all sequences are first ordered according to their psi scores. Then, the first two sequences (the more similar ones) are combined first, and the remaining ones are added to the composite sequence one by one.
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()].
+#' @param tsl (required, list of matrices) list of input matrices generated with [tsl_prepare()].
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
 #' @return Data frame with composite sequence and columns identifying the origin of each new row.
@@ -14,11 +14,11 @@ combine <- function(
 ){
 
   # check input arguments ----
-  x <- check_args_x(
-    x = x
+  tsl <- tsl_is_valid(
+    tsl = tsl
   )
 
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance[1]
   )
 
@@ -201,7 +201,7 @@ combination_path <- function(
     distance = "euclidean"
 ){
 
-  x <- check_args_x(
+  x <- utils_check_zoo_args(
     x = x
   )
 

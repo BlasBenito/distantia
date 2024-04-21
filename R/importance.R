@@ -14,7 +14,7 @@
 #'
 #' When `paired_samples = TRUE` the computation method is only `robust`, as the comparison of paired samples does not require a least cost path.
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()].
+#' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -23,8 +23,8 @@
 #' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #' @return Data frame with the following columns:
 #' \itemize{
-#'   \item `name_y`: name of the sequence `y`.
-#'   \item `name_y`: name of the sequence `x`.
+#'   \item `x`: name of the sequence `x`.
+#'   \item `y`: name of the sequence `y`.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
@@ -42,7 +42,7 @@
 #' @export
 #' @autoglobal
 importance <- function(
-    x = NULL,
+    tsl = NULL,
     distance = "euclidean",
     diagonal = FALSE,
     weighted = FALSE,
@@ -51,9 +51,13 @@ importance <- function(
     robust = TRUE
 ){
 
+  tsl <- tsl_remove_exclusive_cols(
+    tsl = tsl
+  )
+
   #check input arguments
-  arguments <- check_args(
-    x = x,
+  args_test <- utils_check_distantia_args(
+    tsl = tsl,
     distance = distance,
     diagonal = diagonal,
     weighted = weighted,
@@ -62,50 +66,18 @@ importance <- function(
     robust = robust
   )
 
-  list2env(
-    x = arguments,
-    envir = environment()
-  )
-
-  #combinations of sequences
-  sequence_combinations <- data.frame(
-    t(
-      combn(
-        names(x),
-        m = 2
-      )
+  #tsl pairs
+  df <- utils_tsl_pairs(
+    tsl = tsl,
+    args_list = list(
+      distance = distance,
+      diagonal = diagonal,
+      weighted = weighted,
+      ignore_blocks = ignore_blocks,
+      paired_samples = paired_samples,
+      robust = robust,
     )
   )
-
-  names(sequence_combinations) <- c(
-    "name_x",
-    "name_y"
-  )
-
-  #preparing iterations data frame
-  argument_combinations <- expand.grid(
-    distance = distance,
-    diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
-    paired_samples = paired_samples,
-    robust = robust,
-    stringsAsFactors = FALSE
-  )
-
-  #remove combinations diagonal = FALSE weighted = TRUE
-  argument_combinations$weighted <- ifelse(
-    test = argument_combinations$diagonal == FALSE,
-    yes = FALSE,
-    no = argument_combinations$weighted
-  )
-
-  df <- merge(
-    x = sequence_combinations,
-    y = argument_combinations
-  )
-
-  df <- unique(df)
 
   iterations <- seq_len(nrow(df))
 
@@ -117,7 +89,7 @@ importance <- function(
 
   `%iterator%` <- doFuture::`%dofuture%`
 
-  importance_df <- foreach::foreach(
+  df_importance <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .options.future = list(seed = TRUE)
@@ -127,20 +99,16 @@ importance <- function(
 
     df.i <- df[i, ]
 
-    xy <- prepare_xy(
-      x = x[[df$name_y[i]]],
-      y = x[[df$name_x[i]]],
-      distance = distance,
-      paired_samples = paired_samples
-    )
+    x <- tsl[[df.i$x]]
+    y <- tsl[[df.i$y]]
 
     if(df.i$paired_samples == TRUE){
 
       df.i$robust <- TRUE
 
       importance.i <- importance_paired_cpp(
-        x = xy[[1]],
-        y = xy[[2]],
+        x = x,
+        y = y,
         distance = df.i$distance
       )
 
@@ -149,8 +117,8 @@ importance <- function(
       if(df.i$robust == TRUE){
 
         importance.i <- importance_robust_cpp(
-          x = xy[[1]],
-          y = xy[[2]],
+          x = x,
+          y = y,
           distance = df.i$distance,
           diagonal = df.i$diagonal,
           weighted = df.i$weighted,
@@ -160,8 +128,8 @@ importance <- function(
       } else {
 
         importance.i <- importance_cpp(
-          x = xy[[1]],
-          y = xy[[2]],
+          x = x,
+          y = y,
           distance = df.i$distance,
           diagonal = df.i$diagonal,
           weighted = df.i$weighted,
@@ -184,6 +152,6 @@ importance <- function(
 
   } #end of loop
 
-  importance_df
+  df_importance
 
 }

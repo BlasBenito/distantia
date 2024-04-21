@@ -11,6 +11,9 @@ tsl_colnames_set(tsl = NULL, names = NULL)
 
 \item{names}{(required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".}
 }
+\value{
+time series list with new names
+}
 \description{
 Renames Columns of Zoo Objects in a Time Series List
 }

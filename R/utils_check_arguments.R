@@ -1,6 +1,6 @@
 #' Check Input Arguments
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()].
+#' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -21,8 +21,8 @@
 #' @return List with checked arguments
 #' @export
 #' @autoglobal
-check_args <- function(
-    x = NULL,
+utils_check_distantia_args <- function(
+    tsl = NULL,
     distance = "euclidean",
     diagonal = FALSE,
     weighted = FALSE,
@@ -35,11 +35,11 @@ check_args <- function(
     robust = TRUE
     ){
 
-  x <- check_args_x(
-    x = x
+  tsl <- tsl_is_valid(
+    tsl = tsl
   )
 
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )
 
@@ -110,7 +110,7 @@ check_args <- function(
   }
 
   out <- list(
-    x = x,
+    tsl = tsl,
     distance = distance,
     diagonal = diagonal,
     weighted = weighted,
@@ -135,7 +135,7 @@ check_args <- function(
 #' @return Least cost path
 #' @export
 #' @autoglobal
-check_args_path <- function(
+utils_check_path_args <- function(
     path = NULL,
     arg_name = "path"
 ){
@@ -180,7 +180,7 @@ check_args_path <- function(
 #' @return Argument m.
 #' @export
 #' @autoglobal
-check_args_matrix <- function(
+utils_check_matrix_args <- function(
     m = NULL,
     arg_name = "m"
 ){
@@ -225,7 +225,7 @@ check_args_matrix <- function(
 #' @return Argument x.
 #' @export
 #' @autoglobal
-check_args_x <- function(
+utils_check_zoo_args <- function(
     x = NULL,
     arg_name = "x"
     ){
@@ -283,14 +283,14 @@ check_args_x <- function(
 #' @autoglobal
 #' @examples
 #'
-#' check_args_distance(
+#' utils_check_distance_args(
 #'   distance = c(
 #'     "euclidean",
 #'     "euc"
 #'    )
 #'   )
 #'
-check_args_distance <- function(
+utils_check_distance_args <- function(
     distance = NULL
     ){
 

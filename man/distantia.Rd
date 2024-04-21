@@ -5,7 +5,7 @@
 \title{Psi Distance Between Time Series}
 \usage{
 distantia(
-  x = NULL,
+  tsl = NULL,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -18,7 +18,7 @@ distantia(
 )
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [tsl_prepare()].}
+\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
@@ -47,8 +47,8 @@ distantia(
 \value{
 Data frame with the following columns:
 \itemize{
-  \item `name_a`: name of the sequence `a`.
-  \item `name_bb`: name of the sequence `b`.
+  \item `x`: name of the sequence `x`.
+  \item `y`: name of the sequence `y`.
   \item `distance`: name of the distance metric.
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.

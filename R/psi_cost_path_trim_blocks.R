@@ -48,7 +48,7 @@
 #'@autoglobal
 psi_cost_path_trim_blocks <- function(path = NULL){
 
-  path <- check_args_path(
+  path <- utils_check_path_args(
     path = path
   )
 

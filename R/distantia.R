@@ -1,6 +1,6 @@
 #' Psi Distance Between Time Series
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()].
+#' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
@@ -19,8 +19,8 @@
 #'
 #' @return Data frame with the following columns:
 #' \itemize{
-#'   \item `name_a`: name of the sequence `a`.
-#'   \item `name_bb`: name of the sequence `b`.
+#'   \item `x`: name of the sequence `x`.
+#'   \item `y`: name of the sequence `y`.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
@@ -37,7 +37,7 @@
 #' @export
 #' @autoglobal
 distantia <- function(
-    x = NULL,
+    tsl = NULL,
     distance = "euclidean",
     diagonal = FALSE,
     weighted = FALSE,
@@ -49,9 +49,13 @@ distantia <- function(
     seed = 1
 ){
 
+  tsl <- tsl_remove_exclusive_cols(
+    tsl = tsl
+  )
+
   #check input arguments
-  arguments <- check_args(
-    x = x,
+  args_test <- utils_check_distantia_args(
+    tsl = tsl,
     distance = distance,
     diagonal = diagonal,
     weighted = weighted,
@@ -62,71 +66,37 @@ distantia <- function(
     seed = seed
   )
 
-  list2env(
-    x = arguments,
-    envir = environment()
-    )
-
-
-  #combinations of sequences
-  sequence_combinations <- data.frame(
-    t(
-      combn(
-        names(x),
-        m = 2
-        )
-      )
-    )
-
-  names(sequence_combinations) <- c(
-    "name_a",
-    "name_b"
-  )
-
+  #iterations data
   if(repetitions == 0){
 
-    #preparing output data frame
-    argument_combinations <- expand.grid(
-      distance = distance,
-      diagonal = diagonal,
-      weighted = weighted,
-      ignore_blocks = ignore_blocks,
-      paired_samples = paired_samples,
-      stringsAsFactors = FALSE
+    df <- utils_tsl_pairs(
+      tsl = tsl,
+      args_list = list(
+        distance = distance,
+        diagonal = diagonal,
+        weighted = weighted,
+        ignore_blocks = ignore_blocks,
+        paired_samples = paired_samples
+      )
     )
 
   } else {
 
-    argument_combinations <- expand.grid(
-      distance = distance,
-      diagonal = diagonal,
-      weighted = weighted,
-      ignore_blocks = ignore_blocks,
-      paired_samples = paired_samples,
-      repetitions = repetitions,
-      permutation = permutation,
-      block_size = block_size,
-      seed = seed,
-      stringsAsFactors = FALSE
+    df <- utils_tsl_pairs(
+      tsl = tsl,
+      args_list = list(
+        distance = distance,
+        diagonal = diagonal,
+        weighted = weighted,
+        ignore_blocks = ignore_blocks,
+        paired_samples = paired_samples,
+        repetitions = repetitions,
+        permutation = permutation,
+        block_size = block_size,
+        seed = seed,
+      )
     )
-
   }
-
-  #remove combinations diagonal = FALSE weighted = TRUE
-  argument_combinations$weighted <- ifelse(
-    test = argument_combinations$diagonal == FALSE,
-    yes = FALSE,
-    no = argument_combinations$weighted
-  )
-
-  #cross join
-  df <- merge(
-    x = sequence_combinations,
-    y = argument_combinations
-  )
-
-  #remove duplicates
-  df <- unique(df)
 
   #add additional columns
   df$psi <- NA
@@ -148,7 +118,7 @@ distantia <- function(
 
   `%iterator%` <- doFuture::`%dofuture%`
 
-  psi_df <- foreach::foreach(
+  df_distantia <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
@@ -159,31 +129,27 @@ distantia <- function(
 
     df.i <- df[i, ]
 
-    xy <- prepare_xy(
-      x = x[[df$name_b[i]]],
-      y = x[[df$name_a[i]]],
-      distance = distance,
-      paired_samples = paired_samples
-    )
+    x <- tsl[[df.i$x]]
+    y <- tsl[[df.i$y]]
 
     if(df$paired_samples[i] == TRUE){
 
       df.i$psi <- psi_paired_cpp(
-        x = xy[[1]],
-        y = xy[[2]],
-        distance = df$distance[i]
+        x = x,
+        y = y,
+        distance = df.i$distance
       )
 
       if(repetitions > 0){
 
         psi_null <- null_psi_paired_cpp(
-          x = xy[[1]],
-          y = xy[[2]],
-          distance = df$distance[i],
-          repetitions = df$repetitions[i],
-          permutation = df$permutation[i],
-          block_size = df$block_size[i],
-          seed = df$seed[i]
+          x = x,
+          y = y,
+          distance = df.i$distance,
+          repetitions = df.i$repetitions,
+          permutation = df.i$permutation,
+          block_size = df.i$block_size,
+          seed = df.i$seed
         )
 
       }
@@ -191,27 +157,27 @@ distantia <- function(
     } else {
 
       df.i$psi <- psi_cpp(
-        x = xy[[1]],
-        y = xy[[2]],
-        distance = df$distance[i],
-        diagonal = df$diagonal[i],
-        weighted = df$weighted[i],
-        ignore_blocks = df$ignore_blocks[i]
+        x = x,
+        y = y,
+        distance = df.i$distance,
+        diagonal = df.i$diagonal,
+        weighted = df.i$weighted,
+        ignore_blocks = df.i$ignore_blocks
       )
 
       if(repetitions > 0){
 
         psi_null <- null_psi_cpp(
-          x = xy[[1]],
-          y = xy[[2]],
-          distance = df$distance[i],
-          diagonal = df$diagonal[i],
-          weighted = df$weighted[i],
-          ignore_blocks = df$ignore_blocks[i],
-          repetitions = df$repetitions[i],
-          permutation = df$permutation[i],
-          block_size = df$block_size[i],
-          seed = df$seed[i]
+          x = x,
+          y = y,
+          distance = df.i$distance,
+          diagonal = df.i$diagonal,
+          weighted = df.i$weighted,
+          ignore_blocks = df.i$ignore_blocks,
+          repetitions = df.i$repetitions,
+          permutation = df.i$permutation,
+          block_size = df.i$block_size,
+          seed = df.i$seed
         )
 
         df.i$null_mean <- mean(psi_null)
@@ -229,10 +195,10 @@ distantia <- function(
   #remove column paired samples
   if(length(paired_samples) == 1){
     if(paired_samples == FALSE){
-      psi_df$paired_samples <- NULL
+      df_distantia$paired_samples <- NULL
     }
   }
 
-  psi_df
+  df_distantia
 
 }

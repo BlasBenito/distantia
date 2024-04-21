@@ -86,7 +86,7 @@ plot_matrix <- function(
   }
 
   #check m
-  m <- check_args_matrix(m = m)
+  m <- utils_check_matrix_args(m = m)
 
   #axis title
   axis_title_distance <- 2.2
@@ -231,7 +231,7 @@ plot_matrix <- function(
   # least cost path ----
   if(!is.null(path)){
 
-    path <- check_args_path(
+    path <- utils_check_path_args(
       path = path
     )
 

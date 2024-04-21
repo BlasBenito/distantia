@@ -31,12 +31,12 @@ psi_cost_path <- function(
     diagonal = FALSE
 ){
 
-  dist_matrix <- check_args_matrix(
+  dist_matrix <- utils_check_matrix_args(
     m = dist_matrix,
     arg_name = "dist_matrix"
   )
 
-  cost_matrix <- check_args_matrix(
+  cost_matrix <- utils_check_matrix_args(
     m = cost_matrix,
     arg_name = "cost_matrix"
   )

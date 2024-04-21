@@ -32,17 +32,17 @@ prepare_xy <- function(
     paired_samples = FALSE
     ){
 
-  x <- check_args_x(
+  x <- utils_check_zoo_args(
     x = x,
     arg_name = "x"
   )
 
-  y <- check_args_x(
+  y <- utils_check_zoo_args(
     x = y,
     arg_name = "y"
   )
 
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )
 

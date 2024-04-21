@@ -5,7 +5,7 @@
 \title{Importance of Individual Variables}
 \usage{
 importance(
-  x = NULL,
+  tsl = NULL,
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
@@ -15,7 +15,7 @@ importance(
 )
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with [tsl_prepare()].}
+\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
@@ -32,8 +32,8 @@ importance(
 \value{
 Data frame with the following columns:
 \itemize{
-  \item `name_y`: name of the sequence `y`.
-  \item `name_y`: name of the sequence `x`.
+  \item `x`: name of the sequence `x`.
+  \item `y`: name of the sequence `y`.
   \item `distance`: name of the distance metric.
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.

@@ -29,32 +29,26 @@ psi_dist_matrix <- function(
     distance = "euclidean"
 ){
 
-  xy <- prepare_xy(
-    y = y,
-    x = x,
-    distance = distance
-  )
-
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )[1]
 
   #computing distance matrix
   m <- distance_matrix_cpp(
-    x = xy[[1]],
-    y = xy[[2]],
+    x = x,
+    y = y,
     distance = distance
     )
 
   #adding names
   dimnames(m) <- list(
-    attributes(xy[[2]])$index,
-    attributes(xy[[1]])$index
+    attributes(x)$index,
+    attributes(y)$index
   )
 
   #adding attributes
-  attr(x = m, which = "x_name") <- attributes(xy[[1]])$name
-  attr(x = m, which = "y_name") <- attributes(xy[[2]])$name
+  attr(x = m, which = "x_name") <- attributes(x)$name
+  attr(x = m, which = "y_name") <- attributes(y)$name
   attr(x = m, which = "type") <- "distance"
   attr(x = m, which = "distance") <- distance
 

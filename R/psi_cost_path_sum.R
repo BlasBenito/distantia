@@ -29,7 +29,7 @@
 #' @export
 psi_cost_path_sum <- function(path = NULL){
 
-  path <- check_args_path(
+  path <- utils_check_path_args(
     path = path
   )
 

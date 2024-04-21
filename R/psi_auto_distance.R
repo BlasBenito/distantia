@@ -15,20 +15,20 @@ psi_auto_distance <- function(
     ){
 
   #check x
-  x <- check_args_x(
+  x <- utils_check_zoo_args(
     x = x,
     arg_name = "x"
   )
 
   #check distance
-  distance <- check_args_distance(
+  distance <- utils_check_distance_args(
     distance = distance
   )[1]
 
   #subset sequence using path
   if(!is.null(path)){
 
-    path <- check_args_path(
+    path <- utils_check_path_args(
       path = path
     )
 

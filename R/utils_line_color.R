@@ -17,7 +17,7 @@ utils_line_color <- function(
 ){
 
   #check x
-  x <- check_args_x(x = x)
+  x <- utils_check_zoo_args(x = x)
 
   # get colnames for any length of x
   if(!is.matrix(x)){

@@ -37,7 +37,7 @@ utils_matrix_guide <- function(
 ){
 
   #check m
-  m <- check_args_matrix(m = m)
+  m <- utils_check_matrix_args(m = m)
 
   title_cex <- 0.8 * text_cex
   axis_labels_cex <- 0.7 * text_cex
