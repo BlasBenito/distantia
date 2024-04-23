@@ -77,7 +77,6 @@ tsl_colnames <- function(
   exclusive.names <- exclusive.names[!is.na(exclusive.names)]
 
   if(length(exclusive.names) == 0){
-    message("There are no exclusive column names in 'tsl'.")
     return(exclusive.names)
   }
 

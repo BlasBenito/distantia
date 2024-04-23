@@ -1,3 +1,5 @@
+devtools::load_all()
+
 tsl <- tsl_simulate(
   n = 6,
   time_range = c(
@@ -9,6 +11,8 @@ tsl <- tsl_simulate(
 tsl_distantia <- distantia(
   tsl = tsl
 )
+
+distantia_plot(tsl = tsl)
 
 tsl_importance <- importance(
   tsl = tsl
