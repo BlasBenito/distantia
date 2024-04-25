@@ -23,25 +23,6 @@ distantia_to_matrix <- function(
     ...
 ){
 
-  # tsl <- tsl_simulate(
-  #   n = 6,
-  #   time_range = c(
-  #     "0100-01-01 12:00:25",
-  #     "2024-12-31 11:15:45"
-  #   )
-  # )
-  #
-  # df <- distantia(
-  #   tsl = tsl
-  # )
-  #
-  # df <- distantia(
-  #   tsl = tsl,
-  #   distance = c("euclidean", "manhattan")
-  # )
-  #
-  # f <- mean
-
   # check df ----
   df_names <- c(
     "x",
@@ -56,13 +37,24 @@ distantia_to_matrix <- function(
   if(
     !is.data.frame(df) ||
     !any(df_names %in% names(df))
-    ){
+  ){
     stop("Argument 'df' must be a data frame returned by distantia().")
   }
 
   # detect groups ----
-  df_groups <- unique(df[, c("distance", "diagonal", "weighted", "ignore_blocks")])
+  df_groups <- unique(
+    df[, c(
+      "distance",
+      "diagonal",
+      "weighted",
+      "ignore_blocks"
+    )
+    ]
+  )
+
   df_groups$group <- seq_len(nrow(df_groups))
+
+  rownames(df_groups) <- NULL
 
   #add group to df ----
   df <- merge(
@@ -76,7 +68,7 @@ distantia_to_matrix <- function(
     f = df$group
   )
 
-  # argument f is provided ----
+  # disable aggregation if only one group ----
   if(nrow(df_groups) == 1){
     f <- NULL
   }
@@ -113,14 +105,38 @@ distantia_to_matrix <- function(
 
     names(df)[3] <- "psi"
 
+    #start aggregated distances at zero
+    df$psi <- df$psi + abs(min(df$psi))
+
     df_list <- list(df)
+
+    df_groups_list <- list(df_groups)
+
+  } #end of aggregation
+
+  m_list <- lapply(
+    X = df_list,
+    FUN = utils_df_to_matrix
+  )
+
+  if(exists("df_groups_list") == FALSE){
+    df_groups_list <- split(
+      x = df_groups,
+      f = seq_len(nrow(df_groups))
+    )
+  }
+
+
+  for(i in seq_len(length(m_list))){
+
+    attr(
+      x = m_list[[i]],
+      which = "distantia_args"
+    ) <- df_groups_list[[i]]
 
   }
 
-  # distance matrices
-  #TODO
 
-
-
+  m_list
 
 }

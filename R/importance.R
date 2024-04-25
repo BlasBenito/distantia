@@ -81,13 +81,9 @@ importance <- function(
 
   iterations <- seq_len(nrow(df))
 
-  if(requireNamespace("progressor", quietly = TRUE)){
-    p <- progressr::progressor(along = iterations)
-  } else {
-    p <- function(...){}
-  }
-
   `%iterator%` <- doFuture::`%dofuture%`
+
+  p <- progressr::progressor(along = iterations)
 
   df_importance <- foreach::foreach(
     i = iterations,

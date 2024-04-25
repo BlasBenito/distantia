@@ -22,9 +22,9 @@ Imports:
   future,
   foreach,
   zoo,
-  lubridate
+  lubridate,
+  progressr
 Suggests: 
-  progressr,
   mgcv,
   roxyglobals,
   testthat (>= 3.0.0)
