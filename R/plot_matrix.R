@@ -79,6 +79,12 @@ plot_matrix <- function(
     subpanel = FALSE
 ){
 
+  #First to upper
+  firstup <- function(x) {
+    substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+    x
+  }
+
   # Preserve user's config
   if(subpanel == FALSE){
     old.par <- par(no.readonly = TRUE)
@@ -87,6 +93,76 @@ plot_matrix <- function(
 
   #check m
   m <- utils_check_matrix_args(m = m)
+
+  #specific behaviours by matrix type
+  m_type <- attributes(m)$type
+
+  #generic matrix
+  if(is.null(m_type)){
+    stop("Plotting for generic matrices is not implemented yet")
+  }
+
+  #distance matrix
+  if(m_type %in% c("distance", "cost")){
+
+    guide_title <- paste0(
+      attributes(m)$distance,
+      "\ndistance"
+      )
+
+    x_name <- attributes(m)$x_name
+    y_name <- attributes(m)$y_name
+
+    if(is.null(title)){
+      title <- paste0(
+        attributes(m)$y_name,
+        " vs. ",
+        attributes(m)$x_name
+        )
+    }
+
+    if(is.null(xlab)){
+      xlab <- x_name
+    }
+
+    if(is.null(ylab)){
+      ylab <- y_name
+    }
+
+    axis_1_at <- pretty(attributes(m)$x_time)
+    axis_2_at <- pretty(attributes(m)$y_time)
+
+    axis_1_labels <- axis_1_at
+    axis_2_labels <- axis_2_at
+
+
+  }
+
+  #psi matrix
+  if(m_type == "distantia"){
+
+    if(is.null(title)){
+      title <- "Dissimilarity Matrix"
+    }
+
+    guide_title <- "Psi \ndistance"
+
+    if(is.null(xlab)){
+      xlab <- ""
+    }
+
+    if(is.null(ylab)){
+      ylab <- ""
+    }
+
+    axis_1_at <- seq_len(ncol(m))
+    axis_2_at <- seq_len(nrow(m))
+
+    axis_1_labels <- axis_2_labels <- dimnames(m)[[2]]
+
+  }
+
+  guide_title <- firstup(x = guide_title)
 
   #axis title
   axis_title_distance <- 2.2
@@ -162,60 +238,88 @@ plot_matrix <- function(
   if(subpanel == FALSE){
 
     graphics::title(
-      xlab = ifelse(
-        test = is.null(xlab),
-        yes = attributes(m)$x_name,
-        no = "b"
-      ),
+      xlab = xlab,
       line = axis_title_distance,
       cex.lab = axis_title_cex
     )
 
     graphics::title(
-      ylab = ifelse(
-        test = is.null(xlab),
-        yes = attributes(m)$y_name,
-        no = "b"
-      ),
+      ylab = ylab,
       line = axis_title_distance,
       cex.lab = axis_title_cex
     )
 
-    axis(
-      1,
-      at = dimnames(m)[[2]] |>
-        as.numeric() |>
-        pretty(),
-      cex.axis = axis_labels_cex
-    )
+    if("POSIXct" %in% class(axis_1_labels)){
 
-    axis(
-      2,
-      at = dimnames(m)[[1]] |>
-        as.numeric() |>
-        pretty(),
-      cex.axis = axis_labels_cex
-    )
+      axis.POSIXct(
+        side = 1,
+        labels = axis_1_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
 
+      axis.POSIXct(
+        side = 2,
+        labels = axis_2_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
+
+    }
+
+    if("Date" %in% class(axis_1_labels)){
+
+      axis.Date(
+        side = 1,
+        at = axis_1_at,
+        labels = axis_1_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
+
+      axis.Date(
+        side = 2,
+        at = axis_2_at,
+        labels = axis_2_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
+
+    }
+
+    if(
+      "numeric" %in% class(axis_1_labels) ||
+      "character" %in% class(axis_1_labels)
+      ){
+
+      axis(
+        side = 1,
+        at = axis_1_at,
+        labels = axis_1_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
+
+      axis(
+        side = 2,
+        at = axis_2_at,
+        labels = axis_2_labels,
+        cex.axis = axis_labels_cex,
+        las = 2
+      )
+
+    }
   }
 
-  # matrix title ----
   graphics::title(
-    main = ifelse(
-      test = is.null(title),
-      yes = paste0(
-        attributes(m)$y_name,
-        " vs. ",
-        attributes(m)$x_name)
-      ,
-      no = title
-    ),
+    main = title,
     cex.main = main_title_cex,
     line = main_title_distance
   )
 
   # matrix subtitle ----
   if(!is.null(subtitle)){
+
     graphics::mtext(
       side = 3,
       line = subtitle_distance,
@@ -225,7 +329,8 @@ plot_matrix <- function(
       outer = FALSE,
       cex = subtitle_cex,
       subtitle
-      )
+    )
+
   }
 
   # least cost path ----
@@ -236,15 +341,15 @@ plot_matrix <- function(
     )
 
     if(
-      attributes(path)$y_name != attributes(m)$y_name ||
-      attributes(path)$x_name != attributes(m)$x_name
+      attributes(path)$y_name != y_name ||
+      attributes(path)$x_name != x_name
     ){
       stop("Arguments 'm' and 'path' must be computed for the same sequences.")
     }
 
     #rename path columns
-    colnames(path)[colnames(path) == "y"] <- attributes(path)$y_name
-    colnames(path)[colnames(path) == "x"] <- attributes(path)$x_name
+    colnames(path)[colnames(path) == "y"] <- y_name
+    colnames(path)[colnames(path) == "x"] <- x_name
 
     #plot cost path
     graphics::lines(
@@ -269,7 +374,7 @@ plot_matrix <- function(
       m = m,
       color = color,
       breaks = breaks,
-      title = title,
+      title = guide_title,
       text_cex = text_cex
     )
 

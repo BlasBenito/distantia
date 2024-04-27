@@ -134,6 +134,16 @@ distantia_to_matrix <- function(
       which = "distantia_args"
     ) <- df_groups_list[[i]]
 
+    attr(
+      x = m_list[[i]],
+      which = "type"
+    ) <- "distantia"
+
+    attr(
+      x = m_list[[i]],
+      which = "distance"
+    ) <- "psi"
+
   }
 
 

@@ -193,24 +193,25 @@ utils_check_matrix_args <- function(
     )
   }
 
+  if(is.list(m)){
+
+    if(length(m) > 1){
+      warning(
+        "Argument ",
+        arg_name,
+        " is a list with several elements. Only the first element will be used")
+    }
+
+    m <- m[[1]]
+
+  }
+
   if(
-    inherits(x = m, what = "matrix") == FALSE |
-    any(
-      is.null(
-        attributes(m)[c(
-          "y_name",
-          "x_name",
-          "type",
-          "distance"
-          )]
-        )
-      )
-    ){
+    inherits(x = m, what = "matrix") == FALSE){
     stop(
       "Argument ",
       arg_name,
-      " must be a distance or cost matrix resulting from distantia::psi_dist_matrix() or distantia::psi_cost_matrix()."
-      )
+      " must be of the class 'matrix'")
   }
 
  m

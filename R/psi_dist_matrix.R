@@ -47,6 +47,8 @@ psi_dist_matrix <- function(
   )
 
   #adding attributes
+  attr(x = m, which = "x_time") <- attributes(x)$index
+  attr(x = m, which = "y_time") <- attributes(y)$index
   attr(x = m, which = "x_name") <- attributes(x)$name
   attr(x = m, which = "y_name") <- attributes(y)$name
   attr(x = m, which = "type") <- "distance"

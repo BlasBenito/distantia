@@ -65,7 +65,9 @@ utils_df_to_matrix <- function(
   colnames(m) <- xy_names
 
   #to dist
-  m <- as.dist(m)
+  m <- m |>
+    stats::as.dist() |>
+    as.matrix()
 
   m
 

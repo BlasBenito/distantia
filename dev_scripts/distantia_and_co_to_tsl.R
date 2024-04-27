@@ -8,13 +8,29 @@ tsl <- tsl_simulate(
   )
 )
 
-df <- distantia(
+distantia_plot(
   tsl = tsl
 )
 
+df <- distantia(
+  tsl = tsl,
+  repetitions = 100
+)
+
+#distantia matrix
 m <- distantia_to_matrix(
   df = df
 )
+
+plot_matrix(m)
+
+#distance matrix
+m <- psi_dist_matrix(
+  x = tsl[[1]],
+  y = tsl[[2]]
+)
+
+plot_matrix(m)
 
 df <- distantia(
   tsl = tsl,

@@ -80,6 +80,9 @@ psi_cost_matrix <- function(
   dimnames(m) <- dimnames(dist_matrix)
 
   #adding attributes
+
+  attr(x = m, which = "y_time") <- attributes(dist_matrix)$y_time
+  attr(x = m, which = "x_time") <- attributes(dist_matrix)$x_time
   attr(x = m, which = "y_name") <- attributes(dist_matrix)$y_name
   attr(x = m, which = "x_name") <- attributes(dist_matrix)$x_name
   attr(x = m, which = "type") <- "cost"

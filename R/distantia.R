@@ -93,7 +93,7 @@ distantia <- function(
         repetitions = repetitions,
         permutation = permutation,
         block_size = block_size,
-        seed = seed,
+        seed = seed
       )
     )
   }
