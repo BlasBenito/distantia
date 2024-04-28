@@ -5,7 +5,7 @@
 #' @param x (required, data frame, matrix, or numeric vector) a sequence. Default: NULL
 #' @param y (required, data frame, matrix, or numeric vector) a sequence. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #'
 #' @return A list containing the prepared sequences'x' and 'y'.
 #'
@@ -17,7 +17,7 @@
 #'  x = na.omit(sequenceA),
 #'  y = na.omit(sequenceB),
 #'  distance = "euclidean",
-#'  paired_samples = FALSE
+#'  lock_step = FALSE
 #'  )
 #'
 #'  x <- xy$x
@@ -29,7 +29,7 @@ prepare_xy <- function(
     x = NULL,
     y = NULL,
     distance = "euclidean",
-    paired_samples = FALSE
+    lock_step = FALSE
     ){
 
   x <- utils_check_zoo_args(
@@ -102,8 +102,8 @@ prepare_xy <- function(
     }
 
 
-    if(paired_samples == TRUE && (nrow(x) != nrow(y))){
-      stop("Arguments 'x' and 'y' must have the same number of rows when 'paired_samples = TRUE'.")
+    if(lock_step == TRUE && (nrow(x) != nrow(y))){
+      stop("Arguments 'x' and 'y' must have the same number of rows when 'lock_step = TRUE'.")
     }
 
     #distances that don't accept two zeros in same position

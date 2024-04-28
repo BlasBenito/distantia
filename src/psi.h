@@ -28,13 +28,13 @@ double psi_formula_cpp(
     bool diagonal = false
 );
 
-double psi_paired_cpp(
+double psi_lock_step_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean"
 );
 
-Rcpp::NumericVector null_psi_paired_cpp(
+Rcpp::NumericVector null_psi_lock_step_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

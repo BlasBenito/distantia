@@ -48,7 +48,7 @@ has nothing to do with block_size!. Default: FALSE.}
 
 \item{block_size}{(optional, integer) block size in rows for
 restricted permutation. A block size of 3 indicates that a row can only be permuted
-within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).}
+within a block of 3 adjacent rows. Minimum value is 2. Default: 3.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability. Default: 1}
 }

@@ -67,7 +67,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
   return m_subset;
 }
 
-//'Auto-sum of Two Paired Sequences
+//'Auto Sum of Two Time Series
 //' @description Sum of the the cumulative auto-sum of two sequences with paired samples. This is
 //' a key component of the psi computation.
 //' @param y (required, numeric matrix).

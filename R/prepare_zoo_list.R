@@ -2,8 +2,8 @@
 #'
 #'
 #' @param x (required, list of data frames) A named list with data frames. Default: NULL.
-#' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
-#' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
+#' @param time_column (optional if `lock_step = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
+#' @param lock_step (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
 #' @return A named list of data frames, matrices, or vectors.
 #' @examples
 #' data(sequencesMIS)
@@ -16,7 +16,7 @@
 prepare_zoo_list <- function(
     x = NULL,
     time_column = NULL,
-    paired_samples = FALSE
+    lock_step = FALSE
 ){
 
   if(

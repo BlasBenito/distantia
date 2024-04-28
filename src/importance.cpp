@@ -112,7 +112,7 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_paired_cpp(
+DataFrame importance_lock_step_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
@@ -132,7 +132,7 @@ DataFrame importance_paired_cpp(
   NumericVector importance(y.ncol());
 
   //compute psi with all variables
-  double psi_all_variables = psi_paired_cpp(
+  double psi_all_variables = psi_lock_step_cpp(
     x,
     y,
     distance
@@ -149,7 +149,7 @@ DataFrame importance_paired_cpp(
     NumericMatrix x_only_with = select_column_cpp(x, i);
 
     //compute psi for the column i
-    psi_only_with[i] = psi_paired_cpp(
+    psi_only_with[i] = psi_lock_step_cpp(
       y_only_with,
       x_only_with,
       distance
@@ -160,7 +160,7 @@ DataFrame importance_paired_cpp(
     NumericMatrix x_without = delete_column_cpp(x, i);
 
     //compute psi without the column i
-    psi_without[i] = psi_paired_cpp(
+    psi_without[i] = psi_lock_step_cpp(
       y_without,
       x_without,
       distance
@@ -550,13 +550,13 @@ importance_robust <- importance_robust_cpp(
 
 importance_robust
 
-#paired
+#lock step
 y <- y[1:nrow(x), ]
 
-importance_paired <- importance_paired_cpp(
+importance_lock_step <- importance_lock_step_cpp(
   x,
   y
 )
 
-importance_paired
+importance_lock_step
 */

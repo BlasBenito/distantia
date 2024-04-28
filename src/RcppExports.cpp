@@ -165,16 +165,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// distance_pairwise_cpp
-double distance_pairwise_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance);
-RcppExport SEXP _distantia_distance_pairwise_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP) {
+// distance_lock_step_cpp
+double distance_lock_step_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance);
+RcppExport SEXP _distantia_distance_lock_step_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(distance_pairwise_cpp(y, x, distance));
+    rcpp_result_gen = Rcpp::wrap(distance_lock_step_cpp(y, x, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -347,16 +347,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// importance_paired_cpp
-DataFrame importance_paired_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
-RcppExport SEXP _distantia_importance_paired_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
+// importance_lock_step_cpp
+DataFrame importance_lock_step_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
+RcppExport SEXP _distantia_importance_lock_step_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_paired_cpp(x, y, distance));
+    rcpp_result_gen = Rcpp::wrap(importance_lock_step_cpp(x, y, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -488,22 +488,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// psi_paired_cpp
-double psi_paired_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
-RcppExport SEXP _distantia_psi_paired_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
+// psi_lock_step_cpp
+double psi_lock_step_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
+RcppExport SEXP _distantia_psi_lock_step_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_paired_cpp(x, y, distance));
+    rcpp_result_gen = Rcpp::wrap(psi_lock_step_cpp(x, y, distance));
     return rcpp_result_gen;
 END_RCPP
 }
-// null_psi_paired_cpp
-NumericVector null_psi_paired_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, int repetitions, const std::string& permutation, int block_size, int seed);
-RcppExport SEXP _distantia_null_psi_paired_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+// null_psi_lock_step_cpp
+NumericVector null_psi_lock_step_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, int repetitions, const std::string& permutation, int block_size, int seed);
+RcppExport SEXP _distantia_null_psi_lock_step_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -514,7 +514,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_paired_cpp(x, y, distance, repetitions, permutation, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(null_psi_lock_step_cpp(x, y, distance, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -569,7 +569,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
-    {"_distantia_distance_pairwise_cpp", (DL_FUNC) &_distantia_distance_pairwise_cpp, 3},
+    {"_distantia_distance_lock_step_cpp", (DL_FUNC) &_distantia_distance_lock_step_cpp, 3},
     {"_distantia_distance_chebyshev_cpp", (DL_FUNC) &_distantia_distance_chebyshev_cpp, 2},
     {"_distantia_distance_jaccard_cpp", (DL_FUNC) &_distantia_distance_jaccard_cpp, 2},
     {"_distantia_distance_manhattan_cpp", (DL_FUNC) &_distantia_distance_manhattan_cpp, 2},
@@ -584,7 +584,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_update_path_dist_cpp", (DL_FUNC) &_distantia_update_path_dist_cpp, 4},
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
-    {"_distantia_importance_paired_cpp", (DL_FUNC) &_distantia_importance_paired_cpp, 3},
+    {"_distantia_importance_lock_step_cpp", (DL_FUNC) &_distantia_importance_lock_step_cpp, 3},
     {"_distantia_importance_cpp", (DL_FUNC) &_distantia_importance_cpp, 6},
     {"_distantia_importance_robust_cpp", (DL_FUNC) &_distantia_importance_robust_cpp, 6},
     {"_distantia_permute_restricted_by_row_cpp", (DL_FUNC) &_distantia_permute_restricted_by_row_cpp, 3},
@@ -594,8 +594,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_psi_cost_path_cpp", (DL_FUNC) &_distantia_psi_cost_path_cpp, 6},
     {"_distantia_psi_auto_sum_cpp", (DL_FUNC) &_distantia_psi_auto_sum_cpp, 5},
     {"_distantia_psi_formula_cpp", (DL_FUNC) &_distantia_psi_formula_cpp, 3},
-    {"_distantia_psi_paired_cpp", (DL_FUNC) &_distantia_psi_paired_cpp, 3},
-    {"_distantia_null_psi_paired_cpp", (DL_FUNC) &_distantia_null_psi_paired_cpp, 7},
+    {"_distantia_psi_lock_step_cpp", (DL_FUNC) &_distantia_psi_lock_step_cpp, 3},
+    {"_distantia_null_psi_lock_step_cpp", (DL_FUNC) &_distantia_null_psi_lock_step_cpp, 7},
     {"_distantia_psi_cpp", (DL_FUNC) &_distantia_psi_cpp, 6},
     {"_distantia_null_psi_cpp", (DL_FUNC) &_distantia_null_psi_cpp, 10},
     {NULL, NULL, 0}

@@ -29,7 +29,7 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
     .Call(`_distantia_subset_matrix_by_rows_cpp`, m, rows)
 }
 
-#'Auto-sum of Two Paired Sequences
+#'Auto Sum of Two Time Series
 #' @description Sum of the the cumulative auto-sum of two sequences with paired samples. This is
 #' a key component of the psi computation.
 #' @param y (required, numeric matrix).
@@ -162,8 +162,7 @@ distance_matrix_cpp <- function(x, y, distance = "euclidean") {
 }
 
 #' Sum of Pairwise Distances Between Paired Sequences
-#' @description Computes the sum of distances between paired rows in two
-#' sequences of the same length.
+#' @description Computes the lock-step sum of distances between two time series.
 #' NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
@@ -174,8 +173,8 @@ distance_matrix_cpp <- function(x, y, distance = "euclidean") {
 #' of the dataset `distances`. Default: "euclidean".
 #' @return Vector of distances between 'y' (rows) and 'x' (columns).
 #' @export
-distance_pairwise_cpp <- function(y, x, distance = "euclidean") {
-    .Call(`_distantia_distance_pairwise_cpp`, y, x, distance)
+distance_lock_step_cpp <- function(y, x, distance = "euclidean") {
+    .Call(`_distantia_distance_lock_step_cpp`, y, x, distance)
 }
 
 #' Chebyshev Distance Between Two Vectors
@@ -327,8 +326,8 @@ delete_column_cpp <- function(x, column_index) {
 #' of the dataset `distances`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-importance_paired_cpp <- function(x, y, distance = "euclidean") {
-    .Call(`_distantia_importance_paired_cpp`, x, y, distance)
+importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_importance_lock_step_cpp`, x, y, distance)
 }
 
 #' Classic Computation of Variable Importance
@@ -510,8 +509,8 @@ psi_formula_cpp <- function(path, auto_sum, diagonal = FALSE) {
 #' of the dataset `distances`. Default: "euclidean".
 #' @return Psi distance
 #' @export
-psi_paired_cpp <- function(x, y, distance = "euclidean") {
-    .Call(`_distantia_psi_paired_cpp`, x, y, distance)
+psi_lock_step_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_psi_lock_step_cpp`, x, y, distance)
 }
 
 #' Null Distribution of Psi Distances Between Two Paired Time-Series
@@ -539,8 +538,8 @@ psi_paired_cpp <- function(x, y, distance = "euclidean") {
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_paired_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
-    .Call(`_distantia_null_psi_paired_cpp`, x, y, distance, repetitions, permutation, block_size, seed)
+null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+    .Call(`_distantia_null_psi_lock_step_cpp`, x, y, distance, repetitions, permutation, block_size, seed)
 }
 
 #' Computes Psi Distance Between Two Time-Series
@@ -594,7 +593,7 @@ psi_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = F
 #' }
 #' @param block_size (optional, integer) block size in rows for
 #' restricted permutation. A block size of 3 indicates that a row can only be permuted
-#' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+#' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export

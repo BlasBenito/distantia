@@ -178,14 +178,14 @@ double psi_formula_cpp(
 //' @return Psi distance
 //' @export
 // [[Rcpp::export]]
-double psi_paired_cpp(
+double psi_lock_step_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
     //pairwise distances
-    double cost_path_sum = distance_pairwise_cpp(
+    double cost_path_sum = distance_lock_step_cpp(
       x,
       y,
       distance
@@ -230,7 +230,7 @@ double psi_paired_cpp(
 //' @return Numeric vector with null distribution of psi distances.
 //' @export
 // [[Rcpp::export]]
-NumericVector null_psi_paired_cpp(
+NumericVector null_psi_lock_step_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -255,7 +255,7 @@ NumericVector null_psi_paired_cpp(
   NumericVector psi_null(repetitions);
 
   //pairwise distances
-  double cost_path_sum = distance_pairwise_cpp(
+  double cost_path_sum = distance_lock_step_cpp(
     x,
     y,
     distance
@@ -292,7 +292,7 @@ NumericVector null_psi_paired_cpp(
     );
 
     //pairwise distances
-    double permuted_ab_distance = distance_pairwise_cpp(
+    double permuted_ab_distance = distance_lock_step_cpp(
       permuted_y,
       permuted_x,
       distance
@@ -397,7 +397,7 @@ double psi_cpp(
 //' }
 //' @param block_size (optional, integer) block size in rows for
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
-//' within a block of 3 adjacent rows. Minimum value is 2. Default: c(2, 3, 4).
+//' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 //' @return Numeric vector with null distribution of psi distances.
 //' @export

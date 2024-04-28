@@ -1,20 +1,32 @@
-#' Psi Distance Between Time Series
+#' Dissimilarity Between Time Series
+#'
+#' @description
+#'
+#' This function combines dynamic time warping, lock-step comparison, the psi dissimilarity score (Birks and Gordon 1985), and restricted permutation methods to assess the dissimilarity between pairs of time series.
+#'
+#' Dynamic time warping (DTW for short) is an optimization method aiming to minimize the distance between two time series. It ignores sampling time, but is restricted by sample order, which gives it flexibility to compare regular or irregular time series taken in different places (for example, phenological time series taken at different latitudes or elevations) or over different time spans (for example, time series taken over different years or past time periods). This method involves computing the distance matrix, cost matrix, and least cost path between all pairs of samples.
+#'
+#' Lock-step comparison involves assessing the multivariate distance between pairs of samples taken at the same time but belonging to separate regular time series. This method is an alternative to dynamic time warping when the goal requires assessing the synchronicity of the compared time series.
+#'
+#' The psi dissimilarity score normalizes the multivariate distance between the samples in two time series by the sum of distances between consecutive samples of each time series. This feature allows comparing psi dissimilarity scores computed for time series of different lengths. A psi score of zero indicates perfect similarity.
+#'
+#' Restricted permutation methods shuffle the cases of two time-series within blocks of a given size to generate a null distribution of psi dissimilarity scores. The true psi dissimilarity computed on the original data is compared with this null distribution to obtain a p-value that helps assess the strength of the dissimilarity score between both time-series. In essence, this p-value helps to find the threshold of the psi score that separates pairs of similar time series (because their similarity is robust to permutation) from pairs of dissimilar time-series.
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
-#' @param repetitions (optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
-#' @param permutation (optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
+#' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are listed below from higher to lower induced randomness:
 #' \itemize{
 #'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
 #'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
 #'   \item "restricted": restricted shuffling of rows and columns within blocks.
 #'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 #' }
-#' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
+#' @param block_size (optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
 #' @return Data frame with the following columns:
@@ -25,7 +37,7 @@
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
 #'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-#'   \item `paired_samples`: value of the argument `paired_samples`. Only available if TRUE appears in the argument and the sequences have the same number of rows.
+#'   \item `lock_step`: value of the argument `lock_step`. Only available if TRUE appears in the argument and the sequences have the same number of rows.
 #'   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
 #'   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
@@ -42,15 +54,21 @@ distantia <- function(
     diagonal = FALSE,
     weighted = FALSE,
     ignore_blocks = FALSE,
-    paired_samples = FALSE,
+    lock_step = FALSE,
     repetitions = 0L,
     permutation = "restricted_by_row",
-    block_size = 3,
+    block_size = NULL,
     seed = 1
 ){
 
   tsl <- tsl_remove_exclusive_cols(
     tsl = tsl
+  )
+
+  block_size <- utils_block_size(
+    tsl = tsl,
+    repetitions = repetitions,
+    block_size = block_size
   )
 
   #check input arguments
@@ -60,7 +78,7 @@ distantia <- function(
     diagonal = diagonal,
     weighted = weighted,
     ignore_blocks = ignore_blocks,
-    paired_samples = paired_samples,
+    lock_step = lock_step,
     repetitions = repetitions,
     block_size = block_size,
     seed = seed
@@ -76,7 +94,7 @@ distantia <- function(
         diagonal = diagonal,
         weighted = weighted,
         ignore_blocks = ignore_blocks,
-        paired_samples = paired_samples
+        lock_step = lock_step
       )
     )
 
@@ -89,7 +107,7 @@ distantia <- function(
         diagonal = diagonal,
         weighted = weighted,
         ignore_blocks = ignore_blocks,
-        paired_samples = paired_samples,
+        lock_step = lock_step,
         repetitions = repetitions,
         permutation = permutation,
         block_size = block_size,
@@ -127,9 +145,9 @@ distantia <- function(
     x <- tsl[[df.i$x]]
     y <- tsl[[df.i$y]]
 
-    if(df$paired_samples[i] == TRUE){
+    if(df$lock_step[i] == TRUE){
 
-      df.i$psi <- psi_paired_cpp(
+      df.i$psi <- psi_lock_step_cpp(
         x = x,
         y = y,
         distance = df.i$distance
@@ -137,7 +155,7 @@ distantia <- function(
 
       if(repetitions > 0){
 
-        psi_null <- null_psi_paired_cpp(
+        psi_null <- null_psi_lock_step_cpp(
           x = x,
           y = y,
           distance = df.i$distance,
@@ -175,9 +193,9 @@ distantia <- function(
           seed = df.i$seed
         )
 
+        df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
         df.i$null_mean <- mean(psi_null)
         df.i$null_sd <- sd(psi_null)
-        df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
 
       }
 
@@ -187,10 +205,10 @@ distantia <- function(
 
   } #end of iterations
 
-  #remove column paired samples
-  if(length(paired_samples) == 1){
-    if(paired_samples == FALSE){
-      df_distantia$paired_samples <- NULL
+  #remove column lock_step
+  if(length(lock_step) == 1){
+    if(lock_step == FALSE){
+      df_distantia$lock_step <- NULL
     }
   }
 

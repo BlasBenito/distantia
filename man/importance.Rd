@@ -10,7 +10,7 @@ importance(
   diagonal = FALSE,
   weighted = FALSE,
   ignore_blocks = c(FALSE, TRUE),
-  paired_samples = FALSE,
+  lock_step = FALSE,
   robust = TRUE
 )
 }
@@ -25,7 +25,7 @@ importance(
 
 \item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{paired_samples}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
 \item{robust}{(required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }
@@ -38,7 +38,7 @@ Data frame with the following columns:
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.
   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-  \item `paired_samples`: value of the argument `paired_samples`.
+  \item `lock_step`: value of the argument `lock_step`.
   \item `robust`: value of the argument `robust`.
   \item `variable`: name of the individual variable.
   \item `psi`: overall psi score of `a` and `b`.
@@ -62,5 +62,5 @@ Additionally, these importance scores can be computed in two different ways defi
   \item `robust = FALSE`: the least cost path of each combination of variables in "psi_only_with" and "psi_without" is computed independently, which makes individual importance scores harder to compare. This renders the "importance" column unreliable. However, the `psi_drop` score still remains as a useful metric of importance. Still, option is recommended only when replicating previous studies.
 }
 
-When `paired_samples = TRUE` the computation method is only `robust`, as the comparison of paired samples does not require a least cost path.
+When `lock_step = TRUE` the computation method is only `robust`, as the lock-step comparision does not require a least cost path.
 }

@@ -23,7 +23,7 @@ Rcpp::NumericMatrix delete_column_cpp(
     int column_index
     );
 
-Rcpp::DataFrame importance_paired_cpp(
+Rcpp::DataFrame importance_lock_step_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean"

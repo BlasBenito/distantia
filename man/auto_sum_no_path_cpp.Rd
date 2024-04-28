@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_no_path_cpp}
 \alias{auto_sum_no_path_cpp}
-\title{Auto-sum of Two Paired Sequences}
+\title{Auto Sum of Two Time Series}
 \usage{
 auto_sum_no_path_cpp(x, y, distance = "euclidean")
 }

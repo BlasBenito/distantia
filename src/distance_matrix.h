@@ -10,7 +10,7 @@ Rcpp::NumericMatrix distance_matrix_cpp(
     const std::string& distance = "euclidean"
 );
 
-double distance_pairwise_cpp(
+double distance_lock_step_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean"

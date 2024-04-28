@@ -22,7 +22,7 @@ distantia_plot(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are plotted. Default: NULL}
+\item{tsl}{(required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are selected and plotted. Default: NULL}
 
 \item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
@@ -54,11 +54,11 @@ distantia_plot(
 A plot.
 }
 \description{
-Plots two sequences, their distance or cost matrix, and their least cost path.
+Plots two sequences, their distance or cost matrix, their least cost path, and all relevant values used to compute dissimilarity.
 
-Unlike [distantia()], this function does not accept vectors as inputs for the arguments to compute dissimilarity (these are `distance`, `diagonal`, `weighted`, and `ignore_blocks`).
+Unlike [distantia()], this function does not accept vectors as inputs for the arguments to compute dissimilarity (`distance`, `diagonal`,  and `weighted`), and only plots a pair of sequences at once.
 
-The argument `paired_samples` is not available because this multipanel plot does not make sense in such a case.
+The argument `lock_step` is not available because this multipanel plot does not make sense in such a case.
 }
 \examples{
 data(sequencesMIS)

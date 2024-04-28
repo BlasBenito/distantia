@@ -32,7 +32,7 @@
 #'   x = sequencesMIS,
 #'   id_column = "MIS",
 #'   time_column = NULL,
-#'   paired_samples = FALSE,
+#'   lock_step = FALSE,
 #'   pseudo_zero =  0.001,
 #'   na_action = "to_zero"
 #' )

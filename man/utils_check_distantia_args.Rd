@@ -10,7 +10,7 @@ utils_check_distantia_args(
   diagonal = FALSE,
   weighted = FALSE,
   ignore_blocks = FALSE,
-  paired_samples = FALSE,
+  lock_step = FALSE,
   repetitions = 0,
   permutation = "restricted_by_row",
   block_size = 3,
@@ -29,7 +29,7 @@ utils_check_distantia_args(
 
 \item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{paired_samples}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
 \item{repetitions}{(optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
 

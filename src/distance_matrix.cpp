@@ -42,8 +42,7 @@ NumericMatrix distance_matrix_cpp(
 
 
 //' Sum of Pairwise Distances Between Paired Sequences
-//' @description Computes the sum of distances between paired rows in two
-//' sequences of the same length.
+//' @description Computes the lock-step sum of distances between two time series.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
@@ -55,7 +54,7 @@ NumericMatrix distance_matrix_cpp(
 //' @return Vector of distances between 'y' (rows) and 'x' (columns).
 //' @export
 // [[Rcpp::export]]
-double distance_pairwise_cpp(
+double distance_lock_step_cpp(
     NumericMatrix y,
     NumericMatrix x,
     const std::string& distance = "euclidean"
@@ -142,25 +141,25 @@ dim(d)
 d[1:5, 1:5]
 
 
-message("distance_pairwise_cpp")
+message("distance_lock_step_cpp")
 
 y <- y[1:nrow(x), ]
 
-distance_pairwise_cpp(x, y, distance = "euclidean")
+distance_lock_step_cpp(x, y, distance = "euclidean")
 
-distance_pairwise_cpp(x, y, distance = "manhattan")
+distance_lock_step_cpp(x, y, distance = "manhattan")
 
-distance_pairwise_cpp(x, y, distance = "jaccard")
+distance_lock_step_cpp(x, y, distance = "jaccard")
 
-distance_pairwise_cpp(x, y, distance = "hellinger")
+distance_lock_step_cpp(x, y, distance = "hellinger")
 
-distance_pairwise_cpp(x, y, distance = "chi")
+distance_lock_step_cpp(x, y, distance = "chi")
 
-distance_pairwise_cpp(x, y, distance = "canberra")
+distance_lock_step_cpp(x, y, distance = "canberra")
 
-distance_pairwise_cpp(x, y, distance = "chebyshev")
+distance_lock_step_cpp(x, y, distance = "chebyshev")
 
-distance_pairwise_cpp(x, y, distance = "russelrao")
+distance_lock_step_cpp(x, y, distance = "russelrao")
 
-distance_pairwise_cpp(x, y, distance = "cosine")
+distance_lock_step_cpp(x, y, distance = "cosine")
 */

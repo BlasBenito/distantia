@@ -4,7 +4,7 @@
 \alias{prepare_xy}
 \title{Prepare Two Sequences for Dissimilarity Analysis}
 \usage{
-prepare_xy(x = NULL, y = NULL, distance = "euclidean", paired_samples = FALSE)
+prepare_xy(x = NULL, y = NULL, distance = "euclidean", lock_step = FALSE)
 }
 \arguments{
 \item{x}{(required, data frame, matrix, or numeric vector) a sequence. Default: NULL}
@@ -13,7 +13,7 @@ prepare_xy(x = NULL, y = NULL, distance = "euclidean", paired_samples = FALSE)
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
-\item{paired_samples}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 }
 \value{
 A list containing the prepared sequences'x' and 'y'.
@@ -30,7 +30,7 @@ xy <- prepare_xy(
  x = na.omit(sequenceA),
  y = na.omit(sequenceB),
  distance = "euclidean",
- paired_samples = FALSE
+ lock_step = FALSE
  )
 
  x <- xy$x

@@ -12,14 +12,14 @@
 #'   \item `robust = FALSE`: the least cost path of each combination of variables in "psi_only_with" and "psi_without" is computed independently, which makes individual importance scores harder to compare. This renders the "importance" column unreliable. However, the `psi_drop` score still remains as a useful metric of importance. Still, option is recommended only when replicating previous studies.
 #' }
 #'
-#' When `paired_samples = TRUE` the computation method is only `robust`, as the comparison of paired samples does not require a least cost path.
+#' When `lock_step = TRUE` the computation method is only `robust`, as the lock-step comparision does not require a least cost path.
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #' @return Data frame with the following columns:
 #' \itemize{
@@ -29,7 +29,7 @@
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
 #'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-#'   \item `paired_samples`: value of the argument `paired_samples`.
+#'   \item `lock_step`: value of the argument `lock_step`.
 #'   \item `robust`: value of the argument `robust`.
 #'   \item `variable`: name of the individual variable.
 #'   \item `psi`: overall psi score of `a` and `b`.
@@ -47,7 +47,7 @@ importance <- function(
     diagonal = FALSE,
     weighted = FALSE,
     ignore_blocks = c(FALSE, TRUE),
-    paired_samples = FALSE,
+    lock_step = FALSE,
     robust = TRUE
 ){
 
@@ -62,7 +62,7 @@ importance <- function(
     diagonal = diagonal,
     weighted = weighted,
     ignore_blocks = ignore_blocks,
-    paired_samples = paired_samples,
+    lock_step = lock_step,
     robust = robust
   )
 
@@ -74,7 +74,7 @@ importance <- function(
       diagonal = diagonal,
       weighted = weighted,
       ignore_blocks = ignore_blocks,
-      paired_samples = paired_samples,
+      lock_step = lock_step,
       robust = robust,
     )
   )
@@ -98,11 +98,11 @@ importance <- function(
     x <- tsl[[df.i$x]]
     y <- tsl[[df.i$y]]
 
-    if(df.i$paired_samples == TRUE){
+    if(df.i$lock_step == TRUE){
 
       df.i$robust <- TRUE
 
-      importance.i <- importance_paired_cpp(
+      importance.i <- importance_lock_step_cpp(
         x = x,
         y = y,
         distance = df.i$distance

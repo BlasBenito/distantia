@@ -5,7 +5,7 @@
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param paired_samples (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
 #' @param permutation (optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
 #' \itemize{
@@ -27,7 +27,7 @@ utils_check_distantia_args <- function(
     diagonal = FALSE,
     weighted = FALSE,
     ignore_blocks = FALSE,
-    paired_samples = FALSE,
+    lock_step = FALSE,
     repetitions = 0,
     permutation = "restricted_by_row",
     block_size = 3,
@@ -63,8 +63,8 @@ utils_check_distantia_args <- function(
     stop("Argument 'ignore_blocks'", logical_message)
   }
 
-  if(any(is.logical(paired_samples) == FALSE)){
-    stop("Argument 'paired_samples'", logical_message)
+  if(any(is.logical(lock_step) == FALSE)){
+    stop("Argument 'lock_step'", logical_message)
   }
 
   if(exists("robust")){
@@ -115,7 +115,7 @@ utils_check_distantia_args <- function(
     diagonal = diagonal,
     weighted = weighted,
     ignore_blocks = ignore_blocks,
-    paired_samples = paired_samples,
+    lock_step = lock_step,
     repetitions = repetitions,
     permutation = permutation,
     block_size = block_size,

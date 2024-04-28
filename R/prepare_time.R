@@ -4,8 +4,8 @@
 #' Handles Time Column in List of Data Frames
 #'
 #' @param x (required, named list of data frames). List with named data frames. Default: NULL.
-#' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of numeric column representing time. Default: NULL.
-#' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`. Default: FALSE.
+#' @param time_column (optional if `lock_step = FALSE`, and required otherwise, column name) Name of numeric column representing time. Default: NULL.
+#' @param lock_step (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`. Default: FALSE.
 #'
 #' @return List of data frames
 #' @export
@@ -13,15 +13,14 @@
 prepare_time <- function(
     x = NULL,
     time_column = NULL,
-    paired_samples = NULL
+    lock_step = NULL
 ){
 
   #if no time column, add "row_id"
   if(is.null(time_column)){
 
-    #error if both time_column and paired samples are NULL
-    if(paired_samples == TRUE){
-      stop("Argument 'time_column' cannot be NULL when 'paired_samples' is TRUE'.")
+    if(lock_step == TRUE){
+      stop("Argument 'time_column' cannot be NULL when 'lock_step' is TRUE'.")
     }
 
     time_column <- "row_id"
@@ -92,8 +91,8 @@ prepare_time <- function(
       }
     )
 
-    #apply paired samples
-    if(paired_samples == TRUE){
+    #apply lock step
+    if(lock_step == TRUE){
 
       times <- lapply(
         X = x,

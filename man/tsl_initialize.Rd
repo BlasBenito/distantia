@@ -9,7 +9,7 @@ tsl_initialize(
   x = NULL,
   id_column = NULL,
   time_column = NULL,
-  paired_samples = FALSE,
+  lock_step = FALSE,
   verbose = TRUE
 )
 
@@ -17,7 +17,7 @@ tsl_init(
   x = NULL,
   id_column = NULL,
   time_column = NULL,
-  paired_samples = FALSE,
+  lock_step = FALSE,
   verbose = TRUE
 )
 }
@@ -26,9 +26,9 @@ tsl_init(
 
 \item{id_column}{(optional, column name) Column name used for splitting a 'x' data frame into a list.}
 
-\item{time_column}{(optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
+\item{time_column}{(optional if `lock_step = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
 
-\item{paired_samples}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
+\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }

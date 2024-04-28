@@ -17,6 +17,8 @@ df <- distantia(
   repetitions = 100
 )
 
+plot(df$psi, df$p_value)
+
 #distantia matrix
 m <- distantia_to_matrix(
   df = df

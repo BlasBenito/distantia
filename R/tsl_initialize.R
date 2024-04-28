@@ -12,8 +12,8 @@
 #'
 #' @param x (required, list or data frame) A named list with ordered sequences, or a long data frame with a grouping column. Default: NULL.
 #' @param id_column (optional, column name) Column name used for splitting a 'x' data frame into a list.
-#' @param time_column (optional if `paired_samples = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
-#' @param paired_samples (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
+#' @param time_column (optional if `lock_step = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
+#' @param lock_step (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #' @return A named list of matrices.
 #' @examples
@@ -28,7 +28,7 @@ tsl_initialize <- function(
     x = NULL,
     id_column = NULL,
     time_column = NULL,
-    paired_samples = FALSE,
+    lock_step = FALSE,
     verbose = TRUE
 ){
 
@@ -57,13 +57,13 @@ tsl_initialize <- function(
   x <- prepare_time(
     x = x,
     time_column = time_column,
-    paired_samples = paired_samples
+    lock_step = lock_step
   )
 
   tsl <- prepare_zoo_list(
     x = x,
     time_column = time_column,
-    paired_samples = paired_samples
+    lock_step = lock_step
   )
 
   tsl <- tsl_is_valid(
