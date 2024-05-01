@@ -100,6 +100,17 @@ distantia <- function(
 
   } else {
 
+    permutation <- match.arg(
+      arg = permutation,
+      choices = c(
+        "restricted_by_row",
+        "restricted",
+        "free_by_row",
+        "free"
+      ),
+      several.ok = TRUE
+    )
+
     df <- utils_tsl_pairs(
       tsl = tsl,
       args_list = list(

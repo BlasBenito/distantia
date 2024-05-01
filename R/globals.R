@@ -11,5 +11,6 @@ utils::globalVariables(c(
   "sd", # <scaling_parameters>
   "distances", # <utils_check_distance_args>
   "median", # <zoo_aggregate>
+  "i", # <zoo_permute>
   NULL
 ))

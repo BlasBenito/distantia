@@ -28,12 +28,10 @@ Rcpp::NumericMatrix permute_free_cpp(
     int seed
 );
 
-// Define the type for the distance function
 typedef Rcpp::NumericMatrix (*PermutationFunction)(Rcpp::NumericMatrix, int, int);
 
-// Internal function to select the distance method
 PermutationFunction select_permutation_function_cpp(
     const std::string& permutation = "restricted_by_row"
 );
 
-#endif // RESTRICTED_PERMUTATION_H
+#endif // PERMUTE_H

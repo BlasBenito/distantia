@@ -151,7 +151,7 @@ distantia_plot <- function(
 
   # Plotting areas ----
   plt_y <- c(0.2, 0.35, 0.25, 0.8)
-  plt_x <- c(0.35, 0.8, 0.1, 0.25)
+  plt_x <- c(0.35, 0.8, 0.09, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
   plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
   plt_line_guide <- c(0.70, 0.95, 0.05, 0.25)
@@ -223,7 +223,7 @@ distantia_plot <- function(
       y_sum
     ),
     side = 2,
-    line = -1.3,
+    line = -1,
     cex = 0.9 * text_cex,
     adj = 0.05
   )
@@ -232,7 +232,7 @@ distantia_plot <- function(
   par(
     plt = plt_x,
     new = TRUE,
-    mgp = c(3, 0.5, 0),
+    mgp = c(3, 0.75, 0),
     bty = "n"
     )
 
@@ -261,7 +261,7 @@ distantia_plot <- function(
       x_sum
     ),
     side = 3,
-    line = -1.3,
+    line = -1,
     cex = 0.9 * text_cex,
     adj = 0.05
   )

@@ -1,3 +1,18 @@
+#' x <- zoo_simulate()
+#'
+#' y <- zoo_permute(
+#'   x = x,
+#'   repetitions = 3
+#' )
+#'
+#' tsl_plot(
+#'   x = y,
+#'   guide = FALSE
+#'   )
+
+
+
+
 devtools::load_all()
 
 tsl <- tsl_simulate(
