@@ -36,13 +36,14 @@ tsl_simulate(
 \item{seed}{(optional, integer) Random seed used to simulate the zoo object. Default: NULL}
 }
 \value{
-Simulated time series list.
+Simulated time series list
 }
 \description{
 Generates a simulated time series list
 }
 \examples{
 
-tsl_plot(tsl_simulate())
+x <- tsl_simulate()
+tsl_plot(tsl = x)
 
 }

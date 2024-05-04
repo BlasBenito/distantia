@@ -3,7 +3,7 @@
 utils::globalVariables(c(
   "distances", # <distance>
   "i", # <distantia>
-  "i", # <importance>
+  "i", # <distantia_importance>
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>

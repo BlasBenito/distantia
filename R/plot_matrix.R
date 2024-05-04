@@ -139,7 +139,7 @@ plot_matrix <- function(
   }
 
   #psi matrix
-  if(m_type == "distantia"){
+  if(m_type == "distantia_matrix"){
 
     if(is.null(title)){
       title <- "Dissimilarity Matrix"

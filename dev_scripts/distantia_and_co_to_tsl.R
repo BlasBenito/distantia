@@ -27,12 +27,41 @@ distantia_plot(
   tsl = tsl
 )
 
+#without aggregation
 df <- distantia(
-  tsl = tsl,
-  repetitions = 100
+  tsl = tsl
 )
 
-plot(df$psi, df$p_value)
+df <- distantia_aggregate(
+  distantia_df = df,
+  f = mean
+)
+
+m <- distantia_to_matrix(
+  distantia_df = df
+)
+
+df <- distantia(
+  tsl = tsl,
+  repetitions = 0,
+  distance = c("euclidean", "manhattan")
+)
+
+m <- distantia_matrix(
+  distantia_df = df
+)
+
+
+df <- distantia_aggregate(
+  distantia_df = df,
+  f = mean
+)
+
+m <- distantia_matrix(
+  distantia_df = df
+)
+
+
 
 #distantia matrix
 m <- distantia_to_matrix(

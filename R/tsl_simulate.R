@@ -13,12 +13,13 @@
 #' @param irregular (optional, logical) If TRUE, the time series is created with an additional 20% rows, and a random 20% of rows is removed. Default: TRUE
 #' @param seed (optional, integer) Random seed used to simulate the zoo object. Default: NULL
 #'
-#' @return Simulated time series list.
+#' @return Simulated time series list
 #' @export
 #' @autoglobal
 #' @examples
 #'
-#' tsl_plot(tsl_simulate())
+#' x <- tsl_simulate()
+#' tsl_plot(tsl = x)
 #'
 tsl_simulate <- function(
     n = 2,

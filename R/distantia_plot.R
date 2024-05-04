@@ -54,11 +54,16 @@ distantia_plot <- function(
     text_cex = 1
 ){
 
+  tsl <- tsl_is_valid(tsl = tsl)
+
   if(length(tsl) > 2){
 
     warning("Argument 'tsl' must be of length 2. Using elements ", paste0(names(tsl)[1:2], collapse = " and "), " for this plot.")
 
-    tsl <- tsl[c(1, 2)]
+    tsl <- tsl_subset(
+      tsl = tsl,
+      names = c(1, 2)
+    )
 
   }
 

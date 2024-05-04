@@ -29,6 +29,11 @@ utils_coerce_time_class <- function(
 
     if("POSIXct" %in% class(x)){
 
+      x <- format(
+        x = x,
+        format = "%Y-%m-%d"
+      )
+
       x <- as.Date(x)
 
     }

@@ -45,7 +45,7 @@ distantia(
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
 \value{
-Data frame with the following columns:
+Data frame with the attribute `type` set to `distantia_df` and the following columns:
 \itemize{
   \item `x`: name of the sequence `x`.
   \item `y`: name of the sequence `y`.
