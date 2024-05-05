@@ -8,7 +8,7 @@
 #' The original data frame is returned without modification if there is a single combination of arguments, or if an invalid `f` is provided.
 #'
 #' @param distantia_df (required, data frame) Output of [distantia()]. Default: NULL
-#' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: NULL
+#' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
 #' @return Data frame with attribute "type" equal to "distantia_df.
@@ -17,7 +17,7 @@
 #' @examples
 distantia_aggregate <- function(
     distantia_df = NULL,
-    f = NULL,
+    f = mean,
     ...
 ){
 

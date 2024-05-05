@@ -199,7 +199,7 @@ utils_check_matrix_args <- function(
       warning(
         "Argument ",
         arg_name,
-        " is a list with several elements. Only the first element will be used")
+        " is a list with several matrices, but only the first one will be used. Please use the notation m = m[[index]] to select a different one.")
     }
 
     m <- m[[1]]

@@ -28,39 +28,44 @@ distantia_plot(
 )
 
 #without aggregation
-df <- distantia(
+distantia_df <- distantia(
   tsl = tsl
 )
 
-df <- distantia_aggregate(
-  distantia_df = df,
+
+
+distantia_df <- distantia_aggregate(
+  distantia_df = distantia_df,
   f = mean
 )
 
-m <- distantia_to_matrix(
-  distantia_df = df
+m <- distantia_matrix(
+  distantia_df = distantia_df
 )
 
-df <- distantia(
+plot_matrix(m)
+
+distantia_df <- distantia(
   tsl = tsl,
   repetitions = 0,
   distance = c("euclidean", "manhattan")
 )
 
 m <- distantia_matrix(
-  distantia_df = df
+  distantia_df = distantia_df
 )
 
+plot_matrix(m)
 
-df <- distantia_aggregate(
-  distantia_df = df,
+
+distantia_df <- distantia_aggregate(
+  distantia_df = distantia_df,
   f = mean
 )
 
 m <- distantia_matrix(
   distantia_df = df
 )
-
 
 
 #distantia matrix

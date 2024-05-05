@@ -58,7 +58,7 @@ distantia_plot <- function(
 
   if(length(tsl) > 2){
 
-    warning("Argument 'tsl' must be of length 2. Using elements ", paste0(names(tsl)[1:2], collapse = " and "), " for this plot.")
+    warning("Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " for this plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select plot a different pair.")
 
     tsl <- tsl_subset(
       tsl = tsl,
@@ -300,7 +300,7 @@ distantia_plot <- function(
   )
 
   #reset to main plotting area
-  par(plt = plt_all)
+  # par(plt = plt_all)
 
   invisible()
 
