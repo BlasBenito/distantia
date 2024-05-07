@@ -7,7 +7,7 @@
 #'
 #' The original data frame is returned without modification if there is a single combination of arguments, or if an invalid `f` is provided.
 #'
-#' @param distantia_df (required, data frame) Output of [distantia()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
@@ -16,19 +16,19 @@
 #' @autoglobal
 #' @examples
 distantia_aggregate <- function(
-    distantia_df = NULL,
+    df = NULL,
     f = mean,
     ...
 ){
 
   if(is.null(f) || !is.function(f)){
-    message("Argument 'f' is NULL, returning 'distantia_df' without modification.")
-    return(distantia_df)
+    message("Argument 'f' is NULL, returning 'df' without modification.")
+    return(df)
   }
 
   # split ----
   df_list <- utils_distantia_df_split(
-    distantia_df = distantia_df
+    df = df
   )
 
   # scale psi by group----

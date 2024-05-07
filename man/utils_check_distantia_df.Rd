@@ -4,7 +4,7 @@
 \alias{utils_check_distantia_df}
 \title{Checks Distantia Data Frame}
 \usage{
-utils_check_distantia_df(distantia_df = NULL)
+utils_check_distantia_df(df = NULL)
 }
 \arguments{
 \item{df}{(required, data frame) output of [distantia()]. Default: NULL}

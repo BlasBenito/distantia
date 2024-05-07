@@ -4,10 +4,10 @@
 \alias{distantia_aggregate}
 \title{Aggregate Distantia Data Frame}
 \usage{
-distantia_aggregate(distantia_df = NULL, f = mean, ...)
+distantia_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{distantia_df}{(required, data frame) Output of [distantia()]. Default: NULL}
+\item{df}{(required, data frame) Output of [distantia()]. Default: NULL}
 
 \item{f}{(optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: `mean`}
 

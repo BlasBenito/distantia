@@ -17,5 +17,13 @@ cluster_silhouette(cluster = NULL, distance_matrix = NULL, median = FALSE)
 If median = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the median silhouette width otherwise.
 }
 \description{
-Adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R
+The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). It provides a way to assess the quality of clustering results.
+
+A silhouette width close to +1 indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters.
+
+A silhouette width close to 0 indicates that the object is between two neighboring clusters.
+
+A silhouette width close to -1 indicates that the object is likely to be assigned to the wrong cluster. This suggests that there may be overlapping clusters or that the clustering algorithm has produced poor results.
+
+This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R
 }

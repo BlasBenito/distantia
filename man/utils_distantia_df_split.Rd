@@ -4,10 +4,10 @@
 \alias{utils_distantia_df_split}
 \title{Splits Distantia Data Frame in Groups}
 \usage{
-utils_distantia_df_split(distantia_df = NULL)
+utils_distantia_df_split(df = NULL)
 }
 \arguments{
-\item{distantia_df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
+\item{df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
 }
 \value{
 List of Distantia Data Frames

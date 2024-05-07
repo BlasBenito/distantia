@@ -4,10 +4,10 @@
 \alias{distantia_matrix}
 \title{Distantia Data Frame to Distance Matrix}
 \usage{
-distantia_matrix(distantia_df = NULL)
+distantia_matrix(df = NULL)
 }
 \arguments{
-\item{distantia_df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
+\item{df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
 }
 \value{
 List of distance matrices.

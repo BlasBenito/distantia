@@ -1,17 +1,17 @@
 #' Distantia Data Frame to Distance Matrix
 #'
-#' @param distantia_df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
 #'
 #' @return List of distance matrices.
 #' @export
 #' @autoglobal
 #' @examples
 distantia_matrix <- function(
-    distantia_df = NULL
+    df = NULL
 ){
 
   df_list <- utils_distantia_df_split(
-    distantia_df = distantia_df
+    df = df
   )
 
   m_list <- lapply(

@@ -4,6 +4,8 @@ utils::globalVariables(c(
   "distances", # <distance>
   "i", # <distantia>
   "i", # <distantia_importance>
+  "groups_vector", # <distantia_kmeans>
+  "i", # <distantia_kmeans>
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>

@@ -329,7 +329,7 @@ utils_check_distance_args <- function(
 #' @autoglobal
 #' @examples
 utils_check_distantia_df <- function(
-    distantia_df = NULL
+    df = NULL
 ){
 
   df_names <- c(
@@ -339,13 +339,13 @@ utils_check_distantia_df <- function(
   )
 
   if(
-    is.data.frame(distantia_df) == FALSE ||
-    attributes(distantia_df)$type != "distantia_df" ||
-    !any(df_names %in% names(distantia_df))
+    is.data.frame(df) == FALSE ||
+    attributes(df)$type != "distantia_df" ||
+    !any(df_names %in% names(df))
   ){
-    stop("Argument 'distantia_df' must be a data frame returned by distantia().")
+    stop("Argument 'df' must be a data frame returned by distantia().")
   }
 
-  distantia_df
+  df
 
 }

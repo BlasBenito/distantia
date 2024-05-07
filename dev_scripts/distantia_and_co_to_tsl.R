@@ -28,10 +28,15 @@ distantia_plot(
 )
 
 #without aggregation
-distantia_df <- distantia(
+df <- distantia(
   tsl = tsl
 )
 
+k <- distantia_kmeans(
+  df = df,
+  clusters = 3,
+  output = "plot"
+)
 
 
 distantia_df <- distantia_aggregate(
