@@ -1,29 +1,43 @@
 #' Silhouette Width of a Clustering Solution
 #'
 #' @description
-#' The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). It provides a way to assess the quality of clustering results.
 #'
-#'A silhouette width close to +1 indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters.
+#' The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation).
 #'
-#' A silhouette width close to 0 indicates that the object is between two neighboring clusters.
+#' There are some general guidelines to interpret the  individual silhouette widths of the clustered objects (as returned by this function when `mean = FALSE`):
 #'
-#' A silhouette width close to -1 indicates that the object is likely to be assigned to the wrong cluster. This suggests that there may be overlapping clusters or that the clustering algorithm has produced poor results.
+#' \itemize{
+#'   \item Close to 1: object is well matched to its own cluster and poorly matched to neighboring clusters.
+#'   \item Close to 0: the object is between two neighboring clusters.
+#'   \item Close to -1: the object is likely to be assigned to the wrong cluster
+#' }
+#'
+#' When `mean = TRUE`, the overall mean of the silhouette widths of all objects is returned. These values should be interpreted as follows:
+#'
+#' \itemize{
+#'  \item Higher than 0.7: robust clustering .
+#'  \item Higher than 0.5: reasonable clustering.
+#'  \item Higher than 0.25: weak clustering.
+#'
+#' }
+#'
+#' This metric may not perform well when the clusters have irregular shapes or sizes.
 #'
 #' This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R
 #'
 #'
 #' @param cluster (required, clustering object) Result of [stats::kmeans()]. Default: NULL
 #' @param distance_matrix (required, matrix) Distance matrix typically resulting from [distantia_matrix()]. Default: NULL
-#' @param median (optional, logical) If TRUE, the median of the silhouette widths is returned. Default: FALSE
+#' @param mean (optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE
 #'
-#' @return If median = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the median silhouette width otherwise.
+#' @return If mean = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the mean silhouette width otherwise.
 #' @export
 #' @autoglobal
 #' @examples
 cluster_silhouette <- function(
     cluster = NULL,
     distance_matrix = NULL,
-    median = FALSE
+    mean = FALSE
 ){
 
   if(inherits(x = cluster, what = "kmeans")){
@@ -114,19 +128,19 @@ cluster_silhouette <- function(
 
   }
 
-  if(median == FALSE){
+  if(mean == FALSE){
 
     output <- output[, c("cluster", "silhouette_width")] |>
       as.data.frame()
 
-    output$time_series <- rownames(output)
+    output$name <- rownames(output)
 
     rownames(output) <- NULL
 
-    output <- output[, c("time_series", "cluster", "silhouette_width")]
+    output <- output[, c("name", "cluster", "silhouette_width")]
 
   } else {
-    output <- stats::median(output[, "silhouette_width"])
+    output <- mean(output[, "silhouette_width"])
   }
 
   output

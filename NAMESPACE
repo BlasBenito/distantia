@@ -3,6 +3,7 @@
 export(auto_distance_cpp)
 export(auto_sum_no_path_cpp)
 export(auto_sum_path_cpp)
+export(cluster_kmeans_optimizer)
 export(cluster_silhouette)
 export(cost_matrix_cpp)
 export(cost_matrix_diag_cpp)

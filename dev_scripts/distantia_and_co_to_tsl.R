@@ -15,28 +15,35 @@
 
 devtools::load_all()
 
-tsl <- tsl_simulate(
-  n = 10,
-  time_range = c(
-    "2010-01-01 12:00:25",
-    "2024-12-31 11:15:45"
-  )
-)
+#' tsl <- tsl_simulate(
+#'   n = 10,
+#'   time_range = c(
+#'     "2010-01-01 12:00:25",
+#'     "2024-12-31 11:15:45"
+#'   )
+#' )
+#'
+#' df <- distantia(
+#'   tsl = tsl
+#' )
+#'
+#' k <- distantia_kmeans(
+#'   df = df,
+#'   clusters = NULL
+#' )
+#'
+#' k$df
+#'
+#' # #Optional: kmeans plot
+#' # k_plot <- factoextra::fviz_cluster(
+#' #   object = k$k,
+#' #   data = k$d,
+#' #   repel = TRUE
+#' # )
 
-distantia_plot(
-  tsl = tsl
-)
 
-#without aggregation
-df <- distantia(
-  tsl = tsl
-)
 
-k <- distantia_kmeans(
-  df = df,
-  clusters = 3,
-  output = "plot"
-)
+
 
 
 distantia_df <- distantia_aggregate(
