@@ -11,10 +11,6 @@
 #'   )
 
 
-
-
-devtools::load_all()
-
 #' tsl <- tsl_simulate(
 #'   n = 10,
 #'   time_range = c(
@@ -27,19 +23,67 @@ devtools::load_all()
 #'   tsl = tsl
 #' )
 #'
-#' k <- distantia_kmeans(
-#'   df = df,
-#'   clusters = NULL
+#' hc <- distantia_hclust(
+#'   df = df
 #' )
 #'
-#' k$df
+#' hc$df
 #'
-#' # #Optional: kmeans plot
-#' # k_plot <- factoextra::fviz_cluster(
-#' #   object = k$k,
-#' #   data = k$d,
-#' #   repel = TRUE
-#' # )
+#' plot(
+#'   x = hc$hclust,
+#'   hang = -1
+#'   )
+#'
+#' stats::rect.hclust(
+#'   tree = hc$hclust,
+#'   k = hc$clusters,
+#'   border = grDevices::hcl.colors(
+#'     n = hc$clusters,
+#'     palette = "Zissou 1"
+#'     )
+#'   )
+
+
+
+devtools::load_all()
+
+tsl <- tsl_simulate(
+  n = 10,
+  time_range = c(
+    "2010-01-01 12:00:25",
+    "2024-12-31 11:15:45"
+  )
+)
+
+df <- distantia(
+  tsl = tsl
+)
+
+k <- distantia_kmeans(
+  df = df,
+  clusters = NULL
+)
+
+k
+
+k$df
+
+k <- distantia_hclust(
+  df = df,
+  clusters = NULL,
+  method = NULL
+)
+
+k
+
+k$df
+
+# #Optional: kmeans plot
+# k_plot <- factoextra::fviz_cluster(
+#   object = k$k,
+#   data = k$d,
+#   repel = TRUE
+# )
 
 
 

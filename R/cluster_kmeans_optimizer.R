@@ -24,13 +24,13 @@ cluster_kmeans_optimizer <- function(
     stop("Argument 'd' must be a square distance matrix")
   }
 
-  groups_vector <- seq(
+  clusters_vector <- seq(
     from = 2,
     to = nrow(d) - 1,
     by = 1
   )
 
-  # p <- progressr::progressor(along = groups_vector)
+  p <- progressr::progressor(along = clusters_vector)
 
   #to silence loading messages
   `%iterator%` <- doFuture::`%dofuture%` |>
@@ -40,13 +40,13 @@ cluster_kmeans_optimizer <- function(
     suppressMessages()
 
   sil <- my_foreach(
-    i = groups_vector,
+    i = clusters_vector,
     .combine = "c",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
   ) %iterator% {
 
-    # p()
+    p()
 
     set.seed(seed)
 
@@ -71,9 +71,15 @@ cluster_kmeans_optimizer <- function(
 
   }
 
-  data.frame(
-    clusters = groups_vector,
+  optimization_df <- data.frame(
+    clusters = clusters_vector,
     silhouette_mean = sil
   )
+
+  optimization_df <- optimization_df[order(-optimization_df$silhouette_mean), ]
+
+  rownames(optimization_df) <- NULL
+
+  optimization_df
 
 }

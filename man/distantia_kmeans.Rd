@@ -16,15 +16,19 @@ distantia_kmeans(df = NULL, clusters = NULL, seed = 1)
 \value{
 List with the following objects:
 \itemize{
+  \item `kmeans`: kmeans object.
+  \item `clusters`: integer, number of clusters.
+  \item `silhouette_width`: mean silhouette width of the hierarchical clustering.
   \item `df`: data frame with names of the time series, their group assignation, and their silhouette width scores.
   \item `d`: psi distance matrix.
-  \item `k`: kmeans object.
-  \item `silhouette_width`: mean silhouette width of the kmeans clustering.
-  \item `silhouette_optimization`: only if `clusters = NULL`, data frame with optimization results from [cluster_kmeans_optimizer()].
+  \item `optimization`: only if `clusters = NULL`, data frame with optimization results from [cluster_hclust_optimizer()].
 }
 }
 \description{
 Kmeans Clustering of a Distantia Data Frame
+}
+\details{
+All relevant details about clustering methods and relevant references are available in the help file of [stats::kmeans()].
 }
 \examples{
 
@@ -48,7 +52,7 @@ k$df
 
 # #Optional: kmeans plot
 # k_plot <- factoextra::fviz_cluster(
-#   object = k$k,
+#   object = k$kmeans,
 #   data = k$d,
 #   repel = TRUE
 # )

@@ -42,6 +42,8 @@ cluster_silhouette <- function(
 
   if(inherits(x = cluster, what = "kmeans")){
     clustering <- cluster$cluster
+  } else {
+    clustering <- cluster
   }
 
   if(inherits(x = distance_matrix, what = "matrix") == FALSE){
