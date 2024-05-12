@@ -32,7 +32,7 @@
 #'   tsl = tsl
 #' )
 #'
-#' hc <- distantia_hclust(
+#' hc <- distantia_cluster_hclust(
 #'   df = df
 #' )
 #'
@@ -52,7 +52,7 @@
 #'     )
 #'   )
 #'
-distantia_hclust <- function(
+distantia_cluster_hclust <- function(
     df = NULL,
     clusters = NULL,
     method = "complete"

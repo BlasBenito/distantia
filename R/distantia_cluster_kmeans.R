@@ -31,7 +31,7 @@
 #'   tsl = tsl
 #' )
 #'
-#' k <- distantia_kmeans(
+#' k <- distantia_cluster_kmeans(
 #'   df = df
 #' )
 #'
@@ -44,7 +44,7 @@
 #' #   repel = TRUE
 #' # )
 #'
-distantia_kmeans <- function(
+distantia_cluster_kmeans <- function(
     df = NULL,
     clusters = NULL,
     seed = 1

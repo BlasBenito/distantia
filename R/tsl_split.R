@@ -1,0 +1,94 @@
+#' Splits Multivariate Time Series List into Univariate
+#'
+#' @description
+#' This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c".
+#'
+#' To preserve the conditions a time series list must fulfill (all elements of the time series list must have at least cone column name in common), the only column of each new zoo object is named "x".
+#'
+#' @param tsl (required, time series list) list of zoo time series. Default: NULL
+#' @param sep (required, character string) separator between the time series name and the column name.
+#'
+#' @return Time series list
+#' @export
+#' @autoglobal
+#' @examples
+#'
+#' tsl <- tsl_simulate(
+#'   n = 2,
+#'   time_range = c(
+#'     "2010-01-01",
+#'     "2024-12-31"
+#'   ),
+#'   cols = 3
+#' )
+#'
+#' names(tsl)
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl = tsl)
+#' }
+#'
+#' tsl <- tsl_split(tsl = tsl)
+#'
+#' names(tsl)
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl = tsl)
+#' }
+#'
+#' lapply(tsl, colnames)
+#'
+#'
+tsl_split <- function(
+    tsl = NULL,
+    sep = "__"
+){
+
+
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
+
+  tsl_columns <- tsl_cols(tsl)
+
+  if(length(tsl_columns == 1)){
+    if(tsl_columns == 1){
+      return(tsl)
+    }
+  }
+
+  iterations_df <- expand.grid(
+    tsl_name = names(tsl),
+    time_series_name = lapply(
+      X = tsl,
+      FUN = colnames
+    ) |>
+      unlist(),
+    stringsAsFactors = FALSE
+  )
+
+  iterations_df <- iterations_df[order(iterations_df$tsl_name), ]
+
+  iterations_df$new_name <- paste(
+    iterations_df$tsl_name,
+    iterations_df$time_series_name,
+    sep = sep
+  )
+
+  tsl_new <- list()
+
+  for(i in seq_len(nrow(iterations_df))){
+
+    zoo_i <- tsl[[iterations_df$tsl_name[i]]][, iterations_df$time_series_name[i], drop = FALSE]
+
+    colnames(zoo_i) <- "x"
+
+    tsl_new[[iterations_df$new_name[i]]] <- zoo_i
+
+  }
+
+  tsl_new <- tsl_names_set(tsl = tsl_new)
+
+  tsl_new
+
+}

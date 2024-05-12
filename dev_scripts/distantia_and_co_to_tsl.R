@@ -50,14 +50,31 @@ devtools::load_all()
 tsl <- tsl_simulate(
   n = 10,
   time_range = c(
-    "2010-01-01 12:00:25",
-    "2024-12-31 11:15:45"
-  )
+    "2010-01-01",
+    "2024-12-31"
+  ),
+  cols = 3
 )
 
-df <- distantia(
+names(tsl)
+
+tsl <- tsl_split(tsl = tsl)
+
+names(tsl)
+
+df <- distantia_importance(
   tsl = tsl
 )
+
+library(ggplot2)
+ggplot(df) +
+  aes(
+    x = importance,
+    y = variable,
+  ) +
+  geom_boxplot(notch = TRUE) +
+  geom_vline(xintercept = 0)
+
 
 k <- distantia_kmeans(
   df = df,
