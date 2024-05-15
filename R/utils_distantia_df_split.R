@@ -13,30 +13,24 @@ utils_distantia_df_split <- function(
     df = NULL
 ){
 
-  df <- utils_check_distantia_df(
-    df = df
-  )
+  df_type <- attributes(df)$type
 
   #required columns
   required_columns <- c(
     "distance",
     "diagonal",
     "weighted",
-    "ignore_blocks"
+    "ignore_blocks",
+    "lock_step"
   )
 
   if(any(!(required_columns %in% names(df)))){
     return(list(df))
   }
 
-  if("lock_step" %in% colnames(df)){
-    required_columns <- c(required_columns, "lock_step")
-  }
-
   # detect groups ----
   df_groups <- unique(
-    df[, required_columns
-    ]
+    df[, required_columns]
   )
 
   df_groups$group <- seq_len(nrow(df_groups))
@@ -61,14 +55,9 @@ utils_distantia_df_split <- function(
     attr(
       x = df_list[[i]],
       which = "type"
-    ) <- "distantia_df"
+    ) <- df_type
 
   }
-
-  attr(
-    x = df_list,
-    which = "type"
-  ) <- "distantia_df_list"
 
   df_list
 

@@ -51,6 +51,19 @@ distantia_importance <- function(
     robust = TRUE
 ){
 
+  #stop if tsl is univariate
+  tsl_ncol <- sapply(
+    X = tsl,
+    FUN = ncol
+  ) |>
+    unique()
+
+  if(1 %in% tsl_ncol){
+    warning("There are univariate time series in 'tsl'. Importance scores only apply to multivariate time series. Please consider using distantia() instead.")
+  }
+
+
+
   tsl <- tsl_remove_exclusive_cols(
     tsl = tsl
   )
@@ -153,11 +166,6 @@ distantia_importance <- function(
 
   } #end of loop
 
-  attr(
-    x = df_importance,
-    which = "type"
-  ) <- "distantia_importance"
-
   df_importance <- df_importance[
     , c(
       "x",
@@ -177,6 +185,11 @@ distantia_importance <- function(
       "robust"
     )
   ]
+
+  attr(
+    x = df_importance,
+    which = "type"
+  ) <- "distantia_importance_df"
 
   df_importance
 

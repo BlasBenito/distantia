@@ -56,15 +56,32 @@ tsl <- tsl_simulate(
   cols = 3
 )
 
-names(tsl)
+df <- distantia(
+  tsl = tsl,
+  distance = c("euclidean", "manhattan")
+)
 
-tsl <- tsl_split(tsl = tsl)
-
-names(tsl)
+distantia_boxplot(df)
 
 df <- distantia_importance(
-  tsl = tsl
+  tsl = tsl,
+  distance = c("manhattan", "euclidean")
 )
+
+distantia_boxplot(df)
+
+
+
+
+
+
+
+
+
+
+
+
+df_split <- utils_distantia_df_split(df)
 
 library(ggplot2)
 ggplot(df) +

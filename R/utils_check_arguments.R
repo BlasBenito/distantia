@@ -317,35 +317,4 @@ utils_check_distance_args <- function(
 
   distances_df$name
 
-
-}
-
-#' Checks Distantia Data Frame
-#'
-#' @param df (required, data frame) output of [distantia()]. Default: NULL
-#'
-#' @return distantia data frame
-#' @export
-#' @autoglobal
-#' @examples
-utils_check_distantia_df <- function(
-    df = NULL
-){
-
-  df_names <- c(
-    "x",
-    "y",
-    "psi"
-  )
-
-  if(
-    is.data.frame(df) == FALSE ||
-    attributes(df)$type != "distantia_df" ||
-    !any(df_names %in% names(df))
-  ){
-    stop("Argument 'df' must be a data frame returned by distantia().")
-  }
-
-  df
-
 }

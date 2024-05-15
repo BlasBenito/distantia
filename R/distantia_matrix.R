@@ -10,6 +10,16 @@ distantia_matrix <- function(
     df = NULL
 ){
 
+  df_type <- attributes(df)$type
+
+  types <- c(
+    "distantia_df"
+  )
+
+  if(!(df_type %in% types)){
+    stop("Argument 'df' must be the output of distantia() or distantia() |> distantia_aggregate().")
+  }
+
   df_list <- utils_distantia_df_split(
     df = df
   )
@@ -41,11 +51,6 @@ distantia_matrix <- function(
     ) <- "psi"
 
   }
-
-  attr(
-    x = m_list,
-    which = "type"
-  ) <- "distantia_matrix_list"
 
 
   m_list

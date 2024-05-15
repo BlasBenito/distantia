@@ -21,6 +21,17 @@ distantia_aggregate <- function(
     ...
 ){
 
+  df_type <- attributes(df)$type
+
+  types <- c(
+    "distantia_df",
+    "distantia_importance_df"
+    )
+
+  if(!(df_type %in% types)){
+    stop("Argument 'df' must be the output of distantia() or distantia_importance()")
+  }
+
   if(is.null(f) || !is.function(f)){
     message("Argument 'f' is NULL, returning 'df' without modification.")
     return(df)
@@ -32,15 +43,30 @@ distantia_aggregate <- function(
   )
 
   # scale psi by group----
-  df_list <- lapply(
-    X = df_list,
-    FUN = function(x){
-      x$psi <- as.numeric(
-        scale(x = x$psi)
+  if(df_type == "distantia_df"){
+    df_list <- lapply(
+      X = df_list,
+      FUN = function(x){
+        x$psi <- as.numeric(
+          scale(x = x$psi)
         )
-      x
-    }
-  )
+        x
+      }
+    )
+  }
+
+  if(df_type == "distantia_importance_df"){
+    df_list <- lapply(
+      X = df_list,
+      FUN = function(x){
+        x$importance <- as.numeric(
+          scale(x = x$importance)
+        )
+        x
+      }
+    )
+  }
+
 
   df <- do.call(
     what = "rbind",
@@ -48,21 +74,42 @@ distantia_aggregate <- function(
   )
 
   # aggregate ----
-  df <- stats::aggregate(
-    x = df,
-    by = psi ~ x + y,
-    FUN = f,
-    ... = ...
-  )
+  if(df_type == "distantia_df"){
 
-  #start aggregated distances at zero
-  df$psi <- df$psi + abs(min(df$psi))
+    df <- stats::aggregate(
+      x = df,
+      by = psi ~ x + y,
+      FUN = f,
+      ... = ...
+    )
+
+    #start aggregated distances at zero
+    df$psi <- df$psi + abs(min(df$psi))
+  }
+
+  if(df_type == "distantia_importance_df"){
+
+    df <- stats::aggregate(
+      x = df,
+      by = importance ~ x + y + variable,
+      FUN = f,
+      ... = ...
+    )
+
+    #center aggregated importances
+    df$importance <- as.numeric(
+      scale(
+        x = df$importance
+        )
+    )
+
+  }
 
   #add type
   attr(
     x = df,
     which = "type"
-  ) <- "distantia_df"
+  ) <- df_type
 
   df
 
