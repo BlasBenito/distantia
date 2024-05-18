@@ -46,29 +46,38 @@
 
 
 devtools::load_all()
-
-tsl <- tsl_simulate(
-  n = 10,
-  time_range = c(
-    "2010-01-01",
-    "2024-12-31"
-  ),
-  cols = 3
-)
-
-df <- distantia(
-  tsl = tsl,
-  distance = c("euclidean", "manhattan")
-)
-
-distantia_boxplot(df)
-
-df <- distantia_importance(
-  tsl = tsl,
-  distance = c("manhattan", "euclidean")
-)
-
-distantia_boxplot(df)
+#'
+#' tsl <- tsl_simulate(
+#'   n = 5,
+#'   time_range = c(
+#'     "2010-01-01",
+#'     "2024-12-31"
+#'   ),
+#'   cols = 3
+#' )
+#'
+#' #distantia boxplot
+#' df <- distantia(
+#'   tsl = tsl,
+#'   distance = c("euclidean", "manhattan")
+#' )
+#'
+#' distantia_boxplot(
+#'   df = df,
+#'   f = quantile,
+#'   probs = 0.75
+#' )
+#'
+#' #importance boxplot
+#' df_importance <- distantia_importance(
+#'   tsl = tsl,
+#'   distance = c("manhattan", "euclidean")
+#' )
+#'
+#' distantia_boxplot(
+#'   df = df_importance,
+#'   fun = median
+#'   )
 
 
 

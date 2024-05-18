@@ -55,17 +55,6 @@ distantia_aggregate <- function(
     )
   }
 
-  if(df_type == "distantia_importance_df"){
-    df_list <- lapply(
-      X = df_list,
-      FUN = function(x){
-        x$importance <- as.numeric(
-          scale(x = x$importance)
-        )
-        x
-      }
-    )
-  }
 
 
   df <- do.call(
@@ -85,6 +74,7 @@ distantia_aggregate <- function(
 
     #start aggregated distances at zero
     df$psi <- df$psi + abs(min(df$psi))
+
   }
 
   if(df_type == "distantia_importance_df"){
@@ -94,13 +84,6 @@ distantia_aggregate <- function(
       by = importance ~ x + y + variable,
       FUN = f,
       ... = ...
-    )
-
-    #center aggregated importances
-    df$importance <- as.numeric(
-      scale(
-        x = df$importance
-        )
     )
 
   }

@@ -53,7 +53,7 @@ Data frame with the attribute `type` set to `distantia_df` and the following col
   \item `diagonal`: value of the argument `diagonal`.
   \item `weighted`: value of the argument `weighted`.
   \item `ignore_blocks`: value of the argument `ignore_blocks`.
-  \item `lock_step`: value of the argument `lock_step`. Only available if TRUE appears in the argument and the sequences have the same number of rows.
+  \item `lock_step`: value of the argument `lock_step`.
   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.

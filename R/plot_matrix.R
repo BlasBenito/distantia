@@ -206,9 +206,8 @@ plot_matrix <- function(
   subtitle_cex <- 1 * text_cex
 
   if(is.null(color)){
-    color = grDevices::hcl.colors(
-      n = 100,
-      palette = "Zissou 1"
+    color = utils_color_continuous_default(
+      n = 100
     )
   }
 

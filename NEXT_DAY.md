@@ -1,4 +1,4 @@
-Continue development of distantia_boxplot()
+Start working on tsl_resample() to facilitate lock_step analysis.
 
 Why prepare_zoo_list() has the argument lock_step?
 

@@ -86,9 +86,8 @@ distantia_plot <- function(
 
   if(is.null(matrix_color)){
 
-    matrix_color = grDevices::hcl.colors(
-      n = 100,
-      palette = "Zissou 1"
+    matrix_color = utils_color_continuous_default(
+      n = 100
     )
 
     if(is.null(line_color)){

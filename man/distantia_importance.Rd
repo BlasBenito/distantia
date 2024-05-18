@@ -9,7 +9,7 @@ distantia_importance(
   distance = "euclidean",
   diagonal = FALSE,
   weighted = FALSE,
-  ignore_blocks = c(FALSE, TRUE),
+  ignore_blocks = FALSE,
   lock_step = FALSE,
   robust = TRUE
 )
@@ -53,7 +53,7 @@ Data frame with the following columns:
 Importance assessment of the contribution of individual variables to the dissimilarity between two sequences. It requires computing psi separately for each variable (column "psi_only_with) and without each variable (column "psi_without"), and comparing these with the overall psi score (column "psi") of both sequences. Two importance indicators are computed from these psi scores:
 \itemize{
   \item `psi_drop`: interpreted as "decrease in dissimilarity when a variable is removed" and computed as a percentage of the overall dissimilarity via the expression `((psi - psi_without) * 100)/psi`. Positive values indicate that a variable contributes to dissimilarity, while negative ones indicate contribution to similarity. This is the same metric of importance introduced in the first version of the package.
-  \item `importance`: interpreted as "difference between the psi of a variable by itself and the psi of all other variables" also expressed as a percentage of the overall psi via the expression `((psi_only_with - psi_without) * 100)/psi`. As with `psi_drop`, positive values indicate a contribution to dissimilarity, while negative ones indicate the opposite. This is a new metric introduced with the version 2.0 of the package, and contains more information than `psi_drop`.
+  \item `importance`: interpreted as "difference between the psi of a variable by itself and the psi of all other variables" also expressed as a percentage of the overall psi via the expression `((psi_only_with - psi_without) * 100)/psi`. As with `psi_drop`, positive values indicate a contribution to dissimilarity, while negative ones indicate the opposite. This is a new metric introduced with the version 2.0 of the package, and it is more informative than `psi_drop`.
 }
 
 Additionally, these importance scores can be computed in two different ways defined by the argument `robust`.

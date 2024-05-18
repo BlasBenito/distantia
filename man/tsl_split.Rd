@@ -15,9 +15,7 @@ tsl_split(tsl = NULL, sep = "__")
 Time series list
 }
 \description{
-This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c".
-
-To preserve the conditions a time series list must fulfill (all elements of the time series list must have at least cone column name in common), the only column of each new zoo object is named "x".
+This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c". The only column of each new zoo object is named "x".
 }
 \examples{
 
