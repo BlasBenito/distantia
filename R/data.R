@@ -12,54 +12,23 @@
 
 #' Covid19 dataset.
 #'
-#' Dataset with Covid19 prevalence in California counties between 2020 and 2024. Downloaded from https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data
-#'
+#' Dataset with Covid19 prevalence in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
 #'
 #' @docType data
 #' @keywords datasets
-#' @name covid
-#' @usage data(covid)
+#' @name covid_prevalence
+#' @usage data(covid_prevalence)
 #' @format Dataframe with 3 columns and 51048 rows
-"covid"
+"covid_prevalence"
 
-#' Pollen dataset.
-#'
-#' A subset of the Grande Pile dataset (\url{https://doi.pangaea.de/10.1594/PANGAEA.739275}). It contains a depth (cm) and age columns (ky BP), and 40 pollen types.
-#'
+#' Coordinates of the Covid Dataset.
 #'
 #' @docType data
 #' @keywords datasets
-#' @name gp
-#' @usage data(sequenceA)
-#' @format Dataframe with 42 columns and 200 rows
-"gp"
-
-
-#' Multivariate and irregular time series with pollen counts.
-#'
-#' A dataframe with 9 columns representing pollen types (betula, pinus, corylus, empetrum, cypera, artemisia, rumex) and 49 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978).
-#'
-#'
-#' @docType data
-#' @keywords datasets
-#' @name abernethy_a
-#' @usage data(sequenceA)
-#' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
-#' @format Dataframe with 9 columns and 49 rows
-"abernethy_a"
-
-#' Multivariate and irregular time series with pollen counts.
-#'
-#' A dataframe with 8 columns (the column \code{empetr} is missing with respect to \code{\link{sequenceA}}) representing pollen types (betula, pinus, corylus, cypera, artemisia, rumex) and 41 rows representing increasing depths with pollen counts taken from the Abernethy dataset (Birks and Mathewes (1978). Several NA values have been introduced in the dataset to demonstrate the data-handling capabilities of \code{\link{prepareSequences}}.
-#'
-#'
-#' @docType data
-#' @keywords datasets
-#' @name abernethy_b
-#' @usage data(sequenceB)
-#' @references Birks, H.H. and Mathewes, R.W. (1978) Studies in the vegetational history of Scotland. \emph{New Phytologist} \strong{80}, 455-484.
-#' @format Dataframe with 9 columns and 41 rows
-"abernethy_b"
+#' @name covid_coordinates
+#' @usage data(covid_coordinates)
+#' @format sf data frame with 4 columns and 36 rows
+"covid_coordinates"
 
 #' Dataframe with pollen counts for different MIS stages.
 #'
@@ -72,22 +41,58 @@
 #' @format dataframe with 7 columns and 427 rows.
 "mis"
 
-#' Dataframe with palaeoclimatic data.
+
+#' Enhanced Vegetation Index vs Climate in Three European Locations
 #'
-#' A dataframe containing palaeoclimate data at 1 ky temporal resolution with the following columns:
+#' A dataframe with 648 rows representing enhanced vegetation index, rainfall and teperature in three European locations.
 #'
-#' \itemize{
-#'   \item \emph{time} in kiloyears before present (ky BP).
-#'   \item \emph{sequenceId} numeric identifier of sequences of 200ky within the main sequence, useful to test some functions of the package, such as \code{\link{distancePairedSamples}}
-#'   \item \emph{temperatureAverage} average annual temperature in Celsius degrees.
-#'   \item \emph{rainfallAverage} average annual precipitation in milimetres per day (mm/day).
-#'   \item \emph{temperatureWarmestMonth} average temperature of the warmest month, in Celsius degrees.
-#'   \item \emph{temperatureColdestMonth} average temperature of the coldest month, in Celsius degrees.
-#' }
-#' @author Blas M. Benito  <blasbenito@gmail.com>
 #' @docType data
 #' @keywords datasets
-#' @name climate
-#' @usage data(climate)
-#' @format dataframe with 6 columns and 800 rows.
-"climate"
+#' @name evi
+#' @usage data(evi)
+#' @format dataframe with 5 columns and 648 rows.
+"evi"
+
+
+#' Pollen Counts of Nine Eemian Sites
+#'
+#' @docType data
+#' @keywords datasets
+#' @name eemian_pollen
+#' @usage data(eemian_pollen)
+#' @format dataframe with 24 columns and 376 rows.
+"eemian_pollen"
+
+#' Coordinates of Nine Eemian Sites
+#'
+#' @docType data
+#' @keywords datasets
+#' @name eemian_coordinates
+#' @usage data(eemian_coordinates)
+#' @format sf data frame with 4 columns and 9 rows.
+"eemian_coordinates"
+
+#' Average Temperature of 100 Major Cities
+#'
+#' @description
+#' Average temperatures between 1975 and 2010 of 100 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
+#'
+#' @docType data
+#' @keywords datasets
+#' @name cities_temperature
+#' @usage data(cities_temperature)
+#' @format data frame with 3 columns and 52100 rows.
+"cities_temperature"
+
+
+#' Coordinates of 100 Major Cities
+#'
+#' @description
+#' City coordinates for the dataset `cities_temperature`
+#'
+#' @docType data
+#' @keywords datasets
+#' @name cities_coordinates
+#' @usage data(cities_coordinates)
+#' @format sf data frame with 5 columns and 100 rows.
+"cities_coordinates"
