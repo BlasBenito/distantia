@@ -1,4 +1,6 @@
-Start working on tsl_resample() to facilitate lock_step analysis.
+Start working on zoo_resample(), with same interface as zoo_aggregate()
+
+Start working on tsl_resample() with same interface as tsl_aggregate() to facilitate lock_step analysis.
 
 Start working on function to map dissimilarity scores as poly lines:
 

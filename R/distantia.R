@@ -140,14 +140,9 @@ distantia <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  #to silence loading messages
-  `%iterator%` <- doFuture::`%dofuture%` |>
-    suppressMessages()
+  `%iterator%` <- doFuture::`%dofuture%`
 
-  my_foreach <- foreach::foreach |>
-    suppressMessages()
-
-  df_distantia <- my_foreach(
+  df_distantia <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
