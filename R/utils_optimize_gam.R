@@ -17,31 +17,48 @@
 #' @examples
 #'
 #' #zoo time series
-#' x <- zoo_simulate(
+#' ts <- zoo_simulate(
 #'   cols = 1,
 #'   rows = 30
 #' )
 #'
 #' #response
-#' y <- x[, 1]
+#' y <- as.numeric(ts)
+#' #y <- ts[, 1] #for multivariate time series
 #'
 #' #predictor
-#' x <- as.numeric(zoo::index(x))
+#' x <- as.numeric(zoo::index(ts))
 #'
 #' #parallelization
-#' #only recommended for very long time series
 #' # future::plan(multisession)
 #'
 #' #progress bar
 #' progressr::handlers(global = TRUE)
 #'
 #' #optimize k
-#' best.gam <- utils_optimize_gam(
+#' m <- utils_optimize_gam(
 #'   x = x,
 #'   y = y
 #' )
 #'
-#' summary(best.gam)
+#' summary(m)
+#'
+#' #plot observation
+#' plot(
+#'   x = zoo::index(ts),
+#'   y = as.numeric(y),
+#'   col = "forestgreen",
+#'   type = "l",
+#'   lwd = 2
+#'   )
+#'
+#' #plot prediction
+#' lines(
+#'   x = zoo::index(ts),
+#'   y = stats::predict(m, type = "response"),
+#'   col = "red4"
+#'   )
+#'
 utils_optimize_gam <- function(
     x = NULL,
     y = NULL
