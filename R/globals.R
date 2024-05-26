@@ -12,6 +12,9 @@ utils::globalVariables(c(
   "na.omit", # <f_detrend_gam>
   "sd", # <scaling_parameters>
   "distances", # <utils_check_distance_args>
+  "k", # <utils_optimize_gam>
+  "median", # <zoo_aggregate>
   "i", # <zoo_permute>
+  "i", # <zoo_resample>
   NULL
 ))

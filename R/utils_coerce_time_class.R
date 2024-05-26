@@ -1,4 +1,4 @@
-#' Converts Between Classes Date and POSIXct
+#' Coerces Vector to a Given Time Class
 #'
 #' @param x (required, vector of class Date or POSIXct) time vector to convert. Default: NULL
 #' @param to (required, class name) either Date, POSIXct, or numeric. Default: Date
@@ -7,6 +7,29 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' x <- utils_coerce_time_class(
+#'   x = c("2024-01-01", "2024-02-01"),
+#'   to = "Date"
+#' )
+#'
+#' x
+#' class(x)
+#'
+#' x <- utils_coerce_time_class(
+#'   x = c("2024-01-01", "2024-02-01"),
+#'   to = "POSIXct"
+#' )
+#'
+#' x
+#' class(x)
+#'
+#' x <- utils_coerce_time_class(
+#'   x = c("2024-01-01", "2024-02-01"),
+#'   to = "numeric"
+#' )
+#'
+#' x
+#' class(x)
 utils_coerce_time_class <- function(
     x = NULL,
     to = "Date"
@@ -28,7 +51,12 @@ utils_coerce_time_class <- function(
       suppressWarnings()
   }
 
-  if(!(class(x) %in% classes)){
+  if(any(class(x) %in% classes) == FALSE){
+    warning(
+      "Class of argument 'x' must be one of '",
+      paste(classes, collapse = "', '"),
+    "'."
+    )
     return(x)
   }
 

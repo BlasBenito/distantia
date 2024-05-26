@@ -80,7 +80,7 @@ This function also accepts a parallelization setup via [future::plan()], but it 
 }
 \examples{
 #parallelization
-# future::plan(multisession)
+# future::plan(multisession, workers = 2)
 
 #progress bar
 progressr::handlers(global = TRUE)

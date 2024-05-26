@@ -54,7 +54,7 @@
 #' @autoglobal
 #' @examples
 #' #parallelization
-#' # future::plan(multisession)
+#' # future::plan(multisession, workers = 2)
 #'
 #' #progress bar
 #' progressr::handlers(global = TRUE)

@@ -6,6 +6,17 @@
 #' @export
 #' @autoglobal
 #' @examples
+#'
+#' utils_is_time(
+#'   x = c("2024-01-01", "2024-02-01")
+#' )
+#'
+#' utils_is_time(
+#'   x = utils_as_time(
+#'     x = c("2024-01-01", "2024-02-01")
+#'     )
+#' )
+#'
 utils_is_time <- function(
     x = NULL
     ){

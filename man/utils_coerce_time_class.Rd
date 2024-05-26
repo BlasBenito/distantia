@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_coerce_time_class.R
 \name{utils_coerce_time_class}
 \alias{utils_coerce_time_class}
-\title{Converts Between Classes Date and POSIXct}
+\title{Coerces Vector to a Given Time Class}
 \usage{
 utils_coerce_time_class(x = NULL, to = "Date")
 }
@@ -15,5 +15,30 @@ utils_coerce_time_class(x = NULL, to = "Date")
 time vector
 }
 \description{
-Converts Between Classes Date and POSIXct
+Coerces Vector to a Given Time Class
+}
+\examples{
+x <- utils_coerce_time_class(
+  x = c("2024-01-01", "2024-02-01"),
+  to = "Date"
+)
+
+x
+class(x)
+
+x <- utils_coerce_time_class(
+  x = c("2024-01-01", "2024-02-01"),
+  to = "POSIXct"
+)
+
+x
+class(x)
+
+x <- utils_coerce_time_class(
+  x = c("2024-01-01", "2024-02-01"),
+  to = "numeric"
+)
+
+x
+class(x)
 }
