@@ -1,13 +1,13 @@
-#' Optimization of Univariate GAM Models
+#' Optimization of Loess Models
 #'
 #' @description
 #'
-#' Internal function used in [zoo_resample()]. It finds the `k` parameter of a univariate GAM formula `y ~ s(x, k = ?)` that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `k`.
+#' Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
 #'
 #' @param x (required, numeric vector) predictor, usually a numeric version of a time vector.
 #' @param y (required, numeric vector) response, usually a time series.
 #'
-#' @return GAM model.
+#' @return Loess model.
 #' @export
 #' @autoglobal
 #' @examples
@@ -25,8 +25,8 @@
 #' #predictor
 #' x <- as.numeric(zoo::index(ts))
 #'
-#' #optimize k
-#' m <- utils_optimize_gam(
+#' #optimize loess model
+#' m <- utils_optimize_loess(
 #'   x = x,
 #'   y = y
 #' )
@@ -45,11 +45,11 @@
 #' #plot prediction
 #' lines(
 #'   x = zoo::index(ts),
-#'   y = stats::predict(m, type = "response"),
+#'   y = stats::predict(m),
 #'   col = "red4"
 #'   )
 #'
-utils_optimize_gam <- function(
+utils_optimize_loess <- function(
     x = NULL,
     y = NULL
 ){
@@ -74,32 +74,25 @@ utils_optimize_gam <- function(
     y = y
   )
 
-  k_candidates = seq(
-    from = ceiling(nrow(model_df)/2),
-    to = nrow(model_df),
-    by = 1
+  span_candidates = seq(
+    from = 0.1,
+    to = 0.5,
+    by = 0.01
     )
 
   `%iterator%` <- foreach::`%do%`
 
   rmse <- foreach::foreach(
-    k = k_candidates,
+    span = span_candidates,
     .combine = "c",
     .errorhandling = "pass"
   ) %iterator% {
 
-    gam.formula <- as.formula(
-      object = paste0(
-        "y ~ s(x, k = ",
-        k,
-        ")"
-      )
-    )
-
-    gam.model <- tryCatch({
-      mgcv::gam(
-        formula = gam.formula,
-        data = model_df
+    loess.model <- tryCatch({
+      stats::loess(
+        formula = y ~ x,
+        data = model_df,
+        span = span
       )
     }, error = function(e) {
       NA
@@ -109,8 +102,8 @@ utils_optimize_gam <- function(
 
     if(
       inherits(
-        x = gam.model,
-        what = "gam"
+        x = loess.model,
+        what = "loess"
         ) == FALSE
       ){
       return(NA)
@@ -120,7 +113,7 @@ utils_optimize_gam <- function(
     return(
       sqrt(
         mean(
-          (model_df$y - stats::predict(gam.model))^2
+          (model_df$y - stats::predict(loess.model))^2
           )
         )
     )
@@ -130,22 +123,15 @@ utils_optimize_gam <- function(
   #set errors to NA
   rmse[!is.numeric(rmse)] <- NA
 
-  #select k minimizing rmse
-  k_best <- k_candidates[which.min(rmse)]
+  #select span minimizing rmse
+  span_best <- span_candidates[which.min(rmse)]
 
   #new model
-  gam.formula <- as.formula(
-    object = paste0(
-      "y ~ s(x, k = ",
-      k_best,
-      ")"
-    )
-  )
-
-  gam.model <- tryCatch({
-    mgcv::gam(
-      formula = gam.formula,
-      data = model_df
+  loess.model <- tryCatch({
+    stats::loess(
+      formula = y ~ x,
+      data = model_df,
+      span = span_best
     )
   }, error = function(e) {
     NA
@@ -153,6 +139,6 @@ utils_optimize_gam <- function(
     NA
   })
 
-  gam.model
+  loess.model
 
 }
