@@ -29,6 +29,8 @@ zoo_aggregate <- function(
 
   x_time <- stats::time(x)
 
+  x_names <- colnames(x)
+
   x_time_class <- zoo_time(
     x = x
   )$class
@@ -83,6 +85,8 @@ zoo_aggregate <- function(
   }
 
   zoo::index(y) <- y_time
+
+  colnames(y) <- colnames(x)
 
   #reset name
   attr(

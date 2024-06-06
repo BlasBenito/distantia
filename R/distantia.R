@@ -76,11 +76,30 @@ distantia <- function(
     tsl = tsl
   )
 
-  block_size <- utils_block_size(
-    tsl = tsl,
-    repetitions = repetitions,
-    block_size = block_size
+  permutation <- match.arg(
+    arg = permutation,
+    choices = c(
+      "restricted_by_row",
+      "restricted",
+      "free_by_row",
+      "free"
+    ),
+    several.ok = TRUE
   )
+
+  if(permutation %in% c("restricted_by_row", "restricted")){
+
+    block_size <- utils_block_size(
+      tsl = tsl,
+      repetitions = repetitions,
+      block_size = block_size
+    )
+
+  } else {
+
+    block_size <- 0
+
+  }
 
   #check input arguments
   args_test <- utils_check_distantia_args(
@@ -111,17 +130,6 @@ distantia <- function(
 
   } else {
 
-    permutation <- match.arg(
-      arg = permutation,
-      choices = c(
-        "restricted_by_row",
-        "restricted",
-        "free_by_row",
-        "free"
-      ),
-      several.ok = TRUE
-    )
-
     df <- utils_tsl_pairs(
       tsl = tsl,
       args_list = list(
@@ -136,6 +144,7 @@ distantia <- function(
         seed = seed
       )
     )
+
   }
 
   #add additional columns
@@ -212,7 +221,7 @@ distantia <- function(
           repetitions = df.i$repetitions,
           permutation = df.i$permutation,
           block_size = df.i$block_size,
-          seed = df.i$seed
+          seed = df.i$seed + i
         )
 
         df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
