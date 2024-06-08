@@ -87,11 +87,16 @@ distantia <- function(
     several.ok = TRUE
   )
 
-  if(permutation %in% c("restricted_by_row", "restricted")){
+  if(
+    repetitions > 0 &&
+    permutation %in% c(
+      "restricted_by_row",
+      "restricted"
+      )
+    ){
 
     block_size <- utils_block_size(
       tsl = tsl,
-      repetitions = repetitions,
       block_size = block_size
     )
 

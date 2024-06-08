@@ -4,14 +4,12 @@
 \alias{utils_block_size}
 \title{Logics to Handle Argument block_size in distantia()}
 \usage{
-utils_block_size(tsl = NULL, repetitions = NULL, block_size = NULL)
+utils_block_size(tsl = NULL, block_size = NULL)
 }
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
-
-\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.}
+\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.}
 }
 \value{
 block size

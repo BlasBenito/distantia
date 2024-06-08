@@ -61,7 +61,6 @@ zoo_permute <- function(
 
   block_size <- utils_block_size(
     tsl = list(x),
-    repetitions = repetitions,
     block_size = block_size
   )
 
