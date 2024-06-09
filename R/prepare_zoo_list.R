@@ -40,12 +40,13 @@ prepare_zoo_list <- function(
     stop("All elements in the list 'x' must be named.")
   }
 
-  # + convert to matrix
+  # + convert to zoo
   ###################
   x <- lapply(
     X = x,
     FUN = function(i){
 
+      #get index
       i.index <- attributes(i)$index
 
       #get numeric columns only

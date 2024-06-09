@@ -88,7 +88,7 @@ tsl_plot <- function(
         guide = FALSE,
         guide_position = "right",
         guide_cex = guide_cex,
-        subpanel = TRUE
+        subpanel = FALSE
       )
 
       graphics::title(

@@ -20,10 +20,10 @@
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
-#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
+#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
+#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.
 #' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #' @return Data frame with the following columns:
 #' \itemize{
@@ -56,8 +56,8 @@
 distantia_importance <- function(
     tsl = NULL,
     distance = "euclidean",
-    diagonal = FALSE,
-    weighted = FALSE,
+    diagonal = TRUE,
+    weighted = TRUE,
     ignore_blocks = FALSE,
     lock_step = FALSE,
     robust = TRUE

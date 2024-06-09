@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' @autoglobal
-distantia_geonetwork <- function(
+distantia_spatial_network <- function(
     df = NULL,
     xy = NULL
 ){
@@ -135,6 +135,13 @@ distantia_geonetwork <- function(
     geometry = sf::st_sfc(xy_lines_list),
     crs = sf::st_crs(xy)
   )
+
+  ## arrange by psi ----
+  df_sf <- df_sf[order(df_sf$psi), ]
+
+  ## remove id columns
+  df_sf$id_x <- NULL
+  df_sf$id_y <- NULL
 
   df_sf
 

@@ -7,8 +7,8 @@
 distantia_importance(
   tsl = NULL,
   distance = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
+  diagonal = TRUE,
+  weighted = TRUE,
   ignore_blocks = FALSE,
   lock_step = FALSE,
   robust = TRUE
@@ -19,13 +19,13 @@ distantia_importance(
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
-\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
+\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
 
-\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.}
 
 \item{robust}{(required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }

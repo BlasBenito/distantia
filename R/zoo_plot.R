@@ -64,7 +64,9 @@ zoo_plot <- function(
   }
 
   if(vertical == TRUE){
+
     axis_title_distance <- 2.4
+
   }
 
   df <- scale(
@@ -129,7 +131,7 @@ zoo_plot <- function(
   }
 
   if(subpanel == TRUE){
-    ylim[which.max(ylim)] <- ylim[which.max(ylim)] + (ylim[which.max(ylim)]/5)
+    ylim[which.max(ylim)] <- ylim[which.max(ylim)] + (diff(ylim)/5)
   }
 
   #first plot

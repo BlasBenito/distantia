@@ -1,34 +1,46 @@
 data("eemian_pollen")
 data("eemian_coordinates")
 
+df <- eemian_pollen
+xy <- eemian_coordinates
 
-#start eemian data
-eemian <- tsl_init(
-  x = eemian_pollen,
+
+#start cities data
+tsl <- tsl_init(
+  x = df,
   id_column = "site",
   time_column = "depth"
 )
 
-eemian_distantia <- distantia(
-  tsl = eemian
+future::plan(strategy = future::multisession, workers = 4)
+
+progressr::handlers(global = TRUE)
+
+tsl_distantia <- distantia(
+  tsl = tsl,
+  diagonal = TRUE,
+  weighted = TRUE
 )
 
-eemian_network <- distantia_geonetwork(
-  df = eemian_distantia,
-  xy = eemian_coordinates
+tsl_network <- distantia_geonetwork(
+  df = tsl_distantia,
+  xy = xy
 )
 
-eemian_network$similarity <- max(eemian_network$psi) - (eemian_network$psi)
+tsl_network <- tsl_network |>
+  dplyr::arrange(psi) |>
+  dplyr::slice_head(n = 200)
+
 
 #need further testing
 library(tmap)
 tmap_mode("view")
 
-tmap::tm_shape(eemian_coordinates) +
-tmap::tm_bubbles() +
-tmap::tm_shape(eemian_network) +
+tmap::tm_shape(xy) +
+  tmap::tm_bubbles(size = 1) +
+  tmap::tm_shape(tsl_network) +
   tmap::tm_lines(
     col = "psi",
-    lwd = 3,
-    palette = viridis::viridis(n = 10)
-    )
+    lwd = 0.1,
+    palette = viridis::viridis(n = 100, direction = 1)
+  )

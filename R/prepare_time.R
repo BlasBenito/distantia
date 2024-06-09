@@ -35,34 +35,33 @@ prepare_time <- function(
 
   }
 
+  #check that the time column is numeric
+  x.time.numeric <- lapply(
+    X = x,
+    FUN = function(x) is.numeric(x[[time_column]])
+  ) |>
+    unlist()
 
+  #check if it can be coerced to numeric
+  if(all(x.time.numeric) == FALSE){
 
-    #check that the time column is numeric
     x.time.numeric <- lapply(
       X = x,
-      FUN = function(x) is.numeric(x[[time_column]])
+      FUN = function(x) {
+        x[[time_column]] <- as.numeric(x[[time_column]])
+        is.numeric(x[[time_column]])
+      }
     ) |>
       unlist()
+  }
 
-    #check if it can be coerced into numeric
-    if(all(x.time.numeric) == FALSE){
-      x.time.numeric <- lapply(
-        X = x,
-        FUN = function(x) {
-          x[[time_column]] <- as.numeric(x[[time_column]])
-          is.numeric(x[[time_column]])
-        }
-      ) |>
-        unlist()
-    }
+  #names of elements with no time
+  x.time.numeric <- names(x.time.numeric[!x.time.numeric])
 
-    #names of elements with no time
-    x.time.numeric <- names(x.time.numeric[!x.time.numeric])
+  #ERROR if time missing from any element
+  if(length(x.time.numeric) > 0){
 
-    #ERROR if time missing from any element
-    if(length(x.time.numeric) > 0){
-
-      stop("The time column '", time_column, "' is not numeric in these elements of 'x': ", paste(x.time.numeric, collapse = ", "))
+    stop("The time column '", time_column, "' is not numeric in these elements of 'x': ", paste(x.time.numeric, collapse = ", "))
 
     #check that time column is in all elements
     x.no.time <- lapply(
@@ -110,6 +109,45 @@ prepare_time <- function(
         X = x,
         FUN = function(x) x[x[[time_column]] %in% times_common, ]
       )
+
+    }
+
+  }
+
+  #fix duplicated times
+  for(i in seq_len(length((x)))){
+
+    x.i <- x[[i]]
+    x.i.name <- names(x)[i]
+    x.i.time <- x.i[[time_column]]
+    x.i.time.dupes <- duplicated(x.i.time)
+
+    if(any(x.i.time.dupes == TRUE)){
+
+      #interpolate duplicated indices
+      x.i.time.new <- x.i.time
+      x.i.time.new[x.i.time.dupes] <- NA
+      x.i.time.new <- zoo::na.approx(
+        object = x.i.time.new,
+        na.rm = FALSE
+        )
+
+      warning(
+        "Duplicated indices in '",
+        x.i.name,
+        "':\n",
+        paste0(
+          "- value ",
+          x.i.time[x.i.time.dupes],
+          " replaced by ",
+          x.i.time.new[x.i.time.dupes],
+          collapse = "\n"
+        )
+      )
+
+      x.i[[time_column]] <- x.i.time.new
+
+      x[[i]] <- x.i
 
     }
 

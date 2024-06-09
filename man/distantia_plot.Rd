@@ -7,8 +7,8 @@
 distantia_plot(
   tsl = NULL,
   distance = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
+  diagonal = TRUE,
+  weighted = TRUE,
   ignore_blocks = FALSE,
   matrix_type = "cost",
   matrix_color = NULL,
@@ -26,11 +26,11 @@ distantia_plot(
 
 \item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
 
-\item{diagonal}{(optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
+\item{diagonal}{(optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
 
-\item{weighted}{@param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+\item{weighted}{@param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.}
 
 \item{matrix_type}{(optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".}
 

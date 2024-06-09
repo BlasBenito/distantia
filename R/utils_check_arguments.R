@@ -52,6 +52,8 @@ utils_check_distantia_args <- function(
   if(length(diagonal) == 1){
     if(diagonal == FALSE){
       weighted <- FALSE
+    } else {
+      ignore_blocks <- FALSE
     }
   }
 

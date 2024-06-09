@@ -18,10 +18,10 @@
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
-#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
+#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
+#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are listed below from higher to lower induced randomness:
 #' \itemize{
@@ -53,8 +53,11 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization
-#' # future::plan(multisession, workers = 2)
+#' #parallelization (best option for large time series lists)
+#' # future::plan(
+#' #  multisession,
+#' #  workers = 2
+#' #)
 #'
 #' #progress bar
 #' progressr::handlers(global = TRUE)
@@ -62,8 +65,8 @@
 distantia <- function(
     tsl = NULL,
     distance = "euclidean",
-    diagonal = FALSE,
-    weighted = FALSE,
+    diagonal = TRUE,
+    weighted = TRUE,
     ignore_blocks = FALSE,
     lock_step = FALSE,
     repetitions = 0L,
