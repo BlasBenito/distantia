@@ -1,14 +1,50 @@
-#' Spatial Network of Dissimilarities
+#' Distantia to Spatial Data Frame
+#'
+#' @description
+#' Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
-#' @param xy (required, sf POINT data frame) Default: NULL
+#' @param xy (required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL
 #'
-#' @return sf data frame
+#' @return sf data frame with LINESTRING geometry.
 #' @export
 #'
 #' @examples
+#' data("eemian_pollen")
+#' data("eemian_coordinates")
+#'
+#' #initialize tsl
+#' tsl <- distantia::tsl_init(
+#'   x = distantia::eemian_pollen,
+#'   id_column = "site",
+#'   time_column = "depth"
+#' )
+#'
+#' #compute dissimilarity
+#' psi <- distantia::distantia(
+#'   tsl = tsl
+#' )
+#'
+#' #transform to sf
+#' psi_sf <- distantia::distantia_to_sf(
+#'   df = psi,
+#'   xy = distantia::eemian_coordinates
+#' )
+#'
+#' #mapping with tmap
+#' # library(tmap)
+#' # tmap::tmap_mode("view")
+#' #
+#' # tmap::tm_shape(psi_sf) +
+#' #   tmap::tm_lines(
+#' #     col = "psi",
+#' #     lwd = 3
+#' #   ) +
+#' #   tmap::tm_shape(distantia::eemian_coordinates) +
+#' #   tmap::tm_dots(size = 0.1, col = "gray50")
+
 #' @autoglobal
-distantia_spatial_network <- function(
+distantia_to_sf <- function(
     df = NULL,
     xy = NULL
 ){
@@ -21,7 +57,8 @@ distantia_spatial_network <- function(
   df_type <- attributes(df)$type
 
   types <- c(
-    "distantia_df"
+    "distantia_df",
+    "distantia_importance_df"
   )
 
   if(!(df_type %in% types)){
@@ -35,7 +72,7 @@ distantia_spatial_network <- function(
     df = df
   )
 
-  loss_cols <- setdiff(
+  lost_cols <- setdiff(
     x = colnames(df),
     y = colnames(df_aggregated)
   )
@@ -45,10 +82,17 @@ distantia_spatial_network <- function(
     ncol(df_aggregated) < ncol(df)
     ){
     warning(
-      "Argument 'df' was simplified via distantia::distantia_aggregate(), resulting the loss of the following columns: \n\n'",
-      paste(loss_cols, collapse = "'\n'"),
+      "Argument 'df' was simplified via distantia::distantia_aggregate(), resulting in the loss of the following columns: \n\n'",
+      paste(lost_cols, collapse = "'\n'"),
     "'\n\nTo fix this issue, run distantia::distantia() or distantia::distantia_importance() with a single combination of arguments."
     )
+
+    df <- df_aggregated
+
+  }
+
+  if(df_type == "distantia_importance_df"){
+    stop("Here goes the code to process a importance data frame.")
   }
 
   # xy ----
@@ -142,6 +186,14 @@ distantia_spatial_network <- function(
   ## remove id columns
   df_sf$id_x <- NULL
   df_sf$id_y <- NULL
+
+  ## create name column
+  old_colnames <- colnames(df_sf)
+
+  df_sf$edge_name <- paste(df_sf$x, "-", df_sf$y)
+
+  #put name in first column
+  df_sf <- df_sf[, c("edge_name", old_colnames)]
 
   df_sf
 

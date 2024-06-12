@@ -1,46 +1,34 @@
 data("eemian_pollen")
 data("eemian_coordinates")
 
-df <- eemian_pollen
-xy <- eemian_coordinates
-
-
-#start cities data
-tsl <- tsl_init(
-  x = df,
+#initialize tsl
+tsl <- distantia::tsl_init(
+  x = distantia::eemian_pollen,
   id_column = "site",
   time_column = "depth"
 )
 
-future::plan(strategy = future::multisession, workers = 4)
-
-progressr::handlers(global = TRUE)
-
-tsl_distantia <- distantia(
+#compute dissimilarity
+psi_importance <- distantia::distantia_importance(
   tsl = tsl,
-  diagonal = TRUE,
-  weighted = TRUE
+  distance = c("euclidean", "manhattan"),
+  robust = c(TRUE, FALSE)
 )
 
-tsl_network <- distantia_geonetwork(
-  df = tsl_distantia,
-  xy = xy
+#transform to sf
+psi_sf <- distantia::distantia_to_sf(
+  df = psi_importance,
+  xy = distantia::eemian_coordinates
 )
 
-tsl_network <- tsl_network |>
-  dplyr::arrange(psi) |>
-  dplyr::slice_head(n = 200)
-
-
-#need further testing
-library(tmap)
-tmap_mode("view")
-
-tmap::tm_shape(xy) +
-  tmap::tm_bubbles(size = 1) +
-  tmap::tm_shape(tsl_network) +
-  tmap::tm_lines(
-    col = "psi",
-    lwd = 0.1,
-    palette = viridis::viridis(n = 100, direction = 1)
-  )
+#mapping with tmap
+# library(tmap)
+# tmap::tmap_mode("view")
+#
+# tmap::tm_shape(psi_sf) +
+#   tmap::tm_lines(
+#     col = "psi",
+#     lwd = 3
+#   ) +
+#   tmap::tm_shape(distantia::eemian_coordinates) +
+#   tmap::tm_dots(size = 0.1, col = "gray50")

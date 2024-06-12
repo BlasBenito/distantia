@@ -72,20 +72,45 @@ distantia_aggregate <- function(
       ... = ...
     )
 
-    #start aggregated distances at zero
-    df$psi <- df$psi + abs(min(df$psi))
-
   }
 
   if(df_type == "distantia_importance_df"){
 
-    df <- stats::aggregate(
+    if("robust" %in% colnames(df)){
+
+      if(length(unique(df$robust)) == 2){
+
+        warning("Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not recommended. Cases where 'df$robust == FALSE' will be ignored.")
+
+        df <- df[df$robust == TRUE, ]
+
+      }
+
+    }
+
+    df_psi <- stats::aggregate(
       x = df,
-      by = importance ~ x + y + variable,
+      by = psi ~ x + y + variable,
       FUN = f,
       ... = ...
     )
 
+    df_importance <- stats::aggregate(
+      x = df,
+      by = importance ~ x + y + variable,
+      FUN = f#,
+      #... = ...
+    )
+
+    df_psi$importance <- df_importance$importance
+
+    df <- df_psi
+
+  }
+
+  #start aggregated distances at zero
+  if(min(df$psi) < 0){
+    df$psi <- df$psi + abs(min(df$psi))
   }
 
   #add type
