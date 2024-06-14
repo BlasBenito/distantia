@@ -8,12 +8,12 @@ tsl <- distantia::tsl_init(
   time_column = "depth"
 )
 
-#compute dissimilarity
-psi_importance <- distantia::distantia_importance(
-  tsl = tsl,
-  distance = c("euclidean", "manhattan"),
-  robust = c(TRUE, FALSE)
+#compute importance
+df <- distantia::distantia_importance(
+  tsl = tsl
 )
+
+distantia_boxplot(df)
 
 #transform to sf
 psi_sf <- distantia::distantia_to_sf(
@@ -22,13 +22,14 @@ psi_sf <- distantia::distantia_to_sf(
 )
 
 #mapping with tmap
-# library(tmap)
-# tmap::tmap_mode("view")
-#
-# tmap::tm_shape(psi_sf) +
-#   tmap::tm_lines(
-#     col = "psi",
-#     lwd = 3
-#   ) +
-#   tmap::tm_shape(distantia::eemian_coordinates) +
-#   tmap::tm_dots(size = 0.1, col = "gray50")
+library(tmap)
+tmap::tmap_mode("view")
+
+tmap::tm_shape(psi_sf) +
+  tmap::tm_lines(
+    col = "importance__Picea",
+    lwd = 3,
+    palette = utils_color_continuous_default(n = 100)
+  ) +
+  tmap::tm_shape(distantia::eemian_coordinates) +
+  tmap::tm_dots(size = 0.1, col = "gray50")

@@ -9,7 +9,7 @@ distantia_to_sf(df = NULL, xy = NULL)
 \arguments{
 \item{df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
 
-\item{xy}{(required, sf POINT data frame) Default: NULL}
+\item{xy}{(required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL}
 }
 \value{
 sf data frame with LINESTRING geometry.
@@ -18,39 +18,36 @@ sf data frame with LINESTRING geometry.
 Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 }
 \examples{
-
 data("eemian_pollen")
 data("eemian_coordinates")
 
 #initialize tsl
-eemian_tsl <- tsl_init(
-  x = eemian_pollen,
+tsl <- distantia::tsl_init(
+  x = distantia::eemian_pollen,
   id_column = "site",
   time_column = "depth"
 )
 
 #compute dissimilarity
-eemian_distantia <- distantia(
+psi <- distantia::distantia(
   tsl = tsl
 )
 
 #transform to sf
-eemian_sf <- distantia_to_sf(
-  df = tsl_distantia,
-  xy = eemian_coordinates
+psi_sf <- distantia::distantia_to_sf(
+  df = psi,
+  xy = distantia::eemian_coordinates
 )
 
 #mapping with tmap
 # library(tmap)
-# tmap_mode("view")
+# tmap::tmap_mode("view")
 #
-# tmap::tm_shape(eemian_coordinates) +
-#   tmap::tm_bubbles(size = 1) +
-#   tmap::tm_shape(eemian_sf) +
+# tmap::tm_shape(psi_sf) +
 #   tmap::tm_lines(
 #     col = "psi",
-#     lwd = 3,
-#     palette = viridis::viridis(n = 100, direction = 1)
-#   )
-
+#     lwd = 3
+#   ) +
+#   tmap::tm_shape(distantia::eemian_coordinates) +
+#   tmap::tm_dots(size = 0.1, col = "gray50")
 }

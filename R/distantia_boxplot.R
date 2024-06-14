@@ -87,7 +87,7 @@ distantia_boxplot <- function(
       variable <- df$variable
       value <- df$importance
       xlab <- "Importance (Psi %)"
-      ylab <- "Variable"
+      ylab <- ""
       main <- "Variable Contribution to \n Similarity (<0) and Dissimilarity (>0)"
 
   }
@@ -126,6 +126,8 @@ distantia_boxplot <- function(
     levels = variable_order
     )
 
+  par(mar=c(5, 8, 4, 2))
+
   #notch or not
   notch <- tryCatch({
     graphics::boxplot(
@@ -161,7 +163,8 @@ distantia_boxplot <- function(
     abline(
       v = 0,
       col = "gray50",
-      lwd = 2)
+      lwd = 2
+      )
   }
 
   out

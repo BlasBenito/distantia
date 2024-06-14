@@ -7,7 +7,7 @@
 #'
 #' The original data frame is returned without modification if there is a single combination of arguments, or if an invalid `f` is provided.
 #'
-#' @param df (required, data frame) Output of [distantia()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [distantia_importance()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
@@ -23,43 +23,23 @@ distantia_aggregate <- function(
 
   df_type <- attributes(df)$type
 
-  types <- c(
-    "distantia_df",
-    "distantia_importance_df"
+  if(!(
+    df_type %in% c(
+      "distantia_df",
+      "distantia_importance_df"
     )
-
-  if(!(df_type %in% types)){
+  )
+  ){
     stop("Argument 'df' must be the output of distantia() or distantia_importance()")
   }
 
-  if(is.null(f) || !is.function(f)){
-    message("Argument 'f' is NULL, returning 'df' without modification.")
-    return(df)
+  if(!is.function(f)){
+    stop("Argument 'f' must be a function such as mean, median, mean, max, and the likes")
   }
 
   # split ----
   df_list <- utils_distantia_df_split(
     df = df
-  )
-
-  # scale psi by group----
-  if(df_type == "distantia_df"){
-    df_list <- lapply(
-      X = df_list,
-      FUN = function(x){
-        x$psi <- as.numeric(
-          scale(x = x$psi)
-        )
-        x
-      }
-    )
-  }
-
-
-
-  df <- do.call(
-    what = "rbind",
-    args = df_list
   )
 
   # aggregate ----
@@ -80,7 +60,7 @@ distantia_aggregate <- function(
 
       if(length(unique(df$robust)) == 2){
 
-        warning("Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not recommended. Cases where 'df$robust == FALSE' will be ignored.")
+        warning("Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not supported. Cases where 'df$robust == FALSE' will be ignored.")
 
         df <- df[df$robust == TRUE, ]
 
@@ -88,23 +68,42 @@ distantia_aggregate <- function(
 
     }
 
-    df_psi <- stats::aggregate(
+    df_aggregated <- stats::aggregate(
       x = df,
       by = psi ~ x + y + variable,
       FUN = f,
       ... = ...
     )
 
-    df_importance <- stats::aggregate(
+    df_aggregated$importance <- stats::aggregate(
       x = df,
       by = importance ~ x + y + variable,
-      FUN = f#,
-      #... = ...
-    )
+      FUN = f,
+      ... = ...
+    )$importance
 
-    df_psi$importance <- df_importance$importance
+    df_aggregated$psi_drop <- stats::aggregate(
+      x = df,
+      by = psi_drop ~ x + y + variable,
+      FUN = f,
+      ... = ...
+    )$psi_drop
 
-    df <- df_psi
+    df_aggregated$psi_without <- stats::aggregate(
+      x = df,
+      by = psi_without ~ x + y + variable,
+      FUN = f,
+      ... = ...
+    )$psi_without
+
+    df_aggregated$psi_only_with <- stats::aggregate(
+      x = df,
+      by = psi_only_with ~ x + y + variable,
+      FUN = f,
+      ... = ...
+    )$psi_only_with
+
+    df <- df_aggregated
 
   }
 

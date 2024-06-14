@@ -42,7 +42,6 @@
 #' #   ) +
 #' #   tmap::tm_shape(distantia::eemian_coordinates) +
 #' #   tmap::tm_dots(size = 0.1, col = "gray50")
-
 #' @autoglobal
 distantia_to_sf <- function(
     df = NULL,
@@ -92,7 +91,9 @@ distantia_to_sf <- function(
   }
 
   if(df_type == "distantia_importance_df"){
-    stop("Here goes the code to process a importance data frame.")
+    df <- distantia_importance_wide(
+      df = df
+    )
   }
 
   # xy ----
