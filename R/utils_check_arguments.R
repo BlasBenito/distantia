@@ -222,7 +222,7 @@ utils_check_matrix_args <- function(
 
 #' Checks Argument x
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_prepare()]. Default: NULL
+#' @param x (required, list of matrices) list of input matrices generated with [tsl_initialize()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return Argument x.

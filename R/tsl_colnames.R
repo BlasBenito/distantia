@@ -157,7 +157,7 @@ tsl_colnames_clean <- function(
 
   tsl.colnames <- tsl.old.names <- tsl_colnames(
     tsl = tsl,
-    names = "all",
+    names = "all"
   ) |>
     unlist() |>
     unique()

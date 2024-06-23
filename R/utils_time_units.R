@@ -229,6 +229,36 @@ utils_time_units <- function(
       TRUE,
       TRUE
     ),
+    integer = c(
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      FALSE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE,
+      TRUE
+    ),
     #used in zoo_time_units() only
     threshold = c(
       365000,
@@ -271,7 +301,8 @@ utils_time_units <- function(
     if(class %in% c(
       "Date",
       "POSIXct",
-      "numeric"
+      "numeric",
+      "integer"
     )){
 
       df <- df[

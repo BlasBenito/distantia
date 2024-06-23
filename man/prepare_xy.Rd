@@ -24,16 +24,3 @@ Prepares two sequences 'x' and 'y' for dissimilarity analysis. Please make sure 
 \details{
 This function checks and preprocesses the input data 'x' and 'y' for compatibility and consistency in preparation for dissimilarity analysis.
 }
-\examples{
-
-xy <- prepare_xy(
- x = na.omit(sequenceA),
- y = na.omit(sequenceB),
- distance = "euclidean",
- lock_step = FALSE
- )
-
- x <- xy$x
- y <- xy$y
-
-}

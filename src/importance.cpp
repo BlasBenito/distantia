@@ -11,7 +11,6 @@ NumericVector reverse_vector_cpp(NumericVector x) {
   return x;
 }
 
-//' @export
 // [[Rcpp::export]]
 DataFrame update_path_dist_cpp(
     NumericMatrix x,

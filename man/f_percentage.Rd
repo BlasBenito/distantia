@@ -8,6 +8,8 @@ f_percentage(x = NULL, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 Transformed zoo object.

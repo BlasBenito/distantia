@@ -28,6 +28,7 @@ utils_is_time <- function(
 
   #x is valid time class
   if(x_class %in% c(
+    "integer",
     "numeric",
     "Date",
     "POSIXct"

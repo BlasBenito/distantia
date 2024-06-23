@@ -7,13 +7,11 @@
 auto_distance_cpp(m, distance = "euclidean")
 }
 \arguments{
+\item{m}{(required, numeric matrix) multivariate time series.}
+
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
  of the dataset `distances`. Default: "euclidean".}
-
-\item{y}{(required, numeric matrix).}
-
-\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 }
 \value{
 Matrix of distances between 'y' (rows) and 'x' (columns).

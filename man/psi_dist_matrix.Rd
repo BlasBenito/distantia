@@ -19,21 +19,3 @@ A distance matrix.
 \description{
 Distance Matrix
 }
-\examples{
-
-data(
-  sequenceA,
-  sequenceB
-)
-
-distance.matrix <- psi_dist_matrix(
-  y = sequenceA,
-  x = sequenceB,
-  distance = "manhattan"
-)
-
-if(interactive()){
- plotMatrix(distance.matrix = distance.matrix)
-}
-
-}

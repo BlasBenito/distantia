@@ -8,8 +8,7 @@ using namespace Rcpp;
 //' NA values should be removed before using this function.
 //' If the selected distance function is [distance_chi_cpp], pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param y (required, numeric matrix).
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param m (required, numeric matrix) multivariate time series.
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //'  of the dataset `distances`. Default: "euclidean".

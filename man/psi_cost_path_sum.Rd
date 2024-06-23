@@ -17,15 +17,6 @@ Sum of Distances in Least-cost Path
 }
 \examples{
 
-data(sequenceA, sequenceB)
-
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
 
 d <- distance_matrix(x, y, distance = "euclidean")
 

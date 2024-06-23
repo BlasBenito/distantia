@@ -24,16 +24,6 @@ The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (auto
 }
 \examples{
 
-data(sequenceA, sequenceB)
-
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
-
 
 d <- psi_dist_matrix(
   x,

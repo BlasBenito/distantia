@@ -5,6 +5,7 @@
 #'
 #'
 #' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
+#' @param method (optional, character string) clustering method. One of: "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". See [stats::hclust()]. If NULL (default), all methods are used, and the one resulting in a better Silhouette score (see [cluster_silhouette()]) is used. Default: NULL
 #'
 #' @return Data frame with number of clusters and their respective mean silhouette widths.
 #' @export

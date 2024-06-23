@@ -32,7 +32,7 @@ Rescales Numeric Vector to a New Range
 \examples{
 
  out <- rescale_vector(
-   x = rnorm(100),
+   x = stats::rnorm(100),
    new_min = 0,
    new_max = 100,
    integer = TRUE

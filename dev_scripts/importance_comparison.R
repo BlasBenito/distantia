@@ -4,23 +4,23 @@ library(dplyr)
 #OLD METHOD
 #################################
 #getting example data
-data(sequencesMIS)
+data(mis)
 
 #getting three groups only to simplify
-sequencesMIS <- sequencesMIS |>
+mis <- mis |>
   dplyr::filter(
     MIS %in% c("MIS-4", "MIS-5")
   )
 
 #preparing sequences
 sequences <- prepareSequences(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   merge.mode = "complete"
 )
 
 # psi.importance <- workflowImportance(
-#   sequences = sequencesMIS,
+#   sequences = mis,
 #   grouping.column = "MIS",
 #   method = "euclidean",
 #   diagonal = TRUE,

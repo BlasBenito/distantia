@@ -20,18 +20,6 @@ A cost matrix.
 Computes the cost matrix from a distance matrix.
 }
 \examples{
-data(
-  sequenceA,
-  sequenceB
-)
-
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
 
 distance.matrix <- psi_dist_matrix(
   x = x,

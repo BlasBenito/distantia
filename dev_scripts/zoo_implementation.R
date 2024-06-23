@@ -4,14 +4,14 @@ library(dplyr)
 library(distantia)
 library(xts)
 
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
+load("~/Dropbox/GITHUB/R_packages/distantia/data/mis.RData")
 
 #matrix
 #####################################
-data(sequencesMIS)
+data(mis)
 
 x <- prepare_sequences(
-  x = sequencesMIS,
+  x = mis,
   id_column = "MIS"
 )
 

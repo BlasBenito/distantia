@@ -17,14 +17,6 @@ Removes blocks (straight segments of the path that appear in highly dissimilar r
 }
 \examples{
 
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
-
 
 dm <- psi_dist_matrix(
   x = x,
@@ -42,16 +34,8 @@ path <- psi_cost_path(
 
 nrow(path)
 
-if(interactive()){
-  plotMatrix(cm, path)
-}
-
-path <- psi_cost_path_trim_blocks((path = path)
+path <- psi_cost_path_trim_blocks(path = path)
 
 nrow(path)
-
-if(interactive()){
-  plotMatrix(cm, path)
-}
 
 }

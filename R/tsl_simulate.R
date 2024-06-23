@@ -10,8 +10,8 @@
 #' @param data_range (optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)
 #' @param na_fraction (optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.
 #' @param independent (optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when `cols <= 2`. Default: TRUE
-#' @param irregular (optional, logical) If TRUE, the time series is created with an additional 20% rows, and a random 20% of rows is removed. Default: TRUE
-#' @param seed (optional, integer) Random seed used to simulate the zoo object. Default: NULL
+#' @param irregular (optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE
+#' @param seed (optional, integer) Random seed used to simulate the zoo object. If NULL (default), a seed is selected at random. Default: NULL
 #'
 #' @return Simulated time series list
 #' @export

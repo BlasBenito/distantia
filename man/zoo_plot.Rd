@@ -16,7 +16,6 @@ zoo_plot(
   xlab = NULL,
   ylab = NULL,
   text_cex = 1,
-  box = FALSE,
   guide = TRUE,
   guide_position = "topright",
   guide_cex = 0.8,

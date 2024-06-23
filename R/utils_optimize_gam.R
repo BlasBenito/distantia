@@ -88,7 +88,7 @@ utils_optimize_gam <- function(
     .errorhandling = "pass"
   ) %iterator% {
 
-    gam.formula <- as.formula(
+    gam.formula <- stats::as.formula(
       object = paste0(
         "y ~ s(x, k = ",
         k,
@@ -134,7 +134,7 @@ utils_optimize_gam <- function(
   k_best <- k_candidates[which.min(rmse)]
 
   #new model
-  gam.formula <- as.formula(
+  gam.formula <- stats::as.formula(
     object = paste0(
       "y ~ s(x, k = ",
       k_best,

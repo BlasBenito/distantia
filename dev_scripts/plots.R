@@ -1,6 +1,6 @@
 library(distantia)
 
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
+load("~/Dropbox/GITHUB/R_packages/distantia/data/mis.RData")
 
 a <- sequenceA
 b <- sequenceB
@@ -45,7 +45,7 @@ plot_sequences(
 )
 
 
-plot_distantia(
+distantia_plot(
   x = y[[1]],
   y = y[[2]],
   line_scale = TRUE,
@@ -73,7 +73,7 @@ plot_sequences(
 )
 
 x11()
-par(
+graphics::par(
   mfrow = c(floor(length(y)/2), 2),
   mar = c(2, 2, 2, 2)
   )

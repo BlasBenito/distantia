@@ -61,14 +61,14 @@ Unlike [distantia()], this function does not accept vectors as inputs for the ar
 The argument `lock_step` is not available because this multipanel plot does not make sense in such a case.
 }
 \examples{
-data(sequencesMIS)
+data(mis)
 
-tsl <- tsl_prepare(
-  x = sequencesMIS,
+tsl <- tsl_initialize(
+  x = mis,
   id_column = "MIS"
 )
 
-plot_distantia(
+distantia_plot(
   tsl = tsl[c("MIS-9", "MIS-11")],
 )
 }

@@ -17,9 +17,9 @@
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #' @return A named list of matrices.
 #' @examples
-#' data(sequencesMIS)
-#' x <- tsl_prepare(
-#'   x = sequencesMIS,
+#' data(mis)
+#' x <- tsl_initialize(
+#'   x = mis,
 #'   id_column = "MIS"
 #' )
 #' @autoglobal

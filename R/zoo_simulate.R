@@ -10,7 +10,7 @@
 #' @param data_range (optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)
 #' @param na_fraction (optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.
 #' @param independent (optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when `cols <= 2`. Default: TRUE
-#' @param irregular (optional, logical) If TRUE, the time series is created with an additional 20% rows, and a random 20% of rows is removed. Default: TRUE
+#' @param irregular (optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE
 #' @param seed (optional, integer) Random seed used to simulate the zoo object. Default: NULL
 #'
 #' @return simulated zoo object.
@@ -106,7 +106,9 @@ zoo_simulate <- function(
 
 
   # seed ----
-  if(!is.null(seed)){
+  if(is.null(seed)){
+    seed <- sample.int(2^31 - 1, 1) - 2^30
+  } else {
     set.seed(as.integer(seed[1]))
   }
 
@@ -129,7 +131,7 @@ zoo_simulate <- function(
       MARGIN = 2,
       FUN = function(x){
         rescale_vector(
-          x = cumsum(rnorm(n = rows)),
+          x = cumsum(stats::rnorm(n = rows)),
           new_min = min(data_range),
           new_max = max(data_range)
         )
@@ -140,9 +142,9 @@ zoo_simulate <- function(
 
     for(i in seq_len(ncol(m))){
       if(i == 1){
-        column.i <- cumsum(rnorm(n = rows))
+        column.i <- cumsum(stats::rnorm(n = rows))
       } else {
-        column.i <- cumsum(rnorm(n = rows)) + m[, i - 1]
+        column.i <- cumsum(stats::rnorm(n = rows)) + m[, i - 1]
       }
       m[, i] <- rescale_vector(
         x = column.i,

@@ -6,9 +6,9 @@
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.
 #' @return A named list of data frames, matrices, or vectors.
 #' @examples
-#' data(sequencesMIS)
-#' x <- tsl_prepare(
-#'   x = sequencesMIS,
+#' data(mis)
+#' x <- tsl_initialize(
+#'   x = mis,
 #'   id_column = "MIS"
 #' )
 #' @autoglobal
@@ -48,6 +48,11 @@ prepare_zoo_list <- function(
 
       #get index
       i.index <- attributes(i)$index
+
+      #to numeric if integer
+      if(is.integer(i.index)){
+        i.index <- as.numeric(i.index)
+      }
 
       #get numeric columns only
       i <- i[, sapply(i, is.numeric), drop = FALSE]

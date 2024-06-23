@@ -37,7 +37,7 @@
 #' @docType data
 #' @keywords datasets
 #' @name mis
-#' @usage data(sequencesMIS)
+#' @usage data(mis)
 #' @format dataframe with 7 columns and 427 rows.
 "mis"
 

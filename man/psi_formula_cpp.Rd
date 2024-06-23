@@ -10,11 +10,11 @@ psi_formula_cpp(path, auto_sum, diagonal = FALSE)
 \item{path}{(required, data frame) dataframe produced by [cost_path()].
 Default: NULL}
 
+\item{auto_sum}{(required, numeric) auto sum of both sequences,
+result of [psi_auto_sum_cpp()].}
+
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the
 computation of the cost matrix. Default: FALSE.}
-
-\item{autosum}{(required, numeric) auto sum of both sequences,
-result of psi_auto_sum_cpp().}
 }
 \value{
 Numeric, psi dissimilarity

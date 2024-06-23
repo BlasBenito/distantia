@@ -8,7 +8,7 @@
 dataframe with 7 columns and 427 rows.
 }
 \usage{
-data(sequencesMIS)
+data(mis)
 }
 \description{
 A dataframe with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types

@@ -10,6 +10,8 @@ f_detrend_difference(x = NULL, lag = 1, ...)
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{lag}{(optional, integer)}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 Transformed zoo object.

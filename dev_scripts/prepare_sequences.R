@@ -1,11 +1,11 @@
 library(dplyr)
 library(distantia)
 
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
+load("~/Dropbox/GITHUB/R_packages/distantia/data/mis.RData")
 
 #matrix
 #####################################
-x <- sequencesMIS |>
+x <- mis |>
   as.matrix()
 
 id_column <- NULL
@@ -30,7 +30,7 @@ x[[1]]
 
 #data frame without grouping column
 ####################################
-x <- sequencesMIS |>
+x <- mis |>
   dplyr::select(-MIS)
 
 id_column <- NULL
@@ -55,7 +55,7 @@ x[[1]]
 
 #data frame with grouping column
 ###################################
-x <- sequencesMIS
+x <- mis
 
 id_column <- "MIS"
 time_column <- NULL
@@ -79,7 +79,7 @@ x[[1]]
 
 #data frame with time column
 ###################################
-x <- sequencesMIS |>
+x <- mis |>
   dplyr::group_by(MIS) |>
   dplyr::mutate(
     time = 1:dplyr::n()
@@ -108,7 +108,7 @@ x[[1]]
 
 #data frame with time column without group column
 ###################################
-x <- sequencesMIS |>
+x <- mis |>
   dplyr::group_by(MIS) |>
   dplyr::mutate(
     time = 1:dplyr::n()
@@ -140,8 +140,8 @@ x[[1]]
 #list of vectors
 ###################################
 x <- split(
-  x = sequencesMIS,
-  f = sequencesMIS$MIS
+  x = mis,
+  f = mis$MIS
 ) |>
   lapply(
     FUN = function(x){
@@ -172,8 +172,8 @@ x[[1]]
 #list of matrices with named and same columns
 #############################################
 x <- split(
-  x = sequencesMIS,
-  f = sequencesMIS$MIS
+  x = mis,
+  f = mis$MIS
 ) |>
   lapply(
     FUN = function(x){
@@ -205,8 +205,8 @@ x[[1]]
 #list of matrices with named but different columns
 #############################################
 x <- split(
-  x = sequencesMIS,
-  f = sequencesMIS$MIS
+  x = mis,
+  f = mis$MIS
 ) |>
   lapply(
     FUN = function(x){
@@ -245,8 +245,8 @@ x[[1]]
 #unnamed list of data frames without time_column
 #########################################
 x <- split(
-  x = sequencesMIS,
-  f = sequencesMIS$MIS
+  x = mis,
+  f = mis$MIS
 ) |>
   lapply(
     FUN = function(x){
@@ -279,8 +279,8 @@ x[[1]]
 #named list of data frames without time_column
 ########################################
 x <- split(
-  x = sequencesMIS,
-  f = sequencesMIS$MIS
+  x = mis,
+  f = mis$MIS
 ) |>
   lapply(
     FUN = function(x){
@@ -312,7 +312,7 @@ x[[1]]
 
 #named list of data frames with time_column
 ########################################
-x <- sequencesMIS |>
+x <- mis |>
   dplyr::group_by(MIS) |>
   dplyr::mutate(
     time = 1:dplyr::n()

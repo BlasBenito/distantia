@@ -31,9 +31,9 @@ tsl_simulate(
 
 \item{independent}{(optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when `cols <= 2`. Default: TRUE}
 
-\item{irregular}{(optional, logical) If TRUE, the time series is created with an additional 20% rows, and a random 20% of rows is removed. Default: TRUE}
+\item{irregular}{(optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE}
 
-\item{seed}{(optional, integer) Random seed used to simulate the zoo object. Default: NULL}
+\item{seed}{(optional, integer) Random seed used to simulate the zoo object. If NULL (default), a seed is selected at random. Default: NULL}
 }
 \value{
 Simulated time series list

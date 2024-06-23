@@ -2,7 +2,8 @@
 #'
 #' @param x (required, zoo object) Time series to aggregate. Default: NULL
 #' @param breaks (required, vector) Vector to define time breaks for aggregation. Must be in the same time units as `zoo::index(x)`.
-#' @param stat (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.
+#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `f`.
 #'
 #' @return zoo object
 #' @export

@@ -13,7 +13,7 @@ distantia_boxplot(df = NULL, color = NULL, f = mean, ...)
 
 \item{f}{(optional, function) function used to order the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `mean`.}
 
-\item{...}{(optional) additional arguments to `f`. For example, if `f` is `quantile`, `probs = 0.75` can be used. Default: ...}
+\item{...}{(optional, additional arguments to `f`). If `f` is `quantile`, `probs = 0.75` can be used. Default: ...}
 }
 \value{
 Boxplot and list with stats used to draw it
@@ -53,6 +53,6 @@ df_importance <- distantia_importance(
 
 distantia_boxplot(
   df = df_importance,
-  fun = median
+  f = median
   )
 }

@@ -173,7 +173,7 @@ utils_time_keywords_dictionary <- function(){
     minutes = minutes,
     seconds = seconds
   ) |>
-    stack()
+    utils::stack()
 
   dictionary$ind <- as.character(dictionary$ind)
 

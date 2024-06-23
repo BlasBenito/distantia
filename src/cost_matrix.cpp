@@ -4,7 +4,7 @@ using namespace Rcpp;
 //' Least Cost Matrix Considering Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs.
-//' @param d (required, distance matrix). Distance matrix.
+//' @param dist_matrix (required, distance matrix). Square distance matrix, output of [distance_matrix_cpp()].
 //' @return Least cost matrix.
 //' @export
 // [[Rcpp::export]]

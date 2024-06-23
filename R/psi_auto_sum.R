@@ -8,15 +8,6 @@
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return Named vector with the auto sums of `y` and `x`.
 #' @examples
-#' data(sequenceA, sequenceB)
-#'
-#' y <- sequenceA |>
-#'   na.omit() |>
-#'   as.matrix()
-#'
-#' x <- sequenceB |>
-#'   na.omit() |>
-#'   as.matrix()
 #'
 #' xy_sum <- psi_auto_sum(
 #'   y = y,

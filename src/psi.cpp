@@ -132,8 +132,8 @@ double psi_auto_sum_cpp(
 //' their least cost path and their auto sums.
 //' @param path (required, data frame) dataframe produced by [cost_path()].
 //' Default: NULL
-//' @param autosum (required, numeric) auto sum of both sequences,
-//' result of psi_auto_sum_cpp().
+//' @param auto_sum (required, numeric) auto sum of both sequences,
+//' result of [psi_auto_sum_cpp()].
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @return Numeric, psi dissimilarity
@@ -272,7 +272,9 @@ NumericVector null_psi_lock_step_cpp(
   psi_null[0] = ((cost_path_sum  - xy_sum) / xy_sum) + 1;
 
   // Use the integer seed value
-  std::srand(seed);
+  Environment base_env("package:base");
+  Function set_seed = base_env["set.seed"];
+  set_seed(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {
@@ -454,8 +456,10 @@ NumericVector null_psi_cpp(
     diagonal
   );
 
-  // Use the seed value
-  std::srand(seed);
+  // Use the integer seed value
+  Environment base_env("package:base");
+  Function set_seed = base_env["set.seed"];
+  set_seed(seed);
 
   // Iterate over repetitions
   for (int i = 1; i < repetitions; ++i) {

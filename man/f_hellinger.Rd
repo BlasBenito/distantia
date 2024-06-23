@@ -4,12 +4,14 @@
 \alias{f_hellinger}
 \title{Hellinger Transformation}
 \usage{
-f_hellinger(x = NULL, pseudozero = 1e-04, ...)
+f_hellinger(x = NULL, pseudozero = 0.0001, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{pseudozero}{(required, numeric) Small number above zero to replace zeroes with.}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 Transformed zoo object.

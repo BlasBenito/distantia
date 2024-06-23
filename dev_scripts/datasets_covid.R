@@ -31,7 +31,7 @@ y <- prepare_sequences(
   time_column = "date"
 )
 
-plot_distantia(
+distantia_plot(
   x = y[[1]],
   y = y[[2]]
 )

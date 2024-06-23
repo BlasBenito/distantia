@@ -7,18 +7,6 @@
 #' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.
 #' @return A cost matrix.
 #' @examples
-#' data(
-#'   sequenceA,
-#'   sequenceB
-#' )
-#'
-#' x <- sequenceB |>
-#'   na.omit() |>
-#'   as.matrix()
-#'
-#' y <- sequenceA |>
-#'   na.omit() |>
-#'   as.matrix()
 #'
 #' distance.matrix <- psi_dist_matrix(
 #'   x = x,

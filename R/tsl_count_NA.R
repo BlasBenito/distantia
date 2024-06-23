@@ -38,7 +38,7 @@ tsl_count_NA <- function(
     if(verbose == TRUE){
       warning(
         "There are NA, NaN, or Inf cases in 'x': \n",
-        paste(capture.output(print(na_per_ts)), collapse = "\n"),
+        paste(utils::capture.output(print(na_per_ts)), collapse = "\n"),
         "\nPlease impute, replace, or remove them with tsl_handle_NA().",
         call. = FALSE
       )

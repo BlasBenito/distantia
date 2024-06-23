@@ -33,7 +33,6 @@ zoo_plot <- function(
     xlab = NULL,
     ylab = NULL,
     text_cex = 1,
-    box = FALSE,
     guide = TRUE,
     guide_position = "topright",
     guide_cex = 0.8,
@@ -191,7 +190,7 @@ zoo_plot <- function(
     )
   }
 
-  if("numeric" %in% class(plot.x)){
+  if(any(c("numeric", "integer") %in% class(plot.x))){
     graphics::axis(
       side = x.axis.side,
       las = 1,

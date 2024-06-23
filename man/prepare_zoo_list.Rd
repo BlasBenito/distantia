@@ -20,9 +20,9 @@ A named list of data frames, matrices, or vectors.
 Prepare List of Data Frames for Dissimilarity Analysis
 }
 \examples{
-data(sequencesMIS)
-x <- tsl_prepare(
-  x = sequencesMIS,
+data(mis)
+x <- tsl_initialize(
+  x = mis,
   id_column = "MIS"
 )
 }

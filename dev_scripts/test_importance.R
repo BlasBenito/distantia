@@ -1,9 +1,9 @@
 library(distantia)
 
-data(sequencesMIS)
+data(mis)
 
 x <- prepare_sequences(
-  x = sequencesMIS,
+  x = mis,
   id_column = "MIS"
 )
 

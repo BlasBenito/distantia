@@ -5,21 +5,6 @@
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @examples
 #'
-#' data(
-#'   sequenceA,
-#'   sequenceB
-#' )
-#'
-#' distance.matrix <- psi_dist_matrix(
-#'   y = sequenceA,
-#'   x = sequenceB,
-#'   distance = "manhattan"
-#' )
-#'
-#' if(interactive()){
-#'  plotMatrix(distance.matrix = distance.matrix)
-#' }
-#'
 #' @return A distance matrix.
 #' @export
 #' @autoglobal
@@ -42,8 +27,8 @@ psi_dist_matrix <- function(
 
   #adding names
   dimnames(m) <- list(
-    attributes(x)$index,
-    attributes(y)$index
+    attributes(y)$index,
+    attributes(x)$index
   )
 
   #adding attributes

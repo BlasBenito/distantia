@@ -26,6 +26,8 @@ plot_matrix(
 
 \item{title}{(optional, character string) plot title. By default, names of the sequences used to compute the matrix `m`. Default: NULL}
 
+\item{subtitle}{(optional, character string) plot subtitle. Default: NULL}
+
 \item{xlab}{(optional, character string) title of the x axis (matrix columns). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL}
 
 \item{ylab}{(optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL}
@@ -40,7 +42,7 @@ plot_matrix(
 
 \item{guide}{(optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].}
+\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].}
 }
 \value{
 A plot
@@ -50,22 +52,14 @@ This function is a simplified version of [fields::imagePlot()], by [Douglas Nych
 }
 \examples{
 
-library(distantia)
-
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
-
 #data frame with grouping column
 ###################################
-data(sequencesMIS)
+data(mis)
 
 #prepare list of sequences
-x <- tsl_prepare(
-  x = sequencesMIS,
-  id_column = "MIS",
-  time_column = NULL,
-  lock_step = FALSE,
-  pseudo_zero =  0.001,
-  na_action = "to_zero"
+x <- tsl_initialize(
+  x = mis,
+  id_column = "MIS"
 )
 
 #distance matrix of the first two sequences

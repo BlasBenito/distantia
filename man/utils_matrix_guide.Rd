@@ -30,11 +30,11 @@ Plot
 Plots a color legend for a distance or cost matrix for multi-panel plots or external image editors.
 }
 \examples{
-data(sequencesMIS)
+data(mis)
 
 #prepare list of sequences
-x <- tsl_prepare(
-  x = sequencesMIS,
+x <- tsl_initialize(
+  x = mis,
   id_column = "MIS"
 )
 

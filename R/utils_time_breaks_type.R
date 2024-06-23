@@ -65,7 +65,7 @@ utils_time_breaks_type <- function(
     ### keyword for numerics ----
     if(breaks %in% time_summary$keywords){
 
-      if(time_summary$class == "numeric"){
+      if(time_summary$class %in% c("numeric", "integer")){
 
         breaks <- as.numeric(breaks)
 
@@ -123,7 +123,7 @@ utils_time_breaks_type <- function(
   ## numeric_vector ----
   if(
     is.numeric(breaks) &&
-    time_summary$class == "numeric"
+    time_summary$class %in% c("numeric", "integer")
     ){
 
     attr(

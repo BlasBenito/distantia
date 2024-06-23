@@ -7,8 +7,7 @@
 #' NA values should be removed before using this function.
 #' If the selected distance function is [distance_chi_cpp], pairs of zeros should
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-#' @param y (required, numeric matrix).
-#' @param x (required, numeric matrix) of same number of columns as 'y'.
+#' @param m (required, numeric matrix) multivariate time series.
 #' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
 #'  of the dataset `distances`. Default: "euclidean".
@@ -62,7 +61,7 @@ auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
 #' Least Cost Matrix Considering Diagonals
 #' @description Computes the least cost matrix from a distance matrix.
 #' Considers diagonals during computation of least-costs.
-#' @param d (required, distance matrix). Distance matrix.
+#' @param dist_matrix (required, distance matrix). Square distance matrix, output of [distance_matrix_cpp()].
 #' @return Least cost matrix.
 #' @export
 cost_matrix_diag_cpp <- function(dist_matrix) {
@@ -298,7 +297,6 @@ reverse_vector_cpp <- function(x) {
     .Call(`_distantia_reverse_vector_cpp`, x)
 }
 
-#' @export
 update_path_dist_cpp <- function(x, y, path, distance = "euclidean") {
     .Call(`_distantia_update_path_dist_cpp`, x, y, path, distance)
 }
@@ -484,8 +482,8 @@ psi_auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks =
 #' their least cost path and their auto sums.
 #' @param path (required, data frame) dataframe produced by [cost_path()].
 #' Default: NULL
-#' @param autosum (required, numeric) auto sum of both sequences,
-#' result of psi_auto_sum_cpp().
+#' @param auto_sum (required, numeric) auto sum of both sequences,
+#' result of [psi_auto_sum_cpp()].
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @return Numeric, psi dissimilarity

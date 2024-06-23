@@ -16,7 +16,7 @@ utils_line_guide(
 )
 }
 \arguments{
-\item{x}{(required, sequence) a single sequence or set of sequences generated via [tsl_prepare()]. Default: NULL}
+\item{x}{(required, sequence) a single sequence or set of sequences generated via [tsl_initialize()]. Default: NULL}
 
 \item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
@@ -24,11 +24,13 @@ utils_line_guide(
 
 \item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
 
+\item{length}{(optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1}
+
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 0.7}
 
 \item{ncol}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [plot_distantia()].}
+\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].}
 }
 \value{
 A plot.
@@ -37,10 +39,10 @@ A plot.
 Legend for Sequence Plots
 }
 \examples{
-data(sequencesMIS)
+data(mis)
 
-x <- tsl_prepare(
-  x = sequencesMIS,
+x <- tsl_initialize(
+  x = mis,
   id_column = "MIS"
 )
 

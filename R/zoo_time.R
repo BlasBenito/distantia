@@ -93,9 +93,10 @@ zoo_time <- function(
 
   #resolution
   x_time_diff <- diff(x_time)
-  if(x_class != "numeric"){
+  if(!(x_class %in% c("numeric", "integer"))){
     units(x_time_diff) <- x_length_units
   }
+
   x_resolution <- as.numeric(mean(x_time_diff))
 
   #output data frame

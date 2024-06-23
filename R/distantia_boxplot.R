@@ -8,7 +8,7 @@
 #' @param df (required, data frame) output of [distantia()] or [distantia_importance()]. Default: NULL
 #' @param color (optional, character vector) boxplot fill color. Default: NULL
 #' @param f (optional, function) function used to order the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `mean`.
-#' @param ... (optional) additional arguments to `f`. For example, if `f` is `quantile`, `probs = 0.75` can be used. Default: ...
+#' @param ... (optional, additional arguments to `f`). If `f` is `quantile`, `probs = 0.75` can be used. Default: ...
 #'
 #' @return Boxplot and list with stats used to draw it
 #' @export
@@ -43,7 +43,7 @@
 #'
 #' distantia_boxplot(
 #'   df = df_importance,
-#'   fun = median
+#'   f = median
 #'   )
 distantia_boxplot <- function(
     df = NULL,
@@ -52,8 +52,8 @@ distantia_boxplot <- function(
     ...
 ){
 
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
+  old_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old_par))
 
   df_type <- attributes(df)$type
 
@@ -126,7 +126,7 @@ distantia_boxplot <- function(
     levels = variable_order
     )
 
-  par(mar=c(5, 8, 4, 2))
+  graphics::par(mar=c(5, 8, 4, 2))
 
   #notch or not
   notch <- tryCatch({
@@ -146,7 +146,7 @@ distantia_boxplot <- function(
     notch <- TRUE
   }
 
-  par(las = 1)
+  graphics::par(las = 1)
 
   out <- graphics::boxplot(
     formula = value ~ variable,
@@ -160,7 +160,7 @@ distantia_boxplot <- function(
   )
 
   if(df_type == "distantia_importance_df"){
-    abline(
+    graphics::abline(
       v = 0,
       col = "gray50",
       lwd = 2

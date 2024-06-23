@@ -13,16 +13,6 @@
 #'
 #' @examples
 #'
-#' xy <- prepare_xy(
-#'  x = na.omit(sequenceA),
-#'  y = na.omit(sequenceB),
-#'  distance = "euclidean",
-#'  lock_step = FALSE
-#'  )
-#'
-#'  x <- xy$x
-#'  y <- xy$y
-#'
 #' @autoglobal
 #' @export
 prepare_xy <- function(

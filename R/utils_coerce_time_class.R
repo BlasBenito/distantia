@@ -35,7 +35,7 @@ utils_coerce_time_class <- function(
     to = "Date"
 ){
 
-  classes <- c("POSIXct", "Date", "numeric")
+  classes <- c("POSIXct", "Date", "numeric", "integer")
 
   if(!(to %in% classes)){
     stop(
@@ -89,6 +89,11 @@ utils_coerce_time_class <- function(
 
     x <- as.numeric(x)
 
+  }
+
+  if(to == "integer"){
+
+    x <- as.integer(x)
   }
 
   x

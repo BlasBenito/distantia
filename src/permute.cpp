@@ -33,7 +33,9 @@ NumericMatrix permute_restricted_by_row_cpp(
   }
 
   // Use the integer seed value
-  std::srand(seed);
+  Environment base_env("package:base");
+  Function set_seed = base_env["set.seed"];
+  set_seed(seed);
 
   // Iterate over the matrix in blocks and shuffle rows within each block
   for (int i = 0; i < num_rows; i += block_size) {
@@ -41,7 +43,7 @@ NumericMatrix permute_restricted_by_row_cpp(
     for (int j = i; j < end - 1; ++j) {
 
       // Generate a random index within the current block
-      int rand_index = std::rand() % (end - j) + j;
+      int rand_index = j + floor(R::runif(0, end - j));
 
       // Swap rows to perform the shuffle within the block
       for (int k = 0; k < num_cols; ++k) {
@@ -115,7 +117,9 @@ NumericMatrix permute_restricted_cpp(
   }
 
   // Use the integer seed value
-  std::srand(seed);
+  Environment base_env("package:base");
+  Function set_seed = base_env["set.seed"];
+  set_seed(seed);
 
   // Iterate over the matrix in blocks and shuffle rows within each block
   for (int i = 0; i < num_rows; i += block_size) {
@@ -124,7 +128,7 @@ NumericMatrix permute_restricted_cpp(
 
       // Swap rows to perform the shuffle within the block
       for (int k = 0; k < num_cols; ++k) {
-        int rand_index = std::rand() % (end - j) + j;
+        int rand_index = j + floor(R::runif(0, end - j));
         double temp = x_(j, k);
         x_(j, k) = x_(rand_index, k);
         x_(rand_index, k) = temp;

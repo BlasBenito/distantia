@@ -6,7 +6,6 @@
 #'
 #' @param x (required, vector) Vectors of the classes 'numeric', 'Date', and 'POSIXct' are valid and returned without any transformation. Character vectors are analyzed to determine their more probable type, and are coerced to 'Date' or 'POSIXct' depending on their number of elements. Generally, any character vector representing an ISO 8601 standard, like "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS" will be converted to a valid class. If a character vector cannot be coerced to date, it is returned as is. Default: NULL
 #' @param to_class (optional, class) Options are: NULL, "numeric", "Date", and "POSIXct". If NULL, 'x' is returned as the most appropriate time class. Otherwise, 'x' is coerced to the given class. Default: NULL
-#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: TRUE
 #'
 #' @return Input vector if its class is 'numeric', 'Date', or 'POSIXct', or input vector coerced to one of these classes otherwise.
 #'

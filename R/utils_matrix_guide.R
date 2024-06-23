@@ -10,11 +10,11 @@
 #' @param text_cex (optional, numeric) multiplier for the text size. Default: 1
 #' @return Plot
 #' @examples
-#' data(sequencesMIS)
+#' data(mis)
 #'
 #' #prepare list of sequences
-#' x <- tsl_prepare(
-#'   x = sequencesMIS,
+#' x <- tsl_initialize(
+#'   x = mis,
 #'   id_column = "MIS"
 #' )
 #'

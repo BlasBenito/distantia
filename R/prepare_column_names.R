@@ -39,8 +39,8 @@ prepare_column_names <- function(
         }
       }
     ) |>
-      stack() |>
-      na.omit()
+      utils::stack() |>
+      stats::na.omit()
 
     names(x.colnames.exclusive) <- c("Column", "Element")
 

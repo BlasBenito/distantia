@@ -24,7 +24,7 @@ f_list <- function(){
 #' @examples
 #'
 #'  out <- rescale_vector(
-#'    x = rnorm(100),
+#'    x = stats::rnorm(100),
 #'    new_min = 0,
 #'    new_max = 100,
 #'    integer = TRUE
@@ -108,6 +108,7 @@ f_rescale <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
 #' @param scale (optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -143,7 +144,7 @@ f_pca <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param select (optional, logical) Argument of [mgcv::gam()]. If TRUE then gam can add an extra penalty to each term so that it can be penalized to zero.
 #' @param k (optional, integer) Argument of [mgcv::s()]. he dimension of the basis used to represent the smooth term. The default depends on the number of variables that the smooth is a function of. See [mgcv::choose.k()] for further information.
-#'
+#' @param ... (optional, additional arguments) Ignored in this function.
 #' @return Transformed zoo object.
 #' @export
 #' @autoglobal
@@ -153,10 +154,6 @@ f_detrend_gam <- function(
     k = -1,
     ...
 ) {
-
-  if(!requireNamespace(package = "ranger", quietly = TRUE)){
-    stop("Please install the package 'mgcv' before running f_detrend_gam().")
-  }
 
   x.index <- zoo::index(x)
 
@@ -191,6 +188,7 @@ f_detrend_gam <- function(
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -217,6 +215,7 @@ f_detrend_linear <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param lag (optional, integer)
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -260,7 +259,8 @@ f_detrend_difference <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param w (required, window width) width of the window to compute the rolling statistics of the time series.
-#' @param fun (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
+#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `f` used as argument `...` in [zoo::rollapply()].
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -268,14 +268,14 @@ f_detrend_difference <- function(
 f_smooth <- function(
     x = NULL,
     w = 3,
-    fun = mean,
+    f = mean,
     ...
 ){
 
-  if(is.function(fun) == FALSE){
+  if(is.function(f) == FALSE){
 
     stop(
-      "Argument 'fun' must be a function name."
+      "Argument 'f' must be a function name."
     )
 
   }
@@ -288,7 +288,7 @@ f_smooth <- function(
       "extend",
       "extend"
     ),
-    FUN = fun,
+    FUN = f,
     ... = ...
   )
 
@@ -300,6 +300,7 @@ f_smooth <- function(
 #' Transformation to Proportions
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -322,6 +323,7 @@ f_proportion <- function(
 #' Transformation to Percentage
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export
@@ -337,7 +339,7 @@ f_percentage <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param pseudozero (required, numeric) Small number above zero to replace zeroes with.
-#'
+#' @param ... (optional, additional arguments) Ignored in this function.
 #' @return Transformed zoo object.
 #' @export
 #' @autoglobal
@@ -379,14 +381,13 @@ f_hellinger <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
-#'
+#' @param ... (optional, additional arguments) Ignored in this function.
 #' @return Transformed zoo object.
 #' @export
 #' @autoglobal
 f_center <- function(
     x = NULL,
     center = TRUE,
-    scale = FALSE,
     ...
 ){
 
@@ -406,6 +407,7 @@ f_center <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
 #' @param scale (optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.
+#' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
 #' @export

@@ -22,15 +22,6 @@ Named vector with the auto sums of `y` and `x`.
 Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 }
 \examples{
-data(sequenceA, sequenceB)
-
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
-
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
 
 xy_sum <- psi_auto_sum(
   y = y,

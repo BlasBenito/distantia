@@ -24,14 +24,14 @@
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
 #'
 #' @examples
-#' data(sequencesMIS)
+#' data(mis)
 #'
-#' tsl <- tsl_prepare(
-#'   x = sequencesMIS,
+#' tsl <- tsl_initialize(
+#'   x = mis,
 #'   id_column = "MIS"
 #' )
 #'
-#' plot_distantia(
+#' distantia_plot(
 #'   tsl = tsl[c("MIS-9", "MIS-11")],
 #' )
 #' @return A plot.
@@ -72,8 +72,8 @@ distantia_plot <- function(
   )
 
   # Preserve user's config
-  old.par <- par(no.readonly = TRUE)
-  on.exit(par(old.par))
+  old.par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old.par))
 
   # Check arguments ----
 
@@ -151,7 +151,7 @@ distantia_plot <- function(
   ) |>
     round(2)
 
-  plt_all <- par()$plt
+  plt_all <- graphics::par()$plt
 
   # Plotting areas ----
   plt_y <- c(0.2, 0.35, 0.25, 0.8)
@@ -161,11 +161,11 @@ distantia_plot <- function(
   plt_line_guide <- c(0.70, 0.95, 0.05, 0.25)
 
   # Plot matrix ----
-  par(
+  graphics::par(
     oma = c(1, 0, 0, 1)
   )
 
-  par(
+  graphics::par(
     plt = plt_m
     )
 
@@ -195,7 +195,7 @@ distantia_plot <- function(
   )
 
   # Plot sequence y ----
-  par(
+  graphics::par(
     plt = plt_y,
     new = TRUE,
     mgp = c(0, 0.5, 0),
@@ -233,7 +233,7 @@ distantia_plot <- function(
   )
 
   # Plot sequence x ----
-  par(
+  graphics::par(
     plt = plt_x,
     new = TRUE,
     mgp = c(3, 0.75, 0),
@@ -271,7 +271,7 @@ distantia_plot <- function(
   )
 
   # Plot matrix guide ----
-  par(
+  graphics::par(
     plt = plt_matrix_guide,
     new = TRUE,
     mgp = c(3, 0.5, 0)
@@ -284,7 +284,7 @@ distantia_plot <- function(
   )
 
   # Plot line guide ----
-  par(
+  graphics::par(
     plt = plt_line_guide,
     new = TRUE
   )
@@ -299,7 +299,7 @@ distantia_plot <- function(
   )
 
   #reset to main plotting area
-  # par(plt = plt_all)
+  # graphics::par(plt = plt_all)
 
   invisible()
 

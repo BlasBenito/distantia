@@ -4,12 +4,14 @@
 \alias{f_center}
 \title{Global Centering}
 \usage{
-f_center(x = NULL, center = TRUE, scale = FALSE, ...)
+f_center(x = NULL, center = TRUE, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{center}{(optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 Transformed zoo object.

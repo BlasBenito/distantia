@@ -1,12 +1,12 @@
 library(distantia)
 library(tictoc)
 
-load("~/Dropbox/GITHUB/R_packages/distantia/data/sequencesMIS.RData")
+load("~/Dropbox/GITHUB/R_packages/distantia/data/mis.RData")
 
 #data frame with grouping column
 ###################################
 x <- prepare_sequences(
-  x = sequencesMIS,
+  x = mis,
   id_column = "MIS",
   time_column = NULL,
   transformation = f_hellinger,

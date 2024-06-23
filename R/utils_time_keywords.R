@@ -19,8 +19,7 @@ utils_time_keywords <- function(
   )
 
   time_df <- tsl_time(
-    tsl = tsl,
-    keywords = TRUE
+    tsl = tsl
   )
 
   keywords <- time_df$keywords |>

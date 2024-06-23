@@ -385,25 +385,25 @@ rm(list = ls())
 
 The package can work seamlessly with any given number of sequences, as long as there is memory enough available (but check the new function **workflowPsiHP**, it can work with up to 40k sequences, if you have a cluster at hand, and a few years to waste). To do so, almost every function uses the packages ["doParallel"](https://CRAN.R-project.org/package=doParallel) and ["foreach"](https://CRAN.R-project.org/package=foreach), that together allow to parallelize the execution of the *distantia* functions by using all the processors in your machine but one. 
 
-The example dataset *sequencesMIS* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.
+The example dataset *mis* contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named "MIS". MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.
 
 ```{r}
-data(sequencesMIS)
+data(mis)
 
 kbl(
-  head(sequencesMIS, n=15), 
+  head(mis, n=15), 
   digits = 4, 
-  caption = "Header of the sequencesMIS dataset."
+  caption = "Header of the mis dataset."
   )
 
-unique(sequencesMIS$MIS)
+unique(mis$MIS)
 ```
 
 The dataset is checked and prepared with **prepareSequences**.
 
 ```{r}
 MIS.sequences <- prepareSequences(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   if.empty.cases = "zero",
   transformation = "hellinger"
@@ -464,8 +464,8 @@ Or as a matrix with **ggplot2**.
 
 ```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Dissimilarity between MIS sequences. Darker colors indicate a higher dissimilarity."}
 #ordering factors to get a triangular matrix
-MIS.psi$A <- factor(MIS.psi$A, levels=unique(sequencesMIS$MIS))
-MIS.psi$B <- factor(MIS.psi$B, levels=unique(sequencesMIS$MIS))
+MIS.psi$A <- factor(MIS.psi$A, levels=unique(mis$MIS))
+MIS.psi$B <- factor(MIS.psi$B, levels=unique(mis$MIS))
 
 #plotting matrix
 ggplot(
@@ -555,18 +555,18 @@ Such a proportion represents the probability of obtaining a value lower than *re
 
 Since the restricted permutation only happens at a local scale within each column of each sequence, the probability values returned are **very conservative** and shouldn't be interpreted in the same way p-values are interpreted.
 
-The process described above has been implemented in the **workflowNullPsi** function. We will apply it to three groups of the *sequencesMIS* dataset.
+The process described above has been implemented in the **workflowNullPsi** function. We will apply it to three groups of the *mis* dataset.
 
 ```{r}
 #getting example data
-data(sequencesMIS)
+data(mis)
 
 #working with 3 groups (to make this fast)
-sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+mis <- mis[mis$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
 
 #preparing sequences
-sequencesMIS <- prepareSequences(
-  sequences = sequencesMIS,
+mis <- prepareSequences(
+  sequences = mis,
   grouping.column = "MIS",
   transformation = "hellinger"
 )
@@ -576,7 +576,7 @@ The computation of the null psi values goes as follows:
 
 ```{r}
 random.psi <- workflowNullPsi(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   method = "euclidean",
   diagonal = TRUE,
@@ -587,7 +587,7 @@ random.psi <- workflowNullPsi(
 
 #there is also a high-performance version of this function with fewer options (diagonal = TRUE, ignore.blocks = TRUE, and method = "euclidean" are used by default)
 random.psi <- workflowNullPsiHP(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   repetitions = 99, #recommended value: 999
   parallel.execution = TRUE
@@ -622,18 +622,18 @@ rm(list = ls())
 
 *What variables are more important in explaining the dissimilarity between two sequences?*, or in other words, *what variables contribute the most to the dissimilarity between two sequences?* One reasonable answer is: the one that reduces dissimilarity the most when removed from the data. This section explains how to use the function **workflowImportance** follows such a principle to evaluate the importance of given variables in explaining differences between sequences.
 
-First, we prepare the data. It is again *sequencesMIS*, but with only three groups selected (MIS 4 to 6) to simplify the analysis.
+First, we prepare the data. It is again *mis*, but with only three groups selected (MIS 4 to 6) to simplify the analysis.
 
 ```{r}
 #getting example data
-data(sequencesMIS)
+data(mis)
 
 #getting three groups only to simplify
-sequencesMIS <- sequencesMIS[sequencesMIS$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
+mis <- mis[mis$MIS %in% c("MIS-4", "MIS-5", "MIS-6"),]
 
 #preparing sequences
 sequences <- prepareSequences(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   merge.mode = "complete"
 )
@@ -643,7 +643,7 @@ The workflow function is pretty similar to the ones explained above. However, un
 
 ```{r}
 psi.importance <- workflowImportance(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS",
   method = "euclidean",
   diagonal = TRUE,
@@ -655,7 +655,7 @@ There is also a high performance version of this function, but with fewer option
 
 ```{r, eval = FALSE}
 psi.importance <- workflowImportanceHP(
-  sequences = sequencesMIS,
+  sequences = mis,
   grouping.column = "MIS"
   )
 ```
@@ -734,20 +734,20 @@ rm(list = ls())
 
 # Partial matching: finding the section in a long sequence more similar to a given short sequence
 
-In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we use the dataset *sequencesMIS*. The first 10 samples will serve as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.
+In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we use the dataset *mis*. The first 10 samples will serve as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.
 
 ```{r}
 #loading the data
-data(sequencesMIS)
+data(mis)
 
 #removing grouping column
-sequencesMIS$MIS <- NULL
+mis$MIS <- NULL
 
 #subsetting to get the short sequence
-MIS.short <- sequencesMIS[1:10, ]
+MIS.short <- mis[1:10, ]
 
 #subsetting to get the long sequence
-MIS.long <- sequencesMIS[1:40, ]
+MIS.long <- mis[1:40, ]
 ```
 
 The sequences have to be prepared and transformed. For simplicity, the sequences are named *short* and *long*, and the grouping column is named *id*, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.
