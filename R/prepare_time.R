@@ -142,7 +142,8 @@ prepare_time <- function(
           " replaced by ",
           x.i.time.new[x.i.time.dupes],
           collapse = "\n"
-        )
+        ),
+        call. = FALSE
       )
 
       x.i[[time_column]] <- x.i.time.new

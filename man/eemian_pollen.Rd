@@ -3,14 +3,38 @@
 \docType{data}
 \name{eemian_pollen}
 \alias{eemian_pollen}
-\title{Pollen Counts of Nine Eemian Sites}
+\title{Pollen Counts of Nine Eemian Sites in Central Europe}
 \format{
-dataframe with 24 columns and 376 rows.
+data frame with 24 columns and 376 rows.
 }
 \usage{
 data(eemian_pollen)
 }
 \description{
-Pollen Counts of Nine Eemian Sites
+Pollen counts of nine interglacial sites in central Europe.
+
+Site coordinates for this dataset are in [eemian_coordinates].
+}
+\examples{
+data("eemian_pollen")
+
+#to time series list
+eemian <- tsl_initialize(
+  x = eemian_pollen,
+  id_column = "site",
+  time_column = "depth"
+)
+
+#time series plot
+if(interactive()){
+
+ tsl_plot(
+  tsl = eemian,
+  columns = 2,
+  guide_columns = 2
+  )
+
+}
+
 }
 \keyword{datasets}

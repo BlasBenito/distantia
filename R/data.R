@@ -7,18 +7,40 @@
 #' @keywords datasets
 #' @name distances
 #' @usage data(distances)
-#' @format Dataframe with 5 columns and 10 rows
+#' @format data frame with 5 columns and 10 rows
 "distances"
 
 #' Covid19 dataset.
 #'
 #' Dataset with Covid19 prevalence in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
 #'
+#' Site coordinates for this dataset are in [covid_coordinates].
+#'
 #' @docType data
 #' @keywords datasets
 #' @name covid_prevalence
 #' @usage data(covid_prevalence)
-#' @format Dataframe with 3 columns and 51048 rows
+#' @examples
+#' data("covid_prevalence")
+#'
+#' #to time series list
+#' covid <- tsl_initialize(
+#'   x = covid_prevalence,
+#'   id_column = "county",
+#'   time_column = "date"
+#' )
+#'
+#' #time series plot
+#' if(interactive()){
+#'
+#'  #subset to avoid margin errors
+#'  tsl_plot(
+#'   tsl = covid[seq_len(4)],
+#'   guide = FALSE
+#'   )
+#'
+#' }
+#' @format data frame with 3 columns and 51048 rows
 "covid_prevalence"
 
 #' Coordinates of the Covid Dataset.
@@ -30,37 +52,117 @@
 #' @format sf data frame with 4 columns and 36 rows
 "covid_coordinates"
 
-#' Dataframe with pollen counts for different MIS stages.
+#' Interglacial Pollen Counts
 #'
-#' A dataframe with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
+#' A data frame with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
 #'
 #' @docType data
 #' @keywords datasets
 #' @name mis
 #' @usage data(mis)
-#' @format dataframe with 7 columns and 427 rows.
+#' @examples
+#' data(mis)
+#'
+#' #to time series list
+#' mis <- tsl_initialize(
+#'   x = mis,
+#'   id_column = "mis",
+#'   time_column = "sample_order"
+#' )
+#'
+#' #time series plot
+#' if(interactive()){
+#'
+#'  tsl_plot(
+#'   tsl = mis,
+#'   columns = 2,
+#'   guide_columns = 2
+#'   )
+#'
+#' }
+#'
+#' @format data frame with 8 columns and 427 rows.
 "mis"
 
 
-#' Enhanced Vegetation Index vs Climate in Three European Locations
+#' Enhanced Vegetation Index and Climate of Three Fagus sylvatica stands
 #'
-#' A dataframe with 648 rows representing enhanced vegetation index, rainfall and teperature in three European locations.
+#' A data frame with 648 rows representing enhanced vegetation index, rainfall and teperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
+#'
+#' Site coordinates for this dataset are in [fagus_coordinates].
 #'
 #' @docType data
 #' @keywords datasets
-#' @name evi
-#' @usage data(evi)
-#' @format dataframe with 5 columns and 648 rows.
-"evi"
+#' @name fagus_dynamics
+#' @usage data(fagus_dynamics)
+#' @examples
+#' data("fagus_dynamics")
+#'
+#' #to time series list
+#' fagus <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' #time series plot
+#' if(interactive()){
+#'
+#'  tsl_plot(
+#'   tsl = fagus,
+#'   scale = TRUE
+#'   )
+#'
+#' }
+#'
+#' @format data frame with 5 columns and 648 rows.
+"fagus_dynamics"
+
+#' Coordinates of Fagus sylvatica stands
+#'
+#' @docType data
+#' @keywords datasets
+#' @name fagus_coordinates
+#' @usage data(fagus_coordinates)
+#' @format sf data frame with 3 rows and 4 columns
+"fagus_coordinates"
 
 
-#' Pollen Counts of Nine Eemian Sites
+#' Pollen Counts of Nine Eemian Sites in Central Europe
+#'
+#' @description
+#'
+#' Pollen counts of nine interglacial sites in central Europe.
+#'
+#' Site coordinates for this dataset are in [eemian_coordinates].
+#'
 #'
 #' @docType data
 #' @keywords datasets
 #' @name eemian_pollen
 #' @usage data(eemian_pollen)
-#' @format dataframe with 24 columns and 376 rows.
+#' @examples
+#' data("eemian_pollen")
+#'
+#' #to time series list
+#' eemian <- tsl_initialize(
+#'   x = eemian_pollen,
+#'   id_column = "site",
+#'   time_column = "depth"
+#' )
+#'
+#' #time series plot
+#' if(interactive()){
+#'
+#'  tsl_plot(
+#'   tsl = eemian,
+#'   columns = 2,
+#'   guide_columns = 2
+#'   )
+#'
+#' }
+#'
+#' @format data frame with 24 columns and 376 rows.
 "eemian_pollen"
 
 #' Coordinates of Nine Eemian Sites
@@ -72,15 +174,37 @@
 #' @format sf data frame with 4 columns and 9 rows.
 "eemian_coordinates"
 
-#' Average Temperature of 100 Major Cities
+#' Long Term Monthly Temperature in 100 Major Cities
 #'
 #' @description
 #' Average temperatures between 1975 and 2010 of 100 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
+#'
+#' Site coordinates for this dataset are in [cities_coordinates].
 #'
 #' @docType data
 #' @keywords datasets
 #' @name cities_temperature
 #' @usage data(cities_temperature)
+#' @examples
+#' data("cities_temperature")
+#'
+#' #to time series list
+#' cities <- tsl_initialize(
+#'   x = cities_temperature,
+#'   id_column = "city",
+#'   time_column = "date"
+#' )
+#'
+#' #time series plot
+#' if(interactive()){
+#'
+#'  #only four cities are shown
+#'  tsl_plot(
+#'   tsl = cities[seq_len(4)],
+#'   guide = FALSE
+#'   )
+#'
+#' }
 #' @format data frame with 3 columns and 52100 rows.
 "cities_temperature"
 
@@ -88,7 +212,7 @@
 #' Coordinates of 100 Major Cities
 #'
 #' @description
-#' City coordinates for the dataset `cities_temperature`
+#' City coordinates for the dataset `cities_temperature`.
 #'
 #' @docType data
 #' @keywords datasets

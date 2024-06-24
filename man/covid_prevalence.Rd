@@ -5,12 +5,36 @@
 \alias{covid_prevalence}
 \title{Covid19 dataset.}
 \format{
-Dataframe with 3 columns and 51048 rows
+data frame with 3 columns and 51048 rows
 }
 \usage{
 data(covid_prevalence)
 }
 \description{
 Dataset with Covid19 prevalence in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
+}
+\details{
+Site coordinates for this dataset are in [covid_coordinates].
+}
+\examples{
+data("covid_prevalence")
+
+#to time series list
+covid <- tsl_initialize(
+  x = covid_prevalence,
+  id_column = "county",
+  time_column = "date"
+)
+
+#time series plot
+if(interactive()){
+
+ #subset to avoid margin errors
+ tsl_plot(
+  tsl = covid[seq_len(4)],
+  guide = FALSE
+  )
+
+}
 }
 \keyword{datasets}

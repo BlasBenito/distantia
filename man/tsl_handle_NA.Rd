@@ -6,7 +6,7 @@
 \alias{tsl_NaN_to_NA}
 \title{Handle NA and Inf data in Time Series}
 \usage{
-tsl_handle_NA(tsl = NULL, na_action = "none", na_fill = 0.0001, verbose = TRUE)
+tsl_handle_NA(tsl = NULL, na_action = "none", na_fill = 1e-04, verbose = TRUE)
 
 tsl_Inf_to_NA(tsl = NULL)
 

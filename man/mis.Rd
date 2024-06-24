@@ -3,14 +3,36 @@
 \docType{data}
 \name{mis}
 \alias{mis}
-\title{Dataframe with pollen counts for different MIS stages.}
+\title{Interglacial Pollen Counts}
 \format{
-dataframe with 7 columns and 427 rows.
+data frame with 8 columns and 427 rows.
 }
 \usage{
 data(mis)
 }
 \description{
-A dataframe with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
+A data frame with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
+}
+\examples{
+data(mis)
+
+#to time series list
+mis <- tsl_initialize(
+  x = mis,
+  id_column = "mis",
+  time_column = "sample_order"
+)
+
+#time series plot
+if(interactive()){
+
+ tsl_plot(
+  tsl = mis,
+  columns = 2,
+  guide_columns = 2
+  )
+
+}
+
 }
 \keyword{datasets}

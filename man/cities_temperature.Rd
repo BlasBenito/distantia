@@ -3,7 +3,7 @@
 \docType{data}
 \name{cities_temperature}
 \alias{cities_temperature}
-\title{Average Temperature of 100 Major Cities}
+\title{Long Term Monthly Temperature in 100 Major Cities}
 \format{
 data frame with 3 columns and 52100 rows.
 }
@@ -12,5 +12,28 @@ data(cities_temperature)
 }
 \description{
 Average temperatures between 1975 and 2010 of 100 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
+
+Site coordinates for this dataset are in [cities_coordinates].
+}
+\examples{
+data("cities_temperature")
+
+#to time series list
+cities <- tsl_initialize(
+  x = cities_temperature,
+  id_column = "city",
+  time_column = "date"
+)
+
+#time series plot
+if(interactive()){
+
+ #only four cities are shown
+ tsl_plot(
+  tsl = cities[seq_len(4)],
+  guide = FALSE
+  )
+
+}
 }
 \keyword{datasets}

@@ -5,7 +5,7 @@
 \alias{distances}
 \title{Distance Methods}
 \format{
-Dataframe with 5 columns and 10 rows
+data frame with 5 columns and 10 rows
 }
 \usage{
 data(distances)
