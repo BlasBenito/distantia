@@ -17,7 +17,6 @@ zoo_plot(
   ylab = NULL,
   text_cex = 1,
   guide = TRUE,
-  guide_position = "topright",
   guide_cex = 0.8,
   vertical = FALSE,
   subpanel = FALSE
@@ -48,8 +47,6 @@ zoo_plot(
 
 \item{guide}{(optional, logical) If TRUE, plots a legend. Default: TRUE}
 
-\item{guide_position}{(optional, character string) Position of the guide. Accepted values are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright"}
-
 \item{guide_cex}{(optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.}
 
 \item{vertical}{(optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if `subpanel = FALSE`. Default: FALSE}
@@ -61,4 +58,21 @@ A plot.
 }
 \description{
 Plot Multivariate Zoo Time Series
+}
+\examples{
+
+#simulate zoo time series
+x <- zoo_simulate()
+
+if(interactive()){
+
+  #plot time series with distantia
+  distantia::zoo_plot(
+    x = x,
+    xlab = "Date",
+    ylab = "Value",
+    title = "My time series"
+  )
+
+}
 }

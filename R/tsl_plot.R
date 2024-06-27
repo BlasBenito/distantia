@@ -85,7 +85,6 @@ tsl_plot <- function(
         ylab = "",
         text_cex = text_cex,
         guide = FALSE,
-        guide_position = "right",
         guide_cex = guide_cex,
         subpanel = FALSE
       )

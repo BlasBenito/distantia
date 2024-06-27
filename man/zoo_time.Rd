@@ -7,11 +7,73 @@
 zoo_time(x = NULL)
 }
 \arguments{
-\item{x}{(required, zoo object) Default: NULL.}
+\item{x}{(required, zoo object) Zoo time series to analyze. Default: NULL.}
 }
 \value{
-List with time features of the zoo object.
+Data frame with the following columns:
+\itemize{
+  \item name: value of attributes(x)$name.
+  \item n: number of observations.
+  \item class: class of the time units (Date, POSIXct, or numeric).
+  \item begin: begin time of the time series.
+  \item end: end time of the time series.
+  \item length: length in "units" of the time series.
+  \item resolution: average time distance (in "units") between consecutive observations.
+  \item keywords: vector of valid keywords for data aggregation (see [zoo_aggregate()]).
+}
 }
 \description{
 Time Features of a Zoo Object
+}
+\examples{
+#class Date
+##################################
+x <- zoo_simulate(
+  rows = 1000,
+  time_range = c(
+    "2010-01-01",
+    "2020-01-01"
+    )
+)
+
+x_time <- zoo_time(x)
+x_time
+
+#aggregation keywords
+x_time$keywords
+
+#class POSIXct, lower resolution
+##################################
+y <- zoo_simulate(
+  rows = 100,
+  time_range = c(
+    "2010-01-01 15:30:45 UTC",
+    "2020-01-01 17:22:30 UTC"
+  )
+)
+
+y_time <- zoo_time(y)
+y_time
+
+#aggregation keywords
+#notice changes due to lower resolution
+y_time$keywords
+
+
+#class numeric
+##################################
+z <- zoo_simulate(
+  rows = 100,
+  time_range = c(
+    -10000,
+    2024
+  )
+)
+
+z_time <- zoo_time(z)
+z_time
+
+#aggregation keywords
+#numeric class uses characters with scientific notation
+z_time$keywords
 }

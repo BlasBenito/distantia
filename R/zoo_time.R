@@ -1,64 +1,74 @@
 #' Time Features of a Zoo Object
 #'
-#' @param x (required, zoo object) Default: NULL.
+#' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
 #'
-#' @return List with time features of the zoo object.
+#' @return Data frame with the following columns:
+#' \itemize{
+#'   \item name: value of attributes(x)$name.
+#'   \item n: number of observations.
+#'   \item class: class of the time units (Date, POSIXct, or numeric).
+#'   \item begin: begin time of the time series.
+#'   \item end: end time of the time series.
+#'   \item length: length in "units" of the time series.
+#'   \item resolution: average time distance (in "units") between consecutive observations.
+#'   \item keywords: vector of valid keywords for data aggregation (see [zoo_aggregate()]).
+#' }
 #' @export
 #' @autoglobal
 #' @examples
+#' #class Date
+#' ##################################
+#' x <- zoo_simulate(
+#'   rows = 1000,
+#'   time_range = c(
+#'     "2010-01-01",
+#'     "2020-01-01"
+#'     )
+#' )
+#'
+#' x_time <- zoo_time(x)
+#' x_time
+#'
+#' #aggregation keywords
+#' x_time$keywords
+#'
+#' #class POSIXct, lower resolution
+#' ##################################
+#' y <- zoo_simulate(
+#'   rows = 100,
+#'   time_range = c(
+#'     "2010-01-01 15:30:45 UTC",
+#'     "2020-01-01 17:22:30 UTC"
+#'   )
+#' )
+#'
+#' y_time <- zoo_time(y)
+#' y_time
+#'
+#' #aggregation keywords
+#' #notice changes due to lower resolution
+#' y_time$keywords
+#'
+#'
+#' #class numeric
+#' ##################################
+#' z <- zoo_simulate(
+#'   rows = 100,
+#'   time_range = c(
+#'     -10000,
+#'     2024
+#'   )
+#' )
+#'
+#' z_time <- zoo_time(z)
+#' z_time
+#'
+#' #aggregation keywords
+#' #numeric class uses characters with scientific notation
+#' z_time$keywords
 zoo_time <- function(
     x = NULL
 ){
-
-  # #centuries and millenia
-  # x <- zoo_simulate(
-  #   time_range = c(
-  #     "0100-02-08",
-  #     "2024-12-31"
-  #   )
-  # )
-  #
-  # #days
-  # x <- zoo_simulate(
-  #   time_range = c(
-  #     "2024-12-20 10:00:25",
-  #     "2024-12-31 11:15:45"
-  #   )
-  # )
-  #
-  # #hours
-  # x <- zoo_simulate(
-  #   time_range = c(
-  #     "2024-12-20 10:00:25",
-  #     "2024-12-20 11:15:45"
-  #   )
-  # )
-  #
-  # #minutes
-  # x <- zoo_simulate(
-  #   time_range = c(
-  #     "2024-12-20 10:00:25",
-  #     "2024-12-20 10:27:32"
-  #   )
-  # )
-  #
-  # #seconds
-  # x <- zoo_simulate(
-  #   time_range = c(
-  #     "2024-12-20 10:00:25",
-  #     "2024-12-20 10:00:55"
-  #   )
-  # )
-  #
-  # x <- zoo_simulate(
-  #   time_range = c(-123120, 1200)
-  # )
-  #
-  # x <- zoo_simulate(
-  #   time_range = c(0.01, 0.09)
-  # )
-
-  ################################
 
   if(zoo::is.zoo(x) == FALSE){
     stop("Argument 'x' must be a zoo time series.")

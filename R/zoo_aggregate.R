@@ -9,6 +9,58 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #full range of calendar dates
+#' x <- zoo_simulate(
+#'   rows = 1000,
+#'   time_range = c(
+#'     "0000-01-01",
+#'     as.character(Sys.Date())
+#'     )
+#' )
+#'
+#' #plot time series
+#' if(interactive()){
+#'   zoo_plot(x)
+#' }
+#'
+#'
+#' #find valid aggregation keywords
+#' x_time <- zoo_time(x)
+#' x_time$keywords
+#'
+#' #mean value by millennia (extreme case!!!)
+#' x_millennia <- zoo_aggregate(
+#'   x = x,
+#'   breaks = "millennia",
+#'   f = mean
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x_millennia)
+#' }
+#'
+#' #max value by centuries
+#' x_centuries <- zoo_aggregate(
+#'   x = x,
+#'   breaks = "centuries",
+#'   f = max
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x_centuries)
+#' }
+#'
+#' #quantile 0.75 value by centuries
+#' x_centuries <- zoo_aggregate(
+#'   x = x,
+#'   breaks = "centuries",
+#'   f = stats::quantile,
+#'   probs = 0.75 #argument of stats::quantile()
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x_centuries)
+#' }
 zoo_aggregate <- function(
     x = NULL,
     breaks = NULL,
@@ -20,8 +72,17 @@ zoo_aggregate <- function(
     stop("Argument 'x' must be a zoo object.")
   }
 
-  if(length(breaks) < 2){
-    stop("Argument 'breaks' must be a vector of length 2 or higher.")
+  #handle keywords
+  x_time <- zoo_time(x = x)
+  if(breaks %in% unlist(x_time$keywords)){
+    breaks <- utils_time_breaks(
+      tsl = zoo_to_tsl(x = x),
+      breaks = breaks
+    )
+  } else {
+    if(length(breaks) < 2){
+      stop("Argument 'breaks' must be a vector of length 2 or higher.")
+    }
   }
 
   if(is.function(f) == FALSE){

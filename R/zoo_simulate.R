@@ -18,8 +18,34 @@
 #' @autoglobal
 #' @examples
 #'
-#' plot(zoo_simulate())
+#' #generates a different time series on each execution
+#' x <- zoo_simulate()
 #'
+#' #returns a zoo object
+#' class(x)
+#'
+#' #time series names are uppercase letters
+#' #this attribute is not defined in the zoo class and might be lost during data transformations
+#' attributes(x)$name
+#'
+#' #column names are lowercase letters
+#' names(x)
+#'
+#' #plotting methods
+#' if(interactive()){
+#'
+#'   #plot time series with default zoo method
+#'   plot(x)
+#'
+#'   #plot time series with distantia
+#'   distantia::zoo_plot(
+#'     x = x,
+#'     xlab = "Date",
+#'     ylab = "Value",
+#'     title = "My time series"
+#'   )
+#'
+#' }
 zoo_simulate <- function(
     cols = 5,
     rows = 100,

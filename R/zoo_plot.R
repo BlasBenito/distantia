@@ -12,7 +12,6 @@
 #' @param ylab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
-#' @param guide_position (optional, character string) Position of the guide. Accepted values are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright"
 #' @param guide_cex (optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.
 #' @param vertical (optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if `subpanel = FALSE`. Default: FALSE
 #' @param subpanel (optional, logical) For internal use within the package in multipanel plots. Strips down the plot for a sub-panel. Default: FALSE
@@ -21,6 +20,21 @@
 #' @export
 #'
 #' @examples
+#'
+#' #simulate zoo time series
+#' x <- zoo_simulate()
+#'
+#' if(interactive()){
+#'
+#'   #plot time series with distantia
+#'   distantia::zoo_plot(
+#'     x = x,
+#'     xlab = "Date",
+#'     ylab = "Value",
+#'     title = "My time series"
+#'   )
+#'
+#' }
 zoo_plot <- function(
     x = NULL,
     center = FALSE,
@@ -34,7 +48,6 @@ zoo_plot <- function(
     ylab = NULL,
     text_cex = 1,
     guide = TRUE,
-    guide_position = "topright",
     guide_cex = 0.8,
     vertical = FALSE,
     subpanel = FALSE
@@ -42,6 +55,32 @@ zoo_plot <- function(
 
   #check x
   x <- utils_check_zoo_args(x = x)
+
+  #if standalone zoo plot
+  if(subpanel == FALSE && guide == TRUE){
+
+    #get user's par
+    old.par <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(old.par))
+
+    #plotting areas
+    plt_all <- graphics::par()$plt
+
+    plt_lines <- c(
+      plt_all[1],
+      0.70,
+      plt_all[3],
+      plt_all[4]
+      )
+
+    plt_guide <- c(
+      0.70,
+      plt_all[2],
+      plt_all[3],
+      plt_all[4]
+      )
+
+  }
 
   #axis title
   axis_title_distance <- 1.4
@@ -157,6 +196,12 @@ zoo_plot <- function(
   }
 
   # par(bty = "n")
+
+  if(guide == TRUE){
+    graphics::par(
+      plt = plt_lines
+    )
+  }
 
   #first plot
   graphics::plot(
@@ -295,13 +340,20 @@ zoo_plot <- function(
 
   if(guide == TRUE){
 
+    graphics::par(
+      plt = plt_guide,
+      new = TRUE,
+      mgp = c(0, 0.5, 0),
+      bty = "n"
+    )
+
     utils_line_guide(
       x = x,
-      position = guide_position,
+      position = "left",
       color = color,
       width = width,
       text_cex = guide_cex,
-      subpanel = FALSE
+      subpanel = TRUE
     )
 
   }
