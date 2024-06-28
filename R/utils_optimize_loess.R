@@ -75,9 +75,9 @@ utils_optimize_loess <- function(
   )
 
   span_candidates = seq(
-    from = 0.1,
-    to = 0.5,
-    by = 0.01
+    from = 1/nrow(model_df),
+    to = 1/(nrow(model_df)/10),
+    by = 1/nrow(model_df)
     )
 
   `%iterator%` <- foreach::`%do%`

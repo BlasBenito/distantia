@@ -8,10 +8,10 @@
 #'
 #' Each time series within the zoo object is modelled as a function of the original time with [mgcv::gam()], and then predicted to the new time.
 #'
-#' Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
+#' Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same order of magnitude of the distance between the old time points.
 #'
 #'
-#' @param x (required, zoo object) Time series to resample Default: NULL
+#' @param x (required, zoo object) Time series to resample. Default: NULL
 #' @param time (required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL
 #' @param method (optional, string) Name of the method to resample the time series. One of "gam" or "loess". Default: "loess".
 #'
@@ -19,36 +19,42 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #simulate zoo object
+#' #simulate irregular time series
 #' x <- zoo_simulate(
 #'   cols = 2,
-#'   rows = 50
-#' )
+#'   rows = 100,
+#'   time_range = c("2010-01-01", "2020-01-01"),
+#'   irregular = TRUE
+#'   )
 #'
-#' #plot zoo object
-#' zoo_plot(x)
+#' #plot time series
+#' if(interactive()){
+#'   zoo_plot(x)
+#' }
 #'
-#' #check time
-#' zoo::index(x)
+#' #intervals between samples
+#' diff(zoo::index(x))
 #'
-#' #new time to first day of each month
-#' new_time <- seq.Date(
+#' #create regular time for resampling
+#' regular_time <- seq.Date(
 #'   from = as.Date("2010-01-01"),
-#'   to = as.Date("2019-09-01"),
+#'   to = as.Date("2020-01-01"),
 #'   by = "1 month"
 #' )
 #'
-#' #resampling
-#' x_new <- zoo_resample(
+#' #resample to regular time
+#' x_resampled <- zoo_resample(
 #'   x = x,
-#'   time = new_time
+#'   time = regular_time
 #' )
 #'
-#' #plot resampled zoo object
-#' zoo_plot(x_new)
+#' #notice the loss of detail in the resampled data
+#' if(interactive()){
+#'   zoo_plot(x_resampled)
+#' }
 #'
-#' #new time is set to the first day of each month
-#' zoo::index(x_new)
+#' #intervals between new samples
+#' diff(zoo::index(x_resampled))
 zoo_resample <- function(
     x = NULL,
     time = NULL,

@@ -9,42 +9,102 @@ zoo_permute(
   repetitions = 1L,
   permutation = "restricted_by_row",
   block_size = NULL,
-  seed = 1
+  seed = 1L
 )
 }
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
 
-\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 1}
+\item{repetitions}{(optional, integer) number of permutations to compute. Large numbers may compromise your R session. Default: 1}
 
 \item{permutation}{(optional, character string) permutation method. Valid values are listed below from higher to lower induced randomness:
 \itemize{
-  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-  \item "restricted": restricted shuffling of rows and columns within blocks.
-  \item "restricted_by_row": restricted shuffling of rows within blocks.
+  \item "free": unrestricted re-shuffling of individual cases across rows and columns. Ignores block_size.
+  \item "free_by_row": unrestricted re-shuffling of complete rows. Ignores block size.
+  \item "restricted": restricted shuffling across rows and columns within blocks of rows.
+  \item "restricted_by_row": restricted re-shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer) Row block size for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.}
+\item{block_size}{(optional, integer) Block size in number of rows for restricted permutations. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that the original data is pre-divided into blocks of such size, and a given row can only be permuted within their original block. If NULL, defaults to the rounded one tenth of the number of rows in `x`. Default: NULL.}
 
-\item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
+\item{seed}{(optional, integer) initial random seed to use during permutations. Default: 1}
 }
 \value{
 Time Series List
 }
 \description{
-Permutation of Zoo Time Series
+Fast permutation of zoo time series for null model testing using a fast and efficient C++ implementations of different restricted and free permutation methods.
+
+The available  permutation methods are:
+
+\itemize{
+  \item "free" (see [permute_free_cpp()]): Unrestricted and independent re-shuffling of individual cases across rows and columns. Individual values are relocated to a new row and column within the dimensions of the original matrix.
+\item "free_by_row" (see [permute_free_by_row_cpp()]): Unrestricted re-shuffling of complete rows. Each individual row is given a new random row number, and the data  matrix is re-ordered accordingly.
+\item "restricted" (see [permute_restricted_cpp()]): Data re-shuffling across rows and columns is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, and individual cases are then assigned to a new row and column within their original block.
+\item "restricted_by_row" (see [permute_restricted_by_row_cpp()]): Re-shuffling of complete rows is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, each individual row is given a new random row number within its original block, and the block is reordered accordingly to generate the permuted output.
+}
 }
 \examples{
-x <- zoo_simulate()
+#simulate zoo time series
+x <- zoo_simulate(cols = 2)
 
-y <- zoo_permute(
+if(interactive()){
+  zoo_plot(x)
+}
+
+#free
+x_free <- zoo_permute(
   x = x,
-  repetitions = 3
+  permutation = "free",
+  repetitions = 2
 )
 
-tsl_plot(
-  x = y,
-  guide = FALSE
+if(interactive()){
+  tsl_plot(
+    tsl = x_free,
+    guide = FALSE
+    )
+}
+
+#free by row
+x_free_by_row <- zoo_permute(
+  x = x,
+  permutation = "free_by_row",
+  repetitions = 2
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = x_free_by_row,
+    guide = FALSE
   )
+}
+
+#restricted
+x_restricted <- zoo_permute(
+  x = x,
+  permutation = "restricted",
+  repetitions = 2
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = x_restricted,
+    guide = FALSE
+  )
+}
+
+#restricted by row
+x_restricted_by_row <- zoo_permute(
+  x = x,
+  permutation = "restricted_by_row",
+  repetitions = 2
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = x_restricted_by_row,
+    guide = FALSE
+  )
+}
 }

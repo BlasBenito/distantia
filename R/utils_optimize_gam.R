@@ -75,7 +75,7 @@ utils_optimize_gam <- function(
   )
 
   k_candidates = seq(
-    from = ceiling(nrow(model_df)/2),
+    from = ceiling(nrow(model_df)/10),
     to = nrow(model_df),
     by = 1
     )
