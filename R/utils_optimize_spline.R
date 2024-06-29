@@ -1,14 +1,14 @@
-#' Optimization of Univariate GAM Models
+#' Optimization of Spline Models
 #'
 #' @description
 #'
-#' Internal function used in [zoo_resample()]. It finds the optimal `k` parameter of a univariate GAM formula `y ~ s(x, k = ?)` fitted with [mgcv::gam()] that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `k`.
+#' Internal function used in [zoo_resample()]. It finds optimal `df` parameter of a smoothing spline model `y ~ x` fitted with [stats::smooth.spline()]  that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `df`.
 #'
 #' @param x (required, numeric vector) predictor, a time vector coerced to numeric. Default: NULL
 #' @param y (required, numeric vector) response, a column of a zoo object. Default: NULL
 #' @param max_complexity (required, logical). If TRUE, RMSE optimization is ignored, and the model of maximum complexity is returned. Default: FALSE
 #'
-#' @return GAM model.
+#' @return Object of class "smooth.spline".
 #' @export
 #' @autoglobal
 #' @examples
@@ -19,8 +19,8 @@
 #'   rows = 30
 #' )
 #'
-#' #optimize gam model
-#' m <- utils_optimize_gam(
+#' #optimize splines model
+#' m <- utils_optimize_spline(
 #'   x = as.numeric(zoo::index(xy)), #predictor
 #'   y = xy[, 1] #response
 #' )
@@ -34,19 +34,19 @@
 #'   col = "forestgreen",
 #'   type = "l",
 #'   lwd = 2
-#' )
+#'   )
 #'
 #' #plot prediction
 #' points(
 #'   x = zoo::index(xy),
 #'   y = stats::predict(
 #'     object = m,
-#'     type = "response"
-#'     ),
+#'     x = as.numeric(zoo::index(xy))
+#'   )$y,
 #'   col = "red"
 #' )
 #'
-utils_optimize_gam <- function(
+utils_optimize_spline <- function(
     x = NULL,
     y = NULL,
     max_complexity = FALSE
@@ -72,9 +72,9 @@ utils_optimize_gam <- function(
     y = y
   )
 
-  complexity_space = seq(
-    from = ceiling(nrow(model_df)/10),
-    to = nrow(model_df),
+  complexity_space <- seq(
+    from = floor(nrow(model_df)/2),
+    to = nrow(model_df) - 1,
     by = 1
   )
 
@@ -93,18 +93,11 @@ utils_optimize_gam <- function(
       .errorhandling = "pass"
     ) %iterator% {
 
-      m_formula <- stats::as.formula(
-        object = paste0(
-          "y ~ s(x, k = ",
-          complexity_value,
-          ")"
-        )
-      )
-
       m <- tryCatch({
-        mgcv::gam(
-          formula = m_formula,
-          data = model_df
+        stats::smooth.spline(
+          x = model_df$x,
+          y = model_df$y,
+          df = complexity_value
         )
       }, error = function(e) {
         NA
@@ -115,7 +108,7 @@ utils_optimize_gam <- function(
       if(
         inherits(
           x = m,
-          what = "gam"
+          what = "smooth.spline"
         ) == FALSE
       ){
         return(NA)
@@ -125,7 +118,10 @@ utils_optimize_gam <- function(
       return(
         sqrt(
           mean(
-            (model_df$y - stats::predict(m))^2
+            (model_df$y - stats::predict(
+              object = m,
+              x = model_df$x)$y
+            )^2
           )
         )
       )
@@ -135,24 +131,17 @@ utils_optimize_gam <- function(
     #set errors to NA
     rmse[!is.numeric(rmse)] <- max(rmse, na.rm = TRUE)
 
-    #select k minimizing rmse
+    #select df minimizing rmse
     complexity_optimal_value <- complexity_space[which.min(rmse)]
 
   }
 
   #new model
-  m_formula <- stats::as.formula(
-    object = paste0(
-      "y ~ s(x, k = ",
-      complexity_optimal_value,
-      ")"
-    )
-  )
-
   m <- tryCatch({
-    mgcv::gam(
-      formula = m_formula,
-      data = model_df
+    stats::smooth.spline(
+      x = model_df$x,
+      y = model_df$y,
+      df = complexity_optimal_value
     )
   }, error = function(e) {
     NA

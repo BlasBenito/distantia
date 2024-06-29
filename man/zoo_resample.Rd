@@ -4,14 +4,16 @@
 \alias{zoo_resample}
 \title{Resamples Zoo Time Series to a New Time}
 \usage{
-zoo_resample(x = NULL, time = NULL, method = "loess")
+zoo_resample(x = NULL, time = NULL, method = "spline", max_complexity = FALSE)
 }
 \arguments{
 \item{x}{(required, zoo object) Time series to resample. Default: NULL}
 
 \item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "gam" or "loess". Default: "loess".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see [utils_optimize_spline()]), "gam" (see [utils_optimize_gam()])  or "loess" (see [utils_optimize_loess()]). Default: "spline".}
+
+\item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE}
 }
 \value{
 zoo object

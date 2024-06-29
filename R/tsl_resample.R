@@ -17,7 +17,8 @@
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param time (required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL
-#' @param method (optional, string) Name of the method to resample the time series. One of "gam" or "loess". Default: "loess".
+#' @param method (optional, string) Name of the method to resample the time series. One of "spline" (see [utils_optimize_spline()]), "gam" (see [utils_optimize_gam()])  or "loess" (see [utils_optimize_loess()]). Default: "spline".
+#' @param max_complexity (required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE
 #'
 #' @return time series list
 #' @export
@@ -56,7 +57,8 @@
 tsl_resample <- function(
     tsl = NULL,
     time = NULL,
-    method = "loess"
+    method = "spline",
+    max_complexity = FALSE
     ){
 
   tsl <- tsl_is_valid(tsl = tsl)
@@ -99,7 +101,8 @@ tsl_resample <- function(
       x <- zoo_resample(
         x = x,
         time = time,
-        method = method
+        method = method,
+        max_complexity = max_complexity
       )
 
     }

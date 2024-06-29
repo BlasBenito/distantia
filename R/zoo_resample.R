@@ -13,7 +13,8 @@
 #'
 #' @param x (required, zoo object) Time series to resample. Default: NULL
 #' @param time (required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL
-#' @param method (optional, string) Name of the method to resample the time series. One of "gam" or "loess". Default: "loess".
+#' @param method (optional, string) Name of the method to resample the time series. One of "spline" (see [utils_optimize_spline()]), "gam" (see [utils_optimize_gam()])  or "loess" (see [utils_optimize_loess()]). Default: "spline".
+#' @param max_complexity (required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE
 #'
 #' @return zoo object
 #' @export
@@ -58,12 +59,14 @@
 zoo_resample <- function(
     x = NULL,
     time = NULL,
-    method = "loess"
+    method = "spline",
+    max_complexity = FALSE
 ){
 
   method <- match.arg(
     arg = method,
     choices = c(
+      "spline",
       "loess",
       "gam"
     ),
@@ -176,6 +179,10 @@ zoo_resample <- function(
 
     x_old <- as.numeric(x[, i])
 
+    if(method == "spline"){
+      f <- utils_optimize_spline
+    }
+
     if(method == "loess"){
       f <- utils_optimize_loess
     }
@@ -186,7 +193,8 @@ zoo_resample <- function(
 
     interpolation.model <- f(
       x = old_time_numeric,
-      y = x_old
+      y = x_old,
+      max_complexity = max_complexity
     )
 
 
@@ -199,6 +207,10 @@ zoo_resample <- function(
       inherits(
         x = interpolation.model,
         what = "loess"
+      ) == FALSE &&
+      inherits(
+        x = interpolation.model,
+        what = "smooth.spline"
       ) == FALSE
       ){
 
@@ -207,15 +219,23 @@ zoo_resample <- function(
     }
 
     #predict model
-    x_new <- stats::predict(
-      object = interpolation.model,
-      newdata = data.frame(
-        x = time_numeric
-      )
-    )
+    if(method == "spline"){
 
-    # plot(old_time_numeric, x_old, type = "l", col = "red")
-    # lines(time_numeric, x_new, type = "l")
+      x_new <- stats::predict(
+        object = interpolation.model,
+        x = time_numeric
+        )$y
+
+    } else {
+
+      x_new <- stats::predict(
+        object = interpolation.model,
+        newdata = data.frame(
+          x = time_numeric
+        )
+      )
+
+    }
 
     #set bounds
     x_new[x_new > max(x_old)] <- max(x_old)

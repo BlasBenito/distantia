@@ -76,7 +76,7 @@ zoo_aggregate <- function(
   x_time <- zoo_time(x = x)
   if(breaks %in% unlist(x_time$keywords)){
     breaks <- utils_time_breaks(
-      tsl = zoo_to_tsl(x = x),
+      tsl = utils_zoo_to_tsl(x = x),
       breaks = breaks
     )
   } else {

@@ -2,10 +2,11 @@
 #'
 #' @description
 #'
-#' Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
+#' Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` fitted with [stats::loess()] that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
 #'
-#' @param x (required, numeric vector) predictor, usually a numeric version of a time vector.
-#' @param y (required, numeric vector) response, usually a time series.
+#' @param x (required, numeric vector) predictor, a time vector coerced to numeric. Default: NULL
+#' @param y (required, numeric vector) response, a column of a zoo object. Default: NULL
+#' @param max_complexity (required, logical). If TRUE, RMSE optimization is ignored, and the model of maximum complexity is returned. Default: FALSE
 #'
 #' @return Loess model.
 #' @export
@@ -13,45 +14,42 @@
 #' @examples
 #'
 #' #zoo time series
-#' ts <- zoo_simulate(
+#' xy <- zoo_simulate(
 #'   cols = 1,
 #'   rows = 30
 #' )
 #'
-#' #response
-#' y <- as.numeric(ts)
-#' #y <- ts[, 1] #for multivariate time series
-#'
-#' #predictor
-#' x <- as.numeric(zoo::index(ts))
-#'
 #' #optimize loess model
 #' m <- utils_optimize_loess(
-#'   x = x,
-#'   y = y
+#'   x = as.numeric(zoo::index(xy)), #predictor
+#'   y = xy[, 1] #response
 #' )
 #'
-#' summary(m)
+#' print(m)
 #'
 #' #plot observation
 #' plot(
-#'   x = zoo::index(ts),
-#'   y = as.numeric(y),
+#'   x = zoo::index(xy),
+#'   y = xy[, 1],
 #'   col = "forestgreen",
 #'   type = "l",
 #'   lwd = 2
 #'   )
 #'
 #' #plot prediction
-#' lines(
-#'   x = zoo::index(ts),
-#'   y = stats::predict(m),
+#' points(
+#'   x = zoo::index(xy),
+#'   y = stats::predict(
+#'     object = m,
+#'     newdata = as.numeric(zoo::index(xy))
+#'     ),
 #'   col = "red4"
 #'   )
 #'
 utils_optimize_loess <- function(
     x = NULL,
-    y = NULL
+    y = NULL,
+    max_complexity = FALSE
 ){
 
   if(!is.numeric(x)){
@@ -74,64 +72,73 @@ utils_optimize_loess <- function(
     y = y
   )
 
-  span_candidates = seq(
+  complexity_space = seq(
     from = 1/nrow(model_df),
     to = 1/(nrow(model_df)/10),
     by = 1/nrow(model_df)
-    )
+  )
 
-  `%iterator%` <- foreach::`%do%`
+  #max complexity switch
+  if(max_complexity == TRUE){
 
-  rmse <- foreach::foreach(
-    span = span_candidates,
-    .combine = "c",
-    .errorhandling = "pass"
-  ) %iterator% {
+    complexity_optimal_value <- min(complexity_space)
 
-    loess.model <- tryCatch({
-      stats::loess(
-        formula = y ~ x,
-        data = model_df,
-        span = span
-      )
-    }, error = function(e) {
-      NA
-    }, warning = function(w) {
-      NA
-    })
+  } else {
 
-    if(
-      inherits(
-        x = loess.model,
-        what = "loess"
+    `%iterator%` <- foreach::`%do%`
+
+    rmse <- foreach::foreach(
+      complexity_value = complexity_space,
+      .combine = "c",
+      .errorhandling = "pass"
+    ) %iterator% {
+
+      m <- tryCatch({
+        stats::loess(
+          formula = y ~ x,
+          data = model_df,
+          span = complexity_value
+        )
+      }, error = function(e) {
+        NA
+      }, warning = function(w) {
+        NA
+      })
+
+      if(
+        inherits(
+          x = m,
+          what = "loess"
         ) == FALSE
       ){
-      return(NA)
-    }
+        return(NA)
+      }
 
-    #return rmse
-    return(
-      sqrt(
-        mean(
-          (model_df$y - stats::predict(loess.model))^2
+      #return rmse
+      return(
+        sqrt(
+          mean(
+            (model_df$y - stats::predict(m))^2
           )
         )
-    )
+      )
+
+    }
+
+    #set errors to NA
+    rmse[!is.numeric(rmse)] <- max(rmse, na.rm = TRUE)
+
+    #select span minimizing rmse
+    complexity_optimal_value <- complexity_space[which.min(rmse)]
 
   }
 
-  #set errors to NA
-  rmse[!is.numeric(rmse)] <- NA
-
-  #select span minimizing rmse
-  span_best <- span_candidates[which.min(rmse)]
-
   #new model
-  loess.model <- tryCatch({
+  m <- tryCatch({
     stats::loess(
       formula = y ~ x,
       data = model_df,
-      span = span_best
+      span = complexity_optimal_value
     )
   }, error = function(e) {
     NA
@@ -139,6 +146,6 @@ utils_optimize_loess <- function(
     NA
   })
 
-  loess.model
+  m
 
 }

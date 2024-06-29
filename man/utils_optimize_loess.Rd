@@ -4,55 +4,53 @@
 \alias{utils_optimize_loess}
 \title{Optimization of Loess Models}
 \usage{
-utils_optimize_loess(x = NULL, y = NULL)
+utils_optimize_loess(x = NULL, y = NULL, max_complexity = FALSE)
 }
 \arguments{
-\item{x}{(required, numeric vector) predictor, usually a numeric version of a time vector.}
+\item{x}{(required, numeric vector) predictor, a time vector coerced to numeric. Default: NULL}
 
-\item{y}{(required, numeric vector) response, usually a time series.}
+\item{y}{(required, numeric vector) response, a column of a zoo object. Default: NULL}
+
+\item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the model of maximum complexity is returned. Default: FALSE}
 }
 \value{
 Loess model.
 }
 \description{
-Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
+Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` fitted with [stats::loess()] that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
 }
 \examples{
 
 #zoo time series
-ts <- zoo_simulate(
+xy <- zoo_simulate(
   cols = 1,
   rows = 30
 )
 
-#response
-y <- as.numeric(ts)
-#y <- ts[, 1] #for multivariate time series
-
-#predictor
-x <- as.numeric(zoo::index(ts))
-
 #optimize loess model
 m <- utils_optimize_loess(
-  x = x,
-  y = y
+  x = as.numeric(zoo::index(xy)), #predictor
+  y = xy[, 1] #response
 )
 
-summary(m)
+print(m)
 
 #plot observation
 plot(
-  x = zoo::index(ts),
-  y = as.numeric(y),
+  x = zoo::index(xy),
+  y = xy[, 1],
   col = "forestgreen",
   type = "l",
   lwd = 2
   )
 
 #plot prediction
-lines(
-  x = zoo::index(ts),
-  y = stats::predict(m),
+points(
+  x = zoo::index(xy),
+  y = stats::predict(
+    object = m,
+    newdata = as.numeric(zoo::index(xy))
+    ),
   col = "red4"
   )
 
