@@ -11,12 +11,12 @@ psi_auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 
 \item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
-\item{path}{(required, data frame) dataframe produced by [cost_path()].
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}.
 Default: NULL}
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}

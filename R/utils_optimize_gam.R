@@ -74,7 +74,7 @@ utils_optimize_gam <- function(
 
   complexity_space = seq(
     from = ceiling(nrow(model_df)/10),
-    to = nrow(model_df),
+    to = nrow(model_df) - 1,
     by = 1
   )
 

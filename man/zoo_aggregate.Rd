@@ -9,11 +9,11 @@ zoo_aggregate(x = NULL, breaks = NULL, f = mean, ...)
 \arguments{
 \item{x}{(required, zoo object) Time series to aggregate. Default: NULL}
 
-\item{breaks}{(required, vector) Vector to define time breaks for aggregation. Must be in the same time units as `zoo::index(x)`.}
+\item{breaks}{(required, vector) Vector to define time breaks for aggregation. Must be in the same time units as \code{zoo::index(x)}.}
 
-\item{f}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.}
+\item{f}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are \code{mean} (default), \code{max},\code{min}, \code{median}, and \code{sd}. Default: \code{mean}.}
 
-\item{...}{(optional, additional arguments) additional arguments to `f`.}
+\item{...}{(optional, additional arguments) additional arguments to \code{f}.}
 }
 \value{
 zoo object

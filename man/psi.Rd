@@ -7,11 +7,11 @@
 psi(path_sum = NULL, auto_sum = NULL, diagonal = FALSE)
 }
 \arguments{
-\item{path_sum}{(required, numeric) Result of [path_sum()] on the least cost path between the sequences to compare.}
+\item{path_sum}{(required, numeric) Result of \code{\link[=path_sum]{path_sum()}} on the least cost path between the sequences to compare.}
 
-\item{auto_sum}{(required, numeric) Result of [psi_auto_sum()] on the sequences to compare. Default: NULL}
+\item{auto_sum}{(required, numeric) Result of \code{\link[=psi_auto_sum]{psi_auto_sum()}} on the sequences to compare. Default: NULL}
 
-\item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Used to correct the computation of `psi` when diagonals are used.}
+\item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Used to correct the computation of \code{psi} when diagonals are used.}
 }
 \value{
 Psi value.
@@ -54,7 +54,7 @@ psi <- psi(
 
 }
 \author{
-Blas Benito <blasbenito@gmail.com>
+Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
 
 \itemize{
 \item Birks, H.J.B.  and Gordon, A.D. (1985) Numerical Methods in Quaternary Pollen Analysis. Academic Press.

@@ -9,7 +9,7 @@ distance_russelrao_cpp(x, y)
 \arguments{
 \item{x}{(required, numeric). Binary vector of 1s and 0s.}
 
-\item{y}{(required, numeric) Binary vector of 1s and 0s of same length as `x`.}
+\item{y}{(required, numeric) Binary vector of 1s and 0s of same length as \code{x}.}
 }
 \value{
 Russell-Rao distance between x and y.

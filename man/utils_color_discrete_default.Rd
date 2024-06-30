@@ -13,13 +13,13 @@ utils_color_discrete_default(n = NULL)
 Color palette
 }
 \description{
-Uses the function [grDevices::palette.colors()] to generate discrete color palettes using the following rules:
+Uses the function \code{\link[grDevices:palette]{grDevices::palette.colors()}} to generate discrete color palettes using the following rules:
 \itemize{
-  \item `n <= 9`: "Okabe-Ito".
-  \item `n == 10`: "Tableau 10"
-  \item `n > 10 && n <= 12`: "Paired"
-  \item `n > 12 && n <= 26`: "Alphabet"
-  \item `n > 26 && n <= 36`: "Polychrome 36"
+\item \code{n <= 9}: "Okabe-Ito".
+\item \code{n == 10}: "Tableau 10"
+\item \code{n > 10 && n <= 12}: "Paired"
+\item \code{n > 12 && n <= 26}: "Alphabet"
+\item \code{n > 26 && n <= 36}: "Polychrome 36"
 }
 }
 \examples{

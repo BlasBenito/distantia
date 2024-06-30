@@ -9,7 +9,7 @@ distance_euclidean_cpp(x, y)
 \arguments{
 \item{x}{(required, numeric vector).}
 
-\item{y}{(required, numeric vector) of same length as `x`.}
+\item{y}{(required, numeric vector) of same length as \code{x}.}
 }
 \value{
 Euclidean distance between x and y.

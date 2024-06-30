@@ -11,7 +11,7 @@ prepare_xy(x = NULL, y = NULL, distance = "euclidean", lock_step = FALSE)
 
 \item{y}{(required, data frame, matrix, or numeric vector) a sequence. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 
 \item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
 }

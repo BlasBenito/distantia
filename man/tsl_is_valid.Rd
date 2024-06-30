@@ -7,7 +7,7 @@
 tsl_is_valid(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 }
 \value{
 time series list or error.
@@ -15,13 +15,13 @@ time series list or error.
 \description{
 Checks that the input argument is a valid time series list. The required features for a valid time series list are:
 \itemize{
-  \item Argument `tsl` is list.
-  \item List `tsl` has unique names.
-  \item List `tsl` has more than one element.
-  \item All elements in `tsl` are "zoo" objects.
-  \item All "zoo" objects have an attribute "name".
-  \item All "zoo" objects have unique attributes "name".
-  \item All "zoo" objects have at least one common column name.
-  \item All "zoo" objects have zero NA cases.
+\item Argument \code{tsl} is list.
+\item List \code{tsl} has unique names.
+\item List \code{tsl} has more than one element.
+\item All elements in \code{tsl} are "zoo" objects.
+\item All "zoo" objects have an attribute "name".
+\item All "zoo" objects have unique attributes "name".
+\item All "zoo" objects have at least one common column name.
+\item All "zoo" objects have zero NA cases.
 }
 }

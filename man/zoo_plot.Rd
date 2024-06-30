@@ -25,23 +25,23 @@ zoo_plot(
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
 
-\item{center}{(optional, logical) If TRUE, the columns of `x` are centered via [scale()]. Default: FALSE}
+\item{center}{(optional, logical) If TRUE, the columns of \code{x} are centered via \code{\link[=scale]{scale()}}. Default: FALSE}
 
-\item{scale}{(optional, logical) If TRUE, the columns of `x` are scaled via [scale()]. Default: FALSE}
+\item{scale}{(optional, logical) If TRUE, the columns of \code{x} are scaled via \code{\link[=scale]{scale()}}. Default: FALSE}
 
 \item{xlim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
 
 \item{ylim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
 
-\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL}
+\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
 
 \item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
 
 \item{title}{(optional, character string) Main title of the plot. If NULL, it's set to the name of the sequence. Default: NULL}
 
-\item{xlab}{(optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, the word "Time" is used. Default: NULL}
+\item{xlab}{(optional, character string) Title of the x axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, the word "Time" is used. Default: NULL}
 
-\item{ylab}{(optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL}
+\item{ylab}{(optional, character string) Title of the x axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, it is left empty. Default: NULL}
 
 \item{text_cex}{(optional, numeric) Multiplicator of the text size. Default: 1}
 
@@ -49,7 +49,7 @@ zoo_plot(
 
 \item{guide_cex}{(optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.}
 
-\item{vertical}{(optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if `subpanel = FALSE`. Default: FALSE}
+\item{vertical}{(optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if \code{subpanel = FALSE}. Default: FALSE}
 
 \item{subpanel}{(optional, logical) For internal use within the package in multipanel plots. Strips down the plot for a sub-panel. Default: FALSE}
 }

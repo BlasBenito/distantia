@@ -7,15 +7,15 @@
 distantia_to_sf(df = NULL, xy = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
 
-\item{xy}{(required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL}
+\item{xy}{(required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. See \verb{[eemian_cooordinaes]} example. Default: NULL}
 }
 \value{
 sf data frame with LINESTRING geometry.
 }
 \description{
-Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
+Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from \code{\link[=distantia]{distantia()}} to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 }
 \examples{
 data("eemian_pollen")

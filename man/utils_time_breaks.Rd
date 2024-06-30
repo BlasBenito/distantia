@@ -11,15 +11,15 @@ utils_time_breaks(tsl = NULL, breaks = NULL)
 
 \item{breaks}{(required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 \itemize{
-  \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
-  \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
-  \item numeric: defines fixed with time intervals for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
-  \item keyword (see [utils_time_units()] and [tsl_time_summary()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
+\item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
+\item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the \code{tsl} argument.
+\item numeric: defines fixed with time intervals for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
+\item keyword (see \code{\link[=utils_time_units]{utils_time_units()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}}): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 }}
 }
 \value{
 Vector of class numeric, Date, or POSIXct
 }
 \description{
-Internal function of [tsl_aggregate()] to check input breaks for time series aggregation and returns a proper aggregation vector.
+Internal function of \code{\link[=tsl_aggregate]{tsl_aggregate()}} to check input breaks for time series aggregation and returns a proper aggregation vector.
 }

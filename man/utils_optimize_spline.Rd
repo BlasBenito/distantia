@@ -17,7 +17,7 @@ utils_optimize_spline(x = NULL, y = NULL, max_complexity = FALSE)
 Object of class "smooth.spline".
 }
 \description{
-Internal function used in [zoo_resample()]. It finds optimal `df` parameter of a smoothing spline model `y ~ x` fitted with [stats::smooth.spline()]  that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `df`.
+Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds optimal \code{df} parameter of a smoothing spline model \code{y ~ x} fitted with \code{\link[stats:smooth.spline]{stats::smooth.spline()}}  that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such \code{df}.
 }
 \examples{
 

@@ -7,7 +7,7 @@
 utils_check_distance_args(distance = NULL)
 }
 \arguments{
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
 Character vector with distance names

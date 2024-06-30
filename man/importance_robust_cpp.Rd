@@ -20,7 +20,7 @@ importance_robust_cpp(
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the
 computation of the cost matrix. Default: FALSE.}
@@ -39,8 +39,8 @@ Returns the contribution of each variable to the overall dissimilarity
 of two sequences. In opposition to the classic version, importance computation is
 performed over the least-cost path of the whole sequence. To compute importance,
 the function first computes the psi distance dissimilarity between seuqences
- using all columns ("psi"), with each column separately ("psi_only_with"),
- and without each column ("psi_without). Then, it computes "psi_difference" as
+using all columns ("psi"), with each column separately ("psi_only_with"),
+and without each column ("psi_without). Then, it computes "psi_difference" as
 psi_only_with - psi_without. Highest positive values highlight the variables that
 better explain the dissimilarity between the sequences.
 }

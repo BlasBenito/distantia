@@ -9,9 +9,9 @@ psi_cost_matrix(dist_matrix = NULL, diagonal = FALSE, weighted = FALSE)
 \arguments{
 \item{dist_matrix}{(required, numeric matrix). Distance matrix.}
 
-\item{diagonal}{(optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: FALSE.}
+\item{diagonal}{(optional, logical). If \code{TRUE}, diagonals are included in the computation of the cost matrix Default: FALSE.}
 
-\item{weighted}{(optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.}
+\item{weighted}{(optional, logical). Only relevant if \code{diagonal = TRUE}. If \code{TRUE}, weights diagonal cost by a factor of 1.414214.}
 }
 \value{
 A cost matrix.

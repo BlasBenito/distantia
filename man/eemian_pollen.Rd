@@ -13,7 +13,7 @@ data(eemian_pollen)
 \description{
 Pollen counts of nine interglacial sites in central Europe.
 
-Site coordinates for this dataset are in [eemian_coordinates].
+Site coordinates for this dataset are in \link{eemian_coordinates}.
 }
 \examples{
 data("eemian_pollen")

@@ -19,5 +19,5 @@ f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 Transformed zoo object.
 }
 \description{
-Centers and scales using the global average  and standard deviation of all zoo objects within a time series list. Please use [base::scale()] to center and scale each time series independently.
+Centers and scales using the global average  and standard deviation of all zoo objects within a time series list. Please use \code{\link[base:scale]{base::scale()}} to center and scale each time series independently.
 }

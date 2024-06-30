@@ -7,13 +7,13 @@
 tsl_names_set(tsl = NULL, names = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
-\item{names}{(optional, character vector) names to set. Must be of the same length of `x`. If NULL, and the list `x` has names, then the names of the zoo objects inside of the list are taken from the names of the list elements.}
+\item{names}{(optional, character vector) names to set. Must be of the same length of \code{x}. If NULL, and the list \code{x} has names, then the names of the zoo objects inside of the list are taken from the names of the list elements.}
 }
 \value{
 time series list
 }
 \description{
-Sets the names of a time series list created with [tsl_initialize()] and the internal names of the zoo objects inside, stored in their attribute "name".
+Sets the names of a time series list created with \code{\link[=tsl_initialize]{tsl_initialize()}} and the internal names of the zoo objects inside, stored in their attribute "name".
 }

@@ -9,9 +9,9 @@ prepare_zoo_list(x = NULL, time_column = NULL, lock_step = FALSE)
 \arguments{
 \item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
 
-\item{time_column}{(optional if `lock_step = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
+\item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
 
-\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`.}
+\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the \code{time_column}.}
 }
 \value{
 A named list of data frames, matrices, or vectors.

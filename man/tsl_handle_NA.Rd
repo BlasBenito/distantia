@@ -15,15 +15,15 @@ tsl_NaN_to_NA(tsl = NULL)
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
 
-\item{na_action}{(required, character) Action to handle NA data in `x`. Current options are:
+\item{na_action}{(required, character) Action to handle NA data in \code{x}. Current options are:
 \itemize{
-  \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
-  \item "impute" : NA cases are interpolated against time via splines with [zoo::na.spline()].
-  \item "omit": rows with NA cases are removed.
-  \item "fill": NA cases are replaced with the value in `na_fill`.
+\item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
+\item "impute" : NA cases are interpolated against time via splines with \code{\link[zoo:na.approx]{zoo::na.spline()}}.
+\item "omit": rows with NA cases are removed.
+\item "fill": NA cases are replaced with the value in \code{na_fill}.
 }}
 
-\item{na_fill}{(optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
+\item{na_fill}{(optional, numeric) Only relevant when \code{na_action = "fill"}, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }

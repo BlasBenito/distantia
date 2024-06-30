@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_resample.R
 \name{tsl_resample}
 \alias{tsl_resample}
-\title{Resamples Time Series List to a New Time}
+\title{Resampling of Time Series Lists}
 \usage{
 tsl_resample(
   tsl = NULL,
@@ -14,9 +14,9 @@ tsl_resample(
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
+\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time to resample to. Must be of the same class of the time in \code{tsl}. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see [utils_optimize_spline()]), "gam" (see [utils_optimize_gam()])  or "loess" (see [utils_optimize_loess()]). Default: "spline".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}), "gam" (see \code{\link[=utils_optimize_gam]{utils_optimize_gam()}})  or "loess" (see \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}). Default: "spline".}
 
 \item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE}
 }
@@ -24,17 +24,60 @@ tsl_resample(
 time series list
 }
 \description{
-Given time series list and a time vector, this function uses Generalized Additive Models (GAM) to resample the time series to a new time. This operation is useful to align time series with different frequencies, or to transform irregular time series into regular.
+\strong{Objective}
 
-The new time vector must be of the same class as the time of the zoo object (either  numeric, Date, or POSIXct). This new time vector can be either created from scratch, or can be extracted from another zoo object with [zoo::index()].
+Time series resampling involves interpolating new values for time steps not available in the original time series. This operation is useful to:
+\itemize{
+\item Transform irregular time series into regular.
+\item Align time series with different temporal resolutions.
+\item Increase (upsampling) or decrease (downsampling) the temporal resolution of a time series.
+}
 
-Each time series is modelled as a function of the original time of the zoo object with [mgcv::gam()], and then predicted to the new time.
+On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
+
+\strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one.
+
+\strong{Inputs and Methods}
+
+This function requires three inputs: a time series list (argument \code{tsl}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{tsl} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods available for time series modelling and interpolation:
+
+\itemize{
+\item "spline": cubic smoothing spline regression as implemented in \code{\link[stats:smooth.spline]{stats::smooth.spline()}}.
+\item "loess": local polynomial regression fitting as implemented in \code{\link[stats:loess]{stats::loess()}}.
+\item "gam": generalized additive modelling as implemented in \code{\link[mgcv:gam]{mgcv::gam()}}.
+}
+
+These methods are used to fit models \code{y ~ x} (\verb{y ~ s(x, k = ?)} for "gam") where \code{y} are the values of the univariate time series and \code{x} is a numeric version of its time.
+
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error between \code{y} and the model predictions on \code{x}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+
+\strong{Step by Step}
+
+The steps to resample a time series list are:
+
+\enumerate{
+\item The time interpolation range is computed from the intersection of all times in \code{tsl}. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
+\item If \code{new_time} is provided, any values of \code{new_time} outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If \code{new_time} is not provided, a regular time within the interpolation time range with the length of the shortest time series in \code{tsl} is generated.
+\item For each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
+\itemize{
+\item If \code{max_complexity == FALSE}, the model with the complexity that minimizes the root mean squared error between the observed and predicted \code{y} is returned.
+\item If \code{max_complexity == TRUE}, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
+\itemize{
+\item "spline": \verb{df = length(y) - 1, all.knots = TRUE}.
+\item "loess": \code{span = 1/length(x)}.
+\item "gam": \code{y ~ s(x, k = length(y) - 1)}.
+}
+}
+\item The fitted model is predicted over \code{new_time} to generate the resampled time series.
+}
+
+\strong{Other Details}
 
 Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
 
-This function supports progress bars generated by the `progressr` package. See examples.
+This function supports progress bars generated by the \code{progressr} package. See examples.
 
-This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
+This function also accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only worth it for large time series lists with long time series.
 }
 \examples{
 #simulate time series list

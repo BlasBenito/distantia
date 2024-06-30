@@ -7,7 +7,7 @@
 cost_path_trim_cpp(path)
 }
 \arguments{
-\item{path}{(required, data frame) dataframe produced by [cost_path()]. Default: NULL}
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}. Default: NULL}
 }
 \value{
 A data frame with least-cost path coordinates.

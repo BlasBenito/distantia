@@ -13,7 +13,7 @@ auto_sum_no_path_cpp(x, y, distance = "euclidean")
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
 Auto sum of distances.

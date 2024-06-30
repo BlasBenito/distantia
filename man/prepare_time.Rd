@@ -9,9 +9,9 @@ prepare_time(x = NULL, time_column = NULL, lock_step = NULL)
 \arguments{
 \item{x}{(required, named list of data frames). List with named data frames. Default: NULL.}
 
-\item{time_column}{(optional if `lock_step = FALSE`, and required otherwise, column name) Name of numeric column representing time. Default: NULL.}
+\item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, column name) Name of numeric column representing time. Default: NULL.}
 
-\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the `time_column`. Default: FALSE.}
+\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the \code{time_column}. Default: FALSE.}
 }
 \value{
 List of data frames

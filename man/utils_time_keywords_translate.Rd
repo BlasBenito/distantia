@@ -13,5 +13,5 @@ utils_time_keywords_translate(keyword = NULL)
 Time keyword.
 }
 \description{
-Internal function to translate misnamed or abbreviated keywords into valid ones. Uses [utils_time_keywords_dictionary()] as reference dictionary.
+Internal function to translate misnamed or abbreviated keywords into valid ones. Uses \code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}} as reference dictionary.
 }

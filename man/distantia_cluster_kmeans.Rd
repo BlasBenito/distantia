@@ -7,28 +7,28 @@
 distantia_cluster_kmeans(df = NULL, clusters = NULL, seed = 1)
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}. Default: NULL}
 
-\item{clusters}{(required, integer) Number of groups to generate. If NULL (default), [cluster_kmeans_optimizer()] is used to find the number of clusters that maximizes the mean silhouette width (see [cluster_silhouette()]). Default: NULL}
+\item{clusters}{(required, integer) Number of groups to generate. If NULL (default), \code{\link[=cluster_kmeans_optimizer]{cluster_kmeans_optimizer()}} is used to find the number of clusters that maximizes the mean silhouette width (see \code{\link[=cluster_silhouette]{cluster_silhouette()}}). Default: NULL}
 
 \item{seed}{(optional, integer) Random seed to be used during the K-means computation. Default: 1}
 }
 \value{
 List with the following objects:
 \itemize{
-  \item `kmeans`: kmeans object.
-  \item `clusters`: integer, number of clusters.
-  \item `silhouette_width`: mean silhouette width of the hierarchical clustering.
-  \item `df`: data frame with names of the time series, their group assignation, and their silhouette width scores.
-  \item `d`: psi distance matrix.
-  \item `optimization`: only if `clusters = NULL`, data frame with optimization results from [cluster_hclust_optimizer()].
+\item \code{kmeans}: kmeans object.
+\item \code{clusters}: integer, number of clusters.
+\item \code{silhouette_width}: mean silhouette width of the hierarchical clustering.
+\item \code{df}: data frame with names of the time series, their group assignation, and their silhouette width scores.
+\item \code{d}: psi distance matrix.
+\item \code{optimization}: only if \code{clusters = NULL}, data frame with optimization results from \code{\link[=cluster_hclust_optimizer]{cluster_hclust_optimizer()}}.
 }
 }
 \description{
 Kmeans Clustering of a Distantia Data Frame
 }
 \details{
-All relevant details about clustering methods and relevant references are available in the help file of [stats::kmeans()].
+All relevant details about clustering methods and relevant references are available in the help file of \code{\link[stats:kmeans]{stats::kmeans()}}.
 }
 \examples{
 
@@ -59,5 +59,5 @@ k$df
 
 }
 \seealso{
-[stats::kmeans()]
+\code{\link[stats:kmeans]{stats::kmeans()}}
 }

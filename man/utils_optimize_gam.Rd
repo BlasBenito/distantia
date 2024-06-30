@@ -17,7 +17,7 @@ utils_optimize_gam(x = NULL, y = NULL, max_complexity = FALSE)
 GAM model.
 }
 \description{
-Internal function used in [zoo_resample()]. It finds the optimal `k` parameter of a univariate GAM formula `y ~ s(x, k = ?)` fitted with [mgcv::gam()] that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `k`.
+Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds the optimal \code{k} parameter of a univariate GAM formula \verb{y ~ s(x, k = ?)} fitted with \code{\link[mgcv:gam]{mgcv::gam()}} that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such \code{k}.
 }
 \examples{
 

@@ -9,24 +9,24 @@ tsl_transform(tsl = NULL, f = NULL, ...)
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
 
-\item{f}{(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, [scale()]) should work as well:
+\item{f}{(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, \code{\link[=scale]{scale()}}) should work as well:
 \itemize{
-  \item f_proportion: proportion computed by row.
-  \item f_percentage: percentage computed by row.
-  \item f_hellinger: Hellinger transformation computed by row
-  \item f_center: Centering computed by column using the column mean across all zoo objects within `tsl`.
-  \item f_scale: Centering and scaling using the column mean and standard deviation across all zoo objects within `tsl`.
-  \item f_smooth: Time series smoothing with a user defined rolling window.
-  \item f_detrend_difference: Differencing detrending of time series via [diff()].
-  \item f_detrend_linear: Detrending of seasonal time series via linear modeling.
-  \item f_detrend_gam: Detrending of seasonal time series via Generalized Additive Models.
+\item f_proportion: proportion computed by row.
+\item f_percentage: percentage computed by row.
+\item f_hellinger: Hellinger transformation computed by row
+\item f_center: Centering computed by column using the column mean across all zoo objects within \code{tsl}.
+\item f_scale: Centering and scaling using the column mean and standard deviation across all zoo objects within \code{tsl}.
+\item f_smooth: Time series smoothing with a user defined rolling window.
+\item f_detrend_difference: Differencing detrending of time series via \code{\link[=diff]{diff()}}.
+\item f_detrend_linear: Detrending of seasonal time series via linear modeling.
+\item f_detrend_gam: Detrending of seasonal time series via Generalized Additive Models.
 }}
 
-\item{...}{(optional, additional arguments of `f`) Optional arguments for the transformation function.}
+\item{...}{(optional, additional arguments of \code{f}) Optional arguments for the transformation function.}
 }
 \value{
 time series list
 }
 \description{
-Transforms values of the zoo objects within a time series list. Generally, functions introduced via the argument `f` should not change the dimensions of the output time series list. However, there are glaring exceptions. For example, [f_center()] and [f_scale()] compute the overall mean and standard deviation across all zoo objects in the time series list to apply a common transformation. This requires removing exclusive columns from the zoo objects via [tsl_remove_exclusive_cols()].
+Transforms values of the zoo objects within a time series list. Generally, functions introduced via the argument \code{f} should not change the dimensions of the output time series list. However, there are glaring exceptions. For example, \code{\link[=f_center]{f_center()}} and \code{\link[=f_scale]{f_scale()}} compute the overall mean and standard deviation across all zoo objects in the time series list to apply a common transformation. This requires removing exclusive columns from the zoo objects via \code{\link[=tsl_remove_exclusive_cols]{tsl_remove_exclusive_cols()}}.
 }

@@ -7,21 +7,21 @@
 distantia_boxplot(df = NULL, color = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) output of [distantia()] or [distantia_importance()]. Default: NULL}
+\item{df}{(required, data frame) output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
 
 \item{color}{(optional, character vector) boxplot fill color. Default: NULL}
 
-\item{f}{(optional, function) function used to order the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `mean`.}
+\item{f}{(optional, function) function used to order the boxes. Can be one of \code{mean}, \code{median}, \code{min}, \code{max}, or \code{quantile}. Default: \code{mean}.}
 
-\item{...}{(optional, additional arguments to `f`). If `f` is `quantile`, `probs = 0.75` can be used. Default: ...}
+\item{...}{(optional, additional arguments to \code{f}). If \code{f} is \code{quantile}, \code{probs = 0.75} can be used. Default: ...}
 }
 \value{
 Boxplot and list with stats used to draw it
 }
 \description{
-For data frames resulting from [distantia()] it plots the distribution of the Psi values of each time series against all others. Time series with higher values are the most dissimilar.
+For data frames resulting from \code{\link[=distantia]{distantia()}} it plots the distribution of the Psi values of each time series against all others. Time series with higher values are the most dissimilar.
 
-For data frames resulting from [distantia_importance()] it plots the contribution to similarity/dissimilarity of each variable across all time-series. Variables with higher values contribute the most to the dissimilarity between time series.
+For data frames resulting from \code{\link[=distantia_importance]{distantia_importance()}} it plots the contribution to similarity/dissimilarity of each variable across all time-series. Variables with higher values contribute the most to the dissimilarity between time series.
 }
 \examples{
 tsl <- tsl_simulate(

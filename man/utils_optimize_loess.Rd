@@ -17,7 +17,7 @@ utils_optimize_loess(x = NULL, y = NULL, max_complexity = FALSE)
 Loess model.
 }
 \description{
-Internal function used in [zoo_resample()]. It finds the `span` parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model `y ~ x` fitted with [stats::loess()] that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `span`.
+Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds the \code{span} parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model \code{y ~ x} fitted with \code{\link[stats:loess]{stats::loess()}} that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such \code{span}.
 }
 \examples{
 

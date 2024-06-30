@@ -9,9 +9,9 @@ distance(x = NULL, y = NULL, distance = "euclidean")
 \arguments{
 \item{x}{(required, numeric vector).}
 
-\item{y}{(required, numeric vector) of same length as `x`.}
+\item{y}{(required, numeric vector) of same length as \code{x}.}
 
-\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
 A distance value.
@@ -29,5 +29,5 @@ distance(
 
 }
 \author{
-Blas Benito <blasbenito@gmail.com>
+Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
 }

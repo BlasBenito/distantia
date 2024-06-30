@@ -20,7 +20,7 @@ psi_cost_path_cpp(
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the
 computation of the cost matrix. Default: FALSE.}

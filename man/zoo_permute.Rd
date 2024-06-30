@@ -19,13 +19,13 @@ zoo_permute(
 
 \item{permutation}{(optional, character string) permutation method. Valid values are listed below from higher to lower induced randomness:
 \itemize{
-  \item "free": unrestricted re-shuffling of individual cases across rows and columns. Ignores block_size.
-  \item "free_by_row": unrestricted re-shuffling of complete rows. Ignores block size.
-  \item "restricted": restricted shuffling across rows and columns within blocks of rows.
-  \item "restricted_by_row": restricted re-shuffling of rows within blocks.
+\item "free": unrestricted re-shuffling of individual cases across rows and columns. Ignores block_size.
+\item "free_by_row": unrestricted re-shuffling of complete rows. Ignores block size.
+\item "restricted": restricted shuffling across rows and columns within blocks of rows.
+\item "restricted_by_row": restricted re-shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer) Block size in number of rows for restricted permutations. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that the original data is pre-divided into blocks of such size, and a given row can only be permuted within their original block. If NULL, defaults to the rounded one tenth of the number of rows in `x`. Default: NULL.}
+\item{block_size}{(optional, integer) Block size in number of rows for restricted permutations. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size \code{n} indicates that the original data is pre-divided into blocks of such size, and a given row can only be permuted within their original block. If NULL, defaults to the rounded one tenth of the number of rows in \code{x}. Default: NULL.}
 
 \item{seed}{(optional, integer) initial random seed to use during permutations. Default: 1}
 }
@@ -38,10 +38,10 @@ Fast permutation of zoo time series for null model testing using a fast and effi
 The available  permutation methods are:
 
 \itemize{
-  \item "free" (see [permute_free_cpp()]): Unrestricted and independent re-shuffling of individual cases across rows and columns. Individual values are relocated to a new row and column within the dimensions of the original matrix.
-\item "free_by_row" (see [permute_free_by_row_cpp()]): Unrestricted re-shuffling of complete rows. Each individual row is given a new random row number, and the data  matrix is re-ordered accordingly.
-\item "restricted" (see [permute_restricted_cpp()]): Data re-shuffling across rows and columns is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, and individual cases are then assigned to a new row and column within their original block.
-\item "restricted_by_row" (see [permute_restricted_by_row_cpp()]): Re-shuffling of complete rows is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, each individual row is given a new random row number within its original block, and the block is reordered accordingly to generate the permuted output.
+\item "free" (see \code{\link[=permute_free_cpp]{permute_free_cpp()}}): Unrestricted and independent re-shuffling of individual cases across rows and columns. Individual values are relocated to a new row and column within the dimensions of the original matrix.
+\item "free_by_row" (see \code{\link[=permute_free_by_row_cpp]{permute_free_by_row_cpp()}}): Unrestricted re-shuffling of complete rows. Each individual row is given a new random row number, and the data  matrix is re-ordered accordingly.
+\item "restricted" (see \code{\link[=permute_restricted_cpp]{permute_restricted_cpp()}}): Data re-shuffling across rows and columns is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, and individual cases are then assigned to a new row and column within their original block.
+\item "restricted_by_row" (see \code{\link[=permute_restricted_by_row_cpp]{permute_restricted_by_row_cpp()}}): Re-shuffling of complete rows is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, each individual row is given a new random row number within its original block, and the block is reordered accordingly to generate the permuted output.
 }
 }
 \examples{

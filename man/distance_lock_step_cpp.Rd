@@ -13,7 +13,7 @@ distance_lock_step_cpp(y, x, distance = "euclidean")
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
 Vector of distances between 'y' (rows) and 'x' (columns).

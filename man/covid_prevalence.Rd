@@ -11,10 +11,10 @@ data frame with 3 columns and 51048 rows
 data(covid_prevalence)
 }
 \description{
-Dataset with Covid19 prevalence in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
+Dataset with Covid19 prevalence in California counties between 2020 and 2024. \href{https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data}{Source}.
 }
 \details{
-Site coordinates for this dataset are in [covid_coordinates].
+Site coordinates for this dataset are in \link{covid_coordinates}.
 }
 \examples{
 data("covid_prevalence")

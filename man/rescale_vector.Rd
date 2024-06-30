@@ -13,15 +13,15 @@ rescale_vector(
 )
 }
 \arguments{
-\item{x}{(required, numeric vector) Numeric vector. Default: `NULL`}
+\item{x}{(required, numeric vector) Numeric vector. Default: \code{NULL}}
 
-\item{new_min}{(optional, numeric) New minimum value. Default: `0`}
+\item{new_min}{(optional, numeric) New minimum value. Default: \code{0}}
 
-\item{new_max}{(optional_numeric) New maximum value. Default: `1`}
+\item{new_max}{(optional_numeric) New maximum value. Default: \code{1}}
 
-\item{old_min}{(optional, numeric) Old minimum value. Default: `NULL`}
+\item{old_min}{(optional, numeric) Old minimum value. Default: \code{NULL}}
 
-\item{old_max}{(optional_numeric) Old maximum value. Default: `NULL`}
+\item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
 }
 \value{
 Numeric vector

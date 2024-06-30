@@ -15,7 +15,7 @@ Slope of the numeric vector
 \description{
 Calculates the slope of a numeric vector using linear regression. If the length of the input vector is 1, it returns 0. If linear regression fails, it returns NA.
 
-Useful for [tsl_transform()] or [tsl_aggregate()].
+Useful for \code{\link[=tsl_transform]{tsl_transform()}} or \code{\link[=tsl_aggregate]{tsl_aggregate()}}.
 }
 \examples{
 # Numeric vector of any length

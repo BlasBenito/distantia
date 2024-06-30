@@ -11,7 +11,7 @@ psi_dist_matrix(x = NULL, y = NULL, distance = "euclidean")
 
 \item{y}{(required, data frame or matrix) a time series.}
 
-\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
 A distance matrix.

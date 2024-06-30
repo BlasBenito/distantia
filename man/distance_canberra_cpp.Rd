@@ -9,7 +9,7 @@ distance_canberra_cpp(x, y)
 \arguments{
 \item{x}{(required, numeric vector).}
 
-\item{y}{(required, numeric vector) of same length as `x`.//' @return Canberra distance between x and y.}
+\item{y}{(required, numeric vector) of same length as \code{x}.//' @return Canberra distance between x and y.}
 }
 \description{
 Computes the Canberra distance between two binary vectors.

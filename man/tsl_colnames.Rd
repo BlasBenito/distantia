@@ -7,17 +7,17 @@
 tsl_colnames(tsl = NULL, names = c("all", "shared", "exclusive"))
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
 \item{names}{(optional, character string) Three different sets of column names can be requested:
 \itemize{
-  \item "all" (default): list with the column names in each zoo object in `tsl`.
-  \item "shared": character vector with the shared column names in `tsl`.
-  \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
+\item "all" (default): list with the column names in each zoo object in \code{tsl}.
+\item "shared": character vector with the shared column names in \code{tsl}.
+\item "exclusive": list with names of exclusive columns in each zoo object in \code{tsl}.
 }}
 }
 \value{
-character vector of common column names if `common = TRUE`, or list with character vector of column names otherwise.
+character vector of common column names if \code{common = TRUE}, or list with character vector of column names otherwise.
 }
 \description{
 Column Names of Zoo Objects in Time Series List

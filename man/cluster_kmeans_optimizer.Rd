@@ -7,7 +7,7 @@
 cluster_kmeans_optimizer(d = NULL, seed = 1)
 }
 \arguments{
-\item{d}{(required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL}
+\item{d}{(required, matrix) distance matrix typically resulting from \code{\link[=distantia_matrix]{distantia_matrix()}}, but any other square matrix should work. Default: NULL}
 
 \item{seed}{(optional, integer) Random seed to be used during the K-means computation. Default: 1}
 }
@@ -15,5 +15,5 @@ cluster_kmeans_optimizer(d = NULL, seed = 1)
 Data frame with number of clusters and their respective mean silhouette widths.
 }
 \description{
-Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [cluster_silhouette()] for more details.
+Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=cluster_silhouette]{cluster_silhouette()}} for more details.
 }

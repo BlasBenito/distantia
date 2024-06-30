@@ -7,19 +7,19 @@
 distantia_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia()] or [distantia_importance()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
 
-\item{f}{(optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of [distantia()] arguments in the input. Default: `mean`}
+\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of \code{\link[=distantia]{distantia()}} arguments in the input. Default: \code{mean}}
 
-\item{...}{(optional, arguments of `f`) Further arguments to pass to the function `f`.}
+\item{...}{(optional, arguments of \code{f}) Further arguments to pass to the function \code{f}.}
 }
 \value{
 Data frame with attribute "type" equal to "distantia_df.
 }
 \description{
-Applies a function to aggregate the output of [distantia()] when several combinations of arguments have been used.
+Applies a function to aggregate the output of \code{\link[=distantia]{distantia()}} when several combinations of arguments have been used.
 
-The aggregation function is applied after scaling the dissimilarity scores `Psi` by group.
+The aggregation function is applied after scaling the dissimilarity scores \code{Psi} by group.
 
-The original data frame is returned without modification if there is a single combination of arguments, or if an invalid `f` is provided.
+The original data frame is returned without modification if there is a single combination of arguments, or if an invalid \code{f} is provided.
 }

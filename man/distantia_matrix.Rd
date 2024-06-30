@@ -7,7 +7,7 @@
 distantia_matrix(df = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
 }
 \value{
 List of distance matrices.

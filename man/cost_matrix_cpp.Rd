@@ -7,7 +7,7 @@
 cost_matrix_cpp(dist_matrix)
 }
 \arguments{
-\item{dist_matrix}{(required, distance matrix). Output of [distance_matrix_cpp()].}
+\item{dist_matrix}{(required, distance matrix). Output of \code{\link[=distance_matrix_cpp]{distance_matrix_cpp()}}.}
 }
 \value{
 Least cost matrix.

@@ -17,5 +17,5 @@ f_detrend_difference(x = NULL, lag = 1, ...)
 Transformed zoo object.
 }
 \description{
-Differencing detrending via [diff()]. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
+Differencing detrending via \code{\link[=diff]{diff()}}. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
 }

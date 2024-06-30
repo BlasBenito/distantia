@@ -7,28 +7,28 @@
 distantia_cluster_hclust(df = NULL, clusters = NULL, method = "complete")
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}. Default: NULL}
 
-\item{clusters}{(required, integer) Number of groups to generate. If NULL (default), [cluster_hclust_optimizer()] is used to find the number of clusters that maximizes the mean silhouette width (see [cluster_silhouette()]). Default: NULL}
+\item{clusters}{(required, integer) Number of groups to generate. If NULL (default), \code{\link[=cluster_hclust_optimizer]{cluster_hclust_optimizer()}} is used to find the number of clusters that maximizes the mean silhouette width (see \code{\link[=cluster_silhouette]{cluster_silhouette()}}). Default: NULL}
 
 \item{method}{(optional, character string) The agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Default: "complete".}
 }
 \value{
 List with the following objects:
 \itemize{
-  \item `hclust`: hclust object.
-  \item `clusters`: integer, number of clusters.
-  \item `silhouette_width`: mean silhouette width of the hierarchical clustering.
-  \item `df`: data frame with names of the time series, their group assignation, and their silhouette width scores.
-  \item `d`: psi distance matrix.
-  \item `optimization`: only if `clusters = NULL`, data frame with optimization results from [cluster_hclust_optimizer()].
+\item \code{hclust}: hclust object.
+\item \code{clusters}: integer, number of clusters.
+\item \code{silhouette_width}: mean silhouette width of the hierarchical clustering.
+\item \code{df}: data frame with names of the time series, their group assignation, and their silhouette width scores.
+\item \code{d}: psi distance matrix.
+\item \code{optimization}: only if \code{clusters = NULL}, data frame with optimization results from \code{\link[=cluster_hclust_optimizer]{cluster_hclust_optimizer()}}.
 }
 }
 \description{
 Hierarchical Clustering of a Distantia Data Frame
 }
 \details{
-All relevant details about clustering methods and relevant references are available in the help file of [stats::hclust()].
+All relevant details about clustering methods and relevant references are available in the help file of \code{\link[stats:hclust]{stats::hclust()}}.
 }
 \examples{
 
@@ -66,5 +66,5 @@ stats::rect.hclust(
 
 }
 \seealso{
-[stats::kmeans()]
+\code{\link[stats:kmeans]{stats::kmeans()}}
 }

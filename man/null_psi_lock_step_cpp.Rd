@@ -21,16 +21,16 @@ null_psi_lock_step_cpp(
 
 \item{distance}{(optional, character string) name or abbreviation of the
 distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset `distances`. Default: "euclidean".}
+of the dataset \code{distances}. Default: "euclidean".}
 
 \item{repetitions}{(optional, integer) number of null psi values to generate. Default: 100}
 
 \item{permutation}{(optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 \itemize{
-  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-  \item "restricted": restricted shuffling of rows and columns within blocks.
-  \item "restricted_by_row": restricted shuffling of rows within blocks.
+\item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+\item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+\item "restricted": restricted shuffling of rows and columns within blocks.
+\item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
 \item{block_size}{(optional, integer) block size in rows for

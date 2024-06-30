@@ -16,21 +16,21 @@ utils_line_guide(
 )
 }
 \arguments{
-\item{x}{(required, sequence) a single sequence or set of sequences generated via [tsl_initialize()]. Default: NULL}
+\item{x}{(required, sequence) a single sequence or set of sequences generated via \code{\link[=tsl_initialize]{tsl_initialize()}}. Default: NULL}
 
-\item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
+\item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the \code{x} and \code{y} arguments of the \code{\link[graphics:legend]{graphics::legend()}} function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
-\item{color}{(optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL}
+\item{color}{(optional, character vector) vector of colors for the sequence columns. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
 
 \item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
 
-\item{length}{(optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1}
+\item{length}{(optional, numeric) maps to the argument \code{seg.len} of \code{\link[graphics:legend]{graphics::legend()}}. Length of the lines drawn in the legend. Default: 1}
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 0.7}
 
 \item{ncol}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].}
+\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
 }
 \value{
 A plot.

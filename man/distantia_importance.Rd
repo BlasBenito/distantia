@@ -17,56 +17,56 @@ distantia_importance(
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
 
 \item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument \code{tsl} to be fully aligned. Default: FALSE.}
 
 \item{robust}{(required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }
 \value{
 Data frame with the following columns:
 \itemize{
-  \item `x`: name of the sequence `x`.
-  \item `y`: name of the sequence `y`.
-  \item `distance`: name of the distance metric.
-  \item `diagonal`: value of the argument `diagonal`.
-  \item `weighted`: value of the argument `weighted`.
-  \item `ignore_blocks`: value of the argument `ignore_blocks`.
-  \item `lock_step`: value of the argument `lock_step`.
-  \item `robust`: value of the argument `robust`.
-  \item `variable`: name of the individual variable.
-  \item `psi`: overall psi score of `a` and `b`.
-  \item `psi_only_with`: psi score of the variable.
-  \item `psi_without`: psi score without the variable.
-  \item `psi_difference`: difference between `psi_only_with` and `psi_without`.
-  \item `psi_drop`: change in psi (as a percentage of the overall psi) when the variable is removed.
-  \item `importance`: `psi_difference` as a precentage of `psi`. Only interpretable when `robust = TRUE`.
+\item \code{x}: name of the sequence \code{x}.
+\item \code{y}: name of the sequence \code{y}.
+\item \code{distance}: name of the distance metric.
+\item \code{diagonal}: value of the argument \code{diagonal}.
+\item \code{weighted}: value of the argument \code{weighted}.
+\item \code{ignore_blocks}: value of the argument \code{ignore_blocks}.
+\item \code{lock_step}: value of the argument \code{lock_step}.
+\item \code{robust}: value of the argument \code{robust}.
+\item \code{variable}: name of the individual variable.
+\item \code{psi}: overall psi score of \code{a} and \code{b}.
+\item \code{psi_only_with}: psi score of the variable.
+\item \code{psi_without}: psi score without the variable.
+\item \code{psi_difference}: difference between \code{psi_only_with} and \code{psi_without}.
+\item \code{psi_drop}: change in psi (as a percentage of the overall psi) when the variable is removed.
+\item \code{importance}: \code{psi_difference} as a precentage of \code{psi}. Only interpretable when \code{robust = TRUE}.
 }
 }
 \description{
 Importance assessment of the contribution of individual variables to the dissimilarity between two sequences. It requires computing psi separately for each variable (column "psi_only_with) and without each variable (column "psi_without"), and comparing these with the overall psi score (column "psi") of both sequences. Two importance indicators are computed from these psi scores:
 \itemize{
-  \item `psi_drop`: interpreted as "decrease in dissimilarity when a variable is removed" and computed as a percentage of the overall dissimilarity via the expression `((psi - psi_without) * 100)/psi`. Positive values indicate that a variable contributes to dissimilarity, while negative ones indicate contribution to similarity. This is the same metric of importance introduced in the first version of the package.
-  \item `importance`: interpreted as "difference between the psi of a variable by itself and the psi of all other variables" also expressed as a percentage of the overall psi via the expression `((psi_only_with - psi_without) * 100)/psi`. As with `psi_drop`, positive values indicate a contribution to dissimilarity, while negative ones indicate the opposite. This is a new metric introduced with the version 2.0 of the package, and it is more informative than `psi_drop`.
+\item \code{psi_drop}: interpreted as "decrease in dissimilarity when a variable is removed" and computed as a percentage of the overall dissimilarity via the expression \code{((psi - psi_without) * 100)/psi}. Positive values indicate that a variable contributes to dissimilarity, while negative ones indicate contribution to similarity. This is the same metric of importance introduced in the first version of the package.
+\item \code{importance}: interpreted as "difference between the psi of a variable by itself and the psi of all other variables" also expressed as a percentage of the overall psi via the expression \code{((psi_only_with - psi_without) * 100)/psi}. As with \code{psi_drop}, positive values indicate a contribution to dissimilarity, while negative ones indicate the opposite. This is a new metric introduced with the version 2.0 of the package, and it is more informative than \code{psi_drop}.
 }
 
-Additionally, these importance scores can be computed in two different ways defined by the argument `robust`.
+Additionally, these importance scores can be computed in two different ways defined by the argument \code{robust}.
 \itemize{
-  \item `robust = TRUE` (default): "psi_only_with" and "psi_without" are computed using the least cost path found when computing psi for the complete sequences. This is a new version of the method that yields more stable and comparable solutions. This option returns the columns "psi_drop" and "importance".
-  \item `robust = FALSE`: the least cost path of each combination of variables in "psi_only_with" and "psi_without" is computed independently, which makes individual importance scores harder to compare. This renders the "importance" column unreliable. However, the `psi_drop` score still remains as a useful metric of importance. Still, option is recommended only when replicating previous studies.
+\item \code{robust = TRUE} (default): "psi_only_with" and "psi_without" are computed using the least cost path found when computing psi for the complete sequences. This is a new version of the method that yields more stable and comparable solutions. This option returns the columns "psi_drop" and "importance".
+\item \code{robust = FALSE}: the least cost path of each combination of variables in "psi_only_with" and "psi_without" is computed independently, which makes individual importance scores harder to compare. This renders the "importance" column unreliable. However, the \code{psi_drop} score still remains as a useful metric of importance. Still, option is recommended only when replicating previous studies.
 }
 
-When `lock_step = TRUE` the computation method is only `robust`, as the lock-step comparision does not require a least cost path.
+When \code{lock_step = TRUE} the computation method is only \code{robust}, as the lock-step comparision does not require a least cost path.
 
-This function supports progress bars generated by the `progressr` package. See examples.
+This function supports progress bars generated by the \code{progressr} package. See examples.
 
-This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
+This function also accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it might only be worth it for very long time series.
 }
 \examples{
 

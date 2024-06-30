@@ -9,9 +9,9 @@ f_detrend_gam(x = NULL, select = FALSE, k = -1, ...)
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
-\item{select}{(optional, logical) Argument of [mgcv::gam()]. If TRUE then gam can add an extra penalty to each term so that it can be penalized to zero.}
+\item{select}{(optional, logical) Argument of \code{\link[mgcv:gam]{mgcv::gam()}}. If TRUE then gam can add an extra penalty to each term so that it can be penalized to zero.}
 
-\item{k}{(optional, integer) Argument of [mgcv::s()]. he dimension of the basis used to represent the smooth term. The default depends on the number of variables that the smooth is a function of. See [mgcv::choose.k()] for further information.}
+\item{k}{(optional, integer) Argument of \code{\link[mgcv:s]{mgcv::s()}}. he dimension of the basis used to represent the smooth term. The default depends on the number of variables that the smooth is a function of. See \code{\link[mgcv:choose.k]{mgcv::choose.k()}} for further information.}
 
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }

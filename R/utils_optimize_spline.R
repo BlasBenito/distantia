@@ -97,7 +97,8 @@ utils_optimize_spline <- function(
         stats::smooth.spline(
           x = model_df$x,
           y = model_df$y,
-          df = complexity_value
+          df = complexity_value,
+          all.knots = TRUE
         )
       }, error = function(e) {
         NA
@@ -141,7 +142,8 @@ utils_optimize_spline <- function(
     stats::smooth.spline(
       x = model_df$x,
       y = model_df$y,
-      df = complexity_optimal_value
+      df = complexity_optimal_value,
+      all.knots = TRUE
     )
   }, error = function(e) {
     NA

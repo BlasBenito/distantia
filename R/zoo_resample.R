@@ -254,7 +254,6 @@ zoo_resample <- function(
     order.by = time
   )
 
-
   #reset name
   if(!is.null(attributes(x)$name)){
     attr(

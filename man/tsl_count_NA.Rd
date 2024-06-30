@@ -7,7 +7,7 @@
 tsl_count_NA(tsl = NULL, verbose = TRUE)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }

@@ -9,9 +9,9 @@ zoo_resample(x = NULL, time = NULL, method = "spline", max_complexity = FALSE)
 \arguments{
 \item{x}{(required, zoo object) Time series to resample. Default: NULL}
 
-\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in `x`. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
+\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in \code{x}. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see [utils_optimize_spline()]), "gam" (see [utils_optimize_gam()])  or "loess" (see [utils_optimize_loess()]). Default: "spline".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}), "gam" (see \code{\link[=utils_optimize_gam]{utils_optimize_gam()}})  or "loess" (see \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}). Default: "spline".}
 
 \item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE}
 }
@@ -21,9 +21,9 @@ zoo object
 \description{
 Given a zoo object and a time vector, this function uses Generalized Additive Models (GAM) to resample a zoo object to a new time. This operation is useful to align time series with different frequencies, or to transform irregular time series into regular.
 
-The new time vector must be of the same class as the time of the zoo object (either  numeric, Date, or POSIXct). This new time vector can be either created from scratch, or can be extracted from another zoo object with [zoo::index()].
+The new time vector must be of the same class as the time of the zoo object (either  numeric, Date, or POSIXct). This new time vector can be either created from scratch, or can be extracted from another zoo object with \code{\link[zoo:index]{zoo::index()}}.
 
-Each time series within the zoo object is modelled as a function of the original time with [mgcv::gam()], and then predicted to the new time.
+Each time series within the zoo object is modelled as a function of the original time with \code{\link[mgcv:gam]{mgcv::gam()}}, and then predicted to the new time.
 
 Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same order of magnitude of the distance between the old time points.
 }

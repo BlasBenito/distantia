@@ -7,7 +7,7 @@
 utils_df_to_matrix(df = NULL, x = "x", y = "y", value = "psi")
 }
 \arguments{
-\item{df}{(required, data frame) data frame typically resulting from [distantia()], but others are accepted as long as the columns `x`, `y`, and `value` are available. Default: NULL}
+\item{df}{(required, data frame) data frame typically resulting from \code{\link[=distantia]{distantia()}}, but others are accepted as long as the columns \code{x}, \code{y}, and \code{value} are available. Default: NULL}
 
 \item{x}{(required, character string) Name of the column with the names of the matrix columns. Default: "x"}
 

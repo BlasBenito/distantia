@@ -11,9 +11,9 @@ f_smooth(x = NULL, w = 3, f = mean, ...)
 
 \item{w}{(required, window width) width of the window to compute the rolling statistics of the time series.}
 
-\item{f}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.}
+\item{f}{(required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are \code{mean} (default), \code{max}, \code{mean}, \code{median}, and \code{sd}. Custom functions able to handle zoo objects or matrices are also allowed. Default: \code{mean}.}
 
-\item{...}{(optional, additional arguments) additional arguments to `f` used as argument `...` in [zoo::rollapply()].}
+\item{...}{(optional, additional arguments) additional arguments to \code{f} used as argument \code{...} in \code{\link[zoo:rollapply]{zoo::rollapply()}}.}
 }
 \value{
 Transformed zoo object.

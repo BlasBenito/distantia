@@ -11,12 +11,12 @@ psi_auto_sum(y = NULL, x = NULL, path = NULL, distance = "euclidean")
 
 \item{x}{(required, data frame) a sequence. Default: NULL.}
 
-\item{path}{(required, data frame) dataframe produced by [psi_cost_path()]. Only required when [psi_cost_path_trim_blocks()] has been applied to `path`. Default: NULL.}
+\item{path}{(required, data frame) dataframe produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_trim_blocks]{psi_cost_path_trim_blocks()}} has been applied to \code{path}. Default: NULL.}
 
-\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
-Named vector with the auto sums of `y` and `x`.
+Named vector with the auto sums of \code{y} and \code{x}.
 }
 \description{
 Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).

@@ -9,13 +9,13 @@ utils_color_continuous_default(n = NULL, palette = "Zissou 1")
 \arguments{
 \item{n}{(required, integer) number of colors to generate. Default = NULL}
 
-\item{palette}{(required, character string) Argument `palette` of [grDevices::hcl.colors()]. Default: "Zissou 1"}
+\item{palette}{(required, character string) Argument \code{palette} of \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: "Zissou 1"}
 }
 \value{
 Color palette
 }
 \description{
-Uses the function [grDevices::hcl.colors()] to generate a continuous color palette.
+Uses the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}} to generate a continuous color palette.
 }
 \examples{
 

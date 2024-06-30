@@ -12,14 +12,14 @@ zoo_time(x = NULL)
 \value{
 Data frame with the following columns:
 \itemize{
-  \item name: value of attributes(x)$name.
-  \item n: number of observations.
-  \item class: class of the time units (Date, POSIXct, or numeric).
-  \item begin: begin time of the time series.
-  \item end: end time of the time series.
-  \item length: length in "units" of the time series.
-  \item resolution: average time distance (in "units") between consecutive observations.
-  \item keywords: vector of valid keywords for data aggregation (see [zoo_aggregate()]).
+\item name: value of attributes(x)$name.
+\item n: number of observations.
+\item class: class of the time units (Date, POSIXct, or numeric).
+\item begin: begin time of the time series.
+\item end: end time of the time series.
+\item length: length in "units" of the time series.
+\item resolution: average time distance (in "units") between consecutive observations.
+\item keywords: vector of valid keywords for data aggregation (see \code{\link[=zoo_aggregate]{zoo_aggregate()}}).
 }
 }
 \description{

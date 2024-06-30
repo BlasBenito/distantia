@@ -7,9 +7,9 @@
 cluster_silhouette(cluster = NULL, distance_matrix = NULL, mean = FALSE)
 }
 \arguments{
-\item{cluster}{(required, clustering object) Result of [stats::kmeans()]. Default: NULL}
+\item{cluster}{(required, clustering object) Result of \code{\link[stats:kmeans]{stats::kmeans()}}. Default: NULL}
 
-\item{distance_matrix}{(required, matrix) Distance matrix typically resulting from [distantia_matrix()]. Default: NULL}
+\item{distance_matrix}{(required, matrix) Distance matrix typically resulting from \code{\link[=distantia_matrix]{distantia_matrix()}}. Default: NULL}
 
 \item{mean}{(optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE}
 }
@@ -19,20 +19,20 @@ If mean = FALSE, data frame with silhouette widths of the clustering, and numeri
 \description{
 The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation).
 
-There are some general guidelines to interpret the  individual silhouette widths of the clustered objects (as returned by this function when `mean = FALSE`):
+There are some general guidelines to interpret the  individual silhouette widths of the clustered objects (as returned by this function when \code{mean = FALSE}):
 
 \itemize{
-  \item Close to 1: object is well matched to its own cluster and poorly matched to neighboring clusters.
-  \item Close to 0: the object is between two neighboring clusters.
-  \item Close to -1: the object is likely to be assigned to the wrong cluster
+\item Close to 1: object is well matched to its own cluster and poorly matched to neighboring clusters.
+\item Close to 0: the object is between two neighboring clusters.
+\item Close to -1: the object is likely to be assigned to the wrong cluster
 }
 
-When `mean = TRUE`, the overall mean of the silhouette widths of all objects is returned. These values should be interpreted as follows:
+When \code{mean = TRUE}, the overall mean of the silhouette widths of all objects is returned. These values should be interpreted as follows:
 
 \itemize{
- \item Higher than 0.7: robust clustering .
- \item Higher than 0.5: reasonable clustering.
- \item Higher than 0.25: weak clustering.
+\item Higher than 0.7: robust clustering .
+\item Higher than 0.5: reasonable clustering.
+\item Higher than 0.25: weak clustering.
 
 }
 

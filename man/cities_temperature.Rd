@@ -11,9 +11,9 @@ data frame with 3 columns and 52100 rows.
 data(cities_temperature)
 }
 \description{
-Average temperatures between 1975 and 2010 of 100 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
+Average temperatures between 1975 and 2010 of 100 major cities of the world. \href{https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv}{Source}.
 
-Site coordinates for this dataset are in [cities_coordinates].
+Site coordinates for this dataset are in \link{cities_coordinates}.
 }
 \examples{
 data("cities_temperature")

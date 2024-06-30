@@ -20,47 +20,47 @@ distantia(
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
 
 \item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument \code{tsl} to be fully aligned. Default: FALSE.}
 
 \item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
 
-\item{permutation}{(optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are listed below from higher to lower induced randomness:
+\item{permutation}{(optional, character vector) permutation method, only relevant when \code{repetitions} is higher than zero. Valid values are listed below from higher to lower induced randomness:
 \itemize{
-  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-  \item "restricted": restricted shuffling of rows and columns within blocks.
-  \item "restricted_by_row": restricted shuffling of rows within blocks.
+\item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+\item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+\item "restricted": restricted shuffling of rows and columns within blocks.
+\item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.}
+\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and \code{repetitions} is higher than zero. A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in \code{tsl}. Default: NULL.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
 \value{
-Data frame with the attribute `type` set to `distantia_df` and the following columns:
+Data frame with the attribute \code{type} set to \code{distantia_df} and the following columns:
 \itemize{
-  \item `x`: name of the sequence `x`.
-  \item `y`: name of the sequence `y`.
-  \item `distance`: name of the distance metric.
-  \item `diagonal`: value of the argument `diagonal`.
-  \item `weighted`: value of the argument `weighted`.
-  \item `ignore_blocks`: value of the argument `ignore_blocks`.
-  \item `lock_step`: value of the argument `lock_step`.
-  \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
-  \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
-  \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
-  \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
-  \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
-  \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
-  \item `psi`: psi dissimilarity of the sequences `a` and `b`.
+\item \code{x}: name of the sequence \code{x}.
+\item \code{y}: name of the sequence \code{y}.
+\item \code{distance}: name of the distance metric.
+\item \code{diagonal}: value of the argument \code{diagonal}.
+\item \code{weighted}: value of the argument \code{weighted}.
+\item \code{ignore_blocks}: value of the argument \code{ignore_blocks}.
+\item \code{lock_step}: value of the argument \code{lock_step}.
+\item \code{repetitions} (only if \code{repetitions > 0}): value of the argument \code{repetitions}.
+\item \code{permutation} (only if \code{repetitions > 0}): name of the permutation method used to compute p-values.
+\item \code{seed} (only if \code{repetitions > 0}): random seed used to in the permutations.
+\item \code{null_mean} (only if \code{repetitions > 0}): mean of the null distribution of psi values computed from the permutaitons.
+\item \code{null_sd} (only if \code{repetitions > 0}): standard deviation of the null distribution of psi values.
+\item \code{p_value}  (only if \code{repetitions > 0}): proportion of scores smaller or equal than \code{psi} in the null distribution.
+\item \code{psi}: psi dissimilarity of the sequences \code{a} and \code{b}.
 }
 }
 \description{
@@ -74,9 +74,9 @@ The psi dissimilarity score normalizes the multivariate distance between the sam
 
 Restricted permutation methods shuffle the cases of two time-series within blocks of a given size to generate a null distribution of psi dissimilarity scores. The true psi dissimilarity computed on the original data is compared with this null distribution to obtain a p-value that helps assess the strength of the dissimilarity score between both time-series. In essence, this p-value helps to find the threshold of the psi score that separates pairs of similar time series (because their similarity is robust to permutation) from pairs of dissimilar time-series.
 
-This function supports progress bars generated by the `progressr` package. See examples.
+This function supports progress bars generated by the \code{progressr} package. See examples.
 
-This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
+This function also accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it might only be worth it for very long time series.
 }
 \examples{
 #parallelization (best option for large time series lists)

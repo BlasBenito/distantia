@@ -7,7 +7,7 @@
 cost_path_sum_cpp(path)
 }
 \arguments{
-\item{path}{(required, data frame) dataframe produced by [cost_path()]. Default: NULL}
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}. Default: NULL}
 }
 \value{
 Sum of distances

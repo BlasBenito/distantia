@@ -7,7 +7,7 @@
 utils_check_matrix_args(m = NULL, arg_name = "m")
 }
 \arguments{
-\item{m}{(required, matrix) distance or cost matrix resulting from [psi_dist_matrix()] or [psi_cost_matrix()]. Default: NULL}
+\item{m}{(required, matrix) distance or cost matrix resulting from \code{\link[=psi_dist_matrix]{psi_dist_matrix()}} or \code{\link[=psi_cost_matrix]{psi_cost_matrix()}}. Default: NULL}
 
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }

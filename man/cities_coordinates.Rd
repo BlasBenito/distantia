@@ -11,6 +11,6 @@ sf data frame with 5 columns and 100 rows.
 data(cities_coordinates)
 }
 \description{
-City coordinates for the dataset `cities_temperature`.
+City coordinates for the dataset \code{cities_temperature}.
 }
 \keyword{datasets}

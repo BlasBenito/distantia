@@ -11,12 +11,12 @@ utils_time_breaks_type(tsl = NULL, breaks = NULL)
 
 \item{breaks}{(required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 \itemize{
-  \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
+\item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 }}
 }
 \value{
 Character string, breaks type.
 }
 \description{
-Internal function of [utils_time_breaks()] to identify the type of time breaks used for time series aggregation.
+Internal function of \code{\link[=utils_time_breaks]{utils_time_breaks()}} to identify the type of time breaks used for time series aggregation.
 }

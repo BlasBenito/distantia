@@ -7,11 +7,11 @@
 tsl_names(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 }
 \value{
 Character vector of names.
 }
 \description{
-A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_names(x)`.
+A list of zoo objects created with \code{\link[=tsl_initialize]{tsl_initialize()}} has two sets of names that should ideally be the same: the list names, accessed with \code{names(tsl)}, and the names of the individual zoo objects (stored in their attribute "name"), accessed with \code{tsl_names(x)}.
 }

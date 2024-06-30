@@ -7,7 +7,7 @@
 psi_cost_path_trim_blocks(path = NULL)
 }
 \arguments{
-\item{path}{(required, data frame) dataframe produced by [psi_cost_path()]. Default: NULL}
+\item{path}{(required, data frame) dataframe produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Default: NULL}
 }
 \value{
 A data frame with a least-cost path with no blocks.

@@ -14,7 +14,7 @@ data(fagus_dynamics)
 A data frame with 648 rows representing enhanced vegetation index, rainfall and teperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
 }
 \details{
-Site coordinates for this dataset are in [fagus_coordinates].
+Site coordinates for this dataset are in \link{fagus_coordinates}.
 }
 \examples{
 data("fagus_dynamics")

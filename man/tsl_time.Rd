@@ -13,10 +13,10 @@ tsl_time_summary(tsl = NULL)
 \item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
 }
 \value{
-Data frame for [tsl_time()], and list for [tsl_time_summary()].
+Data frame for \code{\link[=tsl_time]{tsl_time()}}, and list for \code{\link[=tsl_time_summary]{tsl_time_summary()}}.
 }
 \description{
-[tsl_time()] returns a data frame with one row per time series in the argument 'tsl' with key time features.
+\code{\link[=tsl_time]{tsl_time()}} returns a data frame with one row per time series in the argument 'tsl' with key time features.
 
-[tsl_time_summayr()] is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
+\code{\link[=tsl_time_summayr]{tsl_time_summayr()}} is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
 }

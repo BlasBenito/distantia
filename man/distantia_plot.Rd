@@ -24,27 +24,27 @@ distantia_plot(
 \arguments{
 \item{tsl}{(required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are selected and plotted. Default: NULL}
 
-\item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
 
 \item{weighted}{@param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if \code{diagonal = TRUE}. Default: FALSE.}
 
 \item{matrix_type}{(optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".}
 
-\item{matrix_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL}
+\item{matrix_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
 
 \item{path_width}{(optional, numeric) width of the least cost path. Default: 1}
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
 
-\item{line_center}{(optional, logical) If TRUE, the sequences are centered via [scale()]. This centering is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
+\item{line_center}{(optional, logical) If TRUE, the sequences are centered via \code{\link[=scale]{scale()}}. This centering is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
 
-\item{line_scale}{(optional, logical) If TRUE, the sequences are scaled via [scale()]. This scaling is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
+\item{line_scale}{(optional, logical) If TRUE, the sequences are scaled via \code{\link[=scale]{scale()}}. This scaling is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
 
-\item{line_color}{(optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of `matrix_color`.}
+\item{line_color}{(optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of \code{matrix_color}.}
 
 \item{line_width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
 
@@ -56,9 +56,9 @@ A plot.
 \description{
 Plots two sequences, their distance or cost matrix, their least cost path, and all relevant values used to compute dissimilarity.
 
-Unlike [distantia()], this function does not accept vectors as inputs for the arguments to compute dissimilarity (`distance`, `diagonal`,  and `weighted`), and only plots a pair of sequences at once.
+Unlike \code{\link[=distantia]{distantia()}}, this function does not accept vectors as inputs for the arguments to compute dissimilarity (\code{distance}, \code{diagonal},  and \code{weighted}), and only plots a pair of sequences at once.
 
-The argument `lock_step` is not available because this multipanel plot does not make sense in such a case.
+The argument \code{lock_step} is not available because this multipanel plot does not make sense in such a case.
 }
 \examples{
 data(mis)

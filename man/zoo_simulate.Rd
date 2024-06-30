@@ -20,13 +20,13 @@ zoo_simulate(
 
 \item{rows}{(optional, integer) Length of the time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100}
 
-\item{time_range}{(optional character or numeric vector) Interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between `time_range` and `rows` (for example, the number of days in `time_range` is smaller than `rows`), the upper value in `time_range` is adapted to `rows`. Default: c("2010-01-01", "2020-01-01")}
+\item{time_range}{(optional character or numeric vector) Interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between \code{time_range} and \code{rows} (for example, the number of days in \code{time_range} is smaller than \code{rows}), the upper value in \code{time_range} is adapted to \code{rows}. Default: c("2010-01-01", "2020-01-01")}
 
 \item{data_range}{(optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)}
 
 \item{na_fraction}{(optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.}
 
-\item{independent}{(optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when `cols <= 2`. Default: TRUE}
+\item{independent}{(optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when \code{cols <= 2}. Default: TRUE}
 
 \item{irregular}{(optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE}
 

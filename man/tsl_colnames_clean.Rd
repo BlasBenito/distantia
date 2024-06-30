@@ -15,15 +15,15 @@ tsl_colnames_clean(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
-\item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".}
+\item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate \code{suffix} and \code{prefix} from the main word. Default: "_".}
 
 \item{capitalize_first}{(optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.}
 
 \item{capitalize_all}{(optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.}
 
-\item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.}
+\item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via \code{\link[=abbreviate]{abbreviate()}}. Default: NULL.}
 
 \item{suffix}{(optional, character string) String to append to the cleaned names. Default: NULL.}
 

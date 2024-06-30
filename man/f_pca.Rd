@@ -19,5 +19,5 @@ f_pca(x = NULL, center = TRUE, scale = FALSE, ...)
 Transformed zoo object.
 }
 \description{
-Uses [stats::prcomp()] to compute the Principal Component Analysis of a time series and return the principal components instead of the original columns. Output columns are named "PC1", "PC2" and so on.
+Uses \code{\link[stats:prcomp]{stats::prcomp()}} to compute the Principal Component Analysis of a time series and return the principal components instead of the original columns. Output columns are named "PC1", "PC2" and so on.
 }

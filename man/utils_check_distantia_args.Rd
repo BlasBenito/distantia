@@ -21,7 +21,7 @@ utils_check_distantia_args(
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
 
@@ -35,10 +35,10 @@ utils_check_distantia_args(
 
 \item{permutation}{(optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
 \itemize{
-  \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-  \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-  \item "restricted": restricted shuffling of rows and columns within blocks.
-  \item "restricted_by_row": restricted shuffling of rows within blocks.
+\item "free": unrestricted shuffling of rows and columns. Ignores block_size.
+\item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
+\item "restricted": restricted shuffling of rows and columns within blocks.
+\item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
 \item{block_size}{(optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}

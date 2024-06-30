@@ -7,9 +7,9 @@
 tsl_colnames_set(tsl = NULL, names = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL}
+\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
-\item{names}{(required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".}
+\item{names}{(required, list) Named list. List names should match old column names in \code{tsl}, and each named item should contain a character string with the new name. For example, \code{colnames = list(old_name = "new_name")} changes the name of the column "old_name" to "new_name".}
 }
 \value{
 time series list with new names

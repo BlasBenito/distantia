@@ -7,7 +7,7 @@
 distantia_importance_wide(df = NULL, sep = "__")
 }
 \arguments{
-\item{df}{(required, data frame) Output of [distantia_importance()]. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
 
 \item{sep}{(required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".}
 }

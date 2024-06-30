@@ -1,3 +1,5 @@
-Add functions utils_max_complexity_gam and utils_max_complexity_loess to fit gams and loess of maximum complexity for zoo_resample and tsl_resample
+Unify the signature of zoo_resample and zoo_aggregate, and tsl_resample and tsl_aggregate
+
+Update documentation of zoo_resample to the standard of tsl_resample
 
 Check package autotest https://docs.ropensci.org/autotest/

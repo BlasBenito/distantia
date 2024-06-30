@@ -17,5 +17,5 @@ f_center(x = NULL, center = TRUE, ...)
 Transformed zoo object.
 }
 \description{
-Centers using the global average of all zoo objects within a time series list. Please use [base::scale()] to scale each time series independently.
+Centers using the global average of all zoo objects within a time series list. Please use \code{\link[base:scale]{base::scale()}} to scale each time series independently.
 }

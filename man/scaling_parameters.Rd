@@ -11,7 +11,7 @@ scaling_parameters(tsl = NULL, f = NULL, ...)
 
 \item{f}{(required, transformation function) name of a function taking a matrix as input.}
 
-\item{...}{(optional, arguments of `f`) Optional arguments for the transformation function.}
+\item{...}{(optional, arguments of \code{f}) Optional arguments for the transformation function.}
 }
 \value{
 Named list with center and scale parameters

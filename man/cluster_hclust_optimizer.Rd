@@ -7,13 +7,13 @@
 cluster_hclust_optimizer(d = NULL, method = NULL)
 }
 \arguments{
-\item{d}{(required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL}
+\item{d}{(required, matrix) distance matrix typically resulting from \code{\link[=distantia_matrix]{distantia_matrix()}}, but any other square matrix should work. Default: NULL}
 
-\item{method}{(optional, character string) clustering method. One of: "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". See [stats::hclust()]. If NULL (default), all methods are used, and the one resulting in a better Silhouette score (see [cluster_silhouette()]) is used. Default: NULL}
+\item{method}{(optional, character string) clustering method. One of: "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid". See \code{\link[stats:hclust]{stats::hclust()}}. If NULL (default), all methods are used, and the one resulting in a better Silhouette score (see \code{\link[=cluster_silhouette]{cluster_silhouette()}}) is used. Default: NULL}
 }
 \value{
 Data frame with number of clusters and their respective mean silhouette widths.
 }
 \description{
-Generates hierarchical clustering solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [cluster_silhouette()] for more details.
+Generates hierarchical clustering solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=cluster_silhouette]{cluster_silhouette()}} for more details.
 }
