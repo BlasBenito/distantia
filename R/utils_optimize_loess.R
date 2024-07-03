@@ -72,10 +72,10 @@ utils_optimize_loess <- function(
     y = y
   )
 
-  complexity_space = seq(
-    from = 1/nrow(model_df),
-    to = 1/(nrow(model_df)/10),
-    by = 1/nrow(model_df)
+  complexity_space <- seq(
+    from = floor(nrow(model_df)/2),
+    to = nrow(model_df),
+    by = 1
   )
 
   #max complexity switch
@@ -97,7 +97,9 @@ utils_optimize_loess <- function(
         stats::loess(
           formula = y ~ x,
           data = model_df,
-          span = complexity_value
+          enp.target = complexity_value,
+          degree = 1,
+          surface = "direct"
         )
       }, error = function(e) {
         NA
@@ -138,7 +140,9 @@ utils_optimize_loess <- function(
     stats::loess(
       formula = y ~ x,
       data = model_df,
-      span = complexity_optimal_value
+      enp.target = complexity_optimal_value,
+      degree = 1,
+      surface = "direct"
     )
   }, error = function(e) {
     NA

@@ -6,7 +6,7 @@
 \usage{
 tsl_resample(
   tsl = NULL,
-  time = NULL,
+  new_time = NULL,
   method = "spline",
   max_complexity = FALSE
 )
@@ -14,11 +14,11 @@ tsl_resample(
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time to resample to. Must be of the same class of the time in \code{tsl}. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
+\item{new_time}{(required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the time of \code{tsl}.  If a zoo object is provided, its time is used as a template to resample \code{tsl}. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}), "gam" (see \code{\link[=utils_optimize_gam]{utils_optimize_gam()}})  or "loess" (see \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}). Default: "spline".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline", "gam", or "loess". Default: "spline".}
 
-\item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE}
+\item{max_complexity}{(required, logical). If TRUE, model optimization is ignored, and the a model of maximum complexity is used for resampling. Default: FALSE}
 }
 \value{
 time series list
@@ -39,7 +39,7 @@ On the other hand, time series resampling \strong{should not be used} to extrapo
 
 \strong{Inputs and Methods}
 
-This function requires three inputs: a time series list (argument \code{tsl}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{tsl} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods available for time series modelling and interpolation:
+This function requires three inputs: a time series list (argument \code{tsl}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{tsl} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods for time series interpolation:
 
 \itemize{
 \item "spline": cubic smoothing spline regression as implemented in \code{\link[stats:smooth.spline]{stats::smooth.spline()}}.
@@ -47,9 +47,9 @@ This function requires three inputs: a time series list (argument \code{tsl}), a
 \item "gam": generalized additive modelling as implemented in \code{\link[mgcv:gam]{mgcv::gam()}}.
 }
 
-These methods are used to fit models \code{y ~ x} (\verb{y ~ s(x, k = ?)} for "gam") where \code{y} are the values of the univariate time series and \code{x} is a numeric version of its time.
+These methods are used to fit models \code{y ~ x} (\verb{y ~ s(x, k = ?)} for "gam") where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
 
-The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error between \code{y} and the model predictions on \code{x}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
 
 \strong{Step by Step}
 
@@ -71,43 +71,11 @@ The steps to resample a time series list are:
 \item The fitted model is predicted over \code{new_time} to generate the resampled time series.
 }
 
+In general, a maximum complexity splines model should be able to provide optimal results, but may cause artifacts in regions with large intervals between consecutive samples.
+
 \strong{Other Details}
 
 Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
 
-This function supports progress bars generated by the \code{progressr} package. See examples.
-
-This function also accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only worth it for large time series lists with long time series.
-}
-\examples{
-#simulate time series list
-x <- tsl_simulate(
-  cols = 2,
-  rows = 50
-)
-
-#plot zoo object
-tsl_plot(x)
-
-#check time
-tsl_time(x)
-
-#new time to first day of each month
-new_time <- seq.Date(
-  from = as.Date("2010-01-01"),
-  to = as.Date("2020-01-01"),
-  by = "1 month"
-)
-
-#resampling
-x_new <- tsl_resample(
-  tsl = x,
-  time = new_time
-)
-
-#check new time
-tsl_time(x_new)
-
-#plot resampled zoo object
-tsl_plot(x_new)
+This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it might only be worth it for very long time series.
 }

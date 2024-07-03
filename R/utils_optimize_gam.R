@@ -97,7 +97,7 @@ utils_optimize_gam <- function(
         object = paste0(
           "y ~ s(x, k = ",
           complexity_value,
-          ")"
+          ", fx = TRUE)"
         )
       )
 
@@ -145,7 +145,7 @@ utils_optimize_gam <- function(
     object = paste0(
       "y ~ s(x, k = ",
       complexity_optimal_value,
-      ")"
+      ", fx = TRUE)"
     )
   )
 

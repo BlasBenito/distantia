@@ -74,7 +74,7 @@ utils_optimize_spline <- function(
 
   complexity_space <- seq(
     from = floor(nrow(model_df)/2),
-    to = nrow(model_df) - 1,
+    to = nrow(model_df),
     by = 1
   )
 

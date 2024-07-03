@@ -2,36 +2,86 @@
 % Please edit documentation in R/zoo_resample.R
 \name{zoo_resample}
 \alias{zoo_resample}
-\title{Resamples Zoo Time Series to a New Time}
+\title{Resampling of Zoo Objects}
 \usage{
-zoo_resample(x = NULL, time = NULL, method = "spline", max_complexity = FALSE)
+zoo_resample(
+  x = NULL,
+  new_time = NULL,
+  method = "spline",
+  max_complexity = FALSE
+)
 }
 \arguments{
 \item{x}{(required, zoo object) Time series to resample. Default: NULL}
 
-\item{time}{(required, zoo object, or vector of the classes numeric, Date, or POSIXct) New time of the resampled zoo object. Must be of the same class of the time in \code{x}. If one of them is "numeric" and the other is not, an error is returned. If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time, and regular time series are returned as is. Default: NULL}
+\item{new_time}{(required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the index of \code{x}.  If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" (see \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}), "gam" (see \code{\link[=utils_optimize_gam]{utils_optimize_gam()}})  or "loess" (see \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}). Default: "spline".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline", "gam", or "loess". Default: "spline".}
 
-\item{max_complexity}{(required, logical). If TRUE, RMSE optimization is ignored, and the result of a model of maximum complexity is returned. Default: FALSE}
+\item{max_complexity}{(required, logical). If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE}
 }
 \value{
 zoo object
 }
 \description{
-Given a zoo object and a time vector, this function uses Generalized Additive Models (GAM) to resample a zoo object to a new time. This operation is useful to align time series with different frequencies, or to transform irregular time series into regular.
+\strong{Objective}
 
-The new time vector must be of the same class as the time of the zoo object (either  numeric, Date, or POSIXct). This new time vector can be either created from scratch, or can be extracted from another zoo object with \code{\link[zoo:index]{zoo::index()}}.
+Time series resampling involves interpolating new values for time steps not available in the original time series. This operation is useful to:
+\itemize{
+\item Transform irregular time series into regular.
+\item Align time series with different temporal resolutions.
+\item Increase (upsampling) or decrease (downsampling) the temporal resolution of a time series.
+}
 
-Each time series within the zoo object is modelled as a function of the original time with \code{\link[mgcv:gam]{mgcv::gam()}}, and then predicted to the new time.
+On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 
-Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same order of magnitude of the distance between the old time points.
+\strong{Inputs and Methods}
+
+This function requires three inputs: a zoo object (argument \code{x}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{x} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods for time series interpolation:
+
+\itemize{
+\item "spline": cubic smoothing spline regression as implemented in \code{\link[stats:smooth.spline]{stats::smooth.spline()}}.
+\item "loess": local polynomial regression fitting as implemented in \code{\link[stats:loess]{stats::loess()}}.
+\item "gam": generalized additive modelling as implemented in \code{\link[mgcv:gam]{mgcv::gam()}}.
+}
+
+These methods are used to fit models \code{y ~ x} (\verb{y ~ s(x, k = ?)} for "gam") where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
+
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+
+\strong{Step by Step}
+
+The steps to resample a time series list are:
+
+\enumerate{
+\item The time interpolation range taken from the index of the zoo object. This step ensures that no extrapolation occurs during resampling.
+\item If \code{new_time} is provided, any values of \code{new_time} outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If \code{new_time} is not provided, a regular time within the interpolation time range of the zoo object is generated.
+\item For each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
+\itemize{
+\item If \code{max_complexity == FALSE}, the model with the complexity that minimizes the root mean squared error between the observed and predicted \code{y} is returned.
+\item If \code{max_complexity == TRUE}, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
+\itemize{
+\item "spline": \verb{df = length(y) - 1, all.knots = TRUE}.
+\item "loess": \code{span = 1/length(x)}.
+\item "gam": \code{y ~ s(x, k = length(y) - 1)}.
+}
+}
+\item The fitted model is predicted over \code{new_time} to generate the resampled time series.
+}
+
+In general, a maximum complexity splines model should be able to provide optimal results, but may cause artifacts in regions with large intervals between consecutive samples.
+
+\strong{Other Details}
+
+Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
+
+This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it might only be worth it for very long time series.
 }
 \examples{
 #simulate irregular time series
 x <- zoo_simulate(
   cols = 2,
-  rows = 100,
+  rows = 50,
   time_range = c("2010-01-01", "2020-01-01"),
   irregular = TRUE
   )
@@ -42,26 +92,84 @@ if(interactive()){
 }
 
 #intervals between samples
-diff(zoo::index(x))
+x_intervals <- diff(zoo::index(x))
+x_intervals
 
-#create regular time for resampling
-regular_time <- seq.Date(
-  from = as.Date("2010-01-01"),
-  to = as.Date("2020-01-01"),
-  by = "1 month"
+#create regular time from the minimum of the observed intervals
+new_time <- seq.Date(
+  from = min(zoo::index(x)),
+  to = max(zoo::index(x)),
+  by = floor(min(x_intervals))
 )
 
-#resample to regular time
-x_resampled <- zoo_resample(
+new_time
+diff(new_time)
+
+#parallelization setup
+#only worth it for zoo objects with many variables and large number of samples when max_complexity = FALSE
+# future::plan(
+#   strategy = future::multisession,
+#   workers = 2
+# )
+
+#resample using max complexity splines
+x_spline <- zoo_resample(
   x = x,
-  time = regular_time
+  new_time = new_time,
+  method = "spline",
+  max_complexity = TRUE
 )
 
-#notice the loss of detail in the resampled data
-if(interactive()){
-  zoo_plot(x_resampled)
-}
+#resample using max complexity loess
+x_loess <- zoo_resample(
+  x = x,
+  new_time = new_time,
+  method = "loess",
+  max_complexity = TRUE
+)
+
+#resample using max complexity gam
+x_gam <- zoo_resample(
+  x = x,
+  new_time = new_time,
+  method = "gam",
+  max_complexity = TRUE
+)
 
 #intervals between new samples
-diff(zoo::index(x_resampled))
+diff(zoo::index(x_spline))
+diff(zoo::index(x_loess))
+diff(zoo::index(x_gam))
+
+#plotting results
+if(interactive()){
+
+  par(mfrow = c(4, 1), mar = c(3,3,2,2))
+
+  zoo_plot(
+    x,
+    guide = FALSE,
+    title = "Original"
+    )
+
+  zoo_plot(
+    x_spline,
+    guide = FALSE,
+    title = "Method: spline"
+    )
+
+  zoo_plot(
+    x_loess,
+    guide = FALSE,
+    title = "Method: loess"
+  )
+
+  zoo_plot(
+    x_gam,
+    guide = FALSE,
+    title = "Method: gam"
+  )
+
+}
+
 }
