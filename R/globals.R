@@ -9,12 +9,8 @@ utils::globalVariables(c(
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>
-  "na.omit", # <f_detrend_gam>
   "sd", # <scaling_parameters>
   "distances", # <utils_check_distance_args>
-  "complexity_value", # <utils_optimize_gam>
-  "complexity_value", # <utils_optimize_loess>
-  "complexity_value", # <utils_optimize_spline>
   "median", # <zoo_aggregate>
   "i", # <zoo_permute>
   "i", # <zoo_resample>

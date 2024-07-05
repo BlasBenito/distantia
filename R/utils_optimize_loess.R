@@ -81,7 +81,7 @@ utils_optimize_loess <- function(
   #max complexity switch
   if(max_complexity == TRUE){
 
-    complexity_optimal_value <- min(complexity_space)
+    complexity_value <- min(complexity_space)
 
   } else {
 
@@ -131,7 +131,7 @@ utils_optimize_loess <- function(
     rmse[!is.numeric(rmse)] <- max(rmse, na.rm = TRUE)
 
     #select span minimizing rmse
-    complexity_optimal_value <- complexity_space[which.min(rmse)]
+    complexity_value <- complexity_space[which.min(rmse)]
 
   }
 
@@ -140,7 +140,7 @@ utils_optimize_loess <- function(
     stats::loess(
       formula = y ~ x,
       data = model_df,
-      enp.target = complexity_optimal_value,
+      enp.target = complexity_value,
       degree = 1,
       surface = "direct"
     )

@@ -18,12 +18,12 @@
 #' This function requires three inputs: a zoo object (argument `x`), a new time (argument `new_time`), and a method (argument `method`). In brief, the function uses `method` to model each univariate time series in `x` as a function of its own time, to then predict the model over `new_time`. This function offers three methods for time series interpolation:
 #'
 #' \itemize{
+#'   \item "linear" (default): interpolation via piecewise linear regression as implemented in [zoo::na.approx()].
 #'   \item "spline": cubic smoothing spline regression as implemented in [stats::smooth.spline()].
 #'   \item "loess": local polynomial regression fitting as implemented in [stats::loess()].
-#'   \item "gam": generalized additive modelling as implemented in [mgcv::gam()].
 #' }
 #'
-#' These methods are used to fit models `y ~ x` (`y ~ s(x, k = ?)` for "gam") where `y` represents the values of a univariate time series and `x` represents a numeric version of its time.
+#' These methods are used to fit models `y ~ x` where `y` represents the values of a univariate time series and `x` represents a numeric version of its time.
 #'
 #' The functions [utils_optimize_spline()], [utils_optimize_loess()], and [utils_optimize_gam()] are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted `y`. However, when the argument `max_complexity = TRUE`, the complexity optimization is ignored, and a maximum complexity model is used instead.
 #'
@@ -34,14 +34,13 @@
 #' \enumerate{
 #'   \item The time interpolation range taken from the index of the zoo object. This step ensures that no extrapolation occurs during resampling.
 #'   \item If `new_time` is provided, any values of `new_time` outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If `new_time` is not provided, a regular time within the interpolation time range of the zoo object is generated.
-#'   \item For each univariate time time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
+#'   \item For methods "spline" and "loess", each univariate time time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
 #'   \itemize{
 #'    \item If `max_complexity == FALSE`, the model with the complexity that minimizes the root mean squared error between the observed and predicted `y` is returned.
 #'    \item If `max_complexity == TRUE`, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
 #'    \itemize{
 #'      \item "spline": `df = length(y) - 1, all.knots = TRUE`.
 #'      \item "loess": `span = 1/length(x)`.
-#'      \item "gam": `y ~ s(x, k = length(y) - 1)`.
 #'    }
 #'   }
 #'   \item The fitted model is predicted over `new_time` to generate the resampled time series.
@@ -57,8 +56,8 @@
 #'
 #' @param x (required, zoo object) Time series to resample. Default: NULL
 #' @param new_time (required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the index of `x`.  If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL
-#' @param method (optional, string) Name of the method to resample the time series. One of "spline", "gam", or "loess". Default: "spline".
-#' @param max_complexity (required, logical). If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE
+#' @param method (optional, string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".
+#' @param max_complexity (required, logical). Only relevant for methods "spline" and "loess". If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE
 #'
 #'
 #' @return zoo object
@@ -93,11 +92,18 @@
 #' diff(new_time)
 #'
 #' #parallelization setup
-#' #only worth it for zoo objects with many variables and large number of samples when max_complexity = FALSE
+#' #only relevant for methods spline and loess, and for zoo objects with many variables and large number of samples when max_complexity = FALSE
 #' # future::plan(
 #' #   strategy = future::multisession,
 #' #   workers = 2
 #' # )
+#'
+#' #resample using piecewise linear regression
+#' x_linear <- zoo_resample(
+#'   x = x,
+#'   new_time = new_time,
+#'   method = "linear"
+#' )
 #'
 #' #resample using max complexity splines
 #' x_spline <- zoo_resample(
@@ -115,18 +121,11 @@
 #'   max_complexity = TRUE
 #' )
 #'
-#' #resample using max complexity gam
-#' x_gam <- zoo_resample(
-#'   x = x,
-#'   new_time = new_time,
-#'   method = "gam",
-#'   max_complexity = TRUE
-#' )
 #'
 #' #intervals between new samples
+#' diff(zoo::index(x_linear))
 #' diff(zoo::index(x_spline))
 #' diff(zoo::index(x_loess))
-#' diff(zoo::index(x_gam))
 #'
 #' #plotting results
 #' if(interactive()){
@@ -140,6 +139,12 @@
 #'     )
 #'
 #'   zoo_plot(
+#'     x_linear,
+#'     guide = FALSE,
+#'     title = "Method: linear"
+#'   )
+#'
+#'   zoo_plot(
 #'     x_spline,
 #'     guide = FALSE,
 #'     title = "Method: spline"
@@ -151,27 +156,21 @@
 #'     title = "Method: loess"
 #'   )
 #'
-#'   zoo_plot(
-#'     x_gam,
-#'     guide = FALSE,
-#'     title = "Method: gam"
-#'   )
-#'
 #' }
 #'
 zoo_resample <- function(
     x = NULL,
     new_time = NULL,
-    method = "spline",
+    method = "linear",
     max_complexity = FALSE
 ){
 
   method <- match.arg(
     arg = method,
     choices = c(
+      "linear",
       "spline",
-      "loess",
-      "gam"
+      "loess"
     ),
     several.ok = FALSE
   )
@@ -258,6 +257,23 @@ zoo_resample <- function(
     warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
   }
 
+  #default method
+  if(method == "linear"){
+
+    x_time <- zoo::na.approx(
+      object = x,
+      xout = new_time
+    )
+
+    attr(
+      x = x_time,
+      which = "name"
+    ) <- attributes(x)$name
+
+    return(x_time)
+
+  }
+
   #convert times to numeric
   time_numeric <- utils_coerce_time_class(
     x = new_time,
@@ -290,10 +306,6 @@ zoo_resample <- function(
       f <- utils_optimize_loess
     }
 
-    if(method == "gam"){
-      f <- utils_optimize_gam
-    }
-
     interpolation.model <- f(
       x = old_time_numeric,
       y = x_old,
@@ -303,10 +315,6 @@ zoo_resample <- function(
 
     #if model fails, return NA
     if(
-      inherits(
-        x = interpolation.model,
-        what = "gam"
-      ) == FALSE &&
       inherits(
         x = interpolation.model,
         what = "loess"

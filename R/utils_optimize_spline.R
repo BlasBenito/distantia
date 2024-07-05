@@ -81,7 +81,7 @@ utils_optimize_spline <- function(
   #max complexity switch
   if(max_complexity == TRUE){
 
-    complexity_optimal_value <- max(complexity_space)
+    complexity_value <- max(complexity_space)
 
   } else {
 
@@ -133,7 +133,7 @@ utils_optimize_spline <- function(
     rmse[!is.numeric(rmse)] <- max(rmse, na.rm = TRUE)
 
     #select df minimizing rmse
-    complexity_optimal_value <- complexity_space[which.min(rmse)]
+    complexity_value <- complexity_space[which.min(rmse)]
 
   }
 
@@ -142,7 +142,7 @@ utils_optimize_spline <- function(
     stats::smooth.spline(
       x = model_df$x,
       y = model_df$y,
-      df = complexity_optimal_value,
+      df = complexity_value,
       all.knots = TRUE
     )
   }, error = function(e) {

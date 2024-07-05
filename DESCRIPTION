@@ -23,8 +23,7 @@ Imports:
   zoo,
   lubridate,
   progressr,
-  sf,
-  mgcv
+  sf
 Suggests: 
   roxyglobals,
   testthat (>= 3.0.0)

@@ -7,7 +7,7 @@
 tsl_resample(
   tsl = NULL,
   new_time = NULL,
-  method = "spline",
+  method = "linear",
   max_complexity = FALSE
 )
 }
@@ -16,7 +16,7 @@ tsl_resample(
 
 \item{new_time}{(required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the time of \code{tsl}.  If a zoo object is provided, its time is used as a template to resample \code{tsl}. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline", "gam", or "loess". Default: "spline".}
+\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" or "loess". Default: "spline".}
 
 \item{max_complexity}{(required, logical). If TRUE, model optimization is ignored, and the a model of maximum complexity is used for resampling. Default: FALSE}
 }
@@ -42,12 +42,12 @@ On the other hand, time series resampling \strong{should not be used} to extrapo
 This function requires three inputs: a time series list (argument \code{tsl}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{tsl} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods for time series interpolation:
 
 \itemize{
+\item "linear" (default): interpolation via piecewise linear regression as implemented in \code{\link[zoo:na.approx]{zoo::na.approx()}}.
 \item "spline": cubic smoothing spline regression as implemented in \code{\link[stats:smooth.spline]{stats::smooth.spline()}}.
 \item "loess": local polynomial regression fitting as implemented in \code{\link[stats:loess]{stats::loess()}}.
-\item "gam": generalized additive modelling as implemented in \code{\link[mgcv:gam]{mgcv::gam()}}.
 }
 
-These methods are used to fit models \code{y ~ x} (\verb{y ~ s(x, k = ?)} for "gam") where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
+These methods are used to fit models \code{y ~ x} where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
 
 The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
 
@@ -58,14 +58,13 @@ The steps to resample a time series list are:
 \enumerate{
 \item The time interpolation range is computed from the intersection of all times in \code{tsl}. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 \item If \code{new_time} is provided, any values of \code{new_time} outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If \code{new_time} is not provided, a regular time within the interpolation time range with the length of the shortest time series in \code{tsl} is generated.
-\item For each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
+\item For methods "spline" and "loess", each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
 \itemize{
 \item If \code{max_complexity == FALSE}, the model with the complexity that minimizes the root mean squared error between the observed and predicted \code{y} is returned.
 \item If \code{max_complexity == TRUE}, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
 \itemize{
 \item "spline": \verb{df = length(y) - 1, all.knots = TRUE}.
 \item "loess": \code{span = 1/length(x)}.
-\item "gam": \code{y ~ s(x, k = length(y) - 1)}.
 }
 }
 \item The fitted model is predicted over \code{new_time} to generate the resampled time series.

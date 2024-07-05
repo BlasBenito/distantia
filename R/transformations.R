@@ -138,52 +138,6 @@ f_pca <- function(
 #' Linear Detrending of a Time Series
 #'
 #' @description
-#' The function applies a GAM to each column (time series) of the input matrix x separately, modeling the relationship between the values and the corresponding time index using a smooth spline function (s()). The predicted values from the GAMs represent the trend component of each time series. After obtaining the trend components for each time series, the function subtracts these trends from the original time series data to obtain the detrended series.
-#'
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param select (optional, logical) Argument of [mgcv::gam()]. If TRUE then gam can add an extra penalty to each term so that it can be penalized to zero.
-#' @param k (optional, integer) Argument of [mgcv::s()]. he dimension of the basis used to represent the smooth term. The default depends on the number of variables that the smooth is a function of. See [mgcv::choose.k()] for further information.
-#' @param ... (optional, additional arguments) Ignored in this function.
-#' @return Transformed zoo object.
-#' @export
-#' @autoglobal
-f_detrend_gam <- function(
-    x = NULL,
-    select = FALSE,
-    k = -1,
-    ...
-) {
-
-  x.index <- zoo::index(x)
-
-  x.trend <- apply(
-    X = x,
-    MARGIN = 2,
-    FUN = function(i){
-
-      m.i <- mgcv::gam(
-        formula =
-          zoo::coredata(i) ~ s(zoo::index(i), k = k),
-        na.action = na.omit,
-        select = select
-      )
-
-      stats::predict(
-        object = m.i,
-        type = "response"
-      )
-
-    }
-  )
-
-  x - x.trend
-
-}
-
-#' Linear Detrending of a Time Series
-#'
-#' @description
 #' Fits a linear model on each column of a zoo object using time as a predictor, predicts the outcome, and subtracts it from the original data to return a detrended time series. This method might not be suitable if the input data is not seasonal and has a clear trend, so please be mindful of the limitations of this function when applied blindly.
 #'
 #'
