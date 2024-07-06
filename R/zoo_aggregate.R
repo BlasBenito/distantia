@@ -1,9 +1,15 @@
 #' Aggregates Zoo Time Series
 #'
 #' @param x (required, zoo object) Time series to aggregate. Default: NULL
-#' @param breaks (required, vector) Vector to define time breaks for aggregation. Must be in the same time units as `zoo::index(x)`.
-#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`,`min`, `median`, and `sd`. Default: `mean`.
-#' @param ... (optional, additional arguments) additional arguments to `f`.
+#' @param new_time (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) Definition of the aggregation pattern. The available options are:
+#' \itemize{
+#'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
+#'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
+#'   \item numeric: defines fixed time intervals in the units of `tsl` for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
+#'   \item keyword (see [utils_time_units()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
+#' }
+#' @param method (required, function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `method`.
 #'
 #' @return zoo object
 #' @export
@@ -31,8 +37,8 @@
 #' #mean value by millennia (extreme case!!!)
 #' x_millennia <- zoo_aggregate(
 #'   x = x,
-#'   breaks = "millennia",
-#'   f = mean
+#'   new_time = "millennia",
+#'   method = mean
 #' )
 #'
 #' if(interactive()){
@@ -42,8 +48,8 @@
 #' #max value by centuries
 #' x_centuries <- zoo_aggregate(
 #'   x = x,
-#'   breaks = "centuries",
-#'   f = max
+#'   new_time = "centuries",
+#'   method = max
 #' )
 #'
 #' if(interactive()){
@@ -53,8 +59,8 @@
 #' #quantile 0.75 value by centuries
 #' x_centuries <- zoo_aggregate(
 #'   x = x,
-#'   breaks = "centuries",
-#'   f = stats::quantile,
+#'   new_time = "centuries",
+#'   method = stats::quantile,
 #'   probs = 0.75 #argument of stats::quantile()
 #' )
 #'
@@ -63,8 +69,8 @@
 #' }
 zoo_aggregate <- function(
     x = NULL,
-    breaks = NULL,
-    f = mean,
+    new_time = NULL,
+    method = mean,
     ...
 ){
 
@@ -74,19 +80,19 @@ zoo_aggregate <- function(
 
   #handle keywords
   x_time <- zoo_time(x = x)
-  if(breaks %in% unlist(x_time$keywords)){
-    breaks <- utils_time_breaks(
+  if(any(new_time %in% unlist(x_time$keywords))){
+    new_time <- utils_new_time(
       tsl = utils_zoo_to_tsl(x = x),
-      breaks = breaks
+      new_time = new_time
     )
   } else {
-    if(length(breaks) < 2){
-      stop("Argument 'breaks' must be a vector of length 2 or higher.")
+    if(length(new_time) < 2){
+      stop("Argument 'new_time' must be a vector of length 2 or higher.")
     }
   }
 
-  if(is.function(f) == FALSE){
-    stop("Argument 'f' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
+  if(is.function(method) == FALSE){
+    stop("Argument 'method' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
   }
 
   x_time <- stats::time(x)
@@ -97,9 +103,9 @@ zoo_aggregate <- function(
     x = x
   )$class
 
-  x_breaks <- cut(
+  x_new_time <- cut(
     x = x_time,
-    breaks = breaks,
+    breaks = new_time,
     include.lowest = TRUE,
     right = TRUE
   ) |>
@@ -108,8 +114,8 @@ zoo_aggregate <- function(
   #aggregate
   y <- stats::aggregate(
     x = x,
-    by = x_breaks,
-    FUN = f,
+    by = x_new_time,
+    FUN = method,
     ... = ...
   )
 
@@ -120,7 +126,7 @@ zoo_aggregate <- function(
 
     y_time <- stats::aggregate(
       x = zoo::as.zoo(x_time),
-      by = x_breaks,
+      by = x_new_time,
       FUN = median
     ) |>
       as.numeric()
@@ -140,7 +146,7 @@ zoo_aggregate <- function(
 
     y_time <- stats::aggregate(
       x = x_time,
-      by = list(x_breaks),
+      by = list(x_new_time),
       FUN = median
     )$x
 

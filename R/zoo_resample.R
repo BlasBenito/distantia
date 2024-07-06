@@ -13,9 +13,8 @@
 #'
 #' On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 #'
-#' \strong{Inputs and Methods}
-#'
-#' This function requires three inputs: a zoo object (argument `x`), a new time (argument `new_time`), and a method (argument `method`). In brief, the function uses `method` to model each univariate time series in `x` as a function of its own time, to then predict the model over `new_time`. This function offers three methods for time series interpolation:
+#' \strong{Methods}
+#' This function offers three methods for time series interpolation:
 #'
 #' \itemize{
 #'   \item "linear" (default): interpolation via piecewise linear regression as implemented in [zoo::na.approx()].
@@ -25,7 +24,7 @@
 #'
 #' These methods are used to fit models `y ~ x` where `y` represents the values of a univariate time series and `x` represents a numeric version of its time.
 #'
-#' The functions [utils_optimize_spline()], [utils_optimize_loess()], and [utils_optimize_gam()] are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted `y`. However, when the argument `max_complexity = TRUE`, the complexity optimization is ignored, and a maximum complexity model is used instead.
+#' The functions [utils_optimize_spline()] and [utils_optimize_loess()] are used under the hood to optimize the complexity of these modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted `y`. However, when the argument `max_complexity = TRUE`, the complexity optimization is ignored, and a maximum complexity model is used instead.
 #'
 #' \strong{Step by Step}
 #'
@@ -34,28 +33,22 @@
 #' \enumerate{
 #'   \item The time interpolation range taken from the index of the zoo object. This step ensures that no extrapolation occurs during resampling.
 #'   \item If `new_time` is provided, any values of `new_time` outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If `new_time` is not provided, a regular time within the interpolation time range of the zoo object is generated.
-#'   \item For methods "spline" and "loess", each univariate time time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
+#'   \item For each univariate time time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
 #'   \itemize{
-#'    \item If `max_complexity == FALSE`, the model with the complexity that minimizes the root mean squared error between the observed and predicted `y` is returned.
-#'    \item If `max_complexity == TRUE`, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
-#'    \itemize{
-#'      \item "spline": `df = length(y) - 1, all.knots = TRUE`.
-#'      \item "loess": `span = 1/length(x)`.
-#'    }
+#'    \item If `max_complexity == FALSE` and `method = "spline"` or `method = "loess"`, the model with the complexity that minimizes the root mean squared error between the observed and predicted `y` is returned.
+#'    \item If `max_complexity == TRUE` and `method = "spline"` or `method = "loess"`, the first valid model closest to a maximum complexity is returned.
 #'   }
 #'   \item The fitted model is predicted over `new_time` to generate the resampled time series.
 #' }
-#'
-#' In general, a maximum complexity splines model should be able to provide optimal results, but may cause artifacts in regions with large intervals between consecutive samples.
 #'
 #' \strong{Other Details}
 #'
 #' Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
 #'
-#' This function accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
+#' This function accepts a parallelization setup via [future::plan()], but it is only relevant for very large datasets when `max_complexity = FALSE` and `method = "loess"` or `method = "spline"`.
 #'
 #' @param x (required, zoo object) Time series to resample. Default: NULL
-#' @param new_time (required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the index of `x`.  If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL
+#' @param new_time (required, zoo object or time vector) New time to resample `x` to. If a vector is provided, it must be of a class compatible with the index of `x`.  If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL
 #' @param method (optional, string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".
 #' @param max_complexity (required, logical). Only relevant for methods "spline" and "loess". If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE
 #'

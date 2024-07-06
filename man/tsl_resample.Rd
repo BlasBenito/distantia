@@ -37,9 +37,9 @@ On the other hand, time series resampling \strong{should not be used} to extrapo
 
 \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one.
 
-\strong{Inputs and Methods}
+\strong{Methods}
 
-This function requires three inputs: a time series list (argument \code{tsl}), a new time (argument \code{new_time}), and a method (argument \code{method}). In brief, the function uses \code{method} to model each univariate time series in \code{tsl} as a function of its own time, to then predict the model over \code{new_time}. This function offers three methods for time series interpolation:
+This function offers three methods for time series interpolation:
 
 \itemize{
 \item "linear" (default): interpolation via piecewise linear regression as implemented in \code{\link[zoo:na.approx]{zoo::na.approx()}}.
@@ -49,7 +49,7 @@ This function requires three inputs: a time series list (argument \code{tsl}), a
 
 These methods are used to fit models \code{y ~ x} where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
 
-The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}}, \code{\link[=utils_optimize_loess]{utils_optimize_loess()}}, and \code{\link[=utils_optimize_gam]{utils_optimize_gam()}} are used under the hood to optimize the complexity of each modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}} and \code{\link[=utils_optimize_loess]{utils_optimize_loess()}} are used under the hood to optimize the complexity of these modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
 
 \strong{Step by Step}
 
@@ -58,23 +58,18 @@ The steps to resample a time series list are:
 \enumerate{
 \item The time interpolation range is computed from the intersection of all times in \code{tsl}. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 \item If \code{new_time} is provided, any values of \code{new_time} outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If \code{new_time} is not provided, a regular time within the interpolation time range with the length of the shortest time series in \code{tsl} is generated.
-\item For methods "spline" and "loess", each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
+\item For each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
 \itemize{
 \item If \code{max_complexity == FALSE}, the model with the complexity that minimizes the root mean squared error between the observed and predicted \code{y} is returned.
-\item If \code{max_complexity == TRUE}, the first valid model closest to a maximum complexity is returned. The definitions of the maximum complexity model for each method is shown below:
-\itemize{
-\item "spline": \verb{df = length(y) - 1, all.knots = TRUE}.
-\item "loess": \code{span = 1/length(x)}.
-}
+\item If \code{max_complexity == TRUE} and \code{method = "spline"} or \code{method = "loess"}, the first valid model closest to a maximum complexity is returned.
+
 }
 \item The fitted model is predicted over \code{new_time} to generate the resampled time series.
 }
-
-In general, a maximum complexity splines model should be able to provide optimal results, but may cause artifacts in regions with large intervals between consecutive samples.
 
 \strong{Other Details}
 
 Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
 
-This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it might only be worth it for very long time series.
+This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only relevant for very large datasets when \code{max_complexity = FALSE} and \code{method = "loess"} or \code{method = "spline"}.
 }

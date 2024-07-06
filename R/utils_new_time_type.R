@@ -1,21 +1,21 @@
-#' Type of Aggregation Time Breaks
+#' Type of Aggregation New Time
 #'
 #' @description
-#' Internal function of [utils_time_breaks()] to identify the type of time breaks used for time series aggregation.
+#' Internal function of [utils_new_time()] to identify the type of the new time used for time series aggregation.
 #'
 #' @param tsl (required, time series list)
-#' @param breaks (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
+#' @param new_time (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 #' }
 #'
-#' @return Character string, breaks type.
+#' @return Character string, new_time type.
 #' @export
 #' @autoglobal
 #' @examples
-utils_time_breaks_type <- function(
+utils_new_time_type <- function(
     tsl = NULL,
-    breaks = NULL
+    new_time = NULL
 ){
 
   tsl <- tsl_is_valid(
@@ -39,48 +39,48 @@ utils_time_breaks_type <- function(
   }
 
   # intervals ----
-  if(length(breaks) == 1){
+  if(length(new_time) == 1){
 
     # numeric interval ----
     if(
-      is.numeric(breaks) &&
-      breaks >= time_summary_min_threshold
+      is.numeric(new_time) &&
+      new_time >= time_summary_min_threshold
     ){
 
       attr(
-        x = breaks,
-        which = "breaks_type"
+        x = new_time,
+        which = "new_time_type"
       ) <- "numeric_interval"
 
-      return(breaks)
+      return(new_time)
 
     }
 
 
     ## keyword ----
-    breaks <- utils_time_keywords_translate(
-      keyword = breaks
+    new_time <- utils_time_keywords_translate(
+      keyword = new_time
     )
 
     ### keyword for numerics ----
-    if(breaks %in% time_summary$keywords){
+    if(new_time %in% time_summary$keywords){
 
       if(time_summary$class %in% c("numeric", "integer")){
 
-        breaks <- as.numeric(breaks)
+        new_time <- as.numeric(new_time)
 
           attr(
-            x = breaks,
-            which = "breaks_type"
+            x = new_time,
+            which = "new_time_type"
           ) <- "numeric_interval"
 
-          return(breaks)
+          return(new_time)
 
       }
 
       ### keyword for Date or POSIXct ----
       standard_keyword <- time_summary$units_df[
-        time_summary$units_df$units == breaks,
+        time_summary$units_df$units == new_time,
         "keyword"
       ]
 
@@ -88,26 +88,26 @@ utils_time_breaks_type <- function(
       if(standard_keyword == TRUE){
 
         attr(
-          x = breaks,
-          which = "breaks_type"
+          x = new_time,
+          which = "new_time_type"
         ) <- "standard_keyword"
 
-        return(breaks)
+        return(new_time)
 
       }
 
       #### non-standard keyword ----
       attr(
-        x = breaks,
-        which = "breaks_type"
+        x = new_time,
+        which = "new_time_type"
       ) <- "non_standard_keyword"
 
-      return(breaks)
+      return(new_time)
 
     }
 
     stop(
-      "Argument 'breaks' of length 1 must be:\n",
+      "Argument 'new_time' of length 1 must be:\n",
       "  - one of these keywords: '",
       paste0(time_summary$keywords, collapse = "', '"),
       ".\n",
@@ -122,54 +122,54 @@ utils_time_breaks_type <- function(
 
   ## numeric_vector ----
   if(
-    is.numeric(breaks) &&
+    is.numeric(new_time) &&
     time_summary$class %in% c("numeric", "integer")
     ){
 
     attr(
-      x = breaks,
-      which = "breaks_type"
+      x = new_time,
+      which = "new_time_type"
     ) <- "numeric_vector"
 
-    return(breaks)
+    return(new_time)
 
   }
 
   ## Date or POSIXct vector ----
-  breaks <- utils_as_time(
-    x = breaks,
+  new_time <- utils_as_time(
+    x = new_time,
     to_class = time_summary$class
   )
 
   if(
-    "POSIXct" %in% class(breaks)
+    "POSIXct" %in% class(new_time)
   ){
 
     attr(
-      x = breaks,
-      which = "breaks_type"
+      x = new_time,
+      which = "new_time_type"
     ) <- "POSIXct_vector"
 
-    return(breaks)
+    return(new_time)
 
   }
 
 
   if(
-    "Date" %in% class(breaks)
+    "Date" %in% class(new_time)
   ){
 
     attr(
-      x = breaks,
-      which = "breaks_type"
+      x = new_time,
+      which = "new_time_type"
     ) <- "Date_vector"
 
-    return(breaks)
+    return(new_time)
 
   }
 
   stop(
-    "Argument 'breaks' of length higher than one must be a vector of class ",
+    "Argument 'new_time' of length higher than one must be a vector of class ",
     time_summary$class,
     " with values between ",
     time_summary$begin, " and ",

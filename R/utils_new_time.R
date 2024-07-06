@@ -1,11 +1,11 @@
-#' Time Breaks for Time Series Aggregation
+#' New Time for Time Series Aggregation
 #'
 #' @description
-#' Internal function of [tsl_aggregate()] to check input breaks for time series aggregation and returns a proper aggregation vector.
+#' Internal function of [tsl_aggregate()] to check input argument `new_time` for time series aggregation and return a proper aggregation vector.
 #'
 #'
-#' @param tsl (required, time series list) Time series that will be aggregated using 'breaks'. Default: NULL
-#' @param breaks (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
+#' @param tsl (required, time series list) Time series that will be aggregated using 'new_time'. Default: NULL
+#' @param new_time (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 #' \itemize{
 #'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
 #'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
@@ -17,49 +17,49 @@
 #' @export
 #' @autoglobal
 #' @examples
-utils_time_breaks <- function(
+utils_new_time <- function(
     tsl = NULL,
-    breaks = NULL
+    new_time = NULL
 ){
 
   tsl <- tsl_is_valid(
     tsl = tsl
   )
 
-  # breaks types ----
-  breaks <- utils_time_breaks_type(
+  # new_time types ----
+  new_time <- utils_new_time_type(
     tsl = tsl,
-    breaks = breaks
+    new_time = new_time
   )
 
-  breaks_type <- attributes(breaks)$breaks_type
+  new_time_type <- attributes(new_time)$new_time_type
 
   # time summary of tsl ----
   time_summary <- tsl_time_summary(
     tsl = tsl
   )
 
-  # compute breaks ----
+  # compute new_time ----
 
   ## standard_keyword ----
-  if(breaks_type == "standard_keyword"){
+  if(new_time_type == "standard_keyword"){
 
     if(time_summary$class == "Date"){
 
-      breaks_vector <- seq.Date(
+      new_time_vector <- seq.Date(
         from = time_summary$begin,
         to = time_summary$end,
-        by = breaks
+        by = new_time
       )
 
     }
 
     if(time_summary$class == "POSIXct"){
 
-      breaks_vector <- seq.POSIXt(
+      new_time_vector <- seq.POSIXt(
         from = time_summary$begin,
         to = time_summary$end,
-        by = breaks
+        by = new_time
       )
 
     }
@@ -68,11 +68,11 @@ utils_time_breaks <- function(
 
 
   ## non_standard_keyword ----
-  if(breaks_type == "non_standard_keyword"){
+  if(new_time_type == "non_standard_keyword"){
 
     # time units
     time_units <- time_summary$units_df[
-      time_summary$units_df$units == breaks,
+      time_summary$units_df$units == new_time,
     ]
 
     #non-standard are always in "years"
@@ -80,7 +80,7 @@ utils_time_breaks <- function(
 
     if(time_summary$class == "Date"){
 
-      breaks_vector <- seq.Date(
+      new_time_vector <- seq.Date(
         from = lubridate::floor_date(
           x = time_summary$begin,
           unit = unit
@@ -96,7 +96,7 @@ utils_time_breaks <- function(
 
     if(time_summary$class == "POSIXct"){
 
-      breaks_vector <- seq.POSIXt(
+      new_time_vector <- seq.POSIXt(
         from = lubridate::floor_date(
           x = time_summary$begin,
           unit = unit
@@ -114,25 +114,25 @@ utils_time_breaks <- function(
 
 
   ## numeric_interval ----
-  if(breaks_type == "numeric_interval"){
+  if(new_time_type == "numeric_interval"){
 
     if(time_summary$class == "numeric"){
 
-      breaks_vector <- seq(
-        from = time_summary$begin - breaks,
-        to = time_summary$end + breaks,
-        by = breaks
+      new_time_vector <- seq(
+        from = time_summary$begin - new_time,
+        to = time_summary$end + new_time,
+        by = new_time
       )
 
     }
 
     #non-standard are always in "years"
-    breaks <- as.integer(breaks)
-    unit <- paste0(breaks, " days")
+    new_time <- as.integer(new_time)
+    unit <- paste0(new_time, " days")
 
     if(time_summary$class == "Date"){
 
-      breaks_vector <- seq.Date(
+      new_time_vector <- seq.Date(
         from = time_summary$begin,
         to = time_summary$end,
         by = unit
@@ -142,7 +142,7 @@ utils_time_breaks <- function(
 
     if(time_summary$class == "POSIXct"){
 
-      breaks_vector <- seq.POSIXt(
+      new_time_vector <- seq.POSIXt(
         from = time_summary$begin,
         to = time_summary$end,
         by = unit
@@ -154,61 +154,61 @@ utils_time_breaks <- function(
 
 
   ## numeric_vector ----
-  if(breaks_type == "numeric_vector"){
+  if(new_time_type == "numeric_vector"){
 
-    begin <- min(breaks) - min(diff(breaks))
+    begin <- min(new_time) - min(diff(new_time))
 
-    if(min(breaks) > time_summary$begin){
-      breaks <- c(
-        min(breaks) - min(diff(breaks)),
-        breaks
+    if(min(new_time) > time_summary$begin){
+      new_time <- c(
+        min(new_time) - min(diff(new_time)),
+        new_time
         )
     }
 
-    if(max(breaks) < time_summary$end){
-      breaks <- c(
-        breaks,
-        max(breaks) + min(diff(breaks))
+    if(max(new_time) < time_summary$end){
+      new_time <- c(
+        new_time,
+        max(new_time) + min(diff(new_time))
         )
     }
 
-    breaks_vector <- breaks
+    new_time_vector <- new_time
 
   }
 
   ## POSIXct_vector ----
   ## Date_vector ----
-  if(breaks_type %in% c(
+  if(new_time_type %in% c(
     "POSIXct_vector",
     "Date_vector"
   )
   ){
 
-    return(breaks)
+    return(new_time)
 
   }
 
 
   # pretty
-  breaks_vector_pretty <- pretty(
-    x = breaks_vector,
-    n = length(breaks_vector)
+  new_time_vector_pretty <- pretty(
+    x = new_time_vector,
+    n = length(new_time_vector)
   )
 
-  #criteria to accept breaks_vector_pretty
+  #criteria to accept new_time_vector_pretty
   if(
-    length(breaks_vector) == length(breaks_vector_pretty) &&
+    length(new_time_vector) == length(new_time_vector_pretty) &&
     abs(
-      diff(range(breaks_vector)) - diff(range(breaks_vector_pretty))
+      diff(range(new_time_vector)) - diff(range(new_time_vector_pretty))
       ) < 1e-5
   ){
 
-    breaks_vector <- breaks_vector_pretty
+    new_time_vector <- new_time_vector_pretty
 
   }
 
 
-  breaks_vector
+  new_time_vector
 
 }
 
