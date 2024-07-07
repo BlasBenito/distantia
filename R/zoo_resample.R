@@ -48,8 +48,15 @@
 #' This function accepts a parallelization setup via [future::plan()], but it is only relevant for very large datasets when `max_complexity = FALSE` and `method = "loess"` or `method = "spline"`.
 #'
 #' @param x (required, zoo object) Time series to resample. Default: NULL
-#' @param new_time (required, zoo object or time vector) New time to resample `x` to. If a vector is provided, it must be of a class compatible with the index of `x`.  If a zoo object is provided, its time is used as a template to resample `x`. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL
-#' @param method (optional, string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".
+#' @param new_time (optional, zoo object, keyword, or time vector) New time to resample `x` to. The available options are:
+#' \itemize{
+#'   \item NULL: a regular version of the time in `x` is generated and used for resampling.
+#'   \item zoo object: the index of the given zoo object is used as template to resample `x`.
+#'   \item time vector: a vector with new times to resample `x` to. If time in `x` is of class "numeric", this vector must be numeric as well. Otherwise, vectors of classes "Date" and "POSIXct" can be used indistinctly.
+#'   \item keyword: a valid keyword returned by `zoo_time(x)$keywords`, used to generate a time vector with the relevant units.
+#'   \item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by `zoo_time(x)$units`.
+#' }
+#' @param method (optional, character string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".
 #' @param max_complexity (required, logical). Only relevant for methods "spline" and "loess". If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE
 #'
 #'
@@ -158,6 +165,11 @@ zoo_resample <- function(
     max_complexity = FALSE
 ){
 
+
+  if(zoo::is.zoo(x) == FALSE){
+    stop("Argument 'x' must be a zoo object.")
+  }
+
   method <- match.arg(
     arg = method,
     choices = c(
@@ -168,15 +180,13 @@ zoo_resample <- function(
     several.ok = FALSE
   )
 
-  if(zoo::is.zoo(x) == FALSE){
-    stop("Argument 'x' must be a zoo object.")
-  }
+  # handle new time ----
+  x_keywords <- unlist(zoo_time(x = x)$keywords)
 
-  #extract time from x
-  old_time <- zoo::index(x)
-
-  #if no new_time
+  #new_time is NULL
   if(is.null(new_time)){
+
+    message("Aggregating 'x' with a regular version of its own time.")
 
     #create regular new_time from x
     new_time <- seq(
@@ -187,57 +197,30 @@ zoo_resample <- function(
 
   } else {
 
-    #time is a zoo object
-    if(zoo::is.zoo(new_time)){
-      new_time <- zoo::index(new_time)
-    }
-
-    if(utils_is_time(x = new_time) == FALSE){
-      new_time <- utils_as_time(x = new_time)
-    }
-
-  }
-
-  #stop if only one of the classes is numeric
-  if(
-    sum(
-      is.numeric(
-        c(
-          class(new_time),
-          class(old_time)
-          )
-        )
-      ) == 1
-  ){
-    stop("The time classes of 'x' and 'time' must either be 'numeric', or any of 'Date' and 'POSIXct'.")
-  }
-
-  #coerce class of x to time
-  if(
-    sum(
-      "POSIXct" %in%  c(
-        class(new_time),
-        class(old_time)
-        )
-      ) == 1
-  ){
-
-    zoo::index(x) <- utils_coerce_time_class(
-      x =  zoo::index(x),
-      to = ifelse(
-        test = "POSIXct" %in% class(new_time),
-        yes = "POSIXct",
-        no = class(new_time)
-      )
+    #process new_time
+    new_time <- utils_new_time(
+      tsl = utils_zoo_to_tsl(x = x),
+      new_time = new_time
     )
 
   }
 
-  #coerce new_time within the bounds of old_time
+  #new_time within bounds of old_time
+  old_time <- zoo::index(x)
+
+  new_time <- utils_coerce_time_class(
+    x = new_time,
+    to = ifelse(
+      test = "POSIXct" %in% class(old_time),
+      yes = "POSIXct",
+      no = class(old_time)
+    )
+  )
+
   new_time <- new_time[
     new_time >= min(old_time) &
       new_time <= max(old_time)
-    ]
+  ]
 
   #compare old and new new_time intervals
   time_interval <- as.numeric(mean(diff(new_time)))
@@ -245,25 +228,25 @@ zoo_resample <- function(
 
   if(
     time_interval < (old_time_interval/10) ||
-     time_interval > (old_time_interval*10)
-     ){
+    time_interval > (old_time_interval*10)
+  ){
     warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
   }
 
   #default method
   if(method == "linear"){
 
-    x_time <- zoo::na.approx(
+    y <- zoo::na.approx(
       object = x,
       xout = new_time
     )
 
     attr(
-      x = x_time,
+      x = y,
       which = "name"
     ) <- attributes(x)$name
 
-    return(x_time)
+    return(y)
 
   }
 
@@ -282,14 +265,14 @@ zoo_resample <- function(
 
   `%iterator%` <- doFuture::`%dofuture%`
 
-  x_time <- foreach::foreach(
+  y <- foreach::foreach(
     i = iterations,
     .combine = "cbind",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
   ) %iterator% {
 
-    x_old <- as.numeric(x[, i])
+    x.i <- as.numeric(x[, i])
 
     if(method == "spline"){
       f <- utils_optimize_spline
@@ -301,7 +284,7 @@ zoo_resample <- function(
 
     interpolation.model <- f(
       x = old_time_numeric,
-      y = x_old,
+      y = x.i,
       max_complexity = max_complexity
     )
 
@@ -316,7 +299,7 @@ zoo_resample <- function(
         x = interpolation.model,
         what = "smooth.spline"
       ) == FALSE
-      ){
+    ){
 
       return(rep(x = NA, times = length(new_time)))
 
@@ -325,14 +308,14 @@ zoo_resample <- function(
     #predict model
     if(method == "spline"){
 
-      x_new <- stats::predict(
+      y.i <- stats::predict(
         object = interpolation.model,
         x = time_numeric
-        )$y
+      )$y
 
     } else {
 
-      x_new <- stats::predict(
+      y.i <- stats::predict(
         object = interpolation.model,
         newdata = data.frame(
           x = time_numeric
@@ -342,30 +325,28 @@ zoo_resample <- function(
     }
 
     #set bounds
-    x_new[x_new > max(x_old)] <- max(x_old)
-    x_new[x_new < min(x_old)] <- min(x_old)
+    y.i[y.i > max(x.i)] <- max(x.i)
+    y.i[y.i < min(x.i)] <- min(x.i)
 
-    return(x_new)
+    return(y.i)
 
   }
 
   #rename columns
-  colnames(x_time) <- colnames(x)
+  colnames(y) <- colnames(x)
 
   #convert to zoo
-  x_time <- zoo::zoo(
-    x = x_time,
+  y <- zoo::zoo(
+    x = y,
     order.by = new_time
   )
 
   #reset name
-  if(!is.null(attributes(x)$name)){
-    attr(
-      x = x_time,
-      which = "name"
-    ) <- attributes(x)$name
-  }
+  attr(
+    x = y,
+    which = "name"
+  ) <- attributes(x)$name
 
-  x_time
+  y
 
 }

@@ -14,9 +14,16 @@ zoo_resample(
 \arguments{
 \item{x}{(required, zoo object) Time series to resample. Default: NULL}
 
-\item{new_time}{(required, zoo object or time vector) New time to resample \code{x} to. If a vector is provided, it must be of a class compatible with the index of \code{x}.  If a zoo object is provided, its time is used as a template to resample \code{x}. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
+\item{new_time}{(optional, zoo object, keyword, or time vector) New time to resample \code{x} to. The available options are:
+\itemize{
+\item NULL: a regular version of the time in \code{x} is generated and used for resampling.
+\item zoo object: the index of the given zoo object is used as template to resample \code{x}.
+\item time vector: a vector with new times to resample \code{x} to. If time in \code{x} is of class "numeric", this vector must be numeric as well. Otherwise, vectors of classes "Date" and "POSIXct" can be used indistinctly.
+\item keyword: a valid keyword returned by \code{zoo_time(x)$keywords}, used to generate a time vector with the relevant units.
+\item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by \code{zoo_time(x)$units}.
+}}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".}
+\item{method}{(optional, character string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".}
 
 \item{max_complexity}{(required, logical). Only relevant for methods "spline" and "loess". If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE}
 }

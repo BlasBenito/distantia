@@ -1,14 +1,15 @@
 #' Aggregates Zoo Time Series
 #'
 #' @param x (required, zoo object) Time series to aggregate. Default: NULL
-#' @param new_time (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) Definition of the aggregation pattern. The available options are:
+#' @param new_time (optional, zoo object, keyword, or time vector) New time to aggregate `x` to. The available options are:
 #' \itemize{
-#'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
-#'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
-#'   \item numeric: defines fixed time intervals in the units of `tsl` for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
-#'   \item keyword (see [utils_time_units()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
+#'   \item NULL: the highest resolution keyword returned by `zoo_time(x)$keywords` is used to generate a new time vector to aggregate `x`.
+#'   \item zoo object: the index of the given zoo object is used as template to aggregate `x`.
+#'   \item time vector: a vector with new times to resample `x` to. If time in `x` is of class "numeric", this vector must be numeric as well. Otherwise, vectors of classes "Date" and "POSIXct" can be used indistinctly.
+#'   \item keyword: a valid keyword returned by `zoo_time(x)$keywords`, used to generate a time vector with the relevant units.
+#'   \item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by `zoo_time(x)$units`.
 #' }
-#' @param method (required, function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param method (optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
 #' @param ... (optional, additional arguments) additional arguments to `method`.
 #'
 #' @return zoo object
@@ -78,75 +79,111 @@ zoo_aggregate <- function(
     stop("Argument 'x' must be a zoo object.")
   }
 
-  #handle keywords
-  x_time <- zoo_time(x = x)
-  if(any(new_time %in% unlist(x_time$keywords))){
-    new_time <- utils_new_time(
-      tsl = utils_zoo_to_tsl(x = x),
-      new_time = new_time
+  #quoted name to unquoted
+  if(is.character(method)){
+
+    method <- tryCatch(
+      match.fun(method),
+      error = function(e) NULL
     )
-  } else {
-    if(length(new_time) < 2){
-      stop("Argument 'new_time' must be a vector of length 2 or higher.")
-    }
+
   }
 
   if(is.function(method) == FALSE){
     stop("Argument 'method' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
   }
 
-  x_time <- stats::time(x)
+  # handle new_time ----
+  x_keywords <- unlist(zoo_time(x = x)$keywords)
 
-  x_names <- colnames(x)
+  #new_time is NULL
+  if(is.null(new_time)){
 
-  x_time_class <- zoo_time(
-    x = x
-  )$class
+    last_keyword <- tail(
+      x = x_keywords,
+      n = 1
+      )
 
-  x_new_time <- cut(
-    x = x_time,
+    message("Aggregating 'x' with keyword '", last_keyword, "'.")
+
+    #create regular new_time from last keyword
+    new_time <- utils_new_time(
+      tsl = utils_zoo_to_tsl(x = x),
+      new_time = last_keyword
+    )
+
+  } else {
+
+    #process new_time
+    new_time <- utils_new_time(
+      tsl = utils_zoo_to_tsl(x = x),
+      new_time = new_time
+    )
+
+  }
+
+  #new_time and old_time to same class
+  old_time <- zoo::index(x)
+
+  new_time <- utils_coerce_time_class(
+    x = new_time,
+    to = ifelse(
+      test = "POSIXct" %in% class(old_time),
+      yes = "POSIXct",
+      no = class(old_time)
+    )
+  )
+
+  #new_time to aggregation intervals
+  new_time <- cut(
+    x = old_time,
     breaks = new_time,
     include.lowest = TRUE,
     right = TRUE
   ) |>
     as.numeric()
 
-  #aggregate
+  #aggregate x as y
   y <- stats::aggregate(
     x = x,
-    by = x_new_time,
+    by = new_time,
     FUN = method,
     ... = ...
   )
 
-  #reset index
+  #reset index to median of aggregation intervals
 
   #transform y_time as required
-  if(x_time_class == "numeric"){
+  old_time_class <- zoo_time(
+    x = x
+  )$class
+
+
+  if(old_time_class == "numeric"){
 
     y_time <- stats::aggregate(
-      x = zoo::as.zoo(x_time),
-      by = x_new_time,
+      x = zoo::as.zoo(old_time),
+      by = new_time,
       FUN = median
     ) |>
       as.numeric()
 
-    x_time_digits <- utils_digits(
-      x = diff(range(x_time))
+    old_time_digits <- utils_digits(
+      x = diff(range(old_time))
     )
 
     y_time <- round(
       x = y_time,
-      digits = x_time_digits
+      digits = old_time_digits
     )
 
   }
 
-  if(x_time_class %in% c("Date", "POSIXct")){
+  if(old_time_class %in% c("Date", "POSIXct")){
 
     y_time <- stats::aggregate(
-      x = x_time,
-      by = list(x_new_time),
+      x = old_time,
+      by = list(new_time),
       FUN = median
     )$x
 

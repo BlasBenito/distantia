@@ -9,15 +9,16 @@ zoo_aggregate(x = NULL, new_time = NULL, method = mean, ...)
 \arguments{
 \item{x}{(required, zoo object) Time series to aggregate. Default: NULL}
 
-\item{new_time}{(required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) Definition of the aggregation pattern. The available options are:
+\item{new_time}{(optional, zoo object, keyword, or time vector) New time to aggregate \code{x} to. The available options are:
 \itemize{
-\item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
-\item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the \code{tsl} argument.
-\item numeric: defines fixed time intervals in the units of \code{tsl} for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
-\item keyword (see \code{\link[=utils_time_units]{utils_time_units()}}): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
+\item NULL: the highest resolution keyword returned by \code{zoo_time(x)$keywords} is used to generate a new time vector to aggregate \code{x}.
+\item zoo object: the index of the given zoo object is used as template to aggregate \code{x}.
+\item time vector: a vector with new times to resample \code{x} to. If time in \code{x} is of class "numeric", this vector must be numeric as well. Otherwise, vectors of classes "Date" and "POSIXct" can be used indistinctly.
+\item keyword: a valid keyword returned by \code{zoo_time(x)$keywords}, used to generate a time vector with the relevant units.
+\item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by \code{zoo_time(x)$units}.
 }}
 
-\item{method}{(required, function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
+\item{method}{(optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
 
 \item{...}{(optional, additional arguments) additional arguments to \code{method}.}
 }

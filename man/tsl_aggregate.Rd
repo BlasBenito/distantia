@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_aggregate.R
 \name{tsl_aggregate}
 \alias{tsl_aggregate}
-\title{Aggregates Time Series List}
+\title{Aggregation of Time Series List}
 \usage{
 tsl_aggregate(tsl = NULL, new_time = NULL, method = mean, ...)
 }
@@ -25,5 +25,73 @@ tsl_aggregate(tsl = NULL, new_time = NULL, method = mean, ...)
 time series list
 }
 \description{
-Aggregates Time Series List
+\strong{Objective}
+
+Time series aggregation involves grouping data into regular time intervals and summarizing group values with a specified statistical function. This operation is useful to:
+\itemize{
+\item Decrease (downsampling) the temporal resolution of a time series.
+\item Highlight particular states of a time series over time. For example, a daily temperature series can be aggregated by month using \code{max} to represent the highest temperatures each month.
+\item Transform irregular time series into regular.
+}
+
+This function aggregates time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Aggregation will be limited by the shortest time series in your time series list. To aggregate non-overlapping time series, please subset the individual components of \code{tsl} one by one.
+
+\strong{Methods}
+
+Any function returning a single number from a numeric vector can be used to aggregate a time series list.
+}
+\examples{
+#full range of calendar dates
+tsl <- tsl_simulate(
+  n = 2,
+  rows = 1000,
+  time_range = c(
+    "0000-01-01",
+    as.character(Sys.Date())
+    )
+)
+
+#plot time series
+if(interactive()){
+  tsl_plot(tsl)
+}
+
+
+#find valid aggregation keywords
+tsl_time <- tsl_time(tsl)
+tsl_time$keywords
+
+#mean value by millennia (extreme case!!!)
+tsl_millennia <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "millennia",
+  method = mean
+)
+
+if(interactive()){
+  zoo_plot(x_millennia)
+}
+
+#max value by centuries
+tsl_centuries <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "centuries",
+  method = max
+)
+
+if(interactive()){
+  tsl_plot(tsl_centuries)
+}
+
+#quantile 0.75 value by centuries
+tsl_centuries <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "centuries",
+  method = stats::quantile,
+  probs = 0.75 #argument of stats::quantile()
+)
+
+if(interactive()){
+  tsl_plot(tsl_centuries)
+}
 }

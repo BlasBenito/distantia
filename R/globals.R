@@ -11,7 +11,6 @@ utils::globalVariables(c(
   "group_size_x", # <psi_cost_path_trim_blocks>
   "sd", # <scaling_parameters>
   "distances", # <utils_check_distance_args>
-  "new_time_type", # <utils_new_time_type>
   "median", # <zoo_aggregate>
   "i", # <zoo_permute>
   "i", # <zoo_resample>

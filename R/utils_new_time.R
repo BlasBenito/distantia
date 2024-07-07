@@ -5,7 +5,7 @@
 #'
 #'
 #' @param tsl (required, time series list) Time series that will be aggregated using 'new_time'. Default: NULL
-#' @param new_time (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
+#' @param new_time (required, zoo object, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 #' \itemize{
 #'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.
 #'   \item "Date" or "POSIXct" vector: as above, but for the time classes "Date" and "POSIXct." In any case, the input vector is coerced to the time class of the `tsl` argument.
@@ -25,6 +25,10 @@ utils_new_time <- function(
   tsl <- tsl_is_valid(
     tsl = tsl
   )
+
+  if(zoo::is.zoo(new_time)){
+    new_time <- zoo::index(new_time)
+  }
 
   # new_time types ----
   new_time <- utils_new_time_type(
