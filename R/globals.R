@@ -10,6 +10,7 @@ utils::globalVariables(c(
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>
   "sd", # <scaling_parameters>
+  "x", # <tsl_resample>
   "distances", # <utils_check_distance_args>
   "median", # <zoo_aggregate>
   "i", # <zoo_permute>

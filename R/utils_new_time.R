@@ -22,15 +22,48 @@ utils_new_time <- function(
     new_time = NULL
 ){
 
+  # tsl and old_time ----
   tsl <- tsl_is_valid(
     tsl = tsl
   )
 
+  old_time <- tsl_time_summary(
+    tsl = tsl
+  )
+
+  # new_time is NULL ----
+  if(is.null(new_time)){
+    return(NULL)
+  }
+
+  # new_time is zoo ----
   if(zoo::is.zoo(new_time)){
     new_time <- zoo::index(new_time)
   }
 
-  # new_time types ----
+  # new_time is tsl ----
+  if(
+    is.list(new_time) &&
+    zoo::is.zoo(new_time[[1]])
+    ){
+
+    new_time <- tsl_is_valid(
+      tsl = new_time
+    )
+
+    new_time <- tsl_time(
+      tsl = new_time
+      )
+
+    new_time <- seq(
+      from = max(new_time$begin),
+      to = min(new_time$end),
+      by = mean(new_time$resolution)
+    )
+
+  }
+
+  # new_time type ----
   new_time <- utils_new_time_type(
     tsl = tsl,
     new_time = new_time
@@ -38,35 +71,17 @@ utils_new_time <- function(
 
   new_time_type <- attributes(new_time)$new_time_type
 
-  # time summary of tsl ----
-  time_summary <- tsl_time_summary(
-    tsl = tsl
-  )
 
-  # compute new_time ----
+  # generate new_time ----
 
   ## standard_keyword ----
   if(new_time_type == "standard_keyword"){
 
-    if(time_summary$class == "Date"){
-
-      new_time_vector <- seq.Date(
-        from = time_summary$begin,
-        to = time_summary$end,
-        by = new_time
-      )
-
-    }
-
-    if(time_summary$class == "POSIXct"){
-
-      new_time_vector <- seq.POSIXt(
-        from = time_summary$begin,
-        to = time_summary$end,
-        by = new_time
-      )
-
-    }
+    new_time <- seq(
+      from = old_time$begin,
+      to = old_time$end,
+      by = new_time
+    )
 
   } #end of standard keyword
 
@@ -75,44 +90,24 @@ utils_new_time <- function(
   if(new_time_type == "non_standard_keyword"){
 
     # time units
-    time_units <- time_summary$units_df[
-      time_summary$units_df$units == new_time,
+    time_units <- old_time$units_df[
+      old_time$units_df$units == new_time,
     ]
 
     #non-standard are always in "years"
     unit <- paste0(time_units$factor, " years")
 
-    if(time_summary$class == "Date"){
-
-      new_time_vector <- seq.Date(
+      new_time <- seq(
         from = lubridate::floor_date(
-          x = time_summary$begin,
+          x = old_time$begin,
           unit = unit
         ),
         to = lubridate::ceiling_date(
-          x = time_summary$end,
+          x = old_time$end,
           unit = unit
         ),
         by = unit
       )
-
-    }
-
-    if(time_summary$class == "POSIXct"){
-
-      new_time_vector <- seq.POSIXt(
-        from = lubridate::floor_date(
-          x = time_summary$begin,
-          unit = unit
-        ),
-        to = lubridate::ceiling_date(
-          x = time_summary$end,
-          unit = unit
-        ),
-        by = unit
-      )
-
-    }
 
   }
 
@@ -120,35 +115,23 @@ utils_new_time <- function(
   ## numeric_interval ----
   if(new_time_type == "numeric_interval"){
 
-    if(time_summary$class == "numeric"){
+    if(old_time$class == "numeric"){
 
-      new_time_vector <- seq(
-        from = time_summary$begin - new_time,
-        to = time_summary$end + new_time,
+      new_time <- seq(
+        from = old_time$begin - new_time,
+        to = old_time$end + new_time,
         by = new_time
       )
 
-    }
+    } else {
 
-    #non-standard are always in "years"
-    new_time <- as.integer(new_time)
-    unit <- paste0(new_time, " days")
+      #non-standard are always in "days"
+      new_time <- as.integer(new_time)
+      unit <- paste0(new_time, " days")
 
-    if(time_summary$class == "Date"){
-
-      new_time_vector <- seq.Date(
-        from = time_summary$begin,
-        to = time_summary$end,
-        by = unit
-      )
-
-    }
-
-    if(time_summary$class == "POSIXct"){
-
-      new_time_vector <- seq.POSIXt(
-        from = time_summary$begin,
-        to = time_summary$end,
+      new_time <- seq.Date(
+        from = old_time$begin,
+        to = old_time$end,
         by = unit
       )
 
@@ -162,57 +145,39 @@ utils_new_time <- function(
 
     begin <- min(new_time) - min(diff(new_time))
 
-    if(min(new_time) > time_summary$begin){
+    if(min(new_time) > old_time$begin){
       new_time <- c(
         min(new_time) - min(diff(new_time)),
         new_time
         )
     }
 
-    if(max(new_time) < time_summary$end){
+    if(max(new_time) < old_time$end){
       new_time <- c(
         new_time,
         max(new_time) + min(diff(new_time))
         )
     }
 
-    new_time_vector <- new_time
-
   }
 
-  ## POSIXct_vector ----
-  ## Date_vector ----
-  if(new_time_type %in% c(
-    "POSIXct_vector",
-    "Date_vector"
-  )
-  ){
+  #subset to original range
+  new_time <- new_time[
+    new_time >= old_time$begin &
+      new_time <= old_time$end
+  ]
 
-    return(new_time)
-
-  }
-
-
-  # pretty
-  new_time_vector_pretty <- pretty(
-    x = new_time_vector,
-    n = length(new_time_vector)
+  #coerce time class
+  new_time <- utils_coerce_time_class(
+    x = new_time,
+    to = ifelse(
+      test = "POSIXct" %in% old_time$class,
+      yes = "POSIXct",
+      no = old_time$class
+    )
   )
 
-  #criteria to accept new_time_vector_pretty
-  if(
-    length(new_time_vector) == length(new_time_vector_pretty) &&
-    abs(
-      diff(range(new_time_vector)) - diff(range(new_time_vector_pretty))
-      ) < 1e-5
-  ){
-
-    new_time_vector <- new_time_vector_pretty
-
-  }
-
-
-  new_time_vector
+  new_time
 
 }
 

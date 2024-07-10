@@ -1,4 +1,4 @@
-Improve documentation of aggregation functions to the standard of the resampling ones.
+Test utils_new_time within zoo_resample, tsl_resample, zoo_aggregate, and tsl_aggregate
 
 
 

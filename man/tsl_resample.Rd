@@ -35,7 +35,7 @@ Time series resampling involves interpolating new values for time steps not avai
 
 On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 
-\strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one.
+\strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one either using \code{\link[=tsl_subset]{tsl_subset()}} or the syntax \code{tsl = my_tsl[[i]]}.
 
 \strong{Methods}
 

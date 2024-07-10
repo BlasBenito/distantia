@@ -181,7 +181,7 @@ zoo_resample <- function(
   )
 
   # handle new time ----
-  x_keywords <- unlist(zoo_time(x = x)$keywords)
+  old_time <- zoo_time(x = x)
 
   #new_time is NULL
   if(is.null(new_time)){
@@ -190,41 +190,22 @@ zoo_resample <- function(
 
     #create regular new_time from x
     new_time <- seq(
-      from = min(old_time),
-      to = max(old_time),
-      length.out = length(old_time)
-    )
-
-  } else {
-
-    #process new_time
-    new_time <- utils_new_time(
-      tsl = utils_zoo_to_tsl(x = x),
-      new_time = new_time
+      from = old_time$begin,
+      to = old_time$end,
+      length.out = old_time$n
     )
 
   }
 
-  #new_time within bounds of old_time
-  old_time <- zoo::index(x)
-
-  new_time <- utils_coerce_time_class(
-    x = new_time,
-    to = ifelse(
-      test = "POSIXct" %in% class(old_time),
-      yes = "POSIXct",
-      no = class(old_time)
-    )
+  #process new_time
+  new_time <- utils_new_time(
+    tsl = utils_zoo_to_tsl(x = x),
+    new_time = new_time
   )
-
-  new_time <- new_time[
-    new_time >= min(old_time) &
-      new_time <= max(old_time)
-  ]
 
   #compare old and new new_time intervals
   time_interval <- as.numeric(mean(diff(new_time)))
-  old_time_interval <- as.numeric(mean(diff(new_time)))
+  old_time_interval <- as.numeric(mean(diff(zoo::index(x))))
 
   if(
     time_interval < (old_time_interval/10) ||

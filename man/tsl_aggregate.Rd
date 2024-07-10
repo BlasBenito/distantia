@@ -27,18 +27,41 @@ time series list
 \description{
 \strong{Objective}
 
-Time series aggregation involves grouping data into regular time intervals and summarizing group values with a specified statistical function. This operation is useful to:
+Time series aggregation involves grouping observations and summarizing group values with a statistical function. This operation is useful to:
 \itemize{
 \item Decrease (downsampling) the temporal resolution of a time series.
 \item Highlight particular states of a time series over time. For example, a daily temperature series can be aggregated by month using \code{max} to represent the highest temperatures each month.
 \item Transform irregular time series into regular.
 }
 
-This function aggregates time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Aggregation will be limited by the shortest time series in your time series list. To aggregate non-overlapping time series, please subset the individual components of \code{tsl} one by one.
+This function aggregates time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Aggregation will be limited by the shortest time series in your time series list. To aggregate non-overlapping time series, please subset the individual components of \code{tsl} one by one either using \code{\link[=tsl_subset]{tsl_subset()}} or the syntax \code{tsl = my_tsl[[i]]}.
 
 \strong{Methods}
 
-Any function returning a single number from a numeric vector can be used to aggregate a time series list.
+Any function returning a single number from a numeric vector can be used to aggregate a time series list. Quoted and unquoted function names can be used. Additional arguments to these functions can be passed via the argument \code{...}. Typical examples are:
+
+\itemize{
+\item \code{mean} or \code{"mean"}: see \code{\link[=mean]{mean()}}.
+\item \code{median} or \code{"median"}: see \code{\link[stats:median]{stats::median()}}.
+\item \code{quantile} or "quantile": see \code{\link[stats:quantile]{stats::quantile()}}.
+\item \code{min} or \code{"min"}: see \code{\link[=min]{min()}}.
+\item \code{max} or \code{"max"}: see \code{\link[=max]{max()}}.
+\item \code{sd} or \code{"sd"}: to compute standard deviation, see \code{\link[stats:sd]{stats::sd()}}.
+\item \code{var} or \code{"var"}: to compute the group variance, see \code{\link[stats:cor]{stats::var()}}.
+\item \code{length} or \code{"length"}: to compute group length.
+\item \code{sum} or \code{"sum"}: see \code{\link[=sum]{sum()}}.
+\item \code{f_slope} or \code{"f_slope"}: to compute the group slope, see \code{\link[=f_slope]{f_slope()}}.
+}
+
+\strong{Step by Step}
+
+The steps to aggregate a time series list are:
+
+\enumerate{
+\item
+\item
+\item
+}
 }
 \examples{
 #full range of calendar dates

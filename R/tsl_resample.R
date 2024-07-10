@@ -13,7 +13,7 @@
 #'
 #' On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 #'
-#' \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from `df <- tsl_time(tsl = tsl)`. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of `tsl` one by one.
+#' \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from `df <- tsl_time(tsl = tsl)`. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of `tsl` one by one either using [tsl_subset()] or the syntax `tsl = my_tsl[[i]]`.
 #'
 #' \strong{Methods}
 #'
@@ -67,39 +67,47 @@ tsl_resample <- function(
     new_time = NULL,
     method = "linear",
     max_complexity = FALSE
-    ){
+){
 
-  tsl <- tsl_is_valid(tsl = tsl)
-
-  #subset new_time
-  old_time <- tsl_time(tsl = tsl)
-  old_time_begin <- max(old_time$begin)
-  old_time_end <- min(old_time$end)
-  old_time_length <- min(old_time$length)
-
-  #if new_time is null, create a regular one
-  if(is.null(new_time)){
-
-    new_time <- seq(
-      from = old_time_begin,
-      to = old_time_end,
-      length.out = old_time_length
+  tsl <- tsl_is_valid(
+    tsl = tsl
     )
 
-  } else {
+  old_time <- tsl_time(
+    tsl = tsl
+  )
 
-    #new_time is a zoo object
-    if(zoo::is.zoo(new_time)){
-      new_time <- zoo::index(new_time)
-    }
+  #new_time is NULL
+  if(is.null(new_time)){
 
-    if(utils_is_time(x = new_time) == FALSE){
-      new_time <- utils_as_time(x = new_time)
-    }
+    message("Aggregating 'x' with a regular version of its own time.")
 
-    new_time <- new_time[new_time >= old_time_begin & new_time <= old_time_end]
+    new_time <- seq(
+      from = max(old_time$begin),
+      to = min(old_time$end),
+      length.out = floor(mean(old_time$n))
+    )
 
   }
+
+  #process new_time
+  new_time <- utils_new_time(
+    tsl = utils_zoo_to_tsl(x = x),
+    new_time = new_time
+  )
+
+  #compare old and new new_time intervals
+  time_interval <- as.numeric(mean(diff(new_time)))
+  old_time_interval <- as.numeric(mean(old_time$resolution))
+
+  if(
+    time_interval < (old_time_interval/10) ||
+    time_interval > (old_time_interval*10)
+  ){
+    warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
+  }
+
+
 
   #resample
   tsl <- lapply(

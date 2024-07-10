@@ -94,44 +94,24 @@ zoo_aggregate <- function(
   }
 
   # handle new_time ----
-  x_keywords <- unlist(zoo_time(x = x)$keywords)
+  old_time <- zoo_time(x = x)
 
   #new_time is NULL
   if(is.null(new_time)){
 
-    last_keyword <- tail(
-      x = x_keywords,
+    new_time <- tail(
+      x = unlist(old_time$keywords),
       n = 1
       )
 
-    message("Aggregating 'x' with keyword '", last_keyword, "'.")
-
-    #create regular new_time from last keyword
-    new_time <- utils_new_time(
-      tsl = utils_zoo_to_tsl(x = x),
-      new_time = last_keyword
-    )
-
-  } else {
-
-    #process new_time
-    new_time <- utils_new_time(
-      tsl = utils_zoo_to_tsl(x = x),
-      new_time = new_time
-    )
+    message("Aggregating 'x' with keyword '", new_time, "'.")
 
   }
 
-  #new_time and old_time to same class
-  old_time <- zoo::index(x)
-
-  new_time <- utils_coerce_time_class(
-    x = new_time,
-    to = ifelse(
-      test = "POSIXct" %in% class(old_time),
-      yes = "POSIXct",
-      no = class(old_time)
-    )
+  #process new_time
+  new_time <- utils_new_time(
+    tsl = utils_zoo_to_tsl(x = x),
+    new_time = new_time
   )
 
   #new_time to aggregation intervals
