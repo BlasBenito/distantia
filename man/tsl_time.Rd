@@ -5,12 +5,14 @@
 \alias{tsl_time_summary}
 \title{Time Summary of a Time Series List}
 \usage{
-tsl_time(tsl = NULL)
+tsl_time(tsl = NULL, keywords = c("resample", "aggregate"))
 
-tsl_time_summary(tsl = NULL)
+tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
+
+\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }
 \value{
 Data frame for \code{\link[=tsl_time]{tsl_time()}}, and list for \code{\link[=tsl_time_summary]{tsl_time_summary()}}.
@@ -18,5 +20,5 @@ Data frame for \code{\link[=tsl_time]{tsl_time()}}, and list for \code{\link[=ts
 \description{
 \code{\link[=tsl_time]{tsl_time()}} returns a data frame with one row per time series in the argument 'tsl' with key time features.
 
-\code{\link[=tsl_time_summayr]{tsl_time_summayr()}} is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
+\code{\link[=tsl_time_summary]{tsl_time_summary()}} is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
 }

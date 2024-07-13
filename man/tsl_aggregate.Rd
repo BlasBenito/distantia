@@ -92,7 +92,7 @@ tsl_millennia <- tsl_aggregate(
 )
 
 if(interactive()){
-  zoo_plot(x_millennia)
+  tsl_plot(tsl_millennia)
 }
 
 #max value by centuries
@@ -117,4 +117,7 @@ tsl_centuries <- tsl_aggregate(
 if(interactive()){
   tsl_plot(tsl_centuries)
 }
+}
+\seealso{
+\code{\link[=zoo_aggregate]{zoo_aggregate()}}
 }

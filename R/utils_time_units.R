@@ -259,7 +259,7 @@ utils_time_units <- function(
       TRUE,
       TRUE
     ),
-    #used in zoo_time_units() only
+    #used in zoo_time() only
     threshold = c(
       365000,
       36500,

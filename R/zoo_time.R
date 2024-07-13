@@ -1,6 +1,7 @@
 #' Time Features of a Zoo Object
 #'
 #' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
+#' @param keywords (optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for [zoo_aggregate()]. If "resample", returns valid keywords for [zoo_resample()]. If both, returns all valid keywords. Default: c("aggregate", "resample").
 #'
 #' @return Data frame with the following columns:
 #' \itemize{
@@ -67,19 +68,32 @@
 #' #numeric class uses characters with scientific notation
 #' z_time$keywords
 zoo_time <- function(
-    x = NULL
+    x = NULL,
+    keywords = c(
+      "resample",
+      "aggregate"
+    )
 ){
 
   if(zoo::is.zoo(x) == FALSE){
     stop("Argument 'x' must be a zoo time series.")
   }
 
+  keywords <- match.arg(
+    arg = keywords,
+    choices = c(
+      "resample",
+      "aggregate"
+    ),
+    several.ok = TRUE
+  )
+
   x_name <- attributes(x)$name
   if(is.null(x_name)){
     x_name <- ""
   }
 
-  x_time <- stats::time(x)
+  x_time <- zoo::index(x)
 
   #class
   x_class <- class(x_time)
@@ -130,15 +144,45 @@ zoo_time <- function(
   #subset by x_length_units
   df_units <- df_units[
     seq(
-      from = min(which(df_units$base_units == x_length_units)),
+      from = min(
+        which(
+          df_units$base_units == x_length_units
+          )
+        ),
       to = nrow(df_units),
       by = 1
     ),
   ]
 
   df_units <- df_units[
-    df_units$threshold <= x_length & df_units$threshold >= x_resolution,
+    df_units$threshold <= (x_length + x_resolution) &
+      df_units$threshold >= x_resolution / 10,
   ]
+
+  #identify aggregation and resampling keywords
+  df_units$aggregate <- FALSE
+  df_units$resample <- FALSE
+
+  #aggregation with an average of two samples
+  df_units$aggregate[df_units$threshold > x_resolution * 2] <- TRUE
+
+  #resampling one order of magnitude above and below resolution
+  df_units$resample[
+    df_units$threshold >= x_resolution / 10 &
+      df_units$threshold <= x_resolution * 10
+    ] <- TRUE
+
+  if(length(keywords) == 1){
+
+    if(keywords == "aggregate"){
+      df_units <- df_units[df_units$aggregate == TRUE, ]
+    }
+
+    if(keywords == "resample"){
+      df_units <- df_units[df_units$resample == TRUE, ]
+    }
+
+  }
 
   if(nrow(df_units) > 0){
     df$keywords <- I(list(df_units$units))

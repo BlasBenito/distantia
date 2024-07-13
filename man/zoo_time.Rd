@@ -4,10 +4,12 @@
 \alias{zoo_time}
 \title{Time Features of a Zoo Object}
 \usage{
-zoo_time(x = NULL)
+zoo_time(x = NULL, keywords = c("resample", "aggregate"))
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series to analyze. Default: NULL.}
+
+\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }
 \value{
 Data frame with the following columns:

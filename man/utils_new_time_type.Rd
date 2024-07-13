@@ -4,7 +4,11 @@
 \alias{utils_new_time_type}
 \title{Type of Aggregation New Time}
 \usage{
-utils_new_time_type(tsl = NULL, new_time = NULL)
+utils_new_time_type(
+  tsl = NULL,
+  new_time = NULL,
+  keywords = c("resample", "aggregate")
+)
 }
 \arguments{
 \item{tsl}{(required, time series list)}
@@ -13,6 +17,8 @@ utils_new_time_type(tsl = NULL, new_time = NULL)
 \itemize{
 \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 }}
+
+\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }
 \value{
 Character string, new_time type.

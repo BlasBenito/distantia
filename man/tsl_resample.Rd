@@ -73,3 +73,84 @@ Please use this operation with care, as there are limits to the amount of resamp
 
 This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only relevant for very large datasets when \code{max_complexity = FALSE} and \code{method = "loess"} or \code{method = "spline"}.
 }
+\examples{
+#generate irregular time series
+tsl <- tsl_simulate(
+  n = 2,
+  rows = 100,
+  irregular = TRUE
+)
+
+if(interactive()){
+  tsl_plot(tsl)
+}
+
+#range of times between samples
+tsl_time_summary(tsl)[
+  c(
+    "units",
+    "resolution_min",
+    "resolution_max"
+    )
+  ]
+
+#resample to regular using linear interpolation
+tsl_regular <- tsl_resample(
+  tsl = tsl
+)
+
+if(interactive()){
+  tsl_plot(tsl_regular)
+}
+
+#check new resolution
+tsl_time_summary(tsl_regular)[
+  c(
+    "units",
+    "resolution_min",
+    "resolution_max"
+  )
+]
+
+#resample using keywords
+
+#valid resampling keywords
+tsl_time_summary(
+  tsl = tsl,
+  keywords = "resample"
+)$keywords
+
+#by month
+tsl_months <- tsl_resample(
+  tsl = tsl,
+  new_time = "months"
+)
+
+if(interactive()){
+  tsl_plot(tsl_months)
+}
+
+#by week
+tsl_weeks <- tsl_resample(
+  tsl = tsl,
+  new_time = "weeks"
+)
+
+if(interactive()){
+  tsl_plot(tsl_weeks)
+}
+
+#resample by fixed days interval
+tsl_15 <- tsl_resample(
+  tsl = tsl,
+  new_time = 15 #days
+)
+
+if(interactive()){
+  tsl_plot(tsl_15)
+}
+
+}
+\seealso{
+\code{\link[=zoo_resample]{zoo_resample()}}
+}

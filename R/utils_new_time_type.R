@@ -8,6 +8,7 @@
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.
 #' }
+#' @param keywords (optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for [zoo_aggregate()]. If "resample", returns valid keywords for [zoo_resample()]. If both, returns all valid keywords. Default: c("aggregate", "resample").
 #'
 #' @return Character string, new_time type.
 #' @export
@@ -15,7 +16,11 @@
 #' @examples
 utils_new_time_type <- function(
     tsl = NULL,
-    new_time = NULL
+    new_time = NULL,
+    keywords = c(
+      "resample",
+      "aggregate"
+    )
 ){
 
   tsl <- tsl_is_valid(
@@ -23,7 +28,8 @@ utils_new_time_type <- function(
   )
 
   time_summary <- tsl_time_summary(
-    tsl = tsl
+    tsl = tsl,
+    keywords = keywords
   )
 
   time_summary_min_threshold <- min(time_summary$units_df$threshold)

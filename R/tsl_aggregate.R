@@ -53,7 +53,7 @@
 #'
 #' @return time series list
 #' @export
-#'
+#' @seealso [zoo_aggregate()]
 #' @examples
 #' #full range of calendar dates
 #' tsl <- tsl_simulate(
@@ -83,7 +83,7 @@
 #' )
 #'
 #' if(interactive()){
-#'   zoo_plot(x_millennia)
+#'   tsl_plot(tsl_millennia)
 #' }
 #'
 #' #max value by centuries
@@ -120,7 +120,8 @@ tsl_aggregate <- function(
     )
 
   old_time <- tsl_time_summary(
-    tsl = tsl
+    tsl = tsl,
+    keywords = "aggregate"
     )
 
   #new_time is NULL
@@ -137,7 +138,8 @@ tsl_aggregate <- function(
 
   new_time <- utils_new_time(
     tsl = tsl,
-    new_time = new_time
+    new_time = new_time,
+    keywords = "aggregate"
   )
 
   tsl <- lapply(

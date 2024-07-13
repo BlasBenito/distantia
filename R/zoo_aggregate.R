@@ -94,7 +94,10 @@ zoo_aggregate <- function(
   }
 
   # handle new_time ----
-  old_time <- zoo_time(x = x)
+  old_time <- zoo_time(
+    x = x,
+    keywords = "aggregate"
+    )
 
   #new_time is NULL
   if(is.null(new_time)){
@@ -111,12 +114,13 @@ zoo_aggregate <- function(
   #process new_time
   new_time <- utils_new_time(
     tsl = utils_zoo_to_tsl(x = x),
-    new_time = new_time
+    new_time = new_time,
+    keywords = "aggregate"
   )
 
   #new_time to aggregation intervals
   new_time <- cut(
-    x = old_time,
+    x = zoo::index(x),
     breaks = new_time,
     include.lowest = TRUE,
     right = TRUE
@@ -130,46 +134,6 @@ zoo_aggregate <- function(
     FUN = method,
     ... = ...
   )
-
-  #reset index to median of aggregation intervals
-
-  #transform y_time as required
-  old_time_class <- zoo_time(
-    x = x
-  )$class
-
-
-  if(old_time_class == "numeric"){
-
-    y_time <- stats::aggregate(
-      x = zoo::as.zoo(old_time),
-      by = new_time,
-      FUN = median
-    ) |>
-      as.numeric()
-
-    old_time_digits <- utils_digits(
-      x = diff(range(old_time))
-    )
-
-    y_time <- round(
-      x = y_time,
-      digits = old_time_digits
-    )
-
-  }
-
-  if(old_time_class %in% c("Date", "POSIXct")){
-
-    y_time <- stats::aggregate(
-      x = old_time,
-      by = list(new_time),
-      FUN = median
-    )$x
-
-  }
-
-  zoo::index(y) <- y_time
 
   colnames(y) <- colnames(x)
 

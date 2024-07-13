@@ -4,7 +4,11 @@
 \alias{utils_new_time}
 \title{New Time for Time Series Aggregation}
 \usage{
-utils_new_time(tsl = NULL, new_time = NULL)
+utils_new_time(
+  tsl = NULL,
+  new_time = NULL,
+  keywords = c("resample", "aggregate")
+)
 }
 \arguments{
 \item{tsl}{(required, time series list) Time series that will be aggregated using 'new_time'. Default: NULL}
@@ -16,6 +20,8 @@ utils_new_time(tsl = NULL, new_time = NULL)
 \item numeric: defines fixed with time intervals for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
 \item keyword (see \code{\link[=utils_time_units]{utils_time_units()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}}): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 }}
+
+\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }
 \value{
 Vector of class numeric, Date, or POSIXct

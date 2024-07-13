@@ -60,7 +60,83 @@
 #' @return time series list
 #' @export
 #' @autoglobal
+#' @seealso [zoo_resample()]
 #' @examples
+#' #generate irregular time series
+#' tsl <- tsl_simulate(
+#'   n = 2,
+#'   rows = 100,
+#'   irregular = TRUE
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl)
+#' }
+#'
+#' #range of times between samples
+#' tsl_time_summary(tsl)[
+#'   c(
+#'     "units",
+#'     "resolution_min",
+#'     "resolution_max"
+#'     )
+#'   ]
+#'
+#' #resample to regular using linear interpolation
+#' tsl_regular <- tsl_resample(
+#'   tsl = tsl
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl_regular)
+#' }
+#'
+#' #check new resolution
+#' tsl_time_summary(tsl_regular)[
+#'   c(
+#'     "units",
+#'     "resolution_min",
+#'     "resolution_max"
+#'   )
+#' ]
+#'
+#' #resample using keywords
+#'
+#' #valid resampling keywords
+#' tsl_time_summary(
+#'   tsl = tsl,
+#'   keywords = "resample"
+#' )$keywords
+#'
+#' #by month
+#' tsl_months <- tsl_resample(
+#'   tsl = tsl,
+#'   new_time = "months"
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl_months)
+#' }
+#'
+#' #by week
+#' tsl_weeks <- tsl_resample(
+#'   tsl = tsl,
+#'   new_time = "weeks"
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl_weeks)
+#' }
+#'
+#' #resample by fixed days interval
+#' tsl_15 <- tsl_resample(
+#'   tsl = tsl,
+#'   new_time = 15 #days
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl_15)
+#' }
 #'
 tsl_resample <- function(
     tsl = NULL,
@@ -74,7 +150,8 @@ tsl_resample <- function(
     )
 
   old_time <- tsl_time(
-    tsl = tsl
+    tsl = tsl,
+    keywords = "resample"
   )
 
   #new_time is NULL
@@ -92,9 +169,16 @@ tsl_resample <- function(
 
   #process new_time
   new_time <- utils_new_time(
-    tsl = utils_zoo_to_tsl(x = x),
-    new_time = new_time
+    tsl = tsl,
+    new_time = new_time,
+    keywords = "resample"
   )
+
+  #subset to original range
+  new_time <- new_time[
+    new_time >= min(old_time$begin) &
+      new_time <= max(old_time$end)
+  ]
 
   #compare old and new new_time intervals
   time_interval <- as.numeric(mean(diff(new_time)))
@@ -106,8 +190,6 @@ tsl_resample <- function(
   ){
     warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
   }
-
-
 
   #resample
   tsl <- lapply(

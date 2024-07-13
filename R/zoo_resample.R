@@ -181,7 +181,10 @@ zoo_resample <- function(
   )
 
   # handle new time ----
-  old_time <- zoo_time(x = x)
+  old_time <- zoo_time(
+    x = x,
+    keywords = "resample"
+    )
 
   #new_time is NULL
   if(is.null(new_time)){
@@ -200,16 +203,23 @@ zoo_resample <- function(
   #process new_time
   new_time <- utils_new_time(
     tsl = utils_zoo_to_tsl(x = x),
-    new_time = new_time
+    new_time = new_time,
+    keywords = "resample"
   )
+
+  #subset to original range
+  new_time <- new_time[
+    new_time >= old_time$begin &
+      new_time <= old_time$end
+  ]
 
   #compare old and new new_time intervals
   time_interval <- as.numeric(mean(diff(new_time)))
   old_time_interval <- as.numeric(mean(diff(zoo::index(x))))
 
   if(
-    time_interval < (old_time_interval/10) ||
-    time_interval > (old_time_interval*10)
+    time_interval <= (old_time_interval/10) ||
+    time_interval >= (old_time_interval*10)
   ){
     warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
   }
