@@ -78,7 +78,7 @@ cluster_hclust_optimizer <- function(
   }
 
   names(hc_methods) <- methods_vector
-  hc_methods <- na.omit(hc_methods)
+  hc_methods <- stats::na.omit(hc_methods)
 
   #clustering groups
   optimization_df <- optimization_df[

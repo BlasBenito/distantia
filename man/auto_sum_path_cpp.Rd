@@ -11,7 +11,7 @@ auto_sum_path_cpp(x, y, path, distance = "euclidean")
 
 \item{y}{(required, numeric matrix).}
 
-\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}.
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path_cpp]{cost_path_cpp()}}.
 Default: NULL}
 
 \item{distance}{(optional, character string) name or abbreviation of the

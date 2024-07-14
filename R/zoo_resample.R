@@ -24,7 +24,19 @@
 #'
 #' These methods are used to fit models `y ~ x` where `y` represents the values of a univariate time series and `x` represents a numeric version of its time.
 #'
-#' The functions [utils_optimize_spline()] and [utils_optimize_loess()] are used under the hood to optimize the complexity of these modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted `y`. However, when the argument `max_complexity = TRUE`, the complexity optimization is ignored, and a maximum complexity model is used instead.
+#' The functions [utils_optimize_spline()] and [utils_optimize_loess()] are used under the hood to optimize the complexity of the methods "spline" and "loess" by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted `y`. However, when the argument `max_complexity = TRUE`, the complexity optimization is ignored, and a maximum complexity model is used instead.
+#'
+#' \strong{New time}
+#'
+#' The argument `new_time` offers several alternatives to help define the new time of the resulting time series:
+#'
+#' \itemize{
+#'   \item `NULL`: the target time series (`x`) is resampled to a regular time within its original time range and number of observations.
+#'   \item `zoo object`: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
+#'   \item `time vector`: a time vector of a class compatible with the time in `x`.
+#'   \item `keyword`: character string defining a resampling keyword, obtained via `zoo_time(x, keywords = "resample")$keywords`..
+#'   \item `numeric`: a single number representing the desired interval between consecutive samples in the units of `x` (relevant units can be obtained via `zoo_time(x)$units`).
+#' }
 #'
 #' \strong{Step by Step}
 #'
@@ -90,13 +102,6 @@
 #'
 #' new_time
 #' diff(new_time)
-#'
-#' #parallelization setup
-#' #only relevant for methods spline and loess, and for zoo objects with many variables and large number of samples when max_complexity = FALSE
-#' # future::plan(
-#' #   strategy = future::multisession,
-#' #   workers = 2
-#' # )
 #'
 #' #resample using piecewise linear regression
 #' x_linear <- zoo_resample(
@@ -188,8 +193,6 @@ zoo_resample <- function(
 
   #new_time is NULL
   if(is.null(new_time)){
-
-    message("Aggregating 'x' with a regular version of its own time.")
 
     #create regular new_time from x
     new_time <- seq(

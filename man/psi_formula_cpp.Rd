@@ -7,7 +7,7 @@
 psi_formula_cpp(path, auto_sum, diagonal = FALSE)
 }
 \arguments{
-\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}.
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path_cpp]{cost_path_cpp()}}.
 Default: NULL}
 
 \item{auto_sum}{(required, numeric) auto sum of both sequences,

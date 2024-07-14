@@ -51,7 +51,7 @@ tsl_is_valid <- function(
   if(any(duplicated(names(tsl)))){
 
     stop(
-      "List 'tsl' must be unique names."
+      "List 'tsl' must have unique names."
     )
 
   }

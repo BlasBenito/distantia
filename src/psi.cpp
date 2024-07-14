@@ -83,7 +83,7 @@ DataFrame psi_cost_path_cpp(
 //' used to normalize the least cost distance between the sequences.
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param path (required, data frame) dataframe produced by [cost_path()].
+//' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
 //' Default: NULL
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
@@ -130,7 +130,7 @@ double psi_auto_sum_cpp(
 //' Psi Dissimilarity Metric
 //' @description Computes the psi dissimilarity score between two sequences from
 //' their least cost path and their auto sums.
-//' @param path (required, data frame) dataframe produced by [cost_path()].
+//' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
 //' Default: NULL
 //' @param auto_sum (required, numeric) auto sum of both sequences,
 //' result of [psi_auto_sum_cpp()].

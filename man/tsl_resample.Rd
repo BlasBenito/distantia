@@ -14,11 +14,11 @@ tsl_resample(
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{new_time}{(required, zoo object or time vector) New time to resample to. If a vector is provided, it must be of a class compatible with the time of \code{tsl}.  If a zoo object is provided, its time is used as a template to resample \code{tsl}. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
+\item{new_time}{(required, zoo object, time series list, character string, time vector, numeric) New time to resample to. If a time vector is provided, it must be of a class compatible with the time of \code{tsl}.  If a zoo object or time series list is provided, its time is used as a template to resample \code{tsl}. Valid resampling keywords (see \code{\link[=tsl_time]{tsl_time()}}) are allowed. Numeric values are interpreted as interval widths in the time units of the time series. If NULL, irregular time series are predicted into a regular version of their own time. Default: NULL}
 
-\item{method}{(optional, string) Name of the method to resample the time series. One of "spline" or "loess". Default: "spline".}
+\item{method}{(optional, character string) Name of the method to resample the time series. One of "linear", "spline" or "loess". Default: "linear".}
 
-\item{max_complexity}{(required, logical). If TRUE, model optimization is ignored, and the a model of maximum complexity is used for resampling. Default: FALSE}
+\item{max_complexity}{(required, logical). Only relevant for methods "spline" and "loess". If TRUE, model optimization is ignored, and the a model of maximum complexity (an overfitted model) is used for resampling. Default: FALSE}
 }
 \value{
 time series list
@@ -33,7 +33,7 @@ Time series resampling involves interpolating new values for time steps not avai
 \item Increase (upsampling) or decrease (downsampling) the temporal resolution of a time series.
 }
 
-On the other hand, time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
+Time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 
 \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one either using \code{\link[=tsl_subset]{tsl_subset()}} or the syntax \code{tsl = my_tsl[[i]]}.
 
@@ -49,7 +49,20 @@ This function offers three methods for time series interpolation:
 
 These methods are used to fit models \code{y ~ x} where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
 
-The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}} and \code{\link[=utils_optimize_loess]{utils_optimize_loess()}} are used under the hood to optimize the complexity of these modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}} and \code{\link[=utils_optimize_loess]{utils_optimize_loess()}} are used under the hood to optimize the complexity of the methods "spline" and "loess" by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+
+\strong{New time}
+
+The argument \code{new_time} offers several alternatives to help define the new time of the resulting time series:
+
+\itemize{
+\item \code{NULL}: the target time series (\code{x}) is resampled to a regular time within its original time range and number of observations.
+\item \verb{zoo object}: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
+\item \verb{time series list}: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.
+\item \verb{time vector}: a time vector of a class compatible with the time in \code{x}.
+\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}..
+\item \code{numeric}: a single number representing the desired interval between consecutive samples in the units of \code{x} (relevant units can be obtained via \code{zoo_time(x)$units}).
+}
 
 \strong{Step by Step}
 
@@ -140,16 +153,94 @@ if(interactive()){
   tsl_plot(tsl_weeks)
 }
 
-#resample by fixed days interval
-tsl_15 <- tsl_resample(
+#resample using time interval
+
+#get relevant units
+tsl_time(tsl)$units
+
+#resampling to 15 days intervals
+tsl_15_days <- tsl_resample(
   tsl = tsl,
   new_time = 15 #days
 )
 
+tsl_time_summary(tsl_15_days)[
+  c(
+    "units",
+    "resolution_min",
+    "resolution_max"
+  )
+]
+
 if(interactive()){
-  tsl_plot(tsl_15)
+  tsl_plot(tsl_15_days)
 }
 
+#aligning two time series listsç
+
+#two time series lists with different time ranges
+tsl1 <- tsl_simulate(
+  n = 2,
+  rows = 80,
+  time_range = c("2010-01-01", "2020-01-01"),
+  irregular = TRUE
+)
+
+tsl2 <- tsl_simulate(
+  n = 2,
+  rows = 120,
+  time_range = c("2005-01-01", "2024-01-01"),
+  irregular = TRUE
+)
+
+#check time features
+tsl_time_summary(tsl1)[
+  c(
+    "begin",
+    "end",
+    "resolution_min",
+    "resolution_max"
+  )
+]
+
+tsl_time_summary(tsl2)[
+  c(
+    "begin",
+    "end",
+    "resolution_min",
+    "resolution_max"
+  )
+]
+
+#tsl1 to regular
+tsl1_regular <- tsl_resample(
+  tsl = tsl1
+)
+
+#tsl2 resampled to time of tsl1_regular
+tsl2_regular <- tsl_resample(
+  tsl = tsl2,
+  new_time = tsl1_regular
+)
+
+#check alignment
+tsl_time_summary(tsl1_regular)[
+  c(
+    "begin",
+    "end",
+    "resolution_min",
+    "resolution_max"
+  )
+]
+
+tsl_time_summary(tsl2_regular)[
+  c(
+    "begin",
+    "end",
+    "resolution_min",
+    "resolution_max"
+  )
+]
 }
 \seealso{
 \code{\link[=zoo_resample]{zoo_resample()}}

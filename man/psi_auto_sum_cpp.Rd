@@ -11,7 +11,7 @@ psi_auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 
 \item{y}{(required, numeric matrix) of same number of columns as 'x'.}
 
-\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path]{cost_path()}}.
+\item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path_cpp]{cost_path_cpp()}}.
 Default: NULL}
 
 \item{distance}{(optional, character string) name or abbreviation of the

@@ -28,7 +28,8 @@
 #'
 #' tsl <- tsl_initialize(
 #'   x = mis,
-#'   id_column = "MIS"
+#'   id_column = "mis",
+#'   time_column = "sample_order"
 #' )
 #'
 #' distantia_plot(

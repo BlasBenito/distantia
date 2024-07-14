@@ -55,7 +55,7 @@ tsl_handle_NA <- function(
 
     tsl <- lapply(
       X = tsl,
-      FUN = na.omit
+      FUN = stats::na.omit
     )
 
   }

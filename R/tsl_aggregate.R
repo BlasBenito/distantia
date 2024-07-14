@@ -127,7 +127,7 @@ tsl_aggregate <- function(
   #new_time is NULL
   if(is.null(new_time)){
 
-    new_time <- tail(
+    new_time <- utils::tail(
       x = unlist(old_time$keywords),
       n = 1
     )

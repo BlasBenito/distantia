@@ -47,7 +47,7 @@ auto_sum_no_path_cpp <- function(x, y, distance = "euclidean") {
 #' a key component of the psi computation.
 #' @param y (required, numeric matrix).
 #' @param x (required, numeric matrix) of same number of columns as 'y'.
-#' @param path (required, data frame) dataframe produced by [cost_path()].
+#' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
 #' Default: NULL
 #' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
@@ -126,7 +126,7 @@ cost_path_diag_cpp <- function(dist_matrix, cost_matrix) {
 }
 
 #' Trims Blocks from Least Cost Path
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
 #' @return A data frame with least-cost path coordinates.
 #' @export
 cost_path_trim_cpp <- function(path) {
@@ -134,7 +134,7 @@ cost_path_trim_cpp <- function(path) {
 }
 
 #' Sum of Least Cost Distance Times Two
-#' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+#' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
 #' @return Sum of distances
 #' @export
 cost_path_sum_cpp <- function(path) {
@@ -464,7 +464,7 @@ psi_cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, we
 #' used to normalize the least cost distance between the sequences.
 #' @param x (required, numeric matrix) of same number of columns as 'y'.
 #' @param y (required, numeric matrix) of same number of columns as 'x'.
-#' @param path (required, data frame) dataframe produced by [cost_path()].
+#' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
 #' Default: NULL
 #' @param distance (optional, character string) name or abbreviation of the
 #' distance method. Valid values are in the columns "names" and "abbreviation"
@@ -480,7 +480,7 @@ psi_auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks =
 #' Psi Dissimilarity Metric
 #' @description Computes the psi dissimilarity score between two sequences from
 #' their least cost path and their auto sums.
-#' @param path (required, data frame) dataframe produced by [cost_path()].
+#' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
 #' Default: NULL
 #' @param auto_sum (required, numeric) auto sum of both sequences,
 #' result of [psi_auto_sum_cpp()].

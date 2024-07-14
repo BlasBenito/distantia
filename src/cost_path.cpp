@@ -261,7 +261,7 @@ DataFrame cost_path_diag_cpp(
 
 
 //' Trims Blocks from Least Cost Path
-//' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+//' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
 //' @return A data frame with least-cost path coordinates.
 //' @export
 // [[Rcpp::export]]
@@ -308,7 +308,7 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 
 
 //' Sum of Least Cost Distance Times Two
-//' @param path (required, data frame) dataframe produced by [cost_path()]. Default: NULL
+//' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
 //' @return Sum of distances
 //' @export
 // [[Rcpp::export]]

@@ -7,7 +7,7 @@
 psi(path_sum = NULL, auto_sum = NULL, diagonal = FALSE)
 }
 \arguments{
-\item{path_sum}{(required, numeric) Result of \code{\link[=path_sum]{path_sum()}} on the least cost path between the sequences to compare.}
+\item{path_sum}{(required, numeric) Result of \code{\link[=psi_cost_path_sum]{psi_cost_path_sum()}} on the least cost path between the sequences to compare.}
 
 \item{auto_sum}{(required, numeric) Result of \code{\link[=psi_auto_sum]{psi_auto_sum()}} on the sequences to compare. Default: NULL}
 

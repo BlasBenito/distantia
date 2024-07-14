@@ -53,7 +53,19 @@ This function offers three methods for time series interpolation:
 
 These methods are used to fit models \code{y ~ x} where \code{y} represents the values of a univariate time series and \code{x} represents a numeric version of its time.
 
-The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}} and \code{\link[=utils_optimize_loess]{utils_optimize_loess()}} are used under the hood to optimize the complexity of these modelling method by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+The functions \code{\link[=utils_optimize_spline]{utils_optimize_spline()}} and \code{\link[=utils_optimize_loess]{utils_optimize_loess()}} are used under the hood to optimize the complexity of the methods "spline" and "loess" by finding the configuration that minimizes the root mean squared error (RMSE) between  observed and predicted \code{y}. However, when the argument \code{max_complexity = TRUE}, the complexity optimization is ignored, and a maximum complexity model is used instead.
+
+\strong{New time}
+
+The argument \code{new_time} offers several alternatives to help define the new time of the resulting time series:
+
+\itemize{
+\item \code{NULL}: the target time series (\code{x}) is resampled to a regular time within its original time range and number of observations.
+\item \verb{zoo object}: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
+\item \verb{time vector}: a time vector of a class compatible with the time in \code{x}.
+\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}..
+\item \code{numeric}: a single number representing the desired interval between consecutive samples in the units of \code{x} (relevant units can be obtained via \code{zoo_time(x)$units}).
+}
 
 \strong{Step by Step}
 
@@ -103,13 +115,6 @@ new_time <- seq.Date(
 
 new_time
 diff(new_time)
-
-#parallelization setup
-#only relevant for methods spline and loess, and for zoo objects with many variables and large number of samples when max_complexity = FALSE
-# future::plan(
-#   strategy = future::multisession,
-#   workers = 2
-# )
 
 #resample using piecewise linear regression
 x_linear <- zoo_resample(
