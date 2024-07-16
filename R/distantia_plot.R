@@ -170,7 +170,7 @@ distantia_plot <- function(
     plt = plt_m
     )
 
-  plot_matrix(
+  utils_matrix_plot(
     m = m,
     color = matrix_color,
     subtitle = paste0(

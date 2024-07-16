@@ -6,28 +6,6 @@
 #' @return A data frame with a least-cost path with no blocks.
 #'
 #' @examples
-#'
-#'
-#' dm <- psi_dist_matrix(
-#'   x = x,
-#'   y = y
-#'   )
-#'
-#' cm <- psi_cost_matrix(
-#'   dist_matrix = dm
-#'   )
-#'
-#' path <- psi_cost_path(
-#'   dist_matrix = dm,
-#'   cost_matrix = cm
-#' )
-#'
-#' nrow(path)
-#'
-#' path <- psi_cost_path_trim_blocks(path = path)
-#'
-#' nrow(path)
-#'
 #'@export
 #'@autoglobal
 psi_cost_path_trim_blocks <- function(path = NULL){

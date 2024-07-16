@@ -4,14 +4,14 @@
 \alias{psi}
 \title{Normalized Dissimilarity Score}
 \usage{
-psi(path_sum = NULL, auto_sum = NULL, diagonal = FALSE)
+psi(path_sum = NULL, auto_sum = NULL, diagonal = TRUE)
 }
 \arguments{
 \item{path_sum}{(required, numeric) Result of \code{\link[=psi_cost_path_sum]{psi_cost_path_sum()}} on the least cost path between the sequences to compare.}
 
 \item{auto_sum}{(required, numeric) Result of \code{\link[=psi_auto_sum]{psi_auto_sum()}} on the sequences to compare. Default: NULL}
 
-\item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Used to correct the computation of \code{psi} when diagonals are used.}
+\item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Used to correct the computation of \code{psi} when diagonals are used. Default: TRUE}
 }
 \value{
 Psi value.
@@ -23,40 +23,82 @@ Computes the dissimilarity metric \code{psi} (Birks and Gordon 1985).
 The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
 }
 \examples{
-
-
-d <- psi_dist_matrix(
-  x,
-  y
+#simulate two time series
+tsl <- tsl_simulate(
+  n = 2
 )
 
+if(interactive()){
+  tsl_plot(tsl = tsl)
+}
+
+#step by step computation of psi
+
+#common distance method
+dist_method <- "euclidean"
+
+#distance matrix
+d <- psi_dist_matrix(
+  x = tsl[[1]],
+  y = tsl[[2]],
+  distance = dist_method
+)
+
+if(interactive()){
+  utils_matrix_plot(m = d)
+}
+
+#cost matrix
 m <- psi_cost_matrix(
   dist_matrix = d
 )
 
+if(interactive()){
+  utils_matrix_plot(m = m)
+}
+
+#least cost path
 path <- psi_cost_path(
   dist_matrix = d,
   cost_matrix = m
 )
 
-path_sum <- path_sum(path)
+if(interactive()){
+  utils_matrix_plot(
+    m = m,
+    path = path
+    )
+}
 
+#sum of least cost path
+path_sum <- psi_cost_path_sum(path = path)
+
+#auto sum of the time series
 xy_sum <- psi_auto_sum(
-  x = x,
-  y = y,
-  path = path
+  x = tsl[[1]],
+  y = tsl[[2]],
+  path = path,
+  distance = dist_method
 )
 
+#dissimilarity
 psi <- psi(
   path_sum = path_sum,
   auto_sum = xy_sum
 )
 
+psi
+
+#full computation in one line
+distantia(
+  tsl = tsl
+)$psi
+
+#dissimilarity plot
+distantia_plot(
+  tsl = tsl
+)
 }
 \author{
 Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
-
-\itemize{
-\item Birks, H.J.B.  and Gordon, A.D. (1985) Numerical Methods in Quaternary Pollen Analysis. Academic Press.
-}
 }

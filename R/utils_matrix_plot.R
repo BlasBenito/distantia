@@ -49,7 +49,7 @@
 #' )
 #'
 #' #plot cost matrix and least cost path
-#' plot_matrix(
+#' utils_matrix_plot(
 #'   m = cost_matrix,
 #'   path = path,
 #'   guide = TRUE
@@ -57,7 +57,7 @@
 #'
 #' @export
 #' @autoglobal
-plot_matrix <- function(
+utils_matrix_plot <- function(
     m = NULL,
     color = NULL,
     title = NULL,
@@ -122,12 +122,37 @@ plot_matrix <- function(
       ylab <- y_name
     }
 
-    axis_1_at <- pretty(attributes(m)$x_time)
-    axis_2_at <- pretty(attributes(m)$y_time)
+    #get axes time
+    axis_x_labels <- attributes(m)$x_time
+    axis_y_labels <- attributes(m)$y_time
 
-    axis_1_labels <- axis_1_at
-    axis_2_labels <- axis_2_at
+    #to pretty
+    axis_x_labels_pretty <- pretty(x = axis_x_labels)
+    axis_y_labels_pretty <- pretty(x = axis_y_labels)
 
+    #axis positions closest to pretty version
+    axis_x_at <- lapply(
+      X = axis_x_labels_pretty,
+      FUN = function(x){
+        which.min(abs(as.numeric(x - axis_x_labels)))
+      }
+    ) |>
+      unlist()
+
+    axis_y_at <- lapply(
+      X = axis_y_labels_pretty,
+      FUN = function(x){
+        which.min(abs(as.numeric(x - axis_y_labels)))
+      }
+    ) |>
+      unlist()
+
+    axis_x_labels <- attributes(axis_x_labels_pretty)$labels
+    axis_y_labels <- attributes(axis_y_labels_pretty)$labels
+
+    #get tick locations
+    # axis_x_at <- seq_len(length(axis_x_labels))
+    # axis_y_at <- seq_len(length(axis_y_labels))
 
   }
 
@@ -148,21 +173,34 @@ plot_matrix <- function(
       ylab <- ""
     }
 
-    axis_1_at <- seq_len(ncol(m))
-    axis_2_at <- seq_len(nrow(m))
+    axis_x_at <- seq_len(ncol(m))
+    axis_y_at <- seq_len(nrow(m))
 
-    axis_1_labels <- axis_2_labels <- dimnames(m)[[2]]
+    axis_x_labels <- axis_y_labels <- dimnames(m)[[2]]
 
   }
 
   guide_title <- firstup(x = guide_title)
 
   #axis title
-  axis_title_distance <- 2.2
-  axis_title_cex <- 0.9 * text_cex
+  #leave more space if axis needs dates
+  if(
+    class(attributes(m)$x_time) %in% c("Date", "POSIXct") &&
+    subpanel == FALSE
+    ){
 
-  #axis labels
-  axis_labels_cex <- 0.8 * text_cex
+    axis_title_distance <- 4
+    axis_labels_cex <- 0.6 * text_cex
+
+  } else {
+
+    axis_title_distance <- 2.2
+    axis_labels_cex <- 0.8 * text_cex
+
+  }
+
+  #title cex
+  axis_title_cex <- 0.9 * text_cex
 
   #plotting areas
   plt_all <- graphics::par()$plt
@@ -241,66 +279,23 @@ plot_matrix <- function(
       cex.lab = axis_title_cex
     )
 
-    if("POSIXct" %in% class(axis_1_labels)){
-
-      graphics::axis.POSIXct(
-        side = 1,
-        labels = axis_1_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
-
-      graphics::axis.POSIXct(
-        side = 2,
-        labels = axis_2_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
-
-    }
-
-    if("Date" %in% class(axis_1_labels)){
-
-      graphics::axis.Date(
-        side = 1,
-        at = axis_1_at,
-        labels = axis_1_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
-
-      graphics::axis.Date(
-        side = 2,
-        at = axis_2_at,
-        labels = axis_2_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
-
-    }
-
-    if(
-      any(c("numeric", "integer") %in% class(axis_1_labels)) ||
-      "character" %in% class(axis_1_labels)
-      ){
 
       graphics::axis(
         side = 1,
-        at = axis_1_at,
-        labels = axis_1_labels,
+        at = axis_x_at,
+        labels = axis_x_labels,
         cex.axis = axis_labels_cex,
         las = 2
       )
 
       graphics::axis(
         side = 2,
-        at = axis_2_at,
-        labels = axis_2_labels,
+        at = axis_y_at,
+        labels = axis_y_labels,
         cex.axis = axis_labels_cex,
         las = 2
       )
 
-    }
   }
 
   graphics::title(

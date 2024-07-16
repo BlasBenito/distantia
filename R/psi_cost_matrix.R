@@ -3,33 +3,91 @@
 #' @description Computes the cost matrix from a distance matrix.
 #'
 #' @param dist_matrix (required, numeric matrix). Distance matrix.
-#' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: FALSE.
-#' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214.
+#' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: TRUE
+#' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214. Default: TRUE
 #' @return A cost matrix.
 #' @examples
-#'
-#' distance.matrix <- psi_dist_matrix(
-#'   x = x,
-#'   y = y,
-#'   distance = "manhattan"
+#' #simulate two time series
+#' tsl <- tsl_simulate(
+#'   n = 2
 #' )
 #'
-#' cost.matrix <- psi_cost_matrix(
-#'   dist_matrix = distance.matrix,
-#'   diagonal = FALSE
-#'   )
-#'
 #' if(interactive()){
-#'  plotMatrix(distance.matrix = cost.matrix)
+#'   tsl_plot(tsl = tsl)
 #' }
 #'
+#' #step by step computation of psi
 #'
+#' #common distance method
+#' dist_method <- "euclidean"
+#'
+#' #distance matrix
+#' d <- psi_dist_matrix(
+#'   x = tsl[[1]],
+#'   y = tsl[[2]],
+#'   distance = dist_method
+#' )
+#'
+#' if(interactive()){
+#'   utils_matrix_plot(m = d)
+#' }
+#'
+#' #cost matrix
+#' m <- psi_cost_matrix(
+#'   dist_matrix = d
+#' )
+#'
+#' if(interactive()){
+#'   utils_matrix_plot(m = m)
+#' }
+#'
+#' #least cost path
+#' path <- psi_cost_path(
+#'   dist_matrix = d,
+#'   cost_matrix = m
+#' )
+#'
+#' if(interactive()){
+#'   utils_matrix_plot(
+#'     m = m,
+#'     path = path
+#'     )
+#' }
+#'
+#' #sum of least cost path
+#' path_sum <- psi_cost_path_sum(path = path)
+#'
+#' #auto sum of the time series
+#' xy_sum <- psi_auto_sum(
+#'   x = tsl[[1]],
+#'   y = tsl[[2]],
+#'   path = path,
+#'   distance = dist_method
+#' )
+#'
+#' #dissimilarity
+#' psi <- psi(
+#'   path_sum = path_sum,
+#'   auto_sum = xy_sum
+#' )
+#'
+#' psi
+#'
+#' #full computation in one line
+#' distantia(
+#'   tsl = tsl
+#' )$psi
+#'
+#' #dissimilarity plot
+#' distantia_plot(
+#'   tsl = tsl
+#' )
 #' @autoglobal
 #' @export
 psi_cost_matrix <- function(
     dist_matrix = NULL,
-    diagonal = FALSE,
-    weighted = FALSE
+    diagonal = TRUE,
+    weighted = TRUE
     ){
 
   dist_matrix <- utils_check_matrix_args(

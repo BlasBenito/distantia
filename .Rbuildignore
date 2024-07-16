@@ -9,6 +9,6 @@
 ^dev_scripts/
 ^Rcpp_ideas/
 ^TODO.md$
-
+NEXT_DAY.md
 
 ^\.github$
