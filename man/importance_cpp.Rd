@@ -8,8 +8,8 @@ importance_cpp(
   y,
   x,
   distance = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
+  diagonal = TRUE,
+  weighted = TRUE,
   ignore_blocks = FALSE
 )
 }

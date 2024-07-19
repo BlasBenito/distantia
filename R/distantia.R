@@ -1,36 +1,38 @@
-#' Dissimilarity Between Time Series
+#' Time Series Dissimilarity Analysis
 #'
 #' @description
 #'
-#' This function combines dynamic time warping, lock-step comparison, the psi dissimilarity score (Birks and Gordon 1985), and restricted permutation methods to assess the dissimilarity between pairs of time series.
+#' This function combines dynamic time warping and lock-step comparison with restricted permutation methods to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
 #'
-#' Dynamic time warping (DTW for short) is an optimization method aiming to minimize the distance between two time series. It ignores sampling time, but is restricted by sample order, which gives it flexibility to compare regular or irregular time series taken in different places (for example, phenological time series taken at different latitudes or elevations) or over different time spans (for example, time series taken over different years or past time periods). This method involves computing the distance matrix, cost matrix, and least cost path between all pairs of samples.
+#' **Dynamic time warping** (DTW for short) minimizes the distance between time series. This method ignores sampling time and relies on sample order only. This feature allows it to address different scenarios when comparing regular or irregular time series: phenological time series captured at different latitudes or elevations; time series captured over different years or past time periods; time series lacking precise times; pairs of coordinates representing movement over time, such as migration flight paths.
 #'
-#' Lock-step comparison involves assessing the multivariate distance between pairs of samples taken at the same time but belonging to separate regular time series. This method is an alternative to dynamic time warping when the goal requires assessing the synchronicity of the compared time series.
+#' On the other hand, **lock-step comparison** involves assessing the pairwise distance between samples in time series captured at the same times. This method is an alternative to dynamic time warping when the goal requires assessing the synchronicity of the compared time series.
 #'
-#' The psi dissimilarity score normalizes the multivariate distance between the samples in two time series by the sum of distances between consecutive samples of each time series. This feature allows comparing psi dissimilarity scores computed for time series of different lengths. A psi score of zero indicates perfect similarity.
+#' The **psi dissimilarity score** normalizes the multivariate distance between time series samples by the sum of distances between consecutive samples of each time series. This feature allows comparing psi dissimilarity scores computed for time series of different lengths. A psi score of zero indicates perfect similarity.
 #'
-#' Restricted permutation methods shuffle the cases of two time-series within blocks of a given size to generate a null distribution of psi dissimilarity scores. The true psi dissimilarity computed on the original data is compared with this null distribution to obtain a p-value that helps assess the strength of the dissimilarity score between both time-series. In essence, this p-value helps to find the threshold of the psi score that separates pairs of similar time series (because their similarity is robust to permutation) from pairs of dissimilar time-series.
+#' **Restricted permutation** rearranges time series samples to help generate a null distribution of dissimilarity scores. The observed dissimilarity score computed on the original data is compared with this null distribution to obtain a p-value that helps assess the strength of the dissimilarity score between two time-series. In essence, restricted permutation is useful to answer the question "how robust is the similarity between two time series?"
+#'
+#' Four different permutation methods are available:
+#' \itemize{
+#'   \item "restricted": Restricted shuffling of rows and columns within blocks of rows. This method separates the data into blocks of rows of given sizes, and rearranges the data within blocks with no restrictions.
+#'   \item "restricted_by_row": Shuffling of complete rows within blocks of rows. This method assumes a dependency between data in the same row, and is useful for data representing percentages or proportions, or variables closely related with each other.
+#'   \item "free": Unrestricted shuffling of rows and columns across the complete time series. This method assumes independence between data in separate columns. It generates unrealistic randomized scenarios and may lead to an overestimation of the robustness of dissimilarity scores.
+#'   \item "free_by_row": Unrestricted shuffling of complete rows. This method is a useful alternative to "free" when there is a dependency between data in the same row, such as in data representing percentages or proportions.
+#' }
 #'
 #' This function supports progress bars generated by the `progressr` package. See examples.
 #'
-#' This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
+#' This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for large time series lists.
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
-#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
+#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
+#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.
+#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if `diagonal = TRUE`. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time-series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
-#' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are listed below from higher to lower induced randomness:
-#' \itemize{
-#'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-#'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-#'   \item "restricted": restricted shuffling of rows and columns within blocks.
-#'   \item "restricted_by_row": restricted shuffling of rows within blocks.
-#' }
-#' @param block_size (optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
+#' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
+#' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
 #' @return Data frame with the attribute `type` set to `distantia_df` and the following columns:
@@ -48,7 +50,7 @@
 #'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
 #'   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
 #'   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
-#'   \item `psi`: psi dissimilarity of the sequences `a` and `b`.
+#'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
 #' }
 #' @export
 #' @autoglobal
@@ -203,6 +205,10 @@ distantia <- function(
           block_size = df.i$block_size,
           seed = df.i$seed
         )
+
+        df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
+        df.i$null_mean <- mean(psi_null)
+        df.i$null_sd <- sd(psi_null)
 
       }
 

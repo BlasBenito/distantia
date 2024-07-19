@@ -24,8 +24,8 @@
 utils_check_distantia_args <- function(
     tsl = NULL,
     distance = "euclidean",
-    diagonal = FALSE,
-    weighted = FALSE,
+    diagonal = TRUE,
+    weighted = TRUE,
     ignore_blocks = FALSE,
     lock_step = FALSE,
     repetitions = 0,

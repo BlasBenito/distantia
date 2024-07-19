@@ -219,8 +219,8 @@ DataFrame importance_cpp(
     NumericMatrix y,
     NumericMatrix x,
     const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
+    bool diagonal = true,
+    bool weighted = true,
     bool ignore_blocks = false
 ){
 

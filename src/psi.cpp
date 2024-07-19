@@ -32,8 +32,8 @@ DataFrame psi_cost_path_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
+    bool diagonal = true,
+    bool weighted = true,
     bool ignore_blocks = false
 ){
 
@@ -142,7 +142,7 @@ double psi_auto_sum_cpp(
 double psi_formula_cpp(
     DataFrame path,
     double auto_sum,
-    bool diagonal = false
+    bool diagonal = true
 ){
 
   //sum cost path
@@ -335,8 +335,8 @@ double psi_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
+    bool diagonal = true,
+    bool weighted = true,
     bool ignore_blocks = false
 ){
 
@@ -408,8 +408,8 @@ NumericVector null_psi_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
+    bool diagonal = true,
+    bool weighted = true,
     bool ignore_blocks = false,
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",

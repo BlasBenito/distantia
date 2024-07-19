@@ -8,8 +8,8 @@ psi_cpp(
   x,
   y,
   distance = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
+  diagonal = TRUE,
+  weighted = TRUE,
   ignore_blocks = FALSE
 )
 }

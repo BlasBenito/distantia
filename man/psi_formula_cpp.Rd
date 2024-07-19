@@ -4,7 +4,7 @@
 \alias{psi_formula_cpp}
 \title{Psi Dissimilarity Metric}
 \usage{
-psi_formula_cpp(path, auto_sum, diagonal = FALSE)
+psi_formula_cpp(path, auto_sum, diagonal = TRUE)
 }
 \arguments{
 \item{path}{(required, data frame) dataframe produced by \code{\link[=cost_path_cpp]{cost_path_cpp()}}.

@@ -352,7 +352,7 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+importance_cpp <- function(y, x, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_importance_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
 }
 
@@ -453,7 +453,7 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with least cost path
 #' @export
-psi_cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+psi_cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_psi_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 
@@ -488,7 +488,7 @@ psi_auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks =
 #' computation of the cost matrix. Default: FALSE.
 #' @return Numeric, psi dissimilarity
 #' @export
-psi_formula_cpp <- function(path, auto_sum, diagonal = FALSE) {
+psi_formula_cpp <- function(path, auto_sum, diagonal = TRUE) {
     .Call(`_distantia_psi_formula_cpp`, path, auto_sum, diagonal)
 }
 
@@ -559,7 +559,7 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Psi distance
 #' @export
-psi_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+psi_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_psi_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 
@@ -595,7 +595,7 @@ psi_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = F
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return Numeric vector with null distribution of psi distances.
 #' @export
-null_psi_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+null_psi_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
     .Call(`_distantia_null_psi_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
 }
 
