@@ -2,22 +2,32 @@
 #'
 #' @description
 #'
-#' This function combines dynamic time warping and lock-step comparison with restricted permutation methods to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
+#' This function combines *dynamic time warping* or *lock-step comparison* with the *psi dissimilarity score* and *permutation methods* to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
 #'
-#' **Dynamic time warping** (DTW for short) minimizes the distance between time series. This method ignores sampling time and relies on sample order only. This feature allows it to address different scenarios when comparing regular or irregular time series: phenological time series captured at different latitudes or elevations; time series captured over different years or past time periods; time series lacking precise times; pairs of coordinates representing movement over time, such as migration flight paths.
+#' **Dynamic Time Warping** (DTW) is an algorithm that finds the optimal alignment between two time series by minimizing the cumulative distance between them. It identifies the least-cost path through a distance matrix, which maps all points of one time series to another. The resulting sum of distances along this path serves as a measure of time-series similarity. DTW disregards the exact timing of samples and focuses on their order, making it suitable for comparing both *regular and irregular time series of the same or different lengths*, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths.
 #'
-#' On the other hand, **lock-step comparison** involves assessing the pairwise distance between samples in time series captured at the same times. This method is an alternative to dynamic time warping when the goal requires assessing the synchronicity of the compared time series.
+#' On the other hand, the **lock-step** method sums pairwise distances between samples in *regular or irregular time series of the same length*, preferably captured at the same times. This method is an alternative to dynamic time warping when the goal is to assess the synchronicity of two time series.
 #'
-#' The **psi dissimilarity score** normalizes the multivariate distance between time series samples by the sum of distances between consecutive samples of each time series. This feature allows comparing psi dissimilarity scores computed for time series of different lengths. A psi score of zero indicates perfect similarity.
+#' The **psi score** normalizes the cumulative sum of distances between two time series by the cumulative sum of distances between their consecutive samples to generate a comparable dissimilarity score. If for two time series \eqn{x} and \eqn{y} \eqn{D_xy} represents the cumulative sum of distances between them, either resulting from dynamic time warping or the lock-step method, and \eqn{S_xy} represents the cumulative sum of distances of their consecutive samples, then the psi score can be computed in two ways depending on the scenario:
 #'
-#' **Restricted permutation** rearranges time series samples to help generate a null distribution of dissimilarity scores. The observed dissimilarity score computed on the original data is compared with this null distribution to obtain a p-value that helps assess the strength of the dissimilarity score between two time-series. In essence, restricted permutation is useful to answer the question "how robust is the similarity between two time series?"
+#' **Equation 1:** \eqn{\psi = \frac{D_{xy} - S_{xy}}{S_{xy}}}
+#'
+#' **Equation 2:** \eqn{\psi = \frac{D_{xy} - S_{xy}}{S_{xy}} + 1}
+#'
+#' When $D_xy$ is computed via dynamic time warping **ignoring the distance matrix diagonals** (`diagonal = FALSE`), then *Equation 1* is used. On the other hand, if $D_xy$ results from the lock-step method (`lock_step = TRUE`), or from dynamic time warping considering diagonals (`diagonal = TRUE`), then *Equation 2* is used instead:
+#'
+#' In both equations, a psi score of zero indicates maximum similarity.
+#'
+#' **Permutation methods** are provided here to help assess the robustness of observed psi scores by direct comparison with a null distribution of psi scores resulting from randomized versions of the compared time series. The fraction of null scores smaller than the observed score is returned as a *p_value* in the function output and interpreted as "the probability of finding a higher similarity (lower psi score) by chance".
+#'
+#'  In essence, restricted permutation is useful to answer the question "how robust is the similarity between two time series?"
 #'
 #' Four different permutation methods are available:
 #' \itemize{
-#'   \item "restricted": Restricted shuffling of rows and columns within blocks of rows. This method separates the data into blocks of rows of given sizes, and rearranges the data within blocks with no restrictions.
-#'   \item "restricted_by_row": Shuffling of complete rows within blocks of rows. This method assumes a dependency between data in the same row, and is useful for data representing percentages or proportions, or variables closely related with each other.
-#'   \item "free": Unrestricted shuffling of rows and columns across the complete time series. This method assumes independence between data in separate columns. It generates unrealistic randomized scenarios and may lead to an overestimation of the robustness of dissimilarity scores.
-#'   \item "free_by_row": Unrestricted shuffling of complete rows. This method is a useful alternative to "free" when there is a dependency between data in the same row, such as in data representing percentages or proportions.
+#'   \item **"restricted"**: Separates the data into blocks of contiguous rows, and re-shuffles data points randomly within these blocks, independently by row and column. Applied when the data is structured in blocks that should be preserved during permutations (e.g., "seasons", "years", "decades", etc) and the columns represent independent variables.
+#'   \item **"restricted_by_row"**: Separates the data into blocks of contiguous rows, and re-shuffles complete rows within these blocks. This method is suitable for cases where the data is organized into blocks as described above, but columns represent interdependent data (e.g., rows represent percentages or proportions), and maintaining the relationships between data within each row is important.
+#'   \item **"free"**: Randomly re-shuffles data points across the entire time series, independently by row and column. This method is useful for loosely structured time series where data independence is assumed. When the data exhibits a strong temporal structure, this approach may lead to an overestimation of the robustness of dissimilarity scores.
+#'   \item **"free_by_row"**: Randomly re-shuffles complete rows across the entire time series. This method is useful for loosely structured time series where dependency between columns is assumed (e.g., rows represent percentages or proportions). This method has the same drawbacks as the "free" method, when the data exhibits a strong temporal structure.
 #' }
 #'
 #' This function supports progress bars generated by the `progressr` package. See examples.
@@ -30,15 +40,15 @@
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if `diagonal = TRUE`. Default: FALSE.
 #' @param lock_step (optional, logical vector) If TRUE, time-series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
-#' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
+#' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
 #' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
 #' @return Data frame with the attribute `type` set to `distantia_df` and the following columns:
 #' \itemize{
-#'   \item `x`: name of the sequence `x`.
-#'   \item `y`: name of the sequence `y`.
+#'   \item `x`: time series name.
+#'   \item `y`: time series name.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
 #'   \item `weighted`: value of the argument `weighted`.
@@ -47,22 +57,76 @@
 #'   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
 #'   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
+#'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
 #'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
 #'   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
 #'   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
-#'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
 #' }
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization (best option for large time series lists)
-#' # future::plan(
-#' #  multisession,
-#' #  workers = 2
-#' #)
+#' #three time series
+#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#' data("fagus_dynamics")
+#'
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     scale = TRUE,
+#'     guide_columns = 3
+#'     )
+#' }
+#'
+#' #parallelization setup (not worth it for this data size!!!)
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2
+#' )
 #'
 #' #progress bar
 #' progressr::handlers(global = TRUE)
+#'
+#' #dynamic time warping dissimilarity analysis
+#' #-------------------------------------------
+#' tsl_dtw <- distantia(
+#'   tsl = tsl,
+#'   distance = "euclidean",
+#'   repetitions = 30, #increase to 100 or more
+#'   permutation = "restricted_by_row", #seasonality, ndvi depends on temperature and rainfall
+#'   block_size = 6 #two blocks per year to separate greening and browning seasons
+#' )
+#'
+#' #focus on the important details
+#' tsl_dtw[, c("x", "y", "psi", "p_value")]
+#' #smaller psi values indicate higher similarity
+#' #p-values indicate  chance of finding a psi smaller than the observed by chance.
+#'
+#' #lock-step dissimilarity analysis
+#' #---------------------------------
+#' tsl_lock_step <- distantia(
+#'   tsl = tsl,
+#'   distance = "euclidean",
+#'   repetitions = 30, #please, increase to 100 or more
+#'   permutation = "restricted_by_row", #seasonality, ndvi depends on temperature and rainfall
+#'   block_size = 6, #two blocks per year to separate greening and browning seasons
+#'   lock_step = TRUE
+#' )
+#'
+#' #focus on the important details
+#' tsl_lock_step[, c("x", "y", "psi", "p_value")]
+#' #notice that permutation tests are more sensitive
+#'
+#' #disable parallelization
+#' #parallelization setup (not worth it for this data size!!!)
+#' future::plan(
+#'   future::sequential
+#' )
 #'
 distantia <- function(
     tsl = NULL,
