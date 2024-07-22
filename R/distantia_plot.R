@@ -6,7 +6,7 @@
 #'
 #' Unlike [distantia()], this function does not accept vectors as inputs for the arguments to compute dissimilarity (`distance`, `diagonal`,  and `weighted`), and only plots a pair of sequences at once.
 #'
-#' The argument `lock_step` is not available because this multipanel plot does not make sense in such a case.
+#' The argument `lock_step` is not available because this plot does not make sense in such a case.
 #'
 #' @param tsl (required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are selected and plotted. Default: NULL
 #' @param distance (optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
@@ -24,17 +24,67 @@
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
 #'
 #' @examples
-#' data(mis)
+#' #three time series
+#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#' data("fagus_dynamics")
 #'
+#' #convert to time series list
+#' #scale and center to neutralize effect of different scales in temperature, rainfall, and ndvi
 #' tsl <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis",
-#'   time_column = "sample_order"
-#' )
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' ) |>
+#'   tsl_transform(
+#'     f = f_scale #see help(f_scale)
+#'   )
 #'
-#' distantia_plot(
-#'   tsl = tsl[c("MIS-9", "MIS-11")],
-#' )
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide_columns = 3
+#'     )
+#' }
+#'
+#' #visualize dynamic time warping
+#' if(interactive()){
+#'
+#'   #plot pair with cost matrix (default)
+#'   distantia_plot(
+#'     tsl = tsl[c("Spain", "Sweden")] #only two time series!
+#'   )
+#'
+#'   #plot pair with distance matrix
+#'   distantia_plot(
+#'     tsl = tsl[c("Spain", "Sweden")],
+#'     matrix_type = "distance"
+#'   )
+#'
+#'   #plot pair with different distance
+#'   distantia_plot(
+#'     tsl = tsl[c("Spain", "Sweden")],
+#'     distance = "manhattan", #sed data(distances)
+#'     matrix_type = "distance"
+#'   )
+#'
+#'
+#'   #with different colors
+#'   distantia_plot(
+#'     tsl = tsl[c("Spain", "Sweden")],
+#'     matrix_type = "distance",
+#'     matrix_color = grDevices::hcl.colors(
+#'       n = 100,
+#'       palette = "Inferno"
+#'     ),
+#'     path_color = "white",
+#'     path_width = 2,
+#'     line_color = grDevices::hcl.colors(
+#'       n = 3, #same as variables in tsl
+#'       palette = "Inferno"
+#'     )
+#'   )
+#'
+#' }
 #' @return A plot.
 #' @autoglobal
 #' @export
@@ -192,7 +242,8 @@ distantia_plot <- function(
     ),
     line = -1.3,
     cex = 0.9 * text_cex,
-    adj = 0.05
+    adj = 0.05,
+    col = path_color
   )
 
   # Plot sequence y ----

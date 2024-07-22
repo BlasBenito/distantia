@@ -468,14 +468,14 @@ NumericVector null_psi_cpp(
     NumericMatrix permuted_x = permutation_function(
       x,
       block_size,
-      seed + i + 1
+      seed + i
     );
 
     // Permute matrix y
     NumericMatrix permuted_y = permutation_function(
       y,
       block_size,
-      seed + i
+      seed + i + 1
     );
 
     // Create cost path of permuted sequences

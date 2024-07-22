@@ -28,6 +28,3 @@ distance(
 )
 
 }
-\author{
-Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
-}

@@ -78,15 +78,28 @@
 #' if(interactive()){
 #'   tsl_plot(
 #'     tsl = tsl,
-#'     scale = TRUE,
 #'     guide_columns = 3
 #'     )
 #' }
 #'
-#' #parallelization setup (not worth it for this data size!!!)
+#' #apply centering and scaling to avoid issues from different scales in temperature, rainfall, and ndvi
+#' tsl <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_scale #see help(f_scale)
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide_columns = 3
+#'   )
+#' }
+#'
+#'
+#' #parallelization setup (not worth it for this data size)
 #' future::plan(
 #'  future::multisession,
-#'  workers = 2
+#'  workers = 2 #set to parallelly::availableWorkers() - 1
 #' )
 #'
 #' #progress bar
@@ -99,13 +112,49 @@
 #'   distance = "euclidean",
 #'   repetitions = 30, #increase to 100 or more
 #'   permutation = "restricted_by_row", #seasonality, ndvi depends on temperature and rainfall
-#'   block_size = 6 #two blocks per year to separate greening and browning seasons
+#'   block_size = 6, #two blocks per year to separate greening and browning seasons
+#'   seed = 1 #ensures reproducibility of permutations
 #' )
 #'
 #' #focus on the important details
 #' tsl_dtw[, c("x", "y", "psi", "p_value")]
 #' #smaller psi values indicate higher similarity
 #' #p-values indicate  chance of finding a psi smaller than the observed by chance.
+#'
+#' #visualize dynamic time warping
+#' if(interactive()){
+#'
+#'   distantia_plot(
+#'     tsl = tsl[c("Spain", "Sweden")],
+#'     distance = "euclidean",
+#'     matrix_type = "cost"
+#'   )
+#'
+#'   #notice differences in diagonal line
+#'   distantia_plot(
+#'     tsl = tsl[c("Germany", "Sweden")],
+#'     distance = "euclidean",
+#'     matrix_type = "cost"
+#'   )
+#'
+#' }
+#'
+#' #recreating the null distribution
+#' #direct call to C++ function
+#' #use same args as in distantia() call
+#' psi_null <- null_psi_cpp(
+#'   x = tsl[["Spain"]],
+#'   y = tsl[["Sweden"]],
+#'   repetitions = 30, #increase to 100 or more
+#'   distance = "euclidean",
+#'   permutation = "restricted_by_row",
+#'   block_size = 6,
+#'   seed = 1
+#' )
+#'
+#' #compare null mean with output of distantia()
+#' mean(psi_null)
+#' tsl_dtw$null_mean[3]
 #'
 #' #lock-step dissimilarity analysis
 #' #---------------------------------
@@ -120,14 +169,27 @@
 #'
 #' #focus on the important details
 #' tsl_lock_step[, c("x", "y", "psi", "p_value")]
-#' #notice that permutation tests are more sensitive
+#'
+#' #recreating the null distribution
+#' psi_null <- null_psi_lock_step_cpp(
+#'   x = tsl[["Spain"]],
+#'   y = tsl[["Sweden"]],
+#'   repetitions = 30, #increase to 100 or more
+#'   distance = "euclidean",
+#'   permutation = "restricted_by_row",
+#'   block_size = 6,
+#'   seed = 1
+#' )
+#'
+#' #compare null mean with output of distantia()
+#' mean(psi_null)
+#' tsl_lock_step$null_mean[3]
+#'
 #'
 #' #disable parallelization
-#' #parallelization setup (not worth it for this data size!!!)
 #' future::plan(
 #'   future::sequential
 #' )
-#'
 distantia <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -240,7 +302,7 @@ distantia <- function(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
-    .options.future = list(seed = TRUE)
+    .options.future = list(seed = FALSE)
   ) %iterator% {
 
     p()
@@ -299,7 +361,7 @@ distantia <- function(
           repetitions = df.i$repetitions,
           permutation = df.i$permutation,
           block_size = df.i$block_size,
-          seed = df.i$seed + i
+          seed = df.i$seed
         )
 
         df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
@@ -312,7 +374,8 @@ distantia <- function(
 
     return(df.i)
 
-  } #end of iterations
+  } |>
+    suppressWarnings() #to remove future warning about random seed
 
   #add type
   attr(
