@@ -83,6 +83,7 @@
 #' }
 #'
 #' #apply centering and scaling to avoid issues from different scales in temperature, rainfall, and ndvi
+#' #same scaling parameters (mean and sd) are used for all time series in tsl
 #' tsl <- tsl_transform(
 #'   tsl = tsl,
 #'   f = f_scale #see help(f_scale)

@@ -316,9 +316,9 @@ DataFrame importance_cpp(
 //' distance method. Valid values are in the columns "names" and "abbreviation"
 //' of the dataset `distances`. Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-//' computation of the cost matrix. Default: FALSE.
+//' computation of the cost matrix. Default: TRUE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+//' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return Data frame with psi distances
@@ -328,8 +328,8 @@ DataFrame importance_robust_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
+    bool diagonal = true,
+    bool weighted = true,
     bool ignore_blocks = false
 ){
 
@@ -386,7 +386,7 @@ DataFrame importance_robust_cpp(
       distance
     );
 
-    //compute autosum of y_only_with and x_only_with for testing
+    //compute autosum of y_only_with and x_only_with
     double xy_sum_only_with = psi_auto_sum_cpp(
       x_only_with,
       y_only_with,
@@ -395,7 +395,7 @@ DataFrame importance_robust_cpp(
       ignore_blocks
     );
 
-    //compute psi normalizing by the original xy_sum
+    //compute psi
     psi_only_with[i] = psi_formula_cpp(
       path_only_with,
       xy_sum_only_with,
@@ -414,7 +414,7 @@ DataFrame importance_robust_cpp(
       distance
     );
 
-    //compute autosum of y_only_with and x_only_with for testing
+    //compute autosum of y_only_with and x_only_with
     double xy_sum_without = psi_auto_sum_cpp(
       x_without,
       y_without,
@@ -423,7 +423,7 @@ DataFrame importance_robust_cpp(
       ignore_blocks
     );
 
-    //compute psi normalizing by the original xy_sum
+    //compute psi
     psi_without[i] = psi_formula_cpp(
       path_without,
       xy_sum_without,
@@ -459,55 +459,13 @@ DataFrame importance_robust_cpp(
 /*** R
 library(distantia)
 
-data(sequenceA)
-data(sequenceB)
-distance = "euclidean"
-
-sequences <- prepare_xy(
-  x = na.omit(sequenceB),
-  y = na.omit(sequenceA)
-)
-
-x <- sequences[[1]]
-y <- sequences[[2]]
-
-
-
-#failing case
-df <- importance_robust_cpp(
-  x = x,
-  y = y,
-  distance = "manhattan",
-  diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = TRUE
-)
+x <- zoo_simulate()
+y <- zoo_simulate()
 
 df <- importance_robust_cpp(
   x = x,
   y = y,
-  distance = "manhattan",
-  diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = TRUE
-)
-
-df <- importance_robust_cpp(
-  x = x,
-  y = y,
-  distance = "manhattan",
-  diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = TRUE
-)
-
-df <- importance_robust_cpp(
-  x = x,
-  y = y,
-  distance = "manhattan",
-  diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = TRUE
+  distance = "manhattan"
 )
 
 #testing update_path_dist_cpp
@@ -550,8 +508,6 @@ importance_robust <- importance_robust_cpp(
 importance_robust
 
 #lock step
-y <- y[1:nrow(x), ]
-
 importance_lock_step <- importance_lock_step_cpp(
   x,
   y

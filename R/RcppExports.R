@@ -371,14 +371,14 @@ importance_cpp <- function(y, x, distance = "euclidean", diagonal = TRUE, weight
 #' distance method. Valid values are in the columns "names" and "abbreviation"
 #' of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-#' computation of the cost matrix. Default: FALSE.
+#' computation of the cost matrix. Default: TRUE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return Data frame with psi distances
 #' @export
-importance_robust_cpp <- function(x, y, distance = "euclidean", diagonal = FALSE, weighted = FALSE, ignore_blocks = FALSE) {
+importance_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_importance_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 

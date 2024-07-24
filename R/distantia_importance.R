@@ -15,7 +15,7 @@
 #'
 #' \itemize{
 #'   \item **psi_drop**: Computed as `((psi - psi_without) * 100)/psi` and interpreted as "increase in similarity when a variable is removed". Positive values indicate that the variable contributes to dissimilarity, while negative values indicate otherwise. This is the original importance score introduced with the first version of the package.
-#'   \item **importance**: Computed as `((psi_only_with - psi_without) * 100)/psi` and interpreted as "relative dissimilarity induced by the variable". Positive values indicate that the variable contributes to dissimilarity, while negative values indicate otherwise. This is a new metric introduced with the version 2.0 of the package, and it is more informative than `psi_drop`.
+#'   \item **importance**: Computed as `((psi_only_with - psi_without) * 100)/psi` and interpreted as "relative dissimilarity induced by the variable expressed as a percentage". Positive values indicate that the variable contributes to dissimilarity, while negative values indicate otherwise. This is a new metric introduced with the version 2.0 of the package, and it is more informative than `psi_drop`.
 #' }
 #'
 #' Additionally, these importance scores can be computed in two different ways defined by the argument `robust`. Please notice that this argument is irrelevant when `lock_step = TRUE`:
@@ -74,6 +74,20 @@
 #'     )
 #' }
 #'
+#' #the variables have different units, apply scaling
+#' #same scaling parameters (mean and sd) are used for all time series in tsl
+#' tsl <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_scale
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide_columns = 3
+#'   )
+#' }
+#'
 #' #parallelization setup (not worth it for this data size)
 #' future::plan(
 #'  future::multisession,
@@ -83,61 +97,34 @@
 #' #progress bar
 #' progressr::handlers(global = TRUE)
 #'
-#' #dissimilarity analysis
-#' tsl_dtw <- distantia(
+#' #importance computed with dynamic time warping
+#' #less sensitive to latitudinal or altitudinal differences
+#' importance_dtw <- distantia_importance(
 #'   tsl = tsl
 #' )
-#' tsl_dtw[, c("x", "y", "psi")]
-#'
-#' #most similar cases are Germany and Sweden
-#' #most different cases are Spain and Sweden
-#'
-#' #importance scores using dynamic time warping (lock_step = FALSE)
-#' tsl_dtw_importance <- distantia_importance(
-#'   tsl = tsl
-#' )
-#'
-#' #focus on important columns
-#' tsl_dtw_importance[, c("x", "y", "variable", "importance")]
 #'
 #' #in column "importance":
 #' #  positive values: contribution to dissimilarity
 #' #  negative values: contribution to similarity
 #'
-#' #variable making Germany and Sweden similar: rainfall
-#' #variables making Spain and Sweden different: evi and temperature
+#' #focus on important columns
+#' importance_dtw[, c("x", "y", "psi", "variable", "importance")]
 #'
-#' #WARNING: importance scores are very sensitive to scale!
-#' #---------------------------------------------------------
-#'
-#' #scaling and centering tsl
-#' tsl_scaled <- tsl_transform(
-#'   tsl = tsl,
-#'   f = f_scale
-#' )
-#'
-#' #importance scores on scaled values
-#' tsl_dtw_importance_scaled <- distantia_importance(
-#'   tsl = tsl_scaled
-#' )
-#'
-#' #very different results (scaling is the correct choice here)
-#' tsl_dtw_importance_scaled[, c("x", "y", "variable", "importance")]
-#'
-#' #variable making Germany and Sweden similar: temperature and rainfall
-#' #variables making Spain and Sweden different: evi and rainfall
+#' #Interpretation example:
+#' #variable contributing the most to similarity between Germany and Sweden: temperature
+#' #variable contributing the most to dissimilarity between Spain and Sweden: temperature
 #'
 #' #importance computed with lock-step method
-#' #NOTE: more sensitive to latitudinal or altitudinal differences
-#' tsl_lock_step_importance_scaled <- distantia_importance(
-#'   tsl = tsl_scaled,
+#' #more sensitive to latitudinal or altitudinal differences
+#' importance_lock_step <- distantia_importance(
+#'   tsl = tsl,
 #'   lock_step = TRUE
 #' )
 #'
-#' tsl_lock_step_importance_scaled[, c("x", "y", "variable", "importance")]
+#' importance_lock_step[, c("x", "y", "psi", "variable", "importance")]
 #'
-#' #variable making Germany and Sweden similar: rainfall and temperature
-#' #variables making Spain and Sweden different: temperature and rainfall
+#' #Overall interpretation is similar as above.
+#'
 #'
 #' #disable parallelization
 #' future::plan(
