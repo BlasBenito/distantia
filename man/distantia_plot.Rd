@@ -14,8 +14,6 @@ distantia_plot(
   matrix_color = NULL,
   path_width = 1,
   path_color = "black",
-  line_center = FALSE,
-  line_scale = FALSE,
   line_color = NULL,
   line_width = 1,
   text_cex = 1
@@ -39,10 +37,6 @@ distantia_plot(
 \item{path_width}{(optional, numeric) width of the least cost path. Default: 1}
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
-
-\item{line_center}{(optional, logical) If TRUE, the sequences are centered via \code{\link[=scale]{scale()}}. This centering is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
-
-\item{line_scale}{(optional, logical) If TRUE, the sequences are scaled via \code{\link[=scale]{scale()}}. This scaling is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE}
 
 \item{line_color}{(optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of \code{matrix_color}.}
 

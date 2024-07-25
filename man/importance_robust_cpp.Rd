@@ -8,8 +8,8 @@ importance_robust_cpp(
   x,
   y,
   distance = "euclidean",
-  diagonal = FALSE,
-  weighted = FALSE,
+  diagonal = TRUE,
+  weighted = TRUE,
   ignore_blocks = FALSE
 )
 }
@@ -23,10 +23,10 @@ distance method. Valid values are in the columns "names" and "abbreviation"
 of the dataset \code{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the
-computation of the cost matrix. Default: FALSE.}
+computation of the cost matrix. Default: TRUE.}
 
 \item{weighted}{(optional, logical). If TRUE, diagonal is set to TRUE, and
-diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+diagonal cost is weighted by a factor of 1.414214. Default: TRUE.}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}

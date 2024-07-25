@@ -279,11 +279,8 @@ DataFrame importance_cpp(
     //difference between only with and without
     psi_difference[i] = psi_only_with[i] - psi_without[i];
 
-    //importance as percentage of psi
-    importance[i] = (psi_difference[i] * 100) / psi_all_variables;
-
     //psi drop when removing a variable
-    psi_drop[i] = ((psi_all_variables - psi_without[i]) * 100) / psi_all_variables;
+    importance[i] = ((psi_all_variables - psi_without[i]) * 100) / psi_all_variables;
 
   }
 
@@ -294,7 +291,6 @@ DataFrame importance_cpp(
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
     _["psi_difference"] = psi_difference,
-    _["psi_drop"] = psi_drop,
     _["importance"] = importance
   );
 
@@ -414,7 +410,7 @@ DataFrame importance_robust_cpp(
       distance
     );
 
-    //compute autosum of y_only_with and x_only_with
+    //compute autosum of y_without and x_without
     double xy_sum_without = psi_auto_sum_cpp(
       x_without,
       y_without,
@@ -433,12 +429,8 @@ DataFrame importance_robust_cpp(
     //difference between only with and without
     psi_difference[i] = psi_only_with[i] - psi_without[i];
 
-    //psi drop as a percentage of psi_alll_variables
+    //psi drop as a percentage of psi_all_variables
     importance[i] = (psi_difference[i] * 100) / psi_all_variables;
-
-    //psi drop when removing a variable
-    psi_drop[i] = ((psi_all_variables - psi_without[i]) * 100) / psi_all_variables;
-
 
   }
 
@@ -449,7 +441,6 @@ DataFrame importance_robust_cpp(
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
     _["psi_difference"] = psi_difference,
-    _["psi_drop"] = psi_drop,
     _["importance"] = importance
   );
 

@@ -6,8 +6,6 @@
 \usage{
 zoo_plot(
   x = NULL,
-  center = FALSE,
-  scale = FALSE,
   xlim = NULL,
   ylim = NULL,
   color = NULL,
@@ -24,10 +22,6 @@ zoo_plot(
 }
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
-
-\item{center}{(optional, logical) If TRUE, the columns of \code{x} are centered via \code{\link[=scale]{scale()}}. Default: FALSE}
-
-\item{scale}{(optional, logical) If TRUE, the columns of \code{x} are scaled via \code{\link[=scale]{scale()}}. Default: FALSE}
 
 \item{xlim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
 

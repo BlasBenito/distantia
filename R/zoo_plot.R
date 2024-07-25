@@ -1,8 +1,6 @@
 #' Plot Multivariate Zoo Time Series
 #'
 #' @param x (required, zoo object) zoo time series. Default: NULL
-#' @param center (optional, logical) If TRUE, the columns of `x` are centered via [scale()]. Default: FALSE
-#' @param scale (optional, logical) If TRUE, the columns of `x` are scaled via [scale()]. Default: FALSE
 #' @param xlim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
 #' @param ylim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
 #' @param color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
@@ -36,8 +34,6 @@
 #' }
 zoo_plot <- function(
     x = NULL,
-    center = FALSE,
-    scale = FALSE,
     xlim = NULL,
     ylim = NULL,
     color = NULL,
@@ -106,12 +102,7 @@ zoo_plot <- function(
 
   }
 
-  df <- scale(
-    x = x,
-    scale = scale,
-    center = center
-  ) |>
-    as.data.frame()
+  df <- as.data.frame(x)
 
   #time column
   df.time <- zoo::index(x)

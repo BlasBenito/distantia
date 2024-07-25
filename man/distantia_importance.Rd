@@ -32,45 +32,45 @@ distantia_importance(
 \value{
 Data frame with the following columns:
 \itemize{
-\item \code{x}: name of the sequence \code{x}.
-\item \code{y}: name of the sequence \code{y}.
+\item \code{x}: name of the time series \code{x}.
+\item \code{y}: name of the time series \code{y}.
+\item \code{psi}: psi score of \code{x} and \code{y}.
+\item \code{variable}: name of the individual variable.
+\item \code{importance}: importance score of the variable.
+\item \code{psi_only_with}: psi score of the variable.
+\item \code{psi_without}: psi score without the variable.
+\item \code{psi_difference}: difference between \code{psi_only_with} and \code{psi_without}.
 \item \code{distance}: name of the distance metric.
 \item \code{diagonal}: value of the argument \code{diagonal}.
 \item \code{weighted}: value of the argument \code{weighted}.
 \item \code{ignore_blocks}: value of the argument \code{ignore_blocks}.
 \item \code{lock_step}: value of the argument \code{lock_step}.
 \item \code{robust}: value of the argument \code{robust}.
-\item \code{variable}: name of the individual variable.
-\item \code{psi}: overall psi score of \code{a} and \code{b}.
-\item \code{psi_only_with}: psi score of the variable.
-\item \code{psi_without}: psi score without the variable.
-\item \code{psi_difference}: difference between \code{psi_only_with} and \code{psi_without}.
-\item \code{psi_drop}: change in psi (as a percentage of the overall psi) when the variable is removed.
-\item \code{importance}: \code{psi_difference} as a precentage of \code{psi}. Only interpretable when \code{robust = TRUE}.
 }
 }
 \description{
-This function helps assess the contribution of individual variables to the dissimilarity between pairs of time series.
+This function measures the contribution of individual variables to the dissimilarity between pairs of time series to help answer the question \emph{what makes two time series more or less similar?}
 
-Importance scores are based on three values:
+Three key values are required to assess individual variable contributions:
 \itemize{
-\item \strong{psi}: overall dissimilarity when all variables are considered.
-\item \strong{psi_only_with}: dissimilarity when only the given variable is considered.
-\item \strong{psi_without}: dissimilarity when all other variables are considered.
+\item \strong{psi}: dissimilarity when all variables are considered.
+\item \strong{psi_only_with}: dissimilarity when using only the target variable.
+\item \strong{psi_without}: dissimilarity when removing the target variable.
 }
 
-From these indicators, two importance scores are considered:
-
+The values \code{psi_only_with} and \code{psi_without} can be computed in two different ways defined by the argument \code{robust}.
 \itemize{
-\item \strong{psi_drop}: Computed as \code{((psi - psi_without) * 100)/psi} and interpreted as "increase in similarity when a variable is removed". Positive values indicate that the variable contributes to dissimilarity, while negative values indicate otherwise. This is the original importance score introduced with the first version of the package.
-\item \strong{importance}: Computed as \code{((psi_only_with - psi_without) * 100)/psi} and interpreted as "relative dissimilarity induced by the variable". Positive values indicate that the variable contributes to dissimilarity, while negative values indicate otherwise. This is a new metric introduced with the version 2.0 of the package, and it is more informative than \code{psi_drop}.
+\item \code{robust = FALSE}: This method replicates the importance algorithm released with the first version of the package, and it is only recommended when the goal to compare new results with previous studies. It normalizes \code{psi_only_with} and \code{psi_without} using the least cost path obtained from the individual variable. As different variables may have different least cost paths for the same time series, normalization values may change from variable to variable, making individual importance scores harder to compare.
+\item \code{robust = TRUE} (default, recommended): This a novel version of the importance algorithm that yields more stable and comparable solutions. It uses the least cost path of the complete time series to normalize \code{psi_only_with} and \code{psi_without}, making importance scores of separate variables fully comparable.
 }
 
-Additionally, these importance scores can be computed in two different ways defined by the argument \code{robust}. Please notice that this argument is irrelevant when \code{lock_step = TRUE}:
+The individual importance score of each variable (column "importance" in the output data frame) is based on different expressions depending on the \code{robust} argument, even when \code{lock_step = TRUE}:
 \itemize{
-\item \code{robust = TRUE} (default): Normalizes \code{psi_only_with} and \code{psi_without} from the least cost path of the full set of variables, making importance scores of separate variables fully comparable. This a novel version of the importance algorithm that yields more stable and comparable solutions.
-\item \code{robust = FALSE}: Normalizes \code{psi_only_with} and \code{psi_without} from the least cost path of the individual variables, which makes individual importance scores harder to compare. This option renders the "importance" column unreliable. However, the \code{psi_drop} score still remains as a useful metric of importance. This option can only be recommended when the goal is replicating or comparing with previous studies.
+\item \code{robust = FALSE}: Importance is computed as \code{((psi - psi_without) * 100)/psi} and interpreted as "change in similarity when a variable is removed".
+\item \code{robust = TRUE}: Importance is computed as \code{((psi_only_with - psi_without) * 100)/psi} and interpreted as "relative dissimilarity induced by the variable expressed as a percentage".
 }
+
+In either case, positive values indicate that the variable contributes to dissimilarity, while negative values indicate a net contribution to similarity.
 
 This function supports progress bars generated by the \code{progressr} package. See examples.
 
@@ -94,6 +94,20 @@ if(interactive()){
     )
 }
 
+#the variables have different units, apply scaling
+#same scaling parameters (mean and sd) are used for all time series in tsl
+tsl <- tsl_transform(
+  tsl = tsl,
+  f = f_scale
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl,
+    guide_columns = 3
+  )
+}
+
 #parallelization setup (not worth it for this data size)
 future::plan(
  future::multisession,
@@ -103,61 +117,34 @@ future::plan(
 #progress bar
 progressr::handlers(global = TRUE)
 
-#dissimilarity analysis
-tsl_dtw <- distantia(
+#importance computed with dynamic time warping
+#less sensitive to latitudinal or altitudinal differences
+importance_dtw <- distantia_importance(
   tsl = tsl
 )
-tsl_dtw[, c("x", "y", "psi")]
-
-#most similar cases are Germany and Sweden
-#most different cases are Spain and Sweden
-
-#importance scores using dynamic time warping (lock_step = FALSE)
-tsl_dtw_importance <- distantia_importance(
-  tsl = tsl
-)
-
-#focus on important columns
-tsl_dtw_importance[, c("x", "y", "variable", "importance")]
 
 #in column "importance":
 #  positive values: contribution to dissimilarity
 #  negative values: contribution to similarity
 
-#variable making Germany and Sweden similar: rainfall
-#variables making Spain and Sweden different: evi and temperature
+#focus on important columns
+importance_dtw[, c("x", "y", "psi", "variable", "importance")]
 
-#WARNING: importance scores are very sensitive to scale!
-#---------------------------------------------------------
-
-#scaling and centering tsl
-tsl_scaled <- tsl_transform(
-  tsl = tsl,
-  f = f_scale
-)
-
-#importance scores on scaled values
-tsl_dtw_importance_scaled <- distantia_importance(
-  tsl = tsl_scaled
-)
-
-#very different results (scaling is the correct choice here)
-tsl_dtw_importance_scaled[, c("x", "y", "variable", "importance")]
-
-#variable making Germany and Sweden similar: temperature and rainfall
-#variables making Spain and Sweden different: evi and rainfall
+#Interpretation example:
+#variable contributing the most to similarity between Germany and Sweden: temperature
+#variable contributing the most to dissimilarity between Spain and Sweden: temperature
 
 #importance computed with lock-step method
-#NOTE: more sensitive to latitudinal or altitudinal differences
-tsl_lock_step_importance_scaled <- distantia_importance(
-  tsl = tsl_scaled,
+#more sensitive to latitudinal or altitudinal differences
+importance_lock_step <- distantia_importance(
+  tsl = tsl,
   lock_step = TRUE
 )
 
-tsl_lock_step_importance_scaled[, c("x", "y", "variable", "importance")]
+importance_lock_step[, c("x", "y", "psi", "variable", "importance")]
 
-#variable making Germany and Sweden similar: rainfall and temperature
-#variables making Spain and Sweden different: temperature and rainfall
+#Overall interpretation is similar as above.
+
 
 #disable parallelization
 future::plan(

@@ -17,8 +17,6 @@
 #' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
-#' @param line_center (optional, logical) If TRUE, the sequences are centered via [scale()]. This centering is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE
-#' @param line_scale (optional, logical) If TRUE, the sequences are scaled via [scale()]. This scaling is only for plotting purposes, and it is ignored when computing the dissimilarity between the sequences. Default: FALSE
 #' @param line_color (optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of `matrix_color`.
 #' @param line_width (optional, numeric vector) Widths of the sequence curves. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
@@ -98,8 +96,6 @@ distantia_plot <- function(
     matrix_color = NULL,
     path_width = 1,
     path_color = "black",
-    line_center = FALSE,
-    line_scale = FALSE,
     line_color = NULL,
     line_width = 1,
     text_cex = 1
@@ -256,8 +252,6 @@ distantia_plot <- function(
 
   zoo_plot(
     x = tsl[[2]],
-    center = line_center,
-    scale = line_scale,
     color = line_color,
     width = line_width,
     text_cex = text_cex,
@@ -294,8 +288,6 @@ distantia_plot <- function(
 
   zoo_plot(
     x = tsl[[1]],
-    center = line_center,
-    scale = line_scale,
     color = line_color,
     width = line_width,
     text_cex = text_cex,
