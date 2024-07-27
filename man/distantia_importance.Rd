@@ -81,31 +81,22 @@ This function also accepts a parallelization setup via \code{\link[future:plan]{
 #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
 data("fagus_dynamics")
 
+#load as tsl
+#center and scale with same parameters
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",
   time_column = "date"
-)
+) |>
+  tsl_transform(
+    f = f_scale
+  )
 
 if(interactive()){
   tsl_plot(
     tsl = tsl,
     guide_columns = 3
     )
-}
-
-#the variables have different units, apply scaling
-#same scaling parameters (mean and sd) are used for all time series in tsl
-tsl <- tsl_transform(
-  tsl = tsl,
-  f = f_scale
-)
-
-if(interactive()){
-  tsl_plot(
-    tsl = tsl,
-    guide_columns = 3
-  )
 }
 
 #parallelization setup (not worth it for this data size)
@@ -123,12 +114,16 @@ importance_dtw <- distantia_importance(
   tsl = tsl
 )
 
-#in column "importance":
-#  positive values: contribution to dissimilarity
-#  negative values: contribution to similarity
 
 #focus on important columns
-importance_dtw[, c("x", "y", "psi", "variable", "importance")]
+importance_dtw[, c(
+  "x",
+  "y",
+  "psi",
+  "variable",
+  "importance",
+  "effect"
+  )]
 
 #Interpretation example:
 #variable contributing the most to similarity between Germany and Sweden: temperature
@@ -141,10 +136,14 @@ importance_lock_step <- distantia_importance(
   lock_step = TRUE
 )
 
-importance_lock_step[, c("x", "y", "psi", "variable", "importance")]
-
-#Overall interpretation is similar as above.
-
+importance_lock_step[, c(
+  "x",
+  "y",
+  "psi",
+  "variable",
+  "importance",
+  "effect"
+  )]
 
 #disable parallelization
 future::plan(

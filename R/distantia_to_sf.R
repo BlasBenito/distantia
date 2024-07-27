@@ -91,7 +91,7 @@ distantia_to_sf <- function(
   }
 
   if(df_type == "distantia_importance_df"){
-    df <- distantia_importance_wide(
+    df <- utils_importance_df_to_wide(
       df = df
     )
   }

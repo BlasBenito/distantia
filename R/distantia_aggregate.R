@@ -82,13 +82,6 @@ distantia_aggregate <- function(
       ... = ...
     )$importance
 
-    df_aggregated$psi_drop <- stats::aggregate(
-      x = df,
-      by = psi_drop ~ x + y + variable,
-      FUN = f,
-      ... = ...
-    )$psi_drop
-
     df_aggregated$psi_without <- stats::aggregate(
       x = df,
       by = psi_without ~ x + y + variable,
