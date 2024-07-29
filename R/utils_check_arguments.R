@@ -16,7 +16,7 @@
 #' }
 #' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
-#' @param robust (required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
+#' @param robust (required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #'
 #' @return List with checked arguments
 #' @export
@@ -72,6 +72,10 @@ utils_check_distantia_args <- function(
   if(exists("robust")){
     if(any(is.logical(robust) == FALSE)){
       stop("Argument 'robust'", logical_message)
+    }
+    if(length(robust) > 1){
+      robust <- robust[1]
+      message("Argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.")
     }
   }
 

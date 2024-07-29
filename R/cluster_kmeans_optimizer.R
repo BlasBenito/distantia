@@ -36,10 +36,7 @@ cluster_kmeans_optimizer <- function(
   `%iterator%` <- doFuture::`%dofuture%` |>
     suppressMessages()
 
-  my_foreach <- foreach::foreach |>
-    suppressMessages()
-
-  sil <- my_foreach(
+  sil <- foreach::foreach(
     i = clusters_vector,
     .combine = "c",
     .errorhandling = "pass",

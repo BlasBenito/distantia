@@ -45,7 +45,7 @@ utils_check_distantia_args(
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 
-\item{robust}{(required, logical vector). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
+\item{robust}{(required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }
 \value{
 List with checked arguments

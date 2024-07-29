@@ -126,7 +126,6 @@ DataFrame importance_lock_step_cpp(
   NumericVector psi_all(y.ncol());
   NumericVector psi_without(y.ncol());
   NumericVector psi_only_with(y.ncol());
-  NumericVector psi_drop(y.ncol());
   NumericVector psi_difference(y.ncol());
   NumericVector importance(y.ncol());
 
@@ -171,9 +170,6 @@ DataFrame importance_lock_step_cpp(
     //importance as percentage of psi
     importance[i] = (psi_difference[i] * 100) / psi_all_variables;
 
-    //psi drop when removing a variable
-    psi_drop[i] = ((psi_all_variables - psi_without[i]) * 100) / psi_all_variables;
-
 
   }
 
@@ -184,7 +180,6 @@ DataFrame importance_lock_step_cpp(
     _["psi_only_with"] = psi_only_with,
     _["psi_without"] = psi_without,
     _["psi_difference"] = psi_difference,
-    _["psi_drop"] = psi_drop,
     _["importance"] = importance
   );
 
@@ -228,7 +223,6 @@ DataFrame importance_cpp(
   NumericVector psi_all(y.ncol());
   NumericVector psi_without(y.ncol());
   NumericVector psi_only_with(y.ncol());
-  NumericVector psi_drop(y.ncol());
   NumericVector psi_difference(y.ncol());
   NumericVector importance(y.ncol());
 
@@ -333,7 +327,6 @@ DataFrame importance_robust_cpp(
   NumericVector psi_all(y.ncol());
   NumericVector psi_only_with(y.ncol());
   NumericVector psi_without(y.ncol());
-  NumericVector psi_drop(y.ncol());
   NumericVector psi_difference(y.ncol());
   NumericVector importance(y.ncol());
 

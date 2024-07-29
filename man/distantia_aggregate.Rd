@@ -2,24 +2,123 @@
 % Please edit documentation in R/distantia_aggregate.R
 \name{distantia_aggregate}
 \alias{distantia_aggregate}
-\title{Aggregate Distantia Data Frame}
+\title{Aggregates a Distantia Data Frame}
 \usage{
 distantia_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
 \item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
 
-\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of \code{\link[=distantia]{distantia()}} arguments in the input. Default: \code{mean}}
+\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
 \item{...}{(optional, arguments of \code{f}) Further arguments to pass to the function \code{f}.}
 }
 \value{
-Data frame with attribute "type" equal to "distantia_df.
+data frame.
 }
 \description{
-Applies a function to aggregate the output of \code{\link[=distantia]{distantia()}} when several combinations of arguments have been used.
+The functions \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
 
-The aggregation function is applied after scaling the dissimilarity scores \code{Psi} by group.
+When \code{df} is the result of \code{\link[=distantia]{distantia()}}, the input data is grouped by pairs of time series, and the function \code{f} is applied to the column "psi" by group
 
-The original data frame is returned without modification if there is a single combination of arguments, or if an invalid \code{f} is provided.
+When \code{df} is the result of \code{\link[=distantia_importance]{distantia_importance()}}, the input data is grouped by pairs of time series and variables, and the function \code{f} is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in \code{\link[=distantia_importance]{distantia_importance()}}), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
+
+If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column \code{psi} to start dissimilarity scores at zero.
+
+If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
+}
+\examples{
+#three time series
+#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+data("fagus_dynamics")
+
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  id_column = "site",
+  time_column = "date"
+) |>
+  tsl_transform(
+    f = f_scale
+  )
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl,
+    guide_columns = 3
+    )
+}
+
+#distantia with multiple parameter combinations
+#-------------------------------------
+df_multiple <- distantia(
+  tsl = tsl,
+  distance = c("euclidean", "manhattan"),
+  lock_step = c(TRUE, FALSE)
+)
+
+df_multiple[, c(
+  "x",
+  "y",
+  "distance",
+  "lock_step",
+  "psi"
+)]
+
+#aggregation using means
+df <- distantia_aggregate(
+  df = df_multiple,
+  f = mean
+)
+
+df
+
+#importance with multiple parameter combinations
+#-------------------------------------
+df_multiple <- distantia_importance(
+  tsl = tsl,
+  distance = c("euclidean", "manhattan"),
+  lock_step = c(FALSE, TRUE)
+)
+
+df_multiple[, c(
+  "x",
+  "y",
+  "variable",
+  "distance",
+  "lock_step",
+  "importance"
+)]
+
+#aggregation using means
+df <- distantia_aggregate(
+  df = df_multiple,
+  f = mean
+)
+
+df
+
+df[, c(
+  "x",
+  "y",
+  "variable",
+  "importance"
+)]
+
+#distantia with a single parameter combination
+#------------------------------
+df_multiple <- distantia(
+  tsl = tsl,
+  distance = "euclidean",
+  lock_step = TRUE
+)
+
+df_multiple
+
+#no aggregation happens, but all parameter columns are removed
+df <- distantia_aggregate(
+  df = df_multiple,
+  f = mean
+)
+
+df
 }

@@ -58,11 +58,8 @@ cluster_hclust_optimizer <- function(
   `%iterator%` <- doFuture::`%dofuture%` |>
     suppressMessages()
 
-  my_foreach <- foreach::foreach |>
-    suppressMessages()
-
   #clustering methods
-  hc_methods <- my_foreach(
+  hc_methods <- foreach::foreach(
     i = methods_vector
   ) %iterator% {
 
