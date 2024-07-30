@@ -126,6 +126,26 @@
 #'   "effect"
 #'   )]
 #'
+#'
+#' #combinations of parameters
+#' #---------------------------------
+#' #most arguments accept vectors, and the results contain all argument combinations
+#'
+#' importance_df <- distantia_importance(
+#'   tsl = tsl,
+#'   lock_step = c(TRUE, FALSE)
+#' )
+#'
+#' importance_df[, c(
+#'   "x",
+#'   "y",
+#'   "psi",
+#'   "variable",
+#'   "importance",
+#'   "effect",
+#'   "lock_step"
+#' )]
+#'
 #' #disable parallelization
 #' future::plan(
 #'   future::sequential

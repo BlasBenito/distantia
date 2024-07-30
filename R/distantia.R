@@ -191,7 +191,7 @@
 #'
 #' #combinations of parameters
 #' #---------------------------------
-#' #most arguments accept vectors, and the results combine all possible argument pairs
+#' #most arguments accept vectors, and the results contain all argument combinations
 #'
 #' tsl_multiple <- distantia(
 #'   tsl = tsl,

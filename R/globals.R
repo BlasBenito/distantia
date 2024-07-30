@@ -5,6 +5,7 @@ utils::globalVariables(c(
   "i", # <cluster_kmeans_optimizer>
   "distances", # <distance>
   "i", # <distantia>
+  "median", # <distantia_boxplot>
   "i", # <distantia_importance>
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
