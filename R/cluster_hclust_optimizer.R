@@ -82,14 +82,18 @@ cluster_hclust_optimizer <- function(
     optimization_df$method %in% names(hc_methods),
   ]
 
-  # p <- progressr::progressor(along = groups_vector)
+  #iterations
+  iterations <- seq_len(nrow(optimization_df))
 
-  optimization_df$silhouette_mean <- my_foreach(
-    i = seq_len(nrow(optimization_df)),
+  p <- progressr::progressor(along = iterations)
+
+  #parallelized optimization
+  optimization_df$silhouette_mean <- foreach::foreach(
+    i = iterations,
     .combine = "c"
   ) %iterator% {
 
-    # p()
+    p()
 
     k_groups <- tryCatch({
       stats::cutree(

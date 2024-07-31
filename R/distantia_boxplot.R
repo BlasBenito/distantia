@@ -90,10 +90,27 @@ distantia_boxplot <- function(
     stop("Argument 'df' must be the output of distantia() or distantia_importance()")
   }
 
-  df <- distantia_aggregate(
-    df = df,
-    f = mean
+  #aggregate df if needed
+  df_list <- utils_distantia_df_split(
+    df = df
   )
+
+  if(length(df_list) > 1){
+
+    message(
+      "There are ",
+      length(df_list),
+      "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
+    )
+
+    df <- distantia_aggregate(
+      df = df,
+      f = mean
+    )
+
+    rm(df_list)
+
+  }
 
   #prepare df for boxplot
   if(df_type == "distantia_df"){
