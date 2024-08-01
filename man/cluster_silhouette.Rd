@@ -4,12 +4,12 @@
 \alias{cluster_silhouette}
 \title{Silhouette Width of a Clustering Solution}
 \usage{
-cluster_silhouette(cluster = NULL, distance_matrix = NULL, mean = FALSE)
+cluster_silhouette(labels = NULL, d = NULL, mean = FALSE)
 }
 \arguments{
-\item{cluster}{(required, clustering object) Result of \code{\link[stats:kmeans]{stats::kmeans()}}. Default: NULL}
+\item{labels}{(required, integer vector) Labels resulting from a clustering algorithm applied to \code{d}. Must have the same length as columns and rows in \code{d}. Default: NULL}
 
-\item{distance_matrix}{(required, matrix) Distance matrix typically resulting from \code{\link[=distantia_matrix]{distantia_matrix()}}. Default: NULL}
+\item{d}{(required, matrix) distance matrix typically resulting from \code{\link[=distantia_matrix]{distantia_matrix()}}, but any other square matrix should work. Default: NULL}
 
 \item{mean}{(optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE}
 }
@@ -38,5 +38,89 @@ When \code{mean = TRUE}, the overall mean of the silhouette widths of all object
 
 This metric may not perform well when the clusters have irregular shapes or sizes.
 
-This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R
+This code was adapted from \url{https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R}.
+}
+\examples{
+#daily covid prevalence in California counties
+data("covid_prevalence")
+
+#load as tsl and aggregate to monthly data to accelerate example execution
+tsl <- tsl_initialize(
+  x = covid_prevalence,
+  id_column = "county",
+  time_column = "date"
+) |>
+  tsl_aggregate(
+    new_time = "months",
+    fun = sum
+  )
+
+if(interactive()){
+  #plotting first three time series
+  tsl_plot(
+    tsl = tsl[1:3],
+    guide_columns = 3
+    )
+}
+
+#compute dissimilarity
+distantia_df <- distantia(
+  tsl = tsl,
+  lock_step = TRUE
+)
+
+#generate dissimilarity matrix
+psi_matrix <- distantia_matrix(
+  df = distantia_df
+)
+
+#example with kmeans clustering
+#------------------------------------
+
+#kmeans with 3 groups
+psi_kmeans <- stats::kmeans(
+  x = as.dist(psi_matrix[[1]]),
+  centers = 3
+)
+
+#case-wise silhouette width
+cluster_silhouette(
+  labels = psi_kmeans$cluster,
+  d = psi_matrix
+)
+
+#overall silhouette width
+cluster_silhouette(
+  labels = psi_kmeans$cluster,
+  d = psi_matrix,
+  mean = TRUE
+)
+
+
+#example with hierarchical clustering
+#------------------------------------
+
+#hierarchical clustering
+psi_hclust <- stats::hclust(
+  d = as.dist(psi_matrix[[1]])
+)
+
+#generate labels for three groups
+psi_hclust_labels <- stats::cutree(
+  tree = psi_hclust,
+  k = 3,
+)
+
+#case-wise silhouette width
+cluster_silhouette(
+  labels = psi_hclust_labels,
+  d = psi_matrix
+)
+
+#overall silhouette width
+cluster_silhouette(
+  labels = psi_hclust_labels,
+  d = psi_matrix,
+  mean = TRUE
+)
 }

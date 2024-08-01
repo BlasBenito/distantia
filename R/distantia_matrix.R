@@ -1,11 +1,105 @@
-#' Distantia Data Frame to Distance Matrix
+#' Dissimilarity Data Frame to Distance Matrix
+#'
+#' @description
+#' Transforms a dataframe resulting from [distantia()] into a dissimilarity matrix.
+#'
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
 #'
-#' @return List of distance matrices.
+#' @return Matrix
 #' @export
 #' @autoglobal
 #' @examples
+#' #daily covid prevalence in California counties
+#' data("covid_prevalence")
+#'
+#' #load as tsl and aggregate to monthly data to accelerate example execution
+#' tsl <- tsl_initialize(
+#'   x = covid_prevalence,
+#'   id_column = "county",
+#'   time_column = "date"
+#' ) |>
+#'   tsl_aggregate(
+#'     new_time = "months",
+#'     fun = sum
+#'   )
+#'
+#' if(interactive()){
+#'   #plotting first three time series
+#'   tsl_plot(
+#'     tsl = tsl[1:3],
+#'     guide_columns = 3
+#'     )
+#' }
+#'
+#' #dissimilarity analysis
+#' #single combination of arguments
+#' #-------------------------------
+#' distantia_df <- distantia(
+#'   tsl = tsl,
+#'   lock_step = TRUE
+#' )
+#'
+#' #to dissimilarity matrix
+#' psi_matrix <- distantia_matrix(
+#'   df = distantia_df
+#' )
+#'
+#' #returns a list of matrices
+#' class(psi_matrix)
+#' length(psi_matrix)
+#'
+#' #only one matrix for this case
+#' class(psi_matrix[[1]])
+#'
+#' #plot matrix
+#' if(interactive()){
+#'   utils_matrix_plot(
+#'     m = psi_matrix
+#'     )
+#' }
+#'
+#'
+#' #dissimilarity analysis
+#' #two combinations of arguments
+#' #-------------------------------
+#' distantia_df <- distantia(
+#'   tsl = tsl,
+#'   lock_step = c(TRUE, FALSE)
+#' )
+#'
+#' #to dissimilarity matrix
+#' psi_matrix <- distantia_matrix(
+#'   df = distantia_df
+#' )
+#'
+#' #returns a list of matrices
+#' lapply(
+#'   X = psi_matrix,
+#'   FUN = class
+#'   )
+#'
+#' #these matrices have attributes tracing how they were generated
+#' lapply(
+#'   X = psi_matrix,
+#'   FUN = \(x) attributes(x)$distantia_args
+#' )
+#'
+#' #plot matrix
+#' if(interactive()){
+#'
+#'   #plot first matrix (default behavior of utils_matrix_plot())
+#'   utils_matrix_plot(
+#'     m = psi_matrix[[1]]
+#'   )
+#'
+#'   #plot second matrix
+#'   utils_matrix_plot(
+#'     m = psi_matrix[[2]]
+#'   )
+#'
+#' }
+#'
 distantia_matrix <- function(
     df = NULL
 ){
@@ -51,7 +145,6 @@ distantia_matrix <- function(
     ) <- "psi"
 
   }
-
 
   m_list
 

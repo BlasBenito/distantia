@@ -23,60 +23,148 @@
 #'
 #' This metric may not perform well when the clusters have irregular shapes or sizes.
 #'
-#' This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R
+#' This code was adapted from [https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R](https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R).
 #'
 #'
-#' @param cluster (required, clustering object) Result of [stats::kmeans()]. Default: NULL
-#' @param distance_matrix (required, matrix) Distance matrix typically resulting from [distantia_matrix()]. Default: NULL
+#' @param labels (required, integer vector) Labels resulting from a clustering algorithm applied to `d`. Must have the same length as columns and rows in `d`. Default: NULL
+#' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
 #' @param mean (optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE
 #'
 #' @return If mean = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the mean silhouette width otherwise.
 #' @export
 #' @autoglobal
 #' @examples
+#' #daily covid prevalence in California counties
+#' data("covid_prevalence")
+#'
+#' #load as tsl and aggregate to monthly data to accelerate example execution
+#' tsl <- tsl_initialize(
+#'   x = covid_prevalence,
+#'   id_column = "county",
+#'   time_column = "date"
+#' ) |>
+#'   tsl_aggregate(
+#'     new_time = "months",
+#'     fun = sum
+#'   )
+#'
+#' if(interactive()){
+#'   #plotting first three time series
+#'   tsl_plot(
+#'     tsl = tsl[1:3],
+#'     guide_columns = 3
+#'     )
+#' }
+#'
+#' #compute dissimilarity
+#' distantia_df <- distantia(
+#'   tsl = tsl,
+#'   lock_step = TRUE
+#' )
+#'
+#' #generate dissimilarity matrix
+#' psi_matrix <- distantia_matrix(
+#'   df = distantia_df
+#' )
+#'
+#' #example with kmeans clustering
+#' #------------------------------------
+#'
+#' #kmeans with 3 groups
+#' psi_kmeans <- stats::kmeans(
+#'   x = as.dist(psi_matrix[[1]]),
+#'   centers = 3
+#' )
+#'
+#' #case-wise silhouette width
+#' cluster_silhouette(
+#'   labels = psi_kmeans$cluster,
+#'   d = psi_matrix
+#' )
+#'
+#' #overall silhouette width
+#' cluster_silhouette(
+#'   labels = psi_kmeans$cluster,
+#'   d = psi_matrix,
+#'   mean = TRUE
+#' )
+#'
+#'
+#' #example with hierarchical clustering
+#' #------------------------------------
+#'
+#' #hierarchical clustering
+#' psi_hclust <- stats::hclust(
+#'   d = as.dist(psi_matrix[[1]])
+#' )
+#'
+#' #generate labels for three groups
+#' psi_hclust_labels <- stats::cutree(
+#'   tree = psi_hclust,
+#'   k = 3,
+#' )
+#'
+#' #case-wise silhouette width
+#' cluster_silhouette(
+#'   labels = psi_hclust_labels,
+#'   d = psi_matrix
+#' )
+#'
+#' #overall silhouette width
+#' cluster_silhouette(
+#'   labels = psi_hclust_labels,
+#'   d = psi_matrix,
+#'   mean = TRUE
+#' )
 cluster_silhouette <- function(
-    cluster = NULL,
-    distance_matrix = NULL,
+    labels = NULL,
+    d = NULL,
     mean = FALSE
 ){
 
-  if(inherits(x = cluster, what = "kmeans")){
-    clustering <- cluster$cluster
-  } else {
-    clustering <- cluster
+  if(is.list(d)){
+    d <- d[[1]]
   }
 
-  if(inherits(x = distance_matrix, what = "matrix") == FALSE){
-    stop("Argument 'distance_matrix' must be a square matrix.")
+  if(!is.matrix(d)){
+    stop("Argument 'd' must be a matrix.")
   }
 
-  clustering_length <- length(clustering)
+  if(nrow(d) != ncol(d)){
+    stop("Argument 'd' must be a square distance matrix")
+  }
 
-  clustering_groups <- sort(unique(clustering))
+  if(length(labels) != ncol(d)){
+    stop("Argument 'labels' must have the same length as ncol(d) or nrow(d).")
+  }
+
+  labels_length <- length(labels)
+
+  labels_groups <- sort(unique(labels))
 
   output <- matrix(
     data = NA,
-    nrow = clustering_length,
+    nrow = labels_length,
     ncol = 3,
     dimnames = list(
-      names(clustering),
+      names(labels),
       c("cluster","neighbor","silhouette_width")
     )
   )
 
   # j-th cluster:
-  for(i in seq_len(length(clustering_groups))){
+  for(i in seq_len(length(labels_groups))){
 
-    cluster_i_members <- clustering == clustering_groups[i]
+    cluster_i_members <- labels == labels_groups[i]
 
     cluster_i_size <- sum(cluster_i_members)
 
-    output[cluster_i_members, "cluster"] <- clustering_groups[i]
+    output[cluster_i_members, "cluster"] <- labels_groups[i]
 
     ## minimal distances to points in all other clusters:
     cluster_i_distances <- rbind(
       apply(
-        X = distance_matrix[
+        X = d[
           !cluster_i_members,
           cluster_i_members,
           drop = FALSE
@@ -84,7 +172,7 @@ cluster_silhouette <- function(
         MARGIN = 2,
         FUN = function(r) tapply(
           X = r,
-          INDEX = clustering[!cluster_i_members],
+          INDEX = labels[!cluster_i_members],
           FUN = mean
           )
       )
@@ -96,13 +184,13 @@ cluster_silhouette <- function(
       FUN = which.min
       )
 
-    output[cluster_i_members,"neighbor"] <- clustering_groups[-i][cluster_i_min_distance]
+    output[cluster_i_members,"neighbor"] <- labels_groups[-i][cluster_i_min_distance]
 
     if(cluster_i_size > 1){
 
       #cluster cohesion
         cluster_i_cohesion <- colSums(
-          distance_matrix[cluster_i_members, cluster_i_members]
+          d[cluster_i_members, cluster_i_members]
           )/(cluster_i_size - 1)
 
         #cluster separation

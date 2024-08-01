@@ -18,36 +18,88 @@ sf data frame with LINESTRING geometry.
 Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from \code{\link[=distantia]{distantia()}} to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 }
 \examples{
-data("eemian_pollen")
-data("eemian_coordinates")
+#three time series
+#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+data("fagus_dynamics")
+data("fagus_coordinates")
 
-#initialize tsl
-tsl <- distantia::tsl_init(
-  x = distantia::eemian_pollen,
+#load as tsl
+#center and scale with same parameters
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
   id_column = "site",
-  time_column = "depth"
-)
+  time_column = "date"
+) |>
+  tsl_transform(
+    f = f_scale
+  )
 
-#compute dissimilarity
-psi <- distantia::distantia(
+#example using distantia()
+#--------------------------------------------------
+distantia_df <- distantia(
   tsl = tsl
 )
 
 #transform to sf
-psi_sf <- distantia::distantia_to_sf(
-  df = psi,
-  xy = distantia::eemian_coordinates
+distantia_sf <- distantia::distantia_to_sf(
+  df = distantia_df,
+  xy = fagus_coordinates
 )
 
 #mapping with tmap
 # library(tmap)
 # tmap::tmap_mode("view")
 #
-# tmap::tm_shape(psi_sf) +
+# tmap::tm_shape(distantia_sf) +
 #   tmap::tm_lines(
 #     col = "psi",
 #     lwd = 3
 #   ) +
-#   tmap::tm_shape(distantia::eemian_coordinates) +
+#   tmap::tm_shape(fagus_coordinates) +
+#   tmap::tm_dots(size = 0.1, col = "gray50")
+
+
+#example using distantia_importance()
+#--------------------------------------------------
+importance_df <- distantia_importance(
+  tsl = tsl
+)
+
+#transform to sf
+importance_sf <- distantia::distantia_to_sf(
+  df = importance_df,
+  xy = fagus_coordinates
+)
+
+names(importance_sf)
+
+# #map contribution to dissimilarity of evi
+# #negative: contributes to similarity
+# #positive: contributes to dissimilarity
+# tmap::tm_shape(importance_sf) +
+#   tmap::tm_lines(
+#     col = "importance__evi",
+#     lwd = 3,
+#     midpoint = NA
+#   ) +
+#   tmap::tm_shape(fagus_coordinates) +
+#   tmap::tm_dots(size = 0.1, col = "gray50")
+#
+# #map variables making sites more similar
+# tmap::tm_shape(importance_sf) +
+#   tmap::tm_lines(
+#     col = "most_similar",
+#     lwd = 3
+#   ) +
+#   tmap::tm_shape(fagus_coordinates) +
+#   tmap::tm_dots(size = 0.1, col = "gray50")
+#
+# #map variables making sites less similar
+# tmap::tm_shape(importance_sf) +
+#   tmap::tm_lines(
+#     col = "most_dissimilar",
+#     lwd = 3
+#   ) +
+#   tmap::tm_shape(fagus_coordinates) +
 #   tmap::tm_dots(size = 0.1, col = "gray50")
 }

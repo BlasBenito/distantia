@@ -11,10 +11,65 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #daily covid prevalence in California counties
+#' data("covid_prevalence")
+#'
+#' #load as tsl and aggregate to monthly data to accelerate example execution
+#' tsl <- tsl_initialize(
+#'   x = covid_prevalence,
+#'   id_column = "county",
+#'   time_column = "date"
+#' ) |>
+#'   tsl_aggregate(
+#'     new_time = "months",
+#'     fun = sum
+#'   )
+#'
+#' if(interactive()){
+#'   #plotting first three time series
+#'   tsl_plot(
+#'     tsl = tsl[1:3],
+#'     guide_columns = 3
+#'     )
+#' }
+#'
+#' #parallelization and progress bar
+#' #for large datasets, parallelization accelerates cluster optimization
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
+#' #compute dissimilarity matrix
+#' psi_matrix <- distantia(
+#'   tsl = tsl,
+#'   lock_step = TRUE
+#' ) |>
+#'   distantia_matrix()
+#'
+#' #optimize hierarchical clustering
+#' kmeans_optimization <- cluster_kmeans_optimizer(
+#'   d = psi_matrix
+#' )
+#'
+#' #best solution in first row
+#' head(kmeans_optimization)
+#'
+#' #disable parallelization
+#' future::plan(
+#'   future::sequential
+#' )
 cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1
     ){
+
+  if(is.list(d)){
+    d <- d[[1]]
+  }
 
   if(!is.matrix(d)){
     stop("Argument 'd' must be a matrix.")
@@ -55,8 +110,8 @@ cluster_kmeans_optimizer <- function(
     )
 
     cluster_silhouette(
-      cluster = k,
-      distance_matrix = d,
+      labels = k$cluster,
+      d = d,
       mean = TRUE
     )
 

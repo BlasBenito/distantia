@@ -17,3 +17,56 @@ Data frame with number of clusters and their respective mean silhouette widths.
 \description{
 Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=cluster_silhouette]{cluster_silhouette()}} for more details.
 }
+\examples{
+#daily covid prevalence in California counties
+data("covid_prevalence")
+
+#load as tsl and aggregate to monthly data to accelerate example execution
+tsl <- tsl_initialize(
+  x = covid_prevalence,
+  id_column = "county",
+  time_column = "date"
+) |>
+  tsl_aggregate(
+    new_time = "months",
+    fun = sum
+  )
+
+if(interactive()){
+  #plotting first three time series
+  tsl_plot(
+    tsl = tsl[1:3],
+    guide_columns = 3
+    )
+}
+
+#parallelization and progress bar
+#for large datasets, parallelization accelerates cluster optimization
+future::plan(
+ future::multisession,
+ workers = 2 #set to parallelly::availableWorkers() - 1
+)
+
+#progress bar
+progressr::handlers(global = TRUE)
+
+#compute dissimilarity matrix
+psi_matrix <- distantia(
+  tsl = tsl,
+  lock_step = TRUE
+) |>
+  distantia_matrix()
+
+#optimize hierarchical clustering
+kmeans_optimization <- cluster_kmeans_optimizer(
+  d = psi_matrix
+)
+
+#best solution in first row
+head(kmeans_optimization)
+
+#disable parallelization
+future::plan(
+  future::sequential
+)
+}
