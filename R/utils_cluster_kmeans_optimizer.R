@@ -1,7 +1,7 @@
 #' Optimal Number of Clusters for Kmeans
 #'
 #' @description
-#' Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [cluster_silhouette()] for more details.
+#' Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [utils_cluster_silhouette()] for more details.
 #'
 #'
 #' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
@@ -51,7 +51,7 @@
 #'   distantia_matrix()
 #'
 #' #optimize hierarchical clustering
-#' kmeans_optimization <- cluster_kmeans_optimizer(
+#' kmeans_optimization <- utils_cluster_kmeans_optimizer(
 #'   d = psi_matrix
 #' )
 #'
@@ -62,7 +62,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-cluster_kmeans_optimizer <- function(
+utils_cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1
     ){
@@ -109,7 +109,7 @@ cluster_kmeans_optimizer <- function(
       nstart = nrow(d)
     )
 
-    cluster_silhouette(
+    utils_cluster_silhouette(
       labels = k$cluster,
       d = d,
       mean = TRUE
@@ -119,7 +119,7 @@ cluster_kmeans_optimizer <- function(
 
   if(is.vector(sil) == FALSE){
 
-    stop("Function cluster_kmeans_optimizer() failed. Error message was: '", paste0(sil$message), "'.")
+    stop("Function utils_cluster_kmeans_optimizer() failed. Error message was: '", paste0(sil$message), "'.")
 
   }
 

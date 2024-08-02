@@ -1,6 +1,3 @@
-
-
-
 #' Handles Time Column in List of Data Frames
 #'
 #' @param x (required, named list of data frames). List with named data frames. Default: NULL.
@@ -10,7 +7,7 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-prepare_time <- function(
+utils_prepare_time <- function(
     x = NULL,
     time_column = NULL,
     lock_step = NULL

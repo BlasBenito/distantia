@@ -5,12 +5,12 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-prepare_vector_list <- function(
+utils_prepare_vector_list <- function(
     x = NULL
 ){
 
   if(
-    prepare_list_class(
+    utils_check_list_class(
       x = x,
       expected_class = "vector"
       ) == FALSE

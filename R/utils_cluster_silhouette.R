@@ -77,13 +77,13 @@
 #' )
 #'
 #' #case-wise silhouette width
-#' cluster_silhouette(
+#' utils_cluster_silhouette(
 #'   labels = psi_kmeans$cluster,
 #'   d = psi_matrix
 #' )
 #'
 #' #overall silhouette width
-#' cluster_silhouette(
+#' utils_cluster_silhouette(
 #'   labels = psi_kmeans$cluster,
 #'   d = psi_matrix,
 #'   mean = TRUE
@@ -105,18 +105,18 @@
 #' )
 #'
 #' #case-wise silhouette width
-#' cluster_silhouette(
+#' utils_cluster_silhouette(
 #'   labels = psi_hclust_labels,
 #'   d = psi_matrix
 #' )
 #'
 #' #overall silhouette width
-#' cluster_silhouette(
+#' utils_cluster_silhouette(
 #'   labels = psi_hclust_labels,
 #'   d = psi_matrix,
 #'   mean = TRUE
 #' )
-cluster_silhouette <- function(
+utils_cluster_silhouette <- function(
     labels = NULL,
     d = NULL,
     mean = FALSE

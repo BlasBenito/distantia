@@ -5,12 +5,12 @@
 #' @return List of Data Frames
 #' @export
 #' @autoglobal
-prepare_matrix_list <- function(
+utils_prepare_matrix_list <- function(
     x = NULL
 ){
 
   if(
-    prepare_list_class(
+    utils_check_list_class(
       x = x,
       expected_class = "matrix"
       ) == FALSE

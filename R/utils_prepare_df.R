@@ -6,7 +6,7 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-prepare_df <- function(
+utils_prepare_df <- function(
     x = NULL,
     id_column = NULL,
     time_column = NULL

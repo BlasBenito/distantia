@@ -3,7 +3,7 @@
 \name{tsl_initialize}
 \alias{tsl_initialize}
 \alias{tsl_init}
-\title{Prepare Data for Dissimilarity Analysis}
+\title{Prepare Time Series List}
 \usage{
 tsl_initialize(
   x = NULL,
@@ -28,7 +28,7 @@ tsl_init(
 
 \item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
 
-\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the \code{time_column}.}
+\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in \code{time_column}.}
 
 \item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
 }
@@ -36,15 +36,18 @@ tsl_init(
 A named list of matrices.
 }
 \description{
-This function performs the following steps:
+Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time-series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_is_valid]{tsl_is_valid()}}). These requirements are:
 \itemize{
-\item Converts a data frame to a list by 'id_column'.
-\item Checks the validity of input x.
-\item Orders x by time if a time column is PROVIDED
-\item Handles missing values according to the specified action.
-\item Handles zeros by replacing them with a pseudo-zero value, if provided.
-\item Transforms the data if a transformation function is provided.
+\item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see \code{\link[=tsl_count_NA]{tsl_count_NA()}} and \code{\link[=tsl_handle_NA]{tsl_handle_NA()}}).
+\item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames]{tsl_colnames()}}).
+\item All zoo objects have a character attribute "name" identifying the object. This attribute is not part of the zoo class, but the package ensures that this attribute is not lost during data manipulations.
+\item Each element of the time series list is named after the zoo object it contains (see \code{\link[=tsl_names]{tsl_names()}}, \code{\link[=tsl_names_set]{tsl_names_set()}} and \code{\link[=tsl_names_clean]{tsl_names_clean()}}).
+\item The time series list contains two zoo objects or more.
 }
+
+The function \code{\link[=tsl_initialize]{tsl_initialize()}} (also \code{\link[=tsl_init]{tsl_init()}}) is designed to help the user turn their data into a valid time series list.
+
+TODO: list valid input objects.
 }
 \examples{
 data(mis)

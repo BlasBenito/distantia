@@ -504,19 +504,9 @@ NumericVector null_psi_cpp(
 
 
 /*** R
-library(distantia)
 
-data(sequenceA)
-data(sequenceB)
-distance = "euclidean"
-
-sequences <- prepare_xy(
-  x = na.omit(sequenceB),
-  y = na.omit(sequenceA)
-)
-
-x <- sequences[[1]]
-y <- sequences[[2]]
+x <- zoo_simulate()
+y <- zoo_simulate()
 
 psi_cpp(
   x, y

@@ -151,17 +151,8 @@ double auto_sum_path_cpp(
 //
 
 /*** R
-data(sequenceA)
-data(sequenceB)
-distance = "euclidean"
-
-sequences <- prepare_xy(
-  x = na.omit(sequenceB),
-  y = na.omit(sequenceA)
-)
-
-x <- sequences[[1]]
-y <- sequences[[2]]
+x <- zoo_simulate()
+y <- zoo_simulate()
 
 #testing subset_matrix_by_rows_cpp
 a_test <- y[1:4, 1:3]

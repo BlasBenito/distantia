@@ -13,14 +13,14 @@
 #' )
 #' @autoglobal
 #' @export
-prepare_zoo_list <- function(
+utils_prepare_zoo_list <- function(
     x = NULL,
     time_column = NULL,
     lock_step = FALSE
 ){
 
   if(
-    prepare_list_class(
+    utils_check_list_class(
       x = x,
       expected_class = "data.frame"
     ) == FALSE
