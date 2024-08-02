@@ -13,6 +13,19 @@ utils_prepare_time <- function(
     lock_step = NULL
 ){
 
+
+
+  #skip if x has zoo objects
+  if(zoo::is.zoo(x)){
+    return(x)
+  }
+
+  if(is.list(x)){
+    if(unique(unlist(lapply(x, class))) == "zoo"){
+      return(x)
+    }
+  }
+
   #if no time column, add "row_id"
   if(is.null(time_column)){
 

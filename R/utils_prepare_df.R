@@ -40,11 +40,11 @@ utils_prepare_df <- function(
 
   x <- x[, sapply(x, is.numeric), drop = FALSE]
 
-  if(exists(x = "x.time")){
-    x[[time_column]] <- x.time
-  }
-
   if(exists(x = "x.id")){
+
+    if(exists(x = "x.time")){
+      x[[time_column]] <- x.time
+    }
 
     x[[id_column]] <- x.id
 

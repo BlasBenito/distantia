@@ -11,22 +11,182 @@
 #'   \item The time series list contains two zoo objects or more.
 #' }
 #'
-#' The function [tsl_initialize()] (also [tsl_init()]) is designed to help the user turn their data into a valid time series list.
+#' The function [tsl_initialize()] (and its alias [tsl_init()]) is designed to convert the following data structures to a time series list:
 #'
-#' TODO: list valid input objects.
+#' \itemize{
+#'   \item Long data frame: with an ID column to separate time-series, and a time column that can be of the classes "Date", "POSIXct", "integer", or "numeric". The resulting zoo objects and list elements are named after the values in the ID column.
+#'   \item Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
+#'   \item List of vectors: an object like `list(a = runif(10), b = runif(10))` is converted to a time series list with as many zoo objects as vectors are defined in the original list.
+#'   \item List of matrices: a list containing matrices, such as `list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))`.
+#'   \item List of zoo objects: a list with zoo objects, such as `list(a = zoo_simulate(), b = zoo_simulate())`
+#' }
 #'
-#' @param x (required, list or data frame) A named list with ordered sequences, or a long data frame with a grouping column. Default: NULL.
-#' @param id_column (optional, column name) Column name used for splitting a 'x' data frame into a list.
-#' @param time_column (optional if `lock_step = FALSE`, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.
-#' @param lock_step (optional, logical) If TRUE, all input sequences are subset to their common times according to the values in `time_column`.
+#' @param x (required, list or data frame) Matrix or data frame in long format, list of vectors, list of matrices, or list of zoo objects. Default: NULL.
+#' @param id_column (optional, column name) Grouping column separating time series. Values in this column are used as time series names. Default: NULL
+#' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
+#' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
 #' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
 #' @return A named list of matrices.
 #' @examples
-#' data(mis)
-#' x <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "MIS"
+#' #long data frame
+#' #---------------------
+#' data("fagus_dynamics")
+#'
+#' #id_column is site
+#' #time column is date
+#' #in this case, all time series have the same length, but that's only optional, as irregular time series are fully supported.
+#' str(fagus_dynamics)
+#'
+#' #to tsl
+#' #main assumptions:
+#' #each group in id_column is a different time series
+#' #time series can have different lengths
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
 #' )
+#'
+#' #check validity (no messages or errors if valid)
+#' tsl <- tsl_is_valid(tsl)
+#'
+#' #class of contained objects
+#' lapply(X = tsl, FUN = class)
+#'
+#' #get names of the list slots
+#' names(x = tsl)
+#'
+#' #get names (names of objects in the list)
+#' tsl_names(tsl = tsl)
+#'
+#' #all names
+#' lapply(X = tsl, FUN = \(x) attributes(x)$name)
+#'
+#' #plots
+#' if(interactive()){
+#'
+#'   #plot tsl
+#'   tsl_plot(tsl)
+#'
+#'   #plot single zoo object
+#'   zoo_plot(x = tsl[[1]])
+#'
+#'   #plot single zoo object with default plot method
+#'   plot(x = tsl[[1]])
+#'
+#' }
+#'
+#'
+#' #wide data frame
+#' #--------------------
+#' #wide data frame with same variable in different places
+#' df <- data.frame(
+#'   date = fagus_dynamics[fagus_dynamics$site == "Spain", "date"],
+#'   Spain = fagus_dynamics[fagus_dynamics$site == "Spain", "evi"],
+#'   Germany = fagus_dynamics[fagus_dynamics$site == "Germany", "evi"],
+#'   Sweden = fagus_dynamics[fagus_dynamics$site == "Sweden", "evi"]
+#' )
+#'
+#' #to tsl
+#' #key assumptions:
+#' #all columns but "date" represent the same variable in different places
+#' #all time series are of the same length
+#' tsl <- tsl_initialize(
+#'   x = df,
+#'   time_column = "date"
+#'   )
+#'
+#' #colnames are forced to be the same
+#' tsl_colnames(tsl)
+#'
+#' #plot
+#' if(interactive()){
+#'   tsl_plot(tsl)
+#' }
+#'
+#'
+#' #list of vectors
+#' #---------------------
+#' #create list of vectors
+#' vector_list <- list(
+#'   a = cumsum(stats::rnorm(n = 50)),
+#'   b = cumsum(stats::rnorm(n = 70)),
+#'   c = cumsum(stats::rnorm(n = 20))
+#' )
+#'
+#' #to tsl
+#' #key assumptions:
+#' #all vectors represent the same variable in different places
+#' #time series can be of different lengths
+#' #no time column, integer indices are used as time
+#' tsl <- tsl_initialize(
+#'   x = vector_list
+#' )
+#'
+#' #plot
+#' if(interactive()){
+#'   tsl_plot(tsl)
+#' }
+#'
+#' #list of matrices
+#' #-------------------------
+#' #create list of matrices
+#' matrix_list <- list(
+#'   a = matrix(runif(30), nrow = 10, ncol = 3),
+#'   b = matrix(runif(80), nrow = 20, ncol = 4) #one more column
+#' )
+#'
+#' #to tsl
+#' #key assumptions:
+#' #each matrix represents a multivariate time series in a different place
+#' #all multivariate time series have the same columns
+#' #no time column, integer indices are used as time
+#' tsl <- tsl_initialize(
+#'   x = matrix_list
+#' )
+#'
+#' #check column names
+#' tsl_colnames(tsl = tsl)
+#'
+#' #remove exclusive column
+#' tsl <- tsl_remove_exclusive_cols(tsl = tsl)
+#' tsl_colnames(tsl = tsl)
+#'
+#' #plot
+#' if(interactive()){
+#'   tsl_plot(tsl)
+#' }
+#'
+#' #list of zoo objects
+#' #-------------------------
+#' zoo_list <- list(
+#'   a = zoo_simulate(),
+#'   b = zoo_simulate()
+#' )
+#'
+#' #looks like a time series list! But...
+#' zoo_list <- tsl_is_valid(tsl = zoo_list)
+#'
+#' #let's set the names
+#' zoo_list <- tsl_names_set(tsl = zoo_list)
+#'
+#' #check again: it's now a valid time series list
+#' zoo_list <- tsl_is_valid(tsl = zoo_list)
+#'
+#' #to do all this in one go:
+#' tsl <- tsl_initialize(
+#'   x = list(
+#'     a = zoo_simulate(),
+#'     b = zoo_simulate()
+#'   )
+#' )
+#'
+#' #plot
+#' if(interactive()){
+#'   tsl_plot(tsl)
+#' }
+#'
+#'
 #' @autoglobal
 #' @export
 tsl_initialize <- function(
@@ -70,6 +230,8 @@ tsl_initialize <- function(
     time_column = time_column,
     lock_step = lock_step
   )
+
+  tsl <- tsl_names_set(tsl = tsl)
 
   tsl <- tsl_is_valid(
     tsl = tsl

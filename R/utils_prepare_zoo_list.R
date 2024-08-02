@@ -19,6 +19,18 @@ utils_prepare_zoo_list <- function(
     lock_step = FALSE
 ){
 
+  #skip if x has zoo objects
+  if(zoo::is.zoo(x)){
+    return(x)
+  }
+
+  if(is.list(x)){
+    if(unique(unlist(lapply(x, class))) == "zoo"){
+      return(x)
+    }
+  }
+
+
   if(
     utils_check_list_class(
       x = x,
