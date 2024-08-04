@@ -12,6 +12,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 tsl_subset <- function(
     tsl = NULL,
     names = NULL,

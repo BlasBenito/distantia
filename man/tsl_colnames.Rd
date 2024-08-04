@@ -22,3 +22,6 @@ character vector of common column names if \code{common = TRUE}, or list with ch
 \description{
 Column Names of Zoo Objects in Time Series List
 }
+\examples{
+TODO: complete example
+}

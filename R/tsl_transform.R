@@ -22,6 +22,185 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #three time series
+#' #climate and ndvi in Fagus sylvatica
+#' #in Spain, Germany, and Sweden
+#' data("fagus_dynamics")
+#'
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl
+#'   )
+#' }
+#'
+#'
+#' #list of transformation functions
+#' #-----------------------------------------
+#' f_list()
+#'
+#' #centering with f_center
+#' #-----------------------------------------
+#' #centering based on mean of each variable
+#' #across all time series
+#' tsl_center <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_center
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_center,
+#'     guide_columns = 3
+#'   )
+#' }
+#'
+#'
+#' #centering and scaling
+#' #-----------------------------------------
+#' #same mean and standard deviation are used to scale each variable across all time series
+#' tsl_scale <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_scale
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_scale,
+#'     guide_columns = 3
+#'   )
+#' }
+#'
+#' #also, with scale()
+#' tsl_scale <- tsl_transform(
+#'   tsl = tsl,
+#'   f = scale,
+#'   center = TRUE,
+#'   scale = TRUE
+#' )
+#'
+#'
+#' #principal components
+#' #-----------------------------------------
+#' #requires centering and/or scaling
+#' tsl_pca <- tsl |> tsl_transform(
+#'   f = f_scale
+#' ) |>
+#'   tsl_transform(
+#'     f = f_pca
+#'   )
+#'
+#' #returns principal components
+#' tsl_colnames(tsl = tsl_pca)
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_pca,
+#'     guide_columns = 3
+#'   )
+#' }
+#'
+#' #detrending
+#' #-----------------------------------------
+#' #monthly temperatures in major cities
+#' data("cities_temperature")
+#'
+#' #subset Abidjan (city with higher temperature slope)
+#' tsl <- tsl_initialize(
+#'   x = cities_temperature,
+#'   id_column = "city",
+#'   time_column = "date"
+#' ) |> tsl_subset(
+#'   names = "Abidjan"
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl
+#'   )
+#' }
+#'
+#' #linear detrending
+#' tsl_detrend_linear <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_detrend_linear,
+#'   center = FALSE #to keep temperature scale
+#' )
+#'
+#' #plot effect of detrending
+#' if(interactive()){
+#'   plot(tsl[[1]]$temperature, col = "blue")
+#'   lines(tsl_detrend_linear[[1]]$temperature, col = "red4")
+#' }
+#'
+#' #rename to join with the original tsl for plotting
+#' tsl_detrend_linear <- tsl_names_set(
+#'   tsl = tsl_detrend_linear,
+#'   names = "detrend_linear"
+#'   )
+#'
+#' #differences detrending with lag 1 (monthly lag)
+#' tsl_detrend_difference_1 <- tsl_transform(
+#'   tsl = tsl,
+#'   lag = 1,
+#'   f = f_detrend_difference,
+#'   center = FALSE
+#' )
+#'
+#' #rename to join with the original tsl for plotting
+#' tsl_detrend_difference_1 <- tsl_names_set(
+#'   tsl = tsl_detrend_difference_1,
+#'   names = "difference_lag_1"
+#' )
+#'
+#' #differences detrending with lag 12 (yearly lag)
+#' tsl_detrend_difference_12 <- tsl_transform(
+#'   tsl = tsl,
+#'   lag = 12,
+#'   f = f_detrend_difference,
+#'   center = FALSE
+#' )
+#'
+#' #rename to join with the original tsl for plotting
+#' tsl_detrend_difference_12 <- tsl_names_set(
+#'   tsl = tsl_detrend_difference_12,
+#'   names = "difference_lag_12"
+#' )
+#'
+#' #join original data and detrended versions
+#' tsl <- c(
+#'   tsl,
+#'   tsl_detrend_linear,
+#'   tsl_detrend_difference_1,
+#'   tsl_detrend_difference_12
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     color = "red4"
+#'   )
+#' }
+#'
+#' #use f_trend_linear to compare trends
+#' #linear trend
+#' #-----------------------------------------
+#' tsl_linear_trend <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_trend_linear
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_linear_trend,
+#'     color = "red4"
+#'   )
+#' }
 tsl_transform <- function(
     tsl = NULL,
     f = NULL,

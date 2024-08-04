@@ -10,6 +10,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 utils_time_keywords_translate <- function(
     keyword = NULL
 ){

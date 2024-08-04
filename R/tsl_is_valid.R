@@ -20,6 +20,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 tsl_is_valid <- function(
     tsl = NULL
     ){

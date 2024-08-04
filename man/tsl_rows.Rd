@@ -15,3 +15,6 @@ A list if each time series has a different number of rows, and a integer otherwi
 \description{
 Number of rows of a Time Series List
 }
+\examples{
+TODO: complete example
+}

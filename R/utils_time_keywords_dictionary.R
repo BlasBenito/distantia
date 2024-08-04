@@ -7,6 +7,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 utils_time_keywords_dictionary <- function(){
 
   # millennia ----

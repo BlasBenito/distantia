@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @examples
+#' TODO: complete example
 tsl_colnames <- function(
     tsl = NULL,
     names = c(
@@ -143,6 +144,7 @@ tsl_colnames_set <- function(
 #' @return Time series list with clean names
 #'
 #' @examples
+#' TODO: complete example
 #' @autoglobal
 #' @export
 tsl_colnames_clean <- function(

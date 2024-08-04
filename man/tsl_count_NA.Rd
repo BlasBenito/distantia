@@ -17,3 +17,6 @@ Integer, sum of NA cases
 \description{
 Counts NA and Inf Cases in Time Series
 }
+\examples{
+TODO: complete example
+}

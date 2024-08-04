@@ -6,6 +6,7 @@
 #' @return A data frame with a least-cost path with no blocks.
 #'
 #' @examples
+#' TODO: complete example
 #'@export
 #'@autoglobal
 psi_cost_path_trim_blocks <- function(path = NULL){

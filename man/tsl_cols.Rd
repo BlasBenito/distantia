@@ -15,3 +15,6 @@ A list if each time series has a different number of columns, and a integer othe
 \description{
 Number of Columns of a Time Series List
 }
+\examples{
+TODO: complete example
+}

@@ -7,6 +7,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 tsl_count_NA <- function(
     tsl = NULL,
     verbose = TRUE

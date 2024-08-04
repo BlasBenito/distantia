@@ -15,3 +15,6 @@ Character string, aggregation keyword, or "none".
 \description{
 Internal function to obtain valid aggregation keywords from a zoo object or a time series list.
 }
+\examples{
+TODO: complete example
+}

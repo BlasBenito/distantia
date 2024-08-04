@@ -21,3 +21,6 @@ tsl_subset(tsl = NULL, names = NULL, colnames = NULL, time = NULL)
 \description{
 Manipulates the dimension of a time series list.
 }
+\examples{
+TODO: complete example
+}

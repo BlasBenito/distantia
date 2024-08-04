@@ -4,14 +4,10 @@
 \alias{f_pca}
 \title{Principal Components of a Time Series}
 \usage{
-f_pca(x = NULL, center = TRUE, scale = FALSE, ...)
+f_pca(x = NULL, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
-
-\item{center}{(optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.}
-
-\item{scale}{(optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.}
 
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }

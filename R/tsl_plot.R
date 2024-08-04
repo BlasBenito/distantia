@@ -19,6 +19,7 @@
 #' @export
 #'
 #' @examples
+#' TODO: complete example
 tsl_plot <- function(
     tsl = NULL,
     columns = 1,

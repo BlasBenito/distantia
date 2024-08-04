@@ -15,3 +15,6 @@ Time keyword.
 \description{
 Internal function to translate misnamed or abbreviated keywords into valid ones. Uses \code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}} as reference dictionary.
 }
+\examples{
+TODO: complete example
+}

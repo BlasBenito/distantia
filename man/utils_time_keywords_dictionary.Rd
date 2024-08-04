@@ -12,3 +12,6 @@ Data frame.
 \description{
 Data frame to help translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
 }
+\examples{
+TODO: complete example
+}

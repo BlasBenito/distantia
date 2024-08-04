@@ -16,6 +16,7 @@
 #' @export
 #'
 #' @examples
+#' TODO: complete example
 tsl_handle_NA <- function(
     tsl = NULL,
     na_action = "none",

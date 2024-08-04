@@ -9,6 +9,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 utils_distantia_df_split <- function(
     df = NULL
 ){

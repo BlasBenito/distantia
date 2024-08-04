@@ -29,3 +29,6 @@ Vector of class numeric, Date, or POSIXct
 \description{
 Internal function of \code{\link[=tsl_aggregate]{tsl_aggregate()}} to check input argument \code{new_time} for time series aggregation and return a proper aggregation vector.
 }
+\examples{
+TODO: complete example
+}

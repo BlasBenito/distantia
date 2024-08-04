@@ -11,6 +11,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 tsl_time <- function(
     tsl = NULL,
     keywords = c(

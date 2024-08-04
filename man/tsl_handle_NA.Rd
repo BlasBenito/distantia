@@ -9,7 +9,7 @@
 tsl_handle_NA(
   tsl = NULL,
   na_action = "none",
-  na_fill = 1e-04,
+  na_fill = 0.0001,
   f = zoo::na.approx,
   verbose = TRUE
 )
@@ -40,4 +40,7 @@ time series list
 }
 \description{
 Handle NA and Inf data in Time Series
+}
+\examples{
+TODO: complete example
 }

@@ -21,7 +21,7 @@ utils_prepare_time <- function(
   }
 
   if(is.list(x)){
-    if(unique(unlist(lapply(x, class))) == "zoo"){
+    if(all(unlist(lapply(x, class)) == "zoo")){
       return(x)
     }
   }
@@ -50,7 +50,8 @@ utils_prepare_time <- function(
     X = x,
     FUN = function(x) is.numeric(x[[time_column]])
   ) |>
-    unlist()
+    unlist() |>
+    unique()
 
   #check if it can be coerced to numeric
   if(all(x.time.numeric) == FALSE){

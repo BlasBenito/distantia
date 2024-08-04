@@ -9,6 +9,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 tsl_remove_exclusive_cols <- function(
     tsl = NULL
 ){

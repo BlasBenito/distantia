@@ -15,3 +15,6 @@ List of Distantia Data Frames
 \description{
 Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', 'weighted', 'ignore_blocks', and 'lock_step'.
 }
+\examples{
+TODO: complete example
+}

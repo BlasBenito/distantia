@@ -106,8 +106,6 @@ f_rescale <- function(
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
-#' @param scale (optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
@@ -115,15 +113,13 @@ f_rescale <- function(
 #' @autoglobal
 f_pca <- function(
     x = NULL,
-    center = TRUE,
-    scale = FALSE,
     ...
 ) {
 
   y <- stats::prcomp(
     x = x,
-    center = center,
-    scale. = scale
+    center = FALSE,
+    scale. = FALSE
   )$x
 
   y <- zoo::zoo(
@@ -135,6 +131,50 @@ f_pca <- function(
 
 }
 
+#' Linear Trend of a Time Series
+#'
+#' @description
+#' Fits a linear model on each column of a zoo object using time as a predictor, and predicts the outcome.
+#'
+#'
+#' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
+#' @param ... (optional, additional arguments) Ignored in this function.
+#'
+#' @return Transformed zoo object.
+#' @export
+#' @autoglobal
+f_trend_linear <- function(
+    x = NULL,
+    center = TRUE,
+    ...
+) {
+
+  x_data <- zoo::coredata(x, drop = FALSE)
+
+  m <- stats::lm(
+    formula = x_data ~ zoo::index(x)
+  )
+
+  #predict linear trend
+  x_trend <- stats::predict(m)
+
+  if(center == TRUE){
+    x_trend <- x_trend - mean(x_data)
+  }
+
+  x_trend <- as.matrix(x_trend)
+  dimnames(x_trend)[[2]] <- dimnames(x)[[2]]
+
+  # recreate zoo
+  zoo::zoo(
+    x = x_trend,
+    order.by = zoo::index(x)
+  )
+
+}
+
+
 #' Linear Detrending of a Time Series
 #'
 #' @description
@@ -142,6 +182,7 @@ f_pca <- function(
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
@@ -149,16 +190,34 @@ f_pca <- function(
 #' @autoglobal
 f_detrend_linear <- function(
     x = NULL,
+    center = TRUE,
     ...
 ) {
 
+  x_data <- zoo::coredata(x, drop = FALSE)
+
   m <- stats::lm(
-    formula = zoo::coredata(x) ~ zoo::index(x)
+    formula = x_data ~ zoo::index(x)
   )
 
-  x.trend <- stats::predict(m)
+  #predict linear trend
+  x_trend <- stats::predict(m)
 
-  x - x.trend
+  #subtract trend
+  x_detrended <- x_data - x_trend
+
+  if(center == FALSE){
+    x_detrended <- x_detrended + mean(x_data)
+  }
+
+  x_detrended <- as.matrix(x_detrended)
+  dimnames(x_detrended)[[2]] <- dimnames(x)[[2]]
+
+  # recreate zoo
+  zoo::zoo(
+    x = x_detrended,
+    order.by = zoo::index(x)
+    )
 
 }
 
@@ -169,6 +228,7 @@ f_detrend_linear <- function(
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param lag (optional, integer)
+#' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
 #' @return Transformed zoo object.
@@ -177,78 +237,46 @@ f_detrend_linear <- function(
 f_detrend_difference <- function(
     x = NULL,
     lag = 1,
+    center = TRUE,
     ...
 ) {
 
-  y <- diff(
-    x = as.matrix(x),
+  x_data <- zoo::coredata(x, drop = FALSE)
+
+  x_detrended <- diff(
+    x = as.matrix(x_data),
     lag = as.integer(lag[1])
   )
 
   first.row <- matrix(
     data = 0,
     nrow = 1,
-    ncol = ncol(x),
+    ncol = ncol(x_data),
     dimnames = list(
       "1",
-      colnames(x)
+      colnames(x_data)
     )
   )
 
-  y <- rbind(
+  x_detrended <- rbind(
     first.row,
-    y
+    x_detrended
   )
 
-  y <- zoo::zoo(
-    x = y,
+  if(center == FALSE){
+    x_detrended <- x_detrended + mean(x_data)
+  }
+
+  x_detrended <- as.matrix(x_detrended)
+  dimnames(x_detrended)[[2]] <- dimnames(x)[[2]]
+
+  zoo::zoo(
+    x = as.matrix(x_detrended),
     order.by = zoo::index(x)
   )
 
-  y
-
 }
 
-#' Moving Window Smoothing
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param w (required, window width) width of the window to compute the rolling statistics of the time series.
-#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
-#' @param ... (optional, additional arguments) additional arguments to `f` used as argument `...` in [zoo::rollapply()].
-#'
-#' @return Transformed zoo object.
-#' @export
-#' @autoglobal
-f_smooth <- function(
-    x = NULL,
-    w = 3,
-    f = mean,
-    ...
-){
-
-  if(is.function(f) == FALSE){
-
-    stop(
-      "Argument 'f' must be a function name."
-    )
-
-  }
-
-  x <- zoo::rollapply(
-    data = x,
-    width = w,
-    fill = c(
-      "extend",
-      "extend",
-      "extend"
-    ),
-    FUN = f,
-    ... = ...
-  )
-
-  x
-
-}
 
 
 #' Transformation to Proportions
@@ -480,7 +508,7 @@ scaling_parameters <- function(
 }
 
 
-#' Slope of Time Series via Linear Regression
+#' Linear Slope of Time Series
 #'
 #' @description
 #' Calculates the slope of a numeric vector using linear regression. If the length of the input vector is 1, it returns 0. If linear regression fails, it returns NA.
@@ -489,6 +517,7 @@ scaling_parameters <- function(
 #'
 #'
 #' @param x (required, numeric vector) input vector. Default: NULL
+#' @param ... (optional, additional arguments) Ignored in this function.
 #' @return Slope of the numeric vector
 #' @export
 #' @autoglobal
@@ -503,7 +532,10 @@ scaling_parameters <- function(
 #' # Numeric vector with length = 0
 #' f_slope(x = numeric(0))
 #'
-f_slope <- function(x = NULL) {
+f_slope <- function(
+    x = NULL,
+    ...
+    ) {
 
   if(!is.numeric(x)) {
     stop("Input must be a numeric vector.")
@@ -529,6 +561,10 @@ f_slope <- function(x = NULL) {
     ) |>
       suppressWarnings()
 
+  }
+
+  if(is.na(slope)){
+    slope <- 0
   }
 
   slope

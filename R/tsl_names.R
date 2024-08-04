@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#' TODO: complete example
 tsl_names <- function(
     tsl = NULL
 ){

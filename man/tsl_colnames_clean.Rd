@@ -35,3 +35,6 @@ Time series list with clean names
 \description{
 Clean Column Names of a Time Series List
 }
+\examples{
+TODO: complete example
+}

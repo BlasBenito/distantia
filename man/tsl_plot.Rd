@@ -48,3 +48,6 @@ A plot.
 \description{
 Plot Time Series List
 }
+\examples{
+TODO: complete example
+}

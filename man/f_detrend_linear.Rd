@@ -4,10 +4,12 @@
 \alias{f_detrend_linear}
 \title{Linear Detrending of a Time Series}
 \usage{
-f_detrend_linear(x = NULL, ...)
+f_detrend_linear(x = NULL, center = TRUE, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
+
+\item{center}{(required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE}
 
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }

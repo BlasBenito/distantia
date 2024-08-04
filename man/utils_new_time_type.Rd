@@ -26,3 +26,6 @@ Character string, new_time type.
 \description{
 Internal function of \code{\link[=utils_new_time]{utils_new_time()}} to identify the type of the new time used for time series aggregation.
 }
+\examples{
+TODO: complete example
+}

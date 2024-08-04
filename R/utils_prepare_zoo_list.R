@@ -25,7 +25,7 @@ utils_prepare_zoo_list <- function(
   }
 
   if(is.list(x)){
-    if(unique(unlist(lapply(x, class))) == "zoo"){
+    if(all(unlist(lapply(x, class)) == "zoo")){
       return(x)
     }
   }

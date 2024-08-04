@@ -15,3 +15,6 @@ Character vector of names.
 \description{
 A list of zoo objects created with \code{\link[=tsl_initialize]{tsl_initialize()}} has two sets of names that should ideally be the same: the list names, accessed with \code{names(tsl)}, and the names of the individual zoo objects (stored in their attribute "name"), accessed with \code{tsl_names(x)}.
 }
+\examples{
+TODO: complete example
+}

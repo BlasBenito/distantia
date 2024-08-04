@@ -15,3 +15,6 @@ time series list
 \description{
 Removes columns that are not shared across all zoo objects within a time series list.
 }
+\examples{
+TODO: complete example
+}

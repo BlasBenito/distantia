@@ -2,12 +2,14 @@
 % Please edit documentation in R/transformations.R
 \name{f_slope}
 \alias{f_slope}
-\title{Slope of Time Series via Linear Regression}
+\title{Linear Slope of Time Series}
 \usage{
-f_slope(x = NULL)
+f_slope(x = NULL, ...)
 }
 \arguments{
 \item{x}{(required, numeric vector) input vector. Default: NULL}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 Slope of the numeric vector

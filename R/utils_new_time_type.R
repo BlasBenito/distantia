@@ -14,6 +14,7 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' TODO: complete example
 utils_new_time_type <- function(
     tsl = NULL,
     new_time = NULL,

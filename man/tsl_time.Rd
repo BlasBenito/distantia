@@ -22,3 +22,6 @@ Data frame for \code{\link[=tsl_time]{tsl_time()}}, and list for \code{\link[=ts
 
 \code{\link[=tsl_time_summary]{tsl_time_summary()}} is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
 }
+\examples{
+TODO: complete example
+}

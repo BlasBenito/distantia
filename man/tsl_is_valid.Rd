@@ -25,3 +25,6 @@ Checks that the input argument is a valid time series list. The required feature
 \item All "zoo" objects have zero NA cases.
 }
 }
+\examples{
+TODO: complete example
+}
