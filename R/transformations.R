@@ -336,12 +336,20 @@ f_proportion <- function(
     ...
 ){
 
-  sweep(
+  y <- sweep(
     x = x,
     MARGIN = 1,
     STATS = rowSums(x),
     FUN = "/"
   )
+
+  y_data <- zoo::coredata(y)
+
+  y_data[is.nan(y_data)] <- 0
+
+  zoo::coredata(y) <- y_data
+
+  y
 
 }
 
@@ -357,7 +365,9 @@ f_percentage <- function(
     x = NULL,
     ...
 ){
+
   f_proportion(x)*100
+
 }
 
 #' Hellinger Transformation
@@ -385,7 +395,7 @@ f_hellinger <- function(
     order.by = x.index
   )
 
-  sqrt(
+  y <- sqrt(
     sweep(
       x = x,
       MARGIN = 1,
@@ -393,6 +403,14 @@ f_hellinger <- function(
       FUN = "/"
     )
   )
+
+  y_data <- zoo::coredata(y)
+
+  y_data[is.nan(y_data)] <- 0
+
+  zoo::coredata(y) <- y_data
+
+  y
 
 }
 

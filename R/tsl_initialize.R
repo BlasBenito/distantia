@@ -242,6 +242,10 @@ tsl_initialize <- function(
     verbose = TRUE
   )
 
+  if(na.count > 0){
+    warning("There are '", na.count, "' cases. Please consider applying distantia::tsl_handle_NA() to impute or remove them.")
+  }
+
   tsl
 
 }

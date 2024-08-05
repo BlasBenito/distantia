@@ -28,10 +28,9 @@ tsl_transform(tsl = NULL, f = NULL, ...)
 time series list
 }
 \description{
-Transforms values of the zoo objects within a time series list. Generally, functions introduced via the argument \code{f} should not change the dimensions of the output time series list. However, there are glaring exceptions. For example, \code{\link[=f_center]{f_center()}} and \code{\link[=f_scale]{f_scale()}} compute the overall mean and standard deviation across all zoo objects in the time series list to apply a common transformation. This requires removing exclusive columns from the zoo objects via \code{\link[=tsl_remove_exclusive_cols]{tsl_remove_exclusive_cols()}}.
+This is a custom wrapper for \code{\link[base:lapply]{base::lapply()}} adapted to work with time series list. The objective of this function is data transformation without dimension changes. Check \code{\link[=tsl_resample]{tsl_resample()}} and \code{\link[=tsl_aggregate]{tsl_aggregate()}} for transformations requiring changes in data dimensions. Generally, functions introduced via the argument \code{f} should not change the dimensions of the output time series list. However, there are glaring exceptions. For example, \code{\link[=f_center]{f_center()}} and \code{\link[=f_scale]{f_scale()}} compute the overall mean and standard deviation across all zoo objects in the time series list to apply a common transformation. This operation requires removing exclusive columns from the zoo objects via \code{\link[=tsl_remove_exclusive_cols]{tsl_remove_exclusive_cols()}}.
 }
 \examples{
-#three time series
 #climate and ndvi in Fagus sylvatica
 #in Spain, Germany, and Sweden
 data("fagus_dynamics")
@@ -94,6 +93,41 @@ tsl_scale <- tsl_transform(
   center = TRUE,
   scale = TRUE
 )
+
+
+#rescaling to a new range
+#-----------------------------------------
+
+#old range
+sapply(X = tsl, FUN = range)
+
+#rescale between -100 and 100
+tsl_rescaled <- tsl_transform(
+  tsl = tsl,
+  f = f_rescale,
+  new_min = -100,
+  new_max = 100
+)
+
+#new range
+sapply(X = tsl_rescaled, FUN = range)
+
+
+#rounding to n digits
+#-----------------------------------------
+
+#old range
+sapply(X = tsl, FUN = range)
+
+#rounding to zero digits
+tsl_round <- tsl_transform(
+  tsl = tsl,
+  f = round,
+  digits = 0
+)
+
+#new range
+sapply(X = tsl_round, FUN = range)
 
 
 #moving window smoothing
@@ -245,4 +279,82 @@ if(interactive()){
     color = "red4"
   )
 }
+
+#numeric transformations
+#-----------------------------------------
+#pollen counts from different interglacials
+data("mis")
+
+#load as tsl
+tsl <- tsl_initialize(
+  x = mis,
+  id_column = "mis",
+  time_column = "sample_order"
+)
+
+#subset first three time-series
+tsl <- tsl[1:3]
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl
+  )
+}
+
+#transform to proportions
+tsl_proportion <- tsl_transform(
+  tsl = tsl,
+  f = f_proportion
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_proportion
+  )
+}
+
+#percentages
+tsl_percentage <- tsl_transform(
+  tsl = tsl,
+  f = f_percentage
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_percentage
+  )
+}
+
+#hellinger transformation
+tsl_hellinger <- tsl_transform(
+  tsl = tsl,
+  f = f_hellinger
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_hellinger
+  )
+}
+
+#custom functions
+#-----------------------------------------
+
+#multiply by a scalar y
+#the custom function must return a zoo object
+tsl_new <- tsl_transform(
+  tsl = tsl,
+  f = function(x, y) x * y,
+  y = 100
+)
+
+#same as:
+#much faster, no requirement to return a zoo object
+#can be replaced with a parallelized future_lapply
+tsl_new <- lapply(
+  X = tsl,
+  FUN = function(x, y) x * y,
+  y = 100
+)
+
 }

@@ -249,7 +249,7 @@ zoo_plot <- function(
     )
   }
 
-  if("numeric" %in% class(plot.y)){
+  if(any(c("numeric", "integer") %in% class(plot.y))){
     graphics::axis(
       side = y.axis.side,
       las = 1,
