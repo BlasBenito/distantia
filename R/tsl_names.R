@@ -42,6 +42,7 @@ tsl_names <- function(
 #' @export
 #'
 #' @examples
+#' TODO add example
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
@@ -84,6 +85,7 @@ tsl_names_set <- function(
 #' @return Time series list with clean names
 #'
 #' @examples
+#' TODO add example
 #' @autoglobal
 #' @export
 tsl_names_clean <- function(

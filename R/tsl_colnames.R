@@ -95,6 +95,7 @@ tsl_colnames <- function(
 #' @export
 #'
 #' @examples
+#' TODO add example
 tsl_colnames_set <- function(
     tsl = NULL,
     names = NULL

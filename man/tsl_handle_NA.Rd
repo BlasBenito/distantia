@@ -9,7 +9,7 @@
 tsl_handle_NA(
   tsl = NULL,
   na_action = "none",
-  na_fill = 0.0001,
+  na_fill = 1e-04,
   f = zoo::na.approx,
   verbose = TRUE
 )

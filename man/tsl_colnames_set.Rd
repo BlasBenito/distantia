@@ -17,3 +17,6 @@ time series list with new names
 \description{
 Renames Columns of Zoo Objects in a Time Series List
 }
+\examples{
+TODO add example
+}

@@ -15,9 +15,7 @@ f_slope(x = NULL, ...)
 Slope of the numeric vector
 }
 \description{
-Calculates the slope of a numeric vector using linear regression. If the length of the input vector is 1, it returns 0. If linear regression fails, it returns NA.
-
-Useful for \code{\link[=tsl_transform]{tsl_transform()}} or \code{\link[=tsl_aggregate]{tsl_aggregate()}}.
+Designed for usage in \code{\link[=tsl_aggregate]{tsl_aggregate()}}. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
 }
 \examples{
 # Numeric vector of any length

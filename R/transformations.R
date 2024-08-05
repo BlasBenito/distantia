@@ -14,6 +14,54 @@ f_list <- function(){
 
 }
 
+
+#' Moving Window Smoothing
+#'
+#' @description
+#' This is a simplified wrapper to [zoo::rollapply()].
+#'
+#'
+#' @param x (required, zoo object) Zoo time series object to transform. Default: NULL
+#' @param smoothing_window (required, odd integer) Width of the window to compute the rolling statistics of the time series. Should be an odd number. Even numbers are coerced to odd by adding one. Default: 3
+#' @param smoothing_f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `smoothing_f`. Used as argument `...` in [zoo::rollapply()].
+#'
+#' @return Transformed zoo object.
+#' @export
+#' @autoglobal
+f_smooth_window <- function(
+    x = NULL,
+    smoothing_window = 3,
+    smoothing_f = mean,
+    ...
+){
+
+  if(is.function(smoothing_f) == FALSE){
+
+    stop(
+      "Argument 'smoothing_fun' must be a function name."
+    )
+
+  }
+
+  #set window to even
+  smoothing_window <- as.integer(smoothing_window)
+  if((smoothing_window %% 2) == 0){
+    smoothing_window <- smoothing_window + 1
+  }
+
+  y <- zoo::rollapply(
+    data = x,
+    width = smoothing_window,
+    fill = rep(x = "extend", times = w),
+    FUN = smoothing_f,
+    ... = ...
+  )
+
+  y
+
+}
+
 #' @title Rescales Numeric Vector to a New Range
 #' @param x (required, numeric vector) Numeric vector. Default: `NULL`
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
@@ -79,7 +127,7 @@ f_rescale <- function(
 
   x <- as.matrix(x)
 
-  x <- apply(
+  y <- apply(
     X = x,
     MARGIN = 2,
     FUN = rescale_vector,
@@ -89,12 +137,10 @@ f_rescale <- function(
     old_max = old_max
   )
 
-  x <- zoo::zoo(
-    x = x,
+  zoo::zoo(
+    x = y,
     order.by = x.index
   )
-
-  x
 
 }
 
@@ -122,12 +168,10 @@ f_pca <- function(
     scale. = FALSE
   )$x
 
-  y <- zoo::zoo(
+  zoo::zoo(
     x = y,
     order.by = zoo::index(x)
   )
-
-  y
 
 }
 
@@ -157,18 +201,18 @@ f_trend_linear <- function(
   )
 
   #predict linear trend
-  x_trend <- stats::predict(m)
+  y <- stats::predict(m)
 
   if(center == TRUE){
-    x_trend <- x_trend - mean(x_data)
+    y <- y - mean(x_data)
   }
 
-  x_trend <- as.matrix(x_trend)
-  dimnames(x_trend)[[2]] <- dimnames(x)[[2]]
+  y <- as.matrix(y)
+  dimnames(y)[[2]] <- dimnames(x)[[2]]
 
   # recreate zoo
   zoo::zoo(
-    x = x_trend,
+    x = y,
     order.by = zoo::index(x)
   )
 
@@ -204,18 +248,18 @@ f_detrend_linear <- function(
   x_trend <- stats::predict(m)
 
   #subtract trend
-  x_detrended <- x_data - x_trend
+  y <- x_data - x_trend
 
   if(center == FALSE){
-    x_detrended <- x_detrended + mean(x_data)
+    y <- y + mean(x_data)
   }
 
-  x_detrended <- as.matrix(x_detrended)
-  dimnames(x_detrended)[[2]] <- dimnames(x)[[2]]
+  y <- as.matrix(y)
+  dimnames(y)[[2]] <- dimnames(x)[[2]]
 
   # recreate zoo
   zoo::zoo(
-    x = x_detrended,
+    x = y,
     order.by = zoo::index(x)
     )
 
@@ -243,7 +287,7 @@ f_detrend_difference <- function(
 
   x_data <- zoo::coredata(x, drop = FALSE)
 
-  x_detrended <- diff(
+  y <- diff(
     x = as.matrix(x_data),
     lag = as.integer(lag[1])
   )
@@ -258,20 +302,20 @@ f_detrend_difference <- function(
     )
   )
 
-  x_detrended <- rbind(
+  y <- rbind(
     first.row,
-    x_detrended
+    y
   )
 
   if(center == FALSE){
-    x_detrended <- x_detrended + mean(x_data)
+    y <- y + mean(x_data)
   }
 
-  x_detrended <- as.matrix(x_detrended)
-  dimnames(x_detrended)[[2]] <- dimnames(x)[[2]]
+  y <- as.matrix(y)
+  dimnames(y)[[2]] <- dimnames(x)[[2]]
 
   zoo::zoo(
-    x = as.matrix(x_detrended),
+    x = as.matrix(y),
     order.by = zoo::index(x)
   )
 
@@ -292,14 +336,13 @@ f_proportion <- function(
     ...
 ){
 
-  y <- sweep(
+  sweep(
     x = x,
     MARGIN = 1,
     STATS = rowSums(x),
     FUN = "/"
   )
 
-  y
 }
 
 #' Transformation to Percentage
@@ -342,7 +385,7 @@ f_hellinger <- function(
     order.by = x.index
   )
 
-  x <- sqrt(
+  sqrt(
     sweep(
       x = x,
       MARGIN = 1,
@@ -350,8 +393,6 @@ f_hellinger <- function(
       FUN = "/"
     )
   )
-
-  x
 
 }
 
@@ -511,10 +552,7 @@ scaling_parameters <- function(
 #' Linear Slope of Time Series
 #'
 #' @description
-#' Calculates the slope of a numeric vector using linear regression. If the length of the input vector is 1, it returns 0. If linear regression fails, it returns NA.
-#'
-#' Useful for [tsl_transform()] or [tsl_aggregate()].
-#'
+#' Designed for usage in [tsl_aggregate()]. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
 #'
 #' @param x (required, numeric vector) input vector. Default: NULL
 #' @param ... (optional, additional arguments) Ignored in this function.

@@ -17,3 +17,6 @@ time series list
 \description{
 Sets the names of a time series list created with \code{\link[=tsl_initialize]{tsl_initialize()}} and the internal names of the zoo objects inside, stored in their attribute "name".
 }
+\examples{
+TODO add example
+}

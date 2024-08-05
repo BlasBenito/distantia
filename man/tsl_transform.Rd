@@ -86,6 +86,8 @@ if(interactive()){
 }
 
 #also, with scale()
+#centers and scales each variable independently of the others
+#offers very similar results as f_scale for this case, but it might not work as well for other datasets
 tsl_scale <- tsl_transform(
   tsl = tsl,
   f = scale,
@@ -94,8 +96,41 @@ tsl_scale <- tsl_transform(
 )
 
 
+#moving window smoothing
+#-----------------------------------------
+#default values
+tsl_smooth_mean <- tsl_transform(
+  tsl = tsl,
+  f = f_smooth_window,
+  smoothing_window = 3, #default
+  smoothing_f = mean #default
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_smooth_mean,
+    guide_columns = 3
+  )
+}
+
+#different smoothing window and function
+tsl_smooth_max <- tsl_transform(
+  tsl = tsl,
+  f = f_smooth_window,
+  smoothing_window = 5,
+  smoothing_f = max
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_smooth_max,
+    guide_columns = 3
+  )
+}
+
 #principal components
 #-----------------------------------------
+#replaces original variables with their principal components
 #requires centering and/or scaling
 tsl_pca <- tsl |> tsl_transform(
   f = f_scale
@@ -130,18 +165,19 @@ tsl <- tsl_initialize(
 
 if(interactive()){
   tsl_plot(
-    tsl = tsl
+    tsl = tsl,
+    color = "red4"
   )
 }
 
-#linear detrending
+#LINEAR DETRENDING
 tsl_detrend_linear <- tsl_transform(
   tsl = tsl,
   f = f_detrend_linear,
   center = FALSE #to keep temperature scale
 )
 
-#plot effect of detrending
+#show effect of linear detrending
 if(interactive()){
   plot(tsl[[1]]$temperature, col = "blue")
   lines(tsl_detrend_linear[[1]]$temperature, col = "red4")
@@ -153,7 +189,7 @@ tsl_detrend_linear <- tsl_names_set(
   names = "detrend_linear"
   )
 
-#differences detrending with lag 1 (monthly lag)
+#DIFFERENCES DETRENDING with lag 1 (monthly lag)
 tsl_detrend_difference_1 <- tsl_transform(
   tsl = tsl,
   lag = 1,
@@ -167,7 +203,7 @@ tsl_detrend_difference_1 <- tsl_names_set(
   names = "difference_lag_1"
 )
 
-#differences detrending with lag 12 (yearly lag)
+#DIFFERENCES DETRENDING with lag 12 (yearly lag)
 tsl_detrend_difference_12 <- tsl_transform(
   tsl = tsl,
   lag = 12,
@@ -196,9 +232,8 @@ if(interactive()){
   )
 }
 
-#use f_trend_linear to compare trends
-#linear trend
-#-----------------------------------------
+
+#compare original vs detrended data using f_trend_linear()
 tsl_linear_trend <- tsl_transform(
   tsl = tsl,
   f = f_trend_linear
