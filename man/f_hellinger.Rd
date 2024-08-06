@@ -14,8 +14,23 @@ f_hellinger(x = NULL, pseudozero = 1e-04, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
 Hellinger Transformation
+}
+\examples{
+x <- zoo_simulate(
+  cols = 5,
+  data_range = c(0, 500)
+  )
+
+y <- f_hellinger(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

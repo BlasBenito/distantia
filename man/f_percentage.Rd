@@ -12,8 +12,20 @@ f_percentage(x = NULL, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
 Transformation to Percentage
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y <- f_percentage(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

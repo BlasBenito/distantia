@@ -1,8 +1,10 @@
-#' Lists Transformation Functions
+#' Lists Available Transformation Functions
 #'
 #' @return character vector with function names
 #' @export
 #' @autoglobal
+#' @examples
+#' f_list()
 f_list <- function(){
 
   f_funs <-  ls(
@@ -18,7 +20,7 @@ f_list <- function(){
 #' Moving Window Smoothing
 #'
 #' @description
-#' This is a simplified wrapper to [zoo::rollapply()].
+#' Simplified wrapper to [zoo::rollapply()] to apply rolling window smoothing to zoo objects.
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform. Default: NULL
@@ -26,9 +28,22 @@ f_list <- function(){
 #' @param smoothing_f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
 #' @param ... (optional, additional arguments) additional arguments to `smoothing_f`. Used as argument `...` in [zoo::rollapply()].
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_smooth_window(
+#'   x = x,
+#'   smoothing_window = 5,
+#'   smoothing_f = mean
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_smooth_window <- function(
     x = NULL,
     smoothing_window = 3,
@@ -53,10 +68,12 @@ f_smooth_window <- function(
   y <- zoo::rollapply(
     data = x,
     width = smoothing_window,
-    fill = rep(x = "extend", times = w),
+    fill = rep(x = "extend", times = smoothing_window),
     FUN = smoothing_f,
     ... = ...
   )
+
+  attr(x = y, which = "name") <- attributes(x)$name
 
   y
 
@@ -112,9 +129,22 @@ rescale_vector <- function(
 #' @param new_max (optional_numeric) New maximum value. Default: `1`
 #' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
 #' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
-#' @return Zoo object
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_rescale(
+#'   x = x,
+#'   new_min = 0,
+#'   new_max = 100
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_rescale <- function(
     x = NULL,
     new_min = 0,
@@ -123,12 +153,8 @@ f_rescale <- function(
     old_max = NULL
 ){
 
-  x.index <- zoo::index(x)
-
-  x <- as.matrix(x)
-
   y <- apply(
-    X = x,
+    X = as.matrix(x),
     MARGIN = 2,
     FUN = rescale_vector,
     new_min = new_min,
@@ -137,10 +163,14 @@ f_rescale <- function(
     old_max = old_max
   )
 
-  zoo::zoo(
+  y <- zoo::zoo(
     x = y,
-    order.by = x.index
+    order.by = zoo::index(x)
   )
+
+  attr(x = y, which = "name") <- attributes(x)$name
+
+  y
 
 }
 
@@ -154,9 +184,20 @@ f_rescale <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_pca(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_pca <- function(
     x = NULL,
     ...
@@ -168,10 +209,14 @@ f_pca <- function(
     scale. = FALSE
   )$x
 
-  zoo::zoo(
+  y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
   )
+
+  attr(x = y, which = "name") <- attributes(x)$name
+
+  y
 
 }
 
@@ -185,9 +230,20 @@ f_pca <- function(
 #' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_trend_linear(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_trend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -211,10 +267,14 @@ f_trend_linear <- function(
   dimnames(y)[[2]] <- dimnames(x)[[2]]
 
   # recreate zoo
-  zoo::zoo(
+  y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
   )
+
+  attr(x = y, which = "name") <- attributes(x)$name
+
+  y
 
 }
 
@@ -229,9 +289,20 @@ f_trend_linear <- function(
 #' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_detrend_linear(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_detrend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -258,10 +329,14 @@ f_detrend_linear <- function(
   dimnames(y)[[2]] <- dimnames(x)[[2]]
 
   # recreate zoo
-  zoo::zoo(
+  y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
     )
+
+  attr(x = y, which = "name") <- attributes(x)$name
+
+  y
 
 }
 
@@ -275,9 +350,27 @@ f_detrend_linear <- function(
 #' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y_lag1 <- f_detrend_difference(
+#'   x = x,
+#'   lag = 1
+#' )
+#'
+#' y_lag5 <- f_detrend_difference(
+#'   x = x,
+#'   lag = 5
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y_lag1)
+#'   zoo_plot(y_lag5)
+#' }
 f_detrend_difference <- function(
     x = NULL,
     lag = 1,
@@ -314,10 +407,14 @@ f_detrend_difference <- function(
   y <- as.matrix(y)
   dimnames(y)[[2]] <- dimnames(x)[[2]]
 
-  zoo::zoo(
+  y <- zoo::zoo(
     x = as.matrix(y),
     order.by = zoo::index(x)
   )
+
+  attr(x = y, which = "name") <- attributes(x)$name
+
+  y
 
 }
 
@@ -328,9 +425,21 @@ f_detrend_difference <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_proportion(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#'
 f_proportion <- function(
     x = NULL,
     ...
@@ -349,6 +458,8 @@ f_proportion <- function(
 
   zoo::coredata(y) <- y_data
 
+  attr(x = y, which = "name") <- attributes(x)$name
+
   y
 
 }
@@ -358,9 +469,20 @@ f_proportion <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_percentage(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_percentage <- function(
     x = NULL,
     ...
@@ -375,9 +497,23 @@ f_percentage <- function(
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param pseudozero (required, numeric) Small number above zero to replace zeroes with.
 #' @param ... (optional, additional arguments) Ignored in this function.
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate(
+#'   cols = 5,
+#'   data_range = c(0, 500)
+#'   )
+#'
+#' y <- f_hellinger(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_hellinger <- function(
     x = NULL,
     pseudozero = 0.0001,
@@ -414,45 +550,68 @@ f_hellinger <- function(
 
 }
 
-#' Global Centering
+#' Centering
 #'
 #' @description
-#' Centers using the global average of all zoo objects within a time series list. Please use [base::scale()] to scale each time series independently.
+#' Wraps [base::scale()] for global centering with [tsl_transform()].
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
 #' @param ... (optional, additional arguments) Ignored in this function.
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate()
+#'
+#' y <- f_center(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_center <- function(
     x = NULL,
     center = TRUE,
+    scale = FALSE,
     ...
 ){
 
   scale(
     x = x,
-    center = center,
+    center = TRUE,
     scale = FALSE
   )
 
 }
 
-#' Global Centering and scaling
+#' Centering and scaling
 #'
 #' @description
-#' Centers and scales using the global average  and standard deviation of all zoo objects within a time series list. Please use [base::scale()] to center and scale each time series independently.
+#' Wraps [base::scale()] for global centering and scaling with [tsl_transform()].
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
 #' @param scale (optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
-#' @return Transformed zoo object.
+#' @return zoo object
 #' @export
 #' @autoglobal
+#' @examples
+#' x <- zoo_simulate()
+#'
+#' y <- f_scale(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
 f_scale <- function(
     x = NULL,
     center = TRUE,
@@ -462,8 +621,8 @@ f_scale <- function(
 
   scale(
     x = x,
-    center = center,
-    scale = scale
+    center = TRUE,
+    scale = TRUE
   )
 
 }
@@ -473,22 +632,18 @@ f_scale <- function(
 #'
 #' @param tsl (required, list of zoo objects) List of time series. Default: NULL
 #' @param f (required, transformation function) name of a function taking a matrix as input.
-#' @param ... (optional, arguments of `f`) Optional arguments for the transformation function.
 #'
 #' @return Named list with center and scale parameters
 #' @export
 #' @autoglobal
 scaling_parameters <- function(
     tsl = NULL,
-    f = NULL,
-    ...
+    f = NULL
 ){
-
-  args <- list(...)
 
   #scaling
   if(
-    all(c("center", "scale", "...") %in% names(formals(f)))
+    all(c("center", "scale") %in% names(formals(f)))
   ){
 
 
@@ -512,15 +667,11 @@ scaling_parameters <- function(
     }
 
     #giving priority to user input
-    if("center" %in% names(args)){
-      center <- args$center
-    } else {
+    if("center" %in% names(formals(f))){
       center <- formals(f)$center
     }
 
-    if("scale" %in% names(args)){
-      scale <- args$scale
-    } else {
+    if("scale" %in% names(formals(f))){
       scale <- formals(f)$scale
     }
 
@@ -587,7 +738,6 @@ scaling_parameters <- function(
 #'
 #' # Numeric vector with length = 0
 #' f_slope(x = numeric(0))
-#'
 f_slope <- function(
     x = NULL,
     ...

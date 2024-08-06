@@ -12,8 +12,20 @@ f_pca(x = NULL, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
 Uses \code{\link[stats:prcomp]{stats::prcomp()}} to compute the Principal Component Analysis of a time series and return the principal components instead of the original columns. Output columns are named "PC1", "PC2" and so on.
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y <- f_pca(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

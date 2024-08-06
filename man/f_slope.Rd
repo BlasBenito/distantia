@@ -26,5 +26,4 @@ f_slope(x = 10)
 
 # Numeric vector with length = 0
 f_slope(x = numeric(0))
-
 }

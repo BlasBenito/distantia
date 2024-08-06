@@ -16,8 +16,22 @@ f_smooth_window(x = NULL, smoothing_window = 3, smoothing_f = mean, ...)
 \item{...}{(optional, additional arguments) additional arguments to \code{smoothing_f}. Used as argument \code{...} in \code{\link[zoo:rollapply]{zoo::rollapply()}}.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
-This is a simplified wrapper to \code{\link[zoo:rollapply]{zoo::rollapply()}}.
+Simplified wrapper to \code{\link[zoo:rollapply]{zoo::rollapply()}} to apply rolling window smoothing to zoo objects.
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y <- f_smooth_window(
+  x = x,
+  smoothing_window = 5,
+  smoothing_f = mean
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

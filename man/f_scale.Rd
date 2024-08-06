@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_scale}
 \alias{f_scale}
-\title{Global Centering and scaling}
+\title{Centering and scaling}
 \usage{
 f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 }
@@ -16,8 +16,20 @@ f_scale(x = NULL, center = TRUE, scale = TRUE, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
-Centers and scales using the global average  and standard deviation of all zoo objects within a time series list. Please use \code{\link[base:scale]{base::scale()}} to center and scale each time series independently.
+Wraps \code{\link[base:scale]{base::scale()}} for global centering and scaling with \code{\link[=tsl_transform]{tsl_transform()}}.
+}
+\examples{
+x <- zoo_simulate()
+
+y <- f_scale(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

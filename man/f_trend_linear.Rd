@@ -14,8 +14,20 @@ f_trend_linear(x = NULL, center = TRUE, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
 Fits a linear model on each column of a zoo object using time as a predictor, and predicts the outcome.
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y <- f_trend_linear(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

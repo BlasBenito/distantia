@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_list}
 \alias{f_list}
-\title{Lists Transformation Functions}
+\title{Lists Available Transformation Functions}
 \usage{
 f_list()
 }
@@ -10,5 +10,8 @@ f_list()
 character vector with function names
 }
 \description{
-Lists Transformation Functions
+Lists Available Transformation Functions
+}
+\examples{
+f_list()
 }

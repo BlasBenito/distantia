@@ -4,14 +4,12 @@
 \alias{scaling_parameters}
 \title{Handles Centering and Scaling within tsl_transform()}
 \usage{
-scaling_parameters(tsl = NULL, f = NULL, ...)
+scaling_parameters(tsl = NULL, f = NULL)
 }
 \arguments{
 \item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
 
 \item{f}{(required, transformation function) name of a function taking a matrix as input.}
-
-\item{...}{(optional, arguments of \code{f}) Optional arguments for the transformation function.}
 }
 \value{
 Named list with center and scale parameters

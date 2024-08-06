@@ -18,8 +18,22 @@ f_rescale(x = NULL, new_min = 0, new_max = 1, old_min = NULL, old_max = NULL)
 \item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
 }
 \value{
-Zoo object
+zoo object
 }
 \description{
 Rescales Zoo Object to a New Range
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y <- f_rescale(
+  x = x,
+  new_min = 0,
+  new_max = 100
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

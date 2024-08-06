@@ -16,8 +16,27 @@ f_detrend_difference(x = NULL, lag = 1, center = TRUE, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
 Differencing detrending via \code{\link[=diff]{diff()}}. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
+}
+\examples{
+x <- zoo_simulate(cols = 2)
+
+y_lag1 <- f_detrend_difference(
+  x = x,
+  lag = 1
+)
+
+y_lag5 <- f_detrend_difference(
+  x = x,
+  lag = 5
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y_lag1)
+  zoo_plot(y_lag5)
+}
 }

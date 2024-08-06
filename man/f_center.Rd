@@ -2,9 +2,9 @@
 % Please edit documentation in R/transformations.R
 \name{f_center}
 \alias{f_center}
-\title{Global Centering}
+\title{Centering}
 \usage{
-f_center(x = NULL, center = TRUE, ...)
+f_center(x = NULL, center = TRUE, scale = FALSE, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
@@ -14,8 +14,20 @@ f_center(x = NULL, center = TRUE, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Transformed zoo object.
+zoo object
 }
 \description{
-Centers using the global average of all zoo objects within a time series list. Please use \code{\link[base:scale]{base::scale()}} to scale each time series independently.
+Wraps \code{\link[base:scale]{base::scale()}} for global centering with \code{\link[=tsl_transform]{tsl_transform()}}.
+}
+\examples{
+x <- zoo_simulate()
+
+y <- f_center(
+  x = x
+)
+
+if(interactive()){
+  zoo_plot(x)
+  zoo_plot(y)
+}
 }

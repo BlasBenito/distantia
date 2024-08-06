@@ -384,16 +384,16 @@ tsl_transform <- function(
   }
 
 
-  #handle scaling
+  #compute global scaling parameters
   scaling_params <- scaling_parameters(
     tsl = tsl,
-    f = f,
-    ... = ...
+    f = f
   )
 
-  #apply transformation
+  #apply centering or scaling
   if(!is.null(scaling_params)){
 
+    #subset tsl columns to the ones in scaling_params
     tsl <- tsl_subset(
       tsl = tsl,
       colnames = lapply(
@@ -404,6 +404,7 @@ tsl_transform <- function(
         unique()
     )
 
+    #apply scaling with scaling params
     tsl <- lapply(
       X = tsl,
       FUN = f,
@@ -413,6 +414,7 @@ tsl_transform <- function(
 
   } else{
 
+    #apply other transformation function
     tsl <- lapply(
       X = tsl,
       FUN = f,
