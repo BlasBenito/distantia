@@ -4,14 +4,14 @@
 \alias{f_center}
 \title{Centering}
 \usage{
-f_center(x = NULL, center = TRUE, scale = FALSE, ...)
+f_center(x = NULL, center = TRUE, scale = FALSE)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
-\item{center}{(optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.}
+\item{center}{(optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE}
 
-\item{...}{(optional, additional arguments) Ignored in this function.}
+\item{scale}{(optional, logical or numeric vector) Triggers scaling if TRUE. Default: FALSE}
 }
 \value{
 zoo object

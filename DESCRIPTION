@@ -23,7 +23,8 @@ Imports:
   zoo,
   lubridate,
   progressr,
-  sf
+  sf,
+  future.apply
 Suggests: 
   roxyglobals,
   testthat (>= 3.0.0)

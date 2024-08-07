@@ -22,10 +22,18 @@ utils_prepare_df <- function(
 
   if(is.null(time_column)){
     time_column <- NA
+  } else {
+    if(!(time_column %in% names(x))){
+      stop("Column '", time_column, "' is not a column name of the data frame 'x'.")
+    }
   }
 
   if(is.null(id_column)){
     id_column <- NA
+  } else {
+    if(!(id_column %in% names(x))){
+      stop("Column '", id_column, "' is not a column name of the data frame 'x'.")
+    }
   }
 
   if(time_column %in% colnames(x)){

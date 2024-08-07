@@ -79,50 +79,6 @@ f_smooth_window <- function(
 
 }
 
-#' @title Rescales Numeric Vector to a New Range
-#' @param x (required, numeric vector) Numeric vector. Default: `NULL`
-#' @param new_min (optional, numeric) New minimum value. Default: `0`
-#' @param new_max (optional_numeric) New maximum value. Default: `1`
-#' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
-#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
-#' @return Numeric vector
-#' @examples
-#'
-#'  out <- rescale_vector(
-#'    x = stats::rnorm(100),
-#'    new_min = 0,
-#'    new_max = 100,
-#'    integer = TRUE
-#'    )
-#'    out
-#'
-#' @export
-#' @autoglobal
-rescale_vector <- function(
-    x = NULL,
-    new_min = 0,
-    new_max = 1,
-    old_min = NULL,
-    old_max = NULL
-){
-
-  if(!is.vector(x) || !is.numeric(x)){
-    stop("x must be a numeric vector.")
-  }
-
-  if(is.null(old_min)){
-    old_min <- min(x, na.rm = TRUE)
-  }
-
-  if(is.null(old_max)){
-    old_max <- max(x, na.rm = TRUE)
-  }
-
-  ((x - old_min) / (old_max - old_min)) * (new_max - new_min) + new_min
-
-
-}
-
 #' @title Rescales Zoo Object to a New Range
 #' @param x (required, zoo object) Numeric vector. Default: `NULL`
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
@@ -156,7 +112,7 @@ f_rescale <- function(
   y <- apply(
     X = as.matrix(x),
     MARGIN = 2,
-    FUN = rescale_vector,
+    FUN = utils_rescale_vector,
     new_min = new_min,
     new_max = new_max,
     old_min = old_min,
@@ -557,8 +513,8 @@ f_hellinger <- function(
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
-#' @param ... (optional, additional arguments) Ignored in this function.
+#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
+#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: FALSE
 #' @return zoo object
 #' @export
 #' @autoglobal
@@ -576,27 +532,25 @@ f_hellinger <- function(
 f_center <- function(
     x = NULL,
     center = TRUE,
-    scale = FALSE,
-    ...
+    scale = FALSE
 ){
 
   scale(
     x = x,
-    center = TRUE,
-    scale = FALSE
+    center = center,
+    scale = scale
   )
 
 }
 
-#' Centering and scaling
+#' Centering and Scaling
 #'
 #' @description
 #' Wraps [base::scale()] for global centering and scaling with [tsl_transform()].
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) if center is TRUE then centering is done by subtracting the column means of x from their corresponding columns.
-#' @param scale (optional, logical or numeric vector) if scale is TRUE, and center is TRUE, then the scaling is done by dividing each column by their standard deviation. If center is FALSE, the each column is divided by their root mean square.
-#' @param ... (optional, additional arguments) Ignored in this function.
+#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
+#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE
 #'
 #' @return zoo object
 #' @export
@@ -615,105 +569,14 @@ f_center <- function(
 f_scale <- function(
     x = NULL,
     center = TRUE,
-    scale = TRUE,
-    ...
+    scale = TRUE
 ){
 
   scale(
     x = x,
-    center = TRUE,
-    scale = TRUE
+    center = center,
+    scale = scale
   )
-
-}
-
-
-#' Handles Centering and Scaling within tsl_transform()
-#'
-#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param f (required, transformation function) name of a function taking a matrix as input.
-#'
-#' @return Named list with center and scale parameters
-#' @export
-#' @autoglobal
-scaling_parameters <- function(
-    tsl = NULL,
-    f = NULL
-){
-
-  #scaling
-  if(
-    all(c("center", "scale") %in% names(formals(f)))
-  ){
-
-
-    #removing exclusive columns
-    exclusive.columns <- tsl_colnames(
-      tsl = tsl,
-      names = "exclusive"
-    ) |>
-      unlist() |>
-      unique() |>
-      suppressMessages()
-
-    if(length(exclusive.columns) > 0){
-
-      message("Removing exclusive columns before scaling.")
-
-      tsl <- tsl_remove_exclusive_cols(
-        tsl = tsl
-      )
-
-    }
-
-    #giving priority to user input
-    if("center" %in% names(formals(f))){
-      center <- formals(f)$center
-    }
-
-    if("scale" %in% names(formals(f))){
-      scale <- formals(f)$scale
-    }
-
-    #joining data for mean and sd computation
-    tsl.matrix <- lapply(
-      X = tsl,
-      FUN = as.matrix
-    )
-
-    tsl.matrix <- do.call(
-      what = "rbind",
-      args = tsl.matrix
-    )
-
-    if(center == TRUE){
-      center.mean <- apply(
-        X = tsl.matrix,
-        MARGIN = 2,
-        FUN = mean
-      )
-    } else {
-      center.mean <- FALSE
-    }
-
-    if(scale == TRUE){
-      scale.sd <- apply(
-        X = tsl.matrix,
-        MARGIN = 2,
-        FUN = sd
-      )
-    } else {
-      scale.sd <- FALSE
-    }
-
-    return(  list(
-      center = center.mean,
-      scale = scale.sd
-    ))
-
-  }
-
-  NULL
 
 }
 

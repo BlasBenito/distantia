@@ -156,7 +156,7 @@ zoo_simulate <- function(
       X = m,
       MARGIN = 2,
       FUN = function(x){
-        rescale_vector(
+        utils_rescale_vector(
           x = cumsum(stats::rnorm(n = rows)),
           new_min = min(data_range),
           new_max = max(data_range)
@@ -172,7 +172,7 @@ zoo_simulate <- function(
       } else {
         column.i <- cumsum(stats::rnorm(n = rows)) + m[, i - 1]
       }
-      m[, i] <- rescale_vector(
+      m[, i] <- utils_rescale_vector(
         x = column.i,
         new_min = min(data_range),
         new_max = max(data_range)
