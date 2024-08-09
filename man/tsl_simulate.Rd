@@ -29,21 +29,22 @@ tsl_simulate(
 
 \item{na_fraction}{(optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.}
 
-\item{independent}{(optional, logical) If TRUE, the zoo object is made of independent time series. Otherwise, each new time-series in the zoo object results from the addition of the previous ones. Irrelevant when \code{cols <= 2}. Default: TRUE}
+\item{independent}{(optional, logical) If TRUE, the time series within each zoo object are independent. Otherwise, each new time-series in a zoo object results from a cumulative sum of random numbers from a normal distribution added to the previous time series. Irrelevant when \code{cols <= 2}. Default: TRUE}
 
 \item{irregular}{(optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE}
 
 \item{seed}{(optional, integer) Random seed used to simulate the zoo object. If NULL (default), a seed is selected at random. Default: NULL}
 }
 \value{
-Simulated time series list
+time series list
 }
 \description{
-Generates a simulated time series list
+Generates a simulated time series list. Consecutive zoo objects within the resulting time series list show certain level of dependence.
 }
 \examples{
 
 x <- tsl_simulate()
 tsl_plot(tsl = x)
 
+TODO: optimize and parallelize this function
 }

@@ -22,7 +22,7 @@ zoo_simulate(
 
 \item{time_range}{(optional character or numeric vector) Interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between \code{time_range} and \code{rows} (for example, the number of days in \code{time_range} is smaller than \code{rows}), the upper value in \code{time_range} is adapted to \code{rows}. Default: c("2010-01-01", "2020-01-01")}
 
-\item{data_range}{(optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)}
+\item{data_range}{(optional, numeric vector of length 2) Extremes of the simulated time series values. The simulated time series are independently adjusted to random values within the provided range. Default: c(0, 1)}
 
 \item{na_fraction}{(optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.}
 
@@ -33,7 +33,7 @@ zoo_simulate(
 \item{seed}{(optional, integer) Random seed used to simulate the zoo object. Default: NULL}
 }
 \value{
-simulated zoo object.
+zoo object
 }
 \description{
 Generates a simulated zoo time series.

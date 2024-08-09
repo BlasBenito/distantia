@@ -282,6 +282,7 @@ tsl_resample <- function(
   }
 
   #resample
+  #TODO: parallellize with future_lapply
   tsl <- lapply(
     X = tsl,
     FUN = function(x){
