@@ -10,8 +10,9 @@ tsl_simulate(
   rows = 100,
   time_range = c("2010-01-01", "2020-01-01"),
   data_range = c(0, 1),
+  seasons = 0,
   na_fraction = 0,
-  independent = TRUE,
+  independent = FALSE,
   irregular = TRUE,
   seed = NULL
 )
@@ -27,9 +28,11 @@ tsl_simulate(
 
 \item{data_range}{(optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)}
 
-\item{na_fraction}{(optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.}
+\item{seasons}{(optional, integer) Number of seasons in the resulting time series. The maximum number of seasons is computed as \code{floor(rows/3)}. Default: 0}
 
-\item{independent}{(optional, logical) If TRUE, the time series within each zoo object are independent. Otherwise, each new time-series in a zoo object results from a cumulative sum of random numbers from a normal distribution added to the previous time series. Irrelevant when \code{cols <= 2}. Default: TRUE}
+\item{na_fraction}{(optional, numeric) Value between 0 and 0.5 indicating the approximate fraction of NA data in the simulated time series. Default: 0.}
+
+\item{independent}{(optional, logical) If TRUE, each new column in a simulated time series is averaged with the previous column and each simulated time series is averaged with the previous time series. Irrelevant when \code{cols < 2} or \code{n < 2}, and hard to perceive in the output when \code{seasons > 0}. Default: FALSE}
 
 \item{irregular}{(optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE}
 

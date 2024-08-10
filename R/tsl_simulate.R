@@ -8,8 +8,9 @@
 #' @param rows (optional, integer) Length of each time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100
 #' @param time_range (optional character or numeric vector) Time interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between `time_range` and `rows` (for example, the number of days in `time_range` is smaller than `rows`), the upper value in `time_range` is adapted to `rows`. Default: c("2010-01-01", "2020-01-01")
 #' @param data_range (optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)
-#' @param na_fraction (optional, numeric between 0 and 0.5) Fraction of NA data in the simulated time series. Default: 0.
-#' @param independent (optional, logical) If TRUE, the time series within each zoo object are independent. Otherwise, each new time-series in a zoo object results from a cumulative sum of random numbers from a normal distribution added to the previous time series. Irrelevant when `cols <= 2`. Default: TRUE
+#' @param seasons (optional, integer) Number of seasons in the resulting time series. The maximum number of seasons is computed as `floor(rows/3)`. Default: 0
+#' @param na_fraction (optional, numeric) Value between 0 and 0.5 indicating the approximate fraction of NA data in the simulated time series. Default: 0.
+#' @param independent (optional, logical) If TRUE, each new column in a simulated time series is averaged with the previous column and each simulated time series is averaged with the previous time series. Irrelevant when `cols < 2` or `n < 2`, and hard to perceive in the output when `seasons > 0`. Default: FALSE
 #' @param irregular (optional, logical) If TRUE, the time series is created with 20 percent more rows, and a random 20 percent of rows are removed at random. Default: TRUE
 #' @param seed (optional, integer) Random seed used to simulate the zoo object. If NULL (default), a seed is selected at random. Default: NULL
 #'
@@ -28,8 +29,9 @@ tsl_simulate <- function(
     rows = 100,
     time_range = c("2010-01-01", "2020-01-01"),
     data_range = c(0, 1),
+    seasons = 0,
     na_fraction = 0,
-    independent = TRUE,
+    independent = FALSE,
     irregular = TRUE,
     seed = NULL
 ){
@@ -42,16 +44,23 @@ tsl_simulate <- function(
 
   # seed ----
   if(is.null(seed)){
-    seed <- sample.int(2^31 - 1, 1) - 2^30
+    # seed <- sample.int(2^31 - 1, 1) - 2^30
+    seed <- sample.int(
+      n = .Machine$integer.max,
+      size = 1
+      )
   }
 
   # if irregular, increase row count
   old_rows <- rows
   if(irregular == TRUE){
-    rows <-  rows + floor(rows/2)
+    rows <-  rows * 2
   }
 
   # generate tsl ----
+
+
+
   tsl <- list()
   for(i in seq_len(n)){
 
@@ -60,13 +69,14 @@ tsl_simulate <- function(
       rows = rows,
       time_range = time_range,
       data_range = data_range,
+      seasons = seasons,
       na_fraction = 0,
       independent = independent,
       irregular = FALSE,
       seed = seed + i
     )
 
-    if(i > 1){
+    if(independent == FALSE && i > 1){
       simulated.i <- (simulated.i + tsl[[i - 1]]) / 2
     }
 
