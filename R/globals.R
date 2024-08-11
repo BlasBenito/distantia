@@ -8,6 +8,7 @@ utils::globalVariables(c(
   "group_size_y", # <psi_cost_path_trim_blocks>
   "cost", # <psi_cost_path_trim_blocks>
   "group_size_x", # <psi_cost_path_trim_blocks>
+  "i", # <tsl_simulate>
   "distances", # <utils_check_distance_args>
   "i", # <utils_cluster_hclust_optimizer>
   "i", # <utils_cluster_kmeans_optimizer>

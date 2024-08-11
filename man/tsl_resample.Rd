@@ -98,6 +98,15 @@ if(interactive()){
   tsl_plot(tsl)
 }
 
+#parallelization setup (not worth it for this data size)
+future::plan(
+ future::multisession,
+ workers = 2 #set to parallelly::availableWorkers() - 1
+)
+
+#progress bar
+progressr::handlers(global = TRUE)
+
 #range of times between samples
 tsl_time_summary(tsl)[
   c(
@@ -241,6 +250,11 @@ tsl_time_summary(tsl2_regular)[
     "resolution_max"
   )
 ]
+
+#disable parallelization
+future::plan(
+  future::sequential
+)
 }
 \seealso{
 \code{\link[=zoo_resample]{zoo_resample()}}

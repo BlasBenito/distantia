@@ -12,7 +12,35 @@
 #' @export
 #'
 #' @examples
-#' TODO: complete example
+#' #generate example data
+#' tsl <- tsl_simulate()
+#'
+#' #list all column names
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "all"
+#' )
+#'
+#' #change one column name
+#' names(tsl[[1]])[1] <- "new_column"
+#'
+#' #all names again
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "all"
+#' )
+#'
+#' #shared column names
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "shared"
+#' )
+#'
+#' #exclusive column names
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "exclusive"
+#' )
 tsl_colnames <- function(
     tsl = NULL,
     names = c(
@@ -89,38 +117,60 @@ tsl_colnames <- function(
 #' Renames Columns of Zoo Objects in a Time Series List
 #'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
+#' @param new_names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
 #'
-#' @return time series list with new names
+#' @return time series list
 #' @export
 #'
 #' @examples
-#' TODO add example
+#' #generate example data
+#' tsl <- tsl_simulate(cols = 3)
+#'
+#' #list all column names
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "all"
+#' )
+#'
+#' #rename columns
+#' tsl <- tsl_colnames_set(
+#'   tsl = tsl,
+#'   new_names = list(
+#'     a = "new_name_1",
+#'     b = "new_name_1",
+#'     c = "new_name_3"
+#'   )
+#' )
+#'
+#' #check result
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "all"
+#' )
 tsl_colnames_set <- function(
     tsl = NULL,
-    names = NULL
+    new_names = NULL
 ){
 
-
-  if(is.list(names) == FALSE){
+  if(is.list(new_names) == FALSE){
     stop(
-      "Argument 'names' must be a list."
+      "Argument 'new_names' must be a list."
     )
   }
 
-  if(is.null(names(names)) == TRUE){
+  if(is.null(names(new_names)) == TRUE){
     stop(
-      "Argument 'names' must be a named list."
+      "Argument 'new_names' must be a named list."
     )
   }
 
-  names <- unlist(names)
+  new_names <- unlist(new_names)
 
   tsl <- lapply(
     X = tsl,
-    FUN = function(i){
-      colnames(i)[colnames(i) %in% names(names)] <- names[names %in% colnames(i)]
-      i
+    FUN = function(x){
+      colnames(x)[colnames(x) %in% names(new_names)] <- new_names[names(new_names) %in% colnames(x)]
+      x
     }
   )
 
@@ -134,6 +184,23 @@ tsl_colnames_set <- function(
 
 #' Clean Column Names of a Time Series List
 #'
+#' @description
+#' Uses the function [utils_clean_names()] to simplify and homogeneize messy column names in a time series list.
+#'
+#' The cleanup operations are applied in the following order:
+#' \itemize{
+#'   \item Remove leading and trailing whitespaces.
+#'   \item Generates syntactically valid names with [base::make.names()].
+#'   \item Replaces dots and spaces with the `separator`.
+#'   \item Coerces names to lowercase.
+#'   \item If `capitalize_first = TRUE`, the first letter is capitalized.
+#'   \item If `capitalize_all = TRUE`, all letters are capitalized.
+#'   \item If argument `length` is provided, [base::abbreviate()] is used to abbreviate the new column names.
+#'   \item If `suffix` is provided, it is added at the end of the column name using the separator.
+#'   \item If `prefix` is provided, it is added at the beginning of the column name using the separator.
+#' }
+#'
+#'
 #' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
@@ -145,7 +212,50 @@ tsl_colnames_set <- function(
 #' @return Time series list with clean names
 #'
 #' @examples
-#' TODO: complete example
+#' #generate example data
+#' tsl <- tsl_simulate(cols = 3)
+#'
+#' #list all column names
+#' tsl_colnames(
+#'   tsl = tsl
+#' )
+#'
+#' #rename columns
+#' tsl <- tsl_colnames_set(
+#'   tsl = tsl,
+#'   new_names = list(
+#'     a = "New name 1",
+#'     b = "new Name 2",
+#'     c = "NEW NAME 3"
+#'   )
+#' )
+#'
+#' #check new names
+#' tsl_colnames(
+#'   tsl = tsl,
+#'   names = "all"
+#' )
+#'
+#' #clean names
+#' tsl <- tsl_colnames_clean(
+#'   tsl = tsl
+#' )
+#'
+#' tsl_colnames(
+#'   tsl = tsl
+#' )
+#'
+#' #abbreviated
+#' tsl <- tsl_colnames_clean(
+#'   tsl = tsl,
+#'   capitalize_first = TRUE,
+#'   length = 6,
+#'   suffix = "clean"
+#' )
+#'
+#' tsl_colnames(
+#'   tsl = tsl
+#' )
 #' @autoglobal
 #' @export
 tsl_colnames_clean <- function(
@@ -177,7 +287,7 @@ tsl_colnames_clean <- function(
 
   tsl <- tsl_colnames_set(
     tsl = tsl,
-    names = as.list(tsl.colnames)
+    new_names = as.list(tsl.colnames)
   )
 
   tsl

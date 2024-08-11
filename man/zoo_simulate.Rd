@@ -39,11 +39,11 @@ zoo_simulate(
 zoo object
 }
 \description{
-Generates a simulated zoo time series.
+Generates simulated zoo time series.
 }
 \examples{
 
-#generates a different time series on each execution
+#generates a different time series on each execution when 'seed = NULL'
 x <- zoo_simulate()
 
 #returns a zoo object

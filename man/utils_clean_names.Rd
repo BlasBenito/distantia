@@ -35,6 +35,20 @@ Character vector.
 \description{
 Clean and format character vectors for use as column names or variable names.
 }
+\details{
+The cleanup operations are applied in the following order:
+\itemize{
+\item Remove leading and trailing whitespaces.
+\item Generates syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
+\item Replaces dots and spaces with the \code{separator}.
+\item Coerces names to lowercase.
+\item If \code{capitalize_first = TRUE}, the first letter is capitalized.
+\item If \code{capitalize_all = TRUE}, all letters are capitalized.
+\item If argument \code{length} is provided, \code{\link[base:abbreviate]{base::abbreviate()}} is used to abbreviate the new column names.
+\item If \code{suffix} is provided, it is added at the end of the column name using the separator.
+\item If \code{prefix} is provided, it is added at the beginning of the column name using the separator.
+}
+}
 \examples{
 
 utils_clean_names(names = c("Column Name 1", "column.name.2"), capitalize_first = TRUE)

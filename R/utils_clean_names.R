@@ -2,6 +2,19 @@
 #'
 #' Clean and format character vectors for use as column names or variable names.
 #'
+#' The cleanup operations are applied in the following order:
+#' \itemize{
+#'   \item Remove leading and trailing whitespaces.
+#'   \item Generates syntactically valid names with [base::make.names()].
+#'   \item Replaces dots and spaces with the `separator`.
+#'   \item Coerces names to lowercase.
+#'   \item If `capitalize_first = TRUE`, the first letter is capitalized.
+#'   \item If `capitalize_all = TRUE`, all letters are capitalized.
+#'   \item If argument `length` is provided, [base::abbreviate()] is used to abbreviate the new column names.
+#'   \item If `suffix` is provided, it is added at the end of the column name using the separator.
+#'   \item If `prefix` is provided, it is added at the beginning of the column name using the separator.
+#' }
+#'
 #' @param x (required, character vector) Names to be cleaned. Default: NULL
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
@@ -58,17 +71,8 @@ utils_clean_names <- function(
     x = x
   )
 
-  #abbreviate
-  if(is.numeric(length)){
-
-    x <- abbreviate(
-      names.arg = x,
-      minlength = as.integer(length),
-      method = "both.sides",
-      named = FALSE
-    )
-
-  }
+  #to lowercase
+  x <- tolower(x)
 
   #first letter to uppercase
   if(capitalize_first == TRUE){
@@ -94,6 +98,18 @@ utils_clean_names <- function(
   if(capitalize_all == TRUE){
 
     x <- toupper(x)
+
+  }
+
+  #abbreviate
+  if(is.numeric(length)){
+
+    x <- abbreviate(
+      names.arg = x,
+      minlength = as.integer(length),
+      method = "both.sides",
+      named = FALSE
+    )
 
   }
 

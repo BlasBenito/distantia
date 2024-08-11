@@ -1,7 +1,7 @@
 #' Simulate Zoo Time Series
 #'
 #' @description
-#' Generates a simulated zoo time series.
+#' Generates simulated zoo time series.
 #'
 #' @param cols (optional, integer) Number of time series. Default: 5
 #' @param rows (optional, integer) Length of the time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100
@@ -18,7 +18,7 @@
 #' @autoglobal
 #' @examples
 #'
-#' #generates a different time series on each execution
+#' #generates a different time series on each execution when 'seed = NULL'
 #' x <- zoo_simulate()
 #'
 #' #returns a zoo object

@@ -23,5 +23,33 @@ character vector of common column names if \code{common = TRUE}, or list with ch
 Column Names of Zoo Objects in Time Series List
 }
 \examples{
-TODO: complete example
+#generate example data
+tsl <- tsl_simulate()
+
+#list all column names
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
+#change one column name
+names(tsl[[1]])[1] <- "new_column"
+
+#all names again
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
+#shared column names
+tsl_colnames(
+  tsl = tsl,
+  names = "shared"
+)
+
+#exclusive column names
+tsl_colnames(
+  tsl = tsl,
+  names = "exclusive"
+)
 }

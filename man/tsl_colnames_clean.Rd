@@ -33,8 +33,64 @@ tsl_colnames_clean(
 Time series list with clean names
 }
 \description{
-Clean Column Names of a Time Series List
+Uses the function \code{\link[=utils_clean_names]{utils_clean_names()}} to simplify and homogeneize messy column names in a time series list.
+
+The cleanup operations are applied in the following order:
+\itemize{
+\item Remove leading and trailing whitespaces.
+\item Generates syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
+\item Replaces dots and spaces with the \code{separator}.
+\item Coerces names to lowercase.
+\item If \code{capitalize_first = TRUE}, the first letter is capitalized.
+\item If \code{capitalize_all = TRUE}, all letters are capitalized.
+\item If argument \code{length} is provided, \code{\link[base:abbreviate]{base::abbreviate()}} is used to abbreviate the new column names.
+\item If \code{suffix} is provided, it is added at the end of the column name using the separator.
+\item If \code{prefix} is provided, it is added at the beginning of the column name using the separator.
+}
 }
 \examples{
-TODO: complete example
+#generate example data
+tsl <- tsl_simulate(cols = 3)
+
+#list all column names
+tsl_colnames(
+  tsl = tsl
+)
+
+#rename columns
+tsl <- tsl_colnames_set(
+  tsl = tsl,
+  new_names = list(
+    a = "New name 1",
+    b = "new Name 2",
+    c = "NEW NAME 3"
+  )
+)
+
+#check new names
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
+#clean names
+tsl <- tsl_colnames_clean(
+  tsl = tsl
+)
+
+tsl_colnames(
+  tsl = tsl
+)
+
+#abbreviated
+tsl <- tsl_colnames_clean(
+  tsl = tsl,
+  capitalize_first = TRUE,
+  length = 6,
+  suffix = "clean"
+)
+
+tsl_colnames(
+  tsl = tsl
+)
 }

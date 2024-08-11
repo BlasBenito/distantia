@@ -87,6 +87,15 @@
 #'   tsl_plot(tsl)
 #' }
 #'
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
 #' #range of times between samples
 #' tsl_time_summary(tsl)[
 #'   c(
@@ -230,6 +239,11 @@
 #'     "resolution_max"
 #'   )
 #' ]
+#'
+#' #disable parallelization
+#' future::plan(
+#'   future::sequential
+#' )
 tsl_resample <- function(
     tsl = NULL,
     new_time = NULL,
@@ -281,11 +295,15 @@ tsl_resample <- function(
     warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
   }
 
+  #progress bar
+  p <- progressr::progressor(along = tsl)
+
   #resample
-  #TODO: parallellize with future_lapply
-  tsl <- lapply(
+  tsl <- future.apply::future_lapply(
     X = tsl,
     FUN = function(x){
+
+      p()
 
       x <- zoo_resample(
         x = x,

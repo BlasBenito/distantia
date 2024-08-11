@@ -4,19 +4,42 @@
 \alias{tsl_colnames_set}
 \title{Renames Columns of Zoo Objects in a Time Series List}
 \usage{
-tsl_colnames_set(tsl = NULL, names = NULL)
+tsl_colnames_set(tsl = NULL, new_names = NULL)
 }
 \arguments{
 \item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
 
-\item{names}{(required, list) Named list. List names should match old column names in \code{tsl}, and each named item should contain a character string with the new name. For example, \code{colnames = list(old_name = "new_name")} changes the name of the column "old_name" to "new_name".}
+\item{new_names}{(required, list) Named list. List names should match old column names in \code{tsl}, and each named item should contain a character string with the new name. For example, \code{colnames = list(old_name = "new_name")} changes the name of the column "old_name" to "new_name".}
 }
 \value{
-time series list with new names
+time series list
 }
 \description{
 Renames Columns of Zoo Objects in a Time Series List
 }
 \examples{
-TODO add example
+#generate example data
+tsl <- tsl_simulate(cols = 3)
+
+#list all column names
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
+
+#rename columns
+tsl <- tsl_colnames_set(
+  tsl = tsl,
+  new_names = list(
+    a = "new_name_1",
+    b = "new_name_1",
+    c = "new_name_3"
+  )
+)
+
+#check result
+tsl_colnames(
+  tsl = tsl,
+  names = "all"
+)
 }
