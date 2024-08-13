@@ -7,7 +7,7 @@
 tsl_remove_exclusive_cols(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
 time series list

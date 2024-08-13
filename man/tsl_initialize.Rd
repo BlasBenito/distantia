@@ -10,7 +10,7 @@ tsl_initialize(
   id_column = NULL,
   time_column = NULL,
   lock_step = FALSE,
-  verbose = TRUE
+  quiet = FALSE
 )
 
 tsl_init(
@@ -18,7 +18,7 @@ tsl_init(
   id_column = NULL,
   time_column = NULL,
   lock_step = FALSE,
-  verbose = TRUE
+  quiet = FALSE
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ tsl_init(
 
 \item{lock_step}{(optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in \code{time_column}.}
 
-\item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
+\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
 A named list of matrices.

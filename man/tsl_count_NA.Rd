@@ -2,21 +2,40 @@
 % Please edit documentation in R/tsl_count_NA.R
 \name{tsl_count_NA}
 \alias{tsl_count_NA}
-\title{Counts NA and Inf Cases in Time Series}
+\title{Counts NA Cases in Time Series Lists}
 \usage{
-tsl_count_NA(tsl = NULL, verbose = TRUE)
+tsl_count_NA(tsl = NULL, quiet = FALSE)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
+\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
-Integer, sum of NA cases
+list
 }
 \description{
-Counts NA and Inf Cases in Time Series
+Converts Inf, -Inf, and NaN to NA (via \code{\link[=tsl_Inf_to_NA]{tsl_Inf_to_NA()}} and \code{\link[=tsl_NaN_to_NA]{tsl_NaN_to_NA()}}), and counts the total number of NA cases in each time series.
 }
 \examples{
-TODO: complete example
+#tsl with no NA cases
+tsl <- tsl_simulate()
+
+tsl_count_NA(tsl = tsl)
+
+#tsl with NA cases
+tsl <- tsl_simulate(
+  na_fraction = 0.3
+)
+
+tsl_count_NA(tsl = tsl)
+
+#tsl with variety of empty cases
+tsl <- tsl_simulate()
+tsl[[1]][1, 1] <- Inf
+tsl[[1]][2, 1] <- -Inf
+tsl[[1]][3, 1] <- NaN
+tsl[[1]][4, 1] <- NaN
+
+tsl_count_NA(tsl = tsl)
 }

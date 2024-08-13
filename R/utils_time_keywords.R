@@ -4,7 +4,7 @@
 #' Internal function to obtain valid aggregation keywords from a zoo object or a time series list.
 #'
 #'
-#' @param tsl (required, time series list) Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #'
 #' @return Character string, aggregation keyword, or "none".
 #' @export

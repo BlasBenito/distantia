@@ -4,43 +4,81 @@
 \alias{tsl_handle_NA}
 \alias{tsl_Inf_to_NA}
 \alias{tsl_NaN_to_NA}
-\title{Handle NA and Inf data in Time Series}
+\title{NA Handling in Time Series Lists}
 \usage{
-tsl_handle_NA(
-  tsl = NULL,
-  na_action = "none",
-  na_fill = 1e-04,
-  f = zoo::na.approx,
-  verbose = TRUE
-)
+tsl_handle_NA(tsl = NULL, na_action = "omit", quiet = FALSE)
 
 tsl_Inf_to_NA(tsl = NULL)
 
 tsl_NaN_to_NA(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{na_action}{(required, character) Action to handle NA data in \code{x}. Current options are:
+\item{na_action}{(required, character) NA handling action. Available options are:
 \itemize{
-\item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
-\item "impute" : NA cases are interpolated against time using the function introduced in the argument \code{f}.
-\item "omit": rows with NA cases are removed.
-\item "fill": NA cases are replaced with the value in \code{na_fill}.
+\item "omit" (default): rows with NA cases are removed.
+\item "impute" : NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.approx]{zoo::na.spline()}}).
 }}
 
-\item{na_fill}{(optional, numeric) Only relevant when \code{na_action = "fill"}, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001}
-
-\item{f}{(optional, function) Only relevant when \code{na_action = "impute"}. Function to impute missing cases. Recommended options are \code{\link[zoo:na.approx]{zoo::na.approx()}} (default), and \code{\link[zoo:na.approx]{zoo::na.spline()}}, but any function able to fill NAs in a matrix or zoo object should work. Default: zoo::na.approx}
-
-\item{verbose}{(optional, logical) If FALSE, all messages are suppressed. Default: TRUE}
+\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
 time series list
 }
 \description{
-Handle NA and Inf data in Time Series
+Removes or imputes NA cases in time series lists. Impuation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.approx]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
 }
 \examples{
-TODO: complete example
+#tsl with NA cases
+tsl <- tsl_simulate(
+  na_fraction = 0.25
+)
+
+tsl_count_NA(tsl = tsl)
+
+if(interactive()){
+  #issues warning
+  tsl_plot(tsl = tsl)
+}
+
+#omit NA (default)
+#--------------------------------------
+
+#original row count
+tsl_nrow(tsl = tsl)
+
+#remove rows with NA
+tsl_no_na <- tsl_handle_NA(
+  tsl = tsl
+)
+
+#count rows again
+#large data loss in this case!
+tsl_nrow(tsl = tsl_no_na)
+
+#count NA again
+tsl_count_NA(tsl = tsl_no_na)
+
+if(interactive()){
+  tsl_plot(tsl = tsl_no_na)
+}
+
+
+#impute NA with zoo::na.approx
+#--------------------------------------
+
+#impute NA cases
+tsl_no_na <- tsl_handle_NA(
+  tsl = tsl,
+  na_action = "impute"
+)
+
+#count rows again
+#large data loss in this case!
+tsl_nrow(tsl = tsl_no_na)
+
+if(interactive()){
+  tsl_plot(tsl = tsl_no_na)
+}
 }

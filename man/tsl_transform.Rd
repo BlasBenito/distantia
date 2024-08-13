@@ -7,7 +7,7 @@
 tsl_transform(tsl = NULL, f = NULL, ...)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) List of time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{f}{(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, \code{\link[=scale]{scale()}}) should work as well:
 \itemize{

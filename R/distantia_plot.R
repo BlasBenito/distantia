@@ -8,7 +8,7 @@
 #'
 #' The argument `lock_step` is not available because this plot does not make sense in such a case.
 #'
-#' @param tsl (required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are selected and plotted. Default: NULL
+#' @param tsl (required, list) time series list with two elements. If more than two, only the first two time series are plotted. Default: NULL
 #' @param distance (optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
 #' @param weighted @param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE

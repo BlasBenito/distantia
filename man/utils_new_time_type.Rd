@@ -11,7 +11,7 @@ utils_new_time_type(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list)}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{new_time}{(required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 \itemize{

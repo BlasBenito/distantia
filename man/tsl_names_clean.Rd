@@ -15,7 +15,7 @@ tsl_names_clean(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate \code{suffix} and \code{prefix} from the main word. Default: "_".}
 

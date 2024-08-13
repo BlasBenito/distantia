@@ -4,7 +4,7 @@
 #' Removes columns that are not shared across all zoo objects within a time series list.
 #'
 #'
-#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @return time series list
 #' @export
 #' @autoglobal

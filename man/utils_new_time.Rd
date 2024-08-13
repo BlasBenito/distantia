@@ -11,7 +11,7 @@ utils_new_time(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) Time series that will be aggregated using 'new_time'. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{new_time}{(required, zoo object, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 \itemize{

@@ -7,7 +7,7 @@
 utils_global_scaling_params(tsl = NULL, f = NULL, ...)
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{f}{(required, function) function name. Usually, one of \code{\link[=f_center]{f_center()}}, \code{\link[=f_scale]{f_scale()}}, or \code{\link[base:scale]{base::scale()}}. Default: NULL}
 

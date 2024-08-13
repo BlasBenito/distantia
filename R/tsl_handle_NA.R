@@ -1,33 +1,77 @@
-#' Handle NA and Inf data in Time Series
+#' NA Handling in Time Series Lists
 #'
-#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
-#' @param na_action (required, character) Action to handle NA data in `x`. Current options are:
+#' @description
+#' Removes or imputes NA cases in time series lists. Impuation is done via interpolation against time via [zoo::na.approx()], and if there are still leading or trailing NA cases after NA interpolation, then [zoo::na.spline()] is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
+#'
+#'
+#' @param tsl (required, list) Time series list. Default: NULL
+#' @param na_action (required, character) NA handling action. Available options are:
 #' \itemize{
-#'   \item "none" (default): No transformation is applied. If this option is selected and the data has NA cases, the function returns a warning.
-#'   \item "impute" : NA cases are interpolated against time using the function introduced in the argument `f`.
-#'   \item "omit": rows with NA cases are removed.
-#'   \item "fill": NA cases are replaced with the value in `na_fill`.
+#'   \item "omit" (default): rows with NA cases are removed.
+#'   \item "impute" : NA cases are interpolated from neighbors as a function of time (see [zoo::na.approx()] and [zoo::na.spline()]).
 #' }
-#' @param na_fill (optional, numeric) Only relevant when `na_action = "fill"`, defines the value used to replace NAs with. Ideally, a small number different from zero (pseudo-zero). Default: 0.0001
-#' @param f (optional, function) Only relevant when `na_action = "impute"`. Function to impute missing cases. Recommended options are [zoo::na.approx()] (default), and [zoo::na.spline()], but any function able to fill NAs in a matrix or zoo object should work. Default: zoo::na.approx
-#' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
+#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
 #'
 #' @return time series list
 #' @export
 #'
 #' @examples
-#' TODO: complete example
+#' #tsl with NA cases
+#' tsl <- tsl_simulate(
+#'   na_fraction = 0.25
+#' )
+#'
+#' tsl_count_NA(tsl = tsl)
+#'
+#' if(interactive()){
+#'   #issues warning
+#'   tsl_plot(tsl = tsl)
+#' }
+#'
+#' #omit NA (default)
+#' #--------------------------------------
+#'
+#' #original row count
+#' tsl_nrow(tsl = tsl)
+#'
+#' #remove rows with NA
+#' tsl_no_na <- tsl_handle_NA(
+#'   tsl = tsl
+#' )
+#'
+#' #count rows again
+#' #large data loss in this case!
+#' tsl_nrow(tsl = tsl_no_na)
+#'
+#' #count NA again
+#' tsl_count_NA(tsl = tsl_no_na)
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl = tsl_no_na)
+#' }
+#'
+#'
+#' #impute NA with zoo::na.approx
+#' #--------------------------------------
+#'
+#' #impute NA cases
+#' tsl_no_na <- tsl_handle_NA(
+#'   tsl = tsl,
+#'   na_action = "impute"
+#' )
+#'
+#' #count rows again
+#' #large data loss in this case!
+#' tsl_nrow(tsl = tsl_no_na)
+#'
+#' if(interactive()){
+#'   tsl_plot(tsl = tsl_no_na)
+#' }
 tsl_handle_NA <- function(
     tsl = NULL,
-    na_action = "none",
-    na_fill = 0.0001,
-    f = zoo::na.approx,
-    verbose = TRUE
+    na_action = "omit",
+    quiet = FALSE
 ){
-
-  tsl <- tsl_is_valid(
-    tsl = tsl
-  )
 
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
@@ -43,7 +87,6 @@ tsl_handle_NA <- function(
     arg = na_action,
     choices = c(
       "omit",
-      "fill",
       "impute"
     ),
     several.ok = FALSE
@@ -52,10 +95,6 @@ tsl_handle_NA <- function(
 
   if(na_action == "omit"){
 
-    if(verbose == TRUE){
-      message("Rows with NA data removed.")
-    }
-
     tsl <- lapply(
       X = tsl,
       FUN = stats::na.omit
@@ -63,20 +102,20 @@ tsl_handle_NA <- function(
 
   }
 
-  if(na_action == "impute"){
 
-    if(verbose == TRUE){
-      message("NA cases imputed as a function of time via zoo::na.spline()")
-    }
+  if(na_action == "impute"){
 
     tsl <- lapply(
       X = tsl,
       FUN = function(x){
 
+        #check if x is integer
         x.integer <- is.integer(x)
 
+        #get time
         x.index <- zoo::index(x)
 
+        #find minimum and maximum to clamp interpolation bounds
         x.min <- lapply(
           X = x,
           FUN = min,
@@ -89,13 +128,22 @@ tsl_handle_NA <- function(
           na.rm = TRUE
         )
 
-        x.interpolated <- f(
+        #interpolate with the given function
+        x.interpolated <- zoo::na.approx(
           object = x,
           na.rm = FALSE
           )
 
-        x.interpolated <- as.matrix(x.interpolated)
+        #remove leading or trailing NAs
+        if(sum(is.na(x.interpolated)) > 0){
 
+          x.interpolated <- zoo::na.spline(
+            object = x.interpolated
+          )
+
+        }
+
+        #setting minimum and maximum bounds
         for(i in seq_len(length(x.min))){
           x.interpolated[x.interpolated[, i] < x.min[[i]], i] <- x.min[[i]]
           x.interpolated[x.interpolated[, i] > x.max[[i]], i] <- x.max[[i]]
@@ -117,23 +165,9 @@ tsl_handle_NA <- function(
 
   }
 
-  if(na_action == "fill"){
-
-    if(verbose == TRUE){
-      message("NA data was filled with ", na_fill)
-    }
-
-    tsl <- lapply(
-      X = tsl,
-      FUN = zoo::na.fill,
-      fill = na_fill
-    )
-
-  }
-
   na.count <- tsl_count_NA(
     tsl = tsl,
-    verbose = TRUE
+    quiet = quiet
   )
 
   tsl <- tsl_names_set(

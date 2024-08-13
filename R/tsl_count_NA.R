@@ -1,52 +1,85 @@
-#' Counts NA and Inf Cases in Time Series
+#' Counts NA Cases in Time Series Lists
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
-#' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
+#' @description
+#' Converts Inf, -Inf, and NaN to NA (via [tsl_Inf_to_NA()] and [tsl_NaN_to_NA()]), and counts the total number of NA cases in each time series.
 #'
-#' @return Integer, sum of NA cases
+#'
+#' @param tsl (required, list) Time series list. Default: NULL
+#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
+#'
+#' @return list
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
+#' #tsl with no NA cases
+#' tsl <- tsl_simulate()
+#'
+#' tsl_count_NA(tsl = tsl)
+#'
+#' #tsl with NA cases
+#' tsl <- tsl_simulate(
+#'   na_fraction = 0.3
+#' )
+#'
+#' tsl_count_NA(tsl = tsl)
+#'
+#' #tsl with variety of empty cases
+#' tsl <- tsl_simulate()
+#' tsl[[1]][1, 1] <- Inf
+#' tsl[[1]][2, 1] <- -Inf
+#' tsl[[1]][3, 1] <- NaN
+#' tsl[[1]][4, 1] <- NaN
+#'
+#' tsl_count_NA(tsl = tsl)
 tsl_count_NA <- function(
     tsl = NULL,
-    verbose = TRUE
+    quiet = FALSE
 ){
 
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
     tsl = tsl
-    )
+  )
 
   #replaces NaN with NA
   tsl <- tsl_NaN_to_NA(
     tsl = tsl
   )
 
-  na_per_ts <- lapply(
+  na_count_list <- lapply(
     X = tsl,
     FUN = function(tsl) sum(is.na(tsl))
-  ) |>
-    utils::stack()
+  )
 
-  na_per_ts <- na_per_ts[, c("ind", "values")]
-  names(na_per_ts) <- c("name", "NAs")
-
-  na_sum <- sum(na_per_ts$NAs)
+  na_sum <- sum(unlist(na_count_list))
 
   if(na_sum > 0){
 
-    if(verbose == TRUE){
-      warning(
-        "There are NA, NaN, or Inf cases in 'x': \n",
-        paste(utils::capture.output(print(na_per_ts)), collapse = "\n"),
+    if(quiet == FALSE){
+
+      na_count_table <-  utils::stack(na_count_list)
+
+      na_count_table <- na_count_table[, c("ind", "values")]
+
+      names(na_count_table) <- c("name", "NA_cases")
+
+      message(
+        "NA cases in 'tsl': \n",
+        paste(utils::capture.output(print(na_count_table)), collapse = "\n"),
         "\nPlease impute, replace, or remove them with tsl_handle_NA().",
         call. = FALSE
       )
+
+    }
+
+  } else {
+
+    if(quiet == FALSE){
+      message("No NA cases in 'tsl'.")
     }
 
   }
 
-  na_sum
+  na_count_list
 
 }

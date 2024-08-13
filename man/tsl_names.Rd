@@ -7,7 +7,7 @@
 tsl_names(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
 Character vector of names.

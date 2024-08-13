@@ -5,7 +5,7 @@
 #'
 #' [tsl_time_summary()] is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
 #'
-#' @param tsl (required, list of zoo objects) Time series list. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param keywords (optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for [zoo_aggregate()]. If "resample", returns valid keywords for [zoo_resample()]. If both, returns all valid keywords. Default: c("aggregate", "resample").
 #' @return Data frame for [tsl_time()], and list for [tsl_time_summary()].
 #' @export

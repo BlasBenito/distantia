@@ -6,7 +6,7 @@
 #' Warning: this function removes exclusive columns from the data. See function [tsl_remove_exclusive_cols()].
 #'
 #'
-#' @param tsl (required, list of zoo objects) Time series list. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param f (required, function) function name. Usually, one of [f_center()], [f_scale()], or [base::scale()]. Default: NULL
 #' @param ... (optional, arguments of `f`) Optional arguments for the transformation function. Used only when `f = scale` for arguments `center` and `scale`.
 #'

@@ -104,6 +104,15 @@ tsl_simulate <- function(
     n <- 1
   }
 
+  # na_fraction ----
+  na_fraction <- as.numeric(na_fraction[1])
+  if(na_fraction < 0){
+    na_fraction <- 0
+  }
+  if(na_fraction > 0.5){
+    na_fraction <- 0.5
+  }
+
   # seed ----
   if(is.null(seed)){
     seed <- sample.int(
@@ -174,6 +183,7 @@ tsl_simulate <- function(
     .options.future = list(seed = TRUE)
   ) %iterator% {
 
+    #call to progress bar
     p()
 
     #regular zoo with no NA
@@ -197,14 +207,6 @@ tsl_simulate <- function(
         zoo.i * (1 - template_weight[i]) +
         template * template_weight[i]
 
-      #apply na_fraction
-      zoo.i[
-        sample.int(
-          n = length(zoo.i),
-          size = floor(length(zoo.i) * na_fraction)
-        )
-      ] <- NA
-
       #regular or irregular time
       zoo::index(x = zoo.i) <- seq(
         from = min(time_range),
@@ -219,6 +221,14 @@ tsl_simulate <- function(
         sort()
 
     }
+
+    #apply na_fraction
+    zoo.i[
+      sample.int(
+        n = length(zoo.i),
+        size = floor(length(zoo.i) * na_fraction)
+      )
+    ] <- NA
 
     zoo.i
 

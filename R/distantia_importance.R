@@ -31,7 +31,7 @@
 #'
 #' This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
 #'
-#' @param tsl (required, time series list) list of zoo time series. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
@@ -161,10 +161,8 @@ distantia_importance <- function(
 ){
 
   #stop if tsl is univariate
-  tsl_ncol <- sapply(
-    X = tsl,
-    FUN = ncol
-  ) |>
+  tsl_ncol <- tsl_ncol(tsl = tsl) |>
+    unlist() |>
     unique()
 
   if(1 %in% tsl_ncol){

@@ -25,7 +25,7 @@
 #' @param id_column (optional, column name) Grouping column separating time series. Values in this column are used as time series names. Default: NULL
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
-#' @param verbose (optional, logical) If FALSE, all messages are suppressed. Default: TRUE
+#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
 #' @return A named list of matrices.
 #' @examples
 #' #long data frame
@@ -194,7 +194,7 @@ tsl_initialize <- function(
     id_column = NULL,
     time_column = NULL,
     lock_step = FALSE,
-    verbose = TRUE
+    quiet = FALSE
 ){
 
   if(is.null(x)){
@@ -239,8 +239,10 @@ tsl_initialize <- function(
 
   na.count <- tsl_count_NA(
     tsl = tsl,
-    verbose = TRUE
-  )
+    quiet = TRUE
+  ) |>
+    unlist() |>
+    sum()
 
   if(na.count > 0){
     warning("There are '", na.count, "' cases. Please consider applying distantia::tsl_handle_NA() to impute or remove them.")

@@ -20,7 +20,7 @@ distantia_plot(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) a time series list with two elements. If more than two, a warning is issued, and the two first elements are selected and plotted. Default: NULL}
+\item{tsl}{(required, list) time series list with two elements. If more than two, only the first two time series are plotted. Default: NULL}
 
 \item{distance}{(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 

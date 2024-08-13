@@ -7,7 +7,7 @@
 utils_time_keywords(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
 Character string, aggregation keyword, or "none".

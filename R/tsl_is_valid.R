@@ -1,9 +1,9 @@
-#' Checks Structure Validity of a Time Series List
+#' Validity Assesment for Time Series List
 #'
 #' @description
-#' Checks that the input argument is a valid time series list. The required features for a valid time series list are:
+#' Validity assessment of Time Series Lists. The required features for a valid time series list are:
 #' \itemize{
-#'   \item Argument `tsl` is list.
+#'   \item Argument `tsl` is a list.
 #'   \item List `tsl` has unique names.
 #'   \item List `tsl` has more than one element.
 #'   \item All elements in `tsl` are "zoo" objects.
@@ -13,17 +13,18 @@
 #'   \item All "zoo" objects have zero NA cases.
 #' }
 #'
+#' If a time series list is valid, it is returned without any messages or warnings, and the value of the attribute "valid" is set to `TRUE`.
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #'
-#' @return time series list or error.
+#' @return time series list
 #' @export
 #' @autoglobal
 #' @examples
 #' TODO: complete example
 tsl_is_valid <- function(
     tsl = NULL
-    ){
+){
 
   #check valid flag
   if("valid" %in% names(attributes(tsl))){
@@ -31,6 +32,12 @@ tsl_is_valid <- function(
       return(tsl)
     }
   }
+
+  #set valid flag (may be overwritten)
+  attr(
+    x = tsl,
+    which = "valid"
+  ) <- TRUE
 
   #tsl is a list
   if(!is.list(tsl)){
@@ -58,11 +65,17 @@ tsl_is_valid <- function(
   }
 
   #elements in tsl must be zoo
-  if(!all(sapply(X = tsl, FUN = zoo::is.zoo))){
+  if(!all(
+    sapply(
+      X = tsl,
+      FUN = zoo::is.zoo
+    )
+  )
+  ){
 
     stop(
-      "Objects in list 'tsl' must be of class 'zoo'. The function distantia::tsl_initialize() may fix this issue."
-      )
+      "Objects in list 'tsl' must be of class 'zoo'."
+    )
 
   }
 
@@ -74,9 +87,14 @@ tsl_is_valid <- function(
   if(length(zoo.names) == 0){
 
     warning(
-      "Zoo objects in  list'tsl' must have the attribute 'name'. The function distantia::tsl_names_set() may fix this issue.",
+      "Zoo objects in  list 'tsl' must have the attribute 'name'. The function distantia::tsl_names_set() may fix this issue.",
       call. = FALSE
     )
+
+    attr(
+      x = tsl,
+      which = "valid"
+    ) <- FALSE
 
   }
 
@@ -84,9 +102,14 @@ tsl_is_valid <- function(
   if(any(duplicated(zoo.names))){
 
     warning(
-      "Zoo objects in list 'tsl' must have unique attributes 'name'. The function distantia::tsl_names_set() may fix this issue.",
+      "There are duplicated names in the time series list. The function distantia::tsl_names_set() may help fix this issue.",
       call. = FALSE
     )
+
+    attr(
+      x = tsl,
+      which = "valid"
+    ) <- FALSE
 
   }
 
@@ -94,36 +117,37 @@ tsl_is_valid <- function(
   shared.names <- tsl_colnames(
     tsl = tsl,
     names = "shared"
-    )
+  )
 
   if(length(shared.names) == 0) {
 
     stop(
-      "Zoo objects in list 'tsl' must have at least one shared column name."
-      )
+      "Zoo objects in 'tsl' must have one shared column name."
+    )
 
   }
 
   #non NA
   na.count <- tsl_count_NA(
     tsl = tsl,
-    verbose = FALSE
-    )
+    quiet = TRUE
+  ) |>
+    unlist() |>
+    sum()
 
   if(na.count > 0){
 
     warning(
-      "Zoo objects in list 'tsl' must not have NA cases. The function distantia::tsl_handle_NA() may fix this issue.",
+      "Argument 'tsl' has NA cases. Please apply distantia::tsl_handle_NA() to fix this issue.",
       call. = FALSE
     )
 
-  }
+    attr(
+      x = tsl,
+      which = "valid"
+    ) <- FALSE
 
-  #set valid flag
-  attr(
-    x = tsl,
-    which = "valid"
-  ) <- TRUE
+  }
 
   tsl
 }

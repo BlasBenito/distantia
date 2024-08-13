@@ -19,7 +19,7 @@ utils_check_distantia_args(
 )
 }
 \arguments{
-\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 

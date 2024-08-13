@@ -8,7 +8,7 @@
 #'
 #' This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for large time series lists.
 #'
-#' @param tsl (required, list of zoo objects) List of time series. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param f (required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, [scale()]) should work as well:
 #' \itemize{
 #'   \item f_proportion: proportion computed by row.
@@ -392,9 +392,10 @@ tsl_transform <- function(
 
   na.count <- tsl_count_NA(
     tsl = tsl,
-    verbose = FALSE
-  ) |>
-    suppressWarnings()
+    quiet = TRUE
+  )  |>
+    unlist() |>
+    sum()
 
   if(na.count > 0){
     stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
@@ -473,7 +474,7 @@ tsl_transform <- function(
 
   na.count <- tsl_count_NA(
     tsl = tsl,
-    verbose = TRUE
+    quiet = FALSE
   )
 
   tsl

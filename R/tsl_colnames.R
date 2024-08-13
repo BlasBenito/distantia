@@ -1,6 +1,6 @@
 #' Column Names of Zoo Objects in Time Series List
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character string) Three different sets of column names can be requested:
 #' \itemize{
 #'   \item "all" (default): list with the column names in each zoo object in `tsl`.
@@ -116,7 +116,7 @@ tsl_colnames <- function(
 
 #' Renames Columns of Zoo Objects in a Time Series List
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param new_names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
 #'
 #' @return time series list
@@ -201,7 +201,7 @@ tsl_colnames_set <- function(
 #' }
 #'
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.

@@ -4,7 +4,7 @@
 #'
 #' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_names(x)`.
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @return Character vector of names.
 #' @export
 #'
@@ -32,40 +32,146 @@ tsl_names <- function(
 #' Set Names of a Time Series List
 #'
 #' @description
-#' Sets the names of a time series list created with [tsl_initialize()] and the internal names of the zoo objects inside, stored in their attribute "name".
+#' Sets the names of a time series list and the internal names of the zoo objects inside, stored in their attribute "name".
 #'
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character vector) names to set. Must be of the same length of `x`. If NULL, and the list `x` has names, then the names of the zoo objects inside of the list are taken from the names of the list elements.
 #'
 #' @return time series list
 #' @export
 #'
 #' @examples
-#' TODO add example
+#' #tsl with NA cases
+#' tsl <- tsl_simulate(
+#'   na_fraction = 0.25
+#' )
+#'
+#' #removing list names
+#' names(tsl) <- NULL
+#'
+#' #check validity
+#' tsl <- tsl_is_valid(
+#'   tsl = tsl
+#' )
+#'
+#' #fix names issue
+#' tsl <- tsl_names_set(
+#'   tsl = tsl
+#' )
+#'
+#' #check validity again
+#' tsl <- tsl_is_valid(
+#'   tsl = tsl
+#' )
+#'
+#' #value of attribute "valid"
+#' attributes(x = tsl)$valid
+#'
+#' #fix NA issues
+#' tsl <- tsl_handle_NA(
+#'   tsl = tsl
+#' )
+#'
+#' #check validity again
+#' #no errors, warnings, or messages
+#' tsl <- tsl_is_valid(
+#'   tsl = tsl
+#' )
+#'
+#' #value of attribute "valid"
+#' attributes(x = tsl)$valid
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
 ){
 
+  #get tsl and zoo names
+  tsl_names <- names(tsl)
+
+  zoo_names <- lapply(
+    X = tsl,
+    FUN = function(x){
+      attributes(x)$name
+    }
+  ) |>
+    unlist()
+
+  #argument names is NULL
+  #using names available in tsl object
+  #or creating new names from LETTERS
   if(is.null(names)){
-    names <- names(tsl)
+
+    #using names from list
+    if(all(!is.null(tsl_names))){
+
+      names <- tsl_names
+
+      #using names from zoo objects
+    } else if(all(!is.null(zoo_names))) {
+
+      names <- zoo_names
+
+      #creating new names
+    } else {
+
+      n <- length(tsl)
+
+      #more names than LETTERS
+      if(n > length(LETTERS)){
+
+        names <- c(
+          LETTERS,
+          as.vector(
+            outer(
+              X = LETTERS,
+              Y = LETTERS,
+              FUN = paste0
+            )
+          )
+        )[seq_len(n)]
+
+        #fewer names than LETTERS
+      } else {
+
+        names <- LETTERS[seq_len(n)]
+
+      }
+
+      message("No names available in 'tsl' and argument 'names' is NULL. New names are: ", paste0(names, collapse = ", "), ".")
+
+    }
+
   }
 
   if(length(names) != length(tsl)){
-    stop("Arguments 'x' and 'names' must have the same length.")
+
+    stop(
+      "The length of the 'names' argument must be ",
+      length(tsl),
+      "."
+    )
+
   }
 
+  #setting names
+  names <- as.character(names)
+
+  #name list
+  names(tsl) <- names
+
+  #name zoo objects
   tsl <- Map(
     f = function(y, name) {
-      attr(x = y, which = "name") <- name
+      attr(
+        x = y,
+        which = "name"
+      ) <- name
       y
     },
     tsl,
     names
   )
-
-  names(tsl) <- names
 
   tsl
 
@@ -74,7 +180,7 @@ tsl_names_set <- function(
 #' Clean Names of a Time Series List
 #'
 #'
-#' @param tsl (required, time series list) Individual time series or time series list created with [tsl_initialize]. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.

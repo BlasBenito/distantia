@@ -7,7 +7,7 @@
 utils_tsl_pairs(tsl = NULL, args_list = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{args_list}{(required, list) arguments to combine with the pairs of time series. Default: NULL}
 }

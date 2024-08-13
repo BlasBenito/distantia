@@ -10,7 +10,7 @@ tsl_time(tsl = NULL, keywords = c("resample", "aggregate"))
 tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 }
 \arguments{
-\item{tsl}{(required, list of zoo objects) Time series list. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }

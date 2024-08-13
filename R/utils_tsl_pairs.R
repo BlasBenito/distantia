@@ -4,7 +4,7 @@
 #' Internal function used in [distantia()] and [distantia_importance()] to generate a data frame with combinations of time series and function arguments.
 #'
 #'
-#' @param tsl (required, time series list) list of zoo time series. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param args_list (required, list) arguments to combine with the pairs of time series. Default: NULL
 #'
 #' @return data frame

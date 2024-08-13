@@ -3,7 +3,7 @@
 #' @description
 #' Internal function of [utils_new_time()] to identify the type of the new time used for time series aggregation.
 #'
-#' @param tsl (required, time series list)
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param new_time (required, numeric, numeric vector, or keyword) definition of the aggregation groups. There are several options:
 #' \itemize{
 #'   \item keyword: Only when time in tsl is either a date "YYYY-MM-DD" or a datetime "YYYY-MM-DD hh-mm-ss". Valid options are "year", "quarter", "month", and "week" for date, and, "day", "hour", "minute", and "second" for datetime.

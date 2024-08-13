@@ -1,6 +1,6 @@
 #' Logics to Handle Argument block_size in distantia()
 #'
-#' @param tsl (required, time series list) list of zoo time series. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param block_size (optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
 #'
 #' @return block size

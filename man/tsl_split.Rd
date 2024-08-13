@@ -7,7 +7,7 @@
 tsl_split(tsl = NULL, sep = "__")
 }
 \arguments{
-\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 
 \item{sep}{(required, character string) separator between the time series name and the column name.}
 }

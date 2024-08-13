@@ -4,7 +4,7 @@
 #' Internal function of [tsl_aggregate()] to check input argument `new_time` for time series aggregation and return a proper aggregation vector.
 #'
 #'
-#' @param tsl (required, time series list) Time series that will be aggregated using 'new_time'. Default: NULL
+#' @param tsl (required, list) Time series list. Default: NULL
 #' @param new_time (required, zoo object, numeric, numeric vector, Date vector, POSIXct vector, or keyword) breakpoints defining aggregation groups. Options are:
 #' \itemize{
 #'   \item numeric vector: only for the "numeric" time class, defines the breakpoints for time series aggregation.

@@ -2,20 +2,20 @@
 % Please edit documentation in R/tsl_is_valid.R
 \name{tsl_is_valid}
 \alias{tsl_is_valid}
-\title{Checks Structure Validity of a Time Series List}
+\title{Validity Assesment for Time Series List}
 \usage{
 tsl_is_valid(tsl = NULL)
 }
 \arguments{
-\item{tsl}{(required, time series list) Individual time series or time series list created with \link{tsl_initialize}. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
-time series list or error.
+time series list
 }
 \description{
-Checks that the input argument is a valid time series list. The required features for a valid time series list are:
+Validity assessment of Time Series Lists. The required features for a valid time series list are:
 \itemize{
-\item Argument \code{tsl} is list.
+\item Argument \code{tsl} is a list.
 \item List \code{tsl} has unique names.
 \item List \code{tsl} has more than one element.
 \item All elements in \code{tsl} are "zoo" objects.
@@ -24,6 +24,8 @@ Checks that the input argument is a valid time series list. The required feature
 \item All "zoo" objects have at least one common column name.
 \item All "zoo" objects have zero NA cases.
 }
+
+If a time series list is valid, it is returned without any messages or warnings, and the value of the attribute "valid" is set to \code{TRUE}.
 }
 \examples{
 TODO: complete example
