@@ -74,15 +74,15 @@ tsl_validate <- function(
 
   #all possible issues
   all_issues <- list(
-    tsl_not_a_list = "  - argument 'tsl' must be a list of zoo objects.",
-    tsl_one_element = "  - argument 'tsl' muat have at least two zoo objects",
+    tsl_not_a_list = "  - argument 'tsl' must be a list of zoo objects: see tsl_initialize().",
+    tsl_one_element = "  - argument 'tsl' must have at least two zoo objects.",
     tsl_names_null =  "  - elements of 'tsl' must be named: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
     tsl_names_duplicated = "  - elements of 'tsl' must have unique names: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
     tsl_objects_zoo = "  - objects in 'tsl' must be of the class 'zoo'.",
     zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': use tsl_names_set() to fix this issue.",
     zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.",
-    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column.",
-    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric'.",
+    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames() to identify shared and/or exclusive columns.",
+    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_select_numeric_cols() to fix this issue.",
     zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with tsl_handle_NA() to fix this issue."
   )
 
@@ -295,7 +295,8 @@ tsl_is_valid <- function(
   if(!("valid" %in% names(attributes(tsl)))){
 
     warning(
-      "Argument 'tsl' must have the attribute 'valid'. Please run distantia::tsl_validate() to diagnose any potential issues."
+      "Argument 'tsl' must have the attribute 'valid'. Please run distantia::tsl_validate() to diagnose any potential issues.",
+      call. = FALSE
     )
 
   } else {
@@ -303,7 +304,10 @@ tsl_is_valid <- function(
     if(
       attributes(tsl)$valid == FALSE
     ){
-      warning("Attribute 'valid' of argument 'tsl' is FALSE. Please run distantia::tsl_validate() to diagnose potential issues.")
+      warning(
+        "Attribute 'valid' of argument 'tsl' is FALSE. Please run distantia::tsl_validate() to diagnose potential issues.",
+        call. = FALSE
+        )
     }
 
   }

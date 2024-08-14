@@ -29,8 +29,53 @@ Validity assessment of Time Series Lists. The required features for a valid time
 \item All \code{zoo} objects have zero NA cases.
 }
 
-If a time series list is valid, it is returned without any messages or warnings, and the value of the attribute "valid" is set to \code{TRUE}.
+The function \code{tsl_validate()} assesses these conditions, and sets the value of the attribute "valid" of the time series list to \code{TRUE} or \code{FALSE} accordingly.
+
+The function \code{tsl_is_valid()}, called by most functions taking a time series list as input, returns a warning if the value of the "valid" argument is FALSE.
 }
 \examples{
-TODO: complete example
+#tsl with NA cases
+tsl <- tsl_simulate(
+  na_fraction = 0.25
+)
+
+#removing list names
+names(tsl) <- NULL
+
+#value of attribute "valid"
+attributes(x = tsl)$valid
+
+#this will result in an invalid tsl
+tsl <- tsl_is_valid(
+  tsl = tsl
+)
+
+#run validation check
+tsl <- tsl_validate(
+  tsl = tsl
+)
+#two issues identified!
+
+#addressing names issue
+tsl <- tsl_names_set(
+  tsl = tsl
+)
+
+#addressing NA issue
+tsl <- tsl_handle_NA(
+  tsl = tsl
+)
+
+#validation test again
+tsl <- tsl_validate(
+  tsl = tsl
+)
+
+#validation check works now
+tsl <- tsl_is_valid(
+  tsl = tsl
+)
+
+#value of attribute "valid" is TRUE
+attributes(x = tsl)$valid
 }

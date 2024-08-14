@@ -169,7 +169,7 @@ distantia_importance <- function(
     warning("There are univariate time series in 'tsl'. Importance scores only apply to multivariate time series. Please consider using distantia() instead.")
   }
 
-  tsl <- tsl_remove_exclusive_cols(
+  tsl <- tsl_select_shared_cols(
     tsl = tsl
   )
 

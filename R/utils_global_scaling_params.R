@@ -3,7 +3,7 @@
 #' @description
 #' Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within [tsl_transform()] when the scaling functions [f_center()], [f_scale()], or [base::scale()] are used as inputs for the argument `f`.
 #'
-#' Warning: this function removes exclusive columns from the data. See function [tsl_remove_exclusive_cols()].
+#' Warning: this function removes exclusive columns from the data. See function [tsl_select_shared_cols()].
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL

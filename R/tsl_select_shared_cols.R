@@ -1,7 +1,7 @@
-#' Remove Exclusive Columns from Time Series List
+#' Select Shared Columns from a Time Series List
 #'
 #' @description
-#' Removes columns that are not shared across all zoo objects within a time series list.
+#' Returns a time series list with only the columns shared across all zoo time series.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
@@ -10,7 +10,7 @@
 #' @autoglobal
 #' @examples
 #' TODO: complete example
-tsl_remove_exclusive_cols <- function(
+tsl_select_shared_cols <- function(
     tsl = NULL
 ){
 

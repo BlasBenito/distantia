@@ -177,7 +177,7 @@ tsl <- tsl_initialize(
 tsl_colnames(tsl = tsl)
 
 #remove exclusive column
-tsl <- tsl_remove_exclusive_cols(tsl = tsl)
+tsl <- tsl_select_shared_cols(tsl = tsl)
 tsl_colnames(tsl = tsl)
 
 #plot

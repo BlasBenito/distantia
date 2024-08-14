@@ -225,7 +225,7 @@ distantia <- function(
     seed = 1
 ){
 
-  tsl <- tsl_remove_exclusive_cols(
+  tsl <- tsl_select_shared_cols(
     tsl = tsl
   )
 
