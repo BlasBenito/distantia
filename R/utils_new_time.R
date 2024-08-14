@@ -51,7 +51,7 @@ utils_new_time <- function(
   if(
     is.list(new_time) &&
     zoo::is.zoo(new_time[[1]])
-    ){
+  ){
 
     new_time <- tsl_is_valid(
       tsl = new_time
@@ -59,7 +59,7 @@ utils_new_time <- function(
 
     new_time <- tsl_time(
       tsl = new_time
-      )
+    )
 
     new_time <- seq(
       from = max(new_time$begin),
@@ -103,17 +103,17 @@ utils_new_time <- function(
     #non-standard are always in "years"
     unit <- paste0(time_units$factor, " years")
 
-      new_time <- seq(
-        from = lubridate::floor_date(
-          x = old_time$begin,
-          unit = unit
-        ),
-        to = lubridate::ceiling_date(
-          x = old_time$end,
-          unit = unit
-        ),
-        by = unit
-      )
+    new_time <- seq(
+      from = lubridate::floor_date(
+        x = old_time$begin,
+        unit = unit
+      ),
+      to = lubridate::ceiling_date(
+        x = old_time$end,
+        unit = unit
+      ),
+      by = unit
+    )
 
   }
 
@@ -155,14 +155,14 @@ utils_new_time <- function(
       new_time <- c(
         min(new_time) - min(diff(new_time)),
         new_time
-        )
+      )
     }
 
     if(max(new_time) < old_time$end){
       new_time <- c(
         new_time,
         max(new_time) + min(diff(new_time))
-        )
+      )
     }
 
   }

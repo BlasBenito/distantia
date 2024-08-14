@@ -2,12 +2,12 @@
 #'
 #' @description
 #'
-#' Most functions in this package take a **time series list** (or **tsl** for short) as main input. A `tsl` is a list of zoo time-series objects (see [zoo::zoo()]). There is not a formal class for `tsl` objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see [tsl_is_valid()]). These requirements are:
+#' Most functions in this package take a **time series list** (or **tsl** for short) as main input. A `tsl` is a list of zoo time-series objects (see [zoo::zoo()]). There is not a formal class for `tsl` objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see [tsl_validate()]). These requirements are:
 #' \itemize{
 #'   \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see [tsl_count_NA()] and [tsl_handle_NA()]).
 #'   \item All zoo objects must have at least one common column name to allow time series comparison (see [tsl_colnames()]).
 #'   \item All zoo objects have a character attribute "name" identifying the object. This attribute is not part of the zoo class, but the package ensures that this attribute is not lost during data manipulations.
-#'   \item Each element of the time series list is named after the zoo object it contains (see [tsl_names()], [tsl_names_set()] and [tsl_names_clean()]).
+#'   \item Each element of the time series list is named after the zoo object it contains (see [tsl_zoo_names()], [tsl_names_set()] and [tsl_names_clean()]).
 #'   \item The time series list contains two zoo objects or more.
 #' }
 #'
@@ -48,7 +48,7 @@
 #' )
 #'
 #' #check validity (no messages or errors if valid)
-#' tsl <- tsl_is_valid(tsl)
+#' tsl <- tsl_validate(tsl)
 #'
 #' #class of contained objects
 #' lapply(X = tsl, FUN = class)
@@ -57,7 +57,7 @@
 #' names(x = tsl)
 #'
 #' #get names (names of objects in the list)
-#' tsl_names(tsl = tsl)
+#' tsl_zoo_names(tsl = tsl)
 #'
 #' #all names
 #' lapply(X = tsl, FUN = \(x) attributes(x)$name)
@@ -165,13 +165,13 @@
 #' )
 #'
 #' #looks like a time series list! But...
-#' zoo_list <- tsl_is_valid(tsl = zoo_list)
+#' zoo_list <- tsl_validate(tsl = zoo_list)
 #'
 #' #let's set the names
 #' zoo_list <- tsl_names_set(tsl = zoo_list)
 #'
 #' #check again: it's now a valid time series list
-#' zoo_list <- tsl_is_valid(tsl = zoo_list)
+#' zoo_list <- tsl_validate(tsl = zoo_list)
 #'
 #' #to do all this in one go:
 #' tsl <- tsl_initialize(
@@ -233,20 +233,9 @@ tsl_initialize <- function(
 
   tsl <- tsl_names_set(tsl = tsl)
 
-  tsl <- tsl_is_valid(
+  tsl <- tsl_validate(
     tsl = tsl
   )
-
-  na.count <- tsl_count_NA(
-    tsl = tsl,
-    quiet = TRUE
-  ) |>
-    unlist() |>
-    sum()
-
-  if(na.count > 0){
-    warning("There are '", na.count, "' cases. Please consider applying distantia::tsl_handle_NA() to impute or remove them.")
-  }
 
   tsl
 

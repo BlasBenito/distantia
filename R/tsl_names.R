@@ -2,15 +2,15 @@
 #'
 #' @description
 #'
-#' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_names(x)`.
+#' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_zoo_names(x)`.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @return Character vector of names.
+#' @return character vector
 #' @export
 #'
 #' @examples
 #' TODO: complete example
-tsl_names <- function(
+tsl_zoo_names <- function(
     tsl = NULL
 ){
 
@@ -25,6 +25,27 @@ tsl_names <- function(
   names(tsl.names) <- NULL
 
   tsl.names
+
+}
+
+#' Names of Time Series List
+#'
+#' @description
+#' Just a wrapper to [base::names].
+#'
+#'
+#' @param tsl (required, list) Time series list. Default: NULL
+#'
+#' @return character vector
+#' @export
+#' @autoglobal
+#' @examples
+#' TODO: complete example
+tsl_names <- function(
+    tsl = NULL
+    ){
+
+  names(tsl)
 
 }
 
@@ -51,7 +72,7 @@ tsl_names <- function(
 #' names(tsl) <- NULL
 #'
 #' #check validity
-#' tsl <- tsl_is_valid(
+#' tsl <- tsl_validate(
 #'   tsl = tsl
 #' )
 #'
@@ -61,7 +82,7 @@ tsl_names <- function(
 #' )
 #'
 #' #check validity again
-#' tsl <- tsl_is_valid(
+#' tsl <- tsl_validate(
 #'   tsl = tsl
 #' )
 #'
@@ -75,7 +96,7 @@ tsl_names <- function(
 #'
 #' #check validity again
 #' #no errors, warnings, or messages
-#' tsl <- tsl_is_valid(
+#' tsl <- tsl_validate(
 #'   tsl = tsl
 #' )
 #'
@@ -87,7 +108,7 @@ tsl_names_set <- function(
 ){
 
   #get tsl and zoo names
-  tsl_names <- names(tsl)
+  tsl_zoo_names <- names(tsl)
 
   zoo_names <- lapply(
     X = tsl,
@@ -103,9 +124,9 @@ tsl_names_set <- function(
   if(is.null(names)){
 
     #using names from list
-    if(all(!is.null(tsl_names))){
+    if(all(!is.null(tsl_zoo_names))){
 
-      names <- tsl_names
+      names <- tsl_zoo_names
 
       #using names from zoo objects
     } else if(all(!is.null(zoo_names))) {
@@ -204,12 +225,12 @@ tsl_names_clean <- function(
     prefix = NULL
 ){
 
-  tsl.names <- tsl_names(
+  tsl.names <- tsl_zoo_names(
     tsl = tsl
   )
 
   tsl.names <- utils_clean_names(
-    x = tsl_names,
+    x = tsl_zoo_names,
     separator = separator,
     capitalize_first = capitalize_first,
     capitalize_all = capitalize_all,

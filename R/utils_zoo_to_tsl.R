@@ -41,7 +41,7 @@ utils_zoo_to_tsl <- function(
     A = x
   )
 
-  tsl <- tsl_is_valid(
+  tsl <- tsl_validate(
     tsl = tsl
   )
 

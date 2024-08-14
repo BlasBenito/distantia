@@ -42,7 +42,6 @@ tsl_split <- function(
     sep = "__"
 ){
 
-
   tsl <- tsl_is_valid(
     tsl = tsl
   )

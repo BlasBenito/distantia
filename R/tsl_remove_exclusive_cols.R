@@ -14,6 +14,7 @@ tsl_remove_exclusive_cols <- function(
     tsl = NULL
 ){
 
+  #validity check
   tsl <- tsl_is_valid(
     tsl = tsl
   )

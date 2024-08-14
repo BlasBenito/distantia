@@ -94,7 +94,7 @@ tsl_subset <- function(
       stop("Argument 'time' must be a vector with at least two elements.")
     }
 
-    tsl_names <- tsl_names(
+    tsl_zoo_names <- tsl_zoo_names(
       tsl = tsl
     )
 
@@ -145,8 +145,8 @@ tsl_subset <- function(
       tsl <- Filter(Negate(is.null), tsl)
 
       tsl_removed <- setdiff(
-        x = tsl_names,
-        y = tsl_names(
+        x = tsl_zoo_names,
+        y = tsl_zoo_names(
           tsl = tsl
         )
       )

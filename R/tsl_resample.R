@@ -251,9 +251,10 @@ tsl_resample <- function(
     max_complexity = FALSE
 ){
 
+  #validity check
   tsl <- tsl_is_valid(
     tsl = tsl
-    )
+  )
 
   old_time <- tsl_time(
     tsl = tsl,

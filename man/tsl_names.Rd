@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_names.R
 \name{tsl_names}
 \alias{tsl_names}
-\title{Get Names of a Time Series List}
+\title{Names of Time Series List}
 \usage{
 tsl_names(tsl = NULL)
 }
@@ -10,10 +10,10 @@ tsl_names(tsl = NULL)
 \item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
-Character vector of names.
+character vector
 }
 \description{
-A list of zoo objects created with \code{\link[=tsl_initialize]{tsl_initialize()}} has two sets of names that should ideally be the same: the list names, accessed with \code{names(tsl)}, and the names of the individual zoo objects (stored in their attribute "name"), accessed with \code{tsl_names(x)}.
+Just a wrapper to \link[base:names]{base::names}.
 }
 \examples{
 TODO: complete example

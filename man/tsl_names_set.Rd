@@ -27,7 +27,7 @@ tsl <- tsl_simulate(
 names(tsl) <- NULL
 
 #check validity
-tsl <- tsl_is_valid(
+tsl <- tsl_validate(
   tsl = tsl
 )
 
@@ -37,7 +37,7 @@ tsl <- tsl_names_set(
 )
 
 #check validity again
-tsl <- tsl_is_valid(
+tsl <- tsl_validate(
   tsl = tsl
 )
 
@@ -51,7 +51,7 @@ tsl <- tsl_handle_NA(
 
 #check validity again
 #no errors, warnings, or messages
-tsl <- tsl_is_valid(
+tsl <- tsl_validate(
   tsl = tsl
 )
 

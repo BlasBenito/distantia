@@ -101,7 +101,9 @@ distantia_plot <- function(
     text_cex = 1
 ){
 
-  tsl <- tsl_is_valid(tsl = tsl)
+  tsl <- tsl_is_valid(
+    tsl = tsl
+    )
 
   if(length(tsl) > 2){
 
