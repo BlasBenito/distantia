@@ -19,7 +19,7 @@ tsl_select_shared_cols <- function(
     tsl = tsl
   )
 
-  tsl.exclusive <- tsl_colnames(
+  tsl.exclusive <- tsl_colnames_get(
     tsl = tsl,
     names = "exclusive"
   ) |>

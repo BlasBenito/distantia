@@ -81,7 +81,7 @@ tsl_validate <- function(
     tsl_objects_zoo = "  - objects in 'tsl' must be of the class 'zoo'.",
     zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': use tsl_names_set() to fix this issue.",
     zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.",
-    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames() to identify shared and/or exclusive columns.",
+    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames_get() to identify shared and/or exclusive columns.",
     zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_select_numeric_cols() to fix this issue.",
     zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with tsl_handle_NA() to fix this issue."
   )
@@ -193,7 +193,7 @@ tsl_validate <- function(
       }
 
       # zoo objects have shared colnames
-      zoo.names.shared <- tsl_colnames(
+      zoo.names.shared <- tsl_colnames_get(
         tsl = tsl,
         names = "shared"
       )

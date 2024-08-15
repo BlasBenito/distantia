@@ -48,7 +48,7 @@ tsl_plot <- function(
   if(all(ylim == "absolute") == TRUE){
 
     tsl_vars <- tsl |>
-      tsl_colnames() |>
+      tsl_colnames_get() |>
       unlist() |>
       unique()
 

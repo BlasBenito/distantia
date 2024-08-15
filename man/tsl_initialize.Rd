@@ -39,7 +39,7 @@ A named list of matrices.
 Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time-series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_validate]{tsl_validate()}}). These requirements are:
 \itemize{
 \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see \code{\link[=tsl_count_NA]{tsl_count_NA()}} and \code{\link[=tsl_handle_NA]{tsl_handle_NA()}}).
-\item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames]{tsl_colnames()}}).
+\item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames_get]{tsl_colnames_get()}}).
 \item All zoo objects have a character attribute "name" identifying the object. This attribute is not part of the zoo class, but the package ensures that this attribute is not lost during data manipulations.
 \item Each element of the time series list is named after the zoo object it contains (see \code{\link[=tsl_zoo_names]{tsl_zoo_names()}}, \code{\link[=tsl_names_set]{tsl_names_set()}} and \code{\link[=tsl_names_clean]{tsl_names_clean()}}).
 \item The time series list contains two zoo objects or more.
@@ -125,7 +125,7 @@ tsl <- tsl_initialize(
   )
 
 #colnames are forced to be the same
-tsl_colnames(tsl)
+tsl_colnames_get(tsl)
 
 #plot
 if(interactive()){
@@ -174,11 +174,11 @@ tsl <- tsl_initialize(
 )
 
 #check column names
-tsl_colnames(tsl = tsl)
+tsl_colnames_get(tsl = tsl)
 
 #remove exclusive column
 tsl <- tsl_select_shared_cols(tsl = tsl)
-tsl_colnames(tsl = tsl)
+tsl_colnames_get(tsl = tsl)
 
 #plot
 if(interactive()){

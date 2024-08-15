@@ -180,7 +180,7 @@
 #'   )
 #'
 #' #returns principal components
-#' tsl_colnames(tsl = tsl_pca)
+#' tsl_colnames_get(tsl = tsl_pca)
 #'
 #' if(interactive()){
 #'   tsl_plot(

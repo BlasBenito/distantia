@@ -1,15 +1,7 @@
-#' Get Names of a Time Series List
-#'
-#' @description
-#'
-#' A list of zoo objects created with [tsl_initialize()] has two sets of names that should ideally be the same: the list names, accessed with `names(tsl)`, and the names of the individual zoo objects (stored in their attribute "name"), accessed with `tsl_zoo_names(x)`.
-#'
-#' @param tsl (required, list) Time series list. Default: NULL
-#' @return character vector
+
 #' @export
-#'
-#' @examples
-#' TODO: complete example
+#' @rdname tsl_names
+#' @autoglobal
 tsl_zoo_names <- function(
     tsl = NULL
 ){
@@ -31,21 +23,61 @@ tsl_zoo_names <- function(
 #' Names of Time Series List
 #'
 #' @description
-#' Just a wrapper to [base::names].
+#'
+#' A time series list has three sets of names: the names of the list items (as returned by `names(tsl)`), the names of the contained zoo objects, as stored in their attribute "name", and the column names of teh zoo objects. This function extracts these names as a list mimicking the structure of the original time series list.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
+#' @param colnames (optional, logial) If TRUE, all column names are shown as well. Default: FALSE
 #'
-#' @return character vector
+#' @return list
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
-tsl_names <- function(
-    tsl = NULL
+#' #simulate a time series list
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' #get list and zoo names
+#' tsl_names_get(
+#'   tsl = tsl
+#'   )
+#'
+#' #get column names
+#' tsl_names_get(
+#'   tsl = tsl,
+#'   colnames = TRUE
+#' )
+#' TODO: think of a more flexible approach to get names? The current list output is a bit ugly
+tsl_names_get <- function(
+    tsl = NULL,
+    colnames = FALSE
     ){
 
-  names(tsl)
+  if(colnames == TRUE){
+
+    lapply(
+      X = tsl,
+      FUN = function(x){
+        l <- list()
+        l[[attributes(x)$name]] <- colnames(x)
+        l
+      }
+    )
+
+  } else {
+
+    lapply(
+      X = tsl,
+      FUN = function(x){
+        attributes(x)$name
+      }
+    )
+
+  }
 
 }
 

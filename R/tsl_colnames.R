@@ -16,7 +16,7 @@
 #' tsl <- tsl_simulate()
 #'
 #' #list all column names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
@@ -25,23 +25,23 @@
 #' names(tsl[[1]])[1] <- "new_column"
 #'
 #' #all names again
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
 #'
 #' #shared column names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "shared"
 #' )
 #'
 #' #exclusive column names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "exclusive"
 #' )
-tsl_colnames <- function(
+tsl_colnames_get <- function(
     tsl = NULL,
     names = c(
       "all",
@@ -127,7 +127,7 @@ tsl_colnames <- function(
 #' tsl <- tsl_simulate(cols = 3)
 #'
 #' #list all column names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
@@ -143,7 +143,7 @@ tsl_colnames <- function(
 #' )
 #'
 #' #check result
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
@@ -216,7 +216,7 @@ tsl_colnames_set <- function(
 #' tsl <- tsl_simulate(cols = 3)
 #'
 #' #list all column names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl
 #' )
 #'
@@ -231,7 +231,7 @@ tsl_colnames_set <- function(
 #' )
 #'
 #' #check new names
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
@@ -241,7 +241,7 @@ tsl_colnames_set <- function(
 #'   tsl = tsl
 #' )
 #'
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl
 #' )
 #'
@@ -253,7 +253,7 @@ tsl_colnames_set <- function(
 #'   suffix = "clean"
 #' )
 #'
-#' tsl_colnames(
+#' tsl_colnames_get(
 #'   tsl = tsl
 #' )
 #' @autoglobal
@@ -268,7 +268,7 @@ tsl_colnames_clean <- function(
     prefix = NULL
 ){
 
-  tsl.colnames <- tsl.old.names <- tsl_colnames(
+  tsl.colnames <- tsl.old.names <- tsl_colnames_get(
     tsl = tsl,
     names = "all"
   ) |>

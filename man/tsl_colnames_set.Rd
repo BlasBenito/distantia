@@ -22,7 +22,7 @@ Renames Columns of Zoo Objects in a Time Series List
 tsl <- tsl_simulate(cols = 3)
 
 #list all column names
-tsl_colnames(
+tsl_colnames_get(
   tsl = tsl,
   names = "all"
 )
@@ -38,7 +38,7 @@ tsl <- tsl_colnames_set(
 )
 
 #check result
-tsl_colnames(
+tsl_colnames_get(
   tsl = tsl,
   names = "all"
 )
