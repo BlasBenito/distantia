@@ -18,43 +18,68 @@ time series list
 Sets the names of a time series list and the internal names of the zoo objects inside, stored in their attribute "name".
 }
 \examples{
-#tsl with NA cases
-tsl <- tsl_simulate(
-  na_fraction = 0.25
-)
+#simulate time series list
+tsl <- tsl_simulate(n = 3)
 
-#removing list names
-names(tsl) <- NULL
-
-#check validity
+#assess validity
 tsl <- tsl_validate(
   tsl = tsl
 )
 
-#fix names issue
+#list and zoo names (default)
+tsl_names_get(
+  tsl = tsl
+)
+
+#list names
+tsl_names_get(
+  tsl = tsl,
+  zoo = FALSE
+)
+
+#renaming list items and zoo objects
+#------------------------------------
+tsl <- tsl_names_set(
+  tsl = tsl,
+  names = c("X", "Y", "Z")
+)
+
+# check new names
+tsl_names_get(
+  tsl = tsl
+)
+
+#fixing naming issues
+#------------------------------------
+
+#creating a invalid time series list
+names(tsl)[2] <- "B"
+
+# check names
+tsl_names_get(
+  tsl = tsl
+)
+
+#validate tsl
+#returns NOT VALID
+#recommends a solution
+tsl <- tsl_validate(
+  tsl = tsl
+)
+
+#fix issue with tsl_names_set()
+#uses names of zoo objects for the list items
 tsl <- tsl_names_set(
   tsl = tsl
 )
 
-#check validity again
+#validate again
 tsl <- tsl_validate(
   tsl = tsl
 )
 
-#value of attribute "valid"
-attributes(x = tsl)$valid
-
-#fix NA issues
-tsl <- tsl_handle_NA(
+#list names
+tsl_names_get(
   tsl = tsl
 )
-
-#check validity again
-#no errors, warnings, or messages
-tsl <- tsl_validate(
-  tsl = tsl
-)
-
-#value of attribute "valid"
-attributes(x = tsl)$valid
 }

@@ -116,8 +116,10 @@ distantia_plot <- function(
 
   }
 
-  tsl <- tsl_select_shared_cols(
-    tsl = tsl
+  tsl <- tsl_subset(
+    tsl = tsl,
+    numeric_cols = TRUE,
+    shared_cols = TRUE
   )
 
   # Preserve user's config

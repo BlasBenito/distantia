@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_ncol.R
 \name{tsl_ncol}
 \alias{tsl_ncol}
-\title{Number of Columns in Time Series Lists}
+\title{Number of Columns in a Time Series Lists}
 \usage{
 tsl_ncol(tsl = NULL)
 }
@@ -13,8 +13,15 @@ tsl_ncol(tsl = NULL)
 list
 }
 \description{
-Number of Columns in Time Series Lists
+Number of Columns in a Time Series Lists
 }
 \examples{
-TODO: complete example
+#initialize time series list
+tsl <- tsl_simulate(
+  n = 2,
+  cols = 6
+)
+
+#number of columns per zoo object
+tsl_ncol(tsl = tsl)
 }

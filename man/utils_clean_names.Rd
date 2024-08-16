@@ -17,7 +17,7 @@ utils_clean_names(
 \arguments{
 \item{x}{(required, character vector) Names to be cleaned. Default: NULL}
 
-\item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate \code{suffix} and \code{prefix} from the main word. Default: "_".}
+\item{separator}{(optional, character string) Separator when replacing spaces and dots and appending \code{suffix} and \code{prefix} to the main word. Default: "_".}
 
 \item{capitalize_first}{(optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.}
 
@@ -30,7 +30,7 @@ utils_clean_names(
 \item{prefix}{(optional, character string)  String to prepend to the cleaned names. Default: NULL.}
 }
 \value{
-Character vector.
+character vector
 }
 \description{
 Clean and format character vectors for use as column names or variable names.
@@ -42,16 +42,36 @@ The cleanup operations are applied in the following order:
 \item Generates syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
 \item Replaces dots and spaces with the \code{separator}.
 \item Coerces names to lowercase.
-\item If \code{capitalize_first = TRUE}, the first letter is capitalized.
-\item If \code{capitalize_all = TRUE}, all letters are capitalized.
 \item If argument \code{length} is provided, \code{\link[base:abbreviate]{base::abbreviate()}} is used to abbreviate the new column names.
 \item If \code{suffix} is provided, it is added at the end of the column name using the separator.
 \item If \code{prefix} is provided, it is added at the beginning of the column name using the separator.
+\item If \code{capitalize_first = TRUE}, the first letter is capitalized.
+\item If \code{capitalize_all = TRUE}, all letters are capitalized.
 }
 }
 \examples{
+x <- c(
+  "GerMany",
+  "spain",
+  "SWEDEN"
+)
 
-utils_clean_names(names = c("Column Name 1", "column.name.2"), capitalize_first = TRUE)
+#abbreviate names
+#---------------------------
+#abbreviate to 4 characters
+utils_clean_names(
+  x = x,
+  capitalize_all = TRUE,
+  length = 4
+)
 
-utils_clean_names(names = c("Column Name 1", "column.name.2"), capitalize_all = TRUE)
+#suffix and prefix
+#---------------------------
+utils_clean_names(
+  x = x,
+  capitalize_first = TRUE,
+  separator = "_",
+  prefix = "my_prefix",
+  suffix = "my_suffix"
+)
 }

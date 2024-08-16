@@ -225,8 +225,10 @@ distantia <- function(
     seed = 1
 ){
 
-  tsl <- tsl_select_shared_cols(
-    tsl = tsl
+  tsl <- tsl_subset(
+    tsl = tsl,
+    numeric_cols = TRUE,
+    shared_cols = TRUE
   )
 
   permutation <- match.arg(

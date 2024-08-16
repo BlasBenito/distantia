@@ -84,8 +84,11 @@ lapply(X = tsl, FUN = class)
 #get names of the list slots
 names(x = tsl)
 
-#get names (names of objects in the list)
-tsl_zoo_names(tsl = tsl)
+#get names (names of zoo objects in the list)
+tsl_names_get(
+  tsl = tsl,
+  zoo = TRUE
+  )
 
 #all names
 lapply(X = tsl, FUN = \(x) attributes(x)$name)
@@ -177,7 +180,10 @@ tsl <- tsl_initialize(
 tsl_colnames_get(tsl = tsl)
 
 #remove exclusive column
-tsl <- tsl_select_shared_cols(tsl = tsl)
+tsl <- tsl_subset(
+  tsl = tsl,
+  shared_cols = TRUE
+  )
 tsl_colnames_get(tsl = tsl)
 
 #plot

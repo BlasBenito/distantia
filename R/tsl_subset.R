@@ -1,22 +1,73 @@
-#' Subset Time Series List
+#' Subset a Time Series List
 #'
 #' @description
-#' Manipulates the dimension of a time series list.
+#' Subsetting of time series lists by name, time, and variables.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param names (optional, character or numeric vector) Character vector of sequence names or numeric vector of sequence indices in `tsl`. If NULL, all sequences are kept. Default: NULL
-#' @param colnames (optional, character vector) Column names of the sequences in `tsl`. If NULL, all variables are returned. Default: NULL
-#' @param time (optional, numeric vector) numeric vector with range of times to keep from the sequences in `tsl`. Rows of sequences in `tsl` outside such range are removed. If NULL, all rows in `tsl` are preserved. Default: NULL
+#' @param names (optional, character or numeric vector) Character vector of names or numeric vector with list indices. If NULL, all time series are kept. Default: NULL
+#' @param colnames (optional, character vector) Column names of the zoo objects in `tsl`. If NULL, all columns are returned. Default: NULL
+#' @param numeric_cols (optional, logical) If TRUE, only the numeric columns of the zoo objects are returned. Default: TRUE
+#' @param shared_cols (optional, logical) If TRUE, only columns shared across all zoo objects are returned. Default: TRUE
+#' @param time (optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in `tsl` are preserved. Default: NULL
 #'
-#' @return #' @return A named list of matrices.
+#' @return time series list
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
+#' #initialize time series list
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' #checking available dimensions
+#'
+#' #names
+#' tsl_names_get(
+#'   tsl = tsl
+#' )
+#'
+#' #colnames
+#' tsl_colnames_get(
+#'   tsl = tsl
+#' )
+#'
+#' #time
+#' tsl_time(
+#'   tsl = tsl
+#' )[, c("name", "begin", "end")]
+#'
+#' #subset
+#' tsl_new <- tsl_subset(
+#'   tsl = tsl,
+#'   names = c("Sweden", "Germany"),
+#'   colnames = c("rainfall", "temperature"),
+#'   time = c("2010-01-01", "2015-01-01")
+#' )
+#'
+#' #check new dimensions
+#'
+#' #names
+#' tsl_names_get(
+#'   tsl = tsl_new
+#' )
+#'
+#' #colnames
+#' tsl_colnames_get(
+#'   tsl = tsl_new
+#' )
+#'
+#' #time
+#' tsl_time(
+#'   tsl = tsl_new
+#' )[, c("name", "begin", "end")]
 tsl_subset <- function(
     tsl = NULL,
     names = NULL,
     colnames = NULL,
+    numeric_cols = TRUE,
+    shared_cols = TRUE,
     time = NULL
 ){
 
@@ -55,6 +106,12 @@ tsl_subset <- function(
 
   }
 
+  #get names to track missing time series
+  zoo_names <- tsl_names_get(
+    tsl = tsl,
+    zoo = TRUE
+  )
+
   # subset colnames ----
   if(!is.null(colnames)){
 
@@ -70,20 +127,55 @@ tsl_subset <- function(
       arg = colnames,
       choices = all_colnames,
       several.ok = TRUE
-    )
+    ) |>
+      unique()
 
     tsl <- lapply(
       X = tsl,
-      FUN = function(i){
-        i <- i[, colnames, drop = FALSE]
-        dimnames(i) <- list(
-          attributes(i)$index,
-          colnames
-          )
-        return(i)
+      FUN = function(x){
+        x_name <- attributes(x)$name
+        x <- x[, colnames, drop = FALSE]
+        attr(x = x, which = "name") <- x_name
+        return(x)
       }
+    )
+
+  }
+
+  # subset numeric cols
+  if(numeric_cols == TRUE){
+
+    tsl <- lapply(
+      X = tsl,
+      FUN = function(x){
+        x.name <- attributes(x)$name
+        x <-  x[, sapply(X = x, FUN = is.numeric)]
+        attr(x = x, which = "name") <- x.name
+        return(x)
+      }
+    )
+
+  }
+
+  #subset shared cols
+  if(shared_cols == TRUE){
+
+    shared_cols <- tsl_colnames_get(
+      tsl = tsl,
+      names = "shared"
     ) |>
-      suppressWarnings()
+      unlist() |>
+      unique()
+
+    tsl <- lapply(
+      X = tsl,
+      FUN = function(x){
+        x.name <- attributes(x)$name
+        x <- x[ , colnames(x) %in% shared_cols]
+        attr(x = x, which = "name") <- x.name
+        return(x)
+      }
+    )
 
   }
 
@@ -91,63 +183,80 @@ tsl_subset <- function(
   if(!is.null(time)){
 
     if(length(time) < 2){
-      stop("Argument 'time' must be a vector with at least two elements.")
+      stop("Argument 'time' must be of length 2.")
     }
 
-    zoo_names <- tsl_zoo_names(
+    tsl <- tsl_validate(
       tsl = tsl
     )
 
-    #get full range of time
-    all_times <- lapply(
-      X = tsl,
-      FUN = function(z){
-        attributes(z)$index
-      }
-    ) |>
-      unlist() |>
-      unique() |>
-      as.numeric() |>
-      sort()
+    tsl_time_df <- tsl_time(
+      tsl = tsl
+      )
 
-    all_times.range <- range(all_times, na.rm = TRUE)
+    tsl_time_range <- range(
+      c(
+        tsl_time_df$begin,
+        tsl_time_df$end
+      )
+    )
+
+    time <- utils_coerce_time_class(
+      x = time,
+      to = tsl_time_df$class[1]
+    ) |>
+      range()
 
     if(
-      max(time) < min(all_times.range) ||
-      min(time) > max(all_times.range)
+      max(time) < min(tsl_time_range) ||
+      min(time) > max(tsl_time_range)
     ){
 
       warning(
-        "Range of argument 'time' (",
-        paste(range(time), collapse = ", "),
-        ") and range of times in 'x' (",
-        paste(all_times.range, collapse = ", "),
-        ") do nor overlap. Ignoring time subset."
-      )
+        "Argument time must be a vector of class '",
+        tsl_time_df$class[1],
+        " ' with values between ",
+        min(tsl_time_range),
+        " and ",
+        max(tsl_time_range),
+        ". Ignoring subset by time."
+        )
 
     } else {
 
+      #subset by time
       tsl <- lapply(
         X = tsl,
-        FUN = function(i){
+        FUN = function(x){
 
-          i <- stats::window(
-            i,
+          x_name <- attributes(x)$name
+
+          x <- stats::window(
+            x = x,
             start = min(time),
             end = max(time)
           )
 
-          return(i)
+          if(nrow(x) == 0){
+            return(NULL)
+          }
+
+          attr(x = x, which = "name") <- x_name
+
+          return(x)
 
         }
+
       )
 
+      #remove NULL elements
       tsl <- Filter(Negate(is.null), tsl)
 
       tsl_removed <- setdiff(
         x = zoo_names,
-        y = tsl_zoo_names(
-          tsl = tsl
+        y = tsl_names_get(
+          tsl = tsl,
+          zoo = TRUE
         )
       )
 
@@ -164,7 +273,7 @@ tsl_subset <- function(
 
   }
 
-  tsl <- tsl_names_set(
+  tsl <- tsl_validate(
     tsl = tsl
   )
 

@@ -19,5 +19,5 @@ Named list with global mean and standard deviation
 \description{
 Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within \code{\link[=tsl_transform]{tsl_transform()}} when the scaling functions \code{\link[=f_center]{f_center()}}, \code{\link[=f_scale]{f_scale()}}, or \code{\link[base:scale]{base::scale()}} are used as inputs for the argument \code{f}.
 
-Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_select_shared_cols]{tsl_select_shared_cols()}}.
+Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
 }

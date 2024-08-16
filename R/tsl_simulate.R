@@ -261,6 +261,10 @@ tsl_simulate <- function(
     names = names_tsl
   )
 
+  tsl <- tsl_validate(
+    tsl = tsl
+  )
+
   tsl
 
 }

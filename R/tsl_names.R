@@ -1,81 +1,56 @@
-
-#' @export
-#' @rdname tsl_names
-#' @autoglobal
-tsl_zoo_names <- function(
-    tsl = NULL
-){
-
-  tsl.names <- lapply(
-    X = tsl,
-    FUN = function(x){
-      attributes(x)$name
-    }
-  ) |>
-    unlist()
-
-  names(tsl.names) <- NULL
-
-  tsl.names
-
-}
-
 #' Names of Time Series List
 #'
 #' @description
 #'
-#' A time series list has three sets of names: the names of the list items (as returned by `names(tsl)`), the names of the contained zoo objects, as stored in their attribute "name", and the column names of teh zoo objects. This function extracts these names as a list mimicking the structure of the original time series list.
+#' A time series list has two sets of names: the names of the list items (as returned by `names(tsl)`), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param colnames (optional, logial) If TRUE, all column names are shown as well. Default: FALSE
+#' @param zoo (optional, logical) If TRUE, the attributes "name" of the zoo objects are returned. Default: TRUE
 #'
 #' @return list
 #' @export
 #' @autoglobal
 #' @examples
-#' #simulate a time series list
+#' #initialize a time series list
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
 #'   time_column = "date"
 #' )
 #'
-#' #get list and zoo names
-#' tsl_names_get(
-#'   tsl = tsl
-#'   )
 #'
-#' #get column names
+#' #get names of zoo objects
 #' tsl_names_get(
 #'   tsl = tsl,
-#'   colnames = TRUE
+#'   zoo = TRUE
 #' )
-#' TODO: think of a more flexible approach to get names? The current list output is a bit ugly
+#'
+#' #get list names only
+#' tsl_names_get(
+#'   tsl = tsl,
+#'   zoo = FALSE
+#'   )
+#'
+#' #same as
+#' names(tsl)
 tsl_names_get <- function(
     tsl = NULL,
-    colnames = FALSE
+    zoo = TRUE
     ){
 
-  if(colnames == TRUE){
+  if(zoo == TRUE){
 
-    lapply(
-      X = tsl,
-      FUN = function(x){
-        l <- list()
-        l[[attributes(x)$name]] <- colnames(x)
-        l
-      }
-    )
-
-  } else {
-
-    lapply(
+    sapply(
       X = tsl,
       FUN = function(x){
         attributes(x)$name
       }
     )
+
+  } else {
+
+    names(tsl)
 
   }
 
@@ -95,75 +70,102 @@ tsl_names_get <- function(
 #' @export
 #'
 #' @examples
-#' #tsl with NA cases
-#' tsl <- tsl_simulate(
-#'   na_fraction = 0.25
-#' )
+#' #simulate time series list
+#' tsl <- tsl_simulate(n = 3)
 #'
-#' #removing list names
-#' names(tsl) <- NULL
-#'
-#' #check validity
+#' #assess validity
 #' tsl <- tsl_validate(
 #'   tsl = tsl
 #' )
 #'
-#' #fix names issue
+#' #list and zoo names (default)
+#' tsl_names_get(
+#'   tsl = tsl
+#' )
+#'
+#' #list names
+#' tsl_names_get(
+#'   tsl = tsl,
+#'   zoo = FALSE
+#' )
+#'
+#' #renaming list items and zoo objects
+#' #------------------------------------
+#' tsl <- tsl_names_set(
+#'   tsl = tsl,
+#'   names = c("X", "Y", "Z")
+#' )
+#'
+#' # check new names
+#' tsl_names_get(
+#'   tsl = tsl
+#' )
+#'
+#' #fixing naming issues
+#' #------------------------------------
+#'
+#' #creating a invalid time series list
+#' names(tsl)[2] <- "B"
+#'
+#' # check names
+#' tsl_names_get(
+#'   tsl = tsl
+#' )
+#'
+#' #validate tsl
+#' #returns NOT VALID
+#' #recommends a solution
+#' tsl <- tsl_validate(
+#'   tsl = tsl
+#' )
+#'
+#' #fix issue with tsl_names_set()
+#' #uses names of zoo objects for the list items
 #' tsl <- tsl_names_set(
 #'   tsl = tsl
 #' )
 #'
-#' #check validity again
+#' #validate again
 #' tsl <- tsl_validate(
 #'   tsl = tsl
 #' )
 #'
-#' #value of attribute "valid"
-#' attributes(x = tsl)$valid
-#'
-#' #fix NA issues
-#' tsl <- tsl_handle_NA(
+#' #list names
+#' tsl_names_get(
 #'   tsl = tsl
 #' )
-#'
-#' #check validity again
-#' #no errors, warnings, or messages
-#' tsl <- tsl_validate(
-#'   tsl = tsl
-#' )
-#'
-#' #value of attribute "valid"
-#' attributes(x = tsl)$valid
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
 ){
 
   #get tsl and zoo names
-  tsl_zoo_names <- names(tsl)
+  tsl_names <- tsl_names_get(
+    tsl = tsl,
+    zoo = FALSE
+  )
 
-  zoo_names <- lapply(
-    X = tsl,
-    FUN = function(x){
-      attributes(x)$name
-    }
-  ) |>
-    unlist()
+  zoo_names <- tsl_names_get(
+    tsl = tsl,
+    zoo = TRUE
+  )
 
   #argument names is NULL
   #using names available in tsl object
   #or creating new names from LETTERS
   if(is.null(names)){
 
-    #using names from list
-    if(all(!is.null(tsl_zoo_names))){
-
-      names <- tsl_zoo_names
-
-      #using names from zoo objects
-    } else if(all(!is.null(zoo_names))) {
+    #using names from zoo objects
+    if(all(!is.null(zoo_names))){
 
       names <- zoo_names
+
+      #using names from list
+    } else if(
+      all(!is.null(tsl_names))
+      ){
+
+      names <- tsl_names
 
       #creating new names
     } else {
@@ -232,21 +234,61 @@ tsl_names_set <- function(
 
 #' Clean Names of a Time Series List
 #'
+#'@description
+#' Combines [utils_clean_names()] and [tsl_names_set()] to help clean, abbreviate, capitalize, and add a suffix or a prefix to time series list names.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
-#' @param suffix (optional, character string) String to append to the cleaned names. Default: NULL.
-#' @param prefix (optional, character string)  String to prepend to the cleaned names. Default: NULL.
+#' @param suffix (optional, character string) Suffix for the clean names. Default: NULL.
+#' @param prefix (optional, character string)  Prefix for the clean names. Default: NULL.
 #'
-#' @return Time series list with clean names
+#' @return time series list
 #'
-#' @examples
-#' TODO add example
 #' @autoglobal
 #' @export
+#' @examples
+#' #initialize time series list
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' #original names
+#' tsl_names_get(
+#'   tsl = tsl
+#' )
+#'
+#' #abbreviate names
+#' #---------------------------
+#' tsl_clean <- tsl_names_clean(
+#'   tsl = tsl,
+#'   capitalize_first = TRUE,
+#'   length = 4 #abbreviate to 4 characters
+#' )
+#'
+#' #new names
+#' tsl_names_get(
+#'   tsl = tsl_clean
+#' )
+#'
+#' #suffix and prefix
+#' #---------------------------
+#' tsl_clean <- tsl_names_clean(
+#'   tsl = tsl,
+#'   capitalize_all = TRUE,
+#'   separator = "_",
+#'   suffix = "fagus",
+#'   prefix = "country"
+#' )
+#'
+#' #new names
+#' tsl_names_get(
+#'   tsl = tsl_clean
+#' )
 tsl_names_clean <- function(
     tsl = NULL,
     separator = "_",
@@ -257,12 +299,13 @@ tsl_names_clean <- function(
     prefix = NULL
 ){
 
-  tsl.names <- tsl_zoo_names(
-    tsl = tsl
+  zoo_names <- tsl_names_get(
+    tsl = tsl,
+    zoo = TRUE
   )
 
-  tsl.names <- utils_clean_names(
-    x = tsl_zoo_names,
+  tsl_names <- utils_clean_names(
+    x = zoo_names,
     separator = separator,
     capitalize_first = capitalize_first,
     capitalize_all = capitalize_all,
@@ -271,11 +314,11 @@ tsl_names_clean <- function(
     prefix = prefix
   )
 
-  names(tsl.names) <- NULL
+  names(tsl_names) <- NULL
 
   tsl <- tsl_names_set(
     tsl = tsl,
-    names = tsl.names
+    names = tsl_names
   )
 
   tsl

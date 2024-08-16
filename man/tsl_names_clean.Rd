@@ -25,16 +25,54 @@ tsl_names_clean(
 
 \item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via \code{\link[=abbreviate]{abbreviate()}}. Default: NULL.}
 
-\item{suffix}{(optional, character string) String to append to the cleaned names. Default: NULL.}
+\item{suffix}{(optional, character string) Suffix for the clean names. Default: NULL.}
 
-\item{prefix}{(optional, character string)  String to prepend to the cleaned names. Default: NULL.}
+\item{prefix}{(optional, character string)  Prefix for the clean names. Default: NULL.}
 }
 \value{
-Time series list with clean names
+time series list
 }
 \description{
-Clean Names of a Time Series List
+Combines \code{\link[=utils_clean_names]{utils_clean_names()}} and \code{\link[=tsl_names_set]{tsl_names_set()}} to help clean, abbreviate, capitalize, and add a suffix or a prefix to time series list names.
 }
 \examples{
-TODO add example
+#initialize time series list
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  id_column = "site",
+  time_column = "date"
+)
+
+#original names
+tsl_names_get(
+  tsl = tsl
+)
+
+#abbreviate names
+#---------------------------
+tsl_clean <- tsl_names_clean(
+  tsl = tsl,
+  capitalize_first = TRUE,
+  length = 4 #abbreviate to 4 characters
+)
+
+#new names
+tsl_names_get(
+  tsl = tsl_clean
+)
+
+#suffix and prefix
+#---------------------------
+tsl_clean <- tsl_names_clean(
+  tsl = tsl,
+  capitalize_all = TRUE,
+  separator = "_",
+  suffix = "fagus",
+  prefix = "country"
+)
+
+#new names
+tsl_names_get(
+  tsl = tsl_clean
+)
 }

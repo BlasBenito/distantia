@@ -9,7 +9,8 @@
 #'   \item All elements in `tsl` are `zoo` objects.
 #'   \item All `zoo` objects have the attribute "name".
 #'   \item All `zoo` objects have unique values in the attribute "name".
-#'   \item All `zoo` objects have at least one common column name.
+#'   \item Names of the list slots and the `zoo` objects are the same.
+#'   \item All `zoo` objects have at least one shared column name.
 #'   \item All columns in the `zoo` objects are numeric.
 #'   \item All `zoo` objects have zero NA cases.
 #' }
@@ -81,8 +82,9 @@ tsl_validate <- function(
     tsl_objects_zoo = "  - objects in 'tsl' must be of the class 'zoo'.",
     zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': use tsl_names_set() to fix this issue.",
     zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.",
+    zoo_different_names = "  - zoo objects and list items have different names:  use tsl_names_set() to fix this issue.",
     zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames_get() to identify shared and/or exclusive columns.",
-    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_select_numeric_cols() to fix this issue.",
+    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_subset() to fix this issue.",
     zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with tsl_handle_NA() to fix this issue."
   )
 
@@ -165,9 +167,12 @@ tsl_validate <- function(
     } else {
 
       # zoo objects have names
-      zoo.names <- tsl_zoo_names(tsl = tsl)
+      zoo_names <- tsl_names_get(
+        tsl = tsl,
+        zoo = TRUE
+        )
 
-      if(length(zoo.names) == 0){
+      if(length(zoo_names) == 0){
 
         issues <- c(
           issues,
@@ -179,7 +184,7 @@ tsl_validate <- function(
       } else {
 
         # zoo names are unique
-        if(any(duplicated(zoo.names))){
+        if(any(duplicated(zoo_names))){
 
           issues <- c(
             issues,
@@ -190,15 +195,26 @@ tsl_validate <- function(
 
         }
 
+        if(any(zoo_names != names(tsl))){
+
+          issues <- c(
+            issues,
+            all_issues[["zoo_different_names"]]
+          )
+
+          is_valid <- FALSE
+
+        }
+
       }
 
       # zoo objects have shared colnames
-      zoo.names.shared <- tsl_colnames_get(
+      zoo_colnames_shared <- tsl_colnames_get(
         tsl = tsl,
         names = "shared"
       )
 
-      if(length(zoo.names.shared) == 0){
+      if(length(zoo_colnames_shared) == 0){
 
         issues <- c(
           issues,
@@ -274,10 +290,6 @@ tsl_validate <- function(
       )
     )
 
-  } else {
-
-    message("This time series list is VALID.")
-
   }
 
   tsl
@@ -287,7 +299,6 @@ tsl_validate <- function(
 #' @rdname tsl_validate
 #' @export
 #' @autoglobal
-#' @examples
 tsl_is_valid <- function(
     tsl = NULL
 ){

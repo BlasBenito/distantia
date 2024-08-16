@@ -24,7 +24,8 @@ Validity assessment of Time Series Lists. The required features for a valid time
 \item All elements in \code{tsl} are \code{zoo} objects.
 \item All \code{zoo} objects have the attribute "name".
 \item All \code{zoo} objects have unique values in the attribute "name".
-\item All \code{zoo} objects have at least one common column name.
+\item Names of the list slots and the \code{zoo} objects are the same.
+\item All \code{zoo} objects have at least one shared column name.
 \item All columns in the \code{zoo} objects are numeric.
 \item All \code{zoo} objects have zero NA cases.
 }

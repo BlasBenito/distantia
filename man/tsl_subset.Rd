@@ -2,25 +2,83 @@
 % Please edit documentation in R/tsl_subset.R
 \name{tsl_subset}
 \alias{tsl_subset}
-\title{Subset Time Series List}
+\title{Subset a Time Series List}
 \usage{
-tsl_subset(tsl = NULL, names = NULL, colnames = NULL, time = NULL)
+tsl_subset(
+  tsl = NULL,
+  names = NULL,
+  colnames = NULL,
+  numeric_cols = TRUE,
+  shared_cols = TRUE,
+  time = NULL
+)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{names}{(optional, character or numeric vector) Character vector of sequence names or numeric vector of sequence indices in \code{tsl}. If NULL, all sequences are kept. Default: NULL}
+\item{names}{(optional, character or numeric vector) Character vector of names or numeric vector with list indices. If NULL, all time series are kept. Default: NULL}
 
-\item{colnames}{(optional, character vector) Column names of the sequences in \code{tsl}. If NULL, all variables are returned. Default: NULL}
+\item{colnames}{(optional, character vector) Column names of the zoo objects in \code{tsl}. If NULL, all columns are returned. Default: NULL}
 
-\item{time}{(optional, numeric vector) numeric vector with range of times to keep from the sequences in \code{tsl}. Rows of sequences in \code{tsl} outside such range are removed. If NULL, all rows in \code{tsl} are preserved. Default: NULL}
+\item{numeric_cols}{(optional, logical) If TRUE, only the numeric columns of the zoo objects are returned. Default: TRUE}
+
+\item{shared_cols}{(optional, logical) If TRUE, only columns shared across all zoo objects are returned. Default: TRUE}
+
+\item{time}{(optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in \code{tsl} are preserved. Default: NULL}
 }
 \value{
-#' @return A named list of matrices.
+time series list
 }
 \description{
-Manipulates the dimension of a time series list.
+Subsetting of time series lists by name, time, and variables.
 }
 \examples{
-TODO: complete example
+#initialize time series list
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  id_column = "site",
+  time_column = "date"
+)
+
+#checking available dimensions
+
+#names
+tsl_names_get(
+  tsl = tsl
+)
+
+#colnames
+tsl_colnames_get(
+  tsl = tsl
+)
+
+#time
+tsl_time(
+  tsl = tsl
+)[, c("name", "begin", "end")]
+
+#subset
+tsl_new <- tsl_subset(
+  tsl = tsl,
+  names = c("Sweden", "Germany"),
+  colnames = c("rainfall", "temperature"),
+  time = c("2010-01-01", "2015-01-01")
+)
+
+#check new dimensions
+
+#names
+tsl_names_get(
+  tsl = tsl_new
+)
+
+#colnames
+tsl_colnames_get(
+  tsl = tsl_new
+)
+
+#time
+tsl_time(
+  tsl = tsl_new
+)[, c("name", "begin", "end")]
 }

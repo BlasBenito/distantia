@@ -15,11 +15,47 @@
 #' @param guide_columns (optional, integer) Columns of the line guide. Default: 1.
 #' @param guide_cex (optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.
 #'
-#' @return A plot.
+#' @return plot
 #' @export
-#'
+#' @autoglobal
 #' @examples
-#' TODO: complete example
+#' #simulate zoo time series
+#' tsl <- tsl_simulate(
+#'   cols = 3
+#'   )
+#'
+#' if(interactive()){
+#'
+#'   #default plot
+#'   tsl_plot(
+#'     tsl = tsl
+#'     )
+#'
+#'   #relative vertical limits
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     ylim = "relative"
+#'   )
+#'
+#'   #changing layout
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     columns = 2,
+#'     guide_columns = 2
+#'   )
+#'
+#'   #no legend
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide = FALSE
+#'   )
+#'
+#'   #changing color
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     color = c("red", "green", "blue"))
+#'
+#' }
 tsl_plot <- function(
     tsl = NULL,
     columns = 1,

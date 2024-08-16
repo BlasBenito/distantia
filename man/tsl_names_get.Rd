@@ -4,36 +4,40 @@
 \alias{tsl_names_get}
 \title{Names of Time Series List}
 \usage{
-tsl_names_get(tsl = NULL, colnames = FALSE)
+tsl_names_get(tsl = NULL, zoo = TRUE)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{colnames}{(optional, logial) If TRUE, all column names are shown as well. Default: FALSE}
+\item{zoo}{(optional, logical) If TRUE, the attributes "name" of the zoo objects are returned. Default: TRUE}
 }
 \value{
 list
 }
 \description{
-A time series list has three sets of names: the names of the list items (as returned by \code{names(tsl)}), the names of the contained zoo objects, as stored in their attribute "name", and the column names of teh zoo objects. This function extracts these names as a list mimicking the structure of the original time series list.
+A time series list has two sets of names: the names of the list items (as returned by \code{names(tsl)}), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names.
 }
 \examples{
-#simulate a time series list
+#initialize a time series list
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",
   time_column = "date"
 )
 
-#get list and zoo names
-tsl_names_get(
-  tsl = tsl
-  )
 
-#get column names
+#get names of zoo objects
 tsl_names_get(
   tsl = tsl,
-  colnames = TRUE
+  zoo = TRUE
 )
-TODO: think of a more flexible approach to get names? The current list output is a bit ugly
+
+#get list names only
+tsl_names_get(
+  tsl = tsl,
+  zoo = FALSE
+  )
+
+#same as
+names(tsl)
 }
