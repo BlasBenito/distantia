@@ -1,18 +1,19 @@
-#' Number of Rows in Time Series Lists
+#' Number of Rows in a Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #'
 #' @return list
 #' @export
 #' @examples
-#' #initialize time series list
-#'  <- tsl_simulate(
-#'  = 2,
-#' ows = 175
+#' #simulate zoo time series
+#' tsl <- tsl_simulate(
+#'   rows = 150
+#'   )
 #'
-#'
-#' mber of columns per zoo object
-#' _nrow(tsl = tsl)
+#' #count rows
+#' tsl_nrow(
+#'   tsl = tsl
+#' )
 #' @autoglobal
 tsl_nrow <- function(
     tsl = NULL

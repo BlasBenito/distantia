@@ -102,7 +102,7 @@ zoo_time <- function(
   }
 
   #n
-  x_n <- length(x_time)
+  x_rows <- length(x_time)
 
   #range
   x_range <- range(x_time)
@@ -126,13 +126,13 @@ zoo_time <- function(
   #output data frame
   df <- data.frame(
     name = x_name,
-    n = x_n,
+    rows = x_rows,
     class = x_class,
     units = x_length_units,
-    begin = min(x_range),
-    end = max(x_range),
     length = x_length,
-    resolution = x_resolution
+    resolution = x_resolution,
+    begin = min(x_range),
+    end = max(x_range)
   )
 
   #units

@@ -3,7 +3,7 @@
 \name{tsl_time}
 \alias{tsl_time}
 \alias{tsl_time_summary}
-\title{Time Summary of a Time Series List}
+\title{Time Features of a Time Series List}
 \usage{
 tsl_time(tsl = NULL, keywords = c("resample", "aggregate"))
 
@@ -15,13 +15,60 @@ tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 \item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
 }
 \value{
-Data frame for \code{\link[=tsl_time]{tsl_time()}}, and list for \code{\link[=tsl_time_summary]{tsl_time_summary()}}.
+\itemize{
+\item \code{\link[=tsl_time]{tsl_time()}}: data frame with the following columns:
+\itemize{
+\item \code{name} (string): time series name.
+\item \code{rows} (integer): number of observations.
+\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric."
+\item \code{units} (string): units of the time series.
+\item \code{length} (numeric): total length of the time series expressed in \code{units}.
+\item \code{resolution} (numeric): average interval between observations expressed in \code{units}.
+\item \code{begin} (date or numeric): begin time of the time series.
+\item \code{end} (date or numeric): end time of the time series.
+\item \code{keywords} (character vector): valid keywords for \code{\link[=tsl_aggregate]{tsl_aggregate()}} or \code{\link[=tsl_resample]{tsl_resample()}}, depending on the value of the argument \code{keywords}.
+}
+\item \code{\link[=tsl_time_summary]{tsl_time_summary()}}: list with the following objects:
+\itemize{
+\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric."
+\item \code{units} (string): units of the time series.
+\item \code{begin} (date or numeric): begin time of the time series.
+\item \code{end} (date or numeric): end time of the time series.
+\item \code{resolution_max} (numeric): longer time interval between consecutive samples expressed in \code{units}.
+\item \code{resolution_min} (numeric): shorter time interval between consecutive samples expressed in \code{units}.
+\item \code{keywords} (character vector): valid keywords for \code{\link[=tsl_aggregate]{tsl_aggregate()}} or \code{\link[=tsl_resample]{tsl_resample()}}, depending on the value of the argument \code{keywords}.
+\item \code{units_df} (data frame) data frame for internal use within \code{\link[=tsl_aggregate]{tsl_aggregate()}} and \code{\link[=tsl_resample]{tsl_resample()}}.
+}
+}
 }
 \description{
-\code{\link[=tsl_time]{tsl_time()}} returns a data frame with one row per time series in the argument 'tsl' with key time features.
+The functions \code{\link[=tsl_time]{tsl_time()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}} summarize the time features of zoo objects within a time series list.
+\itemize{
+\item \code{\link[=tsl_time]{tsl_time()}} returns a data frame with one row per time series in the argument 'tsl'
+\item \code{\link[=tsl_time_summary]{tsl_time_summary()}} returns a list with the features captured by \code{\link[=tsl_time]{tsl_time()}}, but aggregated across time series.
+}
 
-\code{\link[=tsl_time_summary]{tsl_time_summary()}} is an internal function that returns a list with a general overview of the time features of all time series in the argument 'tsl'.
+Both functions return keywords useful for the functions \code{\link[=tsl_aggregate]{tsl_aggregate()}} and \code{\link[=tsl_resample]{tsl_resample()}}, depending on the value of the argument \code{keywords}.
 }
 \examples{
-TODO: complete example
+#simulate a time series list
+tsl <- tsl_simulate(
+  n = 3,
+  rows = 150,
+  time_range = c(
+    Sys.Date() - 365,
+    Sys.Date()
+  ),
+  irregular = TRUE
+)
+
+#time data frame
+tsl_time(
+  tsl = tsl
+)
+
+#time summary
+tsl_time_summary(
+  tsl = tsl
+)
 }
