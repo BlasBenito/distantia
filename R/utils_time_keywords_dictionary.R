@@ -1,13 +1,13 @@
 #' Dictionary of Time Keywords
 #'
 #' @description
-#' Data frame to help translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
+#' Called by [utils_time_keywords_translate()] to generate a data frame that helps translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
 #'
-#' @return Data frame.
+#' @return data frame
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
+#' df <- utils_time_keywords_dictionary()
 utils_time_keywords_dictionary <- function(){
 
   # millennia ----

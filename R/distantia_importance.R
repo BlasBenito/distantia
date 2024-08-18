@@ -160,15 +160,26 @@ distantia_importance <- function(
     robust = TRUE
 ){
 
+  #check validity
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
+
+  #length > 1
+  if(length(tsl) < 2){
+    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+  }
+
   #stop if tsl is univariate
   tsl_ncol <- tsl_ncol(tsl = tsl) |>
     unlist() |>
     unique()
 
   if(1 %in% tsl_ncol){
-    warning("There are univariate time series in 'tsl'. Importance scores only apply to multivariate time series. Please consider using distantia() instead.")
+    warning("There are univariate time series in 'tsl', but importance scores only apply to multivariate time series.")
   }
 
+  #subsetting numeric and shared columns
   tsl <- tsl_subset(
     tsl = tsl,
     numeric_cols = TRUE,

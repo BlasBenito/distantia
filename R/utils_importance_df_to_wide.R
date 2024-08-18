@@ -4,10 +4,10 @@
 #' Takes as input a data frame returned by [distantia_importance()] to return a data frame with one pair of time series per row, and the following columns:
 #' \itemize{
 #'   \item `most_similar`: name of the variable with the highest contribution to similarity (most negative value in the `importance` column) for each pair of time series.
-#'   \itemize `most_dissimilar`: name of the variable with the highest contribution to dissimilarity (most positive value in the `importance` column) for each pair of time series.
-#'   \itemize `importance__variable_name`: contribution to similarity (negative values) or dissimilarity (positive values) of the given variable.
-#'   \itemize `psi_only_with__variable_name`: dissimilarity of the two time series when only using the given variable.
-#'   \itemize `psi_without__variable_name`: dissimilarity of the two time series when removing the given variable.
+#'   \item `most_dissimilar`: name of the variable with the highest contribution to dissimilarity (most positive value in the `importance` column) for each pair of time series.
+#'   \item `importance__variable_name`: contribution to similarity (negative values) or dissimilarity (positive values) of the given variable.
+#'   \item `psi_only_with__variable_name`: dissimilarity of the two time series when only using the given variable.
+#'   \item `psi_without__variable_name`: dissimilarity of the two time series when removing the given variable.
 #' }
 #'
 #'

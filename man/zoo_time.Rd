@@ -14,68 +14,33 @@ zoo_time(x = NULL, keywords = c("resample", "aggregate"))
 \value{
 Data frame with the following columns:
 \itemize{
-\item name: value of attributes(x)$name.
-\item n: number of observations.
-\item class: class of the time units (Date, POSIXct, or numeric).
-\item begin: begin time of the time series.
-\item end: end time of the time series.
-\item length: length in "units" of the time series.
-\item resolution: average time distance (in "units") between consecutive observations.
-\item keywords: vector of valid keywords for data aggregation (see \code{\link[=zoo_aggregate]{zoo_aggregate()}}).
+\item \code{name} (string): time series name.
+\item \code{rows} (integer): number of observations.
+\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric."
+\item \code{units} (string): units of the time series.
+\item \code{length} (numeric): total length of the time series expressed in \code{units}.
+\item \code{resolution} (numeric): average interval between observations expressed in \code{units}.
+\item \code{begin} (date or numeric): begin time of the time series.
+\item \code{end} (date or numeric): end time of the time series.
+\item \code{keywords} (character vector): valid keywords for \code{\link[=tsl_aggregate]{tsl_aggregate()}} or \code{\link[=tsl_resample]{tsl_resample()}}, depending on the value of the argument \code{keywords}.
 }
 }
 \description{
-Time Features of a Zoo Object
+This function generates a data frame summarizing the time features (class, length, resolution, and others) of zoo time series.
 }
 \examples{
-#class Date
-##################################
+#simulate a zoo time series
 x <- zoo_simulate(
-  rows = 1000,
+  rows = 150,
   time_range = c(
-    "2010-01-01",
-    "2020-01-01"
-    )
+    Sys.Date() - 365,
+    Sys.Date()
+  ),
+  irregular = TRUE
 )
 
-x_time <- zoo_time(x)
-x_time
-
-#aggregation keywords
-x_time$keywords
-
-#class POSIXct, lower resolution
-##################################
-y <- zoo_simulate(
-  rows = 100,
-  time_range = c(
-    "2010-01-01 15:30:45 UTC",
-    "2020-01-01 17:22:30 UTC"
-  )
+#time data frame
+zoo_time(
+  x = x
 )
-
-y_time <- zoo_time(y)
-y_time
-
-#aggregation keywords
-#notice changes due to lower resolution
-y_time$keywords
-
-
-#class numeric
-##################################
-z <- zoo_simulate(
-  rows = 100,
-  time_range = c(
-    -10000,
-    2024
-  )
-)
-
-z_time <- zoo_time(z)
-z_time
-
-#aggregation keywords
-#numeric class uses characters with scientific notation
-z_time$keywords
 }

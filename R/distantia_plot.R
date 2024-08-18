@@ -101,13 +101,20 @@ distantia_plot <- function(
     text_cex = 1
 ){
 
+  #check validity
   tsl <- tsl_is_valid(
     tsl = tsl
-    )
+  )
 
+  #length > 1
+  if(length(tsl) < 2){
+    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+  }
+
+  #only two elements
   if(length(tsl) > 2){
 
-    warning("Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " for this plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select plot a different pair.")
+    warning("Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.")
 
     tsl <- tsl_subset(
       tsl = tsl,

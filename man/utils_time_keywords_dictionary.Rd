@@ -7,11 +7,11 @@
 utils_time_keywords_dictionary()
 }
 \value{
-Data frame.
+data frame
 }
 \description{
-Data frame to help translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
+Called by \code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}} to generate a data frame that helps translate misnamed or abbreviated time keywords, like "day", "daily", or "d", into correct ones such as "days".
 }
 \examples{
-TODO: complete example
+df <- utils_time_keywords_dictionary()
 }

@@ -69,8 +69,6 @@
 #' @examples
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#'
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
@@ -225,6 +223,17 @@ distantia <- function(
     seed = 1
 ){
 
+  #check validity
+  tsl <- tsl_is_valid(
+    tsl = tsl
+  )
+
+  #length > 1
+  if(length(tsl) < 2){
+    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+  }
+
+  #subset numeric and shared columns
   tsl <- tsl_subset(
     tsl = tsl,
     numeric_cols = TRUE,

@@ -2,9 +2,12 @@
 % Please edit documentation in R/utils_new_time.R
 \name{utils_new_time}
 \alias{utils_new_time}
+\alias{utils_new_time_type}
 \title{New Time for Time Series Aggregation}
 \usage{
-utils_new_time(
+utils_new_time(tsl = NULL, new_time = NULL, keywords = "aggregate")
+
+utils_new_time_type(
   tsl = NULL,
   new_time = NULL,
   keywords = c("resample", "aggregate")
@@ -21,14 +24,84 @@ utils_new_time(
 \item keyword (see \code{\link[=utils_time_units]{utils_time_units()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}}): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 }}
 
-\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. If both, returns all valid keywords. Default: c("aggregate", "resample").}
+\item{keywords}{(optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for \code{\link[=zoo_aggregate]{zoo_aggregate()}}. If "resample", returns valid keywords for \code{\link[=zoo_resample]{zoo_resample()}}. Default: "aggregate".}
 }
 \value{
 Vector of class numeric, Date, or POSIXct
 }
 \description{
-Internal function of \code{\link[=tsl_aggregate]{tsl_aggregate()}} to check input argument \code{new_time} for time series aggregation and return a proper aggregation vector.
+Internal function called by \code{\link[=tsl_aggregate]{tsl_aggregate()}} and \code{\link[=tsl_resample]{tsl_resample()}} to help transform the input argument \code{new_time} into the proper format for time series aggregation or resampling.
 }
 \examples{
-TODO: complete example
+#three time series
+#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  id_column = "site",
+  time_column = "date"
+)
+
+# new time for aggregation using keywords
+#-----------------------------------
+
+#get valid keywords for aggregation
+tsl_time_summary(
+  tsl = tsl,
+  keywords = "aggregate"
+)$keywords
+
+#if no keyword is used, for aggregation the highest resolution keyword is selected automatically
+new_time <- utils_new_time(
+  tsl = tsl,
+  new_time = NULL,
+  keywords = "aggregate"
+)
+
+new_time
+
+#if no keyword is used, for resampling a regular version of the original time based on the average resolution is used instead
+new_time <- utils_new_time(
+  tsl = tsl,
+  new_time = NULL,
+  keywords = "resample"
+)
+
+new_time
+
+#aggregation time vector form keyword "years"
+new_time <- utils_new_time(
+  tsl = tsl,
+  new_time = "years",
+  keywords = "aggregate"
+)
+
+new_time
+
+#same from shortened keyword
+#see utils_time_keywords_dictionary()
+utils_new_time(
+  tsl = tsl,
+  new_time = "year",
+  keywords = "aggregate"
+)
+
+#same for abbreviated keyword
+utils_new_time(
+  tsl = tsl,
+  new_time = "y",
+  keywords = "aggregate"
+)
+
+#from a integer defining a time interval in days
+utils_new_time(
+  tsl = tsl,
+  new_time = 365,
+  keywords = "aggregate"
+)
+
+#using this vector as input for aggregation
+tsl_aggregated <- tsl_aggregate(
+  tsl = tsl,
+  new_time = new_time
+)
 }

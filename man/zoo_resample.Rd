@@ -85,8 +85,6 @@ The steps to resample a time series list are:
 \strong{Other Details}
 
 Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
-
-This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only relevant for very large datasets when \code{max_complexity = FALSE} and \code{method = "loess"} or \code{method = "spline"}.
 }
 \examples{
 #simulate irregular time series

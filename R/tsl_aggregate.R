@@ -119,23 +119,6 @@ tsl_aggregate <- function(
     tsl = tsl
     )
 
-  old_time <- tsl_time_summary(
-    tsl = tsl,
-    keywords = "aggregate"
-    )
-
-  #new_time is NULL
-  if(is.null(new_time)){
-
-    new_time <- utils::tail(
-      x = unlist(old_time$keywords),
-      n = 1
-    )
-
-    message("Aggregating 'x' with keyword '", new_time, "'.")
-
-  }
-
   new_time <- utils_new_time(
     tsl = tsl,
     new_time = new_time,
@@ -149,12 +132,12 @@ tsl_aggregate <- function(
       x <- zoo_aggregate(
         x = x,
         new_time = new_time,
-        method = method,
-        ... = ...
+        method = method#,
+        #... = ...
       )
 
-    },
-    ... = ...
+    }#,
+    #... = ...
   )
 
   tsl <- tsl_names_set(

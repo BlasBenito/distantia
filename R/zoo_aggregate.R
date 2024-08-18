@@ -93,14 +93,13 @@ zoo_aggregate <- function(
     stop("Argument 'method' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
   }
 
-  # handle new_time ----
-  old_time <- zoo_time(
-    x = x,
-    keywords = "aggregate"
-    )
-
-  #new_time is NULL
+  #new_time from keyword
   if(is.null(new_time)){
+
+    old_time <- zoo_time(
+      x = x,
+      keywords = "aggregate"
+    )
 
     new_time <- utils::tail(
       x = unlist(old_time$keywords),
@@ -113,7 +112,7 @@ zoo_aggregate <- function(
 
   #process new_time
   new_time <- utils_new_time(
-    tsl = utils_zoo_to_tsl(x = x),
+    tsl = zoo_to_tsl(x = x),
     new_time = new_time,
     keywords = "aggregate"
   )

@@ -18,10 +18,10 @@ data frame
 Takes as input a data frame returned by \code{\link[=distantia_importance]{distantia_importance()}} to return a data frame with one pair of time series per row, and the following columns:
 \itemize{
 \item \code{most_similar}: name of the variable with the highest contribution to similarity (most negative value in the \code{importance} column) for each pair of time series.
-\itemize \code{most_dissimilar}: name of the variable with the highest contribution to dissimilarity (most positive value in the \code{importance} column) for each pair of time series.
-\itemize \code{importance__variable_name}: contribution to similarity (negative values) or dissimilarity (positive values) of the given variable.
-\itemize \code{psi_only_with__variable_name}: dissimilarity of the two time series when only using the given variable.
-\itemize \code{psi_without__variable_name}: dissimilarity of the two time series when removing the given variable.
+\item \code{most_dissimilar}: name of the variable with the highest contribution to dissimilarity (most positive value in the \code{importance} column) for each pair of time series.
+\item \code{importance__variable_name}: contribution to similarity (negative values) or dissimilarity (positive values) of the given variable.
+\item \code{psi_only_with__variable_name}: dissimilarity of the two time series when only using the given variable.
+\item \code{psi_without__variable_name}: dissimilarity of the two time series when removing the given variable.
 }
 }
 \examples{

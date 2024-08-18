@@ -1,72 +1,41 @@
 #' Time Features of a Zoo Object
 #'
+#' @description
+#' This function generates a data frame summarizing the time features (class, length, resolution, and others) of zoo time series.
+#'
+#'
 #' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
 #' @param keywords (optional, character string or vector) Defines what keywords are returned. If "aggregate", returns valid keywords for [zoo_aggregate()]. If "resample", returns valid keywords for [zoo_resample()]. If both, returns all valid keywords. Default: c("aggregate", "resample").
 #'
 #' @return Data frame with the following columns:
-#' \itemize{
-#'   \item name: value of attributes(x)$name.
-#'   \item n: number of observations.
-#'   \item class: class of the time units (Date, POSIXct, or numeric).
-#'   \item begin: begin time of the time series.
-#'   \item end: end time of the time series.
-#'   \item length: length in "units" of the time series.
-#'   \item resolution: average time distance (in "units") between consecutive observations.
-#'   \item keywords: vector of valid keywords for data aggregation (see [zoo_aggregate()]).
-#' }
+#'   \itemize{
+#'     \item `name` (string): time series name.
+#'     \item `rows` (integer): number of observations.
+#'     \item `class` (string): time class, one of "Date", "POSIXct", or "numeric."
+#'     \item `units` (string): units of the time series.
+#'     \item `length` (numeric): total length of the time series expressed in `units`.
+#'     \item `resolution` (numeric): average interval between observations expressed in `units`.
+#'     \item `begin` (date or numeric): begin time of the time series.
+#'     \item `end` (date or numeric): end time of the time series.
+#'     \item `keywords` (character vector): valid keywords for [tsl_aggregate()] or [tsl_resample()], depending on the value of the argument `keywords`.
+#'   }
 #' @export
 #' @autoglobal
 #' @examples
-#' #class Date
-#' ##################################
+#' #simulate a zoo time series
 #' x <- zoo_simulate(
-#'   rows = 1000,
+#'   rows = 150,
 #'   time_range = c(
-#'     "2010-01-01",
-#'     "2020-01-01"
-#'     )
+#'     Sys.Date() - 365,
+#'     Sys.Date()
+#'   ),
+#'   irregular = TRUE
 #' )
 #'
-#' x_time <- zoo_time(x)
-#' x_time
-#'
-#' #aggregation keywords
-#' x_time$keywords
-#'
-#' #class POSIXct, lower resolution
-#' ##################################
-#' y <- zoo_simulate(
-#'   rows = 100,
-#'   time_range = c(
-#'     "2010-01-01 15:30:45 UTC",
-#'     "2020-01-01 17:22:30 UTC"
-#'   )
+#' #time data frame
+#' zoo_time(
+#'   x = x
 #' )
-#'
-#' y_time <- zoo_time(y)
-#' y_time
-#'
-#' #aggregation keywords
-#' #notice changes due to lower resolution
-#' y_time$keywords
-#'
-#'
-#' #class numeric
-#' ##################################
-#' z <- zoo_simulate(
-#'   rows = 100,
-#'   time_range = c(
-#'     -10000,
-#'     2024
-#'   )
-#' )
-#'
-#' z_time <- zoo_time(z)
-#' z_time
-#'
-#' #aggregation keywords
-#' #numeric class uses characters with scientific notation
-#' z_time$keywords
 zoo_time <- function(
     x = NULL,
     keywords = c(
@@ -154,17 +123,25 @@ zoo_time <- function(
     ),
   ]
 
-  df_units <- df_units[
-    df_units$threshold <= (x_length + x_resolution) &
-      df_units$threshold >= x_resolution / 10,
-  ]
+
+  #exception for very short time units
+  if(!(x_length_units %in% c("hours", "mins", "secs"))){
+
+    df_units <- df_units[
+      df_units$threshold <= (x_length + x_resolution) &
+        df_units$threshold >= x_resolution / 10,
+    ]
+
+  }
 
   #identify aggregation and resampling keywords
   df_units$aggregate <- FALSE
   df_units$resample <- FALSE
 
   #aggregation with an average of two samples
-  df_units$aggregate[df_units$threshold > x_resolution * 2] <- TRUE
+  df_units$aggregate[
+    df_units$threshold > x_resolution * 2
+    ] <- TRUE
 
   #resampling one order of magnitude above and below resolution
   df_units$resample[

@@ -1,7 +1,7 @@
 #' Time Features of a Time Series List
 #'
 #' @description
-#' The functions [tsl_time()] and [tsl_time_summary()] summarize the time features of zoo objects within a time series list.
+#' The functions [tsl_time()] and [tsl_time_summary()] summarize the time features of a time series list.
 #' \itemize{
 #'   \item [tsl_time()] returns a data frame with one row per time series in the argument 'tsl'
 #'   \item [tsl_time_summary()] returns a list with the features captured by [tsl_time()], but aggregated across time series.

@@ -261,17 +261,6 @@ tsl_resample <- function(
     keywords = "resample"
   )
 
-  #new_time is NULL
-  if(is.null(new_time)){
-
-    new_time <- seq(
-      from = max(old_time$begin),
-      to = min(old_time$end),
-      length.out = floor(mean(old_time$n))
-    )
-
-  }
-
   #process new_time
   new_time <- utils_new_time(
     tsl = tsl,

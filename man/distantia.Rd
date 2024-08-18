@@ -95,8 +95,6 @@ This function also accepts a parallelization setup via \code{\link[future:plan]{
 \examples{
 #three time series
 #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-data("fagus_dynamics")
-
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",

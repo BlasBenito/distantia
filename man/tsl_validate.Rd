@@ -20,7 +20,6 @@ Validity assessment of Time Series Lists. The required features for a valid time
 \itemize{
 \item Argument \code{tsl} is a list.
 \item List \code{tsl} has unique names.
-\item List \code{tsl} has more than one element.
 \item All elements in \code{tsl} are \code{zoo} objects.
 \item All \code{zoo} objects have the attribute "name".
 \item All \code{zoo} objects have unique values in the attribute "name".

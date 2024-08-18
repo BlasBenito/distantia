@@ -57,8 +57,6 @@
 #'
 #' Please use this operation with care, as there are limits to the amount of resampling that can be done without distorting the data. The safest option is to keep the distance between new time points within the same magnitude of the distance between the old time points.
 #'
-#' This function accepts a parallelization setup via [future::plan()], but it is only relevant for very large datasets when `max_complexity = FALSE` and `method = "loess"` or `method = "spline"`.
-#'
 #' @param x (required, zoo object) Time series to resample. Default: NULL
 #' @param new_time (optional, zoo object, keyword, or time vector) New time to resample `x` to. The available options are:
 #' \itemize{
@@ -205,7 +203,7 @@ zoo_resample <- function(
 
   #process new_time
   new_time <- utils_new_time(
-    tsl = utils_zoo_to_tsl(x = x),
+    tsl = zoo_to_tsl(x = x),
     new_time = new_time,
     keywords = "resample"
   )
@@ -257,7 +255,7 @@ zoo_resample <- function(
 
   iterations <- seq_len(ncol(x))
 
-  `%iterator%` <- doFuture::`%dofuture%`
+  `%iterator%` <- foreach::`%do%`
 
   y <- foreach::foreach(
     i = iterations,

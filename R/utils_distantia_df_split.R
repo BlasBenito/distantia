@@ -5,11 +5,42 @@
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
 #'
-#' @return List of Distantia Data Frames
+#' @return list
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
+#' #three time series
+#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
+#' #dissimilarity analysis with four combinations of parameters
+#' df <- distantia(
+#'   tsl = tsl,
+#'   distance = c(
+#'     "euclidean",
+#'     "manhattan"
+#'     ),
+#'   lock_step = c(
+#'     TRUE,
+#'     FALSE
+#'   )
+#' )
+#'
+#' #split by combinations of parameters
+#' df_split <- utils_distantia_df_split(
+#'   df = df
+#' )
+#'
+#' #print output
+#' df_split
+#'
+#' #class and length of the output
+#' class(df_split)
+#' length(df_split)
 utils_distantia_df_split <- function(
     df = NULL
 ){

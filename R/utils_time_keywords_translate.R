@@ -4,13 +4,51 @@
 #' Internal function to translate misnamed or abbreviated keywords into valid ones. Uses [utils_time_keywords_dictionary()] as reference dictionary.
 #'
 #'
-#' @param keyword (optional, character string) A time keyword such as "day".
+#' @param keyword (optional, character string) A time keyword such as "day". Default: NULL
 #'
 #' @return Time keyword.
 #' @export
 #' @autoglobal
 #' @examples
-#' TODO: complete example
+#' #millennia
+#' utils_time_keywords_translate(
+#'   keyword = "1000 years"
+#' )
+#'
+#' utils_time_keywords_translate(
+#'   keyword = "1000 y"
+#' )
+#'
+#' utils_time_keywords_translate(
+#'   keyword = "thousands"
+#' )
+#'
+#' #years
+#' utils_time_keywords_translate(
+#'   keyword = "year"
+#' )
+#'
+#' utils_time_keywords_translate(
+#'   keyword = "y"
+#' )
+#'
+#' #days
+#' utils_time_keywords_translate(
+#'   keyword = "d"
+#' )
+#'
+#' utils_time_keywords_translate(
+#'   keyword = "day"
+#' )
+#'
+#' #seconds
+#' utils_time_keywords_translate(
+#'   keyword = "s"
+#' )
+#'
+#' utils_time_keywords_translate(
+#'   keyword = "sec"
+#' )
 utils_time_keywords_translate <- function(
     keyword = NULL
 ){

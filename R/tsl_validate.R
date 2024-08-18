@@ -5,7 +5,6 @@
 #' \itemize{
 #'   \item Argument `tsl` is a list.
 #'   \item List `tsl` has unique names.
-#'   \item List `tsl` has more than one element.
 #'   \item All elements in `tsl` are `zoo` objects.
 #'   \item All `zoo` objects have the attribute "name".
 #'   \item All `zoo` objects have unique values in the attribute "name".
@@ -76,7 +75,6 @@ tsl_validate <- function(
   #all possible issues
   all_issues <- list(
     tsl_not_a_list = "  - argument 'tsl' must be a list of zoo objects: see tsl_initialize().",
-    tsl_one_element = "  - argument 'tsl' must have at least two zoo objects.",
     tsl_names_null =  "  - elements of 'tsl' must be named: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
     tsl_names_duplicated = "  - elements of 'tsl' must have unique names: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
     tsl_objects_zoo = "  - objects in 'tsl' must be of the class 'zoo'.",
@@ -103,18 +101,6 @@ tsl_validate <- function(
 
     #tsl is a list
   } else {
-
-    # tsl has only one element
-    if(length(tsl) <= 1){
-
-      issues <- c(
-        issues,
-        all_issues[["tsl_one_element"]]
-      )
-
-      is_valid <- FALSE
-
-    }
 
     # tsl has names
     if(is.null(names(tsl))){

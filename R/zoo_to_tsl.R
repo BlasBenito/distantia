@@ -14,7 +14,7 @@
 #' class(x)
 #'
 #' #to time series list
-#' tsl <- utils_zoo_to_tsl(
+#' tsl <- zoo_to_tsl(
 #'   x = x
 #' )
 #'
@@ -22,24 +22,28 @@
 #' class(tsl[[1]])
 #' names(tsl)
 #' attributes(tsl[[1]])$name
-utils_zoo_to_tsl <- function(
+zoo_to_tsl <- function(
     x = NULL
 ){
 
   if(zoo::is.zoo(x) == FALSE){
-    return(x)
+    stop("Argument 'x' must be a zoo time series.")
   }
 
-  if(is.null(attributes(x)$name)){
-    attr(
-      x = x,
-      which = "name"
-    ) <- "A"
+  x_name <- attributes(x)$name
+
+  if(is.null(x_name)){
+    x_name <- "A"
   }
 
-  tsl <- list(
-    A = x
-  )
+  attr(
+    x = x,
+    which = "name"
+  ) <- x_name
+
+  tsl <- list(x)
+
+  names(tsl) <- x_name
 
   tsl <- tsl_validate(
     tsl = tsl

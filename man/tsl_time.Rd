@@ -42,7 +42,7 @@ tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 }
 }
 \description{
-The functions \code{\link[=tsl_time]{tsl_time()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}} summarize the time features of zoo objects within a time series list.
+The functions \code{\link[=tsl_time]{tsl_time()}} and \code{\link[=tsl_time_summary]{tsl_time_summary()}} summarize the time features of a time series list.
 \itemize{
 \item \code{\link[=tsl_time]{tsl_time()}} returns a data frame with one row per time series in the argument 'tsl'
 \item \code{\link[=tsl_time_summary]{tsl_time_summary()}} returns a list with the features captured by \code{\link[=tsl_time]{tsl_time()}}, but aggregated across time series.
