@@ -30,8 +30,6 @@
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands
 #' #in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#'
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
@@ -90,9 +88,7 @@
 #'   )
 #' }
 #'
-#' #also, with scale()
-#' #centers and scales each variable independently of the others
-#' #offers very similar results as f_scale for this case, but it might not work as well for other datasets
+#' #also, with base::scale()
 #' tsl_scale <- tsl_transform(
 #'   tsl = tsl,
 #'   f = base::scale,
@@ -401,7 +397,11 @@ tsl_transform <- function(
     stop("There are ", na.count, " NA, NaN, or Inf cases in argument 'tsl', Please handle these cases with distantia::tsl_handle_NA() before applying a transformation.")
   }
 
+  #progress bar
+  p <- progressr::progressor(along = tsl)
+
   #apply centering and or scaling
+  #if f has the formals "center" and "scale"
   if(
     all(
       c(
@@ -427,11 +427,7 @@ tsl_transform <- function(
       ... = ...
     )
 
-    #progress bar
-    p <- progressr::progressor(along = tsl)
-
     # scaling with scaling params
-    # TODO: need to document this feature in examples
     tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
@@ -477,6 +473,10 @@ tsl_transform <- function(
   na.count <- tsl_count_NA(
     tsl = tsl,
     quiet = FALSE
+  )
+
+  tsl <- tsl_validate(
+    tsl = tsl
   )
 
   tsl

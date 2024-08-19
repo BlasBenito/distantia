@@ -72,12 +72,6 @@ tsl_count_NA <- function(
 
     }
 
-  } else {
-
-    if(quiet == FALSE){
-      message("No NA cases in 'tsl'.")
-    }
-
   }
 
   na_count_list

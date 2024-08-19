@@ -38,8 +38,6 @@ This function also accepts a parallelization setup via \code{\link[future:plan]{
 #three time series
 #climate and ndvi in Fagus sylvatica stands
 #in Spain, Germany, and Sweden
-data("fagus_dynamics")
-
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",
@@ -98,9 +96,7 @@ if(interactive()){
   )
 }
 
-#also, with scale()
-#centers and scales each variable independently of the others
-#offers very similar results as f_scale for this case, but it might not work as well for other datasets
+#also, with base::scale()
 tsl_scale <- tsl_transform(
   tsl = tsl,
   f = base::scale,
