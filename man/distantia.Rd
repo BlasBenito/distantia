@@ -94,7 +94,8 @@ This function also accepts a parallelization setup via \code{\link[future:plan]{
 }
 \examples{
 #three time series
-#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#climate and ndvi in Fagus sylvatica stands
+#in Spain, Germany, and Sweden
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",
@@ -108,8 +109,11 @@ if(interactive()){
     )
 }
 
-#apply centering and scaling to avoid issues from different scales in temperature, rainfall, and ndvi
-#same scaling parameters (mean and sd) are used for all time series in tsl
+#apply centering and scaling
+#to avoid issues from different scales
+#in temperature, rainfall, and ndvi
+#same scaling parameters (mean and sd)
+#are used for all time series in tsl
 tsl <- tsl_transform(
   tsl = tsl,
   f = f_scale #see help(f_scale)
@@ -134,19 +138,24 @@ progressr::handlers(global = TRUE)
 
 #dynamic time warping dissimilarity analysis
 #-------------------------------------------
+#permutation restricted by row because
+#ndvi depends on temperature and rainfall
+#block size is 6 because data is monthly
+#to keep permutation restricted to 6 months periods
 tsl_dtw <- distantia(
   tsl = tsl,
   distance = "euclidean",
   repetitions = 30, #increase to 100 or more
-  permutation = "restricted_by_row", #seasonality, ndvi depends on temperature and rainfall
-  block_size = 6, #two blocks per year to separate greening and browning seasons
-  seed = 1 #ensures reproducibility of permutations
+  permutation = "restricted_by_row",
+  block_size = 6,
+  seed = 1
 )
 
 #focus on the important details
 tsl_dtw[, c("x", "y", "psi", "p_value")]
 #smaller psi values indicate higher similarity
-#p-values indicate  chance of finding a psi smaller than the observed by chance.
+#p-values indicate chance of
+#finding a psi smaller than the observed
 
 #visualize dynamic time warping
 if(interactive()){
@@ -185,12 +194,16 @@ tsl_dtw$null_mean[3]
 
 #lock-step dissimilarity analysis
 #---------------------------------
+#permutation restricted by row because
+#ndvi depends on temperature and rainfall
+#block size is 6 because data is monthly
+#to keep permutation restricted to 6 months periods
 tsl_lock_step <- distantia(
   tsl = tsl,
   distance = "euclidean",
-  repetitions = 30, #please, increase to 100 or more
-  permutation = "restricted_by_row", #seasonality, ndvi depends on temperature and rainfall
-  block_size = 6, #two blocks per year to separate greening and browning seasons
+  repetitions = 30, #increase to 100 or more
+  permutation = "restricted_by_row",
+  block_size = 6,
   lock_step = TRUE
 )
 
@@ -215,7 +228,8 @@ tsl_lock_step$null_mean[3]
 
 #combinations of parameters
 #---------------------------------
-#most arguments accept vectors, and the results contain all argument combinations
+#most arguments accept vectors
+#and the function results contain all argument combinations
 
 tsl_multiple <- distantia(
   tsl = tsl,

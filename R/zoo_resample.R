@@ -196,7 +196,7 @@ zoo_resample <- function(
     new_time <- seq(
       from = old_time$begin,
       to = old_time$end,
-      length.out = old_time$n
+      length.out = old_time$rows
     )
 
   }

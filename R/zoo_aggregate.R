@@ -118,7 +118,7 @@ zoo_aggregate <- function(
   )
 
   #new_time to aggregation intervals
-  new_time <- cut(
+  new_time_groups <- cut(
     x = zoo::index(x),
     breaks = new_time,
     include.lowest = TRUE,
@@ -129,12 +129,17 @@ zoo_aggregate <- function(
   #aggregate x as y
   y <- stats::aggregate(
     x = x,
-    by = new_time,
+    by = new_time_groups,
     FUN = method,
     ... = ...
   )
 
   colnames(y) <- colnames(x)
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = new_time
+  )
 
   #reset name
   attr(

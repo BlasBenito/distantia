@@ -44,7 +44,10 @@
 #'
 #' new_time
 #'
-#' #if no keyword is used, for resampling a regular version of the original time based on the average resolution is used instead
+#' #if no keyword is used
+#' #for resampling a regular version
+#' #of the original time based on the
+#' #average resolution is used instead
 #' new_time <- utils_new_time(
 #'   tsl = tsl,
 #'   new_time = NULL,

@@ -19,6 +19,15 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #for large datasets, parallelization accelerates cluster optimization
+#' future::plan(
+#'   future::multisession,
+#'   workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
 #' #daily covid prevalence in California counties
 #' data("covid_prevalence")
 #'
@@ -27,11 +36,20 @@
 #'   x = covid_prevalence,
 #'   id_column = "county",
 #'   time_column = "date"
-#' ) |>
-#'   tsl_aggregate(
-#'     new_time = "months",
-#'     fun = sum
-#'   )
+#' )
+#'
+#' #subset 10 elements to accelerate example execution
+#' tsl <- tsl_subset(
+#'   tsl = tsl,
+#'   names = 1:10
+#' )
+#'
+#' #aggregateto monthly data to accelerate example execution
+#' tsl <- tsl_aggregate(
+#'   tsl = tsl,
+#'   new_time = "months",
+#'   fun = sum
+#' )
 #'
 #' if(interactive()){
 #'   #plotting first three time series
@@ -82,16 +100,6 @@
 #'
 #' #optimized kmeans
 #' #---------------------------------
-#'
-#' #for large datasets, parallelization accelerates cluster optimization
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
-#' )
-#'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
-#'
 #' #auto-optimization of clusters and method
 #' distantia_kmeans <- distantia_cluster_kmeans(
 #'   df = distantia_df,
@@ -172,7 +180,7 @@ distantia_cluster_kmeans <- function(
   )
 
   k_silhouette <- utils_cluster_silhouette(
-    cluster = k$cluster,
+    labels = k$cluster,
     d = d,
     mean = FALSE
   )

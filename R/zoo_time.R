@@ -57,8 +57,9 @@ zoo_time <- function(
     several.ok = TRUE
   )
 
-  x_name <- attributes(x)$name
-  if(is.null(x_name)){
+  if("name" %in% attributes(x)){
+    x_name <- attributes(x)$name
+  } else {
     x_name <- ""
   }
 

@@ -16,5 +16,5 @@ A data frame with a least-cost path with no blocks.
 Removes blocks (straight segments of the path that appear in highly dissimilar regions of the sequences) from least-cost paths. Blocks inflate psi values when two sequences are similar but have very different numbers of rows.
 }
 \examples{
-TODO: complete example
+#TODO: complete example
 }

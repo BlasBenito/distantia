@@ -22,11 +22,9 @@
 #' @autoglobal
 #' @examples
 #' #three time series
-#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#'
-#' #load as tsl
-#' #center and scale with same parameters
+#' #climate and ndvi in Fagus sylvatica stands
+#' #in Spain, Germany, and Sweden
+#' #centerd and scaled with global parameters
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
@@ -53,7 +51,9 @@
 #'   df = distantia_df
 #'   )
 #'
-#' #The boxplot identifies Spain as the site most dissimilar to all others, and Germany as the most similar to all others.
+#' #The boxplot identifies Spain
+#' #as the site most dissimilar to all others,
+#' #and Germany as the most similar to all others.
 #'
 #' #stats returned by distantia_boxplot (see graphics::boxplot())
 #' boxplot_stats
@@ -68,7 +68,11 @@
 #'   df = importance_df
 #' )
 #'
-#' #the boxplot identifies the variable evi (enhanced vegetation index) as the one contributing the most to site dissimilarity, and termpature as the variable contributing the most to site similarity.
+#' #the boxplot identifies the variable evi
+#' #(enhanced vegetation index) as the one
+#' #contributing the most to site dissimilarity,
+#' #and termpature as the variable contributing
+#' #the most to site similarity.
 distantia_boxplot <- function(
     df = NULL,
     color = NULL,

@@ -23,6 +23,6 @@ Prepare List of Data Frames for Dissimilarity Analysis
 data(mis)
 x <- tsl_initialize(
   x = mis,
-  id_column = "MIS"
+  id_column = "mis"
 )
 }

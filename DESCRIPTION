@@ -28,6 +28,7 @@ Imports:
 Suggests: 
     roxyglobals,
     spelling,
+    future,
     testthat (>= 3.0.0)
 Roxygen: list(roclets = c("collate", "namespace", "rd",
     "roxyglobals::global_roclet"), markdown = TRUE)

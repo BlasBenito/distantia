@@ -147,7 +147,7 @@ tsl_plot <- function(
       )
 
       if(exists("ylim_min")){
-        abline(
+        graphics::abline(
           h = ylim_min,
           col = "gray50",
           lty = 3
@@ -155,7 +155,7 @@ tsl_plot <- function(
       }
 
       if(exists("ylim_max")){
-        abline(
+        graphics::abline(
           h = ylim_max,
           col = "gray50",
           lty = 3
@@ -163,7 +163,7 @@ tsl_plot <- function(
       }
 
       if(exists("ylim_mean")){
-        abline(
+        graphics::abline(
           h = ylim_mean,
           col = "gray50",
           lty = 3

@@ -476,20 +476,18 @@ f_hellinger <- function(
     ...
 ){
 
-  x.index <- zoo::index(x)
+  x.matrix <- zoo::coredata(x)
 
-  x <- as.matrix(x)
+  x.matrix[x.matrix == 0] <- pseudozero
 
-  x[x == 0] <- pseudozero
-
-  x <- zoo::zoo(
-    x = x,
-    order.by = x.index
+  x.matrix <- zoo::zoo(
+    x = x.matrix,
+    order.by = zoo::index(x)
   )
 
   y <- sqrt(
     sweep(
-      x = x,
+      x = x.matrix,
       MARGIN = 1,
       STATS = rowSums(x),
       FUN = "/"
@@ -501,6 +499,11 @@ f_hellinger <- function(
   y_data[is.nan(y_data)] <- 0
 
   zoo::coredata(y) <- y_data
+
+  attr(
+    x = y,
+    which = "name"
+  ) <- attributes(x)$name
 
   y
 

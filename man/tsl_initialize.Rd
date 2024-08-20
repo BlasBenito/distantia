@@ -41,7 +41,7 @@ Most functions in this package take a \strong{time series list} (or \strong{tsl}
 \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see \code{\link[=tsl_count_NA]{tsl_count_NA()}} and \code{\link[=tsl_handle_NA]{tsl_handle_NA()}}).
 \item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames_get]{tsl_colnames_get()}}).
 \item All zoo objects have a character attribute "name" identifying the object. This attribute is not part of the zoo class, but the package ensures that this attribute is not lost during data manipulations.
-\item Each element of the time series list is named after the zoo object it contains (see \code{\link[=tsl_zoo_names]{tsl_zoo_names()}}, \code{\link[=tsl_names_set]{tsl_names_set()}} and \code{\link[=tsl_names_clean]{tsl_names_clean()}}).
+\item Each element of the time series list is named after the zoo object it contains (see \code{\link[=tsl_names_get]{tsl_names_get()}}, \code{\link[=tsl_names_set]{tsl_names_set()}} and \code{\link[=tsl_names_clean]{tsl_names_clean()}}).
 \item The time series list contains two zoo objects or more.
 }
 
@@ -62,7 +62,9 @@ data("fagus_dynamics")
 
 #id_column is site
 #time column is date
-#in this case, all time series have the same length, but that's only optional, as irregular time series are fully supported.
+#in this case, all time series have the same
+#length, but that's only optional, as irregular
+#time series are fully supported.
 str(fagus_dynamics)
 
 #to tsl
@@ -112,15 +114,24 @@ if(interactive()){
 #--------------------
 #wide data frame with same variable in different places
 df <- data.frame(
-  date = fagus_dynamics[fagus_dynamics$site == "Spain", "date"],
-  Spain = fagus_dynamics[fagus_dynamics$site == "Spain", "evi"],
-  Germany = fagus_dynamics[fagus_dynamics$site == "Germany", "evi"],
-  Sweden = fagus_dynamics[fagus_dynamics$site == "Sweden", "evi"]
+  date = fagus_dynamics[
+  fagus_dynamics$site == "Spain", "date"
+  ],
+  Spain = fagus_dynamics[
+  fagus_dynamics$site == "Spain", "evi"
+  ],
+  Germany = fagus_dynamics[
+  fagus_dynamics$site == "Germany", "evi"
+  ],
+  Sweden = fagus_dynamics[
+  fagus_dynamics$site == "Sweden", "evi"
+  ]
 )
 
 #to tsl
 #key assumptions:
-#all columns but "date" represent the same variable in different places
+#all columns but "date" represent
+#the same variable in different places
 #all time series are of the same length
 tsl <- tsl_initialize(
   x = df,
@@ -147,7 +158,8 @@ vector_list <- list(
 
 #to tsl
 #key assumptions:
-#all vectors represent the same variable in different places
+#all vectors represent the same variable
+#in different places
 #time series can be of different lengths
 #no time column, integer indices are used as time
 tsl <- tsl_initialize(
@@ -164,12 +176,13 @@ if(interactive()){
 #create list of matrices
 matrix_list <- list(
   a = matrix(runif(30), nrow = 10, ncol = 3),
-  b = matrix(runif(80), nrow = 20, ncol = 4) #one more column
+  b = matrix(runif(80), nrow = 20, ncol = 4)
 )
 
 #to tsl
 #key assumptions:
-#each matrix represents a multivariate time series in a different place
+#each matrix represents a multivariate time series
+#in a different place
 #all multivariate time series have the same columns
 #no time column, integer indices are used as time
 tsl <- tsl_initialize(

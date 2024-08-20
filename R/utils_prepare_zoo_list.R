@@ -9,7 +9,7 @@
 #' data(mis)
 #' x <- tsl_initialize(
 #'   x = mis,
-#'   id_column = "MIS"
+#'   id_column = "mis"
 #' )
 #' @autoglobal
 #' @export

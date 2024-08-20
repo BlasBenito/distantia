@@ -200,14 +200,19 @@ tsl_validate <- function(
         names = "shared"
       )
 
-      if(length(zoo_colnames_shared) == 0){
+      #check ignored for zoo vectors.
+      if(!is.null(zoo_colnames_shared)){
 
-        issues <- c(
-          issues,
-          all_issues[["zoo_no_shared_columns"]]
-        )
+        if(length(zoo_colnames_shared) == 0){
 
-        is_valid <- FALSE
+          issues <- c(
+            issues,
+            all_issues[["zoo_no_shared_columns"]]
+          )
+
+          is_valid <- FALSE
+
+        }
 
       }
 
@@ -216,12 +221,24 @@ tsl_validate <- function(
         X = tsl,
         FUN = function(x){
 
-          apply(
-            X = zoo::coredata(x),
-            FUN = is.numeric,
-            MARGIN = 2
-          ) |>
-            all()
+          #vector
+          if(is.null(dim(x))){
+
+            out <- is.numeric(x)
+
+          } else {
+          #matrix
+
+            out <- apply(
+              X = zoo::coredata(x),
+              FUN = is.numeric,
+              MARGIN = 2
+            ) |>
+              all()
+
+          }
+
+          out
 
         }
 

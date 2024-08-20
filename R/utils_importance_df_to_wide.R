@@ -68,7 +68,7 @@ utils_importance_df_to_wide <- function(
     variable[f(importance)]
   }
 
-  most_dissimilar <- aggregate(
+  most_dissimilar <- stats::aggregate(
     importance ~ x + y,
     data = df,
     FUN = function(importance) {
@@ -82,7 +82,7 @@ utils_importance_df_to_wide <- function(
 
   names(most_dissimilar)[3] <- "most_dissimilar"
 
-  most_similar <- aggregate(
+  most_similar <- stats::aggregate(
     importance ~ x + y,
     data = df,
     FUN = function(importance) {

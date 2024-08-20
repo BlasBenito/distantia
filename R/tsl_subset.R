@@ -96,7 +96,7 @@ tsl_subset <- function(
       names <- names[
         names > 0 &
           names <= length(tsl)
-        ] |>
+      ] |>
         as.integer() |>
         unique()
 
@@ -148,10 +148,23 @@ tsl_subset <- function(
     tsl <- lapply(
       X = tsl,
       FUN = function(x){
-        x.name <- attributes(x)$name
-        x <-  x[, sapply(X = x, FUN = is.numeric)]
-        attr(x = x, which = "name") <- x.name
-        return(x)
+
+        y <- x[
+          ,
+          sapply(
+            X = x,
+            FUN = is.numeric
+          ),
+          drop = FALSE
+        ]
+
+        attr(
+          x = y,
+          which = "name"
+          ) <- attributes(x)$name
+
+        return(y)
+
       }
     )
 
@@ -170,10 +183,20 @@ tsl_subset <- function(
     tsl <- lapply(
       X = tsl,
       FUN = function(x){
-        x.name <- attributes(x)$name
-        x <- x[ , colnames(x) %in% shared_cols]
-        attr(x = x, which = "name") <- x.name
-        return(x)
+
+        y <- x[
+          ,
+          colnames(x) %in% shared_cols,
+          drop = FALSE
+          ]
+
+        attr(
+          x = y,
+          which = "name"
+          ) <- attributes(x)$name
+
+        return(y)
+
       }
     )
 
@@ -192,7 +215,7 @@ tsl_subset <- function(
 
     tsl_time_df <- tsl_time(
       tsl = tsl
-      )
+    )
 
     tsl_time_range <- range(
       c(
@@ -220,7 +243,7 @@ tsl_subset <- function(
         " and ",
         max(tsl_time_range),
         ". Ignoring subset by time."
-        )
+      )
 
     } else {
 
@@ -229,9 +252,7 @@ tsl_subset <- function(
         X = tsl,
         FUN = function(x){
 
-          x_name <- attributes(x)$name
-
-          x <- stats::window(
+          y <- stats::window(
             x = x,
             start = min(time),
             end = max(time)
@@ -241,7 +262,10 @@ tsl_subset <- function(
             return(NULL)
           }
 
-          attr(x = x, which = "name") <- x_name
+          attr(
+            x = x,
+            which = "name"
+            ) <- attributes(x)$name
 
           return(x)
 

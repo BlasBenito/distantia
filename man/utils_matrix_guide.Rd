@@ -35,7 +35,7 @@ data(mis)
 #prepare list of sequences
 x <- tsl_initialize(
   x = mis,
-  id_column = "MIS"
+  id_column = "mis"
 )
 
 #distance matrix of the first two sequences

@@ -269,6 +269,11 @@ tsl <- c(
   tsl_detrend_difference_12
 )
 
+#validate this new tsl
+tsl <- tsl_validate(
+  tsl = tsl
+)
+
 if(interactive()){
   tsl_plot(
     tsl = tsl,
@@ -303,7 +308,10 @@ tsl <- tsl_initialize(
 )
 
 #subset first three time-series
-tsl <- tsl[1:3]
+tsl <- tsl_subset(
+  tsl = tsl,
+  names = 1:3
+)
 
 if(interactive()){
   tsl_plot(
@@ -359,12 +367,24 @@ tsl_new <- tsl_transform(
 )
 
 #same as:
-#much faster, no requirement to return a zoo object
-#can be replaced with a parallelized future_lapply
+#much faster option with no
+#requirement to return a zoo object
 tsl_new <- lapply(
   X = tsl,
   FUN = function(x, y) x * y,
   y = 100
+)
+
+#same as above, but parallelized with future_lapply
+tsl_new <- future.apply::future_lapply(
+  X = tsl,
+  FUN = function(x, y) x * y,
+  y = 100
+)
+
+#both require validation to keep working with distantia
+tsl_new <- tsl_validate(
+  tsl = tsl_new
 )
 
 #disable parallelization

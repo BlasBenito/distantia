@@ -15,7 +15,7 @@
 #'
 #' x <- tsl_initialize(
 #'   x = mis,
-#'   id_column = "MIS"
+#'   id_column = "mis"
 #' )
 #'
 #' utils_line_guide(

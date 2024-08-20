@@ -30,10 +30,10 @@ zoo_to_tsl <- function(
     stop("Argument 'x' must be a zoo time series.")
   }
 
-  x_name <- attributes(x)$name
-
-  if(is.null(x_name)){
-    x_name <- "A"
+  if("name" %in% attributes(x)){
+    x_name <- attributes(x)$name
+  } else {
+    x_name <- ""
   }
 
   attr(
