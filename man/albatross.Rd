@@ -11,12 +11,13 @@ data frame
 data(albatross)
 }
 \description{
-Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the \href{https://doi.org/10.5441/001/1.3hp3s250}{data source} to learn more about this dataset.
+Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the \href{https://doi.org/10.5441/001/1.3hp3s250}{data source} (DOI: \url{https://doi.org/10.5441/001/1.3hp3s250}) to learn more about this dataset.
 }
 \examples{
 #load as tsl
 #scale al variables
 #aggregate to daily resolution
+#align all time series to same temporal span
 tsl <- tsl_initialize(
   x = albatross,
   id_column = "id",

@@ -19,7 +19,7 @@ Site coordinates for this dataset are in \link{eemian_coordinates}.
 data("eemian_pollen")
 
 #to time series list
-eemian <- tsl_initialize(
+tsl <- tsl_initialize(
   x = eemian_pollen,
   id_column = "site",
   time_column = "depth"
@@ -29,7 +29,10 @@ eemian <- tsl_initialize(
 if(interactive()){
 
  tsl_plot(
-  tsl = eemian,
+  tsl = tsl_subset(
+    tsl = tsl,
+    names = 1:3
+    ),
   columns = 2,
   guide_columns = 2
   )

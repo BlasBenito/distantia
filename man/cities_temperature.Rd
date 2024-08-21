@@ -30,7 +30,10 @@ if(interactive()){
 
  #only four cities are shown
  tsl_plot(
-  tsl = cities[seq_len(4)],
+  tsl = tsl_subset(
+    tsl = tsl,
+    names = 1:4
+    ),
   guide = FALSE
   )
 

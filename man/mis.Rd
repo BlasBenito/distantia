@@ -14,10 +14,8 @@ data(mis)
 A data frame with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
 }
 \examples{
-data(mis)
-
 #to time series list
-mis <- tsl_initialize(
+tsl <- tsl_initialize(
   x = mis,
   id_column = "mis",
   time_column = "sample_order"
@@ -27,8 +25,10 @@ mis <- tsl_initialize(
 if(interactive()){
 
  tsl_plot(
-  tsl = mis,
-  columns = 2,
+  tsl = tsl_subset(
+    tsl = tsl,
+    names = 1:3
+    ),
   guide_columns = 2
   )
 

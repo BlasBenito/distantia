@@ -30,8 +30,7 @@ fagus <- tsl_initialize(
 if(interactive()){
 
  tsl_plot(
-  tsl = fagus,
-  scale = TRUE
+  tsl = fagus
   )
 
 }

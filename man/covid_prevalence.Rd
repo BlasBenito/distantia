@@ -17,10 +17,8 @@ Dataset with Covid19 prevalence in California counties between 2020 and 2024. \h
 Site coordinates for this dataset are in \link{covid_coordinates}.
 }
 \examples{
-data("covid_prevalence")
-
 #to time series list
-covid <- tsl_initialize(
+tsl <- tsl_initialize(
   x = covid_prevalence,
   id_column = "county",
   time_column = "date"
@@ -31,7 +29,10 @@ if(interactive()){
 
  #subset to avoid margin errors
  tsl_plot(
-  tsl = covid[seq_len(4)],
+  tsl = tsl_subset(
+    tsl = tsl,
+    names = 1:4
+    ),
   guide = FALSE
   )
 

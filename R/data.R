@@ -21,10 +21,8 @@
 #' @name covid_prevalence
 #' @usage data(covid_prevalence)
 #' @examples
-#' data("covid_prevalence")
-#'
 #' #to time series list
-#' covid <- tsl_initialize(
+#' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
 #'   id_column = "county",
 #'   time_column = "date"
@@ -35,7 +33,10 @@
 #'
 #'  #subset to avoid margin errors
 #'  tsl_plot(
-#'   tsl = covid[seq_len(4)],
+#'   tsl = tsl_subset(
+#'     tsl = tsl,
+#'     names = 1:4
+#'     ),
 #'   guide = FALSE
 #'   )
 #'
@@ -61,10 +62,8 @@
 #' @name mis
 #' @usage data(mis)
 #' @examples
-#' data(mis)
-#'
 #' #to time series list
-#' mis <- tsl_initialize(
+#' tsl <- tsl_initialize(
 #'   x = mis,
 #'   id_column = "mis",
 #'   time_column = "sample_order"
@@ -74,8 +73,10 @@
 #' if(interactive()){
 #'
 #'  tsl_plot(
-#'   tsl = mis,
-#'   columns = 2,
+#'   tsl = tsl_subset(
+#'     tsl = tsl,
+#'     names = 1:3
+#'     ),
 #'   guide_columns = 2
 #'   )
 #'
@@ -109,8 +110,7 @@
 #' if(interactive()){
 #'
 #'  tsl_plot(
-#'   tsl = fagus,
-#'   scale = TRUE
+#'   tsl = fagus
 #'   )
 #'
 #' }
@@ -145,7 +145,7 @@
 #' data("eemian_pollen")
 #'
 #' #to time series list
-#' eemian <- tsl_initialize(
+#' tsl <- tsl_initialize(
 #'   x = eemian_pollen,
 #'   id_column = "site",
 #'   time_column = "depth"
@@ -155,7 +155,10 @@
 #' if(interactive()){
 #'
 #'  tsl_plot(
-#'   tsl = eemian,
+#'   tsl = tsl_subset(
+#'     tsl = tsl,
+#'     names = 1:3
+#'     ),
 #'   columns = 2,
 #'   guide_columns = 2
 #'   )
@@ -200,7 +203,10 @@
 #'
 #'  #only four cities are shown
 #'  tsl_plot(
-#'   tsl = cities[seq_len(4)],
+#'   tsl = tsl_subset(
+#'     tsl = tsl,
+#'     names = 1:4
+#'     ),
 #'   guide = FALSE
 #'   )
 #'
@@ -225,7 +231,7 @@
 #' Flight Paths of Albatrosses
 #'
 #' @description
-#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the [data source](https://doi.org/10.5441/001/1.3hp3s250) to learn more about this dataset.
+#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the [data source](https://doi.org/10.5441/001/1.3hp3s250) (DOI: [https://doi.org/10.5441/001/1.3hp3s250](https://doi.org/10.5441/001/1.3hp3s250)) to learn more about this dataset.
 #'
 #' @docType data
 #' @keywords datasets
@@ -235,6 +241,7 @@
 #' #load as tsl
 #' #scale al variables
 #' #aggregate to daily resolution
+#' #align all time series to same temporal span
 #' tsl <- tsl_initialize(
 #'   x = albatross,
 #'   id_column = "id",

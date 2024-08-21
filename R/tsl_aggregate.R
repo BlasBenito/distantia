@@ -35,16 +35,6 @@
 #'   \item `f_slope` or `"f_slope"`: to compute the group slope, see [f_slope()].
 #' }
 #'
-#' \strong{Step by Step}
-#'
-#' The steps to aggregate a time series list are:
-#'
-#' \enumerate{
-#'   \item
-#'   \item
-#'   \item
-#' }
-#'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param new_time (required, numeric, numeric vector, Date vector, POSIXct vector, or keyword) Definition of the aggregation pattern. The available options are:
 #' \itemize{
@@ -60,7 +50,66 @@
 #' @export
 #' @seealso [zoo_aggregate()]
 #' @examples
-#' #full range of calendar dates
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'   future::multisession,
+#'   workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
+#' # daily aggregation
+#' #----------------------------------
+#'
+#' #flight paths of five albatrosses
+#' #scaled to improve visualization
+#' tsl <- tsl_initialize(
+#'   x = albatross,
+#'   id_column = "id",
+#'   time_column = "time"
+#' ) |>
+#'   tsl_transform(
+#'     f = f_scale
+#'   )
+#'
+#' #plot time series
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide_columns = 4
+#'     )
+#' }
+#'
+#' #check time features
+#' tsl_time(tsl)
+#' #many observations per day
+#' #different starting and ending dates
+#'
+#' #aggregation: mean daily values
+#' tsl_daily <- tsl_aggregate(
+#'   tsl = tsl,
+#'   new_time = "days",
+#'   method = mean
+#' )
+#'
+#' #check time features
+#' tsl_time(tsl_daily)
+#' #one observation per day
+#' #same starting and ending dates
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_daily,
+#'     guide_columns = 4
+#'   )
+#' }
+#'
+#'
+#' # other supported keywords
+#' #----------------------------------
+#'
+#' #simulate full range of calendar dates
 #' tsl <- tsl_simulate(
 #'   n = 2,
 #'   rows = 1000,
@@ -69,16 +118,6 @@
 #'     as.character(Sys.Date())
 #'     )
 #' )
-#'
-#' #plot time series
-#' if(interactive()){
-#'   tsl_plot(tsl)
-#' }
-#'
-#'
-#' #find valid aggregation keywords
-#' tsl_time <- tsl_time(tsl)
-#' tsl_time$keywords
 #'
 #' #mean value by millennia (extreme case!!!)
 #' tsl_millennia <- tsl_aggregate(
@@ -102,6 +141,7 @@
 #'   tsl_plot(tsl_centuries)
 #' }
 #'
+#'
 #' #quantile 0.75 value by centuries
 #' tsl_centuries <- tsl_aggregate(
 #'   tsl = tsl,
@@ -113,6 +153,10 @@
 #' if(interactive()){
 #'   tsl_plot(tsl_centuries)
 #' }
+#' #disable parallelization
+#' future::plan(
+#'   future::sequential
+#' )
 tsl_aggregate <- function(
     tsl = NULL,
     new_time = NULL,
@@ -129,6 +173,7 @@ tsl_aggregate <- function(
   #progress bar
   p <- progressr::progressor(along = tsl)
 
+  #parallelized loop
   tsl <- future.apply::future_lapply(
     X = tsl,
     FUN = function(x, ...){

@@ -100,6 +100,14 @@ distantia_to_sf <- function(
     xy = NULL
 ){
 
+  if(
+    requireNamespace(
+      package = "sf",
+      quietly = TRUE
+    ) == FALSE){
+    stop("Please install the package 'sf' before running this function.")
+  }
+
   #check df
   if(is.null(df)){
     stop("Argument 'df' must be a dataframe resulting from distantia::distantia() or distantia::distantia_aggregate().")

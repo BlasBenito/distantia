@@ -57,19 +57,68 @@ Any function returning a single number from a numeric vector can be used to aggr
 \item \code{sum} or \code{"sum"}: see \code{\link[=sum]{sum()}}.
 \item \code{f_slope} or \code{"f_slope"}: to compute the group slope, see \code{\link[=f_slope]{f_slope()}}.
 }
-
-\strong{Step by Step}
-
-The steps to aggregate a time series list are:
-
-\enumerate{
-\item
-\item
-\item
-}
 }
 \examples{
-#full range of calendar dates
+#parallelization setup (not worth it for this data size)
+future::plan(
+  future::multisession,
+  workers = 2 #set to parallelly::availableWorkers() - 1
+)
+
+#progress bar
+progressr::handlers(global = TRUE)
+
+# daily aggregation
+#----------------------------------
+
+#flight paths of five albatrosses
+#scaled to improve visualization
+tsl <- tsl_initialize(
+  x = albatross,
+  id_column = "id",
+  time_column = "time"
+) |>
+  tsl_transform(
+    f = f_scale
+  )
+
+#plot time series
+if(interactive()){
+  tsl_plot(
+    tsl = tsl,
+    guide_columns = 4
+    )
+}
+
+#check time features
+tsl_time(tsl)
+#many observations per day
+#different starting and ending dates
+
+#aggregation: mean daily values
+tsl_daily <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "days",
+  method = mean
+)
+
+#check time features
+tsl_time(tsl_daily)
+#one observation per day
+#same starting and ending dates
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_daily,
+    guide_columns = 4
+  )
+}
+
+
+# other supported keywords
+#----------------------------------
+
+#simulate full range of calendar dates
 tsl <- tsl_simulate(
   n = 2,
   rows = 1000,
@@ -78,16 +127,6 @@ tsl <- tsl_simulate(
     as.character(Sys.Date())
     )
 )
-
-#plot time series
-if(interactive()){
-  tsl_plot(tsl)
-}
-
-
-#find valid aggregation keywords
-tsl_time <- tsl_time(tsl)
-tsl_time$keywords
 
 #mean value by millennia (extreme case!!!)
 tsl_millennia <- tsl_aggregate(
@@ -111,6 +150,7 @@ if(interactive()){
   tsl_plot(tsl_centuries)
 }
 
+
 #quantile 0.75 value by centuries
 tsl_centuries <- tsl_aggregate(
   tsl = tsl,
@@ -122,6 +162,10 @@ tsl_centuries <- tsl_aggregate(
 if(interactive()){
   tsl_plot(tsl_centuries)
 }
+#disable parallelization
+future::plan(
+  future::sequential
+)
 }
 \seealso{
 \code{\link[=zoo_aggregate]{zoo_aggregate()}}
