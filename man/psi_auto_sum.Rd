@@ -7,9 +7,9 @@
 psi_auto_sum(y = NULL, x = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
-\item{y}{(required, data frame) a sequence. Default: NULL.}
+\item{y}{(required, data frame) a zoo time series or numeric matrix. Default: NULL.}
 
-\item{x}{(required, data frame) a sequence. Default: NULL.}
+\item{x}{(required, data frame) a zoo time series or numeric matrix. Default: NULL.}
 
 \item{path}{(required, data frame) dataframe produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_trim_blocks]{psi_cost_path_trim_blocks()}} has been applied to \code{path}. Default: NULL.}
 

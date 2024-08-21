@@ -17,8 +17,8 @@
 #' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
-#' @param line_color (optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of `matrix_color`.
-#' @param line_width (optional, numeric vector) Widths of the sequence curves. Default: 1
+#' @param line_color (optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of `matrix_color`.
+#' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
 #'
 #' @examples
@@ -253,7 +253,7 @@ distantia_plot <- function(
     col = path_color
   )
 
-  # Plot sequence y ----
+  # Plot time series y ----
   graphics::par(
     plt = plt_y,
     new = TRUE,
@@ -289,7 +289,7 @@ distantia_plot <- function(
     adj = 0.05
   )
 
-  # Plot sequence x ----
+  # Plot time series x ----
   graphics::par(
     plt = plt_x,
     new = TRUE,

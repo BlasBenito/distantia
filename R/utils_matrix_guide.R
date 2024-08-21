@@ -10,22 +10,21 @@
 #' @param text_cex (optional, numeric) multiplier for the text size. Default: 1
 #' @return Plot
 #' @examples
-#' data(mis)
-#'
-#' #prepare list of sequences
-#' x <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis"
+#' #prepare time series list
+#' tsl <- tsl_simulate(
+#'   n = 2,
+#'   independent = TRUE
 #' )
 #'
-#' #distance matrix of the first two sequences
-#' dist_matrix <- psi_dist_matrix(
-#'   x = x[["MIS-3"]],
-#'   y = x[["MIS-5"]]
+#' #distance matrix between time series
+#' dm <- psi_dist_matrix(
+#'   x = tsl[[1]],
+#'   y = tsl[[2]]
 #' )
 #'
-#' plot_guide(m = dist_matrix)
-#'
+#' if(interactive()){
+#'   utils_matrix_guide(m = dm)
+#' }
 #' @export
 #' @autoglobal
 utils_matrix_guide <- function(

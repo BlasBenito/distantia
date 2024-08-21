@@ -38,9 +38,9 @@ distantia_plot(
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
 
-\item{line_color}{(optional, character vector) Vector of colors for the sequence curves. If not provided, defaults to a subset of \code{matrix_color}.}
+\item{line_color}{(optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of \code{matrix_color}.}
 
-\item{line_width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
+\item{line_width}{(optional, numeric vector) Width of the time series plot. Default: 1}
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 1}
 }

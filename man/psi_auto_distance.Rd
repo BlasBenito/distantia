@@ -7,9 +7,9 @@
 psi_auto_distance(x = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
-\item{x}{(required, data frame or matrix) a sequence.}
+\item{x}{(required, data frame or matrix) a zoo time series or numeric matrix. Default: NULL}
 
-\item{path}{(optional, data frame) result of \code{\link[=psi_cost_path_trim_blocks]{psi_cost_path_trim_blocks()}}, only required if blocks in the least cost path were ignored.}
+\item{path}{(optional, data frame) result of \code{\link[=psi_cost_path_trim_blocks]{psi_cost_path_trim_blocks()}}, only required if blocks in the least cost path were ignored. Default: NULL}
 
 \item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }

@@ -58,6 +58,16 @@
 #' @export
 #' @autoglobal
 #' @examples
+#'
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
 #' data("fagus_dynamics")
@@ -80,14 +90,6 @@
 #'     )
 #' }
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
-#' )
-#'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
 #'
 #' #importance computed with dynamic time warping
 #' #less sensitive to latitudinal or altitudinal differences

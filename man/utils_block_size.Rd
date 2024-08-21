@@ -9,7 +9,7 @@ utils_block_size(tsl = NULL, block_size = NULL)
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in \code{tsl}. Default: NULL.}
+\item{block_size}{(optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time_series in \code{tsl}. Default: NULL.}
 }
 \value{
 block size

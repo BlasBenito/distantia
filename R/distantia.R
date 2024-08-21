@@ -44,7 +44,7 @@
 #' @param lock_step (optional, logical vector) If TRUE, time-series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
-#' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest sequence in `tsl`. Default: NULL.
+#' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in `tsl`. Default: NULL.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
 #' @return Data frame with the attribute `type` set to `distantia_df` and the following columns:
@@ -67,14 +67,27 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'   future::multisession,
+#'   workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands
 #' #in Spain, Germany, and Sweden
+#' #scaled and centered
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
 #'   time_column = "date"
-#' )
+#' ) |>
+#'   tsl_transform(
+#'     f = f_scale
+#'   )
 #'
 #' if(interactive()){
 #'   tsl_plot(
@@ -83,50 +96,23 @@
 #'     )
 #' }
 #'
-#' #apply centering and scaling
-#' #to avoid issues from different scales
-#' #in temperature, rainfall, and ndvi
-#' #same scaling parameters (mean and sd)
-#' #are used for all time series in tsl
-#' tsl <- tsl_transform(
-#'   tsl = tsl,
-#'   f = f_scale #see help(f_scale)
-#' )
-#'
-#' if(interactive()){
-#'   tsl_plot(
-#'     tsl = tsl,
-#'     guide_columns = 3
-#'   )
-#' }
-#'
-#'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
-#' )
-#'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
-#'
 #' #dynamic time warping dissimilarity analysis
 #' #-------------------------------------------
 #' #permutation restricted by row because
 #' #ndvi depends on temperature and rainfall
 #' #block size is 6 because data is monthly
 #' #to keep permutation restricted to 6 months periods
-#' tsl_dtw <- distantia(
+#' df_dtw <- distantia(
 #'   tsl = tsl,
 #'   distance = "euclidean",
-#'   repetitions = 30, #increase to 100 or more
+#'   repetitions = 10, #increase to 100 or more
 #'   permutation = "restricted_by_row",
 #'   block_size = 6,
 #'   seed = 1
 #' )
 #'
 #' #focus on the important details
-#' tsl_dtw[, c("x", "y", "psi", "p_value")]
+#' df_dtw[, c("x", "y", "psi", "p_value")]
 #' #smaller psi values indicate higher similarity
 #' #p-values indicate chance of
 #' #finding a psi smaller than the observed
@@ -135,14 +121,10 @@
 #' if(interactive()){
 #'
 #'   distantia_plot(
-#'     tsl = tsl[c("Spain", "Sweden")],
-#'     distance = "euclidean",
-#'     matrix_type = "cost"
-#'   )
-#'
-#'   #notice differences in diagonal line
-#'   distantia_plot(
-#'     tsl = tsl[c("Germany", "Sweden")],
+#'     tsl = tsl_subset(
+#'       tsl = tsl,
+#'       names = c("Spain", "Sweden")
+#'     ),
 #'     distance = "euclidean",
 #'     matrix_type = "cost"
 #'   )
@@ -155,7 +137,7 @@
 #' psi_null <- null_psi_cpp(
 #'   x = tsl[["Spain"]],
 #'   y = tsl[["Sweden"]],
-#'   repetitions = 30, #increase to 100 or more
+#'   repetitions = 10, #increase to 100 or more
 #'   distance = "euclidean",
 #'   permutation = "restricted_by_row",
 #'   block_size = 6,
@@ -164,31 +146,28 @@
 #'
 #' #compare null mean with output of distantia()
 #' mean(psi_null)
-#' tsl_dtw$null_mean[3]
+#' df_dtw$null_mean[3]
+#'
 #'
 #' #lock-step dissimilarity analysis
 #' #---------------------------------
-#' #permutation restricted by row because
-#' #ndvi depends on temperature and rainfall
-#' #block size is 6 because data is monthly
-#' #to keep permutation restricted to 6 months periods
-#' tsl_lock_step <- distantia(
+#' df_lock_step <- distantia(
 #'   tsl = tsl,
 #'   distance = "euclidean",
-#'   repetitions = 30, #increase to 100 or more
+#'   repetitions = 10, #increase to 100 or more
 #'   permutation = "restricted_by_row",
 #'   block_size = 6,
 #'   lock_step = TRUE
 #' )
 #'
 #' #focus on the important details
-#' tsl_lock_step[, c("x", "y", "psi", "p_value")]
+#' df_lock_step[, c("x", "y", "psi", "p_value")]
 #'
 #' #recreating the null distribution
 #' psi_null <- null_psi_lock_step_cpp(
 #'   x = tsl[["Spain"]],
 #'   y = tsl[["Sweden"]],
-#'   repetitions = 30, #increase to 100 or more
+#'   repetitions = 10, #increase to 100 or more
 #'   distance = "euclidean",
 #'   permutation = "restricted_by_row",
 #'   block_size = 6,
@@ -197,27 +176,32 @@
 #'
 #' #compare null mean with output of distantia()
 #' mean(psi_null)
-#' tsl_lock_step$null_mean[3]
+#' df_lock_step$null_mean[3]
 #'
 #'
 #' #combinations of parameters
 #' #---------------------------------
-#' #most arguments accept vectors
-#' #and the function results contain all argument combinations
-#'
-#' tsl_multiple <- distantia(
+#' #most distantia arguments accept vectors
+#' #the function combines these arguments
+#' df_multiple <- distantia(
 #'   tsl = tsl,
-#'   distance = c("euclidean", "manhattan"),
-#'   lock_step = c(TRUE, FALSE)
+#'   distance = c("euclidean", "manhattan")
 #' )
 #'
-#' tsl_multiple[, c(
+#' df_multiple[, c(
 #'   "x",
 #'   "y",
 #'   "distance",
-#'   "lock_step",
 #'   "psi"
 #' )]
+#'
+#' #see distantia_aggregate to average results
+#' #from different argument combinations
+#' df <- distantia_aggregate(
+#'   df = df_multiple
+#'   )
+#'
+#' df[, c("x", "y", "psi")]
 #'
 #'
 #' #disable parallelization

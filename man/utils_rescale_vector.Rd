@@ -24,7 +24,7 @@ utils_rescale_vector(
 \item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
 }
 \value{
-Numeric vector
+numeric vector
 }
 \description{
 Rescales Numeric Vector to a New Range
@@ -35,8 +35,8 @@ Rescales Numeric Vector to a New Range
    x = stats::rnorm(100),
    new_min = 0,
    new_max = 100,
-   integer = TRUE
    )
-   out
+
+ out
 
 }

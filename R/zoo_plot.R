@@ -4,8 +4,8 @@
 #' @param xlim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
 #' @param ylim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
 #' @param color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
-#' @param width (optional, numeric vector) Widths of the sequence curves. Default: 1
-#' @param title (optional, character string) Main title of the plot. If NULL, it's set to the name of the sequence. Default: NULL
+#' @param width (optional, numeric vector) Width of the time series lines. Default: 1
+#' @param title (optional, character string) Main title of the plot. If NULL, it's set to the name of the time series. Default: NULL
 #' @param xlab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, the word "Time" is used. Default: NULL
 #' @param ylab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1

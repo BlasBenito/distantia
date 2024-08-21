@@ -115,7 +115,7 @@ tsl_validate <- function(
       # tsl has no names
     } else {
 
-      # names are unique
+      # duplicated names
       if(any(duplicated(names(tsl)))){
 
         issues <- c(

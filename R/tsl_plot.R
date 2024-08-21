@@ -9,7 +9,7 @@
 #'   \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using `ylim = NULL`.
 #' }
 #' @param color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
-#' @param width (optional, numeric vector) Widths of the sequence curves. Default: 1
+#' @param width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
 #' @param guide_columns (optional, integer) Columns of the line guide. Default: 1.

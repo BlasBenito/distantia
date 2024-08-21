@@ -42,49 +42,44 @@ utils_matrix_plot(
 
 \item{guide}{(optional, logical) if TRUE, a color guide for the matrix \code{m} is added by \code{\link[=utils_matrix_guide]{utils_matrix_guide()}}.}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
+\item{subpanel}{(optional, logical) internal argument used when generating the multi-panel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
 }
 \value{
-A plot
+plot
 }
 \description{
 This function is a simplified version of \code{\link[fields:imagePlot]{fields::imagePlot()}}, by \href{https://dnychka.github.io/}{Douglas Nychka}. The original version is recommended in case more customization than the provided here is needed.
 }
 \examples{
-
-#data frame with grouping column
-###################################
-data(mis)
-
-#prepare list of sequences
-x <- tsl_initialize(
-  x = mis,
-  id_column = "mis"
+#prepare time series list
+tsl <- tsl_simulate(
+  n = 2,
+  independent = TRUE
 )
 
-#distance matrix of the first two sequences
-dist_matrix <- psi_dist_matrix(
-  x = x[[1]],
-  y = x[[2]],
-  distance = "euclidean"
+#distance matrix between time series
+dm <- psi_dist_matrix(
+  x = tsl[[1]],
+  y = tsl[[2]]
 )
 
 #cost matrix
-cost_matrix <- psi_cost_matrix(
-  dist_matrix = dist_matrix
+cm <- psi_cost_matrix(
+  dist_matrix = dm
   )
 
 #least cost path
-path <- psi_cost_path(
-  dist_matrix = dist_matrix,
-  cost_matrix = cost_matrix
+cp <- psi_cost_path(
+  dist_matrix = dm,
+  cost_matrix = cm
 )
 
 #plot cost matrix and least cost path
-utils_matrix_plot(
-  m = cost_matrix,
-  path = path,
-  guide = TRUE
+if(interactive()){
+  utils_matrix_plot(
+    m = cm,
+    path = cp,
+    guide = TRUE
   )
-
+}
 }

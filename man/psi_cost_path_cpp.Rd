@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_cost_path_cpp}
 \alias{psi_cost_path_cpp}
-\title{Generates Least Cost Path}
+\title{Finds Least Cost Path in Least Cost Matrix}
 \usage{
 psi_cost_path_cpp(
   x,
@@ -35,10 +35,8 @@ coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 Data frame with least cost path
 }
 \description{
-Least cost path between two sequences \code{y} and \code{x}
-with the same number of columns and arbitrary numbers of rows to compute the
-ABbetween component of the psi dissimilarity computation.
-NA values should be removed before using this function.
+Least cost path between two time series \code{x} and \code{y}.
+NA values must be removed from \code{x} and \code{y} before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 }

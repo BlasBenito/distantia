@@ -32,7 +32,7 @@ tsl_plot(
 
 \item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
 
-\item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
+\item{width}{(optional, numeric vector) Width of the time series plot. Default: 1}
 
 \item{text_cex}{(optional, numeric) Multiplicator of the text size. Default: 1}
 

@@ -18,15 +18,27 @@ Data frame with number of clusters and their respective mean silhouette widths.
 Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}} for more details.
 }
 \examples{
-#daily covid prevalence in California counties
-data("covid_prevalence")
+#parallelization and progress bar
+#for large datasets, parallelization accelerates cluster optimization
+future::plan(
+  future::multisession,
+  workers = 2 #set to parallelly::availableWorkers() - 1
+)
 
-#load as tsl and aggregate to monthly data to accelerate example execution
+#progress bar
+progressr::handlers(global = TRUE)
+
+#daily covid prevalence
+#in 10 California counties
+#aggregated by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
   id_column = "county",
   time_column = "date"
 ) |>
+  tsl_subset(
+    names = 1:10
+  ) |>
   tsl_aggregate(
     new_time = "months",
     fun = sum
@@ -35,20 +47,13 @@ tsl <- tsl_initialize(
 if(interactive()){
   #plotting first three time series
   tsl_plot(
-    tsl = tsl[1:3],
+    tsl = tsl_subset(
+      tsl = tsl,
+      names = 1:3
+    ),
     guide_columns = 3
-    )
+  )
 }
-
-#parallelization and progress bar
-#for large datasets, parallelization accelerates cluster optimization
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableWorkers() - 1
-)
-
-#progress bar
-progressr::handlers(global = TRUE)
 
 #compute dissimilarity matrix
 psi_matrix <- distantia(

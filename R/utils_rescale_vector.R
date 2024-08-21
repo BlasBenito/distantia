@@ -4,16 +4,16 @@
 #' @param new_max (optional_numeric) New maximum value. Default: `1`
 #' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
 #' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
-#' @return Numeric vector
+#' @return numeric vector
 #' @examples
 #'
 #'  out <- utils_rescale_vector(
 #'    x = stats::rnorm(100),
 #'    new_min = 0,
 #'    new_max = 100,
-#'    integer = TRUE
 #'    )
-#'    out
+#'
+#'  out
 #'
 #' @export
 #' @autoglobal

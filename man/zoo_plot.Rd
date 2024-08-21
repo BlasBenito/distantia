@@ -29,9 +29,9 @@ zoo_plot(
 
 \item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
 
-\item{width}{(optional, numeric vector) Widths of the sequence curves. Default: 1}
+\item{width}{(optional, numeric vector) Width of the time series lines. Default: 1}
 
-\item{title}{(optional, character string) Main title of the plot. If NULL, it's set to the name of the sequence. Default: NULL}
+\item{title}{(optional, character string) Main title of the plot. If NULL, it's set to the name of the time series. Default: NULL}
 
 \item{xlab}{(optional, character string) Title of the x axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, the word "Time" is used. Default: NULL}
 

@@ -2,8 +2,8 @@
 #'
 #' @description Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
 #'
-#' @param y (required, data frame) a sequence. Default: NULL.
-#' @param x (required, data frame) a sequence. Default: NULL.
+#' @param y (required, data frame) a zoo time series or numeric matrix. Default: NULL.
+#' @param x (required, data frame) a zoo time series or numeric matrix. Default: NULL.
 #' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Only required when [psi_cost_path_trim_blocks()] has been applied to `path`. Default: NULL.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return Named vector with the auto sums of `y` and `x`.

@@ -93,6 +93,16 @@ Please use this operation with care, as there are limits to the amount of resamp
 This function accepts a parallelization setup via \code{\link[future:plan]{future::plan()}}, but it is only relevant for very large datasets when \code{max_complexity = FALSE} and \code{method = "loess"} or \code{method = "spline"}.
 }
 \examples{
+
+#parallelization setup (not worth it for this data size)
+future::plan(
+ future::multisession,
+ workers = 2 #set to parallelly::availableWorkers() - 1
+)
+
+#progress bar
+progressr::handlers(global = TRUE)
+
 #generate irregular time series
 tsl <- tsl_simulate(
   n = 2,
@@ -104,14 +114,6 @@ if(interactive()){
   tsl_plot(tsl)
 }
 
-#parallelization setup (not worth it for this data size)
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableWorkers() - 1
-)
-
-#progress bar
-progressr::handlers(global = TRUE)
 
 #range of times between samples
 tsl_time_summary(tsl)[

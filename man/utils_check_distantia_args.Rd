@@ -41,11 +41,11 @@ utils_check_distantia_args(
 \item "restricted_by_row": restricted shuffling of rows within blocks.
 }}
 
-\item{block_size}{(optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}
+\item{block_size}{(optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each time series on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 
-\item{robust}{(required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
+\item{robust}{(required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }
 \value{
 List with checked arguments

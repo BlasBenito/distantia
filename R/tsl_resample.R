@@ -82,6 +82,16 @@
 #' @autoglobal
 #' @seealso [zoo_resample()]
 #' @examples
+#'
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
 #' #generate irregular time series
 #' tsl <- tsl_simulate(
 #'   n = 2,
@@ -93,14 +103,6 @@
 #'   tsl_plot(tsl)
 #' }
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
-#' )
-#'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
 #'
 #' #range of times between samples
 #' tsl_time_summary(tsl)[

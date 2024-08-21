@@ -220,3 +220,38 @@
 #' @usage data(cities_coordinates)
 #' @format sf data frame with 5 columns and 100 rows.
 "cities_coordinates"
+
+
+#' Flight Paths of Albatrosses
+#'
+#' @description
+#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the [data source](https://doi.org/10.5441/001/1.3hp3s250) to learn more about this dataset.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name albatross
+#' @usage data(albatross)
+#' @examples
+#' #load as tsl
+#' #scale al variables
+#' #aggregate to daily resolution
+#' tsl <- tsl_initialize(
+#'   x = albatross,
+#'   id_column = "id",
+#'   time_column = "time"
+#' ) |>
+#'   tsl_transform(
+#'     f = f_scale
+#'   ) |>
+#'   tsl_aggregate(
+#'     new_time = "days"
+#'   )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl,
+#'     guide_columns = 5
+#'     )
+#' }
+#' @format data frame
+"albatross"

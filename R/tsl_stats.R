@@ -38,13 +38,6 @@
 #' }
 #'
 #' @examples
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' tsl <- tsl_initialize(
-#'   x = fagus_dynamics,
-#'   id_column = "site",
-#'   time_column = "date"
-#' )
 #'
 #' #parallelization setup (not worth it for this data size)
 #' future::plan(
@@ -54,6 +47,15 @@
 #'
 #' #progress bar
 #' progressr::handlers(global = TRUE)
+#'
+#' #three time series
+#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#' tsl <- tsl_initialize(
+#'   x = fagus_dynamics,
+#'   id_column = "site",
+#'   time_column = "date"
+#' )
+#'
 #'
 #' #stats computation
 #' df <- tsl_stats(

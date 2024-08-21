@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_auto_sum_cpp}
 \alias{psi_auto_sum_cpp}
-\title{Auto Sum of Two Sequences}
+\title{Auto Sum of Two Time Series}
 \usage{
 psi_auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 }
@@ -25,8 +25,6 @@ coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 Auto sum of matrices y and x.
 }
 \description{
-Cumulative sum times two of two sequences \code{y} and \code{x}
-with the same number of columns and arbitrary numbers of rows to compute the
-ABwithin component of the psi dissimilarity computation. This component is
-used to normalize the least cost distance between the sequences.
+Cumulative sum of two time series \code{x} and \code{y}
+to compute the normalization factor required for psi dissimilarity scores.
 }

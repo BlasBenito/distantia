@@ -27,33 +27,31 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands
-#' #in Spain, Germany, and Sweden
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'   future::multisession,
+#'   workers = 2 #set to parallelly::availableWorkers() - 1
+#' )
+#'
+#' #progress bar
+#' progressr::handlers(global = TRUE)
+#'
+#' #two time series
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   id_column = "site",
 #'   time_column = "date"
-#' )
+#' ) |>
+#'   tsl_subset(
+#'     names = c("Spain", "Sweden"),
+#'     colnames = c("rainfall", "temperature")
+#'   )
 #'
 #' if(interactive()){
 #'   tsl_plot(
 #'     tsl = tsl
 #'   )
 #' }
-#'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
-#' )
-#'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
-#'
-#' #list of transformation functions
-#' #-----------------------------------------
-#' f_list()
 #'
 #' #centering
 #' #-----------------------------------------
@@ -88,20 +86,17 @@
 #'   )
 #' }
 #'
-#' #also, with base::scale()
-#' tsl_scale <- tsl_transform(
-#'   tsl = tsl,
-#'   f = base::scale,
-#'   center = TRUE,
-#'   scale = TRUE
-#' )
+#' # #also, with base::scale()
+#' # tsl_scale <- tsl_transform(
+#' #   tsl = tsl,
+#' #   f = base::scale,
+#' #   center = TRUE,
+#' #   scale = TRUE
+#' # )
 #'
 #'
 #' #rescaling to a new range
 #' #-----------------------------------------
-#'
-#' #old range
-#' sapply(X = tsl, FUN = range)
 #'
 #' #rescale between -100 and 100
 #' tsl_rescaled <- tsl_transform(
@@ -111,15 +106,15 @@
 #'   new_max = 100
 #' )
 #'
+#' #old range
+#' sapply(X = tsl, FUN = range)
+#'
 #' #new range
 #' sapply(X = tsl_rescaled, FUN = range)
 #'
 #'
 #' #rounding to n digits
 #' #-----------------------------------------
-#'
-#' #old range
-#' sapply(X = tsl, FUN = range)
 #'
 #' #rounding to zero digits
 #' tsl_round <- tsl_transform(
@@ -128,13 +123,15 @@
 #'   digits = 0
 #' )
 #'
+#' #old values
+#' sapply(X = tsl, FUN = range)
+#'
 #' #new range
 #' sapply(X = tsl_round, FUN = range)
 #'
 #'
 #' #moving window smoothing
 #' #-----------------------------------------
-#' #default values
 #' tsl_smooth_mean <- tsl_transform(
 #'   tsl = tsl,
 #'   f = f_smooth_window,
@@ -149,28 +146,14 @@
 #'   )
 #' }
 #'
-#' #different smoothing window and function
-#' tsl_smooth_max <- tsl_transform(
-#'   tsl = tsl,
-#'   f = f_smooth_window,
-#'   smoothing_window = 5,
-#'   smoothing_f = max
-#' )
-#'
-#' if(interactive()){
-#'   tsl_plot(
-#'     tsl = tsl_smooth_max,
-#'     guide_columns = 3
-#'   )
-#' }
-#'
 #' #principal components
 #' #-----------------------------------------
 #' #replaces original variables with their principal components
 #' #requires centering and/or scaling
-#' tsl_pca <- tsl |> tsl_transform(
-#'   f = f_scale
-#' ) |>
+#' tsl_pca <- tsl |>
+#'   tsl_transform(
+#'     f = f_scale
+#'   ) |>
 #'   tsl_transform(
 #'     f = f_pca
 #'   )
@@ -187,17 +170,16 @@
 #'
 #' #detrending
 #' #-----------------------------------------
-#' #monthly temperatures in major cities
-#' data("cities_temperature")
 #'
-#' #subset Abidjan (city with higher temperature slope)
+#' #annual temperature of Abidjan
 #' tsl <- tsl_initialize(
 #'   x = cities_temperature,
 #'   id_column = "city",
 #'   time_column = "date"
-#' ) |> tsl_subset(
-#'   names = "Abidjan"
-#' )
+#' ) |>
+#'   tsl_subset(
+#'     names = "Abidjan"
+#'   )
 #'
 #' if(interactive()){
 #'   tsl_plot(
@@ -289,37 +271,19 @@
 #'
 #' #numeric transformations
 #' #-----------------------------------------
-#' #pollen counts from different interglacials
-#' data("mis")
-#'
-#' #load as tsl
+#' #pollen counts from 2 interglacials
 #' tsl <- tsl_initialize(
 #'   x = mis,
 #'   id_column = "mis",
 #'   time_column = "sample_order"
-#' )
-#'
-#' #subset first three time-series
-#' tsl <- tsl_subset(
-#'   tsl = tsl,
-#'   names = 1:3
-#' )
+#' ) |>
+#'   tsl_subset(
+#'     names = c("MIS-5", "MIS-7")
+#'   )
 #'
 #' if(interactive()){
 #'   tsl_plot(
 #'     tsl = tsl
-#'   )
-#' }
-#'
-#' #transform to proportions
-#' tsl_proportion <- tsl_transform(
-#'   tsl = tsl,
-#'   f = f_proportion
-#' )
-#'
-#' if(interactive()){
-#'   tsl_plot(
-#'     tsl = tsl_proportion
 #'   )
 #' }
 #'
@@ -356,27 +320,6 @@
 #'   tsl = tsl,
 #'   f = function(x, y) x * y,
 #'   y = 100
-#' )
-#'
-#' #same as:
-#' #much faster option with no
-#' #requirement to return a zoo object
-#' tsl_new <- lapply(
-#'   X = tsl,
-#'   FUN = function(x, y) x * y,
-#'   y = 100
-#' )
-#'
-#' #same as above, but parallelized with future_lapply
-#' tsl_new <- future.apply::future_lapply(
-#'   X = tsl,
-#'   FUN = function(x, y) x * y,
-#'   y = 100
-#' )
-#'
-#' #both require validation to keep working with distantia
-#' tsl_new <- tsl_validate(
-#'   tsl = tsl_new
 #' )
 #'
 #' #disable parallelization

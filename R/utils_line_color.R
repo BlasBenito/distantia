@@ -4,8 +4,8 @@
 #' This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.
 #'
 #'
-#' @param x (required, sequence) a single sequence or set of sequences generated via [tsl_initialize()]. Default: NULL
-#' @param color (optional, character vector) vector of colors for the sequence columns. Selected palette depends on the number of columns to plot. Default: NULL
+#' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
+#' @param color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return Named vector of colors
 #' @keywords internal

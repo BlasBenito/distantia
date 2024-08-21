@@ -7,9 +7,9 @@
 utils_line_color(x = NULL, color = NULL)
 }
 \arguments{
-\item{x}{(required, sequence) a single sequence or set of sequences generated via \code{\link[=tsl_initialize]{tsl_initialize()}}. Default: NULL}
+\item{x}{(required, sequence) a zoo time series or a time series list. Default: NULL}
 
-\item{color}{(optional, character vector) vector of colors for the sequence columns. Selected palette depends on the number of columns to plot. Default: NULL}
+\item{color}{(optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL}
 }
 \value{
 Named vector of colors

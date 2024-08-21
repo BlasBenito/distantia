@@ -1,7 +1,7 @@
 #' Sum of Auto Distances Between Adjacent Cases in a Sequence
 #'
-#' @param x (required, data frame or matrix) a sequence.
-#' @param path (optional, data frame) result of [psi_cost_path_trim_blocks()], only required if blocks in the least cost path were ignored.
+#' @param x (required, data frame or matrix) a zoo time series or numeric matrix. Default: NULL
+#' @param path (optional, data frame) result of [psi_cost_path_trim_blocks()], only required if blocks in the least cost path were ignored. Default: NULL
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
 #' @return Sum of auto distances
@@ -100,7 +100,7 @@ psi_auto_distance <- function(
     distance = distance
   )[1]
 
-  #subset sequence using path
+  #subset time series using path
   if(!is.null(path)){
 
     path <- utils_check_path_args(
@@ -122,13 +122,13 @@ psi_auto_distance <- function(
           colnames(path)[c(1, 2)],
           collapse =  " and "
         ),
-        ", but sequence 'x' is named ",
+        ", but time series 'x' is named ",
         attributes(x)$name,
         "."
         )
     }
 
-    #subset sequence
+    #subset time series
     x.path <- subset_matrix_by_rows_cpp(
       m = x,
       rows = path[[attributes(x)$name]]

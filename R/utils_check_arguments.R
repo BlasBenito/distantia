@@ -14,9 +14,9 @@
 #'   \item "restricted": restricted shuffling of rows and columns within blocks.
 #'   \item "restricted_by_row": restricted shuffling of rows within blocks.
 #' }
-#' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each sequence on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
+#' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each time series on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
-#' @param robust (required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full sequences. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
+#' @param robust (required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #'
 #' @return List with checked arguments
 #' @export
@@ -135,7 +135,7 @@ utils_check_distantia_args <- function(
 
 #' Checks Least Cost Path
 #'
-#' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
+#' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same time series used to compute the matrix `m`. Default: NULL.
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return Least cost path
@@ -266,10 +266,10 @@ utils_check_zoo_args <- function(
 
   if(is.null(names(x))){
     names(x) <- paste0(
-      "sequence_",
+      "ts_",
       as.character(seq(1, length(x)))
     )
-    warning("Argument ", arg_name, " was not named. The new sequence names are: ", paste(names(x), collapse = ", "))
+    warning("Argument ", arg_name, " was not named. The new time series names are: ", paste(names(x), collapse = ", "))
   }
 
   if(length(x) == 1){

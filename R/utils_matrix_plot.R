@@ -15,46 +15,41 @@
 #' @param path_width (optional, numeric) width of the least-cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].
-#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].
+#' @param subpanel (optional, logical) internal argument used when generating the multi-panel plot produced by [distantia_plot()].
 #'
-#' @return A plot
+#' @return plot
 #' @examples
-#'
-#' #data frame with grouping column
-#' ###################################
-#' data(mis)
-#'
-#' #prepare list of sequences
-#' x <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis"
+#' #prepare time series list
+#' tsl <- tsl_simulate(
+#'   n = 2,
+#'   independent = TRUE
 #' )
 #'
-#' #distance matrix of the first two sequences
-#' dist_matrix <- psi_dist_matrix(
-#'   x = x[[1]],
-#'   y = x[[2]],
-#'   distance = "euclidean"
+#' #distance matrix between time series
+#' dm <- psi_dist_matrix(
+#'   x = tsl[[1]],
+#'   y = tsl[[2]]
 #' )
 #'
 #' #cost matrix
-#' cost_matrix <- psi_cost_matrix(
-#'   dist_matrix = dist_matrix
+#' cm <- psi_cost_matrix(
+#'   dist_matrix = dm
 #'   )
 #'
 #' #least cost path
-#' path <- psi_cost_path(
-#'   dist_matrix = dist_matrix,
-#'   cost_matrix = cost_matrix
+#' cp <- psi_cost_path(
+#'   dist_matrix = dm,
+#'   cost_matrix = cm
 #' )
 #'
 #' #plot cost matrix and least cost path
-#' utils_matrix_plot(
-#'   m = cost_matrix,
-#'   path = path,
-#'   guide = TRUE
+#' if(interactive()){
+#'   utils_matrix_plot(
+#'     m = cm,
+#'     path = cp,
+#'     guide = TRUE
 #'   )
-#'
+#' }
 #' @export
 #' @autoglobal
 utils_matrix_plot <- function(
