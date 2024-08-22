@@ -345,7 +345,8 @@ tsl_transform <- function(
 
   }
 
-  tsl <- tsl_is_valid(
+  #check validity
+  tsl <- tsl_validate(
     tsl = tsl
   )
 
@@ -437,10 +438,6 @@ tsl_transform <- function(
   na.count <- tsl_count_NA(
     tsl = tsl,
     quiet = FALSE
-  )
-
-  tsl <- tsl_validate(
-    tsl = tsl
   )
 
   tsl

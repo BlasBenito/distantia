@@ -16,6 +16,7 @@
 #' }
 #'
 #' @param x (required, character vector) Names to be cleaned. Default: NULL
+#' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots and appending `suffix` and `prefix` to the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
@@ -53,6 +54,7 @@
 #' )
 utils_clean_names <- function(
     x = NULL,
+    lowercase = FALSE,
     separator = "_",
     capitalize_first = FALSE,
     capitalize_all = FALSE,
@@ -91,7 +93,9 @@ utils_clean_names <- function(
   )
 
   #to lowercase
-  x <- tolower(x)
+  if(lowercase == TRUE){
+    x <- tolower(x)
+  }
 
   #abbreviate
   if(is.numeric(length)){

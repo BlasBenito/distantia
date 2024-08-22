@@ -222,7 +222,7 @@ distantia <- function(
 ){
 
   #check validity
-  tsl <- tsl_is_valid(
+  tsl <- tsl_validate(
     tsl = tsl
   )
 
@@ -250,7 +250,8 @@ distantia <- function(
   )
 
   if(
-    repetitions > 0 &&
+    repetitions > 0
+    &&
     permutation %in% c(
       "restricted_by_row",
       "restricted"

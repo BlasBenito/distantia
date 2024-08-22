@@ -143,12 +143,14 @@ tsl_names_set <- function(
   tsl_names <- tsl_names_get(
     tsl = tsl,
     zoo = FALSE
-  )
+  ) |>
+    utils_clean_names()
 
   zoo_names <- tsl_names_get(
     tsl = tsl,
     zoo = TRUE
-  )
+  ) |>
+    utils_clean_names()
 
   #argument names is NULL
   #using names available in tsl object
@@ -169,6 +171,8 @@ tsl_names_set <- function(
 
       #creating new names
     } else {
+
+      names <- utils_clean_names(x = names)
 
       n <- length(tsl)
 
@@ -238,6 +242,7 @@ tsl_names_set <- function(
 #' Combines [utils_clean_names()] and [tsl_names_set()] to help clean, abbreviate, capitalize, and add a suffix or a prefix to time series list names.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
+#' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
@@ -291,6 +296,7 @@ tsl_names_set <- function(
 #' )
 tsl_names_clean <- function(
     tsl = NULL,
+    lowercase = FALSE,
     separator = "_",
     capitalize_first = FALSE,
     capitalize_all = FALSE,
@@ -306,6 +312,7 @@ tsl_names_clean <- function(
 
   tsl_names <- utils_clean_names(
     x = zoo_names,
+    lowercase = lowercase,
     separator = separator,
     capitalize_first = capitalize_first,
     capitalize_all = capitalize_all,

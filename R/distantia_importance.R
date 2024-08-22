@@ -163,7 +163,7 @@ distantia_importance <- function(
 ){
 
   #check validity
-  tsl <- tsl_is_valid(
+  tsl <- tsl_validate(
     tsl = tsl
   )
 

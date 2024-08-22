@@ -6,6 +6,7 @@
 \usage{
 utils_clean_names(
   x = NULL,
+  lowercase = FALSE,
   separator = "_",
   capitalize_first = FALSE,
   capitalize_all = FALSE,
@@ -16,6 +17,8 @@ utils_clean_names(
 }
 \arguments{
 \item{x}{(required, character vector) Names to be cleaned. Default: NULL}
+
+\item{lowercase}{(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE}
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots and appending \code{suffix} and \code{prefix} to the main word. Default: "_".}
 

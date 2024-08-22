@@ -71,7 +71,8 @@ tsl_subset <- function(
     time = NULL
 ){
 
-  tsl <- tsl_is_valid(
+  #check validity
+  tsl <- tsl_validate(
     tsl = tsl
   )
 
@@ -145,16 +146,24 @@ tsl_subset <- function(
   # subset numeric cols
   if(numeric_cols == TRUE){
 
+    #returns NA if no columns are numeric
     tsl <- lapply(
       X = tsl,
       FUN = function(x){
 
+        x.num.cols <- apply(
+          X = x,
+          MARGIN = 2,
+          FUN = is.numeric
+        )
+
+        if(all(x.num.cols) == FALSE){
+          return(NA)
+        }
+
         y <- x[
           ,
-          sapply(
-            X = x,
-            FUN = is.numeric
-          ),
+          x.num.cols,
           drop = FALSE
         ]
 
@@ -168,6 +177,20 @@ tsl_subset <- function(
       }
     )
 
+    #names of elements with no numeric columns
+    tsl.na <- names(tsl)[is.na(tsl)]
+
+    if(length(tsl.na) > 0){
+
+      tsl <- tsl[!names(tsl) %in% tsl.na]
+
+      warning(
+        "The following zoo object/s in 'tsl' have no numeric columns and have been removed: ",
+        paste(tsl.na, collapse = ", ")
+        )
+
+    }
+
   }
 
   #subset shared cols
@@ -180,25 +203,35 @@ tsl_subset <- function(
       unlist() |>
       unique()
 
-    tsl <- lapply(
-      X = tsl,
-      FUN = function(x){
+    #TODO: remove zoo objects with no shared columns, and return a warning like the one used in numeric_cols == TRUE
 
-        y <- x[
-          ,
-          colnames(x) %in% shared_cols,
-          drop = FALSE
+    if(length(shared_cols) == 0){
+
+      warning("Zoo objects within 'tsl' have no shared columns. Ignoring subsetting of shared columns.")
+
+    } else {
+
+      tsl <- lapply(
+        X = tsl,
+        FUN = function(x){
+
+          y <- x[
+            ,
+            colnames(x) %in% shared_cols,
+            drop = FALSE
           ]
 
-        attr(
-          x = y,
-          which = "name"
+          attr(
+            x = y,
+            which = "name"
           ) <- attributes(x)$name
 
-        return(y)
+          return(y)
 
-      }
-    )
+        }
+      )
+
+    }
 
   }
 
@@ -209,9 +242,9 @@ tsl_subset <- function(
       stop("Argument 'time' must be of length 2.")
     }
 
-    tsl <- tsl_validate(
-      tsl = tsl
-    )
+    if(length(time) > 2){
+      time <- range(time)
+    }
 
     tsl_time_df <- tsl_time(
       tsl = tsl
@@ -296,10 +329,6 @@ tsl_subset <- function(
     }
 
   }
-
-  tsl <- tsl_validate(
-    tsl = tsl
-  )
 
   tsl
 

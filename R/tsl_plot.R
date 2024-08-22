@@ -69,16 +69,16 @@ tsl_plot <- function(
     guide_cex = 0.8
 ){
 
+  #check validity
+  tsl <- tsl_validate(
+    tsl = tsl
+  )
+
   axis_title_distance <- 2.2
 
   # Preserve user's config
   old.par <- graphics::par(no.readonly = TRUE)
   on.exit(graphics::par(old.par))
-
-  #check input validity
-  tsl <- tsl_is_valid(
-    tsl = tsl
-  )
 
   #manage ylim
   if(all(ylim == "absolute") == TRUE){

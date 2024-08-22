@@ -35,7 +35,8 @@ utils_check_distantia_args <- function(
     robust = TRUE
     ){
 
-  tsl <- tsl_is_valid(
+  #check validity
+  tsl <- tsl_validate(
     tsl = tsl
   )
 

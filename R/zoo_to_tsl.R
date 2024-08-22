@@ -45,10 +45,6 @@ zoo_to_tsl <- function(
 
   names(tsl) <- x_name
 
-  tsl <- tsl_validate(
-    tsl = tsl
-  )
-
   tsl
 
 }

@@ -6,6 +6,7 @@
 \usage{
 tsl_colnames_clean(
   tsl = NULL,
+  lowercase = FALSE,
   separator = "_",
   capitalize_first = FALSE,
   capitalize_all = FALSE,
@@ -16,6 +17,8 @@ tsl_colnames_clean(
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
+
+\item{lowercase}{(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE}
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate \code{suffix} and \code{prefix} from the main word. Default: "_".}
 

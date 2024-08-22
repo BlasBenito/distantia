@@ -259,8 +259,8 @@ tsl_resample <- function(
     max_complexity = FALSE
 ){
 
-  #validity check
-  tsl <- tsl_is_valid(
+  #check validity
+  tsl <- tsl_validate(
     tsl = tsl
   )
 
@@ -314,10 +314,6 @@ tsl_resample <- function(
   )
 
   tsl <- tsl_names_set(
-    tsl = tsl
-  )
-
-  tsl <- tsl_validate(
     tsl = tsl
   )
 

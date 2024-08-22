@@ -107,7 +107,8 @@ utils_new_time <- function(
     several.ok = FALSE
   )
 
-  tsl <- tsl_is_valid(
+  #check validity
+  tsl <- tsl_validate(
     tsl = tsl
   )
 

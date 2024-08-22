@@ -202,6 +202,7 @@ tsl_colnames_set <- function(
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
+#' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
@@ -260,6 +261,7 @@ tsl_colnames_set <- function(
 #' @export
 tsl_colnames_clean <- function(
     tsl = NULL,
+    lowercase = FALSE,
     separator = "_",
     capitalize_first = FALSE,
     capitalize_all = FALSE,
@@ -277,6 +279,7 @@ tsl_colnames_clean <- function(
 
   tsl.colnames <- utils_clean_names(
     x = tsl.colnames,
+    lowercase = lowercase,
     separator = separator,
     capitalize_first = capitalize_first,
     capitalize_all = capitalize_all,

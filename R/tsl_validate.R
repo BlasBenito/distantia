@@ -1,7 +1,7 @@
 #' Validate Time Series List
 #'
 #' @description
-#' Validity assessment of Time Series Lists. The required features for a valid time series list are:
+#' Validity assessment of time series lists. The required features for a valid time series list are:
 #' \itemize{
 #'   \item Argument `tsl` is a list.
 #'   \item List `tsl` has unique names.
@@ -14,11 +14,11 @@
 #'   \item All `zoo` objects have zero NA cases.
 #' }
 #'
-#' The function `tsl_validate()` assesses these conditions, and sets the value of the attribute "valid" of the time series list to `TRUE` or `FALSE` accordingly.
+#' This function analyzes a time series list and returns it without modification, but issues a warning if any condition is not met, and an explanation on how to solve the issue.
 #'
-#' The function `tsl_is_valid()`, called by most functions taking a time series list as input, returns a warning if the value of the "valid" argument is FALSE.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
+#' @param full (optional, logical) If TRUE, the function runs checks looking at all the individual values of the time series list. This makes the test slower, but more comprehensive. Default: FALSE
 #'
 #' @return time series list
 #' @export
@@ -32,17 +32,10 @@
 #' #removing list names
 #' names(tsl) <- NULL
 #'
-#' #value of attribute "valid"
-#' attributes(x = tsl)$valid
-#'
-#' #this will result in an invalid tsl
-#' tsl <- tsl_is_valid(
-#'   tsl = tsl
-#' )
-#'
-#' #run validation check
+#' #run validation test
 #' tsl <- tsl_validate(
-#'   tsl = tsl
+#'   tsl = tsl,
+#'   full = TRUE #to examine individual data values
 #' )
 #' #two issues identified!
 #'
@@ -58,18 +51,12 @@
 #'
 #' #validation test again
 #' tsl <- tsl_validate(
-#'   tsl = tsl
+#'   tsl = tsl,
+#'   full = TRUE
 #' )
-#'
-#' #validation check works now
-#' tsl <- tsl_is_valid(
-#'   tsl = tsl
-#' )
-#'
-#' #value of attribute "valid" is TRUE
-#' attributes(x = tsl)$valid
 tsl_validate <- function(
-    tsl = NULL
+    tsl = NULL,
+    full = FALSE
 ){
 
   #all possible issues
@@ -102,7 +89,7 @@ tsl_validate <- function(
     #tsl is a list
   } else {
 
-    # tsl has names
+    # tsl has no names
     if(is.null(names(tsl))){
 
       issues <- c(
@@ -112,7 +99,7 @@ tsl_validate <- function(
 
       is_valid <- FALSE
 
-      # tsl has no names
+    # tsl has names
     } else {
 
       # duplicated names
@@ -149,14 +136,14 @@ tsl_validate <- function(
 
       is_valid <- FALSE
 
-      # elemenets in tsl are zoo objects
+    # elemenets in tsl are zoo objects
     } else {
 
       # zoo objects have names
       zoo_names <- tsl_names_get(
         tsl = tsl,
         zoo = TRUE
-        )
+      )
 
       if(length(zoo_names) == 0){
 
@@ -194,99 +181,101 @@ tsl_validate <- function(
 
       }
 
-      # zoo objects have shared colnames
-      zoo_colnames_shared <- tsl_colnames_get(
-        tsl = tsl,
-        names = "shared"
-      )
+      #run full test
+      if(full == TRUE){
 
-      #check ignored for zoo vectors.
-      if(!is.null(zoo_colnames_shared)){
+        # zoo objects have shared colnames
+        zoo_colnames_shared <- tsl_colnames_get(
+          tsl = tsl,
+          names = "shared"
+        )
 
-        if(length(zoo_colnames_shared) == 0){
+        #check ignored for zoo vectors.
+        if(!is.null(zoo_colnames_shared)){
+
+          if(length(zoo_colnames_shared) == 0){
+
+            issues <- c(
+              issues,
+              all_issues[["zoo_no_shared_columns"]]
+            )
+
+            is_valid <- FALSE
+
+          }
+
+        }
+
+        #all columns in zoo objects are numeric
+        zoo.columns.numeric <- sapply(
+          X = tsl,
+          FUN = function(x){
+
+            #vector
+            if(is.null(dim(x))){
+
+              out <- is.numeric(x)
+
+            } else {
+              #matrix
+
+              out <- apply(
+                X = zoo::coredata(x),
+                FUN = is.numeric,
+                MARGIN = 2
+              ) |>
+                all()
+
+            }
+
+            out
+
+          }
+
+        ) |>
+          all()
+
+        if(zoo.columns.numeric == FALSE){
 
           issues <- c(
             issues,
-            all_issues[["zoo_no_shared_columns"]]
+            all_issues[["zoo_non_numeric_columns"]]
           )
 
           is_valid <- FALSE
 
         }
 
-      }
+        # NA values
+        na.count <- tsl_count_NA(
+          tsl = tsl,
+          quiet = TRUE
+        ) |>
+          unlist() |>
+          sum()
 
-      #all columns in zoo objects are numeric
-      zoo.columns.numeric <- sapply(
-        X = tsl,
-        FUN = function(x){
+        if(na.count > 0){
 
-          #vector
-          if(is.null(dim(x))){
+          issues <- c(
+            issues,
+            all_issues[["zoo_NA_cases"]]
+          )
 
-            out <- is.numeric(x)
-
-          } else {
-          #matrix
-
-            out <- apply(
-              X = zoo::coredata(x),
-              FUN = is.numeric,
-              MARGIN = 2
-            ) |>
-              all()
-
-          }
-
-          out
+          is_valid <- FALSE
 
         }
 
-      ) |>
-        all()
-
-      if(zoo.columns.numeric == FALSE){
-
-        issues <- c(
-          issues,
-          all_issues[["zoo_non_numeric_columns"]]
-        )
-
-        is_valid <- FALSE
-
-      }
-
-      # NA values
-      na.count <- tsl_count_NA(
-        tsl = tsl,
-        quiet = TRUE
-      ) |>
-        unlist() |>
-        sum()
-
-      if(na.count > 0){
-
-        issues <- c(
-          issues,
-          all_issues[["zoo_NA_cases"]]
-        )
-
-        is_valid <- FALSE
-
-      }
+      } #end of full == TRUE
 
     } #end of: elements in tsl are zoo objects
 
   } #end of: tsl is a list
 
-  # set valid attribute
-  attr(tsl, "valid") <- is_valid
-
   if(is_valid == FALSE){
 
     message(
       "This time series list is NOT VALID.\n",
-      "Issue found:\n",
+      "The issue/s to address are:\n",
       paste(
         issues,
         collapse = "\n"
@@ -299,33 +288,232 @@ tsl_validate <- function(
 
 }
 
-#' @rdname tsl_validate
+
+#' Validate Time Series List
+#'
+#' @description
+#' Validity assessment of time series lists. The required features for a valid time series list are:
+#' \itemize{
+#'   \item Argument `tsl` is a list.
+#'   \item List `tsl` has unique names.
+#'   \item All elements in `tsl` are `zoo` objects.
+#'   \item All `zoo` objects have the attribute "name".
+#'   \item All `zoo` objects have unique values in the attribute "name".
+#'   \item Names of the list slots and the `zoo` objects are the same.
+#'   \item All `zoo` objects have at least one shared column name.
+#'   \item All columns in the `zoo` objects are numeric.
+#'   \item All `zoo` objects have zero NA cases.
+#' }
+#'
+#' This function takes a time series list, and tries to make it comply with the rules listed above. Finally, it runs [tsl_validate()] and informs the user if there are any issues left.
+#'
+#'
+#' @param tsl (required, list) Time series list. Default: NULL
+#' @param full (optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: FALSE
+#'
+#' @return time series list
 #' @export
 #' @autoglobal
-tsl_is_valid <- function(
-    tsl = NULL
+#' @examples
+#' #TODO missing example here
+tsl_make_valid <- function(
+    tsl = NULL,
+    full = FALSE
 ){
 
-  if(!("valid" %in% names(attributes(tsl)))){
+  # TODO: review this function's logic
 
-    warning(
-      "Argument 'tsl' must have the attribute 'valid'. Please run distantia::tsl_validate() to diagnose any potential issues.",
-      call. = FALSE
-    )
+  # tsl is not a list
+  if(!is.list(tsl)){
 
+    stop("Argument 'tsl' must be a list of zoo objects.")
+
+  #tsl is a list
   } else {
 
-    if(
-      attributes(tsl)$valid == FALSE
-    ){
-      warning(
-        "Attribute 'valid' of argument 'tsl' is FALSE. Please run distantia::tsl_validate() to diagnose potential issues.",
-        call. = FALSE
+    # tsl has no names
+    if(is.null(names(tsl))){
+
+      message("Naming items in object 'tsl'")
+
+      tsl <- tsl_names_set(
+        tsl = tsl
+      )
+
+    # tsl has names
+    } else {
+
+      # duplicated names
+      if(any(duplicated(names(tsl)))){
+
+        message("Deduplicating names of object 'tsl'.")
+
+        tsl <- tsl_names_clean(
+          tsl = tsl
         )
+
+      }
+
+
     }
 
-  }
+    #zoo objects
 
-  tsl
+    # elements in tsl are not zoo objects
+    if(
+      !all(
+        sapply(
+          X = tsl,
+          FUN = zoo::is.zoo
+        )
+      )
+    ){
+
+      message("Converting all objects within 'tsl' to the class 'zoo'.")
+
+      tsl <- lapply(
+        X = tsl,
+        FUN = zoo::zoo
+      )
+
+      # elemenets in tsl are zoo objects
+    } else {
+
+      # zoo objects have names
+      zoo_names <- tsl_names_get(
+        tsl = tsl,
+        zoo = TRUE
+      )
+
+      if(length(zoo_names) == 0){
+
+        message("Naming zoo objects within 'tsl'.")
+
+        tsl <- tsl_names_set(
+          tsl = tsl
+        )
+
+      } else {
+
+        # zoo names are unique
+        if(any(duplicated(zoo_names))){
+
+          message("Deduplicating names of zoo objects within 'tsl'.")
+
+          tsl <- tsl_names_set(
+            tsl = tsl
+          )
+
+        }
+
+        if(any(zoo_names != names(tsl))){
+
+          message("Renaming zoo objects to names in 'tsl'.")
+
+          tsl <- tsl_names_set(
+            tsl = tsl
+          )
+
+        }
+
+      }
+
+      #run full test
+      if(full == TRUE){
+
+        # cleaning names of zoo objects
+        message("Cleaning column names of zoo objects.")
+
+        tsl <- tsl_colnames_clean(
+          tsl = tsl,
+          lowercase = TRUE
+        )
+
+        # zoo objects have shared colnames
+        zoo_colnames_shared <- tsl_colnames_get(
+          tsl = tsl,
+          names = "shared"
+        )
+
+        #check ignored for zoo vectors.
+        if(!is.null(zoo_colnames_shared)){
+
+          if(length(zoo_colnames_shared) == 0){
+
+            stop("Zoo objects in 'tsl' must have at least one shared column name.")
+
+          }
+
+        }
+
+        #all columns in zoo objects are numeric
+        zoo.columns.numeric <- sapply(
+          X = tsl,
+          FUN = function(x){
+
+            #vector
+            if(is.null(dim(x))){
+
+              out <- is.numeric(x)
+
+            } else {
+              #matrix
+
+              out <- apply(
+                X = zoo::coredata(x),
+                FUN = is.numeric,
+                MARGIN = 2
+              ) |>
+                all()
+
+            }
+
+            out
+
+          }
+
+        ) |>
+          all()
+
+        if(zoo.columns.numeric == FALSE){
+
+          message("Selecting numeric columns from zoo objects")
+
+          tsl <- tsl_subset(
+            tsl = tsl,
+            numeric_cols = TRUE
+          )
+
+        }
+
+        # NA values
+        na.count <- tsl_count_NA(
+          tsl = tsl,
+          quiet = TRUE
+        ) |>
+          unlist() |>
+          sum()
+
+        if(na.count > 0){
+
+          message("Imputing NA values in zoo objects.")
+
+          tsl <- tsl_handle_NA(
+            tsl = tsl,
+            na_action = "impute"
+          )
+
+        }
+
+      } #end of full == TRUE
+
+    } #end of: elements in tsl are zoo objects
+
+  } #end of: tsl is a list
+
+  tsl <- tsl_validate(
+    tsl = tsl,
+    full = full
+  )
 
 }
