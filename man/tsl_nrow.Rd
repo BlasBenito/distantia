@@ -26,3 +26,13 @@ tsl_nrow(
   tsl = tsl
 )
 }
+\seealso{
+Other tsl_info: 
+\code{\link{tsl_colnames_get}()},
+\code{\link{tsl_count_NA}()},
+\code{\link{tsl_names_get}()},
+\code{\link{tsl_ncol}()},
+\code{\link{tsl_stats}()},
+\code{\link{tsl_time}()}
+}
+\concept{tsl_info}

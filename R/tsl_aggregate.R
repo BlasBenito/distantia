@@ -57,7 +57,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' # daily aggregation
 #' #----------------------------------
@@ -157,6 +159,8 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @keywords transformation
+#' @family tsl_manipulation
 tsl_aggregate <- function(
     tsl = NULL,
     new_time = NULL,
@@ -195,7 +199,7 @@ tsl_aggregate <- function(
     tsl = tsl
   )
 
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

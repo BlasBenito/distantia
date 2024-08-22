@@ -103,3 +103,17 @@ names(importance_sf)
 #   tmap::tm_shape(fagus_coordinates) +
 #   tmap::tm_dots(size = 0.1, col = "gray50")
 }
+\seealso{
+Other dissimilarity_analysis: 
+\code{\link{distantia}()},
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_importance}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_plot}()},
+\code{\link{utils_block_size}()},
+\code{\link{utils_importance_df_to_wide}()}
+}
+\concept{dissimilarity_analysis}

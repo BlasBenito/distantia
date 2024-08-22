@@ -74,7 +74,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands
@@ -208,6 +210,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @family dissimilarity_analysis
 distantia <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -222,7 +225,7 @@ distantia <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

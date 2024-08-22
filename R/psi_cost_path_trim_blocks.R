@@ -9,6 +9,7 @@
 #' #TODO: complete example
 #'@export
 #'@autoglobal
+#' @family psi_demo
 psi_cost_path_trim_blocks <- function(path = NULL){
 
   path <- utils_check_path_args(

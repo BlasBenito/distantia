@@ -23,12 +23,12 @@
 #' names(df)
 #' nrow(df)
 #' head(df)
-#'
+#' @family tsl_manipulation
 tsl_to_df <- function(
     tsl = NULL
 ){
 
-  tsl <- tsl_is_valid(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

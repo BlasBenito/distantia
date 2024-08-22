@@ -21,5 +21,6 @@ Returns a data frame with the names of the supported time units, the classes tha
 
 df <- utils_time_units()
 head(df)
-
 }
+\keyword{internal}
+\keyword{time_handling}

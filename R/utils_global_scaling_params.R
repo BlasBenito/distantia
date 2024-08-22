@@ -13,6 +13,8 @@
 #' @return Named list with global mean and standard deviation
 #' @export
 #' @autoglobal
+#' @family transformation
+#' @keywords internal
 utils_global_scaling_params <- function(
     tsl = NULL,
     f = NULL,

@@ -124,3 +124,5 @@ utils_cluster_silhouette(
   mean = TRUE
 )
 }
+\keyword{clustering}
+\keyword{internal}

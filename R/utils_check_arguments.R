@@ -21,6 +21,7 @@
 #' @return List with checked arguments
 #' @export
 #' @autoglobal
+#' @keywords internal
 utils_check_distantia_args <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -36,7 +37,7 @@ utils_check_distantia_args <- function(
     ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

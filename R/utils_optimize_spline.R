@@ -45,7 +45,7 @@
 #'   )$y,
 #'   col = "red"
 #' )
-#'
+#' @keywords internal transformation
 utils_optimize_spline <- function(
     x = NULL,
     y = NULL,

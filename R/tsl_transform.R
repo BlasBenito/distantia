@@ -34,7 +34,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #two time series
 #' tsl <- tsl_initialize(
@@ -244,7 +246,7 @@
 #' )
 #'
 #' #validate this new tsl
-#' tsl <- tsl_validate(
+#' tsl <- tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -326,6 +328,8 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @keywords transformation
+#' @family tsl_manipulation
 tsl_transform <- function(
     tsl = NULL,
     f = NULL,
@@ -346,7 +350,7 @@ tsl_transform <- function(
   }
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

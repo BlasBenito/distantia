@@ -15,3 +15,12 @@ List of data frames
 \description{
 List of Vectors to List of Data Frames
 }
+\seealso{
+Other tsl_preparation: 
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_zoo_list}()}
+}
+\concept{tsl_preparation}
+\keyword{internal}

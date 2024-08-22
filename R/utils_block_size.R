@@ -6,6 +6,8 @@
 #' @return block size
 #' @export
 #' @autoglobal
+#' @family dissimilarity_analysis
+#' @keywords internal
 utils_block_size <- function(
     tsl = NULL,
     block_size = NULL

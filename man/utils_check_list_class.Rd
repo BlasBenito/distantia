@@ -17,3 +17,4 @@ Used for its side effects. Error message if the observed classes do not match th
 \description{
 Checks Classes of List Elements Against Expectation
 }
+\keyword{internal}

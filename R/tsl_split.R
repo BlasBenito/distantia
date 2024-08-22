@@ -36,14 +36,14 @@
 #'
 #' lapply(tsl, colnames)
 #'
-#'
+#' @family tsl_manipulation
 tsl_split <- function(
     tsl = NULL,
     sep = "__"
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

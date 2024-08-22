@@ -85,6 +85,7 @@
 #' )
 #' @export
 #' @autoglobal
+#' @family psi_demo
 psi_auto_sum <- function(
     y = NULL,
     x = NULL,

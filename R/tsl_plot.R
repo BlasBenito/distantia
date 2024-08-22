@@ -56,6 +56,7 @@
 #'     color = c("red", "green", "blue"))
 #'
 #' }
+#' @keywords plotting
 tsl_plot <- function(
     tsl = NULL,
     columns = 1,
@@ -70,7 +71,7 @@ tsl_plot <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

@@ -42,3 +42,5 @@ x <- utils_coerce_time_class(
 x
 class(x)
 }
+\keyword{internal}
+\keyword{time_handling}

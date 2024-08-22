@@ -99,7 +99,7 @@
 #'   )
 #'
 #' }
-#'
+#' @family dissimilarity_analysis
 distantia_matrix <- function(
     df = NULL
 ){

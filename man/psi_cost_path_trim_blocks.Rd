@@ -18,3 +18,13 @@ Removes blocks (straight segments of the path that appear in highly dissimilar r
 \examples{
 #TODO: complete example
 }
+\seealso{
+Other psi_demo: 
+\code{\link{psi_auto_distance}()},
+\code{\link{psi_auto_sum}()},
+\code{\link{psi_cost_matrix}()},
+\code{\link{psi_cost_path}()},
+\code{\link{psi_cost_path_sum}()},
+\code{\link{psi_dist_matrix}()}
+}
+\concept{psi_demo}

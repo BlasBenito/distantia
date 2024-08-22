@@ -90,7 +90,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #generate irregular time series
 #' tsl <- tsl_simulate(
@@ -252,6 +254,8 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @keywords transformation
+#' @family tsl_manipulation
 tsl_resample <- function(
     tsl = NULL,
     new_time = NULL,
@@ -260,7 +264,7 @@ tsl_resample <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

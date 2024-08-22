@@ -10,6 +10,7 @@
 #' @return Named vector of colors
 #' @keywords internal
 #' @export
+#' @keywords plotting internal
 utils_line_color <- function(
     x = NULL,
     color = NULL

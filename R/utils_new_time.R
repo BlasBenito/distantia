@@ -92,6 +92,7 @@
 #'   tsl = tsl,
 #'   new_time = new_time
 #' )
+#' @keywords internal time_handling
 utils_new_time <- function(
     tsl = NULL,
     new_time = NULL,
@@ -108,7 +109,7 @@ utils_new_time <- function(
   )
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 
@@ -161,7 +162,7 @@ utils_new_time <- function(
     zoo::is.zoo(new_time[[1]])
   ){
 
-    new_time <- tsl_is_valid(
+    new_time <- tsl_diagnose(
       tsl = new_time
     )
 

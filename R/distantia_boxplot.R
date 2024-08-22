@@ -73,6 +73,8 @@
 #' #contributing the most to site dissimilarity,
 #' #and termpature as the variable contributing
 #' #the most to site similarity.
+#' @family dissimilarity_analysis
+#' @keywords plotting
 distantia_boxplot <- function(
     df = NULL,
     color = NULL,

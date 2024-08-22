@@ -42,7 +42,9 @@ future::plan(
 )
 
 #progress bar
-progressr::handlers(global = TRUE)
+if(interactive()){
+  progressr::handlers(global = TRUE)
+}
 
 #two time series
 tsl <- tsl_initialize(
@@ -252,7 +254,7 @@ tsl <- c(
 )
 
 #validate this new tsl
-tsl <- tsl_validate(
+tsl <- tsl_diagnose(
   tsl = tsl
 )
 
@@ -335,3 +337,17 @@ future::plan(
   future::sequential
 )
 }
+\seealso{
+Other tsl_manipulation: 
+\code{\link{tsl_aggregate}()},
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_set}()},
+\code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_resample}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
+\code{\link{tsl_to_df}()}
+}
+\concept{tsl_manipulation}
+\keyword{transformation}

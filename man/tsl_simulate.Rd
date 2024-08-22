@@ -54,7 +54,9 @@ future::plan(
 )
 
 #progress bar
-progressr::handlers(global = TRUE)
+if(interactive()){
+  progressr::handlers(global = TRUE)
+}
 
 # generates a different time series list on each iteration when seed = NULL
 tsl <- tsl_simulate(

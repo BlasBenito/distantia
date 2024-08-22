@@ -22,3 +22,5 @@ Uses the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}} to g
 utils_color_continuous_default(n = 20)
 
 }
+\keyword{internal}
+\keyword{plotting}

@@ -36,7 +36,7 @@ tsl_init(
 A named list of matrices.
 }
 \description{
-Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time-series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_validate]{tsl_validate()}}). These requirements are:
+Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time-series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_diagnose]{tsl_diagnose()}}). These requirements are:
 \itemize{
 \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see \code{\link[=tsl_count_NA]{tsl_count_NA()}} and \code{\link[=tsl_handle_NA]{tsl_handle_NA()}}).
 \item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames_get]{tsl_colnames_get()}}).
@@ -78,7 +78,7 @@ tsl <- tsl_initialize(
 )
 
 #check validity (no messages or errors if valid)
-tsl <- tsl_validate(tsl)
+tsl <- tsl_diagnose(tsl)
 
 #class of contained objects
 lapply(X = tsl, FUN = class)
@@ -212,13 +212,13 @@ zoo_list <- list(
 )
 
 #looks like a time series list! But...
-zoo_list <- tsl_validate(tsl = zoo_list)
+zoo_list <- tsl_diagnose(tsl = zoo_list)
 
 #let's set the names
 zoo_list <- tsl_names_set(tsl = zoo_list)
 
 #check again: it's now a valid time series list
-zoo_list <- tsl_validate(tsl = zoo_list)
+zoo_list <- tsl_diagnose(tsl = zoo_list)
 
 #to do all this in one go:
 tsl <- tsl_initialize(
@@ -235,3 +235,10 @@ if(interactive()){
 
 
 }
+\seealso{
+Other tsl_integrity: 
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_repair}()}
+}
+\concept{tsl_integrity}

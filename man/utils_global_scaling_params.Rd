@@ -21,3 +21,5 @@ Internal function to compute global scaling parameters (mean and standard deviat
 
 Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
 }
+\concept{transformation}
+\keyword{internal}

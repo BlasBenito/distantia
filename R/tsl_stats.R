@@ -46,7 +46,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
@@ -70,6 +72,7 @@
 #' )
 #' @export
 #' @autoglobal
+#' @family tsl_info
 tsl_stats <- function(
     tsl = NULL,
     lags = 1L

@@ -17,3 +17,4 @@ data frame
 \description{
 Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} to generate a data frame with combinations of time series and function arguments.
 }
+\keyword{internal}

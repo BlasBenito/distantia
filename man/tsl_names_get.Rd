@@ -41,3 +41,14 @@ tsl_names_get(
 #same as
 names(tsl)
 }
+\seealso{
+Other tsl_info: 
+\code{\link{tsl_colnames_get}()},
+\code{\link{tsl_count_NA}()},
+\code{\link{tsl_ncol}()},
+\code{\link{tsl_nrow}()},
+\code{\link{tsl_stats}()},
+\code{\link{tsl_time}()}
+}
+\concept{tsl_info}
+\keyword{names}

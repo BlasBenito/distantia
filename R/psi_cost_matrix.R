@@ -84,6 +84,7 @@
 #' )
 #' @autoglobal
 #' @export
+#' @family psi_demo
 psi_cost_matrix <- function(
     dist_matrix = NULL,
     diagonal = TRUE,

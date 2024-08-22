@@ -6,6 +6,7 @@
 #' @return Numeric vector
 #' @autoglobal
 #' @export
+#' @keywords plotting internal
 utils_color_breaks <- function(
     m = NULL,
     n = 100

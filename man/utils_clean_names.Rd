@@ -78,3 +78,5 @@ utils_clean_names(
   suffix = "my_suffix"
 )
 }
+\keyword{internal}
+\keyword{names}

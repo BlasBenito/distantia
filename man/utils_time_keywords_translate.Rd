@@ -56,3 +56,5 @@ utils_time_keywords_translate(
   keyword = "sec"
 )
 }
+\keyword{internal}
+\keyword{time_handling}

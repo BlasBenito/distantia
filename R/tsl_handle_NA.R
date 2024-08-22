@@ -67,6 +67,7 @@
 #' if(interactive()){
 #'   tsl_plot(tsl = tsl_no_na)
 #' }
+#' @family tsl_integrity
 tsl_handle_NA <- function(
     tsl = NULL,
     na_action = "omit",

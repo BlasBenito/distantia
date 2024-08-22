@@ -51,3 +51,5 @@ utils_line_guide(
   position = "center"
 )
 }
+\keyword{internal}
+\keyword{plotting}

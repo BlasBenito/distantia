@@ -7,6 +7,8 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
+#' @family tsl_preparation
+#' @keywords internal time_handling
 utils_prepare_time <- function(
     x = NULL,
     time_column = NULL,

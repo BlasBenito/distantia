@@ -41,6 +41,7 @@
 #' #class and length of the output
 #' class(df_split)
 #' length(df_split)
+#' @keywords internal
 utils_distantia_df_split <- function(
     df = NULL
 ){

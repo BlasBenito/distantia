@@ -44,3 +44,14 @@ zoo_time(
   x = x
 )
 }
+\seealso{
+Other zoo_functions: 
+\code{\link{zoo_aggregate}()},
+\code{\link{zoo_permute}()},
+\code{\link{zoo_plot}()},
+\code{\link{zoo_resample}()},
+\code{\link{zoo_simulate}()},
+\code{\link{zoo_to_tsl}()}
+}
+\concept{zoo_functions}
+\keyword{zoo_info}

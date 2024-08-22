@@ -13,6 +13,8 @@
 #' )
 #' @autoglobal
 #' @export
+#' @family tsl_preparation
+#' @keywords internal
 utils_prepare_zoo_list <- function(
     x = NULL,
     time_column = NULL,

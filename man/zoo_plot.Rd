@@ -69,3 +69,14 @@ if(interactive()){
 
 }
 }
+\seealso{
+Other zoo_functions: 
+\code{\link{zoo_aggregate}()},
+\code{\link{zoo_permute}()},
+\code{\link{zoo_resample}()},
+\code{\link{zoo_simulate}()},
+\code{\link{zoo_time}()},
+\code{\link{zoo_to_tsl}()}
+}
+\concept{zoo_functions}
+\keyword{plotting}

@@ -6,6 +6,7 @@
 #' @return Used for its side effects. Error message if the observed classes do not match the expectation.
 #' @autoglobal
 #' @export
+#' @keywords internal
 utils_check_list_class <- function(
     x = NULL,
     expected_class = "data.frame"

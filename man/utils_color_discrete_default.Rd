@@ -25,5 +25,6 @@ Uses the function \code{\link[grDevices:palette]{grDevices::palette.colors()}} t
 \examples{
 
 utils_color_discrete_default(n = 9)
-
 }
+\keyword{internal}
+\keyword{plotting}

@@ -33,5 +33,17 @@ df <- tsl_to_df(
 names(df)
 nrow(df)
 head(df)
-
 }
+\seealso{
+Other tsl_manipulation: 
+\code{\link{tsl_aggregate}()},
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_set}()},
+\code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_resample}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
+\code{\link{tsl_transform}()}
+}
+\concept{tsl_manipulation}

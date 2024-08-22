@@ -83,6 +83,7 @@
 #' )
 #'
 #' @autoglobal
+#' @family psi_demo
 psi_cost_path <- function(
     dist_matrix = NULL,
     cost_matrix = NULL,

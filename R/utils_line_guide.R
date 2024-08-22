@@ -24,6 +24,7 @@
 #' )
 #' @autoglobal
 #' @export
+#' @keywords plotting internal
 utils_line_guide <- function(
     x,
     position = "topright",

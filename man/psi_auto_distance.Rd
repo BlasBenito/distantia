@@ -96,3 +96,13 @@ distantia_plot(
   tsl = tsl
 )
 }
+\seealso{
+Other psi_demo: 
+\code{\link{psi_auto_sum}()},
+\code{\link{psi_cost_matrix}()},
+\code{\link{psi_cost_path}()},
+\code{\link{psi_cost_path_sum}()},
+\code{\link{psi_cost_path_trim_blocks}()},
+\code{\link{psi_dist_matrix}()}
+}
+\concept{psi_demo}

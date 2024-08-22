@@ -66,7 +66,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
@@ -152,6 +154,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @family dissimilarity_analysis
 distantia_importance <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -163,7 +166,7 @@ distantia_importance <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

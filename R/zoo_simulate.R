@@ -46,6 +46,8 @@
 #'   )
 #'
 #' }
+#' @family zoo_functions
+#' @keywords example_data
 zoo_simulate <- function(
     cols = 5,
     rows = 100,

@@ -30,6 +30,7 @@
 #'
 #' x
 #' class(x)
+#' @keywords internal time_handling
 utils_coerce_time_class <- function(
     x = NULL,
     to = "Date"

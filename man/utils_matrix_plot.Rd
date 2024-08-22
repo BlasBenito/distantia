@@ -83,3 +83,5 @@ if(interactive()){
   )
 }
 }
+\keyword{internal}
+\keyword{plotting}

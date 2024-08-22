@@ -52,6 +52,7 @@
 #' }
 #' @export
 #' @autoglobal
+#' @keywords plotting internal
 utils_matrix_plot <- function(
     m = NULL,
     color = NULL,

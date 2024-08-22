@@ -82,3 +82,5 @@ utils_time_keywords(
   tsl = tsl
 )
 }
+\keyword{internal}
+\keyword{time_handling}

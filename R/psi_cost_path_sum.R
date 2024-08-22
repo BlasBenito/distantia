@@ -80,6 +80,7 @@
 #' )
 #' @autoglobal
 #' @export
+#' @family psi_demo
 psi_cost_path_sum <- function(path = NULL){
 
   path <- utils_check_path_args(

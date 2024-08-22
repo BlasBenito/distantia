@@ -26,5 +26,6 @@ utils_is_time(
     x = c("2024-01-01", "2024-02-01")
     )
 )
-
 }
+\keyword{internal}
+\keyword{time_handling}

@@ -30,3 +30,13 @@ class(tsl[[1]])
 names(tsl)
 attributes(tsl[[1]])$name
 }
+\seealso{
+Other zoo_functions: 
+\code{\link{zoo_aggregate}()},
+\code{\link{zoo_permute}()},
+\code{\link{zoo_plot}()},
+\code{\link{zoo_resample}()},
+\code{\link{zoo_simulate}()},
+\code{\link{zoo_time}()}
+}
+\concept{zoo_functions}

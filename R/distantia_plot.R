@@ -86,6 +86,8 @@
 #' @return A plot.
 #' @autoglobal
 #' @export
+#' @family dissimilarity_analysis
+#' @keywords plotting
 distantia_plot <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -102,7 +104,7 @@ distantia_plot <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

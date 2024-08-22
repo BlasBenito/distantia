@@ -17,3 +17,5 @@ Numeric vector
 \description{
 Auto Breaks for Matrix Plotting Functions
 }
+\keyword{internal}
+\keyword{plotting}

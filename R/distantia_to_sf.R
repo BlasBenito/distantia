@@ -95,6 +95,7 @@
 #' #   tmap::tm_shape(fagus_coordinates) +
 #' #   tmap::tm_dots(size = 0.1, col = "gray50")
 #' @autoglobal
+#' @family dissimilarity_analysis
 distantia_to_sf <- function(
     df = NULL,
     xy = NULL

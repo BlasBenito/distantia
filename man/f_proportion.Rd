@@ -28,5 +28,5 @@ if(interactive()){
   zoo_plot(x)
   zoo_plot(y)
 }
-
 }
+\keyword{transformation}

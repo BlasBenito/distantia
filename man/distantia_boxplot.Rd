@@ -83,3 +83,18 @@ boxplot_stats <- distantia_boxplot(
 #and termpature as the variable contributing
 #the most to site similarity.
 }
+\seealso{
+Other dissimilarity_analysis: 
+\code{\link{distantia}()},
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_importance}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_plot}()},
+\code{\link{distantia_to_sf}()},
+\code{\link{utils_block_size}()},
+\code{\link{utils_importance_df_to_wide}()}
+}
+\concept{dissimilarity_analysis}
+\keyword{plotting}

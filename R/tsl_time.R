@@ -60,6 +60,7 @@
 #' tsl_time_summary(
 #'   tsl = tsl
 #' )
+#' @family tsl_info
 tsl_time <- function(
     tsl = NULL,
     keywords = c(
@@ -68,7 +69,7 @@ tsl_time <- function(
     )
 ){
 
-  tsl <- tsl_is_valid(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

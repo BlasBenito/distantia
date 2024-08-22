@@ -37,7 +37,9 @@ future::plan(
 )
 
 #progress bar
-progressr::handlers(global = TRUE)
+if(interactive()){
+  progressr::handlers(global = TRUE)
+}
 
 #daily covid prevalence in California counties
 data("covid_prevalence")
@@ -130,3 +132,18 @@ future::plan(
   future::sequential
 )
 }
+\seealso{
+Other dissimilarity_analysis: 
+\code{\link{distantia}()},
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_importance}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_plot}()},
+\code{\link{distantia_to_sf}()},
+\code{\link{utils_block_size}()},
+\code{\link{utils_importance_df_to_wide}()}
+}
+\concept{dissimilarity_analysis}
+\keyword{clustering}

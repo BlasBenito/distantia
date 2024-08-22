@@ -7,6 +7,7 @@
 #' @autoglobal
 #' @examples
 #' utils_digits(x = 0.234)
+#' @keywords internal
 utils_digits <- function(
     x = NULL
     ){

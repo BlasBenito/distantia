@@ -62,6 +62,7 @@
 #' tsl_time(
 #'   tsl = tsl_new
 #' )[, c("name", "begin", "end")]
+#' @family tsl_manipulation
 tsl_subset <- function(
     tsl = NULL,
     names = NULL,
@@ -72,7 +73,7 @@ tsl_subset <- function(
 ){
 
   #check validity
-  tsl <- tsl_validate(
+  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

@@ -18,3 +18,4 @@ Number of Decimal Places
 \examples{
 utils_digits(x = 0.234)
 }
+\keyword{internal}

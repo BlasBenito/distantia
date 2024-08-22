@@ -34,6 +34,8 @@
 #'
 #' #same as
 #' names(tsl)
+#' @family tsl_info
+#' @keywords names
 tsl_names_get <- function(
     tsl = NULL,
     zoo = TRUE
@@ -74,7 +76,7 @@ tsl_names_get <- function(
 #' tsl <- tsl_simulate(n = 3)
 #'
 #' #assess validity
-#' tsl <- tsl_validate(
+#' tsl <- tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -115,7 +117,7 @@ tsl_names_get <- function(
 #' #validate tsl
 #' #returns NOT VALID
 #' #recommends a solution
-#' tsl <- tsl_validate(
+#' tsl <- tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -126,7 +128,7 @@ tsl_names_get <- function(
 #' )
 #'
 #' #validate again
-#' tsl <- tsl_validate(
+#' tsl <- tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -134,6 +136,8 @@ tsl_names_get <- function(
 #' tsl_names_get(
 #'   tsl = tsl
 #' )
+#' @family tsl_manipulation
+#' @keywords names
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
@@ -294,6 +298,8 @@ tsl_names_set <- function(
 #' tsl_names_get(
 #'   tsl = tsl_clean
 #' )
+#' @family tsl_manipulation
+#' @keywords names
 tsl_names_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

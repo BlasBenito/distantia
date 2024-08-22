@@ -29,6 +29,7 @@
 #' )
 #'
 #' m
+#' @keywords internal
 utils_df_to_matrix <- function(
     df = NULL,
     x = "x",

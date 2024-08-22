@@ -5,6 +5,8 @@
 #' @return List of Data Frames
 #' @export
 #' @autoglobal
+#' @family tsl_preparation
+#' @keywords internal
 utils_prepare_matrix_list <- function(
     x = NULL
 ){

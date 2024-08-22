@@ -82,6 +82,7 @@
 #' @return A distance matrix.
 #' @export
 #' @autoglobal
+#' @family psi_demo
 psi_dist_matrix <- function(
     x = NULL,
     y = NULL,

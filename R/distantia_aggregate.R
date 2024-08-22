@@ -113,6 +113,7 @@
 #' )
 #'
 #' df
+#' @family dissimilarity_analysis
 distantia_aggregate <- function(
     df = NULL,
     f = mean,

@@ -75,6 +75,7 @@
 #' utils_time_keywords(
 #'   tsl = tsl
 #' )
+#' @keywords internal time_handling
 utils_time_keywords <- function(
     tsl = NULL
 ){

@@ -82,3 +82,10 @@ if(interactive()){
   tsl_plot(tsl = tsl_no_na)
 }
 }
+\seealso{
+Other tsl_integrity: 
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_initialize}()},
+\code{\link{tsl_repair}()}
+}
+\concept{tsl_integrity}

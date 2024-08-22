@@ -83,6 +83,7 @@
 #' distantia_plot(
 #'   tsl = tsl
 #' )
+#' @family psi_demo
 psi_auto_distance <- function(
     x = NULL,
     path = NULL,

@@ -19,7 +19,9 @@
 #' )
 #'
 #' #progress bar
-#' progressr::handlers(global = TRUE)
+#' if(interactive()){
+#'   progressr::handlers(global = TRUE)
+#' }
 #'
 #' #daily covid prevalence
 #' #in 10 California counties
@@ -67,6 +69,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @keywords clustering internal
 utils_cluster_hclust_optimizer <- function(
     d = NULL,
     method = NULL
