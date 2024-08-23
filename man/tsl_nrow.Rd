@@ -32,6 +32,7 @@ Other tsl_info:
 \code{\link{tsl_count_NA}()},
 \code{\link{tsl_names_get}()},
 \code{\link{tsl_ncol}()},
+\code{\link{tsl_plot}()},
 \code{\link{tsl_stats}()},
 \code{\link{tsl_time}()}
 }

@@ -27,5 +27,5 @@ utils_is_time(
     )
 )
 }
+\concept{time_handling}
 \keyword{internal}
-\keyword{time_handling}

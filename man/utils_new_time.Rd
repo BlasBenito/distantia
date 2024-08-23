@@ -108,5 +108,5 @@ tsl_aggregated <- tsl_aggregate(
   new_time = new_time
 )
 }
+\concept{time_handling}
 \keyword{internal}
-\keyword{time_handling}

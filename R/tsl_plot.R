@@ -56,7 +56,8 @@
 #'     color = c("red", "green", "blue"))
 #'
 #' }
-#' @keywords plotting
+#' @concept plotting
+#' @family tsl_info
 tsl_plot <- function(
     tsl = NULL,
     columns = 1,

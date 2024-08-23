@@ -82,4 +82,3 @@ Other zoo_functions:
 \code{\link{zoo_to_tsl}()}
 }
 \concept{zoo_functions}
-\keyword{example_data}

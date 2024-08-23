@@ -77,5 +77,5 @@ future::plan(
   future::sequential
 )
 }
-\keyword{clustering}
+\concept{clustering}
 \keyword{internal}

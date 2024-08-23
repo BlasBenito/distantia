@@ -119,6 +119,7 @@ if(interactive()){
 }
 \seealso{
 Other dissimilarity_analysis: 
+\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_boxplot}()},
@@ -131,4 +132,4 @@ Other dissimilarity_analysis:
 \code{\link{utils_importance_df_to_wide}()}
 }
 \concept{dissimilarity_analysis}
-\keyword{plotting}
+\concept{plotting}

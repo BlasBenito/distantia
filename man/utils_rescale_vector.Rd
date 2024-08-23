@@ -40,5 +40,4 @@ Rescales Numeric Vector to a New Range
  out
 
 }
-\keyword{internal}
-\keyword{transformation}
+\concept{transformations internal}

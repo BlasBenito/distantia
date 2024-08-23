@@ -44,7 +44,7 @@ f_list <- function(){
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_smooth_window <- function(
     x = NULL,
     smoothing_window = 3,
@@ -102,7 +102,7 @@ f_smooth_window <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_rescale <- function(
     x = NULL,
     new_min = 0,
@@ -156,7 +156,7 @@ f_rescale <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_pca <- function(
     x = NULL,
     ...
@@ -203,7 +203,7 @@ f_pca <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_trend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -263,7 +263,7 @@ f_trend_linear <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_detrend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -332,7 +332,7 @@ f_detrend_linear <- function(
 #'   zoo_plot(y_lag1)
 #'   zoo_plot(y_lag5)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_detrend_difference <- function(
     x = NULL,
     lag = 1,
@@ -401,7 +401,7 @@ f_detrend_difference <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_proportion <- function(
     x = NULL,
     ...
@@ -445,7 +445,7 @@ f_proportion <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_percentage <- function(
     x = NULL,
     ...
@@ -477,7 +477,7 @@ f_percentage <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_hellinger <- function(
     x = NULL,
     pseudozero = 0.0001,
@@ -540,7 +540,7 @@ f_hellinger <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_center <- function(
     x = NULL,
     center = TRUE,
@@ -578,7 +578,7 @@ f_center <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @keywords transformation
+#' @concept transformations
 f_scale <- function(
     x = NULL,
     center = TRUE,

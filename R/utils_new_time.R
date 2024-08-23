@@ -92,7 +92,8 @@
 #'   tsl = tsl,
 #'   new_time = new_time
 #' )
-#' @keywords internal time_handling
+#' @keywords internal
+#' @concept time_handling
 utils_new_time <- function(
     tsl = NULL,
     new_time = NULL,

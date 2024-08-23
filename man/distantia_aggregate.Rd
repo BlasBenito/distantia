@@ -124,6 +124,7 @@ df
 }
 \seealso{
 Other dissimilarity_analysis: 
+\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},

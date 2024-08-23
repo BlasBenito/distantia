@@ -55,5 +55,5 @@ Other tsl_manipulation:
 \code{\link{tsl_to_df}()},
 \code{\link{tsl_transform}()}
 }
+\concept{names_handling}
 \concept{tsl_manipulation}
-\keyword{names}

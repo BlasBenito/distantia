@@ -15,6 +15,7 @@
 #'
 #' @autoglobal
 #' @export
+#' @family dissimilarity_analysis
 distance <- function(
     x = NULL,
     y = NULL,

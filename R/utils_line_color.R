@@ -8,9 +8,9 @@
 #' @param color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return Named vector of colors
-#' @keywords internal
 #' @export
-#' @keywords plotting internal
+#' @keywords internal
+#' @concept plotting
 utils_line_color <- function(
     x = NULL,
     color = NULL

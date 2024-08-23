@@ -46,5 +46,5 @@ if(interactive()){
   utils_matrix_guide(m = dm)
 }
 }
+\concept{plotting}
 \keyword{internal}
-\keyword{plotting}

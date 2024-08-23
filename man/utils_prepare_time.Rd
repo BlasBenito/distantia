@@ -26,6 +26,6 @@ Other tsl_preparation:
 \code{\link{utils_prepare_vector_list}()},
 \code{\link{utils_prepare_zoo_list}()}
 }
+\concept{time_handling}
 \concept{tsl_preparation}
 \keyword{internal}
-\keyword{time_handling}

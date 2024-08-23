@@ -15,5 +15,5 @@ Called by \code{\link[=utils_time_keywords_translate]{utils_time_keywords_transl
 \examples{
 df <- utils_time_keywords_dictionary()
 }
+\concept{time_handling}
 \keyword{internal}
-\keyword{time_handling}

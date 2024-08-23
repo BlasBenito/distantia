@@ -17,7 +17,7 @@
 #'
 #' @export
 #' @autoglobal
-#' @keywords transformation internal
+#' @concept transformations internal
 utils_rescale_vector <- function(
     x = NULL,
     new_min = 0,

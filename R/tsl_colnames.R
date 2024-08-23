@@ -42,7 +42,7 @@
 #'   names = "exclusive"
 #' )
 #' @family tsl_info
-#' @keywords names
+#' @concept names_handling
 tsl_colnames_get <- function(
     tsl = NULL,
     names = c(
@@ -150,7 +150,7 @@ tsl_colnames_get <- function(
 #'   names = "all"
 #' )
 #' @family tsl_manipulation
-#' @keywords names
+#' @concept names_handling
 tsl_colnames_set <- function(
     tsl = NULL,
     new_names = NULL
@@ -264,7 +264,7 @@ tsl_colnames_set <- function(
 #' @autoglobal
 #' @export
 #' @family tsl_manipulation
-#' @keywords names
+#' @concept names_handling
 tsl_colnames_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

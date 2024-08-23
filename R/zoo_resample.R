@@ -160,7 +160,7 @@
 #'   )
 #'
 #' }
-#' @keywords transformation
+#' @concept transformations
 #' @family zoo_functions
 zoo_resample <- function(
     x = NULL,

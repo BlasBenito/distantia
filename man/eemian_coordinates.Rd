@@ -13,4 +13,28 @@ data(eemian_coordinates)
 \description{
 Coordinates of Nine Eemian Sites
 }
+\seealso{
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{cities_coordinates}},
+\code{\link{covid_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
+
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{cities_coordinates}},
+\code{\link{covid_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
+}
+\concept{example_data}
 \keyword{datasets}

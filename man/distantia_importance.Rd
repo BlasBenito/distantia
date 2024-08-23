@@ -178,6 +178,7 @@ future::plan(
 }
 \seealso{
 Other dissimilarity_analysis: 
+\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_boxplot}()},

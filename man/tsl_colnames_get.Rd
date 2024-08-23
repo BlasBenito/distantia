@@ -59,8 +59,9 @@ Other tsl_info:
 \code{\link{tsl_names_get}()},
 \code{\link{tsl_ncol}()},
 \code{\link{tsl_nrow}()},
+\code{\link{tsl_plot}()},
 \code{\link{tsl_stats}()},
 \code{\link{tsl_time}()}
 }
+\concept{names_handling}
 \concept{tsl_info}
-\keyword{names}

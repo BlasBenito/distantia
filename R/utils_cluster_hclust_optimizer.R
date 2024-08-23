@@ -69,7 +69,8 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @keywords clustering internal
+#' @keywords internal
+#' @concept clustering
 utils_cluster_hclust_optimizer <- function(
     d = NULL,
     method = NULL

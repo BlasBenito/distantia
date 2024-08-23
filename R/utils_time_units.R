@@ -12,7 +12,8 @@
 #'
 #' df <- utils_time_units()
 #' head(df)
-#' @keywords internal time_handling
+#' @keywords internal
+#' @concept time_handling
 utils_time_units <- function(
     all_columns = FALSE,
     class = NULL

@@ -14,7 +14,8 @@
 #'
 #' utils_color_continuous_default(n = 20)
 #'
-#' @keywords plotting internal
+#' @keywords internal
+#' @concept plotting
 utils_color_continuous_default <- function(
     n = NULL,
     palette = "Zissou 1"

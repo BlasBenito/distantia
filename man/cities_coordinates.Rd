@@ -13,4 +13,28 @@ data(cities_coordinates)
 \description{
 City coordinates for the dataset \code{cities_temperature}.
 }
+\seealso{
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{covid_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_coordinates}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
+
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{covid_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_coordinates}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
+}
+\concept{example_data}
 \keyword{datasets}

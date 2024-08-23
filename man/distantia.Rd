@@ -239,6 +239,7 @@ future::plan(
 }
 \seealso{
 Other dissimilarity_analysis: 
+\code{\link{distance}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},

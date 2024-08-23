@@ -349,5 +349,5 @@ Other tsl_manipulation:
 \code{\link{tsl_subset}()},
 \code{\link{tsl_to_df}()}
 }
+\concept{transformations}
 \concept{tsl_manipulation}
-\keyword{transformation}

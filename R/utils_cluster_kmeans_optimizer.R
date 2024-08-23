@@ -69,7 +69,8 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @keywords clustering internal
+#' @keywords internal
+#' @concept clustering
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1

@@ -13,4 +13,17 @@ data(covid_coordinates)
 \description{
 Coordinates of the Covid Dataset.
 }
+\seealso{
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{cities_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_coordinates}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
+}
+\concept{example_data}
 \keyword{datasets}

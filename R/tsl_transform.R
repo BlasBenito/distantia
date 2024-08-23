@@ -328,7 +328,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @keywords transformation
+#' @concept transformations
 #' @family tsl_manipulation
 tsl_transform <- function(
     tsl = NULL,

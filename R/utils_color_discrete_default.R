@@ -19,7 +19,8 @@
 #' @examples
 #'
 #' utils_color_discrete_default(n = 9)
-#' @keywords plotting internal
+#' @keywords internal
+#' @concept plotting
 utils_color_discrete_default <- function(
     n = NULL
     ){

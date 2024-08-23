@@ -116,7 +116,8 @@
 #'   d = psi_matrix,
 #'   mean = TRUE
 #' )
-#' @keywords clustering internal
+#' @keywords internal
+#' @concept clustering
 utils_cluster_silhouette <- function(
     labels = NULL,
     d = NULL,

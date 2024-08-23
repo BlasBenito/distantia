@@ -56,5 +56,5 @@ utils_time_keywords_translate(
   keyword = "sec"
 )
 }
+\concept{time_handling}
 \keyword{internal}
-\keyword{time_handling}

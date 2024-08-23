@@ -87,6 +87,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
+#' @family example_data
 tsl_simulate <- function(
     n = 2,
     cols = 5,

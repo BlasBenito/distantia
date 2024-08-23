@@ -16,7 +16,8 @@
 #'     x = c("2024-01-01", "2024-02-01")
 #'     )
 #' )
-#' @keywords internal time_handling
+#' @keywords internal
+#' @concept time_handling
 utils_is_time <- function(
     x = NULL
     ){

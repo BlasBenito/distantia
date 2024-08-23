@@ -78,5 +78,5 @@ utils_clean_names(
   suffix = "my_suffix"
 )
 }
+\concept{names_handling}
 \keyword{internal}
-\keyword{names}

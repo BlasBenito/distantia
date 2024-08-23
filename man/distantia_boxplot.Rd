@@ -85,6 +85,7 @@ boxplot_stats <- distantia_boxplot(
 }
 \seealso{
 Other dissimilarity_analysis: 
+\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_cluster_hclust}()},
@@ -97,4 +98,4 @@ Other dissimilarity_analysis:
 \code{\link{utils_importance_df_to_wide}()}
 }
 \concept{dissimilarity_analysis}
-\keyword{plotting}
+\concept{plotting}

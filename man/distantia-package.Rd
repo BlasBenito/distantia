@@ -3,33 +3,10 @@
 \docType{package}
 \name{distantia-package}
 \alias{distantia-package}
-\title{distantia: An Introduction to the distantia Package}
+\title{distantia: A Toolset for Time Series Dissimilarity Analysis}
 \description{
-TODO: complete this section
-The \code{distantia} package provides tools for analyzing and visualizing distances between
-data points. It includes functions for calculating various distance metrics, performing
-clustering analysis, and visualizing distance matrices.
-
-The package includes the following main functions:
-\itemize{
-\item \code{\link{calculate_distance}}: Computes the distance between two sets of data points.
-\item \code{\link{plot_distance_matrix}}: Visualizes the distance matrix as a heatmap.
-\item \code{\link{cluster_data}}: Clusters data points based on distance metrics.
+Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) \url{doi:doi.org/10.1111/ecog.04895}, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time-series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.
 }
-}
-\section{Installation}{
-
-To install the \code{distantia} package from CRAN, use:
-\preformatted{install.packages("distantia")}
-}
-
-\section{Getting Started}{
-
-After installation, load the package with:
-\preformatted{library(distantia)}
-For detailed documentation on individual functions, use \code{help(package = "distantia")}.
-}
-
 \seealso{
 Useful links:
 \itemize{
@@ -41,4 +18,3 @@ Useful links:
 \strong{Maintainer}: Blas M. Benito \email{blasbenito@gmail.com} (\href{https://orcid.org/0000-0001-5105-7232}{ORCID}) [copyright holder]
 
 }
-\keyword{internal}

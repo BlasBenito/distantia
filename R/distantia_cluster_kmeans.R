@@ -121,7 +121,7 @@
 #'   future::sequential
 #' )
 #' @family dissimilarity_analysis
-#' @keywords clustering
+#' @concept clustering
 distantia_cluster_kmeans <- function(
     df = NULL,
     clusters = NULL,

@@ -83,5 +83,5 @@ if(interactive()){
   )
 }
 }
+\concept{plotting}
 \keyword{internal}
-\keyword{plotting}

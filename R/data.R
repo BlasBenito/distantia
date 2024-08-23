@@ -18,6 +18,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name covid_prevalence
 #' @usage data(covid_prevalence)
 #' @examples
@@ -48,6 +49,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name covid_coordinates
 #' @usage data(covid_coordinates)
 #' @format sf data frame with 4 columns and 36 rows
@@ -59,6 +61,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name mis
 #' @usage data(mis)
 #' @examples
@@ -94,6 +97,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name fagus_dynamics
 #' @usage data(fagus_dynamics)
 #' @examples
@@ -122,6 +126,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name fagus_coordinates
 #' @usage data(fagus_coordinates)
 #' @format sf data frame with 3 rows and 4 columns
@@ -139,6 +144,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name eemian_pollen
 #' @usage data(eemian_pollen)
 #' @examples
@@ -172,6 +178,8 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
+#' @family example_data
 #' @name eemian_coordinates
 #' @usage data(eemian_coordinates)
 #' @format sf data frame with 4 columns and 9 rows.
@@ -222,6 +230,8 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
+#' @family example_data
 #' @name cities_coordinates
 #' @usage data(cities_coordinates)
 #' @format sf data frame with 5 columns and 100 rows.
@@ -235,6 +245,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name albatross
 #' @usage data(albatross)
 #' @examples

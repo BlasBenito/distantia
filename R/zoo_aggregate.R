@@ -68,7 +68,7 @@
 #' if(interactive()){
 #'   zoo_plot(x_centuries)
 #' }
-#' @keywords transformation
+#' @concept transformations
 #' @family zoo_functions
 zoo_aggregate <- function(
     x = NULL,

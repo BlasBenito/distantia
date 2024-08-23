@@ -124,5 +124,5 @@ utils_cluster_silhouette(
   mean = TRUE
 )
 }
-\keyword{clustering}
+\concept{clustering}
 \keyword{internal}

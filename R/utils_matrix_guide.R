@@ -27,7 +27,8 @@
 #' }
 #' @export
 #' @autoglobal
-#' @keywords plotting internal
+#' @keywords internal
+#' @concept plotting
 utils_matrix_guide <- function(
     m = NULL,
     color = NULL,
