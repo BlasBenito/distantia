@@ -174,7 +174,7 @@ tsl_simulate <- function(
   }
 
   #progress bar
-  p <- progressr::progressor(along = seq_len(n))
+  # p <- progressr::progressor(along = seq_len(n))
 
   #parallelization setup
   `%iterator%` <- doFuture::`%dofuture%`
@@ -187,7 +187,7 @@ tsl_simulate <- function(
   ) %iterator% {
 
     #call to progress bar
-    p()
+    # p()
 
     #regular zoo with no NA
     zoo.i <- zoo_simulate(

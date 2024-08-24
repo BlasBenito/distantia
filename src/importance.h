@@ -29,7 +29,7 @@ Rcpp::DataFrame importance_lock_step_cpp(
     const std::string& distance = "euclidean"
 );
 
-Rcpp::DataFrame importance_cpp(
+Rcpp::DataFrame importance_legacy_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

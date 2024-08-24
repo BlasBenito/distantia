@@ -1,12 +1,13 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Least Cost Matrix Considering Diagonals
+//' (C++) Least Cost Matrix Considering Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs.
 //' @param dist_matrix (required, distance matrix). Square distance matrix, output of [distance_matrix_cpp()].
 //' @return Least cost matrix.
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_diag_cpp(
     NumericMatrix dist_matrix
@@ -38,12 +39,13 @@ NumericMatrix cost_matrix_diag_cpp(
   return m;
 }
 
-//' Least Cost Matrix with Weighted Diagonals
+//' (C++) Least Cost Matrix with Weighted Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
 //' Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
 //' @param dist_matrix (required, distance matrix). Distance matrix.
 //' @return Least cost matrix.
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_weighted_diag_cpp(
     NumericMatrix dist_matrix
@@ -83,11 +85,12 @@ NumericMatrix cost_matrix_weighted_diag_cpp(
   return m;
 }
 
-//' Least Cost Matrix
+//' (C++) Least Cost Matrix
 //' @description Computes the least cost matrix from a distance matrix.
 //' @param dist_matrix (required, distance matrix). Output of [distance_matrix_cpp()].
 //' @return Least cost matrix.
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_cpp(
      NumericMatrix dist_matrix

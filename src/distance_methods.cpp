@@ -1,13 +1,14 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Chebyshev Distance Between Two Vectors
+//' (C++) Chebyshev Distance Between Two Vectors
 //' @description Computed as: \code{max(abs(x - y))}. Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Chebyshev distance between x and y.
+//' @return numeric
 //' @examples distance_chebyshev_cpp(x = runif(100), y = runif(100))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_chebyshev_cpp(NumericVector x, NumericVector y) {
 
@@ -28,13 +29,14 @@ double distance_chebyshev_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Jaccard Distance Between Two Binary Vectors
+//' (C++) Jaccard Distance Between Two Binary Vectors
 //' @description Computes the Jaccard distance between two binary vectors.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Jaccard distance between x and y.
-//' @examples distance_jaccard_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
+//' @return numeric
+//' @examples distance_jaccard_cpp(x = c(0, 1, 0, 1), y = c(1, 1, 0, 0))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_jaccard_cpp(NumericVector x, NumericVector y) {
 
@@ -60,13 +62,14 @@ double distance_jaccard_cpp(NumericVector x, NumericVector y) {
 }
 
 
-//' Manhattan Distance Between Two Vectors
+//' (C++) Manhattan Distance Between Two Vectors
 //' @description Computed as: \code{sum(abs(x - y))}. Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Manhattan distance between x and y.
+//' @return numeric
 //' @examples distance_manhattan_cpp(x = runif(100), y = runif(100))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 
@@ -84,13 +87,14 @@ double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Euclidean Distance Between Two Vectors
+//' (C++) Euclidean Distance Between Two Vectors
 //' @description Computed as: \code{sqrt(sum((x - y)^2)}. Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Euclidean distance between x and y.
+//' @return numeric
 //' @examples distance_euclidean_cpp(x = runif(100), y = runif(100))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 
@@ -108,14 +112,15 @@ double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Hellinger Distance Between Two Vectors
+//' (C++) Hellinger Distance Between Two Vectors
 //' @description Computed as: \code{sqrt(1/2 * sum((sqrt(x) - sqrt(y))^2))}.
 //' Cannot handle NA values.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Hellinger distance between x and y.
+//' @return numeric
 //' @examples distance_hellinger_cpp(x = runif(100), y = runif(100))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 
@@ -133,7 +138,7 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Normalized Chi Distance Between Two Vectors
+//' (C++) Normalized Chi Distance Between Two Vectors
 //' @description Computed as:
 //' \code{xy <- x + y}
 //' \code{y. <- y / sum(y)}
@@ -145,8 +150,9 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 //' @examples distance_chi_cpp(x = runif(100), y = runif(100))
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Chi distance between x and y.
+//' @return numeric
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_chi_cpp(NumericVector x, NumericVector y) {
 
@@ -173,12 +179,14 @@ double distance_chi_cpp(NumericVector x, NumericVector y) {
 
 }
 
-//' Canberra Distance Between Two Binary Vectors
+//' (C++) Canberra Distance Between Two Binary Vectors
 //' @description Computes the Canberra distance between two binary vectors.
 //' @param x (required, numeric vector).
-//' @param y (required, numeric vector) of same length as `x`.//' @return Canberra distance between x and y.
+//' @param y (required, numeric vector) of same length as `x`.
+//' @return numeric
 //' @examples distance_canberra_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_canberra_cpp(NumericVector x, NumericVector y) {
 
@@ -197,13 +205,14 @@ double distance_canberra_cpp(NumericVector x, NumericVector y) {
   return dist;
 }
 
-//' Russell-Rao Distance Between Two Binary Vectors
+//' (C++) Russell-Rao Distance Between Two Binary Vectors
 //' @description Computes the Russell-Rao distance between two binary vectors.
 //' @param x (required, numeric). Binary vector of 1s and 0s.
 //' @param y (required, numeric) Binary vector of 1s and 0s of same length as `x`.
-//' @return Russell-Rao distance between x and y.
+//' @return numeric
 //' @examples distance_russelrao_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_russelrao_cpp(NumericVector x, NumericVector y) {
 
@@ -221,13 +230,14 @@ double distance_russelrao_cpp(NumericVector x, NumericVector y) {
 }
 
 
-//' Cosine Dissimilarity Between Two Vectors
+//' (C++) Cosine Dissimilarity Between Two Vectors
 //' @description Computes the cosine dissimilarity between two numeric vectors.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Cosine dissimilarity between x and y.
+//' @return numeric
 //' @examples distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_cosine_cpp(NumericVector x, NumericVector y) {
 
@@ -248,13 +258,14 @@ double distance_cosine_cpp(NumericVector x, NumericVector y) {
 }
 
 
-//' Hamming Distance Between Two Binary Vectors
+//' (C++) Hamming Distance Between Two Binary Vectors
 //' @description Computes the Hamming distance between two binary vectors.
 //' @param x (required, numeric vector).
 //' @param y (required, numeric vector) of same length as `x`.
-//' @return Hamming distance between x and y.
+//' @return numeric
 //' @examples distance_hamming_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_hamming_cpp(NumericVector x, NumericVector y) {
 

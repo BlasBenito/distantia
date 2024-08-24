@@ -15,6 +15,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Blas M. Benito \email{blasbenito@gmail.com} (\href{https://orcid.org/0000-0001-5105-7232}{ORCID}) [copyright holder]
-
+Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
 }
+\keyword{internal}

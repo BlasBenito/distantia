@@ -34,7 +34,7 @@ testthat::test_that("Auto Sum", {
       dist_matrix = dist_matrix
     )
 
-    cost_path <- cost_path_cpp(
+    cost_path <- cost_path_orthogonal_cpp(
       dist_matrix = dist_matrix,
       cost_matrix = cost_matrix
     )

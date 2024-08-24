@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{distance_cosine_cpp}
 \alias{distance_cosine_cpp}
-\title{Cosine Dissimilarity Between Two Vectors}
+\title{(C++) Cosine Dissimilarity Between Two Vectors}
 \usage{
 distance_cosine_cpp(x, y)
 }
@@ -12,7 +12,7 @@ distance_cosine_cpp(x, y)
 \item{y}{(required, numeric vector) of same length as \code{x}.}
 }
 \value{
-Cosine dissimilarity between x and y.
+numeric
 }
 \description{
 Computes the cosine dissimilarity between two numeric vectors.
@@ -20,3 +20,32 @@ Computes the cosine dissimilarity between two numeric vectors.
 \examples{
 distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
 }
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_canberra_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_lock_step_cpp}()},
+\code{\link{importance_robust_cpp}()},
+\code{\link{subset_matrix_by_rows_cpp}()}
+}
+\concept{Rcpp}

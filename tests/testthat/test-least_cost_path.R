@@ -24,7 +24,7 @@ testthat::test_that("Least Cost Path and Sum", {
     cost_matrix = cost_matrix
   )
 
-  path_cpp <- cost_path_cpp(
+  path_cpp <- cost_path_orthogonal_cpp(
     dist_matrix = dist_matrix,
     cost_matrix = cost_matrix
   )

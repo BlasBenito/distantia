@@ -4,13 +4,7 @@ using namespace Rcpp;
 #include "cost_path.h"
 #include "distance_methods.h"
 
-
-// [[Rcpp::export]]
-NumericVector reverse_vector_cpp(NumericVector x) {
-  std::reverse(x.begin(), x.end());
-  return x;
-}
-
+// Internal function to update distances in a least-cost path.
 // [[Rcpp::export]]
 DataFrame update_path_dist_cpp(
     NumericMatrix x,
@@ -56,9 +50,12 @@ DataFrame update_path_dist_cpp(
 
 }
 
-// Function to extract one column from the matrix x
+// Extracts column from time series for importance computation
 // [[Rcpp::export]]
-NumericMatrix select_column_cpp(NumericMatrix x, int column_index) {
+NumericMatrix select_column_cpp(
+    NumericMatrix x,
+    int column_index
+    ) {
 
   NumericMatrix x_ = Rcpp::clone(x);
 
@@ -73,9 +70,12 @@ NumericMatrix select_column_cpp(NumericMatrix x, int column_index) {
   return result;
 }
 
-//function to remove one column from the matrix x
+// Deletes column from numeric matrix for importance computation
 // [[Rcpp::export]]
-NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
+NumericMatrix delete_column_cpp(
+    NumericMatrix x,
+    int column_index
+    ) {
 
   NumericMatrix x_ = Rcpp::clone(x);
 
@@ -95,20 +95,52 @@ NumericMatrix delete_column_cpp(NumericMatrix x, int column_index) {
 }
 
 
-//' Contribution of Individual Columns to Overall Psi Distance for Paired Sequences
-//' @description Computes the distance psi between two matrices
-//' \code{y} and \code{x} with the same number of columns and rows. Distances
-//' between \code{y} and \code{x} are computed row wise rather than via distance
-//' matrix and least-cost path computation.
-//' NA values should be removed before using this function.
-//' If the selected distance function is "chi" or "cosine", pairs of zeros should
-//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @return Psi distance
+//' (C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series
+//' @description Computes the contribution of individual variables to the
+//' similarity/dissimilarity between two aligned multivariate time series.
+//' This function generates a data frame with the following columns:
+//' \itemize{
+//'   \item variable: name of the individual variable for which the importance
+//'   is being commputed, from the column names of the arguments `x` and `y`.
+//'   \item psi: global dissimilarity score `psi` of the two time series.
+//'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
+//'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.
+//'   \item psi_difference: difference between `psi_only_with` and `psi_without`.
+//'   \item importance: contribution of the variable to the similarity/dissimilarity
+//'   between `x` and `y`, computed as `(psi_difference * 100) / psi_all`.
+//'   Positive scores represent contribution to dissimilarity,
+//'   while negative scores represent contribution to similarity.
+//' }
+//' @param x (required, numeric matrix) multivariate time series.
+//' @param y (required, numeric matrix) multivariate time series
+//' with the same number of columns and rows as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+//' @return data frame
+//' @examples
+//' #simulate two regular time series
+//' x <- zoo_simulate(
+//'   seed = 1,
+//'   irregular = FALSE
+//'   )
+//'
+//' y <- zoo_simulate(
+//'   seed = 2,
+//'   irregular = FALSE
+//'   )
+//'
+//' #same number of rows
+//' nrow(x) == nrow(y)
+//'
+//' #compute importance
+//' df <- importance_lock_step_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' df
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_lock_step_cpp(
@@ -185,36 +217,70 @@ DataFrame importance_lock_step_cpp(
 
 }
 
-//' Classic Computation of Variable Importance
-//' @description Returns the contribution of each variable to the overall dissimilarity
-//' of two sequences. In opposition to the robust version, least-cost paths for each combination
-//' of variables are computed independently. To compute importance,
-//' the function first computes the psi distance dissimilarity between seuqences
-//' using all columns ("psi"), with each column separately ("psi_only_with"),
-//' and without each column ("psi_without). Then, it computes "psi_difference" as
-//' psi_only_with - psi_without. Highest positive values in this column represent the
-//' variables that better explain the dissimilarity between the sequences.
-//' @description Computes the psi distance between y and x using all columns,
-//' with each column, and without each column
-//' @param y (required, numeric matrix).
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
+//' (C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Legacy Version)
+//' @description Computes the contribution of individual variables to the
+//' similarity/dissimilarity between two irregular multivariate time series.
+//' In opposition to the robust version, least-cost paths for each combination
+//' of variables are computed independently, which makes the results of individual
+//' variables harder to compare. This function should only be used when the objective is
+//' replicating importance scores generated with previous versions of the package `distantia`.
+//' This function generates a data frame with the following columns:
+//' \itemize{
+//'   \item variable: name of the individual variable for which the importance
+//'   is being commputed, from the column names of the arguments `x` and `y`.
+//'   \item psi: global dissimilarity score `psi` of the two time series.
+//'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
+//'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.
+//'   \item psi_difference: difference between `psi_only_with` and `psi_without`.
+//'   \item importance: contribution of the variable to the similarity/dissimilarity
+//'   between `x` and `y`, computed as `((psi_all - psi_without) * 100) / psi_all`.
+//'   Positive scores represent contribution to dissimilarity,
+//'   while negative scores represent contribution to similarity.
+//' }
+//' @param x (required, numeric matrix) multivariate time series.
+//' @param y (required, numeric matrix) multivariate time series
+//' with the same number of columns as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Data frame with psi distances
+//' @return data frame
+//' @examples
+//' #simulate two regular time series
+//' x <- zoo_simulate(
+//'   seed = 1,
+//'   rows = 100
+//'   )
+//'
+//' y <- zoo_simulate(
+//'   seed = 2,
+//'   rows = 150
+//'   )
+//'
+//' #different number of rows
+//' #this is not a requirement though!
+//' nrow(x) == nrow(y)
+//'
+//' #compute importance
+//' df <- importance_legacy_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' df
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_cpp(
+DataFrame importance_legacy_cpp(
     NumericMatrix y,
     NumericMatrix x,
     const std::string& distance = "euclidean",
-    bool diagonal = true,
+    bool diagonal = false,
     bool weighted = true,
     bool ignore_blocks = false
 ){
@@ -291,27 +357,62 @@ DataFrame importance_cpp(
 }
 
 
-//' Robust Computation of Variable Importance
-//' @description Returns the contribution of each variable to the overall dissimilarity
-//' of two sequences. In opposition to the classic version, importance computation is
-//' performed over the least-cost path of the whole sequence. To compute importance,
-//' the function first computes the psi distance dissimilarity between seuqences
-//'  using all columns ("psi"), with each column separately ("psi_only_with"),
-//'  and without each column ("psi_without). Then, it computes "psi_difference" as
-//' psi_only_with - psi_without. Highest positive values highlight the variables that
-//' better explain the dissimilarity between the sequences.
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
+//' (C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Robust Version)
+//' @description Computes the contribution of individual variables to the
+//' similarity/dissimilarity between two irregular multivariate time series.
+//' In opposition to the legacy version, importance computation is
+//' performed taking the least-cost path of the whole sequence as reference. This
+//' operation makes the importance scores of individual variables fully comparable.
+//' This function generates a data frame with the following columns:
+//' \itemize{
+//'   \item variable: name of the individual variable for which the importance
+//'   is being computed, from the column names of the arguments `x` and `y`.
+//'   \item psi: global dissimilarity score `psi` of the two time series.
+//'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
+//'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.
+//'   \item psi_difference: difference between `psi_only_with` and `psi_without`.
+//'   \item importance: contribution of the variable to the similarity/dissimilarity
+//'   between `x` and `y`, computed as `(psi_difference * 100) / psi_all`.
+//'   Positive scores represent contribution to dissimilarity,
+//'   while negative scores represent contribution to similarity.
+//' }
+//' @param x (required, numeric matrix) multivariate time series.
+//' @param y (required, numeric matrix) multivariate time series
+//' with the same number of columns as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: TRUE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Data frame with psi distances
+//' @return data frame
+//' @examples
+//' #simulate two regular time series
+//' x <- zoo_simulate(
+//'   seed = 1,
+//'   rows = 100
+//'   )
+//'
+//' y <- zoo_simulate(
+//'   seed = 2,
+//'   rows = 150
+//'   )
+//'
+//' #different number of rows
+//' #this is not a requirement though!
+//' nrow(x) == nrow(y)
+//'
+//' #compute importance
+//' df <- importance_robust_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' df
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_robust_cpp(
@@ -476,7 +577,7 @@ path_update = update_path_dist_cpp(
 psi_cpp(x, y)
 
 #old importance
-importance_vintage <- importance_cpp(
+importance_vintage <- importance_legacy_cpp(
   x,
   y
 )

@@ -2,14 +2,17 @@
 % Please edit documentation in R/RcppExports.R
 \name{distance_canberra_cpp}
 \alias{distance_canberra_cpp}
-\title{Canberra Distance Between Two Binary Vectors}
+\title{(C++) Canberra Distance Between Two Binary Vectors}
 \usage{
 distance_canberra_cpp(x, y)
 }
 \arguments{
 \item{x}{(required, numeric vector).}
 
-\item{y}{(required, numeric vector) of same length as \code{x}.//' @return Canberra distance between x and y.}
+\item{y}{(required, numeric vector) of same length as \code{x}.}
+}
+\value{
+numeric
 }
 \description{
 Computes the Canberra distance between two binary vectors.
@@ -17,3 +20,32 @@ Computes the Canberra distance between two binary vectors.
 \examples{
 distance_canberra_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 }
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_cosine_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_lock_step_cpp}()},
+\code{\link{importance_robust_cpp}()},
+\code{\link{subset_matrix_by_rows_cpp}()}
+}
+\concept{Rcpp}

@@ -60,9 +60,9 @@ DataFrame psi_cost_path_cpp(
   //compute cost path
   DataFrame cost_path;
   if (diagonal) {
-    cost_path = cost_path_diag_cpp(dist_matrix, cost_matrix);
+    cost_path = cost_path_diagonal_cpp(dist_matrix, cost_matrix);
   } else {
-    cost_path = cost_path_cpp(dist_matrix, cost_matrix);
+    cost_path = cost_path_orthogonal_cpp(dist_matrix, cost_matrix);
   }
 
   //trim cost path
@@ -79,7 +79,7 @@ DataFrame psi_cost_path_cpp(
 //' to compute the normalization factor required for psi dissimilarity scores.
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
+//' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
 //' Default: NULL
 //' @param distance (optional, character string) name or abbreviation of the
 //' distance method. Valid values are in the columns "names" and "abbreviation"
@@ -111,7 +111,7 @@ double psi_auto_sum_cpp(
 
   } else {
 
-    xy_sum = auto_sum_no_path_cpp(
+    xy_sum = auto_sum_cpp(
       x,
       y,
       distance
@@ -126,7 +126,7 @@ double psi_auto_sum_cpp(
 //' Psi Dissimilarity Metric
 //' @description Computes the psi dissimilarity score between two sequences from
 //' their least cost path and their auto sums.
-//' @param path (required, data frame) dataframe produced by [cost_path_cpp()].
+//' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
 //' Default: NULL
 //' @param auto_sum (required, numeric) auto sum of both sequences,
 //' result of [psi_auto_sum_cpp()].
@@ -188,7 +188,7 @@ double psi_lock_step_cpp(
     );
 
     //auto sum sequences
-    double xy_sum = auto_sum_no_path_cpp(
+    double xy_sum = auto_sum_cpp(
       x,
       y,
       distance
@@ -258,7 +258,7 @@ NumericVector null_psi_lock_step_cpp(
   );
 
   //auto sum sequences
-  double xy_sum = auto_sum_no_path_cpp(
+  double xy_sum = auto_sum_cpp(
     x,
     y,
     distance

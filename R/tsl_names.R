@@ -43,18 +43,24 @@ tsl_names_get <- function(
 
   if(zoo == TRUE){
 
-    sapply(
+    out <- sapply(
       X = tsl,
       FUN = function(x){
         attributes(x)$name
       }
     )
 
+    if(is.list(out)){
+      out <- unlist(out)
+    }
+
   } else {
 
-    names(tsl)
+    out <- names(tsl)
 
   }
+
+  out
 
 }
 
@@ -147,14 +153,25 @@ tsl_names_set <- function(
   tsl_names <- tsl_names_get(
     tsl = tsl,
     zoo = FALSE
-  ) |>
-    utils_clean_names()
+  )
+
+  if(!is.null(tsl_names)){
+    tsl_names <- utils_clean_names(
+      x = tsl_names
+    )
+  }
+
 
   zoo_names <- tsl_names_get(
     tsl = tsl,
     zoo = TRUE
-  ) |>
-    utils_clean_names()
+  )
+
+  if(!is.null(zoo_names)){
+    zoo_names <- utils_clean_names(
+      x = zoo_names
+    )
+  }
 
   #argument names is NULL
   #using names available in tsl object

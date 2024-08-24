@@ -106,14 +106,14 @@ psi_cost_path <- function(
 
   if(diagonal == FALSE){
 
-    path <- cost_path_cpp(
+    path <- cost_path_orthogonal_cpp(
       dist_matrix = dist_matrix,
       cost_matrix = cost_matrix
     )
 
   } else {
 
-    path <- cost_path_diag_cpp(
+    path <- cost_path_diagonal_cpp(
       dist_matrix = dist_matrix,
       cost_matrix = cost_matrix
     )

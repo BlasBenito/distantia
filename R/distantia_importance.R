@@ -268,7 +268,7 @@ distantia_importance <- function(
 
       } else {
 
-        importance.i <- importance_cpp(
+        importance.i <- importance_legacy_cpp(
           x = x,
           y = y,
           distance = df.i$distance,

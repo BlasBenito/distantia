@@ -14,7 +14,7 @@ psi(path_sum = NULL, auto_sum = NULL, diagonal = TRUE)
 \item{diagonal}{(optional, logical) If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Used to correct the computation of \code{psi} when diagonals are used. Default: TRUE}
 }
 \value{
-Psi value.
+numeric
 }
 \description{
 Computes the dissimilarity metric \code{psi} (Birks and Gordon 1985).
@@ -98,7 +98,4 @@ distantia(
 distantia_plot(
   tsl = tsl
 )
-}
-\author{
-Blas Benito \href{mailto:blasbenito@gmail.com}{blasbenito@gmail.com}
 }

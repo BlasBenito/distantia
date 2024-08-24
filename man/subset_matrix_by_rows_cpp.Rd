@@ -2,19 +2,70 @@
 % Please edit documentation in R/RcppExports.R
 \name{subset_matrix_by_rows_cpp}
 \alias{subset_matrix_by_rows_cpp}
-\title{Subset Matrix by Rows}
+\title{(C++) Subset Matrix by Rows}
 \usage{
 subset_matrix_by_rows_cpp(m, rows)
 }
 \arguments{
-\item{m}{(required, numeric matrix) a sequence.}
+\item{m}{(required, numeric matrix) a univariate or multivariate time series.}
 
-\item{rows}{(required, integer vector) vector of rows to subset.}
+\item{rows}{(required, integer vector) vector of rows to subset from a
+least-cost path data frame.}
 }
 \value{
-Numeric matrix of length rows.
+numeric matrix
 }
 \description{
-Subsets the matrix \code{m} to the indices given in the vector \code{rows}.
-Used to subset a sequence to the coordinates of a trimmed least-cost path.
+Subsets a matrix to the indices of a trimmed least-cost path
+when blocks are ignored during the computation of the psi dissimilarity.
 }
+\examples{
+#simulate a time series
+m <- zoo_simulate(seed = 1)
+
+#sample some rows
+rows <- sample(
+  x = nrow(m),
+  size = 10
+  ) |>
+  sort()
+
+#subset by rows
+m_subset <- subset_matrix_by_rows_cpp(
+  m = m,
+  rows = rows
+  )
+
+#compare with original
+m[rows, ]
+
+}
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_canberra_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_cosine_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_lock_step_cpp}()},
+\code{\link{importance_robust_cpp}()}
+}
+\concept{Rcpp}

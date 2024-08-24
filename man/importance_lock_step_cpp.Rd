@@ -2,28 +2,89 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_lock_step_cpp}
 \alias{importance_lock_step_cpp}
-\title{Contribution of Individual Columns to Overall Psi Distance for Paired Sequences}
+\title{(C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series}
 \usage{
 importance_lock_step_cpp(x, y, distance = "euclidean")
 }
 \arguments{
-\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
+\item{x}{(required, numeric matrix) multivariate time series.}
 
-\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
+\item{y}{(required, numeric matrix) multivariate time series
+with the same number of columns and rows as 'x'.}
 
-\item{distance}{(optional, character string) name or abbreviation of the
-distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character string) distance name from the "names"
+column of the dataset \code{distances} (see \code{distances$name}). Default: "euclidean".}
 }
 \value{
-Psi distance
+data frame
 }
 \description{
-Computes the distance psi between two matrices
-\code{y} and \code{x} with the same number of columns and rows. Distances
-between \code{y} and \code{x} are computed row wise rather than via distance
-matrix and least-cost path computation.
-NA values should be removed before using this function.
-If the selected distance function is "chi" or "cosine", pairs of zeros should
-be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+Computes the contribution of individual variables to the
+similarity/dissimilarity between two aligned multivariate time series.
+This function generates a data frame with the following columns:
+\itemize{
+\item variable: name of the individual variable for which the importance
+is being commputed, from the column names of the arguments \code{x} and \code{y}.
+\item psi: global dissimilarity score \code{psi} of the two time series.
+\item psi_only_with: dissimilarity between \code{x} and \code{y} computed from the given variable alone.
+\item psi_without: dissimilarity between \code{x} and \code{y} computed from all other variables.
+\item psi_difference: difference between \code{psi_only_with} and \code{psi_without}.
+\item importance: contribution of the variable to the similarity/dissimilarity
+between \code{x} and \code{y}, computed as \code{(psi_difference * 100) / psi_all}.
+Positive scores represent contribution to dissimilarity,
+while negative scores represent contribution to similarity.
 }
+}
+\examples{
+#simulate two regular time series
+x <- zoo_simulate(
+  seed = 1,
+  irregular = FALSE
+  )
+
+y <- zoo_simulate(
+  seed = 2,
+  irregular = FALSE
+  )
+
+#same number of rows
+nrow(x) == nrow(y)
+
+#compute importance
+df <- importance_lock_step_cpp(
+  x = x,
+  y = y,
+  distance = "euclidean"
+)
+
+df
+}
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_canberra_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_cosine_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_robust_cpp}()},
+\code{\link{subset_matrix_by_rows_cpp}()}
+}
+\concept{Rcpp}

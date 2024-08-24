@@ -3,20 +3,30 @@
 using namespace Rcpp;
 
 
-//' Distance Matrix
+//' (C++) Distance Matrix of Two Time Series
 //' @description Computes the distance matrix between the rows of two matrices
-//' \code{y} and \code{x} with the same number of columns and arbitrary numbers
-//' of rows.
-//' NA values should be removed before using this function.
-//' If the selected distance function is "chi" or "cosine", pairs of zeros should
+//' \code{y} and \code{x} representing regular or irregular time series with the same number of
+//' columns. NA values should be removed before using this function. If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param y (required, numeric matrix).
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @return Matrix of distances between 'y' (rows) and 'x' (columns).
+//' @param x (required, numeric matrix) univariate or multivariate time series.
+//' @param y (required, numeric matrix) univariate or multivariate time series
+//' with the same number of columns as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+//' @return numeric matrix
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
 //' @export
+//' @family Rcpp
 //' @name distance_matrix_cpp
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(
@@ -41,22 +51,40 @@ NumericMatrix distance_matrix_cpp(
 }
 
 
-//' Sum of Pairwise Distances Between Paired Sequences
-//' @description Computes the lock-step sum of distances between two time series.
-//' NA values should be removed before using this function.
+//' (C++) Sum of Pairwise Distances of Two Aligned Time Series
+//' @description Computes the lock-step sum of distances between two regular
+//' and aligned time series. NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param y (required, numeric matrix).
-//' @param x (required, numeric matrix) of same number of columns and rows as 'y'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @return Vector of distances between 'y' (rows) and 'x' (columns).
+//' @param x (required, numeric matrix) univariate or multivariate time series.
+//' @param y (required, numeric matrix) univariate or multivariate time series
+//' with the same number of columns and rows as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+//' @return numeric
+//' @examples
+//' #simulate two regular time series
+//' x <- zoo_simulate(
+//'   seed = 1,
+//'   irregular = FALSE
+//'   )
+//' y <- zoo_simulate(
+//'   seed = 2,
+//'   irregular = FALSE
+//'   )
+//'
+//' #distance matrix
+//' dist_matrix <- distance_lock_step_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double distance_lock_step_cpp(
-    NumericMatrix y,
     NumericMatrix x,
+    NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 

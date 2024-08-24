@@ -2,23 +2,50 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_slotting_cpp}
 \alias{cost_path_slotting_cpp}
-\title{Least Cost Path for Sequence Slotting}
+\title{(C++) Least Cost Path for Sequence Slotting}
 \usage{
 cost_path_slotting_cpp(dist_matrix, cost_matrix)
 }
 \arguments{
-\item{dist_matrix}{(required, distance matrix). Distance matrix.}
+\item{dist_matrix}{(required, numeric matrix). Distance matrix between two
+time series.}
 
-\item{cost_matrix}{(required, numeric matrix) Cost matrix generated from the distance matrix.}
+\item{cost_matrix}{(required, numeric matrix). Least-cost matrix generated from
+\code{dist_matrix}.}
 }
 \value{
-A data frame with least-cost path coordiantes.
+data frame
 }
 \description{
-Computes the least cost matrix from a distance matrix.
-Considers diagonals during computation of least-costs. This version differs
-from cost_path_cpp() in the way it solves ties. In the case of a tie,
-cost_path_cpp() uses the first neighbor satisfying the minimum distance condition,
-while cost_path_slotting_cpp() selects the neighbor that changes the axis
-of movement within the least cost matrix.
+Computes a least-cost matrix from a distance matrix.
+This version differs from \code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}} in the way it solves ties.
+In the case of a tie, \code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}} uses the first neighbor satisfying
+the minimum distance condition, while this function selects the neighbor
+that changes the axis of movement within the least-cost matrix. This function
+is not used anywhere within the package, but was left here for future reference.
+}
+\examples{
+#simulate two time series
+x <- zoo_simulate(seed = 1)
+y <- zoo_simulate(seed = 2)
+
+#distance matrix
+dist_matrix <- distance_matrix_cpp(
+  x = x,
+  y = y,
+  distance = "euclidean"
+)
+
+#least cost matrix
+cost_matrix <- cost_matrix_cpp(
+  dist_matrix = dist_matrix
+)
+
+#least cost path
+cost_path <- cost_path_slotting_cpp(
+  dist_matrix = dist_matrix,
+  cost_matrix = cost_matrix
+)
+
+cost_path
 }

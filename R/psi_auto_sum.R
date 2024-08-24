@@ -114,7 +114,7 @@ psi_auto_sum <- function(
 
   } else {
 
-    xy_sum <- auto_sum_no_path_cpp(
+    xy_sum <- auto_sum_cpp(
       y = x,
       x = y,
       distance = distance

@@ -69,7 +69,7 @@ m <- cost_matrix_cpp(
   dist_matrix = d
 )
 
-path <- cost_path_cpp(
+path <- cost_path_orthogonal_cpp(
   dist_matrix = d,
   cost_matrix = m
 )

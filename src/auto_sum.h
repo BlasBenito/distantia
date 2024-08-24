@@ -23,7 +23,7 @@ double auto_sum_path_cpp(
     const std::string& distance = "euclidean"
 );
 
-double auto_sum_no_path_cpp(
+double auto_sum_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
         const std::string& distance = "euclidean"

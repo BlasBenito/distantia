@@ -2,16 +2,42 @@
 #include "distance_methods.h"
 using namespace Rcpp;
 
-//' Least Cost Path for Sequence Slotting
-//' @description Computes the least cost matrix from a distance matrix.
-//' Considers diagonals during computation of least-costs. This version differs
-//' from cost_path_cpp() in the way it solves ties. In the case of a tie,
-//' cost_path_cpp() uses the first neighbor satisfying the minimum distance condition,
-//' while cost_path_slotting_cpp() selects the neighbor that changes the axis
-//' of movement within the least cost matrix.
-//' @param dist_matrix (required, distance matrix). Distance matrix.
-//' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
-//' @return A data frame with least-cost path coordiantes.
+//' (C++) Least Cost Path for Sequence Slotting
+//' @description Computes a least-cost matrix from a distance matrix.
+//' This version differs from [cost_path_orthogonal_cpp()] in the way it solves ties.
+//' In the case of a tie, [cost_path_orthogonal_cpp()] uses the first neighbor satisfying
+//' the minimum distance condition, while this function selects the neighbor
+//' that changes the axis of movement within the least-cost matrix. This function
+//' is not used anywhere within the package, but was left here for future reference.
+//' @param dist_matrix (required, numeric matrix). Distance matrix between two
+//' time series.
+//' @param cost_matrix (required, numeric matrix). Least-cost matrix generated from
+//' `dist_matrix`.
+//' @return data frame
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_slotting_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' cost_path
 //' @export
 // [[Rcpp::export]]
 DataFrame cost_path_slotting_cpp(
@@ -109,15 +135,43 @@ DataFrame cost_path_slotting_cpp(
 
 }
 
-//' Least Cost Path
-//' @description Computes the least cost matrix from a distance matrix.
-//' Considers diagonals during computation of least-costs.
-//' @param dist_matrix (required, distance matrix). Distance matrix.
-//' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
-//' @return A data frame with least-cost path coordiantes.
+//' (C++) Orthogonal Least Cost Path
+//' @description
+//' Computes an orthogonal least-cost path within a cost matrix. Each steps within
+//' the least-cost path either moves in the x or the y direction, but never diagonally.
+//' @param dist_matrix (required, numeric matrix). Distance matrix between two
+//' time series.
+//' @param cost_matrix (required, numeric matrix). Cost matrix generated from
+//' `dist_matrix`.
+//' @return data frame
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_orthogonal_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' cost_path
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
-DataFrame cost_path_cpp(
+DataFrame cost_path_orthogonal_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix
 ){
@@ -185,16 +239,43 @@ DataFrame cost_path_cpp(
 }
 
 
-//' Least Cost Path Considering Diagonals
+//' (C++) Least Cost Path Considering Diagonals
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs. In case of ties,
 //' diagonals are favored.
-//' @param dist_matrix (required, distance matrix). Distance matrix.
-//' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
-//' @return A data frame with least-cost path coordiantes.
+//' @param dist_matrix (required, numeric matrix). Distance matrix between two
+//' time series.
+//' @param cost_matrix (required, numeric matrix). Cost matrix generated from
+//' `dist_matrix`.
+//' @return data frame
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_diagonal_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' cost_path
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
-DataFrame cost_path_diag_cpp(
+DataFrame cost_path_diagonal_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix
 ){
@@ -260,10 +341,42 @@ DataFrame cost_path_diag_cpp(
 }
 
 
-//' Trims Blocks from Least Cost Path
-//' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
-//' @return A data frame with least-cost path coordinates.
+//' (C++) Trims Blocks from a Least Cost Path
+//' @param path (required, data frame) least-cost path produced by [cost_path_orthogonal_cpp()].
+//' @return data frame
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_slotting_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' nrow(cost_path)
+//'
+//' #remove blocks from least-cost path
+//' cost_path_trimmed <- cost_path_trim_cpp(
+//'   path = cost_path
+//' )
+//'
+//' nrow(cost_path_trimmed)
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 DataFrame cost_path_trim_cpp(DataFrame path) {
 
@@ -307,10 +420,37 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 }
 
 
-//' Sum of Least Cost Distance Times Two
-//' @param path (required, data frame) dataframe produced by [cost_path_cpp()]. Default: NULL
-//' @return Sum of distances
+//' (C++) Distance Sum of Least Cost Path
+//' @param path (required, data frame) least-cost path produced by [cost_path_orthogonal_cpp()].
+//' @return numeric
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_slotting_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' cost_path_sum_cpp(
+//'   path = cost_path
+//'   )
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double cost_path_sum_cpp(
     DataFrame path
@@ -342,7 +482,7 @@ dist_matrix <- distance_matrix_cpp(x, y, distance = "euclidean")
 
 cost_matrix <- cost_matrix_cpp(dist_matrix = dist_matrix)
 
-cost_path <- cost_path_cpp(
+cost_path <- cost_path_orthogonal_cpp(
   dist_matrix = dist_matrix,
   cost_matrix = cost_matrix
 )
@@ -361,7 +501,7 @@ nrow(cost_path)
 nrow(cost_path_trimmed)
 
 message("Computing least cost path with diagonals")
-cost_path_diag <- cost_path_diag_cpp(
+cost_path_diag <- cost_path_diagonal_cpp(
   dist_matrix = dist_matrix,
   cost_matrix = cost_matrix
 )
