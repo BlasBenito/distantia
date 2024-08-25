@@ -5,7 +5,7 @@
 #'
 #' @docType package
 #' @author Blas Benito <blasbenito@gmail.com>
-#' @keywords internal
+#' @family internal
 #' @importFrom Rcpp evalCpp
 #' @useDynLib distantia
 #' @name distantia-package

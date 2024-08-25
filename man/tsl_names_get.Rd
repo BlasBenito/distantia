@@ -51,5 +51,4 @@ Other tsl_info:
 \code{\link{tsl_stats}()},
 \code{\link{tsl_time}()}
 }
-\concept{names_handling}
 \concept{tsl_info}

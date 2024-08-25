@@ -7,15 +7,14 @@
 #' @param n (required, integer) number of colors to generate. Default = NULL
 #' @param palette (required, character string) Argument `palette` of [grDevices::hcl.colors()]. Default: "Zissou 1"
 #'
-#' @return Color palette
+#' @return color vector
 #' @export
 #' @autoglobal
 #' @examples
 #'
 #' utils_color_continuous_default(n = 20)
 #'
-#' @keywords internal
-#' @concept plotting
+#' @family internal
 utils_color_continuous_default <- function(
     n = NULL,
     palette = "Zissou 1"

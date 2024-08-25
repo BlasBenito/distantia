@@ -4,7 +4,7 @@
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @return A distance value.
+#' @return numeric value
 #' @examples
 #'
 #' distance(

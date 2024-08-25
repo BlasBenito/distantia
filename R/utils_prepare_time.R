@@ -8,8 +8,7 @@
 #' @export
 #' @autoglobal
 #' @family tsl_preparation
-#' @keywords internal
-#' @concept time_handling
+#' @family internal
 utils_prepare_time <- function(
     x = NULL,
     time_column = NULL,

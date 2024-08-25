@@ -7,10 +7,9 @@
 #' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
 #' @param color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
-#' @return Named vector of colors
+#' @return color vector
 #' @export
-#' @keywords internal
-#' @concept plotting
+#' @family internal
 utils_line_color <- function(
     x = NULL,
     color = NULL

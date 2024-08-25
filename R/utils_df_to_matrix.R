@@ -8,7 +8,7 @@
 #' @param y (required, character string) Name of the column with the names of the matrix rows. Default: "y"
 #' @param value (required, character string) Name of the column with values.
 #'
-#' @return Matrix of class dist
+#' @return dist matrix
 #' @export
 #' @autoglobal
 #' @examples
@@ -29,7 +29,7 @@
 #' )
 #'
 #' m
-#' @keywords internal
+#' @family internal
 utils_df_to_matrix <- function(
     df = NULL,
     x = "x",

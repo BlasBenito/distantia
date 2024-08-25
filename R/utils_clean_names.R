@@ -52,8 +52,7 @@
 #'   prefix = "my_prefix",
 #'   suffix = "my_suffix"
 #' )
-#' @keywords internal
-#' @concept names_handling
+#' @family internal
 utils_clean_names <- function(
     x = NULL,
     lowercase = FALSE,

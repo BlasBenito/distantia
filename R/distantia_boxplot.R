@@ -17,7 +17,7 @@
 #' @param f (optional, function) function used to arrange the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `median`.
 #' @param ... (optional, additional arguments to `f`). If `f` is `quantile`, `probs = 0.75` can be used. Default: ...
 #'
-#' @return Boxplot and list with stats used to draw it
+#' @return boxplot
 #' @export
 #' @autoglobal
 #' @examples
@@ -74,7 +74,6 @@
 #' #and termpature as the variable contributing
 #' #the most to site similarity.
 #' @family dissimilarity_analysis
-#' @concept plotting
 distantia_boxplot <- function(
     df = NULL,
     color = NULL,

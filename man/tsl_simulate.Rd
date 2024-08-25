@@ -32,7 +32,7 @@ tsl_simulate(
 
 \item{na_fraction}{(optional, numeric) Value between 0 and 0.5 indicating the approximate fraction of NA data in the simulated time series. Default: 0.}
 
-\item{independent}{(optional, logical) If TRUE, each new column in a simulated time series is averaged with the previous column and each simulated time series is weighted-averaged with a time series templated with varying weights. Irrelevant when \code{cols < 2} or \code{n < 2}, and hard to perceive in the output when \code{seasons > 0}. Default: FALSE}
+\item{independent}{(optional, logical) If TRUE, each new column in a simulated time series is averaged with the previous column to generate dependency across columns, and each new simulated time series is weighted-averaged with a time series template to generate dependency across time series. Irrelevant when \code{cols < 2} or \code{n < 2}, and hard to perceive in the output when \code{seasons > 0}. Default: FALSE}
 
 \item{irregular}{(optional, logical) If TRUE, the time intervals between consecutive samples are irregular. Default: TRUE}
 

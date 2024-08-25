@@ -288,7 +288,7 @@ tsl <- tsl_initialize(
   time_column = "sample_order"
 ) |>
   tsl_subset(
-    names = c("MIS-5", "MIS-7")
+    names = c("MIS_5", "MIS_7")
   )
 
 if(interactive()){
@@ -349,5 +349,4 @@ Other tsl_manipulation:
 \code{\link{tsl_subset}()},
 \code{\link{tsl_to_df}()}
 }
-\concept{transformations}
 \concept{tsl_manipulation}

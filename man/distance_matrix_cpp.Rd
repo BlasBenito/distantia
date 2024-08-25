@@ -39,7 +39,7 @@ dist_matrix <- distance_matrix_cpp(
 \seealso{
 Other Rcpp: 
 \code{\link{auto_distance_cpp}()},
-\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_full_cpp}()},
 \code{\link{auto_sum_path_cpp}()},
 \code{\link{cost_matrix_cpp}()},
 \code{\link{cost_matrix_diag_cpp}()},
@@ -62,6 +62,15 @@ Other Rcpp:
 \code{\link{importance_legacy_cpp}()},
 \code{\link{importance_lock_step_cpp}()},
 \code{\link{importance_robust_cpp}()},
+\code{\link{null_psi_cpp}()},
+\code{\link{null_psi_lock_step_cpp}()},
+\code{\link{permute_free_by_row_cpp}()},
+\code{\link{permute_free_cpp}()},
+\code{\link{permute_restricted_by_row_cpp}()},
+\code{\link{permute_restricted_cpp}()},
+\code{\link{psi_cpp}()},
+\code{\link{psi_formula_cpp}()},
+\code{\link{psi_lock_step_cpp}()},
 \code{\link{subset_matrix_by_rows_cpp}()}
 }
 \concept{Rcpp}

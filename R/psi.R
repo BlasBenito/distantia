@@ -6,7 +6,7 @@
 #' @param diagonal (optional, logical) If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Used to correct the computation of `psi` when diagonals are used. Default: TRUE
 #' @details The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
 #'
-#' @return numeric
+#' @return numeric value
 #'
 #' @examples
 #' #simulate two time series

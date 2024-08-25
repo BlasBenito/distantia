@@ -7,7 +7,7 @@
 #' @export
 #' @autoglobal
 #' @family tsl_preparation
-#' @keywords internal
+#' @family internal
 utils_prepare_df <- function(
     x = NULL,
     id_column = NULL,

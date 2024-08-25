@@ -10,11 +10,11 @@
 #' @param f (required, function) function name. Usually, one of [f_center()], [f_scale()], or [base::scale()]. Default: NULL
 #' @param ... (optional, arguments of `f`) Optional arguments for the transformation function. Used only when `f = scale` for arguments `center` and `scale`.
 #'
-#' @return Named list with global mean and standard deviation
+#' @return list
 #' @export
 #' @autoglobal
 #' @family transformation
-#' @keywords internal
+#' @family internal
 utils_global_scaling_params <- function(
     tsl = NULL,
     f = NULL,

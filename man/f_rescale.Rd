@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_rescale}
 \alias{f_rescale}
-\title{Rescales Zoo Object to a New Range}
+\title{Re-scaling of Zoo Object to a New Range}
 \usage{
 f_rescale(x = NULL, new_min = 0, new_max = 1, old_min = NULL, old_max = NULL)
 }
@@ -21,7 +21,7 @@ f_rescale(x = NULL, new_min = 0, new_max = 1, old_min = NULL, old_max = NULL)
 zoo object
 }
 \description{
-Rescales Zoo Object to a New Range
+Re-scaling of Zoo Object to a New Range
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -36,5 +36,18 @@ if(interactive()){
   zoo_plot(x)
   zoo_plot(y)
 }
+}
+\seealso{
+Other transformations: 
+\code{\link{f_center}()},
+\code{\link{f_detrend_difference}()},
+\code{\link{f_detrend_linear}()},
+\code{\link{f_hellinger}()},
+\code{\link{f_pca}()},
+\code{\link{f_percentage}()},
+\code{\link{f_proportion}()},
+\code{\link{f_scale}()},
+\code{\link{f_smooth_window}()},
+\code{\link{f_trend_linear}()}
 }
 \concept{transformations}

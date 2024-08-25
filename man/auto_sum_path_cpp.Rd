@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_path_cpp}
 \alias{auto_sum_path_cpp}
-\title{(C++) Cumulative Sum of Two Time Series Subsetting by Least-Cost Path}
+\title{(C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates}
 \usage{
 auto_sum_path_cpp(x, y, path, distance = "euclidean")
 }
@@ -22,9 +22,9 @@ column of the dataset \code{distances} (see \code{distances$name}). Default: "eu
 numeric
 }
 \description{
-Subsets two univariate or multivariate time series by a trimmed
-least-cost path data frame when ignoring blocks in a psi dissimilarity
-computation, and computes their cumulative sum.
+Computes the cumulative auto sum of auto-distances of two time series
+for the coordinates of a trimmed least cost path. The output value is used
+as normalization factor when computing dissimilarity scores.
 }
 \examples{
 #simulate two time series
@@ -69,7 +69,7 @@ auto_sum_path_cpp(
 \seealso{
 Other Rcpp: 
 \code{\link{auto_distance_cpp}()},
-\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_full_cpp}()},
 \code{\link{cost_matrix_cpp}()},
 \code{\link{cost_matrix_diag_cpp}()},
 \code{\link{cost_matrix_weighted_diag_cpp}()},
@@ -92,6 +92,15 @@ Other Rcpp:
 \code{\link{importance_legacy_cpp}()},
 \code{\link{importance_lock_step_cpp}()},
 \code{\link{importance_robust_cpp}()},
+\code{\link{null_psi_cpp}()},
+\code{\link{null_psi_lock_step_cpp}()},
+\code{\link{permute_free_by_row_cpp}()},
+\code{\link{permute_free_cpp}()},
+\code{\link{permute_restricted_by_row_cpp}()},
+\code{\link{permute_restricted_cpp}()},
+\code{\link{psi_cpp}()},
+\code{\link{psi_formula_cpp}()},
+\code{\link{psi_lock_step_cpp}()},
 \code{\link{subset_matrix_by_rows_cpp}()}
 }
 \concept{Rcpp}

@@ -91,7 +91,7 @@
 
 #' Enhanced Vegetation Index and Climate of Three Fagus sylvatica stands
 #'
-#' A data frame with 648 rows representing enhanced vegetation index, rainfall and teperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
+#' A data frame with 648 rows representing enhanced vegetation index, rainfall and temperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
 #'
 #' Site coordinates for this dataset are in [fagus_coordinates].
 #'

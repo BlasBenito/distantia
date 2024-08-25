@@ -5,7 +5,7 @@
 #' @param xlim (optional, numeric vector) Numeric vector with the limits of the x axis. Applies to all sequences. Default: NULL
 #' @param ylim (optional, numeric vector or character string) Numeric vector of length two with the limits of the vertical axis or a keyword. Accepted keywords are:
 #' \itemize{
-#'   \item "absolute" (default): all time series are plotted using the overall data range. When this option is used, horizontal lines indicating the overal mean, minimum, and maximum are shown as reference.
+#'   \item "absolute" (default): all time series are plotted using the overall data range. When this option is used, horizontal lines indicating the overall mean, minimum, and maximum are shown as reference.
 #'   \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using `ylim = NULL`.
 #' }
 #' @param color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
@@ -56,7 +56,6 @@
 #'     color = c("red", "green", "blue"))
 #'
 #' }
-#' @concept plotting
 #' @family tsl_info
 tsl_plot <- function(
     tsl = NULL,

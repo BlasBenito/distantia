@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_cpp}
 \alias{psi_cpp}
-\title{Computes Psi Distance Between Two Time-Series}
+\title{(C++) Psi Dissimilarity Between Two Time-Series}
 \usage{
 psi_cpp(
   x,
@@ -18,9 +18,8 @@ psi_cpp(
 
 \item{y}{(required, numeric matrix).}
 
-\item{distance}{(optional, character string) name or abbreviation of the
-distance method. Valid values are in the columns "names" and "abbreviation"
-of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character string) distance name from the "names"
+column of the dataset \code{distances} (see \code{distances$name}). Default: "euclidean".}
 
 \item{diagonal}{(optional, logical). If TRUE, diagonals are included in the
 computation of the cost matrix. Default: FALSE.}
@@ -32,12 +31,50 @@ diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 }
 \value{
-Psi distance
+numeric
 }
 \description{
-Computes the distance psi between two matrices
-\code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
+Computes the psi score of two time series \code{y} and \code{x}
+with the same number of columns.
 NA values should be removed before using this function.
 If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 }
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_full_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_canberra_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_cosine_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_lock_step_cpp}()},
+\code{\link{importance_robust_cpp}()},
+\code{\link{null_psi_cpp}()},
+\code{\link{null_psi_lock_step_cpp}()},
+\code{\link{permute_free_by_row_cpp}()},
+\code{\link{permute_free_cpp}()},
+\code{\link{permute_restricted_by_row_cpp}()},
+\code{\link{permute_restricted_cpp}()},
+\code{\link{psi_formula_cpp}()},
+\code{\link{psi_lock_step_cpp}()},
+\code{\link{subset_matrix_by_rows_cpp}()}
+}
+\concept{Rcpp}

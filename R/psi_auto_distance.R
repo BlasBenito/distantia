@@ -4,7 +4,7 @@
 #' @param path (optional, data frame) result of [psi_cost_path_trim_blocks()], only required if blocks in the least cost path were ignored. Default: NULL
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
-#' @return Sum of auto distances
+#' @return numeric value
 #' @export
 #' @autoglobal
 #' @examples
@@ -139,7 +139,7 @@ psi_auto_distance <- function(
 
   #auto sum
   x.auto_distance <- auto_distance_cpp(
-    m = x,
+    x = x,
     distance = distance
   )
 

@@ -2,37 +2,38 @@
 #include "distance_methods.h"
 using namespace Rcpp;
 
-//' (C++) Cumulative Sum of a Time Series
-//' @description Computes the cumulative sum of a univariate or multivariate
-//' time series. NA values should be removed before using this function.
-//' @param m (required, numeric matrix) univariate or multivariate time series.
+//' (C++) Auto-Distance of a Single Time Series
+//' @description Computes the cumulative sum of distances between consecutive
+//' samples in a univariate or multivariate time series.
+//' NA values should be removed before using this function.
+//' @param x (required, numeric matrix) univariate or multivariate time series.
 //' @param distance (optional, character string) distance name from the "names"
 //' column of the dataset `distances` (see `distances$name`). Default: "euclidean"
 //' @return numeric
 //' @examples
 //' #simulate a time series
-//' m <- zoo_simulate()
+//' x <- zoo_simulate()
 //'
 //' #compute auto distance
 //' auto_distance_cpp(
-//'   m = m,
+//'   x = x,
 //'   distance = "euclidean"
 //'   )
 //' @export
 //' @family Rcpp
 // [[Rcpp::export]]
 double auto_distance_cpp(
-    NumericMatrix m,
+    NumericMatrix x,
     const std::string& distance = "euclidean"
 ){
 
   DistanceFunction f = select_distance_function_cpp(distance);
 
-  int m_rows = m.nrow();
+  int x_rows = x.nrow();
   double dist = 0.0;
 
-  for (int i = 0; i < (m_rows - 1); i++) {
-    dist += f(m.row(i), m.row(i + 1));
+  for (int i = 0; i < (x_rows - 1); i++) {
+    dist += f(x.row(i), x.row(i + 1));
   }
 
   return dist;
@@ -40,8 +41,8 @@ double auto_distance_cpp(
 }
 
 //' (C++) Subset Matrix by Rows
-//' @description Subsets a matrix to the indices of a trimmed least-cost path
-//' when blocks are ignored during the computation of the psi dissimilarity.
+//' @description Subsets a time series matrix to the coordinates of a trimmed
+//' least-cost path when blocks are ignored during a dissimilarity analysis.
 //' @param m (required, numeric matrix) a univariate or multivariate time series.
 //' @param rows (required, integer vector) vector of rows to subset from a
 //' least-cost path data frame.
@@ -78,7 +79,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
   std::unordered_set<int> seen;
 
   for (int row : rows) {
-    if (seen.insert(row).second) { // Check if row is already seen
+    if (seen.insert(row).second) {
       uniqueRows.push_back(row);
    }
  }
@@ -94,9 +95,9 @@ NumericMatrix subset_matrix_by_rows_cpp(
   return m_subset;
 }
 
-//' (C++) Auto Sum of Two Time Series
-//' @description Computes the cumulative auto sum of two time series, used as normalization
-//' factor when computing the psi dissimilarity score..
+//' (C++) Full Sum of Auto-Distances of Two Time Series
+//' @description Computes the cumulative auto sum of autodistances of two time series.
+//' The output value is used as normalization factor when computing dissimilarity scores.
 //' @param x (required, numeric matrix) univariate or multivariate time series.
 //' @param y (required, numeric matrix) univariate or multivariate time series
 //' with the same number of columns as 'x'.
@@ -109,7 +110,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' y <- zoo_simulate(seed = 2)
 //'
 //' #auto sum
-//' auto_sum_cpp(
+//' auto_sum_full_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -117,7 +118,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //' @export
 //' @family Rcpp
 // [[Rcpp::export]]
-double auto_sum_cpp(
+double auto_sum_full_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
@@ -139,10 +140,10 @@ double auto_sum_cpp(
 }
 
 
-//' (C++) Cumulative Sum of Two Time Series Subsetting by Least-Cost Path
-//' @description Subsets two univariate or multivariate time series by a trimmed
-//' least-cost path data frame when ignoring blocks in a psi dissimilarity
-//' computation, and computes their cumulative sum.
+//' (C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates
+//' @description Computes the cumulative auto sum of auto-distances of two time series
+//' for the coordinates of a trimmed least cost path. The output value is used
+//' as normalization factor when computing dissimilarity scores.
 //' @param x (required, numeric matrix) univariate or multivariate time series.
 //' @param y (required, numeric matrix) univariate or multivariate time series
 //' with the same number of columns as 'x'.
@@ -224,6 +225,94 @@ double auto_sum_path_cpp(
 
 
   return x_distance + y_distance;
+
+}
+
+//' Sum of Auto-Distances of Two Time Series
+//' @description Sum of auto-distances of two time series.
+//' This function switches between [auto_sum_full_cpp()] and [auto_sum_path_cpp()]
+//' depending on the value of the argument `ignore_blocks`.
+//' @param x (required, numeric matrix) of same number of columns as 'y'.
+//' @param y (required, numeric matrix) of same number of columns as 'x'.
+//' @param path (required, data frame) output of [cost_path_orthogonal_cpp()].
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean"
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @return numeric
+//' @examples
+//' #simulate two time series
+//' x <- zoo_simulate(seed = 1)
+//' y <- zoo_simulate(seed = 2)
+//'
+//' #distance matrix
+//' dist_matrix <- distance_matrix_cpp(
+//'   x = x,
+//'   y = y,
+//'   distance = "euclidean"
+//' )
+//'
+//' #least cost matrix
+//' cost_matrix <- cost_matrix_cpp(
+//'   dist_matrix = dist_matrix
+//' )
+//'
+//' #least cost path
+//' cost_path <- cost_path_orthogonal_cpp(
+//'   dist_matrix = dist_matrix,
+//'   cost_matrix = cost_matrix
+//' )
+//'
+//' nrow(cost_path)
+//'
+//' #remove blocks from least-cost path
+//' cost_path_trimmed <- cost_path_trim_cpp(
+//'   path = cost_path
+//' )
+//'
+//' nrow(cost_path_trimmed)
+//'
+//' #auto sum
+//' auto_sum_cpp(
+//'   x = x,
+//'   y = y,
+//'   path = cost_path_trimmed,
+//'   distance = "euclidean",
+//'   ignore_blocks = FALSE
+//' )
+//' @export
+// [[Rcpp::export]]
+double auto_sum_cpp(
+ NumericMatrix x,
+ NumericMatrix y,
+ DataFrame path,
+ const std::string& distance = "euclidean",
+ bool ignore_blocks = false
+){
+
+double xy_sum = 0;
+
+//trim cost path
+if (ignore_blocks){
+
+ xy_sum = auto_sum_path_cpp(
+   x,
+   y,
+   path,
+   distance
+ );
+
+} else {
+
+ xy_sum = auto_sum_full_cpp(
+   x,
+   y,
+   distance
+ );
+
+}
+
+return(xy_sum);
 
 }
 
@@ -310,7 +399,7 @@ auto_distance_cpp(
 )
 
 
-auto_sum_cpp(y, x, distance)
+auto_sum_full_cpp(y, x, distance)
 
 auto_sum_path_cpp(y, x, path, distance)
 

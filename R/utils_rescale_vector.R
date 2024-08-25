@@ -1,4 +1,4 @@
-#' @title Rescales Numeric Vector to a New Range
+#' @title Re-scaling of Numeric Vector to a New Range
 #' @param x (required, numeric vector) Numeric vector. Default: `NULL`
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
 #' @param new_max (optional_numeric) New maximum value. Default: `1`
@@ -17,7 +17,7 @@
 #'
 #' @export
 #' @autoglobal
-#' @concept transformations internal
+#' @family internal
 utils_rescale_vector <- function(
     x = NULL,
     new_min = 0,

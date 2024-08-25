@@ -2,12 +2,12 @@
 #'
 #' @param x (required, numeric) Default: NULL
 #'
-#' @return Integer, number of decimal places
+#' @return integer
 #' @export
 #' @autoglobal
 #' @examples
 #' utils_digits(x = 0.234)
-#' @keywords internal
+#' @family internal
 utils_digits <- function(
     x = NULL
     ){

@@ -159,7 +159,6 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @concept transformations
 #' @family tsl_manipulation
 tsl_aggregate <- function(
     tsl = NULL,

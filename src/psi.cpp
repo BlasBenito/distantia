@@ -1,138 +1,24 @@
 #include <Rcpp.h>
 #include "distance_methods.h"
 #include "distance_matrix.h"
-#include "cost_matrix.h"
 #include "cost_path.h"
 #include "auto_sum.h"
 #include "permute.h"
 using namespace Rcpp;
 
-//' Finds Least Cost Path in Least Cost Matrix
-//' @description Least cost path between two time series \code{x} and \code{y}.
-//' NA values must be removed from \code{x} and \code{y} before using this function.
-//' If the selected distance function is "chi" or "cosine", pairs of zeros should
-//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-//' computation of the cost matrix. Default: FALSE.
-//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
-//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
-//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Data frame with least cost path
-//' @export
-// [[Rcpp::export]]
-DataFrame psi_cost_path_cpp(
-    NumericMatrix x,
-    NumericMatrix y,
-    const std::string& distance = "euclidean",
-    bool diagonal = true,
-    bool weighted = true,
-    bool ignore_blocks = false
-){
 
-  if(weighted){diagonal = true;}
 
-  //distance matrix
-  NumericMatrix dist_matrix = distance_matrix_cpp(
-    x,
-    y,
-    distance
-  );
-
-  //compute cost matrix
-  int yn = dist_matrix.nrow();
-  int xn = dist_matrix.ncol();
-  NumericMatrix cost_matrix(yn, xn);
-
-  if (diagonal && weighted) {
-    cost_matrix = cost_matrix_weighted_diag_cpp(dist_matrix);
-  } else if (diagonal) {
-    cost_matrix = cost_matrix_diag_cpp(dist_matrix);
-  } else {
-    cost_matrix = cost_matrix_cpp(dist_matrix);
-  }
-
-  //compute cost path
-  DataFrame cost_path;
-  if (diagonal) {
-    cost_path = cost_path_diagonal_cpp(dist_matrix, cost_matrix);
-  } else {
-    cost_path = cost_path_orthogonal_cpp(dist_matrix, cost_matrix);
-  }
-
-  //trim cost path
-  if (ignore_blocks){
-    cost_path = cost_path_trim_cpp(cost_path);
-  }
-
-  return cost_path;
-
-}
-
-//' Auto Sum of Two Time Series
-//' @description Cumulative sum of two time series \code{x} and \code{y}
-//' to compute the normalization factor required for psi dissimilarity scores.
-//' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
-//' Default: NULL
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
-//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Auto sum of matrices y and x.
-//' @export
-// [[Rcpp::export]]
-double psi_auto_sum_cpp(
-    NumericMatrix x,
-    NumericMatrix y,
-    DataFrame path,
-    const std::string& distance = "euclidean",
-    bool ignore_blocks = false
-){
-
-  double xy_sum = 0;
-
-  //trim cost path
-  if (ignore_blocks){
-
-    xy_sum = auto_sum_path_cpp(
-      x,
-      y,
-      path,
-      distance
-    );
-
-  } else {
-
-    xy_sum = auto_sum_cpp(
-      x,
-      y,
-      distance
-    );
-
-  }
-
-  return(xy_sum);
-
-}
-
-//' Psi Dissimilarity Metric
-//' @description Computes the psi dissimilarity score between two sequences from
-//' their least cost path and their auto sums.
+//' (C++) Psi Dissimilarity Formula
+//' @description Computes the psi dissimilarity score between two time series from
+//' their least cost path sum and their auto sums.
 //' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
 //' Default: NULL
 //' @param auto_sum (required, numeric) auto sum of both sequences,
-//' result of [psi_auto_sum_cpp()].
+//' result of [auto_sum_cpp()].
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
-//' @return Numeric, psi dissimilarity
+//' @return numeric
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 double psi_formula_cpp(
@@ -158,20 +44,18 @@ double psi_formula_cpp(
 
 
 
-//' Computes Psi Distance Between Two Time-Series With Paired Samples
-//' @description Computes the distance psi between two matrices
-//' \code{y} and \code{x} with the same number of columns and rows. Distances
-//' between \code{y} and \code{x} are computed row wise rather than via distance
-//' matrix and least-cost path computation.
-//' NA values should be removed before using this function.
+//' (C++) Psi Dissimilarity Between Two Aligned Time-Series
+//' @description Computes the psi dissimilarity score between two time series
+//' observed at the same times. Time series \code{y} and \code{x} with the same
+//' number of columns and rows. NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
-//' @return Psi distance
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+//' @return numeric
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 double psi_lock_step_cpp(
@@ -188,7 +72,7 @@ double psi_lock_step_cpp(
     );
 
     //auto sum sequences
-    double xy_sum = auto_sum_cpp(
+    double xy_sum = auto_sum_full_cpp(
       x,
       y,
       distance
@@ -200,17 +84,16 @@ double psi_lock_step_cpp(
 }
 
 
-//' Null Distribution of Psi Distances Between Two Paired Time-Series
-//' @description Computes null psi distances for permuted versions of the paired sequences
-//' \code{y} and \code{x} with the same number of rows and columns.
+//' (C++) Null Distribution of Psi Scores Between Two Aligned Time-Series
+//' @description Applies permutation methods to compute null distributions for
+//' the psi scores of two time series observed at the same times.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param y (required, numeric matrix) of same number of columns as 'x'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 //' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 //' \itemize{
@@ -223,7 +106,8 @@ double psi_lock_step_cpp(
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-//' @return Numeric vector with null distribution of psi distances.
+//' @return numeric vector
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_lock_step_cpp(
@@ -258,7 +142,7 @@ NumericVector null_psi_lock_step_cpp(
   );
 
   //auto sum sequences
-  double xy_sum = auto_sum_cpp(
+  double xy_sum = auto_sum_full_cpp(
     x,
     y,
     distance
@@ -307,24 +191,24 @@ NumericVector null_psi_lock_step_cpp(
 }
 
 
-//' Computes Psi Distance Between Two Time-Series
-//' @description Computes the distance psi between two matrices
-//' \code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
+//' (C++) Psi Dissimilarity Between Two Time-Series
+//' @description Computes the psi score of two time series \code{y} and \code{x}
+//' with the same number of columns.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param y (required, numeric matrix).
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return Psi distance
+//' @return numeric
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 double psi_cpp(
@@ -336,7 +220,7 @@ double psi_cpp(
     bool ignore_blocks = false
 ){
 
-  DataFrame path = psi_cost_path_cpp(
+  DataFrame path = cost_path_cpp(
     x,
     y,
     distance,
@@ -345,7 +229,7 @@ double psi_cpp(
     ignore_blocks
   );
 
-  double xy_sum = psi_auto_sum_cpp(
+  double xy_sum = auto_sum_cpp(
     x,
     y,
     path,
@@ -367,17 +251,16 @@ double psi_cpp(
 
 
 
-//' Null Distribution of Psi Distances Between Two Time-Series
-//' @description Computes null psi distances for permuted versions of the sequences
-//' \code{y} and \code{x} with the same number of columns and arbitrary numbers of rows.
+//' (C++) Null Distribution of Psi Scores Between Two Time-Series
+//' @description Applies permutation methods to compute null distributions for
+//' the psi scores of two time series.
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 //' @param y (required, numeric matrix).
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
-//' @param distance (optional, character string) name or abbreviation of the
-//' distance method. Valid values are in the columns "names" and "abbreviation"
-//' of the dataset `distances`. Default: "euclidean".
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
@@ -397,7 +280,8 @@ double psi_cpp(
 //' restricted permutation. A block size of 3 indicates that a row can only be permuted
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
-//' @return Numeric vector with null distribution of psi distances.
+//' @return numeric vector
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_cpp(
@@ -427,7 +311,7 @@ NumericVector null_psi_cpp(
   NumericVector psi_null(repetitions);
 
   // Create cost path
-  DataFrame path = psi_cost_path_cpp(
+  DataFrame path = cost_path_cpp(
     x,
     y,
     distance,
@@ -437,7 +321,7 @@ NumericVector null_psi_cpp(
   );
 
   // auto sum of distances to normalize cost path sum
-  double xy_sum = psi_auto_sum_cpp(
+  double xy_sum = auto_sum_cpp(
     x,
     y,
     path,
@@ -475,7 +359,7 @@ NumericVector null_psi_cpp(
     );
 
     // Create cost path of permuted sequences
-    DataFrame permuted_path = psi_cost_path_cpp(
+    DataFrame permuted_path = cost_path_cpp(
       permuted_x,
       permuted_y,
       distance,

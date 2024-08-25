@@ -23,10 +23,18 @@ double auto_sum_path_cpp(
     const std::string& distance = "euclidean"
 );
 
-double auto_sum_cpp(
+double auto_sum_full_cpp(
         Rcpp::NumericMatrix a,
         Rcpp::NumericMatrix b,
         const std::string& distance = "euclidean"
+);
+
+double auto_sum_cpp(
+        Rcpp::NumericMatrix a,
+        Rcpp::NumericMatrix b,
+        Rcpp::DataFrame path,
+        const std::string& distance = "euclidean",
+        bool ignore_blocks = false
 );
 
 #endif // AUTO_SUM_H

@@ -183,5 +183,4 @@ Other tsl_manipulation:
 \code{\link{tsl_to_df}()},
 \code{\link{tsl_transform}()}
 }
-\concept{transformations}
 \concept{tsl_manipulation}

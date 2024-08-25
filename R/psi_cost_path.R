@@ -3,7 +3,7 @@
 #' @param dist_matrix (required, numeric matrix) Distance matrix.
 #' @param cost_matrix (required, numeric matrix) Cost matrix generated from the distance matrix.
 #' @param diagonal (optional, logical) If TRUE, diagonals are used during the least-cost path search. Default: TRUE
-#' @return A data frame with least-cost path coordiantes.
+#' @return data frame
 #' @export
 #' @examples
 #' #simulate two time series

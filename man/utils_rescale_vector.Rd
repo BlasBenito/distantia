@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_rescale_vector.R
 \name{utils_rescale_vector}
 \alias{utils_rescale_vector}
-\title{Rescales Numeric Vector to a New Range}
+\title{Re-scaling of Numeric Vector to a New Range}
 \usage{
 utils_rescale_vector(
   x = NULL,
@@ -27,7 +27,7 @@ utils_rescale_vector(
 numeric vector
 }
 \description{
-Rescales Numeric Vector to a New Range
+Re-scaling of Numeric Vector to a New Range
 }
 \examples{
 
@@ -40,4 +40,42 @@ Rescales Numeric Vector to a New Range
  out
 
 }
-\concept{transformations internal}
+\seealso{
+Other internal: 
+\code{\link{distantia-package}},
+\code{\link{utils_block_size}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_clean_names}()},
+\code{\link{utils_cluster_hclust_optimizer}()},
+\code{\link{utils_cluster_kmeans_optimizer}()},
+\code{\link{utils_cluster_silhouette}()},
+\code{\link{utils_coerce_time_class}()},
+\code{\link{utils_color_breaks}()},
+\code{\link{utils_color_continuous_default}()},
+\code{\link{utils_color_discrete_default}()},
+\code{\link{utils_df_to_matrix}()},
+\code{\link{utils_digits}()},
+\code{\link{utils_distantia_df_split}()},
+\code{\link{utils_global_scaling_params}()},
+\code{\link{utils_importance_df_to_wide}()},
+\code{\link{utils_is_time}()},
+\code{\link{utils_line_color}()},
+\code{\link{utils_line_guide}()},
+\code{\link{utils_matrix_guide}()},
+\code{\link{utils_matrix_plot}()},
+\code{\link{utils_new_time}()},
+\code{\link{utils_optimize_loess}()},
+\code{\link{utils_optimize_spline}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()},
+\code{\link{utils_time_keywords}()},
+\code{\link{utils_time_keywords_dictionary}()},
+\code{\link{utils_time_keywords_translate}()},
+\code{\link{utils_time_units}()},
+\code{\link{utils_tsl_pairs}()}
+}
+\concept{internal}

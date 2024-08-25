@@ -26,7 +26,7 @@ tsl_plot(
 
 \item{ylim}{(optional, numeric vector or character string) Numeric vector of length two with the limits of the vertical axis or a keyword. Accepted keywords are:
 \itemize{
-\item "absolute" (default): all time series are plotted using the overall data range. When this option is used, horizontal lines indicating the overal mean, minimum, and maximum are shown as reference.
+\item "absolute" (default): all time series are plotted using the overall data range. When this option is used, horizontal lines indicating the overall mean, minimum, and maximum are shown as reference.
 \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using \code{ylim = NULL}.
 }}
 
@@ -97,5 +97,4 @@ Other tsl_info:
 \code{\link{tsl_stats}()},
 \code{\link{tsl_time}()}
 }
-\concept{plotting}
 \concept{tsl_info}

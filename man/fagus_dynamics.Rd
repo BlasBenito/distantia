@@ -11,7 +11,7 @@ data frame with 5 columns and 648 rows.
 data(fagus_dynamics)
 }
 \description{
-A data frame with 648 rows representing enhanced vegetation index, rainfall and teperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
+A data frame with 648 rows representing enhanced vegetation index, rainfall and temperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
 }
 \details{
 Site coordinates for this dataset are in \link{fagus_coordinates}.

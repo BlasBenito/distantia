@@ -8,7 +8,7 @@
 #'   \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
 #' }
 #'
-#' @return character vector of common column names if `common = TRUE`, or list with character vector of column names otherwise.
+#' @return character vector or list with character vectors
 #' @export
 #'
 #' @examples
@@ -42,7 +42,6 @@
 #'   names = "exclusive"
 #' )
 #' @family tsl_info
-#' @concept names_handling
 tsl_colnames_get <- function(
     tsl = NULL,
     names = c(
@@ -150,7 +149,6 @@ tsl_colnames_get <- function(
 #'   names = "all"
 #' )
 #' @family tsl_manipulation
-#' @concept names_handling
 tsl_colnames_set <- function(
     tsl = NULL,
     new_names = NULL
@@ -214,7 +212,7 @@ tsl_colnames_set <- function(
 #' @param suffix (optional, character string) String to append to the cleaned names. Default: NULL.
 #' @param prefix (optional, character string)  String to prepend to the cleaned names. Default: NULL.
 #'
-#' @return Time series list with clean names
+#' @return time series list
 #'
 #' @examples
 #' #generate example data
@@ -264,7 +262,6 @@ tsl_colnames_set <- function(
 #' @autoglobal
 #' @export
 #' @family tsl_manipulation
-#' @concept names_handling
 tsl_colnames_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

@@ -1,7 +1,7 @@
 #' Sum of Distances in Least-cost Path
 #'
 #' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Default: NULL
-#' @return Sum of distances.
+#' @return numeric value
 #' @examples
 #' #simulate two time series
 #' tsl <- tsl_simulate(

@@ -49,8 +49,7 @@
 #' utils_time_keywords_translate(
 #'   keyword = "sec"
 #' )
-#' @keywords internal
-#' @concept time_handling
+#' @family internal
 utils_time_keywords_translate <- function(
     keyword = NULL
 ){

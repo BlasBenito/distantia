@@ -6,7 +6,7 @@
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
 #'
-#' @return Matrix
+#' @return numeric matrix
 #' @export
 #' @autoglobal
 #' @examples

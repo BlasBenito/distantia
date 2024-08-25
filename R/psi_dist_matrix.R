@@ -79,7 +79,7 @@
 #' distantia_plot(
 #'   tsl = tsl
 #' )
-#' @return A distance matrix.
+#' @return numeric matrix
 #' @export
 #' @autoglobal
 #' @family psi_demo

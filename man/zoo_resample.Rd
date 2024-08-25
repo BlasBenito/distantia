@@ -183,5 +183,4 @@ Other zoo_functions:
 \code{\link{zoo_time}()},
 \code{\link{zoo_to_tsl}()}
 }
-\concept{transformations}
 \concept{zoo_functions}

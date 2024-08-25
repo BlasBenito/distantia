@@ -5,23 +5,6 @@
 
 // Forward declarations of functions
 
-Rcpp::DataFrame psi_cost_path_cpp(
-    Rcpp::NumericMatrix a,
-    Rcpp::NumericMatrix b,
-    const std::string& distance = "euclidean",
-    bool diagonal = false,
-    bool weighted = false,
-    bool ignore_blocks = false
-);
-
-double psi_auto_sum_cpp(
-    Rcpp::NumericMatrix a,
-    Rcpp::NumericMatrix b,
-    Rcpp::DataFrame path,
-    const std::string& distance = "euclidean",
-    bool ignore_blocks = false
-);
-
 double psi_formula_cpp(
     Rcpp::DataFrame path,
     double auto_sum,

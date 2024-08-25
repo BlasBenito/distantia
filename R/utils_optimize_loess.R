@@ -45,8 +45,7 @@
 #'     ),
 #'   col = "red4"
 #'   )
-#' @keywords internal
-#' @concept transformations
+#' @family internal
 utils_optimize_loess <- function(
     x = NULL,
     y = NULL,

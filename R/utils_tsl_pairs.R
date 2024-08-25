@@ -10,7 +10,7 @@
 #' @return data frame
 #' @export
 #' @autoglobal
-#' @keywords internal
+#' @family internal
 utils_tsl_pairs <- function(
     tsl = NULL,
     args_list = NULL

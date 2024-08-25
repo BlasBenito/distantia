@@ -7,7 +7,7 @@
 #' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
 #' @param seed (optional, integer) Random seed to be used during the K-means computation. Default: 1
 #'
-#' @return Data frame with number of clusters and their respective mean silhouette widths.
+#' @return data frame
 #' @export
 #' @autoglobal
 #' @examples
@@ -69,8 +69,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @keywords internal
-#' @concept clustering
+#' @family internal
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1

@@ -3,7 +3,7 @@
 #' @description Removes blocks (straight segments of the path that appear in highly dissimilar regions of the sequences) from least-cost paths. Blocks inflate psi values when two sequences are similar but have very different numbers of rows.
 #'
 #' @param path (required, data frame) dataframe produced by [psi_cost_path()]. Default: NULL
-#' @return A data frame with a least-cost path with no blocks.
+#' @return data frame
 #'
 #' @examples
 #' #TODO: complete example

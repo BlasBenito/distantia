@@ -92,8 +92,7 @@
 #'   tsl = tsl,
 #'   new_time = new_time
 #' )
-#' @keywords internal
-#' @concept time_handling
+#' @family internal
 utils_new_time <- function(
     tsl = NULL,
     new_time = NULL,

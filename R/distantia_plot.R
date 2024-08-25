@@ -87,7 +87,6 @@
 #' @autoglobal
 #' @export
 #' @family dissimilarity_analysis
-#' @concept plotting
 distantia_plot <- function(
     tsl = NULL,
     distance = "euclidean",

@@ -8,8 +8,7 @@
 #' @autoglobal
 #' @examples
 #' df <- utils_time_keywords_dictionary()
-#' @keywords internal
-#' @concept time_handling
+#' @family internal
 utils_time_keywords_dictionary <- function(){
 
   # millennia ----

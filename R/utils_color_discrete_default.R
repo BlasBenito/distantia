@@ -13,14 +13,13 @@
 #'
 #' @param n (required, integer) number of colors (up to 36) to generate. Default: NULL
 #'
-#' @return Color palette
+#' @return color vector
 #' @export
 #' @autoglobal
 #' @examples
 #'
 #' utils_color_discrete_default(n = 9)
-#' @keywords internal
-#' @concept plotting
+#' @family internal
 utils_color_discrete_default <- function(
     n = NULL
     ){

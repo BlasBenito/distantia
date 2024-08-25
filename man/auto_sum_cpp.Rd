@@ -2,64 +2,69 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_cpp}
 \alias{auto_sum_cpp}
-\title{(C++) Auto Sum of Two Time Series}
+\title{Sum of Auto-Distances of Two Time Series}
 \usage{
-auto_sum_cpp(x, y, distance = "euclidean")
+auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 }
 \arguments{
-\item{x}{(required, numeric matrix) univariate or multivariate time series.}
+\item{x}{(required, numeric matrix) of same number of columns as 'y'.}
 
-\item{y}{(required, numeric matrix) univariate or multivariate time series
-with the same number of columns as 'x'.}
+\item{y}{(required, numeric matrix) of same number of columns as 'x'.}
+
+\item{path}{(required, data frame) output of \code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}}.}
 
 \item{distance}{(optional, character string) distance name from the "names"
 column of the dataset \code{distances} (see \code{distances$name}). Default: "euclidean"}
+
+\item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
+coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 }
 \value{
 numeric
 }
 \description{
-Computes the cumulative auto sum of two time series, used as normalization
-factor when computing the psi dissimilarity score..
+Sum of auto-distances of two time series.
+This function switches between \code{\link[=auto_sum_full_cpp]{auto_sum_full_cpp()}} and \code{\link[=auto_sum_path_cpp]{auto_sum_path_cpp()}}
+depending on the value of the argument \code{ignore_blocks}.
 }
 \examples{
 #simulate two time series
 x <- zoo_simulate(seed = 1)
 y <- zoo_simulate(seed = 2)
 
-#auto sum
-auto_sum_cpp(
+#distance matrix
+dist_matrix <- distance_matrix_cpp(
   x = x,
   y = y,
   distance = "euclidean"
 )
+
+#least cost matrix
+cost_matrix <- cost_matrix_cpp(
+  dist_matrix = dist_matrix
+)
+
+#least cost path
+cost_path <- cost_path_orthogonal_cpp(
+  dist_matrix = dist_matrix,
+  cost_matrix = cost_matrix
+)
+
+nrow(cost_path)
+
+#remove blocks from least-cost path
+cost_path_trimmed <- cost_path_trim_cpp(
+  path = cost_path
+)
+
+nrow(cost_path_trimmed)
+
+#auto sum
+auto_sum_cpp(
+  x = x,
+  y = y,
+  path = cost_path_trimmed,
+  distance = "euclidean",
+  ignore_blocks = FALSE
+)
 }
-\seealso{
-Other Rcpp: 
-\code{\link{auto_distance_cpp}()},
-\code{\link{auto_sum_path_cpp}()},
-\code{\link{cost_matrix_cpp}()},
-\code{\link{cost_matrix_diag_cpp}()},
-\code{\link{cost_matrix_weighted_diag_cpp}()},
-\code{\link{cost_path_diagonal_cpp}()},
-\code{\link{cost_path_orthogonal_cpp}()},
-\code{\link{cost_path_sum_cpp}()},
-\code{\link{cost_path_trim_cpp}()},
-\code{\link{distance_canberra_cpp}()},
-\code{\link{distance_chebyshev_cpp}()},
-\code{\link{distance_chi_cpp}()},
-\code{\link{distance_cosine_cpp}()},
-\code{\link{distance_euclidean_cpp}()},
-\code{\link{distance_hamming_cpp}()},
-\code{\link{distance_hellinger_cpp}()},
-\code{\link{distance_jaccard_cpp}()},
-\code{\link{distance_lock_step_cpp}()},
-\code{\link{distance_manhattan_cpp}()},
-\code{\link{distance_matrix_cpp}()},
-\code{\link{distance_russelrao_cpp}()},
-\code{\link{importance_legacy_cpp}()},
-\code{\link{importance_lock_step_cpp}()},
-\code{\link{importance_robust_cpp}()},
-\code{\link{subset_matrix_by_rows_cpp}()}
-}
-\concept{Rcpp}

@@ -5,7 +5,7 @@
 #' @param dist_matrix (required, numeric matrix). Distance matrix.
 #' @param diagonal (optional, logical). If `TRUE`, diagonals are included in the computation of the cost matrix Default: TRUE
 #' @param weighted (optional, logical). Only relevant if `diagonal = TRUE`. If `TRUE`, weights diagonal cost by a factor of 1.414214. Default: TRUE
-#' @return A cost matrix.
+#' @return numeric matrix
 #' @examples
 #' #simulate two time series
 #' tsl <- tsl_simulate(

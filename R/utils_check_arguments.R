@@ -18,10 +18,10 @@
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #' @param robust (required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
 #'
-#' @return List with checked arguments
+#' @return list
 #' @export
 #' @autoglobal
-#' @keywords internal
+#' @family internal
 utils_check_distantia_args <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -140,7 +140,7 @@ utils_check_distantia_args <- function(
 #' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same time series used to compute the matrix `m`. Default: NULL.
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
-#' @return Least cost path
+#' @return data frame
 #' @export
 #' @autoglobal
 utils_check_path_args <- function(
@@ -185,7 +185,7 @@ utils_check_path_args <- function(
 #' @param m (required, matrix) distance or cost matrix resulting from [psi_dist_matrix()] or [psi_cost_matrix()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
-#' @return Argument m.
+#' @return matrix
 #' @export
 #' @autoglobal
 utils_check_matrix_args <- function(
@@ -231,7 +231,7 @@ utils_check_matrix_args <- function(
 #' @param x (required, list of matrices) list of input matrices generated with [tsl_initialize()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
-#' @return Argument x.
+#' @return zoo object
 #' @export
 #' @autoglobal
 utils_check_zoo_args <- function(
@@ -287,7 +287,7 @@ utils_check_zoo_args <- function(
 #'
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
-#' @return Character vector with distance names
+#' @return character vector
 #' @export
 #' @autoglobal
 #' @examples

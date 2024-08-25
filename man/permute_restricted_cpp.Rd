@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{permute_restricted_cpp}
 \alias{permute_restricted_cpp}
-\title{Restricted Permutation of Cases Within Blocks}
+\title{(C++) Restricted Permutation of Cases Within Blocks}
 \usage{
 permute_restricted_cpp(x, block_size, seed = 1L)
 }
@@ -15,7 +15,7 @@ Minimum value is 2, and maximum value is nrow(x).}
 \item{seed}{(optional, integer) random seed to use.}
 }
 \value{
-Numeric matrix, permuted version of x.
+numeric matrix
 }
 \description{
 Divides a sequence or time-series in blocks and permutes cases
@@ -23,3 +23,41 @@ within these blocks. This function does not preserve rows, and should not be
 used if the sequence has dependent columns.
 Larger block sizes increasingly disrupt the data structure over time.
 }
+\seealso{
+Other Rcpp: 
+\code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_full_cpp}()},
+\code{\link{auto_sum_path_cpp}()},
+\code{\link{cost_matrix_cpp}()},
+\code{\link{cost_matrix_diag_cpp}()},
+\code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_sum_cpp}()},
+\code{\link{cost_path_trim_cpp}()},
+\code{\link{distance_canberra_cpp}()},
+\code{\link{distance_chebyshev_cpp}()},
+\code{\link{distance_chi_cpp}()},
+\code{\link{distance_cosine_cpp}()},
+\code{\link{distance_euclidean_cpp}()},
+\code{\link{distance_hamming_cpp}()},
+\code{\link{distance_hellinger_cpp}()},
+\code{\link{distance_jaccard_cpp}()},
+\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_manhattan_cpp}()},
+\code{\link{distance_matrix_cpp}()},
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{importance_legacy_cpp}()},
+\code{\link{importance_lock_step_cpp}()},
+\code{\link{importance_robust_cpp}()},
+\code{\link{null_psi_cpp}()},
+\code{\link{null_psi_lock_step_cpp}()},
+\code{\link{permute_free_by_row_cpp}()},
+\code{\link{permute_free_cpp}()},
+\code{\link{permute_restricted_by_row_cpp}()},
+\code{\link{psi_cpp}()},
+\code{\link{psi_formula_cpp}()},
+\code{\link{psi_lock_step_cpp}()},
+\code{\link{subset_matrix_by_rows_cpp}()}
+}
+\concept{Rcpp}

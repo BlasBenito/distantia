@@ -26,7 +26,7 @@
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
 #' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
-#' @return A named list of matrices.
+#' @return list of matrices
 #' @examples
 #' #long data frame
 #' #---------------------

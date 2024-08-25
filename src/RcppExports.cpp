@@ -11,14 +11,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // auto_distance_cpp
-double auto_distance_cpp(NumericMatrix m, const std::string& distance);
-RcppExport SEXP _distantia_auto_distance_cpp(SEXP mSEXP, SEXP distanceSEXP) {
+double auto_distance_cpp(NumericMatrix x, const std::string& distance);
+RcppExport SEXP _distantia_auto_distance_cpp(SEXP xSEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type m(mSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_distance_cpp(m, distance));
+    rcpp_result_gen = Rcpp::wrap(auto_distance_cpp(x, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -34,16 +34,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// auto_sum_cpp
-double auto_sum_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
-RcppExport SEXP _distantia_auto_sum_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
+// auto_sum_full_cpp
+double auto_sum_full_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance);
+RcppExport SEXP _distantia_auto_sum_full_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    rcpp_result_gen = Rcpp::wrap(auto_sum_cpp(x, y, distance));
+    rcpp_result_gen = Rcpp::wrap(auto_sum_full_cpp(x, y, distance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -58,6 +58,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
     rcpp_result_gen = Rcpp::wrap(auto_sum_path_cpp(x, y, path, distance));
+    return rcpp_result_gen;
+END_RCPP
+}
+// auto_sum_cpp
+double auto_sum_cpp(NumericMatrix x, NumericMatrix y, DataFrame path, const std::string& distance, bool ignore_blocks);
+RcppExport SEXP _distantia_auto_sum_cpp(SEXP xSEXP, SEXP ySEXP, SEXP pathSEXP, SEXP distanceSEXP, SEXP ignore_blocksSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
+    rcpp_result_gen = Rcpp::wrap(auto_sum_cpp(x, y, path, distance, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -149,6 +164,22 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
     rcpp_result_gen = Rcpp::wrap(cost_path_sum_cpp(path));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_cpp
+DataFrame cost_path_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_cost_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
+    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -433,37 +464,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// psi_cost_path_cpp
-DataFrame psi_cost_path_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_cost_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
-    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_cost_path_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
-    return rcpp_result_gen;
-END_RCPP
-}
-// psi_auto_sum_cpp
-double psi_auto_sum_cpp(NumericMatrix x, NumericMatrix y, DataFrame path, const std::string& distance, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_auto_sum_cpp(SEXP xSEXP, SEXP ySEXP, SEXP pathSEXP, SEXP distanceSEXP, SEXP ignore_blocksSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_auto_sum_cpp(x, y, path, distance, ignore_blocks));
-    return rcpp_result_gen;
-END_RCPP
-}
 // psi_formula_cpp
 double psi_formula_cpp(DataFrame path, double auto_sum, bool diagonal);
 RcppExport SEXP _distantia_psi_formula_cpp(SEXP pathSEXP, SEXP auto_sumSEXP, SEXP diagonalSEXP) {
@@ -547,8 +547,9 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_distantia_auto_distance_cpp", (DL_FUNC) &_distantia_auto_distance_cpp, 2},
     {"_distantia_subset_matrix_by_rows_cpp", (DL_FUNC) &_distantia_subset_matrix_by_rows_cpp, 2},
-    {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 3},
+    {"_distantia_auto_sum_full_cpp", (DL_FUNC) &_distantia_auto_sum_full_cpp, 3},
     {"_distantia_auto_sum_path_cpp", (DL_FUNC) &_distantia_auto_sum_path_cpp, 4},
+    {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 5},
     {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
     {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
     {"_distantia_cost_matrix_cpp", (DL_FUNC) &_distantia_cost_matrix_cpp, 1},
@@ -557,6 +558,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_path_diagonal_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_cpp, 2},
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
+    {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 6},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
     {"_distantia_distance_lock_step_cpp", (DL_FUNC) &_distantia_distance_lock_step_cpp, 3},
     {"_distantia_distance_chebyshev_cpp", (DL_FUNC) &_distantia_distance_chebyshev_cpp, 2},
@@ -579,8 +581,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_permute_free_by_row_cpp", (DL_FUNC) &_distantia_permute_free_by_row_cpp, 3},
     {"_distantia_permute_restricted_cpp", (DL_FUNC) &_distantia_permute_restricted_cpp, 3},
     {"_distantia_permute_free_cpp", (DL_FUNC) &_distantia_permute_free_cpp, 3},
-    {"_distantia_psi_cost_path_cpp", (DL_FUNC) &_distantia_psi_cost_path_cpp, 6},
-    {"_distantia_psi_auto_sum_cpp", (DL_FUNC) &_distantia_psi_auto_sum_cpp, 5},
     {"_distantia_psi_formula_cpp", (DL_FUNC) &_distantia_psi_formula_cpp, 3},
     {"_distantia_psi_lock_step_cpp", (DL_FUNC) &_distantia_psi_lock_step_cpp, 3},
     {"_distantia_null_psi_lock_step_cpp", (DL_FUNC) &_distantia_null_psi_lock_step_cpp, 7},

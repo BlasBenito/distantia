@@ -30,7 +30,7 @@
 #' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
 #' @param mean (optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE
 #'
-#' @return If mean = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the mean silhouette width otherwise.
+#' @return data frame
 #' @export
 #' @autoglobal
 #' @examples
@@ -116,8 +116,7 @@
 #'   d = psi_matrix,
 #'   mean = TRUE
 #' )
-#' @keywords internal
-#' @concept clustering
+#' @family internal
 utils_cluster_silhouette <- function(
     labels = NULL,
     d = NULL,

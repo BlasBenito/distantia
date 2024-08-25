@@ -47,7 +47,7 @@
 #' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in `tsl`. Default: NULL.
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
-#' @return Data frame with the attribute `type` set to `distantia_df` and the following columns:
+#' @return data frame with columns:
 #' \itemize{
 #'   \item `x`: time series name.
 #'   \item `y`: time series name.
@@ -60,7 +60,7 @@
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
 #'   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
 #'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
-#'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi values computed from the permutaitons.
+#'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi scores.
 #'   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.
 #'   \item `p_value`  (only if `repetitions > 0`): proportion of scores smaller or equal than `psi` in the null distribution.
 #' }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_distance_cpp}
 \alias{auto_distance_cpp}
-\title{(C++) Cumulative Sum of a Time Series}
+\title{(C++) Auto-Distance of a Single Time Series}
 \usage{
-auto_distance_cpp(m, distance = "euclidean")
+auto_distance_cpp(x, distance = "euclidean")
 }
 \arguments{
-\item{m}{(required, numeric matrix) univariate or multivariate time series.}
+\item{x}{(required, numeric matrix) univariate or multivariate time series.}
 
 \item{distance}{(optional, character string) distance name from the "names"
 column of the dataset \code{distances} (see \code{distances$name}). Default: "euclidean"}
@@ -16,22 +16,23 @@ column of the dataset \code{distances} (see \code{distances$name}). Default: "eu
 numeric
 }
 \description{
-Computes the cumulative sum of a univariate or multivariate
-time series. NA values should be removed before using this function.
+Computes the cumulative sum of distances between consecutive
+samples in a univariate or multivariate time series.
+NA values should be removed before using this function.
 }
 \examples{
 #simulate a time series
-m <- zoo_simulate()
+x <- zoo_simulate()
 
 #compute auto distance
 auto_distance_cpp(
-  m = m,
+  x = x,
   distance = "euclidean"
   )
 }
 \seealso{
 Other Rcpp: 
-\code{\link{auto_sum_cpp}()},
+\code{\link{auto_sum_full_cpp}()},
 \code{\link{auto_sum_path_cpp}()},
 \code{\link{cost_matrix_cpp}()},
 \code{\link{cost_matrix_diag_cpp}()},
@@ -55,6 +56,15 @@ Other Rcpp:
 \code{\link{importance_legacy_cpp}()},
 \code{\link{importance_lock_step_cpp}()},
 \code{\link{importance_robust_cpp}()},
+\code{\link{null_psi_cpp}()},
+\code{\link{null_psi_lock_step_cpp}()},
+\code{\link{permute_free_by_row_cpp}()},
+\code{\link{permute_free_cpp}()},
+\code{\link{permute_restricted_by_row_cpp}()},
+\code{\link{permute_restricted_cpp}()},
+\code{\link{psi_cpp}()},
+\code{\link{psi_formula_cpp}()},
+\code{\link{psi_lock_step_cpp}()},
 \code{\link{subset_matrix_by_rows_cpp}()}
 }
 \concept{Rcpp}

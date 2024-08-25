@@ -2,7 +2,7 @@
 #'
 #' @param x (required, vector) Vector to test. If the class of the vector elements is 'numeric', 'POSIXct', or 'Date', the function returns TRUE. Default: NULL.
 #'
-#' @return Logical
+#' @return logical
 #' @export
 #' @autoglobal
 #' @examples
@@ -16,8 +16,7 @@
 #'     x = c("2024-01-01", "2024-02-01")
 #'     )
 #' )
-#' @keywords internal
-#' @concept time_handling
+#' @family internal
 utils_is_time <- function(
     x = NULL
     ){

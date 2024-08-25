@@ -280,7 +280,7 @@
 #'   time_column = "sample_order"
 #' ) |>
 #'   tsl_subset(
-#'     names = c("MIS-5", "MIS-7")
+#'     names = c("MIS_5", "MIS_7")
 #'   )
 #'
 #' if(interactive()){
@@ -328,7 +328,6 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @concept transformations
 #' @family tsl_manipulation
 tsl_transform <- function(
     tsl = NULL,

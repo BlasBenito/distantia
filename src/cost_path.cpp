@@ -1,5 +1,7 @@
 #include <Rcpp.h>
 #include "distance_methods.h"
+#include "distance_matrix.h"
+#include "cost_matrix.h"
 using namespace Rcpp;
 
 //' (C++) Least Cost Path for Sequence Slotting
@@ -459,6 +461,74 @@ double cost_path_sum_cpp(
   NumericVector dist = path["dist"];
 
   return(sum(dist)*2);
+
+}
+
+
+//' Least Cost Path
+//' @description Least cost path between two time series \code{x} and \code{y}.
+//' NA values must be removed from \code{x} and \code{y} before using this function.
+//' If the selected distance function is "chi" or "cosine", pairs of zeros should
+//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+//' @param x (required, numeric matrix) multivariate time series.
+//' @param y (required, numeric matrix) multivariate time series
+//' with the same number of columns as 'x'.
+//' @param distance (optional, character string) distance name from the "names"
+//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+//' computation of the cost matrix. Default: FALSE.
+//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+//' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
+//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @return data frame
+//' @export
+// [[Rcpp::export]]
+DataFrame cost_path_cpp(
+   NumericMatrix x,
+   NumericMatrix y,
+   const std::string& distance = "euclidean",
+   bool diagonal = true,
+   bool weighted = true,
+   bool ignore_blocks = false
+){
+
+ if(weighted){diagonal = true;}
+
+ //distance matrix
+ NumericMatrix dist_matrix = distance_matrix_cpp(
+   x,
+   y,
+   distance
+ );
+
+ //compute cost matrix
+ int yn = dist_matrix.nrow();
+ int xn = dist_matrix.ncol();
+ NumericMatrix cost_matrix(yn, xn);
+
+ if (diagonal && weighted) {
+   cost_matrix = cost_matrix_weighted_diag_cpp(dist_matrix);
+ } else if (diagonal) {
+   cost_matrix = cost_matrix_diag_cpp(dist_matrix);
+ } else {
+   cost_matrix = cost_matrix_cpp(dist_matrix);
+ }
+
+ //compute cost path
+ DataFrame cost_path;
+ if (diagonal) {
+   cost_path = cost_path_diagonal_cpp(dist_matrix, cost_matrix);
+ } else {
+   cost_path = cost_path_orthogonal_cpp(dist_matrix, cost_matrix);
+ }
+
+ //trim cost path
+ if (ignore_blocks){
+   cost_path = cost_path_trim_cpp(cost_path);
+ }
+
+ return cost_path;
 
 }
 

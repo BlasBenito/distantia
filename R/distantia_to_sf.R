@@ -6,7 +6,7 @@
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
 #' @param xy (required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL
 #'
-#' @return sf data frame with LINESTRING geometry.
+#' @return sf data frame (LINESTRING geometry)
 #' @export
 #'
 #' @examples

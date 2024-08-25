@@ -35,7 +35,6 @@
 #' #same as
 #' names(tsl)
 #' @family tsl_info
-#' @concept names_handling
 tsl_names_get <- function(
     tsl = NULL,
     zoo = TRUE
@@ -143,7 +142,6 @@ tsl_names_get <- function(
 #'   tsl = tsl
 #' )
 #' @family tsl_manipulation
-#' @concept names_handling
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
@@ -316,7 +314,6 @@ tsl_names_set <- function(
 #'   tsl = tsl_clean
 #' )
 #' @family tsl_manipulation
-#' @concept names_handling
 tsl_names_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

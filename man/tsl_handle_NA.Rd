@@ -27,7 +27,7 @@ tsl_NaN_to_NA(tsl = NULL)
 time series list
 }
 \description{
-Removes or imputes NA cases in time series lists. Impuation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.approx]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
+Removes or imputes NA cases in time series lists. Imputation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.approx]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
 }
 \examples{
 #tsl with NA cases

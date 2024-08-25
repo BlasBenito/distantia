@@ -195,5 +195,4 @@ Other dissimilarity_analysis:
 \code{\link{utils_block_size}()},
 \code{\link{utils_importance_df_to_wide}()}
 }
-\concept{clustering}
 \concept{dissimilarity_analysis}

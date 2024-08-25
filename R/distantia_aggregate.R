@@ -16,7 +16,7 @@
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
-#' @return data frame.
+#' @return data frame
 #' @export
 #' @autoglobal
 #' @examples

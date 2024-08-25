@@ -6,7 +6,7 @@
 #' @export
 #' @autoglobal
 #' @family tsl_preparation
-#' @keywords internal
+#' @family internal
 utils_prepare_matrix_list <- function(
     x = NULL
 ){

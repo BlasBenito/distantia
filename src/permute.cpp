@@ -2,7 +2,7 @@
 #include <random>
 using namespace Rcpp;
 
-//' Restricted Permutation of Complete Rows Within Blocks
+//' (C++) Restricted Permutation of Complete Rows Within Blocks
 //' @description Divides a sequence in blocks of a given size and permutes rows
 //' within these blocks.
 //' Larger block sizes increasingly disrupt the data structure over time.
@@ -10,7 +10,8 @@ using namespace Rcpp;
 //' @param block_size (optional, integer) block size in number of rows.
 //' Minimum value is 2, and maximum value is nrow(x).
 //' @param seed (optional, integer) random seed to use.
-//' @return Numeric matrix, permuted version of x.
+//' @return numeric matrix
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_restricted_by_row_cpp(
@@ -60,12 +61,13 @@ NumericMatrix permute_restricted_by_row_cpp(
 }
 
 
-//' Unrestricted Permutation of Complete Rows
+//' (C+++) Unrestricted Permutation of Complete Rows
 //' @description Unrestricted shuffling of rows within the whole sequence.
 //' @param x (required, numeric matrix). Numeric matrix to permute.
 //' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 //' @param seed (optional, integer) random seed to use.
-//' @return Numeric matrix, permuted version of x.
+//' @return numeric matrix
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_free_by_row_cpp(
@@ -85,7 +87,7 @@ NumericMatrix permute_free_by_row_cpp(
 }
 
 
-//' Restricted Permutation of Cases Within Blocks
+//' (C++) Restricted Permutation of Cases Within Blocks
 //' @description Divides a sequence or time-series in blocks and permutes cases
 //' within these blocks. This function does not preserve rows, and should not be
 //' used if the sequence has dependent columns.
@@ -94,7 +96,8 @@ NumericMatrix permute_free_by_row_cpp(
 //' @param block_size (optional, integer) block size in number of rows.
 //' Minimum value is 2, and maximum value is nrow(x).
 //' @param seed (optional, integer) random seed to use.
-//' @return Numeric matrix, permuted version of x.
+//' @return numeric matrix
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_restricted_cpp(
@@ -141,12 +144,13 @@ NumericMatrix permute_restricted_cpp(
 
 }
 
-//' Unrestricted Permutation of Cases
+//' (C++) Unrestricted Permutation of Cases
 //' @description Unrestricted shuffling of cases within the whole sequence.
 //' @param x (required, numeric matrix). Numeric matrix to permute.
 //' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 //' @param seed (optional, integer) random seed to use.
-//' @return Numeric matrix, permuted version of x.
+//' @return numeric matrix
+//' @family Rcpp
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_free_cpp(

@@ -38,7 +38,7 @@
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
 #' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.
 #' @param robust (required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when `lock_step = TRUE`. Default: TRUE
-#' @return Data frame with the following columns:
+#' @return data frame:
 #' \itemize{
 #'   \item `x`: name of the time series `x`.
 #'   \item `y`: name of the time series `y`.

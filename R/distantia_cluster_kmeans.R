@@ -7,7 +7,7 @@
 #' @param df (required, data frame) Output of [distantia()]. Default: NULL
 #' @param clusters (required, integer) Number of groups to generate. If NULL (default), [utils_cluster_kmeans_optimizer()] is used to find the number of clusters that maximizes the mean silhouette width of the clustering solution (see [utils_cluster_silhouette()]). Default: NULL
 #' @param seed (optional, integer) Random seed to be used during the K-means computation. Default: 1
-#' @return List with the following objects:
+#' @return list:
 #' \itemize{
 #'   \item `cluster_object`: kmeans object object for further analyses and custom plotting.
 #'   \item `clusters`: integer, number of clusters.
@@ -121,7 +121,6 @@
 #'   future::sequential
 #' )
 #' @family dissimilarity_analysis
-#' @concept clustering
 distantia_cluster_kmeans <- function(
     df = NULL,
     clusters = NULL,

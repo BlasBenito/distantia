@@ -9,7 +9,7 @@
 #' @param ncol (optional, integer) Number of columns in which to set the legend items. Default: 1.
 #' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].
 #'
-#' @return A plot.
+#' @return plot
 #' @examples
 #' data(mis)
 #'
@@ -19,13 +19,12 @@
 #' )
 #'
 #' utils_line_guide(
-#'   x = x[["MIS-9"]],
+#'   x = x[["MIS_9"]],
 #'   position = "center"
 #' )
 #' @autoglobal
 #' @export
-#' @keywords internal
-#' @concept plotting
+#' @family internal
 utils_line_guide <- function(
     x,
     position = "topright",

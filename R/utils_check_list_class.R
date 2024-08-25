@@ -3,10 +3,10 @@
 #' @param x (required, list) Default: NULL
 #' @param expected_class (required, class name). One of "data.frame", "matrix", or "vector". Default: "data.frame".
 #'
-#' @return Used for its side effects. Error message if the observed classes do not match the expectation.
+#' @return side effects
 #' @autoglobal
 #' @export
-#' @keywords internal
+#' @family internal
 utils_check_list_class <- function(
     x = NULL,
     expected_class = "data.frame"

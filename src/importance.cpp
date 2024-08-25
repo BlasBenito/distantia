@@ -1,8 +1,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
-#include "psi.h"
-#include "cost_path.h"
 #include "distance_methods.h"
+#include "auto_sum.h"
+#include "cost_path.h"
+#include "psi.h"
+
 
 // Internal function to update distances in a least-cost path.
 // [[Rcpp::export]]
@@ -433,7 +435,7 @@ DataFrame importance_robust_cpp(
 
 
   //compute psi with all variables
-  DataFrame path = psi_cost_path_cpp(
+  DataFrame path = cost_path_cpp(
     x,
     y,
     distance,
@@ -443,7 +445,7 @@ DataFrame importance_robust_cpp(
   );
 
   // auto sum of distances to normalize cost path sum
-  double xy_sum = psi_auto_sum_cpp(
+  double xy_sum = auto_sum_cpp(
     x,
     y,
     path,
@@ -477,7 +479,7 @@ DataFrame importance_robust_cpp(
     );
 
     //compute autosum of y_only_with and x_only_with
-    double xy_sum_only_with = psi_auto_sum_cpp(
+    double xy_sum_only_with = auto_sum_cpp(
       x_only_with,
       y_only_with,
       path,
@@ -505,7 +507,7 @@ DataFrame importance_robust_cpp(
     );
 
     //compute autosum of y_without and x_without
-    double xy_sum_without = psi_auto_sum_cpp(
+    double xy_sum_without = auto_sum_cpp(
       x_without,
       y_without,
       path,
@@ -555,7 +557,7 @@ df <- importance_robust_cpp(
 
 #testing update_path_dist_cpp
 ########################################
-path = psi_cost_path_cpp(
+path = cost_path_cpp(
   x,
   y
 )

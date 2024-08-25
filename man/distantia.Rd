@@ -52,7 +52,7 @@ Data frame with the attribute \code{type} set to \code{distantia_df} and the fol
 \item \code{permutation} (only if \code{repetitions > 0}): name of the permutation method used to compute p-values.
 \item \code{seed} (only if \code{repetitions > 0}): random seed used to in the permutations.
 \item \code{psi}: psi dissimilarity of the sequences \code{x} and \code{y}.
-\item \code{null_mean} (only if \code{repetitions > 0}): mean of the null distribution of psi values computed from the permutaitons.
+\item \code{null_mean} (only if \code{repetitions > 0}): mean of the null distribution of psi scores.
 \item \code{null_sd} (only if \code{repetitions > 0}): standard deviation of the null distribution of psi values.
 \item \code{p_value}  (only if \code{repetitions > 0}): proportion of scores smaller or equal than \code{psi} in the null distribution.
 }

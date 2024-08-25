@@ -254,7 +254,6 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @concept transformations
 #' @family tsl_manipulation
 tsl_resample <- function(
     tsl = NULL,
