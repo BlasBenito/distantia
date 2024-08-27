@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/187805264.svg)](https://zenodo.org/badge/latestdoi/187805264)
 [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version/distantia)](https://CRAN.R-project.org/package=distantia)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/distantia)](https://CRAN.R-project.org/package=distantia)
-[![R-CMD-check](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check/badge.svg)](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check)
 
 
 <!-- badges: end -->
