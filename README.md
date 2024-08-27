@@ -1,10 +1,5 @@
-R package distantia: Toolset for Time Series Dissimilarity Analysis
+Toolset for Time Series Dissimilarity Analysis
 ================
-
-- [distantia: an R package to assess dissimilarity between multivariate
-  time series](#distantia-an-r-package-to-assess-dissimilarity-between-multivariate-time series)
-
-# distantia: an R package to assess dissimilarity between multivariate time series
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->

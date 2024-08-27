@@ -1,5 +1,5 @@
 ---
-title: "R package distantia: Toolset for Time Series Dissimilarity Analysis"
+title: "Toolset for Time Series Dissimilarity Analysis"
 output:
   github_document:
     toc: true
@@ -7,8 +7,6 @@ output:
     pandoc_args: --webtex
 always_allow_html: yes
 ---
-
-# distantia: an R package to assess dissimilarity between multivariate time series
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
