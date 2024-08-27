@@ -17,7 +17,7 @@ tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 }}
 }
 \value{
-character vector of common column names if \code{common = TRUE}, or list with character vector of column names otherwise.
+character vector or list with character vectors
 }
 \description{
 Column Names of Zoo Objects in Time Series List

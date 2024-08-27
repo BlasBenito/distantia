@@ -110,7 +110,8 @@ utils_new_time <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   old_time <- tsl_time_summary(
@@ -163,7 +164,8 @@ utils_new_time <- function(
   ){
 
     new_time <- tsl_diagnose(
-      tsl = new_time
+      tsl = new_time,
+      full = FALSE
     )
 
     new_time <- tsl_time(

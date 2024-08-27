@@ -18,7 +18,7 @@ Minimum value is 2, and maximum value is nrow(x).}
 numeric matrix
 }
 \description{
-Divides a sequence or time-series in blocks and permutes cases
+Divides a sequence or time series in blocks and permutes cases
 within these blocks. This function does not preserve rows, and should not be
 used if the sequence has dependent columns.
 Larger block sizes increasingly disrupt the data structure over time.

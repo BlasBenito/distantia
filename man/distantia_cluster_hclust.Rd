@@ -14,7 +14,7 @@ distantia_cluster_hclust(df = NULL, clusters = NULL, method = "complete")
 \item{method}{(optional, character string) Argument of \code{\link[stats:hclust]{stats::hclust()}} defining the agglomerative method. One of: "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Unambiguous abbreviations are accepted as well. If NULL (default), \code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}} finds the optimal method. Default: "complete".}
 }
 \value{
-List with the following objects:
+list:
 \itemize{
 \item \code{cluster_object}: hclust object for further analyses and custom plotting.
 \item \code{clusters}: integer, number of clusters.

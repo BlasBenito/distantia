@@ -16,7 +16,7 @@ distantia_cluster_kmeans(df = NULL, clusters = NULL, seed = 1)
 \item{seed}{(optional, integer) Random seed to be used during the K-means computation. Default: 1}
 }
 \value{
-List with the following objects:
+list:
 \itemize{
 \item \code{cluster_object}: kmeans object object for further analyses and custom plotting.
 \item \code{clusters}: integer, number of clusters.

@@ -7,94 +7,43 @@
 psi_dist_matrix(x = NULL, y = NULL, distance = "euclidean")
 }
 \arguments{
-\item{x}{(required, data frame or matrix) a time series.}
+\item{x}{(required, zoo object or numeric matrix) a time series with no NAs. Default: NULL}
 
-\item{y}{(required, data frame or matrix) a time series.}
+\item{y}{(zoo object or numeric matrix) a time series with the same columns as \code{x} and no NAs. Default: NULL}
 
 \item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
-A distance matrix.
+numeric matrix
 }
 \description{
-Distance Matrix
+Demonstration function to compute the distance matrix between two univariate or multivariate time series.
+
+This function does not accept NA data in the matrices \code{x} and \code{y}.
 }
 \examples{
 #simulate two time series
 tsl <- tsl_simulate(
-  n = 2
+  n = 2,
+  seed = 1
 )
 
 if(interactive()){
   tsl_plot(tsl = tsl)
 }
 
-#step by step computation of psi
-
-#common distance method
-dist_method <- "euclidean"
-
 #distance matrix
-d <- psi_dist_matrix(
+dist_matrix <- psi_dist_matrix(
   x = tsl[[1]],
   y = tsl[[2]],
-  distance = dist_method
-)
-
-if(interactive()){
-  utils_matrix_plot(m = d)
-}
-
-#cost matrix
-m <- psi_cost_matrix(
-  dist_matrix = d
-)
-
-if(interactive()){
-  utils_matrix_plot(m = m)
-}
-
-#least cost path
-path <- psi_cost_path(
-  dist_matrix = d,
-  cost_matrix = m
+  distance = "euclidean"
 )
 
 if(interactive()){
   utils_matrix_plot(
-    m = m,
-    path = path
+    m = dist_matrix
     )
 }
-
-#sum of least cost path
-path_sum <- psi_cost_path_sum(path = path)
-
-#auto sum of the time series
-xy_sum <- psi_auto_sum(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  path = path,
-  distance = dist_method
-)
-
-#dissimilarity
-psi <- psi(
-  path_sum = path_sum,
-  auto_sum = xy_sum
-)
-
-psi
-
-#full computation in one line
-distantia(
-  tsl = tsl
-)$psi
-
-#dissimilarity plot
-distantia_plot(
-  tsl = tsl
-)
 }
 \seealso{
 Other psi_demo: 
@@ -102,7 +51,7 @@ Other psi_demo:
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_sum}()},
-\code{\link{psi_cost_path_trim_blocks}()}
+\code{\link{psi_cost_path_ignore_blocks}()},
+\code{\link{psi_cost_path_sum}()}
 }
 \concept{psi_demo}

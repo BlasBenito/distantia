@@ -12,7 +12,7 @@ utils_check_zoo_args(x = NULL, arg_name = "x")
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }
 \value{
-Argument x.
+zoo object
 }
 \description{
 Checks Argument x

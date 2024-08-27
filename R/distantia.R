@@ -4,7 +4,7 @@
 #'
 #' This function combines *dynamic time warping* or *lock-step comparison* with the *psi dissimilarity score* and *permutation methods* to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
 #'
-#' **Dynamic Time Warping** (DTW) is an algorithm that finds the optimal alignment between two time series by minimizing the cumulative distance between them. It identifies the least-cost path through a distance matrix, which maps all points of one time series to another. The resulting sum of distances along this path serves as a measure of time-series similarity. DTW disregards the exact timing of samples and focuses on their order, making it suitable for comparing both *regular and irregular time series of the same or different lengths*, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths.
+#' **Dynamic Time Warping** (DTW) is an algorithm that finds the optimal alignment between two time series by minimizing the cumulative distance between them. It identifies the least-cost path through a distance matrix, which maps all points of one time series to another. The resulting sum of distances along this path serves as a measure of time series similarity. DTW disregards the exact timing of samples and focuses on their order, making it suitable for comparing both *regular and irregular time series of the same or different lengths*, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths.
 #'
 #' On the other hand, the **lock-step** method sums pairwise distances between samples in *regular or irregular time series of the same length*, preferably captured at the same times. This method is an alternative to dynamic time warping when the goal is to assess the synchronicity of two time series.
 #'
@@ -41,7 +41,7 @@
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if `diagonal = TRUE`. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time-series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
 #' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in `tsl`. Default: NULL.
@@ -223,11 +223,6 @@ distantia <- function(
     block_size = NULL,
     seed = 1
 ){
-
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl
-  )
 
   #length > 1
   if(length(tsl) < 2){

@@ -12,7 +12,7 @@ utils_check_list_class(x = NULL, expected_class = "data.frame")
 \item{expected_class}{(required, class name). One of "data.frame", "matrix", or "vector". Default: "data.frame".}
 }
 \value{
-Used for its side effects. Error message if the observed classes do not match the expectation.
+side effects
 }
 \description{
 Checks Classes of List Elements Against Expectation

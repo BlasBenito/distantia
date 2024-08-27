@@ -14,7 +14,7 @@ distantia_aggregate(df = NULL, f = mean, ...)
 \item{...}{(optional, arguments of \code{f}) Further arguments to pass to the function \code{f}.}
 }
 \value{
-data frame.
+data frame
 }
 \description{
 The functions \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.

@@ -10,7 +10,7 @@ utils_color_discrete_default(n = NULL)
 \item{n}{(required, integer) number of colors (up to 36) to generate. Default: NULL}
 }
 \value{
-Color palette
+color vector
 }
 \description{
 Uses the function \code{\link[grDevices:palette]{grDevices::palette.colors()}} to generate discrete color palettes using the following rules:

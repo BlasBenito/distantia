@@ -12,7 +12,7 @@ utils_color_continuous_default(n = NULL, palette = "Zissou 1")
 \item{palette}{(required, character string) Argument \code{palette} of \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: "Zissou 1"}
 }
 \value{
-Color palette
+color vector
 }
 \description{
 Uses the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}} to generate a continuous color palette.

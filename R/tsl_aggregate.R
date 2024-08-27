@@ -167,6 +167,11 @@ tsl_aggregate <- function(
     ...
 ){
 
+  tsl <- tsl_diagnose(
+    tsl = tsl,
+    full = FALSE
+  )
+
   new_time <- utils_new_time(
     tsl = tsl,
     new_time = new_time,
@@ -195,10 +200,6 @@ tsl_aggregate <- function(
   )
 
   tsl <- tsl_names_set(
-    tsl = tsl
-  )
-
-  tsl <- tsl_diagnose(
     tsl = tsl
   )
 

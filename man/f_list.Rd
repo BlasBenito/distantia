@@ -7,7 +7,7 @@
 f_list()
 }
 \value{
-character vector with function names
+character vector
 }
 \description{
 Lists Available Transformation Functions

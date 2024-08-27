@@ -18,38 +18,42 @@
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param full (optional, logical) If TRUE, the function runs checks looking at all the individual values of the time series list. This makes the test slower, but more comprehensive. Default: FALSE
+#' @param full (optional, logical) If TRUE, the function runs checks looking at all the individual values of the time series list. This makes the test slower, but more comprehensive. Default: TRUE
 #'
 #' @return time series list
 #' @export
 #' @autoglobal
 #' @examples
-#' #tsl with NA cases
+#' #simulate time series list with NA data
 #' tsl <- tsl_simulate(
-#'   na_fraction = 0.25
+#'   n = 3,
+#'   na_fraction = 0.1
 #' )
 #'
-#' #removing list names
+#' #adding a few additional issues:
+#'
+#' #set names of one time series to uppercase
+#' colnames(tsl[[2]]) <- toupper(colnames(tsl[[2]]))
+#'
+#' #change name of one column in one time series
+#' colnames(tsl[[3]])[2] <- "x"
+#'
+#' #remove list names
 #' names(tsl) <- NULL
 #'
-#' #run validation test
+#' #diagnose issues in tsl
 #' tsl <- tsl_diagnose(
 #'   tsl = tsl,
-#'   full = TRUE #to examine individual data values
-#' )
-#' #two issues identified!
-#'
-#' #addressing names issue
-#' tsl <- tsl_names_set(
-#'   tsl = tsl
+#'   full = TRUE
 #' )
 #'
-#' #addressing NA issue
-#' tsl <- tsl_handle_NA(
-#'   tsl = tsl
+#' #repair time series list
+#' tsl <- tsl_repair(
+#'   tsl = tsl,
+#'   full = TRUE
 #' )
 #'
-#' #validation test again
+#' #diagnose again
 #' tsl <- tsl_diagnose(
 #'   tsl = tsl,
 #'   full = TRUE
@@ -57,7 +61,7 @@
 #' @family tsl_integrity
 tsl_diagnose <- function(
     tsl = NULL,
-    full = FALSE
+    full = TRUE
 ){
 
   #all possible issues
@@ -69,6 +73,7 @@ tsl_diagnose <- function(
     zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': use tsl_names_set() to fix this issue.",
     zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.",
     zoo_different_names = "  - zoo objects and list items have different names:  use tsl_names_set() to fix this issue.",
+    zoo_missing_names = "  - zoo objects in 'tsl' have no attribute 'name':  use tsl_names_set() to fix this issue.",
     zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames_get() to identify shared and/or exclusive columns.",
     zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_subset() to fix this issue.",
     zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with tsl_handle_NA() to fix this issue."
@@ -91,7 +96,7 @@ tsl_diagnose <- function(
   } else {
 
     # tsl has no names
-    if(is.null(names(tsl))){
+    if(any(is.null(names(tsl)))){
 
       issues <- c(
         issues,
@@ -155,7 +160,20 @@ tsl_diagnose <- function(
 
         is_valid <- FALSE
 
-      } else {
+      }
+
+      if(length(zoo_names) < length(names(tsl))){
+
+        issues <- c(
+          issues,
+          all_issues[["zoo_missing_names"]]
+        )
+
+        is_valid <- FALSE
+
+      }
+
+      if(length(zoo_names) == length(names(tsl))){
 
         # zoo names are unique
         if(any(duplicated(zoo_names))){
@@ -169,7 +187,7 @@ tsl_diagnose <- function(
 
         }
 
-        if(any(zoo_names != names(tsl))){
+        if(any(!(zoo_names %in% names(tsl)))){
 
           issues <- c(
             issues,

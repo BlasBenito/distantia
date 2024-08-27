@@ -74,7 +74,8 @@ tsl_subset <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   # subset names ----

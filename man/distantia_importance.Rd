@@ -25,12 +25,12 @@ distantia_importance(
 
 \item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path optimization is performed. Requires time series in argument \code{tsl} to be fully aligned. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time series are compared row wise and no least-cost path optimization is performed. Requires time series in argument \code{tsl} to be fully aligned. Default: FALSE.}
 
 \item{robust}{(required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when \code{lock_step = TRUE}. Default: TRUE}
 }
 \value{
-Data frame with the following columns:
+data frame:
 \itemize{
 \item \code{x}: name of the time series \code{x}.
 \item \code{y}: name of the time series \code{y}.

@@ -70,7 +70,8 @@ tsl_time <- function(
 ){
 
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   time_list <- lapply(

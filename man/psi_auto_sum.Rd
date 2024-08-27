@@ -4,107 +4,61 @@
 \alias{psi_auto_sum}
 \title{Auto Sum}
 \usage{
-psi_auto_sum(y = NULL, x = NULL, path = NULL, distance = "euclidean")
+psi_auto_sum(x = NULL, y = NULL, path = NULL, distance = "euclidean")
 }
 \arguments{
-\item{y}{(required, data frame) a zoo time series or numeric matrix. Default: NULL.}
+\item{x}{(required, zoo object or numeric matrix) univariate or multivariate time series with no NAs. Default: NULL.}
 
-\item{x}{(required, data frame) a zoo time series or numeric matrix. Default: NULL.}
+\item{y}{(required, zoo object or numeric matrix) a time series with the same number of columns as \code{x} and no NAs. Default: NULL.}
 
-\item{path}{(required, data frame) dataframe produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_trim_blocks]{psi_cost_path_trim_blocks()}} has been applied to \code{path}. Default: NULL.}
+\item{path}{(required, data frame) least cost path produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_ignore_blocks]{psi_cost_path_ignore_blocks()}} has been applied to \code{path}. Default: NULL.}
 
 \item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
-Named vector with the auto sums of \code{y} and \code{x}.
+numeric vector
 }
 \description{
-Computes the sum of distances between consecutive samples in two multivariate time-series under comparison. Required to compute the measure of dissimilarity \code{psi} (Birks and Gordon 1985).
+Demonstration function to computes the sum of distances between consecutive samples in two time series.
 }
 \examples{
-#simulate two time series
+#simulate two zoo objects
 tsl <- tsl_simulate(
-  n = 2
+  n = 2,
+  seed = 1
 )
 
 if(interactive()){
   tsl_plot(tsl = tsl)
 }
 
-#step by step computation of psi
-
-#common distance method
-dist_method <- "euclidean"
-
-#distance matrix
-d <- psi_dist_matrix(
+#auto sum of distances
+psi_auto_sum(
   x = tsl[[1]],
   y = tsl[[2]],
-  distance = dist_method
+  distance = "euclidean"
 )
 
-if(interactive()){
-  utils_matrix_plot(m = d)
-}
-
-#cost matrix
-m <- psi_cost_matrix(
-  dist_matrix = d
-)
-
-if(interactive()){
-  utils_matrix_plot(m = m)
-}
-
-#least cost path
-path <- psi_cost_path(
-  dist_matrix = d,
-  cost_matrix = m
-)
-
-if(interactive()){
-  utils_matrix_plot(
-    m = m,
-    path = path
-    )
-}
-
-#sum of least cost path
-path_sum <- psi_cost_path_sum(path = path)
-
-#auto sum of the time series
-xy_sum <- psi_auto_sum(
+#same as:
+x_sum <- psi_auto_distance(
   x = tsl[[1]],
-  y = tsl[[2]],
-  path = path,
-  distance = dist_method
+  distance = "euclidean"
 )
 
-#dissimilarity
-psi <- psi(
-  path_sum = path_sum,
-  auto_sum = xy_sum
+y_sum <- psi_auto_distance(
+  x = tsl[[2]],
+  distance = "euclidean"
 )
 
-psi
-
-#full computation in one line
-distantia(
-  tsl = tsl
-)$psi
-
-#dissimilarity plot
-distantia_plot(
-  tsl = tsl
-)
+x_sum + y_sum
 }
 \seealso{
 Other psi_demo: 
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
+\code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_cost_path_sum}()},
-\code{\link{psi_cost_path_trim_blocks}()},
 \code{\link{psi_dist_matrix}()}
 }
 \concept{psi_demo}

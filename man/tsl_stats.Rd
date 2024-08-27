@@ -12,7 +12,7 @@ tsl_stats(tsl = NULL, lags = 1L)
 \item{lags}{(optional, integer) An integer specifying the number of autocorrelation lags to compute. If NULL, autocorrelation computation is disabled. Default: 1.}
 }
 \value{
-data frame with one row per combination of time series (elements in \code{tsl}) and variable (columns of the zoo objects within \code{tsl}):
+data frame:
 \itemize{
 \item name: name of the zoo object.
 \item rows: rows of the zoo object.

@@ -16,7 +16,7 @@ utils_df_to_matrix(df = NULL, x = "x", y = "y", value = "psi")
 \item{value}{(required, character string) Name of the column with values.}
 }
 \value{
-Matrix of class dist
+dist matrix
 }
 \description{
 Internal function to convert a data frame into a matrix.

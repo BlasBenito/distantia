@@ -111,7 +111,7 @@ distantia_to_sf <- function(
 
   #check df
   if(is.null(df)){
-    stop("Argument 'df' must be a dataframe resulting from distantia::distantia() or distantia::distantia_aggregate().")
+    stop("Argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().")
   }
 
   df_type <- attributes(df)$type

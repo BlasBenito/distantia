@@ -2,95 +2,59 @@
 % Please edit documentation in R/psi_cost_path_sum.R
 \name{psi_cost_path_sum}
 \alias{psi_cost_path_sum}
-\title{Sum of Distances in Least-cost Path}
+\title{Sum of Distances in Least Cost Path}
 \usage{
 psi_cost_path_sum(path = NULL)
 }
 \arguments{
-\item{path}{(required, data frame) dataframe produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Default: NULL}
+\item{path}{(required, data frame) least cost path produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Default: NULL}
 }
 \value{
-Sum of distances.
+numeric value
 }
 \description{
-Sum of Distances in Least-cost Path
+Demonstration function to sum the distances of a least cost path.
 }
 \examples{
 #simulate two time series
 tsl <- tsl_simulate(
-  n = 2
+  n = 2,
+  seed = 1
 )
 
 if(interactive()){
   tsl_plot(tsl = tsl)
 }
 
-#step by step computation of psi
-
-#common distance method
-dist_method <- "euclidean"
-
 #distance matrix
-d <- psi_dist_matrix(
+dist_matrix <- psi_dist_matrix(
   x = tsl[[1]],
   y = tsl[[2]],
-  distance = dist_method
+  distance = "euclidean"
 )
-
-if(interactive()){
-  utils_matrix_plot(m = d)
-}
 
 #cost matrix
-m <- psi_cost_matrix(
-  dist_matrix = d
+cost_matrix <- psi_cost_matrix(
+  dist_matrix = dist_matrix
 )
 
-if(interactive()){
-  utils_matrix_plot(m = m)
-}
-
 #least cost path
-path <- psi_cost_path(
-  dist_matrix = d,
-  cost_matrix = m
+cost_path <- psi_cost_path(
+  dist_matrix = dist_matrix,
+  cost_matrix = cost_matrix
 )
 
 if(interactive()){
   utils_matrix_plot(
-    m = m,
+    m = cost_matrix,
     path = path
     )
 }
 
-#sum of least cost path
-path_sum <- psi_cost_path_sum(path = path)
-
-#auto sum of the time series
-xy_sum <- psi_auto_sum(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  path = path,
-  distance = dist_method
-)
-
-#dissimilarity
-psi <- psi(
-  path_sum = path_sum,
-  auto_sum = xy_sum
-)
-
-psi
-
-#full computation in one line
-distantia(
-  tsl = tsl
-)$psi
-
-#dissimilarity plot
-distantia_plot(
-  tsl = tsl
-)
+#sum of distances of the least cost path
+psi_cost_path_sum(
+  path = cost_path
+  )
 }
 \seealso{
 Other psi_demo: 
@@ -98,7 +62,7 @@ Other psi_demo:
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_trim_blocks}()},
+\code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_dist_matrix}()}
 }
 \concept{psi_demo}

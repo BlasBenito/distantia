@@ -10,7 +10,7 @@ utils_is_time(x = NULL)
 \item{x}{(required, vector) Vector to test. If the class of the vector elements is 'numeric', 'POSIXct', or 'Date', the function returns TRUE. Default: NULL.}
 }
 \value{
-Logical
+logical
 }
 \description{
 Title

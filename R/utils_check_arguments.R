@@ -5,7 +5,7 @@
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.
+#' @param lock_step (optional, logical vector) If TRUE, time series are compared row wise and no least-cost path is computed. Default: FALSE.
 #' @param repetitions (optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
 #' @param permutation (optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
 #' \itemize{
@@ -38,7 +38,8 @@ utils_check_distantia_args <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   distance <- utils_check_distance_args(

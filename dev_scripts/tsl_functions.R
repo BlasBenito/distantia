@@ -253,7 +253,7 @@ y <- tsl_subset(
   time = c(1, 20)
 )
 
-#function to plot a set of time-series
+#function to plot a set of time series
 tsl_plot(
   x = y,
   columns = 2

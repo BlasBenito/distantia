@@ -14,7 +14,7 @@ distance(x = NULL, y = NULL, distance = "euclidean")
 \item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
 }
 \value{
-A distance value.
+numeric value
 }
 \description{
 Computes the distance between two numeric or binary vectors.

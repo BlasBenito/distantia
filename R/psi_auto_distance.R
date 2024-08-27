@@ -1,87 +1,25 @@
-#' Sum of Auto Distances Between Adjacent Cases in a Sequence
+#' Cumulative Sum of Distances Between Consecutive Cases in a Time Series
 #'
-#' @param x (required, data frame or matrix) a zoo time series or numeric matrix. Default: NULL
-#' @param path (optional, data frame) result of [psi_cost_path_trim_blocks()], only required if blocks in the least cost path were ignored. Default: NULL
-#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
+#' @description
+#' Demonstration function to compute the sum of distances between consecutive cases in a time series.
+#'
+#' @param x (required, zoo object or matrix) univariate or multivariate time series with no NAs. Default: NULL
+#' @param path (optional, data frame) result of [psi_cost_path_ignore_blocks()], only required if blocks in the least cost path were ignored. Default: NULL
+#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
 #'
 #' @return numeric value
 #' @export
 #' @autoglobal
 #' @examples
-#' #simulate two time series
-#' tsl <- tsl_simulate(
-#'   n = 2
+#' #simulate a zoo object
+#' x <- zoo_simulate(
+#'   seed = 1
 #' )
 #'
-#' if(interactive()){
-#'   tsl_plot(tsl = tsl)
-#' }
-#'
-#' #step by step computation of psi
-#'
-#' #common distance method
-#' dist_method <- "euclidean"
-#'
-#' #distance matrix
-#' d <- psi_dist_matrix(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
-#'   distance = dist_method
-#' )
-#'
-#' if(interactive()){
-#'   utils_matrix_plot(m = d)
-#' }
-#'
-#' #cost matrix
-#' m <- psi_cost_matrix(
-#'   dist_matrix = d
-#' )
-#'
-#' if(interactive()){
-#'   utils_matrix_plot(m = m)
-#' }
-#'
-#' #least cost path
-#' path <- psi_cost_path(
-#'   dist_matrix = d,
-#'   cost_matrix = m
-#' )
-#'
-#' if(interactive()){
-#'   utils_matrix_plot(
-#'     m = m,
-#'     path = path
-#'     )
-#' }
-#'
-#' #sum of least cost path
-#' path_sum <- psi_cost_path_sum(path = path)
-#'
-#' #auto sum of the time series
-#' xy_sum <- psi_auto_sum(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
-#'   path = path,
-#'   distance = dist_method
-#' )
-#'
-#' #dissimilarity
-#' psi <- psi(
-#'   path_sum = path_sum,
-#'   auto_sum = xy_sum
-#' )
-#'
-#' psi
-#'
-#' #full computation in one line
-#' distantia(
-#'   tsl = tsl
-#' )$psi
-#'
-#' #dissimilarity plot
-#' distantia_plot(
-#'   tsl = tsl
+#' #sum of distances
+#' psi_auto_distance(
+#'   x = x,
+#'   distance = "euclidean"
 #' )
 #' @family psi_demo
 psi_auto_distance <- function(

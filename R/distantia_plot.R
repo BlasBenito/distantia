@@ -104,7 +104,8 @@ distantia_plot <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = TRUE
   )
 
   #length > 1
@@ -198,7 +199,7 @@ distantia_plot <- function(
   #remove blocks and re-compute sum
   if(ignore_blocks == TRUE){
 
-    path <- psi_cost_path_trim_blocks(
+    path <- psi_cost_path_ignore_blocks(
       path = path
     )
 

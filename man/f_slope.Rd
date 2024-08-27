@@ -12,7 +12,7 @@ f_slope(x = NULL, ...)
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
-Slope of the numeric vector
+numeric value
 }
 \description{
 Designed for usage in \code{\link[=tsl_aggregate]{tsl_aggregate()}}. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.

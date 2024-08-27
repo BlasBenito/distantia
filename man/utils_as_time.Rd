@@ -12,7 +12,7 @@ utils_as_time(x = NULL, to_class = NULL)
 \item{to_class}{(optional, class) Options are: NULL, "numeric", "Date", and "POSIXct". If NULL, 'x' is returned as the most appropriate time class. Otherwise, 'x' is coerced to the given class. Default: NULL}
 }
 \value{
-Input vector if its class is 'numeric', 'Date', or 'POSIXct', or input vector coerced to one of these classes otherwise.
+time vector
 }
 \description{
 This function guesses the class of a vector based on its elements. It can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.

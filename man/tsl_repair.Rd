@@ -4,12 +4,12 @@
 \alias{tsl_repair}
 \title{Repair a Time Series List}
 \usage{
-tsl_repair(tsl = NULL, full = FALSE)
+tsl_repair(tsl = NULL, full = TRUE)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{full}{(optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: FALSE}
+\item{full}{(optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: TRUE}
 }
 \value{
 time series list
@@ -31,7 +31,40 @@ Validity assessment of time series lists. The required features for a valid time
 This function takes a time series list, and tries to make it comply with the rules listed above. Finally, it runs \code{\link[=tsl_diagnose]{tsl_diagnose()}} and informs the user if there are any issues left to fix.
 }
 \examples{
-#TODO missing example here
+#simulate time series list with NA data
+tsl <- tsl_simulate(
+  n = 3,
+  na_fraction = 0.1
+)
+
+#adding a few additional issues:
+
+#set names of one time series to uppercase
+colnames(tsl[[2]]) <- toupper(colnames(tsl[[2]]))
+
+#change name of one column in one time series
+colnames(tsl[[3]])[2] <- "x"
+
+#remove list names
+names(tsl) <- NULL
+
+#diagnose issues in tsl
+tsl <- tsl_diagnose(
+  tsl = tsl,
+  full = TRUE
+)
+
+#repair time series list
+tsl <- tsl_repair(
+  tsl = tsl,
+  full = TRUE
+)
+
+#diagnose again
+tsl <- tsl_diagnose(
+  tsl = tsl,
+  full = TRUE
+)
 }
 \seealso{
 Other tsl_integrity: 

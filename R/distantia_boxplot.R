@@ -6,7 +6,7 @@
 #'
 #' \itemize{
 #'   \item [distantia()] data frame: plots the distribution of the Psi values of each time series against all others. This facilitates the identification of time series that are more or less similar to all others.
-#'   \item [distantia_importance()] data frame: plots the importance (contribution to similarity/dissimilarity) of each variable across all time-series, facilitating the identification of variables making time series more or less similar.
+#'   \item [distantia_importance()] data frame: plots the importance (contribution to similarity/dissimilarity) of each variable across all time series, facilitating the identification of variables making time series more or less similar.
 #'
 #' }
 #'

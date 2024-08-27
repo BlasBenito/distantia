@@ -12,7 +12,7 @@ utils_cluster_kmeans_optimizer(d = NULL, seed = 1)
 \item{seed}{(optional, integer) Random seed to be used during the K-means computation. Default: 1}
 }
 \value{
-Data frame with number of clusters and their respective mean silhouette widths.
+data frame
 }
 \description{
 Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}} for more details.

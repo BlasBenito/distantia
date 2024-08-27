@@ -350,7 +350,8 @@ tsl_transform <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   na.count <- tsl_count_NA(

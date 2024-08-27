@@ -12,7 +12,7 @@ utils_check_matrix_args(m = NULL, arg_name = "m")
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }
 \value{
-Argument m.
+matrix
 }
 \description{
 Checks Input Matrix

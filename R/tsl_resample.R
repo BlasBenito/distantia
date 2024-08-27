@@ -264,7 +264,8 @@ tsl_resample <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   old_time <- tsl_time(

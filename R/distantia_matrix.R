@@ -1,7 +1,7 @@
 #' Dissimilarity Data Frame to Distance Matrix
 #'
 #' @description
-#' Transforms a dataframe resulting from [distantia()] into a dissimilarity matrix.
+#' Transforms a data frame resulting from [distantia()] into a dissimilarity matrix.
 #'
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL

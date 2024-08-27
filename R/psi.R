@@ -1,89 +1,106 @@
 #' Normalized Dissimilarity Score
 #'
-#' @description Computes the dissimilarity metric \code{psi} (Birks and Gordon 1985).
-#' @param path_sum (required, numeric) Result of [psi_cost_path_sum()] on the least cost path between the sequences to compare.
-#' @param auto_sum (required, numeric) Result of [psi_auto_sum()] on the sequences to compare. Default: NULL
-#' @param diagonal (optional, logical) If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Used to correct the computation of `psi` when diagonals are used. Default: TRUE
-#' @details The measure of dissimilarity \code{psi} is computed as: \code{least.cost - (autosum of sequences)) / autosum of sequences}. It has a lower limit at 0, while there is no upper limit.
+#' @description
+#'
+#' Demonstration function to computes the `psi` dissimilarity score (Birks and Gordon 1985). Psi is computed as  \eqn{\psi = (2a - b) / b}, where \eqn{a} is the sum of distances in the least cost path between two time series, and \eqn{b} is the cumulative sum of distances between the consecutive cases of the two time series.
+#'
+#' If diagonals are used in the computation of the least cost path, then one is added to the result of the equation above.
+#'
+#' @param path_sum (required, numeric) Result of [psi_cost_path_sum()], the sum of distances of the least cost path between two time series. Default: NULL
+#' @param auto_sum (required, numeric) Result of [psi_auto_sum()], the cumulative sum of the consecutive cases of two time series. Default: NULL
+#' @param diagonal (optional, logical) Used to correct the computation of `psi` when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Default: TRUE
 #'
 #' @return numeric value
-#'
 #' @examples
+#' #distance metric
+#' d <- "euclidean"
+#'
+#' #use diagonals in least cost computations
+#' diagonal <- TRUE
+#'
+#' #remove blocks from least cost path
+#' ignore_blocks <- TRUE
+#'
 #' #simulate two time series
 #' tsl <- tsl_simulate(
-#'   n = 2
+#'   n = 2,
+#'   seed = 1
 #' )
 #'
 #' if(interactive()){
 #'   tsl_plot(tsl = tsl)
 #' }
 #'
-#' #step by step computation of psi
-#'
-#' #common distance method
-#' dist_method <- "euclidean"
-#'
 #' #distance matrix
-#' d <- psi_dist_matrix(
+#' dist_matrix <- psi_dist_matrix(
 #'   x = tsl[[1]],
 #'   y = tsl[[2]],
-#'   distance = dist_method
+#'   distance = d
 #' )
-#'
-#' if(interactive()){
-#'   utils_matrix_plot(m = d)
-#' }
 #'
 #' #cost matrix
-#' m <- psi_cost_matrix(
-#'   dist_matrix = d
+#' cost_matrix <- psi_cost_matrix(
+#'   dist_matrix = dist_matrix,
+#'   diagonal = diagonal
 #' )
 #'
-#' if(interactive()){
-#'   utils_matrix_plot(m = m)
-#' }
-#'
 #' #least cost path
-#' path <- psi_cost_path(
-#'   dist_matrix = d,
-#'   cost_matrix = m
+#' cost_path <- psi_cost_path(
+#'   dist_matrix = dist_matrix,
+#'   cost_matrix = cost_matrix,
+#'   diagonal = diagonal
 #' )
 #'
 #' if(interactive()){
 #'   utils_matrix_plot(
-#'     m = m,
-#'     path = path
+#'     m = cost_matrix,
+#'     path = cost_path
 #'     )
 #' }
 #'
-#' #sum of least cost path
-#' path_sum <- psi_cost_path_sum(path = path)
+#' #remove blocks from least cost path
+#' if(ignore_blocks == TRUE){
+#'   cost_path <- psi_cost_path_ignore_blocks(
+#'     path = cost_path
+#'   )
+#' }
 #'
-#' #auto sum of the time series
-#' xy_sum <- psi_auto_sum(
+#' #sum of distances in least cost path
+#' xy_distance <- psi_cost_path_sum(
+#'   path = cost_path
+#'   )
+#'
+#' #auto sum of both time series
+#' xy_autodistance <- psi_auto_sum(
 #'   x = tsl[[1]],
 #'   y = tsl[[2]],
-#'   path = path,
-#'   distance = dist_method
+#'   path = cost_path,
+#'   distance = d
 #' )
 #'
-#' #dissimilarity
-#' psi <- psi(
-#'   path_sum = path_sum,
-#'   auto_sum = xy_sum
+#' #dissimilarity score
+#' psi(
+#'   path_sum = xy_distance,
+#'   auto_sum = xy_autodistance,
+#'   diagonal = diagonal
 #' )
-#'
-#' psi
 #'
 #' #full computation in one line
 #' distantia(
-#'   tsl = tsl
+#'   tsl = tsl,
+#'   distance = d,
+#'   diagonal = diagonal,
+#'   ignore_blocks = ignore_blocks
 #' )$psi
 #'
-#' #dissimilarity plot
-#' distantia_plot(
-#'   tsl = tsl
-#' )
+#' if(interactive()){
+#'   distantia_plot(
+#'     tsl = tsl,
+#'     distance = d,
+#'     diagonal = diagonal,
+#'     ignore_blocks = ignore_blocks
+#'   )
+#' }
 #' @autoglobal
 #' @export
 psi <- function(

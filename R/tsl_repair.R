@@ -19,17 +19,50 @@
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param full (optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: FALSE
+#' @param full (optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: TRUE
 #'
 #' @return time series list
 #' @export
 #' @autoglobal
 #' @examples
-#' #TODO missing example here
+#' #simulate time series list with NA data
+#' tsl <- tsl_simulate(
+#'   n = 3,
+#'   na_fraction = 0.1
+#' )
+#'
+#' #adding a few additional issues:
+#'
+#' #set names of one time series to uppercase
+#' colnames(tsl[[2]]) <- toupper(colnames(tsl[[2]]))
+#'
+#' #change name of one column in one time series
+#' colnames(tsl[[3]])[2] <- "x"
+#'
+#' #remove list names
+#' names(tsl) <- NULL
+#'
+#' #diagnose issues in tsl
+#' tsl <- tsl_diagnose(
+#'   tsl = tsl,
+#'   full = TRUE
+#' )
+#'
+#' #repair time series list
+#' tsl <- tsl_repair(
+#'   tsl = tsl,
+#'   full = TRUE
+#' )
+#'
+#' #diagnose again
+#' tsl <- tsl_diagnose(
+#'   tsl = tsl,
+#'   full = TRUE
+#' )
 #' @family tsl_integrity
 tsl_repair <- function(
     tsl = NULL,
-    full = FALSE
+    full = TRUE
 ){
 
   # TODO: review this function's logic
@@ -132,13 +165,28 @@ tsl_repair <- function(
       #run full test
       if(full == TRUE){
 
-        # cleaning names of zoo objects
-        message("Cleaning column names of zoo objects.")
+        tsl_old_names <- tsl_colnames_get(
+          tsl = tsl,
+          names = "all"
+        ) |>
+          unlist() |>
+          unique()
 
         tsl <- tsl_colnames_clean(
           tsl = tsl,
           lowercase = TRUE
         )
+
+        tsl_new_names <- tsl_colnames_get(
+          tsl = tsl,
+          names = "all"
+        ) |>
+          unlist() |>
+          unique()
+
+        if(any(!(tsl_new_names %in% tsl_old_names))){
+          message("Cleaning column names of zoo objects in 'tsl'.")
+        }
 
         # zoo objects have shared colnames
         zoo_colnames_shared <- tsl_colnames_get(

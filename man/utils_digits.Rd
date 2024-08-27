@@ -10,7 +10,7 @@ utils_digits(x = NULL)
 \item{x}{(required, numeric) Default: NULL}
 }
 \value{
-Integer, number of decimal places
+integer
 }
 \description{
 Number of Decimal Places

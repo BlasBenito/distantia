@@ -851,7 +851,7 @@ permute_free_by_row_cpp <- function(x, block_size, seed = 1L) {
 }
 
 #' (C++) Restricted Permutation of Cases Within Blocks
-#' @description Divides a sequence or time-series in blocks and permutes cases
+#' @description Divides a sequence or time series in blocks and permutes cases
 #' within these blocks. This function does not preserve rows, and should not be
 #' used if the sequence has dependent columns.
 #' Larger block sizes increasingly disrupt the data structure over time.
@@ -881,7 +881,7 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
 #' (C++) Psi Dissimilarity Formula
 #' @description Computes the psi dissimilarity score between two time series from
 #' their least cost path sum and their auto sums.
-#' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
+#' @param path (required, data frame) data frame produced by [cost_path_orthogonal_cpp()].
 #' Default: NULL
 #' @param auto_sum (required, numeric) auto sum of both sequences,
 #' result of [auto_sum_cpp()].

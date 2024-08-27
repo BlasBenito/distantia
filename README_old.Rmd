@@ -1,5 +1,5 @@
 ---
-title: "distantia: an R package to compute the dissimilarity between multivariate time-series"
+title: "distantia: an R package to compute the dissimilarity between multivariate time series"
 output:
   github_document:
     toc: true
@@ -8,7 +8,7 @@ output:
 always_allow_html: yes
 ---
 
-# distantia: an R package to assess dissimilarity between multivariate time-series
+# distantia: an R package to assess dissimilarity between multivariate time series
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -62,9 +62,9 @@ rm(list.of.packages, packages.to.install)
 
 ## Summary
 
-The package **distantia** helps quantify dissimilarity between multivariate ecological time-series (*METS* hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also possible. Furthermore, the target METS can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units representing different variables relevant to the dynamics of an ecological system.
+The package **distantia** helps quantify dissimilarity between multivariate ecological time series (*METS* hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also possible. Furthermore, the target METS can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units representing different variables relevant to the dynamics of an ecological system.
 
-In this document I explain the logic behind the method, show how to use it, and demonstrate how the **distantia** package introduces useful tools to compare multivariate time-series. The topics covered in this document are:
+In this document I explain the logic behind the method, show how to use it, and demonstrate how the **distantia** package introduces useful tools to compare multivariate time series. The topics covered in this document are:
 
 +    Installation of the package.
 +    Comparing two irregular METS.
@@ -180,7 +180,7 @@ This step uses a *dynamic programming algorithm* to find the least-cost path tha
 
 Where: 
 
-+ $m$ and $n$ are the number of samples of the multivariate time-series $A$ and $B$.    
++ $m$ and $n$ are the number of samples of the multivariate time series $A$ and $B$.    
 + $i$ and $j$ are the indices of the samples in $A$ and $B$ being considered on each step of the recursive algorithm.
 + $D$ is a function that returns the multivariate distance (i.e. Manhattan) between any given pair of samples of $A$ and $B$.
 + $min$ is a function returning the minimum distance of a subset of distances defined in the neigborhood of the given indices $i$ and $j$
@@ -537,7 +537,7 @@ rm(list = ls())
 
 # Restricted permutation test to assess the significance of dissimilarity values
 
-One question that may arise when comparing time series is *to what extent are dissimilarity values a result of chance?*. Answering this question requires to compare a given dissimilarity value with a distribution of dissimilarity values resulting from chance. However... how do we simulate chance in a multivariate time-series? The natural answer is "permutation". Since samples in a multivariate time-series are ordered, randomly re-shuffling samples is out of the question, because that would destroy the structure of the data. A more gentler alternative is to randomly switch single data-points (a case of a variable) independently by variable. This kind of permutation is named "restricted permutation", and preserves global trends within the data, but changes local structure.
+One question that may arise when comparing time series is *to what extent are dissimilarity values a result of chance?*. Answering this question requires to compare a given dissimilarity value with a distribution of dissimilarity values resulting from chance. However... how do we simulate chance in a multivariate time series? The natural answer is "permutation". Since samples in a multivariate time series are ordered, randomly re-shuffling samples is out of the question, because that would destroy the structure of the data. A more gentler alternative is to randomly switch single data-points (a case of a variable) independently by variable. This kind of permutation is named "restricted permutation", and preserves global trends within the data, but changes local structure.
 
 A restricted permutation test on *psi* values requires the following steps:
 

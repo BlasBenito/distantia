@@ -12,7 +12,7 @@ utils_line_color(x = NULL, color = NULL)
 \item{color}{(optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL}
 }
 \value{
-Named vector of colors
+color vector
 }
 \description{
 This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.

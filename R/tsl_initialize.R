@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' Most functions in this package take a **time series list** (or **tsl** for short) as main input. A `tsl` is a list of zoo time-series objects (see [zoo::zoo()]). There is not a formal class for `tsl` objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see [tsl_diagnose()]). These requirements are:
+#' Most functions in this package take a **time series list** (or **tsl** for short) as main input. A `tsl` is a list of zoo time series objects (see [zoo::zoo()]). There is not a formal class for `tsl` objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see [tsl_diagnose()]). These requirements are:
 #' \itemize{
 #'   \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see [tsl_count_NA()] and [tsl_handle_NA()]).
 #'   \item All zoo objects must have at least one common column name to allow time series comparison (see [tsl_colnames_get()]).
@@ -14,7 +14,7 @@
 #' The function [tsl_initialize()] (and its alias [tsl_init()]) is designed to convert the following data structures to a time series list:
 #'
 #' \itemize{
-#'   \item Long data frame: with an ID column to separate time-series, and a time column that can be of the classes "Date", "POSIXct", "integer", or "numeric". The resulting zoo objects and list elements are named after the values in the ID column.
+#'   \item Long data frame: with an ID column to separate time series, and a time column that can be of the classes "Date", "POSIXct", "integer", or "numeric". The resulting zoo objects and list elements are named after the values in the ID column.
 #'   \item Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 #'   \item List of vectors: an object like `list(a = runif(10), b = runif(10))` is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 #'   \item List of matrices: a list containing matrices, such as `list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))`.
@@ -254,7 +254,8 @@ tsl_initialize <- function(
   tsl <- tsl_names_set(tsl = tsl)
 
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = TRUE
   )
 
   tsl

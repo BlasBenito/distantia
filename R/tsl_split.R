@@ -44,7 +44,8 @@ tsl_split <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   #return tsl if univariate already

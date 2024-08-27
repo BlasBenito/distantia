@@ -72,7 +72,8 @@ tsl_plot <- function(
 
   #check validity
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   axis_title_distance <- 2.2

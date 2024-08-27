@@ -33,7 +33,7 @@ tsl_colnames_clean(
 \item{prefix}{(optional, character string)  String to prepend to the cleaned names. Default: NULL.}
 }
 \value{
-Time series list with clean names
+time series list
 }
 \description{
 Uses the function \code{\link[=utils_clean_names]{utils_clean_names()}} to simplify and homogeneize messy column names in a time series list.

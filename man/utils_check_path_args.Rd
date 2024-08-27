@@ -12,7 +12,7 @@ utils_check_path_args(path = NULL, arg_name = "path")
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }
 \value{
-Least cost path
+data frame
 }
 \description{
 Checks Least Cost Path

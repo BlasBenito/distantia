@@ -29,7 +29,7 @@ utils_check_distantia_args(
 
 \item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time series are compared row wise and no least-cost path is computed. Default: FALSE.}
 
 \item{repetitions}{(optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
 
@@ -48,7 +48,7 @@ utils_check_distantia_args(
 \item{robust}{(required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
 }
 \value{
-List with checked arguments
+list
 }
 \description{
 Check Input Arguments

@@ -33,7 +33,7 @@ utils_line_guide(
 \item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
 }
 \value{
-A plot.
+plot
 }
 \description{
 Legend for Sequence Plots

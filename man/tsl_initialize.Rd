@@ -33,10 +33,10 @@ tsl_init(
 \item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
-A named list of matrices.
+list of matrices
 }
 \description{
-Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time-series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_diagnose]{tsl_diagnose()}}). These requirements are:
+Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_diagnose]{tsl_diagnose()}}). These requirements are:
 \itemize{
 \item There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see \code{\link[=tsl_count_NA]{tsl_count_NA()}} and \code{\link[=tsl_handle_NA]{tsl_handle_NA()}}).
 \item All zoo objects must have at least one common column name to allow time series comparison (see \code{\link[=tsl_colnames_get]{tsl_colnames_get()}}).
@@ -48,7 +48,7 @@ Most functions in this package take a \strong{time series list} (or \strong{tsl}
 The function \code{\link[=tsl_initialize]{tsl_initialize()}} (and its alias \code{\link[=tsl_init]{tsl_init()}}) is designed to convert the following data structures to a time series list:
 
 \itemize{
-\item Long data frame: with an ID column to separate time-series, and a time column that can be of the classes "Date", "POSIXct", "integer", or "numeric". The resulting zoo objects and list elements are named after the values in the ID column.
+\item Long data frame: with an ID column to separate time series, and a time column that can be of the classes "Date", "POSIXct", "integer", or "numeric". The resulting zoo objects and list elements are named after the values in the ID column.
 \item Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 \item List of vectors: an object like \code{list(a = runif(10), b = runif(10))} is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 \item List of matrices: a list containing matrices, such as \code{list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))}.

@@ -10,10 +10,10 @@ distantia_matrix(df = NULL)
 \item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
 }
 \value{
-Matrix
+numeric matrix
 }
 \description{
-Transforms a dataframe resulting from \code{\link[=distantia]{distantia()}} into a dissimilarity matrix.
+Transforms a data frame resulting from \code{\link[=distantia]{distantia()}} into a dissimilarity matrix.
 }
 \examples{
 #daily covid prevalence in California counties

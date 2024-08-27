@@ -14,7 +14,7 @@ utils_cluster_silhouette(labels = NULL, d = NULL, mean = FALSE)
 \item{mean}{(optional, logical) If TRUE, the mean of the silhouette widths is returned. Default: FALSE}
 }
 \value{
-If mean = FALSE, data frame with silhouette widths of the clustering, and numeric indicating the mean silhouette width otherwise.
+data frame
 }
 \description{
 The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation).

@@ -4,12 +4,12 @@
 \alias{tsl_diagnose}
 \title{Validate Time Series List}
 \usage{
-tsl_diagnose(tsl = NULL, full = FALSE)
+tsl_diagnose(tsl = NULL, full = TRUE)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{full}{(optional, logical) If TRUE, the function runs checks looking at all the individual values of the time series list. This makes the test slower, but more comprehensive. Default: FALSE}
+\item{full}{(optional, logical) If TRUE, the function runs checks looking at all the individual values of the time series list. This makes the test slower, but more comprehensive. Default: TRUE}
 }
 \value{
 time series list
@@ -31,32 +31,36 @@ Validity assessment of time series lists. The required features for a valid time
 This function analyzes a time series list and returns it without modification, but issues a warning if any condition is not met, and an explanation on how to solve the issue.
 }
 \examples{
-#tsl with NA cases
+#simulate time series list with NA data
 tsl <- tsl_simulate(
-  na_fraction = 0.25
+  n = 3,
+  na_fraction = 0.1
 )
 
-#removing list names
+#adding a few additional issues:
+
+#set names of one time series to uppercase
+colnames(tsl[[2]]) <- toupper(colnames(tsl[[2]]))
+
+#change name of one column in one time series
+colnames(tsl[[3]])[2] <- "x"
+
+#remove list names
 names(tsl) <- NULL
 
-#run validation test
+#diagnose issues in tsl
 tsl <- tsl_diagnose(
   tsl = tsl,
-  full = TRUE #to examine individual data values
-)
-#two issues identified!
-
-#addressing names issue
-tsl <- tsl_names_set(
-  tsl = tsl
+  full = TRUE
 )
 
-#addressing NA issue
-tsl <- tsl_handle_NA(
-  tsl = tsl
+#repair time series list
+tsl <- tsl_repair(
+  tsl = tsl,
+  full = TRUE
 )
 
-#validation test again
+#diagnose again
 tsl <- tsl_diagnose(
   tsl = tsl,
   full = TRUE

@@ -8,7 +8,7 @@ output:
 always_allow_html: yes
 ---
 
-# distantia: an R package to assess dissimilarity between multivariate time-series
+# distantia: an R package to assess dissimilarity between multivariate time series
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 

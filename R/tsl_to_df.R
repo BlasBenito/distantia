@@ -29,7 +29,8 @@ tsl_to_df <- function(
 ){
 
   tsl <- tsl_diagnose(
-    tsl = tsl
+    tsl = tsl,
+    full = FALSE
   )
 
   df_list <- lapply(

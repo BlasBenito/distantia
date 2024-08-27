@@ -28,7 +28,7 @@ distantia(
 
 \item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time-series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
 
 \item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0}
 
@@ -39,7 +39,7 @@ distantia(
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
 \value{
-Data frame with the attribute \code{type} set to \code{distantia_df} and the following columns:
+data frame with columns:
 \itemize{
 \item \code{x}: time series name.
 \item \code{y}: time series name.
@@ -60,7 +60,7 @@ Data frame with the attribute \code{type} set to \code{distantia_df} and the fol
 \description{
 This function combines \emph{dynamic time warping} or \emph{lock-step comparison} with the \emph{psi dissimilarity score} and \emph{permutation methods} to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
 
-\strong{Dynamic Time Warping} (DTW) is an algorithm that finds the optimal alignment between two time series by minimizing the cumulative distance between them. It identifies the least-cost path through a distance matrix, which maps all points of one time series to another. The resulting sum of distances along this path serves as a measure of time-series similarity. DTW disregards the exact timing of samples and focuses on their order, making it suitable for comparing both \emph{regular and irregular time series of the same or different lengths}, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths.
+\strong{Dynamic Time Warping} (DTW) is an algorithm that finds the optimal alignment between two time series by minimizing the cumulative distance between them. It identifies the least-cost path through a distance matrix, which maps all points of one time series to another. The resulting sum of distances along this path serves as a measure of time series similarity. DTW disregards the exact timing of samples and focuses on their order, making it suitable for comparing both \emph{regular and irregular time series of the same or different lengths}, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths.
 
 On the other hand, the \strong{lock-step} method sums pairwise distances between samples in \emph{regular or irregular time series of the same length}, preferably captured at the same times. This method is an alternative to dynamic time warping when the goal is to assess the synchronicity of two time series.
 

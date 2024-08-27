@@ -11,7 +11,7 @@ using namespace Rcpp;
 //' (C++) Psi Dissimilarity Formula
 //' @description Computes the psi dissimilarity score between two time series from
 //' their least cost path sum and their auto sums.
-//' @param path (required, data frame) dataframe produced by [cost_path_orthogonal_cpp()].
+//' @param path (required, data frame) data frame produced by [cost_path_orthogonal_cpp()].
 //' Default: NULL
 //' @param auto_sum (required, numeric) auto sum of both sequences,
 //' result of [auto_sum_cpp()].

@@ -88,7 +88,7 @@ NumericMatrix permute_free_by_row_cpp(
 
 
 //' (C++) Restricted Permutation of Cases Within Blocks
-//' @description Divides a sequence or time-series in blocks and permutes cases
+//' @description Divides a sequence or time series in blocks and permutes cases
 //' within these blocks. This function does not preserve rows, and should not be
 //' used if the sequence has dependent columns.
 //' Larger block sizes increasingly disrupt the data structure over time.
