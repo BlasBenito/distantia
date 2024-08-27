@@ -838,7 +838,7 @@ permute_restricted_by_row_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_restricted_by_row_cpp`, x, block_size, seed)
 }
 
-#' (C+++) Unrestricted Permutation of Complete Rows
+#' (C++) Unrestricted Permutation of Complete Rows
 #' @description Unrestricted shuffling of rows within the whole sequence.
 #' @param x (required, numeric matrix). Numeric matrix to permute.
 #' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
