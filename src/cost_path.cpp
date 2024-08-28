@@ -41,6 +41,7 @@ using namespace Rcpp;
 //'
 //' cost_path
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 DataFrame cost_path_slotting_cpp(
     NumericMatrix dist_matrix,
@@ -483,6 +484,7 @@ double cost_path_sum_cpp(
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return data frame
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 DataFrame cost_path_cpp(
    NumericMatrix x,

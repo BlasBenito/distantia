@@ -45,7 +45,7 @@
 #'     ),
 #'   col = "red4"
 #'   )
-#' @family internal
+#' @family internal_data_processing
 utils_optimize_loess <- function(
     x = NULL,
     y = NULL,

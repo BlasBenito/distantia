@@ -23,7 +23,7 @@
 #' names(df)
 #' nrow(df)
 #' head(df)
-#' @family tsl_manipulation
+#' @family data_processing
 tsl_to_df <- function(
     tsl = NULL
 ){

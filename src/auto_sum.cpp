@@ -281,6 +281,7 @@ double auto_sum_path_cpp(
 //'   ignore_blocks = FALSE
 //' )
 //' @export
+//' @family Rcpp
 // [[Rcpp::export]]
 double auto_sum_cpp(
  NumericMatrix x,

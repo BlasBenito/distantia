@@ -34,7 +34,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/blasbenito/distantia/" class="external-link">
+  <a href="https://github.com/BlasBenito/distantia/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
 
   </a>
@@ -49,7 +49,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Time Features of a Time Series List</h1>
-    <small class="dont-index">Source: <a href="https://github.com/blasbenito/distantia/blob/HEAD/R/tsl_time.R" class="external-link"><code>R/tsl_time.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/HEAD/R/tsl_time.R" class="external-link"><code>R/tsl_time.R</code></a></small>
     <div class="hidden name"><code>tsl_time.Rd</code></div>
     </div>
 
@@ -102,14 +102,16 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>Other tsl_info:
+    <div class="dont-index"><p>Other data_exploration:
 <code><a href="tsl_colnames_get.html">tsl_colnames_get</a>()</code>,
 <code><a href="tsl_count_NA.html">tsl_count_NA</a>()</code>,
 <code><a href="tsl_names_get.html">tsl_names_get</a>()</code>,
 <code><a href="tsl_ncol.html">tsl_ncol</a>()</code>,
 <code><a href="tsl_nrow.html">tsl_nrow</a>()</code>,
 <code><a href="tsl_plot.html">tsl_plot</a>()</code>,
-<code><a href="tsl_stats.html">tsl_stats</a>()</code></p></div>
+<code><a href="tsl_stats.html">tsl_stats</a>()</code>,
+<code><a href="zoo_plot.html">zoo_plot</a>()</code>,
+<code><a href="zoo_time.html">zoo_time</a>()</code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -130,9 +132,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A    A  150  Date  days 363.1720   2.437396 2023-08-28 2024-08-25 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B    B  150  Date  days 362.5626   2.433306 2023-08-28 2024-08-24 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C    C  150  Date  days 364.3907   2.445575 2023-08-28 2024-08-26 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A    A  150  Date  days 363.1720   2.437396 2023-08-29 2024-08-26 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B    B  150  Date  days 362.5626   2.433306 2023-08-29 2024-08-25 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C    C  150  Date  days 364.3907   2.445575 2023-08-29 2024-08-27 years, q....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -145,10 +147,10 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-08-28"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-08-29"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-08-26"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-08-27"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6093489</span>
@@ -177,7 +179,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Blas M. Benito.</p>
+  <p></p><p>Developed by <a href="https://blasbenito.com" class="external-link">Blas M. Benito</a>.</p>
 </div>
 
 <div class="pkgdown">

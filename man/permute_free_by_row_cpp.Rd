@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{permute_free_by_row_cpp}
 \alias{permute_free_by_row_cpp}
-\title{(C+++) Unrestricted Permutation of Complete Rows}
+\title{(C++) Unrestricted Permutation of Complete Rows}
 \usage{
 permute_free_by_row_cpp(x, block_size, seed = 1L)
 }
@@ -22,13 +22,16 @@ Unrestricted shuffling of rows within the whole sequence.
 \seealso{
 Other Rcpp: 
 \code{\link{auto_distance_cpp}()},
+\code{\link{auto_sum_cpp}()},
 \code{\link{auto_sum_full_cpp}()},
 \code{\link{auto_sum_path_cpp}()},
 \code{\link{cost_matrix_cpp}()},
 \code{\link{cost_matrix_diag_cpp}()},
 \code{\link{cost_matrix_weighted_diag_cpp}()},
+\code{\link{cost_path_cpp}()},
 \code{\link{cost_path_diagonal_cpp}()},
 \code{\link{cost_path_orthogonal_cpp}()},
+\code{\link{cost_path_slotting_cpp}()},
 \code{\link{cost_path_sum_cpp}()},
 \code{\link{cost_path_trim_cpp}()},
 \code{\link{distance_canberra_cpp}()},

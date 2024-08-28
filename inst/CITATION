@@ -1,0 +1,27 @@
+citHeader("To cite the R package 'distantia' in publications, please use:")
+
+bibentry(
+ bibtype = "Article",
+  author = c(
+  person(given = "Blas M.", family = "Benito"),
+  person(given = "H. John B.", family = "Birks")
+  ),
+  title = "distantia: an open-source toolset to quantify dissimilarity between multivariate ecological time-series",
+  journal = "Ecography",
+  volume = "43",
+  number = "5",
+  pages = "660-667",
+  doi = "https://doi.org/10.1111/ecog.04895",
+  url = "https://nsojournals.onlinelibrary.wiley.com/doi/abs/10.1111/ecog.04895",
+  eprint = "https://nsojournals.onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.04895",
+  year = "2020"
+)
+
+bibentry(
+  bibtype = "Manual",
+  title = "distantia: A Toolset for Time Series Dissimilarity Analysis",
+  author = person(given = "Blas M.", family = "Benito"),
+  year = "2024",
+  note = "R package version 2.0.0",
+  url = "https://blasbenito.github.io/distantia/",
+)

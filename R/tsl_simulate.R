@@ -1,4 +1,4 @@
-#' Simulated Time Series List
+#' Simulate a Time Series List
 #'
 #' @description
 #' Uses [zoo_simulate] underneath to generate simulated time series lists for testing and learning purposes.

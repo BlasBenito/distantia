@@ -194,6 +194,7 @@ auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
 #'   ignore_blocks = FALSE
 #' )
 #' @export
+#' @family Rcpp
 auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks = FALSE) {
     .Call(`_distantia_auto_sum_cpp`, x, y, path, distance, ignore_blocks)
 }
@@ -267,6 +268,7 @@ cost_matrix_cpp <- function(dist_matrix) {
 #'
 #' cost_path
 #' @export
+#' @family Rcpp
 cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_slotting_cpp`, dist_matrix, cost_matrix)
 }
@@ -442,6 +444,7 @@ cost_path_sum_cpp <- function(path) {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return data frame
 #' @export
+#' @family Rcpp
 cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }

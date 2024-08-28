@@ -19,7 +19,7 @@
 #' @examples
 #'
 #' utils_color_discrete_default(n = 9)
-#' @family internal
+#' @family internal_plotting
 utils_color_discrete_default <- function(
     n = NULL
     ){

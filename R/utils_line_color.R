@@ -9,7 +9,7 @@
 #'
 #' @return color vector
 #' @export
-#' @family internal
+#' @family internal_plotting
 utils_line_color <- function(
     x = NULL,
     color = NULL

@@ -69,7 +69,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1

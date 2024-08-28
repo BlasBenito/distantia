@@ -62,7 +62,7 @@
 #' tsl_time(
 #'   tsl = tsl_new
 #' )[, c("name", "begin", "end")]
-#' @family tsl_manipulation
+#' @family data_processing
 tsl_subset <- function(
     tsl = NULL,
     names = NULL,

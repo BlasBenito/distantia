@@ -208,7 +208,7 @@
 #'
 #' @autoglobal
 #' @export
-#' @family tsl_integrity
+#' @family data_preparation
 tsl_initialize <- function(
     x = NULL,
     id_column = NULL,

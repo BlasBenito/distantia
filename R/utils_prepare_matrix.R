@@ -5,6 +5,7 @@
 #' @return A data frame
 #' @export
 #' @autoglobal
+#' @family internal_data_preparation
 utils_prepare_matrix <- function(
     x = NULL
 ){

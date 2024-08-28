@@ -83,12 +83,27 @@ if(interactive()){
 }
 }
 \seealso{
-Other zoo_functions: 
+Other data_processing: 
+\code{\link{f_center}()},
+\code{\link{f_detrend_difference}()},
+\code{\link{f_detrend_linear}()},
+\code{\link{f_hellinger}()},
+\code{\link{f_list}()},
+\code{\link{f_pca}()},
+\code{\link{f_percentage}()},
+\code{\link{f_proportion}()},
+\code{\link{f_rescale}()},
+\code{\link{f_scale}()},
+\code{\link{f_slope}()},
+\code{\link{f_smooth_window}()},
+\code{\link{f_trend_linear}()},
+\code{\link{tsl_aggregate}()},
+\code{\link{tsl_resample}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
+\code{\link{tsl_to_df}()},
+\code{\link{tsl_transform}()},
 \code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_simulate}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()}
+\code{\link{zoo_resample}()}
 }
-\concept{zoo_functions}
+\concept{data_processing}

@@ -18,55 +18,13 @@ integer
 Logics to Handle Argument block_size in distantia()
 }
 \seealso{
-Other dissimilarity_analysis: 
-\code{\link{distance}()},
-\code{\link{distantia}()},
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_importance}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
-\code{\link{distantia_to_sf}()},
-\code{\link{utils_importance_df_to_wide}()}
-
-Other internal: 
-\code{\link{distantia-package}},
-\code{\link{utils_check_distantia_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_clean_names}()},
+Other internal_dissimilarity_analysis: 
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
 \code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_color_continuous_default}()},
-\code{\link{utils_color_discrete_default}()},
 \code{\link{utils_df_to_matrix}()},
-\code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_split}()},
-\code{\link{utils_global_scaling_params}()},
 \code{\link{utils_importance_df_to_wide}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_optimize_loess}()},
-\code{\link{utils_optimize_spline}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()},
-\code{\link{utils_rescale_vector}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_keywords_translate}()},
-\code{\link{utils_time_units}()},
 \code{\link{utils_tsl_pairs}()}
 }
-\concept{dissimilarity_analysis}
-\concept{internal}
+\concept{internal_dissimilarity_analysis}

@@ -88,13 +88,15 @@ if(interactive()){
 }
 }
 \seealso{
-Other tsl_info: 
+Other data_exploration: 
 \code{\link{tsl_colnames_get}()},
 \code{\link{tsl_count_NA}()},
 \code{\link{tsl_names_get}()},
 \code{\link{tsl_ncol}()},
 \code{\link{tsl_nrow}()},
 \code{\link{tsl_stats}()},
-\code{\link{tsl_time}()}
+\code{\link{tsl_time}()},
+\code{\link{zoo_plot}()},
+\code{\link{zoo_time}()}
 }
-\concept{tsl_info}
+\concept{data_exploration}

@@ -144,6 +144,7 @@ utils_check_distantia_args <- function(
 #' @return data frame
 #' @export
 #' @autoglobal
+#' @family internal
 utils_check_path_args <- function(
     path = NULL,
     arg_name = "path"
@@ -189,6 +190,7 @@ utils_check_path_args <- function(
 #' @return matrix
 #' @export
 #' @autoglobal
+#' @family internal
 utils_check_matrix_args <- function(
     m = NULL,
     arg_name = "m"
@@ -235,6 +237,7 @@ utils_check_matrix_args <- function(
 #' @return zoo object
 #' @export
 #' @autoglobal
+#' @family internal
 utils_check_zoo_args <- function(
     x = NULL,
     arg_name = "x"
@@ -299,7 +302,7 @@ utils_check_zoo_args <- function(
 #'     "euc"
 #'    )
 #'   )
-#'
+#' @family internal
 utils_check_distance_args <- function(
     distance = NULL
     ){

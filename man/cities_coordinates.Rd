@@ -16,6 +16,7 @@ City coordinates for the dataset \code{cities_temperature}.
 \seealso{
 Other example_data: 
 \code{\link{albatross}},
+\code{\link{cities_temperature}},
 \code{\link{covid_coordinates}},
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
@@ -23,10 +24,12 @@ Other example_data:
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
 \code{\link{mis}},
-\code{\link{tsl_simulate}()}
+\code{\link{tsl_simulate}()},
+\code{\link{zoo_simulate}()}
 
 Other example_data: 
 \code{\link{albatross}},
+\code{\link{cities_temperature}},
 \code{\link{covid_coordinates}},
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
@@ -34,7 +37,8 @@ Other example_data:
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
 \code{\link{mis}},
-\code{\link{tsl_simulate}()}
+\code{\link{tsl_simulate}()},
+\code{\link{zoo_simulate}()}
 }
 \concept{example_data}
 \keyword{datasets}

@@ -41,7 +41,7 @@
 #' #class and length of the output
 #' class(df_split)
 #' length(df_split)
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_distantia_df_split <- function(
     df = NULL
 ){

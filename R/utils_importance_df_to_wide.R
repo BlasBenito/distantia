@@ -42,8 +42,7 @@
 #' df_wide
 #'
 #' @autoglobal
-#' @family dissimilarity_analysis
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_importance_df_to_wide <- function(
     df = NULL,
     sep = "__"

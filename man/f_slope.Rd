@@ -27,3 +27,28 @@ f_slope(x = 10)
 # Numeric vector with length = 0
 f_slope(x = numeric(0))
 }
+\seealso{
+Other data_processing: 
+\code{\link{f_center}()},
+\code{\link{f_detrend_difference}()},
+\code{\link{f_detrend_linear}()},
+\code{\link{f_hellinger}()},
+\code{\link{f_list}()},
+\code{\link{f_pca}()},
+\code{\link{f_percentage}()},
+\code{\link{f_proportion}()},
+\code{\link{f_rescale}()},
+\code{\link{f_scale}()},
+\code{\link{f_smooth_window}()},
+\code{\link{f_trend_linear}()},
+\code{\link{tsl_aggregate}()},
+\code{\link{tsl_resample}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
+\code{\link{tsl_to_df}()},
+\code{\link{tsl_transform}()},
+\code{\link{zoo_aggregate}()},
+\code{\link{zoo_permute}()},
+\code{\link{zoo_resample}()}
+}
+\concept{data_processing}

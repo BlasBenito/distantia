@@ -58,6 +58,9 @@ psi_cost_path_sum(
 }
 \seealso{
 Other psi_demo: 
+\code{\link{distance}()},
+\code{\link{distances}},
+\code{\link{psi}()},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},

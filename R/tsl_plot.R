@@ -56,7 +56,7 @@
 #'     color = c("red", "green", "blue"))
 #'
 #' }
-#' @family tsl_info
+#' @family data_exploration
 tsl_plot <- function(
     tsl = NULL,
     columns = 1,

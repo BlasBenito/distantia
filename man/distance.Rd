@@ -29,17 +29,15 @@ distance(
 
 }
 \seealso{
-Other dissimilarity_analysis: 
-\code{\link{distantia}()},
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_importance}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
-\code{\link{distantia_to_sf}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_importance_df_to_wide}()}
+Other psi_demo: 
+\code{\link{distances}},
+\code{\link{psi}()},
+\code{\link{psi_auto_distance}()},
+\code{\link{psi_auto_sum}()},
+\code{\link{psi_cost_matrix}()},
+\code{\link{psi_cost_path}()},
+\code{\link{psi_cost_path_ignore_blocks}()},
+\code{\link{psi_cost_path_sum}()},
+\code{\link{psi_dist_matrix}()}
 }
-\concept{dissimilarity_analysis}
+\concept{psi_demo}

@@ -6,8 +6,7 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-#' @family tsl_preparation
-#' @family internal
+#' @family internal_data_preparation
 utils_prepare_df <- function(
     x = NULL,
     id_column = NULL,

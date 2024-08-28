@@ -1,0 +1,101 @@
+url: https://blasbenito.github.io/distantia
+
+authors:
+  Blas M. Benito:
+    href: https://blasbenito.com
+
+reference:
+
+- title: Example Data
+  desc:  Time series datasets from different disciplines and functions to simulate time series data, to help learning how to use the R package `distantia`.
+- contents:
+  - has_concept("example_data")
+
+- title: Data Preparation
+  desc:  Load raw time series data into **time series lists** (TSLs hereafter), and diagnose and fix potential data issues.
+- contents:
+  - has_concept("data_preparation")
+  - has_concept("internal_data_preparation")
+
+- title: Data Exploration
+  desc:  Functions to plot and explore key details of time series lists, such as names, dimensions, and others.
+- contents:
+  - has_concept("data_exploration")
+
+- title: Data Processing
+  desc:  Functions to process and transform TSLs.
+- contents:
+  - has_concept("data_processing")
+  - has_concept("internal_data_processing")
+
+- title: Psi Dissimilarity Scores
+  desc:  Step-by-step demonstration on the computation of the *psi* dissimilarity score.
+- contents:
+  - has_concept("psi_demo")
+
+- title: Dissimilarity Analysis and Clustering
+  desc:  Functions to compare time series either via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.
+- contents:
+  - has_concept("dissimilarity_analysis")
+  - has_concept("internal_dissimilarity_analysis")
+  - has_concept("Rcpp")
+
+- title: Plotting Helpers
+  desc:  Internal functions to help with plotting tasks.
+- contents:
+  - has_concept("internal_plotting")
+
+- title: Time Handling Helpers
+  desc:  Internal functions to handle time.
+- contents:
+  - has_concept("internal_time_handling")
+
+- title: Other Internal Functions
+  desc:  Internal functions to check arguments and other miscellany tasks.
+- contents:
+  - has_concept("internal")
+
+
+
+
+
+
+
+- title: Zoo Functions
+  desc:  Functions to handle zoo objects
+- contents:
+  - has_concept("zoo_functions")
+
+- title: Time Series Transformations
+  desc:  Transform Time Series Data
+- contents:
+  - has_concept("transformations")
+
+- title: Info Time Series Lists
+  desc:  Manage Time Series Lists
+- contents:
+  - has_concept("tsl_info")
+
+- title: Internal Functions
+  desc:  Internals
+- contents:
+  - has_concept("internal")
+
+- title: Distances
+  desc:  Data frame with distances implemented in the package
+- contents:
+  - has_concept("internal_data")
+
+- title: C++ Functions
+  desc:  C++
+- contents:
+  - has_concept("Rcpp")
+
+- title: Example Datasets
+  desc:  Datasets
+- contents:
+  - has_concept("example_data")
+
+navbar:
+  structure:
+    left: [intro, reference, news, articles]

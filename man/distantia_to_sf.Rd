@@ -105,7 +105,6 @@ names(importance_sf)
 }
 \seealso{
 Other dissimilarity_analysis: 
-\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_boxplot}()},
@@ -113,8 +112,6 @@ Other dissimilarity_analysis:
 \code{\link{distantia_cluster_kmeans}()},
 \code{\link{distantia_importance}()},
 \code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_importance_df_to_wide}()}
+\code{\link{distantia_plot}()}
 }
 \concept{dissimilarity_analysis}

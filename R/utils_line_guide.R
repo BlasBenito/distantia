@@ -24,7 +24,7 @@
 #' )
 #' @autoglobal
 #' @export
-#' @family internal
+#' @family internal_plotting
 utils_line_guide <- function(
     x,
     position = "topright",

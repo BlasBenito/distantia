@@ -68,7 +68,7 @@
 #' if(interactive()){
 #'   zoo_plot(x_centuries)
 #' }
-#' @family zoo_functions
+#' @family data_processing
 zoo_aggregate <- function(
     x = NULL,
     new_time = NULL,

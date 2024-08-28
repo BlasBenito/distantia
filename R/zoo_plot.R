@@ -33,7 +33,7 @@
 #'
 #' }
 #' @keywords plotting
-#' @family zoo_functions
+#' @family data_exploration
 zoo_plot <- function(
     x = NULL,
     xlim = NULL,

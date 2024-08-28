@@ -70,13 +70,16 @@ if(interactive()){
 }
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_simulate}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()}
+Other data_exploration: 
+\code{\link{tsl_colnames_get}()},
+\code{\link{tsl_count_NA}()},
+\code{\link{tsl_names_get}()},
+\code{\link{tsl_ncol}()},
+\code{\link{tsl_nrow}()},
+\code{\link{tsl_plot}()},
+\code{\link{tsl_stats}()},
+\code{\link{tsl_time}()},
+\code{\link{zoo_time}()}
 }
-\concept{zoo_functions}
+\concept{data_exploration}
 \keyword{plotting}

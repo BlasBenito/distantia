@@ -73,12 +73,17 @@ if(interactive()){
 }
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()}
+Other example_data: 
+\code{\link{albatross}},
+\code{\link{cities_coordinates}},
+\code{\link{cities_temperature}},
+\code{\link{covid_coordinates}},
+\code{\link{covid_prevalence}},
+\code{\link{eemian_coordinates}},
+\code{\link{eemian_pollen}},
+\code{\link{fagus_coordinates}},
+\code{\link{fagus_dynamics}},
+\code{\link{mis}},
+\code{\link{tsl_simulate}()}
 }
-\concept{zoo_functions}
+\concept{example_data}

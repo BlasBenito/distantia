@@ -15,7 +15,7 @@
 #'   tsl = tsl
 #' )
 #' @autoglobal
-#' @family tsl_info
+#' @family data_exploration
 tsl_nrow <- function(
     tsl = NULL
 ){

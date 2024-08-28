@@ -103,6 +103,7 @@
 #' }
 #' @autoglobal
 #' @export
+#' @family psi_demo
 psi <- function(
     path_sum = NULL,
     auto_sum = NULL,

@@ -15,3 +15,13 @@ A data frame
 \description{
 Matrix to Data Frame
 }
+\seealso{
+Other internal_data_preparation: 
+\code{\link{utils_clean_names}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()}
+}
+\concept{internal_data_preparation}

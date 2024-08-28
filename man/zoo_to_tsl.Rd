@@ -31,12 +31,14 @@ names(tsl)
 attributes(tsl[[1]])$name
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_simulate}()},
-\code{\link{zoo_time}()}
+Other data_preparation: 
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_set}()},
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_initialize}()},
+\code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_repair}()}
 }
-\concept{zoo_functions}
+\concept{data_preparation}

@@ -328,7 +328,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @family tsl_manipulation
+#' @family data_processing
 tsl_transform <- function(
     tsl = NULL,
     f = NULL,

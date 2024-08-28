@@ -15,7 +15,7 @@
 #'
 #' @autoglobal
 #' @export
-#' @family dissimilarity_analysis
+#' @family psi_demo
 distance <- function(
     x = NULL,
     y = NULL,

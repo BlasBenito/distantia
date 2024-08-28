@@ -5,14 +5,15 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family psi_demo
 #' @name distances
 #' @usage data(distances)
 #' @format data frame with 5 columns and 10 rows
 "distances"
 
-#' Covid19 dataset.
+#' Covid19 Prevalence Time Series in California
 #'
-#' Dataset with Covid19 prevalence in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
+#' Dataset with Covid19 prevalence time series in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
 #'
 #' Site coordinates for this dataset are in [covid_coordinates].
 #'
@@ -45,7 +46,7 @@
 #' @format data frame with 3 columns and 51048 rows
 "covid_prevalence"
 
-#' Coordinates of the Covid Dataset.
+#' County Coordinates of the Covid19 Prevalence Dataset
 #'
 #' @docType data
 #' @keywords datasets
@@ -55,7 +56,7 @@
 #' @format sf data frame with 4 columns and 36 rows
 "covid_coordinates"
 
-#' Interglacial Pollen Counts
+#' Pollen Counts of 12 Marine Isotope Stages
 #'
 #' A data frame with 427 rows representing pollen counts for 12 marine isotope stages and 6 pollen types
 #'
@@ -89,7 +90,7 @@
 "mis"
 
 
-#' Enhanced Vegetation Index and Climate of Three Fagus sylvatica stands
+#' Time Series Data from Three Fagus sylvatica Stands
 #'
 #' A data frame with 648 rows representing enhanced vegetation index, rainfall and temperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
 #'
@@ -122,7 +123,7 @@
 #' @format data frame with 5 columns and 648 rows.
 "fagus_dynamics"
 
-#' Coordinates of Fagus sylvatica stands
+#' Site Coordinates of Fagus sylvatica Stands
 #'
 #' @docType data
 #' @keywords datasets
@@ -133,11 +134,11 @@
 "fagus_coordinates"
 
 
-#' Pollen Counts of Nine Eemian Sites in Central Europe
+#' Pollen Counts of Nine Interglacial Sites in Central Europe
 #'
 #' @description
 #'
-#' Pollen counts of nine interglacial sites in central Europe.
+#' Pollen ounts of nine interglacial sites in central Europe.
 #'
 #' Site coordinates for this dataset are in [eemian_coordinates].
 #'
@@ -174,7 +175,7 @@
 #' @format data frame with 24 columns and 376 rows.
 "eemian_pollen"
 
-#' Coordinates of Nine Eemian Sites
+#' Site Coordinates of Nine Interglacial Sites in Central Europe
 #'
 #' @docType data
 #' @keywords datasets
@@ -194,6 +195,7 @@
 #'
 #' @docType data
 #' @keywords datasets
+#' @family example_data
 #' @name cities_temperature
 #' @usage data(cities_temperature)
 #' @examples
@@ -238,7 +240,7 @@
 "cities_coordinates"
 
 
-#' Flight Paths of Albatrosses
+#' Flight Path Time Series of Albatrosses in The Pacific
 #'
 #' @description
 #' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the [data source](https://doi.org/10.5441/001/1.3hp3s250) (DOI: [https://doi.org/10.5441/001/1.3hp3s250](https://doi.org/10.5441/001/1.3hp3s250)) to learn more about this dataset.

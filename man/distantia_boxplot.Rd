@@ -85,7 +85,6 @@ boxplot_stats <- distantia_boxplot(
 }
 \seealso{
 Other dissimilarity_analysis: 
-\code{\link{distance}()},
 \code{\link{distantia}()},
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_cluster_hclust}()},
@@ -93,8 +92,6 @@ Other dissimilarity_analysis:
 \code{\link{distantia_importance}()},
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_plot}()},
-\code{\link{distantia_to_sf}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_importance_df_to_wide}()}
+\code{\link{distantia_to_sf}()}
 }
 \concept{dissimilarity_analysis}

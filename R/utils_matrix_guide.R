@@ -27,7 +27,7 @@
 #' }
 #' @export
 #' @autoglobal
-#' @family internal
+#' @family internal_plotting
 utils_matrix_guide <- function(
     m = NULL,
     color = NULL,

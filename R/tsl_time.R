@@ -60,7 +60,7 @@
 #' tsl_time_summary(
 #'   tsl = tsl
 #' )
-#' @family tsl_info
+#' @family data_exploration
 tsl_time <- function(
     tsl = NULL,
     keywords = c(

@@ -84,15 +84,14 @@ tsl_names_get(
 )
 }
 \seealso{
-Other tsl_manipulation: 
-\code{\link{tsl_aggregate}()},
+Other data_preparation: 
 \code{\link{tsl_colnames_clean}()},
 \code{\link{tsl_colnames_set}()},
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_initialize}()},
 \code{\link{tsl_names_clean}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()}
+\code{\link{tsl_repair}()},
+\code{\link{zoo_to_tsl}()}
 }
-\concept{tsl_manipulation}
+\concept{data_preparation}

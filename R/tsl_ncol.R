@@ -14,7 +14,7 @@
 #' #number of columns per zoo object
 #' tsl_ncol(tsl = tsl)
 #' @autoglobal
-#' @family tsl_info
+#' @family data_exploration
 tsl_ncol <- function(
     tsl = NULL
 ){

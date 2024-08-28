@@ -1,6 +1,6 @@
 ## Version 2.0.0
 
-- This version will break any previous code based on this package. To install the previous version (1.0.2):
+- This new version involves a massive rewrite that will break any previous code based on this package. To install the previous version (1.0.2):
   
 ```r
 #install from CRAN archive
@@ -16,7 +16,7 @@ remotes::install_github(
   )
 ```
 
-- Version 2.0.0 is a complete rewrite of the package from the ground up:
+- Version 2.0.0 is a complete package rewrite from the ground up:
 
     - All core functions have been rewritten in C++ for increased speed and memory efficiency, and proper R wrappers for these functions are provided.
     
@@ -31,9 +31,6 @@ remotes::install_github(
     - Most functions taking time series lists as inputs are parallelized using the [future](https://CRAN.R-project.org/package=future) package, and progress bars for parallelized operations are available as well via the [progressr](https://CRAN.R-project.org/package=progressr) package.
     
     - New example datasets from different disciplines and functions to generate simulated time series are shipped with the package to improve the learning experience.
-
-
-
 
 ## Version 1.0.3
 

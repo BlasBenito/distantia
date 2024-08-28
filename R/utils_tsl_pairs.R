@@ -10,7 +10,7 @@
 #' @return data frame
 #' @export
 #' @autoglobal
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_tsl_pairs <- function(
     tsl = NULL,
     args_list = NULL

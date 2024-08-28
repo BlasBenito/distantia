@@ -254,7 +254,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @family tsl_manipulation
+#' @family data_processing
 tsl_resample <- function(
     tsl = NULL,
     new_time = NULL,

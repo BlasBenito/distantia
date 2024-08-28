@@ -1,4 +1,4 @@
-#' Simulate Zoo Time Series
+#' Simulate a Zoo Time Series
 #'
 #' @description
 #' Generates simulated zoo time series.
@@ -46,7 +46,7 @@
 #'   )
 #'
 #' }
-#' @family zoo_functions
+#' @family example_data
 zoo_simulate <- function(
     cols = 5,
     rows = 100,

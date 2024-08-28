@@ -52,7 +52,7 @@
 #' }
 #' @export
 #' @autoglobal
-#' @family internal
+#' @family internal_plotting
 utils_matrix_plot <- function(
     m = NULL,
     color = NULL,

@@ -31,7 +31,7 @@
 #' tsl[[1]][4, 1] <- NaN
 #'
 #' tsl_count_NA(tsl = tsl)
-#' @family tsl_info
+#' @family data_exploration
 tsl_count_NA <- function(
     tsl = NULL,
     quiet = FALSE

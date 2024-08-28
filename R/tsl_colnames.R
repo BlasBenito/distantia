@@ -41,7 +41,7 @@
 #'   tsl = tsl,
 #'   names = "exclusive"
 #' )
-#' @family tsl_info
+#' @family data_exploration
 tsl_colnames_get <- function(
     tsl = NULL,
     names = c(
@@ -148,7 +148,7 @@ tsl_colnames_get <- function(
 #'   tsl = tsl,
 #'   names = "all"
 #' )
-#' @family tsl_manipulation
+#' @family data_preparation
 tsl_colnames_set <- function(
     tsl = NULL,
     new_names = NULL
@@ -261,7 +261,7 @@ tsl_colnames_set <- function(
 #' )
 #' @autoglobal
 #' @export
-#' @family tsl_manipulation
+#' @family data_preparation
 tsl_colnames_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

@@ -54,6 +54,9 @@ x_sum + y_sum
 }
 \seealso{
 Other psi_demo: 
+\code{\link{distance}()},
+\code{\link{distances}},
+\code{\link{psi}()},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},

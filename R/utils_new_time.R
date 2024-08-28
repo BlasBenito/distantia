@@ -92,7 +92,7 @@
 #'   tsl = tsl,
 #'   new_time = new_time
 #' )
-#' @family internal
+#' @family internal_time_handling
 utils_new_time <- function(
     tsl = NULL,
     new_time = NULL,

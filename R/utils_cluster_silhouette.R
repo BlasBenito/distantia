@@ -116,7 +116,7 @@
 #'   d = psi_matrix,
 #'   mean = TRUE
 #' )
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_cluster_silhouette <- function(
     labels = NULL,
     d = NULL,

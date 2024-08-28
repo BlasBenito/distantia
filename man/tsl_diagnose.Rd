@@ -67,9 +67,14 @@ tsl <- tsl_diagnose(
 )
 }
 \seealso{
-Other tsl_integrity: 
+Other data_preparation: 
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_set}()},
 \code{\link{tsl_handle_NA}()},
 \code{\link{tsl_initialize}()},
-\code{\link{tsl_repair}()}
+\code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_repair}()},
+\code{\link{zoo_to_tsl}()}
 }
-\concept{tsl_integrity}
+\concept{data_preparation}

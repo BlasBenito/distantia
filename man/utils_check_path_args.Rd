@@ -17,3 +17,13 @@ data frame
 \description{
 Checks Least Cost Path
 }
+\seealso{
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()}
+}
+\concept{internal}

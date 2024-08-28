@@ -52,7 +52,7 @@
 #'   prefix = "my_prefix",
 #'   suffix = "my_suffix"
 #' )
-#' @family internal
+#' @family internal_data_preparation
 utils_clean_names <- function(
     x = NULL,
     lowercase = FALSE,

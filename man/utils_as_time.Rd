@@ -53,3 +53,14 @@ utils_as_time(
   )
 
 }
+\seealso{
+Other internal_time_handling: 
+\code{\link{utils_coerce_time_class}()},
+\code{\link{utils_is_time}()},
+\code{\link{utils_new_time}()},
+\code{\link{utils_time_keywords}()},
+\code{\link{utils_time_keywords_dictionary}()},
+\code{\link{utils_time_keywords_translate}()},
+\code{\link{utils_time_units}()}
+}
+\concept{internal_time_handling}

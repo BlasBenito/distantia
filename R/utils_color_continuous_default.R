@@ -14,7 +14,7 @@
 #'
 #' utils_color_continuous_default(n = 20)
 #'
-#' @family internal
+#' @family internal_plotting
 utils_color_continuous_default <- function(
     n = NULL,
     palette = "Zissou 1"

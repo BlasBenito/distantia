@@ -69,7 +69,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @family internal
+#' @family internal_dissimilarity_analysis
 utils_cluster_hclust_optimizer <- function(
     d = NULL,
     method = NULL

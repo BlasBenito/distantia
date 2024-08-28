@@ -34,7 +34,7 @@
 #'
 #' #same as
 #' names(tsl)
-#' @family tsl_info
+#' @family data_exploration
 tsl_names_get <- function(
     tsl = NULL,
     zoo = TRUE
@@ -141,7 +141,7 @@ tsl_names_get <- function(
 #' tsl_names_get(
 #'   tsl = tsl
 #' )
-#' @family tsl_manipulation
+#' @family data_preparation
 tsl_names_set <- function(
     tsl = NULL,
     names = NULL
@@ -313,7 +313,7 @@ tsl_names_set <- function(
 #' tsl_names_get(
 #'   tsl = tsl_clean
 #' )
-#' @family tsl_manipulation
+#' @family data_preparation
 tsl_names_clean <- function(
     tsl = NULL,
     lowercase = FALSE,

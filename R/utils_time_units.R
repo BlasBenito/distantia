@@ -12,7 +12,7 @@
 #'
 #' df <- utils_time_units()
 #' head(df)
-#' @family internal
+#' @family internal_time_handling
 utils_time_units <- function(
     all_columns = FALSE,
     class = NULL

@@ -6,7 +6,7 @@
 #' @return numeric vector
 #' @autoglobal
 #' @export
-#' @family internal
+#' @family internal_plotting
 utils_color_breaks <- function(
     m = NULL,
     n = 100

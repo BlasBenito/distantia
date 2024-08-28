@@ -4,12 +4,9 @@
 ^docs$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
-^behavior_psi\.R$
-^workflowPsiHP_devel\.R$
 ^dev_scripts/
-^Rcpp_ideas/
 ^TODO.md$
 NEXT_DAY.md
 README_old.Rmd
-
+_pkgdown.yaml
 ^\.github$

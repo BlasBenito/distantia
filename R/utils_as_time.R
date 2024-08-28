@@ -46,6 +46,7 @@
 #'
 #' @export
 #' @autoglobal
+#' @family internal_time_handling
 utils_as_time <- function(
     x = NULL,
     to_class = NULL

@@ -45,7 +45,7 @@
 #'   )$y,
 #'   col = "red"
 #' )
-#' @family internal
+#' @family internal_data_processing
 utils_optimize_spline <- function(
     x = NULL,
     y = NULL,

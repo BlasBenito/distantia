@@ -29,7 +29,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/blasbenito/distantia/" class="external-link">
+  <a href="https://github.com/BlasBenito/distantia/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
 
   </a>
@@ -44,9 +44,35 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/blasbenito/distantia/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/BlasBenito/distantia/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.0" id="version-200">Version 2.0.0<a class="anchor" aria-label="anchor" href="#version-200"></a></h2>
+<ul><li>This new version involves a massive rewrite that will break any previous code based on this package. To install the previous version (1.0.2):</li>
+</ul><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#install from CRAN archive</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_version.html" class="external-link">install_version</a></span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="st">"distantia"</span>, </span>
+<span>  version <span class="op">=</span> <span class="st">"1.0.2"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co">#install from archive branch in GitHub</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span></span>
+<span>  repo <span class="op">=</span> <span class="st">"https://github.com/BlasBenito/distantia"</span>,</span>
+<span>  ref <span class="op">=</span> <span class="st">"v1.0.2"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<ul><li>
+<p>Version 2.0.0 is a complete package rewrite from the ground up:</p>
+<ul><li><p>All core functions have been rewritten in C++ for increased speed and memory efficiency, and proper R wrappers for these functions are provided.</p></li>
+<li><p>All functions and their arguments follow more modern naming conventions, and simplified interfaces to improve the user experience.</p></li>
+<li><p>Most time series operations use the <a href="https://CRAN.R-project.org/package=zoo" class="external-link">zoo</a> library underneath, ensuring data consistency, computational speed, and memory efficiency.</p></li>
+<li><p>Lists of zoo objects, named “time series lists” (“tsl” for short) throughout the package documentation, are used to organize time series data.</p></li>
+<li><p>A complete toolset to manage time series lists is provided. All functions belonging are named using the prefix <code>tsl_...()</code>. There are tools to generate, aggregate, resample, transform, plot, map, and analyze univariate or multivariate regular or irregular time series.</p></li>
+<li><p>Most functions taking time series lists as inputs are parallelized using the <a href="https://CRAN.R-project.org/package=future" class="external-link">future</a> package, and progress bars for parallelized operations are available as well via the <a href="https://CRAN.R-project.org/package=progressr" class="external-link">progressr</a> package.</p></li>
+<li><p>New example datasets from different disciplines and functions to generate simulated time series are shipped with the package to improve the learning experience.</p></li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.3" id="version-103">Version 1.0.3<a class="anchor" aria-label="anchor" href="#version-103"></a></h2>
 <p>Fixed bug in Hellinger distances and reworked the distance() function to make it slightly faster.</p>
@@ -54,8 +80,9 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.2" id="version-102">Version 1.0.2<small>2019-10-28</small><a class="anchor" aria-label="anchor" href="#version-102"></a></h2>
 <p>Fixed an issue with the parallelization of tasks in the Windows platform. Now all parallelized functions modify their cluster settings depending on the user’s platform.</p>
-<div class="section level3">
-<h3 id="version-1-0-2">Version 1.0.1<a class="anchor" aria-label="anchor" href="#version-1-0-2"></a></h3>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.1" id="version-101">Version 1.0.1<small>2019-08-06</small><a class="anchor" aria-label="anchor" href="#version-101"></a></h2>
 <p>Fixed a bug in the function <strong>workflowImportance</strong>. The argument ‘exclude.columns’ was being ignored.</p>
 <p>Fixed the documentation of the functions <strong>workflowImportance</strong> and <strong>workflowSlotting</strong>. Their outputs were not well documented.</p>
 <p>Fixed an error in workflowTransfer.</p>
@@ -63,9 +90,8 @@
 <p>Fixed the function <strong>workflowPsi</strong> to add +1 to the least cost produced by the options paired.samples = TRUE and diagonal = TRUE</p>
 <p>Added the function <strong>workflowPsiHP</strong>, a High Performance version of <strong>workflowPsi</strong>. It has less options, but it is much faster, and has a much lower memory footprint.</p>
 </div>
-<div class="section level3">
-<h3 id="version-is-ready-1-0-2">Version 1.0.0 is ready!<a class="anchor" aria-label="anchor" href="#version-is-ready-1-0-2"></a></h3>
-</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.0" id="version-100-is-ready">Version 1.0.0 is ready!<small>2019-07-04</small><a class="anchor" aria-label="anchor" href="#version-100-is-ready"></a></h2>
 </div>
   </div>
 
@@ -77,7 +103,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Blas M. Benito.</p>
+  <p></p><p>Developed by <a href="https://blasbenito.com" class="external-link">Blas M. Benito</a>.</p>
 </div>
 
 <div class="pkgdown">
