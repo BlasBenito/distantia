@@ -3,7 +3,7 @@
 \docType{data}
 \name{covid_coordinates}
 \alias{covid_coordinates}
-\title{Coordinates of the Covid Dataset.}
+\title{County Coordinates of the Covid19 Prevalence Dataset}
 \format{
 sf data frame with 4 columns and 36 rows
 }
@@ -11,7 +11,7 @@ sf data frame with 4 columns and 36 rows
 data(covid_coordinates)
 }
 \description{
-Coordinates of the Covid Dataset.
+County Coordinates of the Covid19 Prevalence Dataset
 }
 \seealso{
 Other example_data: 

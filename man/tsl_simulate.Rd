@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_simulate.R
 \name{tsl_simulate}
 \alias{tsl_simulate}
-\title{Simulated Time Series List}
+\title{Simulate a Time Series List}
 \usage{
 tsl_simulate(
   n = 2,

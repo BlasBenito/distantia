@@ -6,6 +6,18 @@ authors:
 
 reference:
 
+- title: Naming Conventions
+  desc: |
+      The package follows these naming conventions:
+
+        - `tsl_...()`: functions to generate, process, and explore time series lists (TSLs).
+        - `zoo_...()`: functions to work with zoo time series.
+        - `distantia_...()`: functions to compare time series via dynamic time warping or lock-step methods.
+        - `psi_...()`: step-by-step demonstration of how psi dissimilarity scores are computed.
+        - `utils_...()`: internal functions and helpers.
+        - `f_...()`: transformation functions used as input arguments for other functions.
+        - `..._cpp()`: C++ functions built via [Rcpp](https://CRAN.R-project.org/package=Rcpp) for efficient dissimilarity analysis.
+
 - title: Example Data
   desc:  Time series datasets from different disciplines and functions to simulate time series data, to help learning how to use the R package `distantia`.
 - contents:
@@ -28,16 +40,21 @@ reference:
   - has_concept("data_processing")
   - has_concept("internal_data_processing")
 
-- title: Psi Dissimilarity Scores
-  desc:  Step-by-step demonstration on the computation of the *psi* dissimilarity score.
-- contents:
-  - has_concept("psi_demo")
-
 - title: Dissimilarity Analysis and Clustering
   desc:  Functions to compare time series either via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.
 - contents:
   - has_concept("dissimilarity_analysis")
   - has_concept("internal_dissimilarity_analysis")
+  - has_concept("Rcpp")
+
+- title: Psi Dissimilarity Scores
+  desc:  Step-by-step demonstration of the *psi* dissimilarity score.
+- contents:
+  - has_concept("psi_demo")
+
+- title: C++ Functions
+  desc:  All C++ functions are focused on the efficient computation of psi dissimilarity scores via dynamic time warping or lock-step analysis.
+- contents:
   - has_concept("Rcpp")
 
 - title: Plotting Helpers
@@ -57,45 +74,3 @@ reference:
 
 
 
-
-
-
-
-- title: Zoo Functions
-  desc:  Functions to handle zoo objects
-- contents:
-  - has_concept("zoo_functions")
-
-- title: Time Series Transformations
-  desc:  Transform Time Series Data
-- contents:
-  - has_concept("transformations")
-
-- title: Info Time Series Lists
-  desc:  Manage Time Series Lists
-- contents:
-  - has_concept("tsl_info")
-
-- title: Internal Functions
-  desc:  Internals
-- contents:
-  - has_concept("internal")
-
-- title: Distances
-  desc:  Data frame with distances implemented in the package
-- contents:
-  - has_concept("internal_data")
-
-- title: C++ Functions
-  desc:  C++
-- contents:
-  - has_concept("Rcpp")
-
-- title: Example Datasets
-  desc:  Datasets
-- contents:
-  - has_concept("example_data")
-
-navbar:
-  structure:
-    left: [intro, reference, news, articles]

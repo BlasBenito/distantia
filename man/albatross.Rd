@@ -3,7 +3,7 @@
 \docType{data}
 \name{albatross}
 \alias{albatross}
-\title{Flight Paths of Albatrosses}
+\title{Flight Path Time Series of Albatrosses in The Pacific}
 \format{
 data frame
 }

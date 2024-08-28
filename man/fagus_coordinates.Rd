@@ -3,7 +3,7 @@
 \docType{data}
 \name{fagus_coordinates}
 \alias{fagus_coordinates}
-\title{Coordinates of Fagus sylvatica stands}
+\title{Site Coordinates of Fagus sylvatica Stands}
 \format{
 sf data frame with 3 rows and 4 columns
 }
@@ -11,7 +11,7 @@ sf data frame with 3 rows and 4 columns
 data(fagus_coordinates)
 }
 \description{
-Coordinates of Fagus sylvatica stands
+Site Coordinates of Fagus sylvatica Stands
 }
 \seealso{
 Other example_data: 

@@ -3,7 +3,7 @@
 \docType{data}
 \name{eemian_pollen}
 \alias{eemian_pollen}
-\title{Pollen Counts of Nine Eemian Sites in Central Europe}
+\title{Pollen Counts of Nine Interglacial Sites in Central Europe}
 \format{
 data frame with 24 columns and 376 rows.
 }
@@ -11,7 +11,7 @@ data frame with 24 columns and 376 rows.
 data(eemian_pollen)
 }
 \description{
-Pollen counts of nine interglacial sites in central Europe.
+Pollen ounts of nine interglacial sites in central Europe.
 
 Site coordinates for this dataset are in \link{eemian_coordinates}.
 }

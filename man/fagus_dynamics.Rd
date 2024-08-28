@@ -3,7 +3,7 @@
 \docType{data}
 \name{fagus_dynamics}
 \alias{fagus_dynamics}
-\title{Enhanced Vegetation Index and Climate of Three Fagus sylvatica stands}
+\title{Time Series Data from Three Fagus sylvatica Stands}
 \format{
 data frame with 5 columns and 648 rows.
 }

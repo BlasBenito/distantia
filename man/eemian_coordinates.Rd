@@ -3,7 +3,7 @@
 \docType{data}
 \name{eemian_coordinates}
 \alias{eemian_coordinates}
-\title{Coordinates of Nine Eemian Sites}
+\title{Site Coordinates of Nine Interglacial Sites in Central Europe}
 \format{
 sf data frame with 4 columns and 9 rows.
 }
@@ -11,7 +11,7 @@ sf data frame with 4 columns and 9 rows.
 data(eemian_coordinates)
 }
 \description{
-Coordinates of Nine Eemian Sites
+Site Coordinates of Nine Interglacial Sites in Central Europe
 }
 \seealso{
 Other example_data: 

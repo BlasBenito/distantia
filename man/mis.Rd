@@ -3,7 +3,7 @@
 \docType{data}
 \name{mis}
 \alias{mis}
-\title{Interglacial Pollen Counts}
+\title{Pollen Counts of 12 Marine Isotope Stages}
 \format{
 data frame with 8 columns and 427 rows.
 }
