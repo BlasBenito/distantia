@@ -1,4 +1,4 @@
-#' @title Re-scaling of Numeric Vector to a New Range
+#' Rescale Numeric Vector to a New Data Range
 #' @param x (required, numeric vector) Numeric vector. Default: `NULL`
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
 #' @param new_max (optional_numeric) New maximum value. Default: `1`

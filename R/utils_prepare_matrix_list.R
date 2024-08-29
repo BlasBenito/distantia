@@ -1,11 +1,11 @@
-#' List of Matrices to List of Data Frames
+#' Convert List of Matrices to List of Data Frames
 #'
 #' @param x (required, list of matrices) Default: NULL
 #'
 #' @return List of Data Frames
 #' @export
 #' @autoglobal
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_matrix_list <- function(
     x = NULL
 ){

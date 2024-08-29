@@ -1,4 +1,4 @@
-#' Splits Multivariate Time Series List into Univariate
+#' Splits Multivariate Time Series Lists to Univariate TSLs
 #'
 #' @description
 #' This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c". The only column of each new zoo object is named "x".
@@ -6,7 +6,7 @@
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param sep (required, character string) separator between the time series name and the column name.
 #'
-#' @return Time series list
+#' @return time series list
 #' @export
 #' @autoglobal
 #' @examples

@@ -2,7 +2,7 @@
 % Please edit documentation in R/zoo_to_tsl.R
 \name{zoo_to_tsl}
 \alias{zoo_to_tsl}
-\title{Converts Single Zoo Object to a Time Series List}
+\title{Convert Individual Zoo Objects to Time Series List}
 \usage{
 zoo_to_tsl(x = NULL)
 }

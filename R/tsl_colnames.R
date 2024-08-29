@@ -1,4 +1,4 @@
-#' Column Names of Zoo Objects in Time Series List
+#' Get Column Names from a Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character string) Three different sets of column names can be requested:
@@ -115,7 +115,7 @@ tsl_colnames_get <- function(
 }
 
 
-#' Renames Columns of Zoo Objects in a Time Series List
+#' Set Column Names in Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param new_names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
@@ -184,7 +184,7 @@ tsl_colnames_set <- function(
 
 }
 
-#' Clean Column Names of a Time Series List
+#' Clean Column Names in Time Series Lists
 #'
 #' @description
 #' Uses the function [utils_clean_names()] to simplify and homogeneize messy column names in a time series list.

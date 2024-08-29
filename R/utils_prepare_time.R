@@ -1,4 +1,4 @@
-#' Handles Time Column in List of Data Frames
+#' Handles Time Column in a List of Data Frames
 #'
 #' @param x (required, named list of data frames). List with named data frames. Default: NULL.
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, column name) Name of numeric column representing time. Default: NULL.
@@ -7,7 +7,7 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_time <- function(
     x = NULL,
     time_column = NULL,

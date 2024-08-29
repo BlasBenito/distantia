@@ -1,4 +1,4 @@
-#' Time Features of a Zoo Object
+#' Get Time Features from Zoo Objects
 #'
 #' @description
 #' This function generates a data frame summarizing the time features (class, length, resolution, and others) of zoo time series.

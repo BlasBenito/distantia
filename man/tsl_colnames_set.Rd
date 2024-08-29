@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_colnames.R
 \name{tsl_colnames_set}
 \alias{tsl_colnames_set}
-\title{Renames Columns of Zoo Objects in a Time Series List}
+\title{Set Column Names in Time Series Lists}
 \usage{
 tsl_colnames_set(tsl = NULL, new_names = NULL)
 }
@@ -15,7 +15,7 @@ tsl_colnames_set(tsl = NULL, new_names = NULL)
 time series list
 }
 \description{
-Renames Columns of Zoo Objects in a Time Series List
+Set Column Names in Time Series Lists
 }
 \examples{
 #generate example data

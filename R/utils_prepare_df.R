@@ -1,4 +1,4 @@
-#' Data Frame to List of Data Frames
+#' Convert Data Frame to a List of Data Frames
 #'
 #' @param x (required, data frame) Input data frame. Default: NULL.
 #' @param id_column (optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL
@@ -6,7 +6,7 @@
 #' @return List of data frames
 #' @export
 #' @autoglobal
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_df <- function(
     x = NULL,
     id_column = NULL,

@@ -1,4 +1,4 @@
-#' Converts Single Zoo Object to a Time Series List
+#' Convert Individual Zoo Objects to Time Series List
 #'
 #' @description
 #' Internal function to wrap a zoo object into a time series list.

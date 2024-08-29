@@ -11,7 +11,7 @@
 #' @format data frame with 5 columns and 10 rows
 "distances"
 
-#' Covid19 Prevalence Time Series in California
+#' Time Series of Covid Prevalence in California Counties
 #'
 #' Dataset with Covid19 prevalence time series in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
 #'
@@ -46,7 +46,7 @@
 #' @format data frame with 3 columns and 51048 rows
 "covid_prevalence"
 
-#' County Coordinates of the Covid19 Prevalence Dataset
+#' County Coordinates of the Covid Prevalence Dataset
 #'
 #' @docType data
 #' @keywords datasets

@@ -1,5 +1,8 @@
 url: https://blasbenito.github.io/distantia
 
+template:
+  bootstrap: 5
+
 authors:
   Blas M. Benito:
     href: https://blasbenito.com
@@ -38,6 +41,7 @@ reference:
   desc:  Functions to process and transform TSLs.
 - contents:
   - has_concept("data_processing")
+  - has_concept("data_transformation")
   - has_concept("internal_data_processing")
 
 - title: Dissimilarity Analysis and Clustering

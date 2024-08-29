@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_names.R
 \name{tsl_names_get}
 \alias{tsl_names_get}
-\title{Names of Time Series List}
+\title{Get Time Series Names from a Time Series Lists}
 \usage{
 tsl_names_get(tsl = NULL, zoo = TRUE)
 }

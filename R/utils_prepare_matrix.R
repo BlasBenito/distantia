@@ -1,11 +1,11 @@
-#' Matrix to Data Frame
+#' Convert Matrix to Data Frame
 #'
 #' @param x (required, matrix) Default: NULL
 #'
 #' @return A data frame
 #' @export
 #' @autoglobal
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_matrix <- function(
     x = NULL
 ){

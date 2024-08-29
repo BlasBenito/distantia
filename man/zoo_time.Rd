@@ -2,7 +2,7 @@
 % Please edit documentation in R/zoo_time.R
 \name{zoo_time}
 \alias{zoo_time}
-\title{Time Features of a Zoo Object}
+\title{Get Time Features from Zoo Objects}
 \usage{
 zoo_time(x = NULL, keywords = c("resample", "aggregate"))
 }

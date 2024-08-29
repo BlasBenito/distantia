@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_aggregate.R
 \name{distantia_aggregate}
 \alias{distantia_aggregate}
-\title{Aggregates a Distantia Data Frame}
+\title{Aggregation of Distantia Data Frame}
 \usage{
 distantia_aggregate(df = NULL, f = mean, ...)
 }

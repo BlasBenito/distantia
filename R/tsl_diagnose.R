@@ -1,4 +1,4 @@
-#' Validate Time Series List
+#' Validity Assessment of Time Series Lists
 #'
 #' @description
 #' Validity assessment of time series lists. The required features for a valid time series list are:

@@ -1,4 +1,4 @@
-#' Counts NA Cases in Time Series Lists
+#' Count NA Cases in Time Series Lists
 #'
 #' @description
 #' Converts Inf, -Inf, and NaN to NA (via [tsl_Inf_to_NA()] and [tsl_NaN_to_NA()]), and counts the total number of NA cases in each time series.

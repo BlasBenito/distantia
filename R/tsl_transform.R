@@ -1,4 +1,4 @@
-#' Transform Values of a Time Series List
+#' Transform Values in Time Series Lists
 #'
 #' @description
 #'

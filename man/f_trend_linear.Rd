@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_trend_linear}
 \alias{f_trend_linear}
-\title{Linear Trend of a Time Series}
+\title{Data Transformation: Linear Trend of Zoo Time Series}
 \usage{
 f_trend_linear(x = NULL, center = TRUE, ...)
 }
@@ -32,7 +32,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other data_processing: 
+Other data_transformation: 
 \code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
@@ -44,15 +44,6 @@ Other data_processing:
 \code{\link{f_rescale}()},
 \code{\link{f_scale}()},
 \code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{f_smooth_window}()}
 }
-\concept{data_processing}
+\concept{data_transformation}

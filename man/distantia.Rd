@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia.R
 \name{distantia}
 \alias{distantia}
-\title{Time Series Dissimilarity Analysis}
+\title{Dissimilarity Analysis of Time Series Lists}
 \usage{
 distantia(
   tsl = NULL,

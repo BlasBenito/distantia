@@ -16,7 +16,7 @@ Lists Available Transformation Functions
 f_list()
 }
 \seealso{
-Other data_processing: 
+Other data_transformation: 
 \code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
@@ -28,15 +28,6 @@ Other data_processing:
 \code{\link{f_scale}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
-\code{\link{f_trend_linear}()},
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{f_trend_linear}()}
 }
-\concept{data_processing}
+\concept{data_transformation}

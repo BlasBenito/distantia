@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_repair.R
 \name{tsl_repair}
 \alias{tsl_repair}
-\title{Repair a Time Series List}
+\title{Repair Issues in Time Series Lists}
 \usage{
 tsl_repair(tsl = NULL, full = TRUE)
 }

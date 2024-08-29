@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_percentage}
 \alias{f_percentage}
-\title{Transformation to Percentage}
+\title{Data Transformation: Convert Values to Percentages by Row}
 \usage{
 f_percentage(x = NULL, ...)
 }
@@ -15,7 +15,7 @@ f_percentage(x = NULL, ...)
 zoo object
 }
 \description{
-Transformation to Percentage
+Data Transformation: Convert Values to Percentages by Row
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -30,7 +30,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other data_processing: 
+Other data_transformation: 
 \code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
@@ -42,15 +42,6 @@ Other data_processing:
 \code{\link{f_scale}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
-\code{\link{f_trend_linear}()},
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{f_trend_linear}()}
 }
-\concept{data_processing}
+\concept{data_transformation}

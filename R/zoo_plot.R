@@ -1,4 +1,4 @@
-#' Plot Multivariate Zoo Time Series
+#' Plot Zoo Time Series
 #'
 #' @param x (required, zoo object) zoo time series. Default: NULL
 #' @param xlim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL

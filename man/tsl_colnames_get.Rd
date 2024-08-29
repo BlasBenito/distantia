@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_colnames.R
 \name{tsl_colnames_get}
 \alias{tsl_colnames_get}
-\title{Column Names of Zoo Objects in Time Series List}
+\title{Get Column Names from a Time Series Lists}
 \usage{
 tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 }
@@ -20,7 +20,7 @@ tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 character vector or list with character vectors
 }
 \description{
-Column Names of Zoo Objects in Time Series List
+Get Column Names from a Time Series Lists
 }
 \examples{
 #generate example data

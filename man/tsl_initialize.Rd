@@ -3,7 +3,7 @@
 \name{tsl_initialize}
 \alias{tsl_initialize}
 \alias{tsl_init}
-\title{Prepare Time Series List}
+\title{Tranform Data to a Time Series List}
 \usage{
 tsl_initialize(
   x = NULL,

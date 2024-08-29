@@ -1,4 +1,4 @@
-#' Optimization of Loess Models
+#' Optimize Loess Models for Time Series Resampling
 #'
 #' @description
 #'

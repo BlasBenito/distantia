@@ -25,6 +25,12 @@ Other internal:
 \code{\link{utils_check_list_class}()},
 \code{\link{utils_check_matrix_args}()},
 \code{\link{utils_check_path_args}()},
-\code{\link{utils_check_zoo_args}()}
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()}
 }
 \concept{internal}

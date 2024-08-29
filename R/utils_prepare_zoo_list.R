@@ -1,4 +1,4 @@
-#' Prepare List of Data Frames for Dissimilarity Analysis
+#' Convert List of Data Frames to List of Zoo Objects
 #'
 #'
 #' @param x (required, list of data frames) A named list with data frames. Default: NULL.
@@ -13,7 +13,7 @@
 #' )
 #' @autoglobal
 #' @export
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_zoo_list <- function(
     x = NULL,
     time_column = NULL,

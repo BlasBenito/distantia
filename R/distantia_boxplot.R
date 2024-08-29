@@ -47,9 +47,11 @@
 #'   tsl = tsl
 #' )
 #'
-#' boxplot_stats <- distantia_boxplot(
-#'   df = distantia_df
-#'   )
+#' if(interactive()){
+#'   boxplot_stats <- distantia_boxplot(
+#'     df = distantia_df
+#'     )
+#' }
 #'
 #' #The boxplot identifies Spain
 #' #as the site most dissimilar to all others,
@@ -64,9 +66,11 @@
 #'   tsl = tsl
 #' )
 #'
-#' boxplot_stats <- distantia_boxplot(
-#'   df = importance_df
-#' )
+#' if(interactive()){
+#'   boxplot_stats <- distantia_boxplot(
+#'     df = distantia_df
+#'     )
+#' }
 #'
 #' #the boxplot identifies the variable evi
 #' #(enhanced vegetation index) as the one

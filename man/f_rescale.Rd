@@ -2,12 +2,12 @@
 % Please edit documentation in R/transformations.R
 \name{f_rescale}
 \alias{f_rescale}
-\title{Re-scaling of Zoo Object to a New Range}
+\title{Data Transformation: Rescaling Values of Zoo Time Series to a New Range}
 \usage{
 f_rescale(x = NULL, new_min = 0, new_max = 1, old_min = NULL, old_max = NULL)
 }
 \arguments{
-\item{x}{(required, zoo object) Numeric vector. Default: \code{NULL}}
+\item{x}{(required, zoo object) Time Series. Default: \code{NULL}}
 
 \item{new_min}{(optional, numeric) New minimum value. Default: \code{0}}
 
@@ -21,7 +21,7 @@ f_rescale(x = NULL, new_min = 0, new_max = 1, old_min = NULL, old_max = NULL)
 zoo object
 }
 \description{
-Re-scaling of Zoo Object to a New Range
+Data Transformation: Rescaling Values of Zoo Time Series to a New Range
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -38,7 +38,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other data_processing: 
+Other data_transformation: 
 \code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
@@ -50,15 +50,6 @@ Other data_processing:
 \code{\link{f_scale}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
-\code{\link{f_trend_linear}()},
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{f_trend_linear}()}
 }
-\concept{data_processing}
+\concept{data_transformation}

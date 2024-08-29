@@ -1,4 +1,4 @@
-#' Time Features of a Time Series List
+#' Time Features of Time Series Lists
 #'
 #' @description
 #' The functions [tsl_time()] and [tsl_time_summary()] summarize the time features of a time series list.

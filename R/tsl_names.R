@@ -1,4 +1,4 @@
-#' Names of Time Series List
+#' Get Time Series Names from a Time Series Lists
 #'
 #' @description
 #'
@@ -64,7 +64,7 @@ tsl_names_get <- function(
 }
 
 
-#' Set Names of a Time Series List
+#' Set Time Series Names in a Time Series List
 #'
 #' @description
 #' Sets the names of a time series list and the internal names of the zoo objects inside, stored in their attribute "name".
@@ -255,7 +255,7 @@ tsl_names_set <- function(
 
 }
 
-#' Clean Names of a Time Series List
+#' Clean Time Series Names in a Time Series List
 #'
 #'@description
 #' Combines [utils_clean_names()] and [tsl_names_set()] to help clean, abbreviate, capitalize, and add a suffix or a prefix to time series list names.

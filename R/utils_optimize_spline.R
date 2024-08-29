@@ -1,4 +1,4 @@
-#' Optimization of Spline Models
+#' Optimize Spline Models for Time Series Resampling
 #'
 #' @description
 #'

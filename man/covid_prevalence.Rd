@@ -3,7 +3,7 @@
 \docType{data}
 \name{covid_prevalence}
 \alias{covid_prevalence}
-\title{Covid19 Prevalence Time Series in California}
+\title{Time Series of Covid Prevalence in California Counties}
 \format{
 data frame with 3 columns and 51048 rows
 }

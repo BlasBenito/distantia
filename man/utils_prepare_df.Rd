@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_prepare_df.R
 \name{utils_prepare_df}
 \alias{utils_prepare_df}
-\title{Data Frame to List of Data Frames}
+\title{Convert Data Frame to a List of Data Frames}
 \usage{
 utils_prepare_df(x = NULL, id_column = NULL, time_column = NULL)
 }
@@ -17,15 +17,21 @@ utils_prepare_df(x = NULL, id_column = NULL, time_column = NULL)
 List of data frames
 }
 \description{
-Data Frame to List of Data Frames
+Convert Data Frame to a List of Data Frames
 }
 \seealso{
-Other internal_data_preparation: 
-\code{\link{utils_clean_names}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
 \code{\link{utils_prepare_matrix}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_time}()},
 \code{\link{utils_prepare_vector_list}()},
 \code{\link{utils_prepare_zoo_list}()}
 }
-\concept{internal_data_preparation}
+\concept{internal}

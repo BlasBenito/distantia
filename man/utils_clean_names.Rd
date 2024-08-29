@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_clean_names.R
 \name{utils_clean_names}
 \alias{utils_clean_names}
-\title{Clean Names}
+\title{Clean Character Vector of Names}
 \usage{
 utils_clean_names(
   x = NULL,
@@ -77,14 +77,5 @@ utils_clean_names(
   prefix = "my_prefix",
   suffix = "my_suffix"
 )
-}
-\seealso{
-Other internal_data_preparation: 
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()}
 }
 \concept{internal_data_preparation}

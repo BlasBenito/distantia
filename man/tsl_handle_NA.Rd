@@ -4,7 +4,7 @@
 \alias{tsl_handle_NA}
 \alias{tsl_Inf_to_NA}
 \alias{tsl_NaN_to_NA}
-\title{NA Handling in Time Series Lists}
+\title{Handle NA Cases in Time Series Lists}
 \usage{
 tsl_handle_NA(tsl = NULL, na_action = "omit", quiet = FALSE)
 

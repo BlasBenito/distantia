@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_names.R
 \name{tsl_names_clean}
 \alias{tsl_names_clean}
-\title{Clean Names of a Time Series List}
+\title{Clean Time Series Names in a Time Series List}
 \usage{
 tsl_names_clean(
   tsl = NULL,

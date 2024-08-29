@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_prepare_zoo_list.R
 \name{utils_prepare_zoo_list}
 \alias{utils_prepare_zoo_list}
-\title{Prepare List of Data Frames for Dissimilarity Analysis}
+\title{Convert List of Data Frames to List of Zoo Objects}
 \usage{
 utils_prepare_zoo_list(x = NULL, time_column = NULL, lock_step = FALSE)
 }
@@ -17,7 +17,7 @@ utils_prepare_zoo_list(x = NULL, time_column = NULL, lock_step = FALSE)
 A named list of data frames, matrices, or vectors.
 }
 \description{
-Prepare List of Data Frames for Dissimilarity Analysis
+Convert List of Data Frames to List of Zoo Objects
 }
 \examples{
 data(mis)
@@ -27,12 +27,18 @@ x <- tsl_initialize(
 )
 }
 \seealso{
-Other internal_data_preparation: 
-\code{\link{utils_clean_names}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
 \code{\link{utils_prepare_df}()},
 \code{\link{utils_prepare_matrix}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_time}()},
 \code{\link{utils_prepare_vector_list}()}
 }
-\concept{internal_data_preparation}
+\concept{internal}

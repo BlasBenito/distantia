@@ -1,4 +1,4 @@
-#' Aggregation of Time Series List
+#' Aggregate Cases in Time Series Lists
 #'
 #' @description
 #'

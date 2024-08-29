@@ -1,4 +1,4 @@
-#' Time Series Dissimilarity Analysis
+#' Dissimilarity Analysis of Time Series Lists
 #'
 #' @description
 #'

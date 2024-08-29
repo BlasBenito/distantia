@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_diagnose.R
 \name{tsl_diagnose}
 \alias{tsl_diagnose}
-\title{Validate Time Series List}
+\title{Validity Assessment of Time Series Lists}
 \usage{
 tsl_diagnose(tsl = NULL, full = TRUE)
 }

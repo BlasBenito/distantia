@@ -1,4 +1,4 @@
-#' Permutation of Zoo Time Series
+#' Random or Restricted Permutation of Zoo Time Series
 #'
 #' @description
 #' Fast permutation of zoo time series for null model testing using a fast and efficient C++ implementations of different restricted and free permutation methods.

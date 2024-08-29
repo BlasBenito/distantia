@@ -1,4 +1,4 @@
-#' Aggregates a Distantia Data Frame
+#' Aggregation of Distantia Data Frame
 #'
 #' @description
 #'

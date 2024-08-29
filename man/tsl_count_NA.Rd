@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_count_NA.R
 \name{tsl_count_NA}
 \alias{tsl_count_NA}
-\title{Counts NA Cases in Time Series Lists}
+\title{Count NA Cases in Time Series Lists}
 \usage{
 tsl_count_NA(tsl = NULL, quiet = FALSE)
 }

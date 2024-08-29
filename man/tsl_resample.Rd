@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_resample.R
 \name{tsl_resample}
 \alias{tsl_resample}
-\title{Resampling of Time Series Lists}
+\title{Resample Time Series Lists to a New Time}
 \usage{
 tsl_resample(
   tsl = NULL,
@@ -270,19 +270,6 @@ future::plan(
 \code{\link[=zoo_resample]{zoo_resample()}}
 
 Other data_processing: 
-\code{\link{f_center}()},
-\code{\link{f_detrend_difference}()},
-\code{\link{f_detrend_linear}()},
-\code{\link{f_hellinger}()},
-\code{\link{f_list}()},
-\code{\link{f_pca}()},
-\code{\link{f_percentage}()},
-\code{\link{f_proportion}()},
-\code{\link{f_rescale}()},
-\code{\link{f_scale}()},
-\code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
-\code{\link{f_trend_linear}()},
 \code{\link{tsl_aggregate}()},
 \code{\link{tsl_split}()},
 \code{\link{tsl_subset}()},

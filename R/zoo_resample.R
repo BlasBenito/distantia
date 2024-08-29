@@ -1,4 +1,4 @@
-#' Resampling of Zoo Objects
+#' Resample Zoo Objects to a New Time
 #'
 #' @description
 #'

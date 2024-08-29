@@ -2,7 +2,7 @@
 % Please edit documentation in R/zoo_plot.R
 \name{zoo_plot}
 \alias{zoo_plot}
-\title{Plot Multivariate Zoo Time Series}
+\title{Plot Zoo Time Series}
 \usage{
 zoo_plot(
   x = NULL,
@@ -51,7 +51,7 @@ zoo_plot(
 A plot.
 }
 \description{
-Plot Multivariate Zoo Time Series
+Plot Zoo Time Series
 }
 \examples{
 

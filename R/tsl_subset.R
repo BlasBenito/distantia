@@ -1,7 +1,4 @@
-#' Subset a Time Series List
-#'
-#' @description
-#' Subsetting of time series lists by name, time, and variables.
+#' Subset Time Series Lists by Time Series Names, Time, and/or Column Names
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character or numeric vector) Character vector of names or numeric vector with list indices. If NULL, all time series are kept. Default: NULL

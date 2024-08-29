@@ -5,7 +5,7 @@
 #' @autoglobal
 #' @examples
 #' f_list()
-#' @family data_processing
+#' @family data_transformation
 f_list <- function(){
 
   f_funs <-  ls(
@@ -18,7 +18,7 @@ f_list <- function(){
 }
 
 
-#' Moving Window Smoothing
+#' Data Transformation: Moving Window Smoothing of Zoo Time Series
 #'
 #' @description
 #' Simplified wrapper to [zoo::rollapply()] to apply rolling window smoothing to zoo objects.
@@ -45,7 +45,7 @@ f_list <- function(){
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_smooth_window <- function(
     x = NULL,
     smoothing_window = 3,
@@ -81,8 +81,8 @@ f_smooth_window <- function(
 
 }
 
-#' @title Re-scaling of Zoo Object to a New Range
-#' @param x (required, zoo object) Numeric vector. Default: `NULL`
+#' @title Data Transformation: Rescaling Values of Zoo Time Series to a New Range
+#' @param x (required, zoo object) Time Series. Default: `NULL`
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
 #' @param new_max (optional_numeric) New maximum value. Default: `1`
 #' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
@@ -103,7 +103,7 @@ f_smooth_window <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_rescale <- function(
     x = NULL,
     new_min = 0,
@@ -134,7 +134,7 @@ f_rescale <- function(
 }
 
 
-#' Principal Components of a Time Series
+#' Data Transformation: Principal Components of Zoo Time Series
 #'
 #' @description
 #' Uses [stats::prcomp()] to compute the Principal Component Analysis of a time series and return the principal components instead of the original columns. Output columns are named "PC1", "PC2" and so on.
@@ -157,7 +157,7 @@ f_rescale <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_pca <- function(
     x = NULL,
     ...
@@ -180,7 +180,7 @@ f_pca <- function(
 
 }
 
-#' Linear Trend of a Time Series
+#' Data Transformation: Linear Trend of Zoo Time Series
 #'
 #' @description
 #' Fits a linear model on each column of a zoo object using time as a predictor, and predicts the outcome.
@@ -204,7 +204,7 @@ f_pca <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_trend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -240,7 +240,7 @@ f_trend_linear <- function(
 }
 
 
-#' Linear Detrending of a Time Series
+#' Data Transformation: Linear Detrending of Zoo Time Series
 #'
 #' @description
 #' Fits a linear model on each column of a zoo object using time as a predictor, predicts the outcome, and subtracts it from the original data to return a detrended time series. This method might not be suitable if the input data is not seasonal and has a clear trend, so please be mindful of the limitations of this function when applied blindly.
@@ -264,7 +264,7 @@ f_trend_linear <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_detrend_linear <- function(
     x = NULL,
     center = TRUE,
@@ -302,7 +302,7 @@ f_detrend_linear <- function(
 
 }
 
-#' Differencing Detrending of Time Series
+#' Data Transformation: Differencing Detrending of Zoo Time Series
 #'
 #' @description
 #' Differencing detrending via [diff()]. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
@@ -333,7 +333,7 @@ f_detrend_linear <- function(
 #'   zoo_plot(y_lag1)
 #'   zoo_plot(y_lag5)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_detrend_difference <- function(
     x = NULL,
     lag = 1,
@@ -383,7 +383,7 @@ f_detrend_difference <- function(
 
 
 
-#' Transformation to Proportions
+#' Data Transformation: Convert Values to Proportions by Row
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param ... (optional, additional arguments) Ignored in this function.
@@ -402,7 +402,7 @@ f_detrend_difference <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_proportion <- function(
     x = NULL,
     ...
@@ -427,7 +427,7 @@ f_proportion <- function(
 
 }
 
-#' Transformation to Percentage
+#' Data Transformation: Convert Values to Percentages by Row
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param ... (optional, additional arguments) Ignored in this function.
@@ -446,7 +446,7 @@ f_proportion <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_percentage <- function(
     x = NULL,
     ...
@@ -456,7 +456,7 @@ f_percentage <- function(
 
 }
 
-#' Hellinger Transformation
+#' Data Transformation: Hellinger Transformation by Rows
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param pseudozero (required, numeric) Small number above zero to replace zeroes with.
@@ -478,7 +478,7 @@ f_percentage <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_hellinger <- function(
     x = NULL,
     pseudozero = 0.0001,
@@ -518,7 +518,7 @@ f_hellinger <- function(
 
 }
 
-#' Centering
+#' Data Transformation: Data Centering by Column
 #'
 #' @description
 #' Wraps [base::scale()] for global centering with [tsl_transform()].
@@ -541,7 +541,7 @@ f_hellinger <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_center <- function(
     x = NULL,
     center = TRUE,
@@ -556,7 +556,7 @@ f_center <- function(
 
 }
 
-#' Centering and Scaling
+#' Data Transformation: Data Centering and Scaling by Column
 #'
 #' @description
 #' Wraps [base::scale()] for global centering and scaling with [tsl_transform()].
@@ -579,7 +579,7 @@ f_center <- function(
 #'   zoo_plot(x)
 #'   zoo_plot(y)
 #' }
-#' @family data_processing
+#' @family data_transformation
 f_scale <- function(
     x = NULL,
     center = TRUE,
@@ -595,7 +595,7 @@ f_scale <- function(
 }
 
 
-#' Linear Slope of Time Series
+#' Data Transformation: Slope of Linear Regression with Time
 #'
 #' @description
 #' Designed for usage in [tsl_aggregate()]. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
@@ -615,7 +615,7 @@ f_scale <- function(
 #'
 #' # Numeric vector with length = 0
 #' f_slope(x = numeric(0))
-#' @family data_processing
+#' @family data_transformation
 f_slope <- function(
     x = NULL,
     ...

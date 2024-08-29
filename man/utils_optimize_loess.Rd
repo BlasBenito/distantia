@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_optimize_loess.R
 \name{utils_optimize_loess}
 \alias{utils_optimize_loess}
-\title{Optimization of Loess Models}
+\title{Optimize Loess Models for Time Series Resampling}
 \usage{
 utils_optimize_loess(x = NULL, y = NULL, max_complexity = FALSE)
 }

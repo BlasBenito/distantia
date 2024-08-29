@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_rescale_vector.R
 \name{utils_rescale_vector}
 \alias{utils_rescale_vector}
-\title{Re-scaling of Numeric Vector to a New Range}
+\title{Rescale Numeric Vector to a New Data Range}
 \usage{
 utils_rescale_vector(
   x = NULL,
@@ -27,7 +27,7 @@ utils_rescale_vector(
 numeric vector
 }
 \description{
-Re-scaling of Numeric Vector to a New Range
+Rescale Numeric Vector to a New Data Range
 }
 \examples{
 

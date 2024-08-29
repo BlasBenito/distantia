@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_prepare_time.R
 \name{utils_prepare_time}
 \alias{utils_prepare_time}
-\title{Handles Time Column in List of Data Frames}
+\title{Handles Time Column in a List of Data Frames}
 \usage{
 utils_prepare_time(x = NULL, time_column = NULL, lock_step = NULL)
 }
@@ -17,15 +17,21 @@ utils_prepare_time(x = NULL, time_column = NULL, lock_step = NULL)
 List of data frames
 }
 \description{
-Handles Time Column in List of Data Frames
+Handles Time Column in a List of Data Frames
 }
 \seealso{
-Other internal_data_preparation: 
-\code{\link{utils_clean_names}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
 \code{\link{utils_prepare_df}()},
 \code{\link{utils_prepare_matrix}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_vector_list}()},
 \code{\link{utils_prepare_zoo_list}()}
 }
-\concept{internal_data_preparation}
+\concept{internal}

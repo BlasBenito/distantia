@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_optimize_spline.R
 \name{utils_optimize_spline}
 \alias{utils_optimize_spline}
-\title{Optimization of Spline Models}
+\title{Optimize Spline Models for Time Series Resampling}
 \usage{
 utils_optimize_spline(x = NULL, y = NULL, max_complexity = FALSE)
 }

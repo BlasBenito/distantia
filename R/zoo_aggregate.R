@@ -1,4 +1,4 @@
-#' Aggregates Zoo Time Series
+#' Aggregate Cases in Zoo Time Series
 #'
 #' @param x (required, zoo object) Time series to aggregate. Default: NULL
 #' @param new_time (optional, zoo object, keyword, or time vector) New time to aggregate `x` to. The available options are:

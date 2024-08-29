@@ -1,4 +1,4 @@
-#' Clean Names
+#' Clean Character Vector of Names
 #'
 #' Clean and format character vectors for use as column names or variable names.
 #'

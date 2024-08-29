@@ -1,4 +1,4 @@
-#' Resampling of Time Series Lists
+#' Resample Time Series Lists to a New Time
 #'
 #' @description
 #'

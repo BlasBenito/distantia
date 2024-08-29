@@ -1,4 +1,4 @@
-#' Number of Columns in a Time Series Lists
+#' Get Number of Columns in Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #'

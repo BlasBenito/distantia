@@ -1,11 +1,11 @@
-#' List of Vectors to List of Data Frames
+#' Convert List of Vectors to List of Data Frames
 #'
 #' @param x (required, list of vectors) Default: NULL
 #'
 #' @return List of data frames
 #' @export
 #' @autoglobal
-#' @family internal_data_preparation
+#' @family internal
 utils_prepare_vector_list <- function(
     x = NULL
 ){

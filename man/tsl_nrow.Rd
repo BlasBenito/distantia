@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_nrow.R
 \name{tsl_nrow}
 \alias{tsl_nrow}
-\title{Number of Rows in a Time Series Lists}
+\title{Get Number of Rows in Time Series Lists}
 \usage{
 tsl_nrow(tsl = NULL)
 }
@@ -13,7 +13,7 @@ tsl_nrow(tsl = NULL)
 list
 }
 \description{
-Number of Rows in a Time Series Lists
+Get Number of Rows in Time Series Lists
 }
 \examples{
 #simulate zoo time series

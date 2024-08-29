@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_prepare_matrix.R
 \name{utils_prepare_matrix}
 \alias{utils_prepare_matrix}
-\title{Matrix to Data Frame}
+\title{Convert Matrix to Data Frame}
 \usage{
 utils_prepare_matrix(x = NULL)
 }
@@ -13,15 +13,21 @@ utils_prepare_matrix(x = NULL)
 A data frame
 }
 \description{
-Matrix to Data Frame
+Convert Matrix to Data Frame
 }
 \seealso{
-Other internal_data_preparation: 
-\code{\link{utils_clean_names}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
 \code{\link{utils_prepare_df}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_time}()},
 \code{\link{utils_prepare_vector_list}()},
 \code{\link{utils_prepare_zoo_list}()}
 }
-\concept{internal_data_preparation}
+\concept{internal}

@@ -1,4 +1,4 @@
-#' Prepare Time Series List
+#' Tranform Data to a Time Series List
 #'
 #' @description
 #'

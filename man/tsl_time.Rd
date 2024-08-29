@@ -3,7 +3,7 @@
 \name{tsl_time}
 \alias{tsl_time}
 \alias{tsl_time_summary}
-\title{Time Features of a Time Series List}
+\title{Time Features of Time Series Lists}
 \usage{
 tsl_time(tsl = NULL, keywords = c("resample", "aggregate"))
 

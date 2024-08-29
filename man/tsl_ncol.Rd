@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_ncol.R
 \name{tsl_ncol}
 \alias{tsl_ncol}
-\title{Number of Columns in a Time Series Lists}
+\title{Get Number of Columns in Time Series Lists}
 \usage{
 tsl_ncol(tsl = NULL)
 }
@@ -13,7 +13,7 @@ tsl_ncol(tsl = NULL)
 list
 }
 \description{
-Number of Columns in a Time Series Lists
+Get Number of Columns in Time Series Lists
 }
 \examples{
 #initialize time series list

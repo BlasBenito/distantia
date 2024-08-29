@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_global_scaling_params.R
 \name{utils_global_scaling_params}
 \alias{utils_global_scaling_params}
-\title{Global Scaling Parameters of Time Series Lists}
+\title{Global Centering and Scaling Parameters of Time Series Lists}
 \usage{
 utils_global_scaling_params(tsl = NULL, f = NULL, ...)
 }

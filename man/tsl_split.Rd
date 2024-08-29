@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_split.R
 \name{tsl_split}
 \alias{tsl_split}
-\title{Splits Multivariate Time Series List into Univariate}
+\title{Splits Multivariate Time Series Lists to Univariate TSLs}
 \usage{
 tsl_split(tsl = NULL, sep = "__")
 }
@@ -12,7 +12,7 @@ tsl_split(tsl = NULL, sep = "__")
 \item{sep}{(required, character string) separator between the time series name and the column name.}
 }
 \value{
-Time series list
+time series list
 }
 \description{
 This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c". The only column of each new zoo object is named "x".
@@ -47,19 +47,6 @@ lapply(tsl, colnames)
 }
 \seealso{
 Other data_processing: 
-\code{\link{f_center}()},
-\code{\link{f_detrend_difference}()},
-\code{\link{f_detrend_linear}()},
-\code{\link{f_hellinger}()},
-\code{\link{f_list}()},
-\code{\link{f_pca}()},
-\code{\link{f_percentage}()},
-\code{\link{f_proportion}()},
-\code{\link{f_rescale}()},
-\code{\link{f_scale}()},
-\code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
-\code{\link{f_trend_linear}()},
 \code{\link{tsl_aggregate}()},
 \code{\link{tsl_resample}()},
 \code{\link{tsl_subset}()},
