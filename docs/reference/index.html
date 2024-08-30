@@ -446,7 +446,7 @@
       </dl></div><div class="section level2">
       <h2 id="dissimilarity-analysis-and-clustering">Dissimilarity Analysis and Clustering<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis-and-clustering"></a></h2>
 
-      <div class="section-desc"><p>Functions to compare time series either via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.</p></div>
+      <div class="section-desc"><p>Functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.</p></div>
 
 
     </div><div class="section level2">
@@ -465,157 +465,150 @@
           <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>
 
         </dt>
-        <dd>Aggregation of Distantia Data Frame</dd>
+        <dd>Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_boxplot.html">distantia_boxplot()</a></code>
 
         </dt>
-        <dd>Dissimilarity Boxplots</dd>
+        <dd>Boxplot of Dissimilarity Analysis Data Frames</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust()</a></code>
 
         </dt>
-        <dd>Hierarchical Clustering from Dissimilarity Scores</dd>
+        <dd>Hierarchical Clustering of Dissimilarity Analysis Data Frames</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans()</a></code>
 
         </dt>
-        <dd>K-means Clustering from Dissimilarity Scores</dd>
+        <dd>K-Means Clustering of Dissimilarity Analysis Data Frames</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_importance.html">distantia_importance()</a></code>
 
         </dt>
-        <dd>Contribution of Individual Variables to Dissimilarity</dd>
+        <dd>Contribution of Individual Variables to Dissimilarity in Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_matrix.html">distantia_matrix()</a></code>
 
         </dt>
-        <dd>Dissimilarity Data Frame to Distance Matrix</dd>
+        <dd>Convert Dissimilarity Analysis Data Frame to Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_plot.html">distantia_plot()</a></code>
 
         </dt>
-        <dd>Multipanel Plot Comparing Two Sequences</dd>
+        <dd>Two-Way Dissimilarity Plots of Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_to_sf.html">distantia_to_sf()</a></code>
 
         </dt>
-        <dd>Distantia to Spatial Data Frame</dd>
+        <dd>Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks</dd>
       </dl><dl><dt>
 
           <code><a href="utils_block_size.html">utils_block_size()</a></code>
 
         </dt>
-        <dd>Logics to Handle Argument block_size in distantia()</dd>
+        <dd>Default Block Size for Restricted Permutation in Dissimilarity Analyses</dd>
       </dl><dl><dt>
 
           <code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer()</a></code>
 
         </dt>
-        <dd>Optimal Number of Clusters for Hierarchical Clustering</dd>
+        <dd>Optimize the Silhouette Width of Hierarchical Clustering Solutions</dd>
       </dl><dl><dt>
 
           <code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer()</a></code>
 
         </dt>
-        <dd>Optimal Number of Clusters for Kmeans</dd>
+        <dd>Optimize the Silhouette Width of K-Means Clustering Solutions</dd>
       </dl><dl><dt>
 
           <code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette()</a></code>
 
         </dt>
-        <dd>Silhouette Width of a Clustering Solution</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_df_to_matrix.html">utils_df_to_matrix()</a></code>
-
-        </dt>
-        <dd>Data Frame to Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_distantia_df_split.html">utils_distantia_df_split()</a></code>
-
-        </dt>
-        <dd>Splits Distantia Data Frame in Groups</dd>
+        <dd>Compute Silhouette Width of a Clustering Solution</dd>
       </dl><dl><dt>
 
           <code><a href="utils_importance_df_to_wide.html">utils_importance_df_to_wide()</a></code>
 
         </dt>
-        <dd>Importance Data Frame to Wide Format</dd>
-      </dl><dl><dt>
+        <dd>Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format</dd>
+      </dl></div><div class="section level2">
+      <h2 id="c-functions-for-dissimilarity-analysis">C++ Functions for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#c-functions-for-dissimilarity-analysis"></a></h2>
 
-          <code><a href="utils_tsl_pairs.html">utils_tsl_pairs()</a></code>
+      <div class="section-desc"><p>Fast and efficient C++ functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison.</p></div>
 
-        </dt>
-        <dd>Data Frame of Time Series Pairs</dd>
-      </dl><dl><dt>
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="auto_distance_cpp.html">auto_distance_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Auto-Distance of a Single Time Series</dd>
+        <dd>(C++) Sum Distances Between Consecutive Samples in a Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_cpp.html">auto_sum_cpp()</a></code>
 
         </dt>
-        <dd>Sum of Auto-Distances of Two Time Series</dd>
+        <dd>(C++) Sum Distances Between Consecutive Samples in Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_full_cpp.html">auto_sum_full_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Full Sum of Auto-Distances of Two Time Series</dd>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_path_cpp.html">auto_sum_path_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates</dd>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_cpp.html">cost_matrix_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix</dd>
+        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_diag_cpp.html">cost_matrix_diag_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix Considering Diagonals</dd>
+        <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_weighted_diag_cpp.html">cost_matrix_weighted_diag_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix with Weighted Diagonals</dd>
+        <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
 
         </dt>
-        <dd>Least Cost Path</dd>
+        <dd>Find Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Path Considering Diagonals</dd>
+        <dd>(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Orthogonal Least Cost Path</dd>
+        <dd>(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp()</a></code>
@@ -627,13 +620,13 @@
           <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Distance Sum of Least Cost Path</dd>
+        <dd>(C++) Sum Distances in a Least Cost Path</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Trims Blocks from a Least Cost Path</dd>
+        <dd>(C++) Remove Blocks from a Least Cost Path</dd>
       </dl><dl><dt>
 
           <code><a href="distance_canberra_cpp.html">distance_canberra_cpp()</a></code>
@@ -687,7 +680,7 @@
           <code><a href="distance_lock_step_cpp.html">distance_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Sum of Pairwise Distances of Two Aligned Time Series</dd>
+        <dd>(C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="distance_manhattan_cpp.html">distance_manhattan_cpp()</a></code>
@@ -711,31 +704,31 @@
           <code><a href="importance_legacy_cpp.html">importance_legacy_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Legacy Version)</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
       </dl><dl><dt>
 
           <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="importance_robust_cpp.html">importance_robust_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Robust Version)</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_cpp.html">null_psi_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Null Distribution of Psi Scores Between Two Time-Series</dd>
+        <dd>(C++) Null Distribution of Dissimilarity Scores of Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Null Distribution of Psi Scores Between Two Aligned Time-Series</dd>
+        <dd>(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="permute_free_by_row_cpp.html">permute_free_by_row_cpp()</a></code>
@@ -765,19 +758,19 @@
           <code><a href="psi_cpp.html">psi_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Between Two Time-Series</dd>
+        <dd>(C++) Psi Dissimilarity Score of Two Time-Series</dd>
       </dl><dl><dt>
 
           <code><a href="psi_formula_cpp.html">psi_formula_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Formula</dd>
+        <dd>(C++) Computation of the Psi Dissimilarity Score</dd>
       </dl><dl><dt>
 
           <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Between Two Aligned Time-Series</dd>
+        <dd>(C++) Psi Dissimilarity Score of Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="subset_matrix_by_rows_cpp.html">subset_matrix_by_rows_cpp()</a></code>
@@ -871,61 +864,61 @@
           <code><a href="auto_distance_cpp.html">auto_distance_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Auto-Distance of a Single Time Series</dd>
+        <dd>(C++) Sum Distances Between Consecutive Samples in a Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_cpp.html">auto_sum_cpp()</a></code>
 
         </dt>
-        <dd>Sum of Auto-Distances of Two Time Series</dd>
+        <dd>(C++) Sum Distances Between Consecutive Samples in Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_full_cpp.html">auto_sum_full_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Full Sum of Auto-Distances of Two Time Series</dd>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="auto_sum_path_cpp.html">auto_sum_path_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates</dd>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_cpp.html">cost_matrix_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix</dd>
+        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_diag_cpp.html">cost_matrix_diag_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix Considering Diagonals</dd>
+        <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_matrix_weighted_diag_cpp.html">cost_matrix_weighted_diag_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Matrix with Weighted Diagonals</dd>
+        <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
 
         </dt>
-        <dd>Least Cost Path</dd>
+        <dd>Find Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Least Cost Path Considering Diagonals</dd>
+        <dd>(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Orthogonal Least Cost Path</dd>
+        <dd>(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp()</a></code>
@@ -937,13 +930,13 @@
           <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Distance Sum of Least Cost Path</dd>
+        <dd>(C++) Sum Distances in a Least Cost Path</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Trims Blocks from a Least Cost Path</dd>
+        <dd>(C++) Remove Blocks from a Least Cost Path</dd>
       </dl><dl><dt>
 
           <code><a href="distance_canberra_cpp.html">distance_canberra_cpp()</a></code>
@@ -997,7 +990,7 @@
           <code><a href="distance_lock_step_cpp.html">distance_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Sum of Pairwise Distances of Two Aligned Time Series</dd>
+        <dd>(C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="distance_manhattan_cpp.html">distance_manhattan_cpp()</a></code>
@@ -1021,31 +1014,31 @@
           <code><a href="importance_legacy_cpp.html">importance_legacy_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Legacy Version)</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
       </dl><dl><dt>
 
           <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="importance_robust_cpp.html">importance_robust_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Robust Version)</dd>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_cpp.html">null_psi_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Null Distribution of Psi Scores Between Two Time-Series</dd>
+        <dd>(C++) Null Distribution of Dissimilarity Scores of Two Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Null Distribution of Psi Scores Between Two Aligned Time-Series</dd>
+        <dd>(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="permute_free_by_row_cpp.html">permute_free_by_row_cpp()</a></code>
@@ -1075,19 +1068,19 @@
           <code><a href="psi_cpp.html">psi_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Between Two Time-Series</dd>
+        <dd>(C++) Psi Dissimilarity Score of Two Time-Series</dd>
       </dl><dl><dt>
 
           <code><a href="psi_formula_cpp.html">psi_formula_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Formula</dd>
+        <dd>(C++) Computation of the Psi Dissimilarity Score</dd>
       </dl><dl><dt>
 
           <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Psi Dissimilarity Between Two Aligned Time-Series</dd>
+        <dd>(C++) Psi Dissimilarity Score of Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="subset_matrix_by_rows_cpp.html">subset_matrix_by_rows_cpp()</a></code>
@@ -1134,7 +1127,7 @@
           <code><a href="utils_line_guide.html">utils_line_guide()</a></code>
 
         </dt>
-        <dd>Legend for Sequence Plots</dd>
+        <dd>Guide for Time Series Plots</dd>
       </dl><dl><dt>
 
           <code><a href="utils_matrix_guide.html">utils_matrix_guide()</a></code>
@@ -1261,6 +1254,18 @@
         <dd>Number of Decimal Places</dd>
       </dl><dl><dt>
 
+          <code><a href="utils_distantia_df_split.html">utils_distantia_df_split()</a></code>
+
+        </dt>
+        <dd>Split Dissimilarity Analysis Data Frames by Combinations of Arguments</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_distantia_df_to_matrix.html">utils_distantia_df_to_matrix()</a></code>
+
+        </dt>
+        <dd>Data Frame to Matrix</dd>
+      </dl><dl><dt>
+
           <code><a href="utils_prepare_df.html">utils_prepare_df()</a></code>
 
         </dt>
@@ -1295,6 +1300,12 @@
 
         </dt>
         <dd>Convert List of Data Frames to List of Zoo Objects</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_tsl_pairs.html">utils_tsl_pairs()</a></code>
+
+        </dt>
+        <dd>Data Frame with Pairs of Time Series in Time Series Lists</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

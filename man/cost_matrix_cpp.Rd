@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_matrix_cpp}
 \alias{cost_matrix_cpp}
-\title{(C++) Least Cost Matrix}
+\title{(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix}
 \usage{
 cost_matrix_cpp(dist_matrix)
 }

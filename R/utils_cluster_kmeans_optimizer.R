@@ -1,4 +1,4 @@
-#' Optimal Number of Clusters for Kmeans
+#' Optimize the Silhouette Width of K-Means Clustering Solutions
 #'
 #' @description
 #' Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [utils_cluster_silhouette()] for more details.

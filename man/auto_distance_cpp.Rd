@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_distance_cpp}
 \alias{auto_distance_cpp}
-\title{(C++) Auto-Distance of a Single Time Series}
+\title{(C++) Sum Distances Between Consecutive Samples in a Time Series}
 \usage{
 auto_distance_cpp(x, distance = "euclidean")
 }

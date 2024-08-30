@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{null_psi_lock_step_cpp}
 \alias{null_psi_lock_step_cpp}
-\title{(C++) Null Distribution of Psi Scores Between Two Aligned Time-Series}
+\title{(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series}
 \usage{
 null_psi_lock_step_cpp(
   x,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_distantia_df_split.R
 \name{utils_distantia_df_split}
 \alias{utils_distantia_df_split}
-\title{Splits Distantia Data Frame in Groups}
+\title{Split Dissimilarity Analysis Data Frames by Combinations of Arguments}
 \usage{
 utils_distantia_df_split(df = NULL)
 }
@@ -50,13 +50,21 @@ class(df_split)
 length(df_split)
 }
 \seealso{
-Other internal_dissimilarity_analysis: 
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_df_to_matrix}()},
-\code{\link{utils_importance_df_to_wide}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
+\code{\link{utils_distantia_df_to_matrix}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()},
 \code{\link{utils_tsl_pairs}()}
 }
-\concept{internal_dissimilarity_analysis}
+\concept{internal}

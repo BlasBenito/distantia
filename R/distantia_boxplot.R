@@ -1,4 +1,4 @@
-#' Dissimilarity Boxplots
+#' Boxplot of Dissimilarity Analysis Data Frames
 #'
 #' @description
 #'
@@ -51,14 +51,13 @@
 #'   boxplot_stats <- distantia_boxplot(
 #'     df = distantia_df
 #'     )
+#'     boxplot_stats
 #' }
 #'
 #' #The boxplot identifies Spain
 #' #as the site most dissimilar to all others,
 #' #and Germany as the most similar to all others.
 #'
-#' #stats returned by distantia_boxplot (see graphics::boxplot())
-#' boxplot_stats
 #'
 #' #example with distantia_importance()
 #' #-----------------------------------

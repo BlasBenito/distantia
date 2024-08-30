@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_sum_cpp}
 \alias{cost_path_sum_cpp}
-\title{(C++) Distance Sum of Least Cost Path}
+\title{(C++) Sum Distances in a Least Cost Path}
 \usage{
 cost_path_sum_cpp(path)
 }
@@ -13,7 +13,7 @@ cost_path_sum_cpp(path)
 numeric
 }
 \description{
-(C++) Distance Sum of Least Cost Path
+(C++) Sum Distances in a Least Cost Path
 }
 \examples{
 #simulate two time series

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_block_size.R
 \name{utils_block_size}
 \alias{utils_block_size}
-\title{Logics to Handle Argument block_size in distantia()}
+\title{Default Block Size for Restricted Permutation in Dissimilarity Analyses}
 \usage{
 utils_block_size(tsl = NULL, block_size = NULL)
 }
@@ -15,16 +15,13 @@ utils_block_size(tsl = NULL, block_size = NULL)
 integer
 }
 \description{
-Logics to Handle Argument block_size in distantia()
+Default Block Size for Restricted Permutation in Dissimilarity Analyses
 }
 \seealso{
 Other internal_dissimilarity_analysis: 
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
 \code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_df_to_matrix}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_importance_df_to_wide}()},
-\code{\link{utils_tsl_pairs}()}
+\code{\link{utils_importance_df_to_wide}()}
 }
 \concept{internal_dissimilarity_analysis}

@@ -45,10 +45,14 @@ reference:
   - has_concept("internal_data_processing")
 
 - title: Dissimilarity Analysis and Clustering
-  desc:  Functions to compare time series either via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.
+  desc:  Functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.
 - contents:
   - has_concept("dissimilarity_analysis")
   - has_concept("internal_dissimilarity_analysis")
+
+- title: C++ Functions for Dissimilarity Analysis
+  desc:  Fast and efficient C++ functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison.
+- contents:
   - has_concept("Rcpp")
 
 - title: Psi Dissimilarity Scores

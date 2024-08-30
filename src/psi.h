@@ -6,7 +6,7 @@
 // Forward declarations of functions
 
 double psi_formula_cpp(
-    Rcpp::DataFrame path,
+    double cost_path_sum,
     double auto_sum,
     bool diagonal = false
 );

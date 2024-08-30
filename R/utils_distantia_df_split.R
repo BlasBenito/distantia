@@ -1,4 +1,4 @@
-#' Splits Distantia Data Frame in Groups
+#' Split Dissimilarity Analysis Data Frames by Combinations of Arguments
 #'
 #' @description
 #' Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', 'weighted', 'ignore_blocks', and 'lock_step'.
@@ -41,7 +41,7 @@
 #' #class and length of the output
 #' class(df_split)
 #' length(df_split)
-#' @family internal_dissimilarity_analysis
+#' @family internal
 utils_distantia_df_split <- function(
     df = NULL
 ){

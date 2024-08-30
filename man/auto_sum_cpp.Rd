@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_cpp}
 \alias{auto_sum_cpp}
-\title{Sum of Auto-Distances of Two Time Series}
+\title{(C++) Sum Distances Between Consecutive Samples in Two Time Series}
 \usage{
 auto_sum_cpp(x, y, path, distance = "euclidean", ignore_blocks = FALSE)
 }

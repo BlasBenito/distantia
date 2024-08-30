@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_to_sf.R
 \name{distantia_to_sf}
 \alias{distantia_to_sf}
-\title{Distantia to Spatial Data Frame}
+\title{Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks}
 \usage{
 distantia_to_sf(df = NULL, xy = NULL)
 }

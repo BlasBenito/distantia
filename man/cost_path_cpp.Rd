@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_cpp}
 \alias{cost_path_cpp}
-\title{Least Cost Path}
+\title{Find Least Cost Path within a Least Cost Matrix}
 \usage{
 cost_path_cpp(
   x,

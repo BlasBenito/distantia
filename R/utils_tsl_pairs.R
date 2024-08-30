@@ -1,4 +1,4 @@
-#' Data Frame of Time Series Pairs
+#' Data Frame with Pairs of Time Series in Time Series Lists
 #'
 #' @description
 #' Internal function used in [distantia()] and [distantia_importance()] to generate a data frame with combinations of time series and function arguments.
@@ -10,7 +10,7 @@
 #' @return data frame
 #' @export
 #' @autoglobal
-#' @family internal_dissimilarity_analysis
+#' @family internal
 utils_tsl_pairs <- function(
     tsl = NULL,
     args_list = NULL

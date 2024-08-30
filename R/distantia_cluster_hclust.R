@@ -1,4 +1,4 @@
-#' Hierarchical Clustering from Dissimilarity Scores
+#' Hierarchical Clustering of Dissimilarity Analysis Data Frames
 #'
 #' @description
 #' This function combines the dissimilarity scores computed by [distantia()], the agglomerative clustering methods provided by [stats::hclust()], and the clustering optimization method implemented in [utils_cluster_hclust_optimizer()] to help group together time series with similar features.

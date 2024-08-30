@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_cpp}
 \alias{psi_cpp}
-\title{(C++) Psi Dissimilarity Between Two Time-Series}
+\title{(C++) Psi Dissimilarity Score of Two Time-Series}
 \usage{
 psi_cpp(
   x,

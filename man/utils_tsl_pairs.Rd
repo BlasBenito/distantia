@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_tsl_pairs.R
 \name{utils_tsl_pairs}
 \alias{utils_tsl_pairs}
-\title{Data Frame of Time Series Pairs}
+\title{Data Frame with Pairs of Time Series in Time Series Lists}
 \usage{
 utils_tsl_pairs(tsl = NULL, args_list = NULL)
 }
@@ -18,13 +18,21 @@ data frame
 Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} to generate a data frame with combinations of time series and function arguments.
 }
 \seealso{
-Other internal_dissimilarity_analysis: 
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_df_to_matrix}()},
+Other internal: 
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_distantia_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_check_matrix_args}()},
+\code{\link{utils_check_path_args}()},
+\code{\link{utils_check_zoo_args}()},
+\code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_split}()},
-\code{\link{utils_importance_df_to_wide}()}
+\code{\link{utils_distantia_df_to_matrix}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()}
 }
-\concept{internal_dissimilarity_analysis}
+\concept{internal}

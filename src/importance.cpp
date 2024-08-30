@@ -97,7 +97,7 @@ NumericMatrix delete_column_cpp(
 }
 
 
-//' (C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series
+//' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series
 //' @description Computes the contribution of individual variables to the
 //' similarity/dissimilarity between two aligned multivariate time series.
 //' This function generates a data frame with the following columns:
@@ -219,7 +219,7 @@ DataFrame importance_lock_step_cpp(
 
 }
 
-//' (C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Legacy Version)
+//' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)
 //' @description Computes the contribution of individual variables to the
 //' similarity/dissimilarity between two irregular multivariate time series.
 //' In opposition to the robust version, least-cost paths for each combination
@@ -359,7 +359,7 @@ DataFrame importance_legacy_cpp(
 }
 
 
-//' (C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Robust Version)
+//' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)
 //' @description Computes the contribution of individual variables to the
 //' similarity/dissimilarity between two irregular multivariate time series.
 //' In opposition to the legacy version, importance computation is
@@ -444,6 +444,8 @@ DataFrame importance_robust_cpp(
     ignore_blocks
   );
 
+  double path_sum = cost_path_sum_cpp(path);
+
   // auto sum of distances to normalize cost path sum
   double xy_sum = auto_sum_cpp(
     x,
@@ -455,7 +457,7 @@ DataFrame importance_robust_cpp(
 
   // overall psi distance
   double psi_all_variables = psi_formula_cpp(
-    path,
+    path_sum,
     xy_sum,
     diagonal
   );
@@ -478,6 +480,8 @@ DataFrame importance_robust_cpp(
       distance
     );
 
+    double path_only_with_sum = cost_path_sum_cpp(path_only_with);
+
     //compute autosum of y_only_with and x_only_with
     double xy_sum_only_with = auto_sum_cpp(
       x_only_with,
@@ -489,7 +493,7 @@ DataFrame importance_robust_cpp(
 
     //compute psi
     psi_only_with[i] = psi_formula_cpp(
-      path_only_with,
+      path_only_with_sum,
       xy_sum_only_with,
       diagonal
     );
@@ -506,6 +510,8 @@ DataFrame importance_robust_cpp(
       distance
     );
 
+    double path_without_sum = cost_path_sum_cpp(path_without);
+
     //compute autosum of y_without and x_without
     double xy_sum_without = auto_sum_cpp(
       x_without,
@@ -517,7 +523,7 @@ DataFrame importance_robust_cpp(
 
     //compute psi
     psi_without[i] = psi_formula_cpp(
-      path_without,
+      path_without_sum,
       xy_sum_without,
       diagonal
     );

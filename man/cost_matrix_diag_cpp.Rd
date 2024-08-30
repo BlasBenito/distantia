@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_matrix_diag_cpp}
 \alias{cost_matrix_diag_cpp}
-\title{(C++) Least Cost Matrix Considering Diagonals}
+\title{(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix}
 \usage{
 cost_matrix_diag_cpp(dist_matrix)
 }

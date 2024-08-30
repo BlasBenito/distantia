@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{distance_lock_step_cpp}
 \alias{distance_lock_step_cpp}
-\title{(C++) Sum of Pairwise Distances of Two Aligned Time Series}
+\title{(C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series}
 \usage{
 distance_lock_step_cpp(x, y, distance = "euclidean")
 }

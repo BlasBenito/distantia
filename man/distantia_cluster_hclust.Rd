@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_cluster_hclust.R
 \name{distantia_cluster_hclust}
 \alias{distantia_cluster_hclust}
-\title{Hierarchical Clustering from Dissimilarity Scores}
+\title{Hierarchical Clustering of Dissimilarity Analysis Data Frames}
 \usage{
 distantia_cluster_hclust(df = NULL, clusters = NULL, method = "complete")
 }

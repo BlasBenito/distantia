@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_cluster_hclust_optimizer.R
 \name{utils_cluster_hclust_optimizer}
 \alias{utils_cluster_hclust_optimizer}
-\title{Optimal Number of Clusters for Hierarchical Clustering}
+\title{Optimize the Silhouette Width of Hierarchical Clustering Solutions}
 \usage{
 utils_cluster_hclust_optimizer(d = NULL, method = NULL)
 }
@@ -82,9 +82,6 @@ Other internal_dissimilarity_analysis:
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
 \code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_df_to_matrix}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_importance_df_to_wide}()},
-\code{\link{utils_tsl_pairs}()}
+\code{\link{utils_importance_df_to_wide}()}
 }
 \concept{internal_dissimilarity_analysis}

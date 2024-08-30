@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{null_psi_cpp}
 \alias{null_psi_cpp}
-\title{(C++) Null Distribution of Psi Scores Between Two Time-Series}
+\title{(C++) Null Distribution of Dissimilarity Scores of Two Time Series}
 \usage{
 null_psi_cpp(
   x,

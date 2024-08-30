@@ -1,4 +1,4 @@
-#' Multipanel Plot Comparing Two Sequences
+#' Two-Way Dissimilarity Plots of Time Series Lists
 #'
 #' @description
 #'

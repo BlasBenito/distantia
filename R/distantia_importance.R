@@ -1,4 +1,4 @@
-#' Contribution of Individual Variables to Dissimilarity
+#' Contribution of Individual Variables to Dissimilarity in Time Series Lists
 #'
 #' @description
 #'

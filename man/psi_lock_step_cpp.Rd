@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_lock_step_cpp}
 \alias{psi_lock_step_cpp}
-\title{(C++) Psi Dissimilarity Between Two Aligned Time-Series}
+\title{(C++) Psi Dissimilarity Score of Two Aligned Time Series}
 \usage{
 psi_lock_step_cpp(x, y, distance = "euclidean")
 }

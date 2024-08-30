@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_line_guide.R
 \name{utils_line_guide}
 \alias{utils_line_guide}
-\title{Legend for Sequence Plots}
+\title{Guide for Time Series Plots}
 \usage{
 utils_line_guide(
   x,
@@ -36,20 +36,22 @@ utils_line_guide(
 plot
 }
 \description{
-Legend for Sequence Plots
+Guide for Time Series Plots
 }
 \examples{
-data(mis)
+x <- zoo_simulate()
 
-x <- tsl_initialize(
-  x = mis,
-  id_column = "mis"
-)
+if(interactive()){
 
-utils_line_guide(
-  x = x[["MIS_9"]],
-  position = "center"
-)
+  zoo_plot(x, guide = FALSE)
+
+  utils_line_guide(
+    x = x,
+    position = "right"
+  )
+
+}
+
 }
 \seealso{
 Other internal_plotting: 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_importance_df_to_wide.R
 \name{utils_importance_df_to_wide}
 \alias{utils_importance_df_to_wide}
-\title{Importance Data Frame to Wide Format}
+\title{Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format}
 \usage{
 utils_importance_df_to_wide(df = NULL, sep = "__")
 }
@@ -55,9 +55,6 @@ Other internal_dissimilarity_analysis:
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_df_to_matrix}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_tsl_pairs}()}
+\code{\link{utils_cluster_silhouette}()}
 }
 \concept{internal_dissimilarity_analysis}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_robust_cpp}
 \alias{importance_robust_cpp}
-\title{(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Robust Version)}
+\title{(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)}
 \usage{
 importance_robust_cpp(
   x,

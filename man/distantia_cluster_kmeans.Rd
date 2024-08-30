@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_cluster_kmeans.R
 \name{distantia_cluster_kmeans}
 \alias{distantia_cluster_kmeans}
-\title{K-means Clustering from Dissimilarity Scores}
+\title{K-Means Clustering of Dissimilarity Analysis Data Frames}
 \usage{
 distantia_cluster_kmeans(df = NULL, clusters = NULL, seed = 1)
 }

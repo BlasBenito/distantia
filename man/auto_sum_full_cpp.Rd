@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_full_cpp}
 \alias{auto_sum_full_cpp}
-\title{(C++) Full Sum of Auto-Distances of Two Time Series}
+\title{(C++) Sum Distances Between All Consecutive Samples in Two Time Series}
 \usage{
 auto_sum_full_cpp(x, y, distance = "euclidean")
 }

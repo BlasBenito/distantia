@@ -138,7 +138,7 @@ DataFrame cost_path_slotting_cpp(
 
 }
 
-//' (C++) Orthogonal Least Cost Path
+//' (C++) Find Orthogonal Least Cost Path within a Least Cost Matrix
 //' @description
 //' Computes an orthogonal least-cost path within a cost matrix. Each steps within
 //' the least-cost path either moves in the x or the y direction, but never diagonally.
@@ -242,7 +242,7 @@ DataFrame cost_path_orthogonal_cpp(
 }
 
 
-//' (C++) Least Cost Path Considering Diagonals
+//' (C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs. In case of ties,
 //' diagonals are favored.
@@ -344,7 +344,7 @@ DataFrame cost_path_diagonal_cpp(
 }
 
 
-//' (C++) Trims Blocks from a Least Cost Path
+//' (C++) Remove Blocks from a Least Cost Path
 //' @param path (required, data frame) least-cost path produced by [cost_path_orthogonal_cpp()].
 //' @return data frame
 //' @examples
@@ -423,7 +423,7 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 }
 
 
-//' (C++) Distance Sum of Least Cost Path
+//' (C++) Sum Distances in a Least Cost Path
 //' @param path (required, data frame) least-cost path produced by [cost_path_orthogonal_cpp()].
 //' @return numeric
 //' @examples
@@ -466,7 +466,7 @@ double cost_path_sum_cpp(
 }
 
 
-//' Least Cost Path
+//' Find Least Cost Path within a Least Cost Matrix
 //' @description Least cost path between two time series \code{x} and \code{y}.
 //' NA values must be removed from \code{x} and \code{y} before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should

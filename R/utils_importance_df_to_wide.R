@@ -1,4 +1,4 @@
-#' Importance Data Frame to Wide Format
+#' Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format
 #'
 #' @description
 #' Takes as input a data frame returned by [distantia_importance()] to return a data frame with one pair of time series per row, and the following columns:

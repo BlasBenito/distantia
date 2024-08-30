@@ -35,10 +35,13 @@ Other internal:
 \code{\link{utils_check_path_args}()},
 \code{\link{utils_check_zoo_args}()},
 \code{\link{utils_digits}()},
+\code{\link{utils_distantia_df_split}()},
+\code{\link{utils_distantia_df_to_matrix}()},
 \code{\link{utils_prepare_df}()},
 \code{\link{utils_prepare_matrix}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()}
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_tsl_pairs}()}
 }
 \concept{internal}

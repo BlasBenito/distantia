@@ -8,11 +8,10 @@ using namespace Rcpp;
 
 
 
-//' (C++) Psi Dissimilarity Formula
+//' (C++) Computation of the Psi Dissimilarity Score
 //' @description Computes the psi dissimilarity score between two time series from
 //' their least cost path sum and their auto sums.
-//' @param path (required, data frame) data frame produced by [cost_path_orthogonal_cpp()].
-//' Default: NULL
+//' @param cost_path_sum (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
 //' @param auto_sum (required, numeric) auto sum of both sequences,
 //' result of [auto_sum_cpp()].
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
@@ -22,13 +21,13 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 double psi_formula_cpp(
-    DataFrame path,
+    double cost_path_sum,
     double auto_sum,
     bool diagonal = true
 ){
 
   //sum cost path
-  double cost_path_sum = cost_path_sum_cpp(path);
+  //double cost_path_sum = cost_path_sum_cpp(path);
 
   //compute psi
   double psi_score = (cost_path_sum - auto_sum) / auto_sum;
@@ -44,7 +43,7 @@ double psi_formula_cpp(
 
 
 
-//' (C++) Psi Dissimilarity Between Two Aligned Time-Series
+//' (C++) Psi Dissimilarity Score of Two Aligned Time Series
 //' @description Computes the psi dissimilarity score between two time series
 //' observed at the same times. Time series \code{y} and \code{x} with the same
 //' number of columns and rows. NA values should be removed before using this function.
@@ -84,7 +83,7 @@ double psi_lock_step_cpp(
 }
 
 
-//' (C++) Null Distribution of Psi Scores Between Two Aligned Time-Series
+//' (C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series
 //' @description Applies permutation methods to compute null distributions for
 //' the psi scores of two time series observed at the same times.
 //' NA values should be removed before using this function.
@@ -191,7 +190,7 @@ NumericVector null_psi_lock_step_cpp(
 }
 
 
-//' (C++) Psi Dissimilarity Between Two Time-Series
+//' (C++) Psi Dissimilarity Score of Two Time-Series
 //' @description Computes the psi score of two time series \code{y} and \code{x}
 //' with the same number of columns.
 //' NA values should be removed before using this function.
@@ -229,6 +228,8 @@ double psi_cpp(
     ignore_blocks
   );
 
+  double path_sum = cost_path_sum_cpp(path);
+
   double xy_sum = auto_sum_cpp(
     x,
     y,
@@ -238,7 +239,7 @@ double psi_cpp(
   );
 
   double psi_score = psi_formula_cpp(
-    path,
+    path_sum,
     xy_sum,
     diagonal
   );
@@ -251,7 +252,7 @@ double psi_cpp(
 
 
 
-//' (C++) Null Distribution of Psi Scores Between Two Time-Series
+//' (C++) Null Distribution of Dissimilarity Scores of Two Time Series
 //' @description Applies permutation methods to compute null distributions for
 //' the psi scores of two time series.
 //' NA values should be removed before using this function.
@@ -320,6 +321,8 @@ NumericVector null_psi_cpp(
     ignore_blocks
   );
 
+  double path_sum = cost_path_sum_cpp(path);
+
   // auto sum of distances to normalize cost path sum
   double xy_sum = auto_sum_cpp(
     x,
@@ -331,7 +334,7 @@ NumericVector null_psi_cpp(
 
   // Add psi value of original matrices
   psi_null[0] = psi_formula_cpp(
-    path,
+    path_sum,
     xy_sum,
     diagonal
   );
@@ -368,9 +371,11 @@ NumericVector null_psi_cpp(
       ignore_blocks
     );
 
+    double permuted_path_sum = cost_path_sum_cpp(permuted_path);
+
     // Compute Psi distance on permuted matrices and store result
     psi_null[i] = psi_formula_cpp(
-      permuted_path,
+      permuted_path_sum,
       xy_sum,
       diagonal
     );
@@ -385,6 +390,7 @@ NumericVector null_psi_cpp(
 
 /*** R
 
+library(distantia)
 x <- zoo_simulate()
 y <- zoo_simulate()
 

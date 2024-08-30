@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_cluster_silhouette.R
 \name{utils_cluster_silhouette}
 \alias{utils_cluster_silhouette}
-\title{Silhouette Width of a Clustering Solution}
+\title{Compute Silhouette Width of a Clustering Solution}
 \usage{
 utils_cluster_silhouette(labels = NULL, d = NULL, mean = FALSE)
 }
@@ -129,9 +129,6 @@ Other internal_dissimilarity_analysis:
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_df_to_matrix}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_importance_df_to_wide}()},
-\code{\link{utils_tsl_pairs}()}
+\code{\link{utils_importance_df_to_wide}()}
 }
 \concept{internal_dissimilarity_analysis}

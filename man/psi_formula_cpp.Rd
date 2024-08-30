@@ -2,13 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{psi_formula_cpp}
 \alias{psi_formula_cpp}
-\title{(C++) Psi Dissimilarity Formula}
+\title{(C++) Computation of the Psi Dissimilarity Score}
 \usage{
-psi_formula_cpp(path, auto_sum, diagonal = TRUE)
+psi_formula_cpp(cost_path_sum, auto_sum, diagonal = TRUE)
 }
 \arguments{
-\item{path}{(required, data frame) data frame produced by \code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}}.
-Default: NULL}
+\item{cost_path_sum}{(required, numeric) output of \code{\link[=cost_path_sum_cpp]{cost_path_sum_cpp()}} on a least cost path.}
 
 \item{auto_sum}{(required, numeric) auto sum of both sequences,
 result of \code{\link[=auto_sum_cpp]{auto_sum_cpp()}}.}

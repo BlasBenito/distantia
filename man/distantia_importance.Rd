@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_importance.R
 \name{distantia_importance}
 \alias{distantia_importance}
-\title{Contribution of Individual Variables to Dissimilarity}
+\title{Contribution of Individual Variables to Dissimilarity in Time Series Lists}
 \usage{
 distantia_importance(
   tsl = NULL,

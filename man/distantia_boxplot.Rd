@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_boxplot.R
 \name{distantia_boxplot}
 \alias{distantia_boxplot}
-\title{Dissimilarity Boxplots}
+\title{Boxplot of Dissimilarity Analysis Data Frames}
 \usage{
 distantia_boxplot(df = NULL, color = NULL, f = median, ...)
 }
@@ -60,14 +60,13 @@ if(interactive()){
   boxplot_stats <- distantia_boxplot(
     df = distantia_df
     )
+    boxplot_stats
 }
 
 #The boxplot identifies Spain
 #as the site most dissimilar to all others,
 #and Germany as the most similar to all others.
 
-#stats returned by distantia_boxplot (see graphics::boxplot())
-boxplot_stats
 
 #example with distantia_importance()
 #-----------------------------------

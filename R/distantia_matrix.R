@@ -1,4 +1,4 @@
-#' Dissimilarity Data Frame to Distance Matrix
+#' Convert Dissimilarity Analysis Data Frame to Distance Matrix
 #'
 #' @description
 #' Transforms a data frame resulting from [distantia()] into a dissimilarity matrix.
@@ -120,7 +120,7 @@ distantia_matrix <- function(
 
   m_list <- lapply(
     X = df_list,
-    FUN = utils_df_to_matrix
+    FUN = utils_distantia_df_to_matrix
   )
 
   #set attributes

@@ -1,4 +1,4 @@
-#' Silhouette Width of a Clustering Solution
+#' Compute Silhouette Width of a Clustering Solution
 #'
 #' @description
 #'

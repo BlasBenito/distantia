@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{auto_sum_path_cpp}
 \alias{auto_sum_path_cpp}
-\title{(C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates}
+\title{(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series}
 \usage{
 auto_sum_path_cpp(x, y, path, distance = "euclidean")
 }

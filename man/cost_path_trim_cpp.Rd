@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_trim_cpp}
 \alias{cost_path_trim_cpp}
-\title{(C++) Trims Blocks from a Least Cost Path}
+\title{(C++) Remove Blocks from a Least Cost Path}
 \usage{
 cost_path_trim_cpp(path)
 }
@@ -13,7 +13,7 @@ cost_path_trim_cpp(path)
 data frame
 }
 \description{
-(C++) Trims Blocks from a Least Cost Path
+(C++) Remove Blocks from a Least Cost Path
 }
 \examples{
 #simulate two time series

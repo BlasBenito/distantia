@@ -1,4 +1,4 @@
-#' Aggregation of Distantia Data Frame
+#' Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations
 #'
 #' @description
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_plot.R
 \name{distantia_plot}
 \alias{distantia_plot}
-\title{Multipanel Plot Comparing Two Sequences}
+\title{Two-Way Dissimilarity Plots of Time Series Lists}
 \usage{
 distantia_plot(
   tsl = NULL,

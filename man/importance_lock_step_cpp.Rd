@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_lock_step_cpp}
 \alias{importance_lock_step_cpp}
-\title{(C++) Contribution of Individual Variables to Dissimilarity in Aligned Time Series}
+\title{(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series}
 \usage{
 importance_lock_step_cpp(x, y, distance = "euclidean")
 }

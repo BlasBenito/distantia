@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{importance_legacy_cpp}
 \alias{importance_legacy_cpp}
-\title{(C++) Contribution of Individual Variables to Dissimilarity in Irregular Time Series (Legacy Version)}
+\title{(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)}
 \usage{
 importance_legacy_cpp(
   y,

@@ -1,4 +1,4 @@
-#' Legend for Sequence Plots
+#' Guide for Time Series Plots
 #'
 #' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
 #' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
@@ -11,17 +11,19 @@
 #'
 #' @return plot
 #' @examples
-#' data(mis)
+#' x <- zoo_simulate()
 #'
-#' x <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis"
-#' )
+#' if(interactive()){
 #'
-#' utils_line_guide(
-#'   x = x[["MIS_9"]],
-#'   position = "center"
-#' )
+#'   zoo_plot(x, guide = FALSE)
+#'
+#'   utils_line_guide(
+#'     x = x,
+#'     position = "right"
+#'   )
+#'
+#' }
+#'
 #' @autoglobal
 #' @export
 #' @family internal_plotting

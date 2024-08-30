@@ -1,4 +1,4 @@
-#' K-means Clustering from Dissimilarity Scores
+#' K-Means Clustering of Dissimilarity Analysis Data Frames
 #'
 #' @description
 #' This function combines the dissimilarity scores computed by [distantia()], the K-means clustering method implemented in [stats::kmeans()], and the clustering optimization method implemented in [utils_cluster_hclust_optimizer()] to help group together time series with similar features.

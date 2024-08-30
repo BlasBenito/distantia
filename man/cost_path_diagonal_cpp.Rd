@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_diagonal_cpp}
 \alias{cost_path_diagonal_cpp}
-\title{(C++) Least Cost Path Considering Diagonals}
+\title{(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix}
 \usage{
 cost_path_diagonal_cpp(dist_matrix, cost_matrix)
 }

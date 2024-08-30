@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_matrix_weighted_diag_cpp}
 \alias{cost_matrix_weighted_diag_cpp}
-\title{(C++) Least Cost Matrix with Weighted Diagonals}
+\title{(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix}
 \usage{
 cost_matrix_weighted_diag_cpp(dist_matrix)
 }

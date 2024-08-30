@@ -465,15 +465,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // psi_formula_cpp
-double psi_formula_cpp(DataFrame path, double auto_sum, bool diagonal);
-RcppExport SEXP _distantia_psi_formula_cpp(SEXP pathSEXP, SEXP auto_sumSEXP, SEXP diagonalSEXP) {
+double psi_formula_cpp(double cost_path_sum, double auto_sum, bool diagonal);
+RcppExport SEXP _distantia_psi_formula_cpp(SEXP cost_path_sumSEXP, SEXP auto_sumSEXP, SEXP diagonalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< double >::type cost_path_sum(cost_path_sumSEXP);
     Rcpp::traits::input_parameter< double >::type auto_sum(auto_sumSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_formula_cpp(path, auto_sum, diagonal));
+    rcpp_result_gen = Rcpp::wrap(psi_formula_cpp(cost_path_sum, auto_sum, diagonal));
     return rcpp_result_gen;
 END_RCPP
 }

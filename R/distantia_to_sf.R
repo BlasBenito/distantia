@@ -1,4 +1,4 @@
-#' Distantia to Spatial Data Frame
+#' Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks
 #'
 #' @description
 #' Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.

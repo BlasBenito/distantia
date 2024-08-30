@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_matrix.R
 \name{distantia_matrix}
 \alias{distantia_matrix}
-\title{Dissimilarity Data Frame to Distance Matrix}
+\title{Convert Dissimilarity Analysis Data Frame to Distance Matrix}
 \usage{
 distantia_matrix(df = NULL)
 }

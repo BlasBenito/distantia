@@ -2,7 +2,7 @@
 #include "distance_methods.h"
 using namespace Rcpp;
 
-//' (C++) Auto-Distance of a Single Time Series
+//' (C++) Sum Distances Between Consecutive Samples in a Time Series
 //' @description Computes the cumulative sum of distances between consecutive
 //' samples in a univariate or multivariate time series.
 //' NA values should be removed before using this function.
@@ -95,7 +95,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
   return m_subset;
 }
 
-//' (C++) Full Sum of Auto-Distances of Two Time Series
+//' (C++) Sum Distances Between All Consecutive Samples in Two Time Series
 //' @description Computes the cumulative auto sum of autodistances of two time series.
 //' The output value is used as normalization factor when computing dissimilarity scores.
 //' @param x (required, numeric matrix) univariate or multivariate time series.
@@ -140,7 +140,7 @@ double auto_sum_full_cpp(
 }
 
 
-//' (C++) Sum of Auto-Distances of Two Time Series by Least-Cost Path Coordinates
+//' (C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series
 //' @description Computes the cumulative auto sum of auto-distances of two time series
 //' for the coordinates of a trimmed least cost path. The output value is used
 //' as normalization factor when computing dissimilarity scores.
@@ -228,7 +228,7 @@ double auto_sum_path_cpp(
 
 }
 
-//' Sum of Auto-Distances of Two Time Series
+//' (C++) Sum Distances Between Consecutive Samples in Two Time Series
 //' @description Sum of auto-distances of two time series.
 //' This function switches between [auto_sum_full_cpp()] and [auto_sum_path_cpp()]
 //' depending on the value of the argument `ignore_blocks`.
