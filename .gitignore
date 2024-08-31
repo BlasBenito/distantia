@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 workflowPsiHP_devel.R
+inst/doc
