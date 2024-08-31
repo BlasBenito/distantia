@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://blasbenito.github.io/distantia/404.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/TODO.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/articles/index.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/articles/psi_dissimilarity_score.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/authors.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/news/index.html</loc></url>
@@ -125,7 +126,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_color_breaks.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_color_continuous_default.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_color_discrete_default.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/utils_df_to_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_digits.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_distantia_df_split.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_distantia_df_to_matrix.html</loc></url>

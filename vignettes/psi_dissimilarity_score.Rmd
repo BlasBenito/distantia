@@ -1,5 +1,5 @@
 ---
-title: "psi_dissimilarity_score"
+title: "The Psi Dissimilarity Metric"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{psi_dissimilarity_score}
@@ -17,3 +17,28 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(distantia)
 ```
+
+## Summary
+
+This article, based on [Benito and Birks 2020](https://doi.org/10.1111/ecog.04895), describes in detail the step-by-step computation of the **Psi dissimilarity metric** used in `distantia` to compare pairs of time series. 
+
+## The Psi Dissimilarity Metric
+
+The Psi Dissimilarity Metric ($\psi$ hereafter) measures distance between two time series in the range $[0, \infty)$, where 0 represents identical time series. It was first described in [Birks and Gordon 1985](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406) and later extended and implemented in the R package `distantia` in [Benito and Birks 2020](https://doi.org/10.1111/ecog.04895). 
+
+In essence, $\psi$ is the sum of distances between all *relevant* pairs of samples of two time series, normalized by the sum of distances between consecutive samples within each time series, as expressed below:
+
+$$\psi = \frac{AB_{between} - AB_{within}}{AB_{within}}$$
+
+
+where $A$ and $B$ are two time series represented as matrices with the same number of columns, $AB_{between}$ is the distance between time series, and $AB_{within}$ is the normalization factor. 
+
+Going deeper into the math notation, $AB_{between}$ is expressed as:
+
+$$AB_{\text{between}} = 2 \times \sum_{i=1}^{m=n} D(A_i, B_i)$$
+where $m$ and $n$ are the number of samples in $A$ and $B$, $i$ is the relevant sample index, $n$ is the total number of sample pairs, and $D$ is a distance function (e.g., Euclidean, Manhattan, or any other relevant distance metric for the values in $A$ and $B$).
+
+On the other hand, $AB_{within}$ is represented as:
+
+$$AB_{\text{within}} = \sum_{i=2}^{m} D(A_{i-1}, A_i) + \sum_{i=2}^{n} D(B_{i-1}, B_i) $$
+where $D(A_{i-1}, A_i)$ and $D(B_{i-1}, B_i)$ represent the sum of distances between consecutive samples within $A$ and $B$, respectively.
