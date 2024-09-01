@@ -1,16 +1,16 @@
 ---
 title: "The Psi Dissimilarity Metric"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{psi_dissimilarity_score}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_title: "Content"
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.show = 'hold' #side by side images
 )
 ```
 
@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 library(distantia)
 ```
 
-## Summary
+# Summary
 
 This article, based on [Benito and Birks 2020](https://doi.org/10.1111/ecog.04895), describes in detail the step-by-step computation of the **Psi dissimilarity metric** used in `distantia` to compare pairs of time series. 
 
-## The Psi Dissimilarity Metric
+# The Psi Dissimilarity Metric
 
 The Psi Dissimilarity Metric ($\psi$ hereafter) measures distance between two time series in the range $[0, \infty)$, where 0 represents identical time series. It was first described in [Birks and Gordon 1985](https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406) and later extended and implemented in the R package `distantia` in [Benito and Birks 2020](https://doi.org/10.1111/ecog.04895). 
 

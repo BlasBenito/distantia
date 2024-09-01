@@ -1,5 +1,5 @@
-Toolset for Time Series Dissimilarity Analysis
-================
+
+# distantia: Time Series Dissimilarity Analysis with Dynamic Time Warping
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->

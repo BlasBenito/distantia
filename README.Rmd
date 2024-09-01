@@ -1,12 +1,8 @@
 ---
-title: "Toolset for Time Series Dissimilarity Analysis"
-output:
-  github_document:
-    toc: true
-    toc_depth: 2
-    pandoc_args: --webtex
-always_allow_html: yes
+output: github_document
 ---
+
+# distantia: Time Series Dissimilarity Analysis with Dynamic Time Warping
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 

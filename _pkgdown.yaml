@@ -7,6 +7,25 @@ authors:
   Blas M. Benito:
     href: https://blasbenito.com
 
+articles:
+
+- title: "Tutorials"
+  navbar: "Tutorials"
+  contents:
+  - psi_dissimilarity_metric
+
+- title: "Original Paper"
+  navbar: "Original Paper"
+  contents:
+  - distantia_paper
+
+external-articles:
+
+  - name: distantia_paper
+    title: "Benito & Birks 2020 (Ecography)"
+    description: "This paper introduces 'distantia', an R package to assess dissimilarity between regular or irregular, univariate or multivariate time-series"
+    href: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895
+
 reference:
 
 - title: Naming Conventions
@@ -79,6 +98,3 @@ reference:
   desc:  Internal functions to check arguments and other miscellany tasks.
 - contents:
   - has_concept("internal")
-
-
-
