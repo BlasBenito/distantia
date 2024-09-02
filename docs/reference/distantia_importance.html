@@ -255,16 +255,16 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="st">"importance"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"effect"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y      psi    variable importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.306133         evi   0.241829 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 1.306133    rainfall  19.051052 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 1.306133 temperature -30.814944 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.857670         evi  28.539736 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.857670    rainfall  -4.845232 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.857670 temperature -25.011608 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 1.470850         evi -22.912397 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 1.470850    rainfall   9.732110 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 1.470850 temperature  12.501949 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi    variable importance               effect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.6530664         evi   0.241829 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 0.6530664    rainfall  19.051052 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 0.6530664 temperature -30.814944 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.4288350         evi  28.539736 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.4288350    rainfall  -4.845232 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.4288350 temperature -25.011608 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 0.7354249         evi -22.912397 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 0.7354249    rainfall   9.732110 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 0.7354249 temperature  12.501949 decreases similarity</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#combinations of parameters</span></span></span>
@@ -286,15 +286,15 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="st">"lock_step"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x      y       psi    variable importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain 1.3061327         evi   0.241829 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany  Spain 1.3061327    rainfall  19.051052 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Germany  Spain 1.3061327 temperature -30.814944 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany Sweden 0.8576700         evi  28.539736 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden 0.8576700    rainfall  -4.845232 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Germany Sweden 0.8576700 temperature -25.011608 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Spain Sweden 1.4708497         evi -22.912397 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Spain Sweden 1.4708497    rainfall   9.732110 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Spain Sweden 1.4708497 temperature  12.501949 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain 0.6530664         evi   0.241829 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany  Spain 0.6530664    rainfall  19.051052 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Germany  Spain 0.6530664 temperature -30.814944 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany Sweden 0.4288350         evi  28.539736 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden 0.4288350    rainfall  -4.845232 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Germany Sweden 0.4288350 temperature -25.011608 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Spain Sweden 0.7354249         evi -22.912397 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Spain Sweden 0.7354249    rainfall   9.732110 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Spain Sweden 0.7354249 temperature  12.501949 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 Germany  Spain 1.3429956         evi   6.512321 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Germany  Spain 1.3429956    rainfall  12.505764 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12 Germany  Spain 1.3429956 temperature -26.509115 increases similarity</span>

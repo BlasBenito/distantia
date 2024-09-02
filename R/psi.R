@@ -122,7 +122,7 @@ psi <- function(
     stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
   }
 
-  psi <- ((path_sum * 2) - auto_sum) / auto_sum
+  psi <- ((path_sum * 2)/auto_sum) - 1
 
   if(diagonal == TRUE){
     psi <- psi + 1

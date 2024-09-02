@@ -461,7 +461,7 @@ double cost_path_sum_cpp(
 
   NumericVector dist = path["dist"];
 
-  return(sum(dist)*2);
+  return(sum(dist));
 
 }
 

@@ -55,6 +55,7 @@ Other psi_demo:
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
 \code{\link{psi_cost_path_ignore_blocks}()},
-\code{\link{psi_cost_path_sum}()}
+\code{\link{psi_cost_path_sum}()},
+\code{\link{psi_dist_lock_step}()}
 }
 \concept{psi_demo}

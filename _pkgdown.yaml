@@ -12,12 +12,14 @@ articles:
 - title: "Tutorials"
   navbar: "Tutorials"
   contents:
-  - psi_dissimilarity_metric
+  - articles/psi_dissimilarity_metric
 
 - title: "Original Paper"
   navbar: "Original Paper"
   contents:
   - distantia_paper
+
+
 
 external-articles:
 

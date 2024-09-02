@@ -11,7 +11,7 @@ using namespace Rcpp;
 //' (C++) Computation of the Psi Dissimilarity Score
 //' @description Computes the psi dissimilarity score between two time series from
 //' their least cost path sum and their auto sums.
-//' @param cost_path_sum (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
+//' @param path_sum (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
 //' @param auto_sum (required, numeric) auto sum of both sequences,
 //' result of [auto_sum_cpp()].
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
@@ -21,16 +21,13 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 double psi_formula_cpp(
-    double cost_path_sum,
+    double path_sum,
     double auto_sum,
     bool diagonal = true
 ){
 
-  //sum cost path
-  //double cost_path_sum = cost_path_sum_cpp(path);
-
   //compute psi
-  double psi_score = (cost_path_sum - auto_sum) / auto_sum;
+  double psi_score = ((path_sum * 2) / auto_sum) - 1;
 
   //add one if diagonals were used
   if(diagonal){

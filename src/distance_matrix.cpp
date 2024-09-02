@@ -102,7 +102,7 @@ double distance_lock_step_cpp(
     D(i) = f(y.row(i), x.row(i));
   }
 
-  return sum(D*2);
+  return sum(D);
 }
 
 

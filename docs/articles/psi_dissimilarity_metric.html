@@ -64,7 +64,7 @@
       <h1>The Psi Dissimilarity Metric</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/HEAD/vignettes/psi_dissimilarity_metric.Rmd" class="external-link"><code>vignettes/psi_dissimilarity_metric.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/HEAD/vignettes/articles/psi_dissimilarity_metric.Rmd" class="external-link"><code>vignettes/articles/psi_dissimilarity_metric.Rmd</code></a></small>
       <div class="d-none name"><code>psi_dissimilarity_metric.Rmd</code></div>
     </div>
 
@@ -76,34 +76,40 @@
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
 <p>This article, based on <a href="https://doi.org/10.1111/ecog.04895" class="external-link">Benito and Birks 2020</a>,
-describes in detail the step-by-step computation of the <strong>Psi
-dissimilarity metric</strong> used in <code>distantia</code> to compare
-pairs of time series.</p>
+describes the step-by-step computation of the dissimilarity metric used
+in <code>distantia</code> to compare pairs of time series.</p>
 </div>
 <div class="section level2">
 <h2 id="the-psi-dissimilarity-metric">The Psi Dissimilarity Metric<a class="anchor" aria-label="anchor" href="#the-psi-dissimilarity-metric"></a>
 </h2>
 <p>The Psi Dissimilarity Metric
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
-hereafter) measures distance between two time series in the range
+hereafter) measures the distance between two time series in the range
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mi>∞</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[0, \infty)</annotation></semantics></math>,
-where 0 represents identical time series. It was first described in <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406" class="external-link">Birks
+where 0 represents identical time series.</p>
+<p>It was first described in <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406" class="external-link">Birks
 and Gordon 1985</a> and later extended and implemented in the R package
 <code>distantia</code> in <a href="https://doi.org/10.1111/ecog.04895" class="external-link">Benito and Birks 2020</a>.</p>
 <p>In essence,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
-is the sum of distances between all <em>relevant</em> pairs of samples
-of two time series, normalized by the sum of distances between
-consecutive samples within each time series, as expressed below:</p>
+is computed as the sum of distances between all <em>relevant</em> pairs
+of samples of two time series, normalized by the sum of distances
+between consecutive samples within each time series. The normalization
+allows comparing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
+for pairs of time series with varying numbers of samples.</p>
+<p>The general expression to compute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
+is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ψ</mi><mo>=</mo><mfrac><mrow><mi>A</mi><msub><mi>B</mi><mrow><mi>b</mi><mi>e</mi><mi>t</mi><mi>w</mi><mi>e</mi><mi>e</mi><mi>n</mi></mrow></msub><mo>−</mo><mi>A</mi><msub><mi>B</mi><mrow><mi>w</mi><mi>i</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><mrow><mi>A</mi><msub><mi>B</mi><mrow><mi>w</mi><mi>i</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\psi = \frac{AB_{between} - AB_{within}}{AB_{within}}</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
-are two time series represented as matrices with the same number of
-columns,
+are matrices with the same number of columns representing two time
+series,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><msub><mi>B</mi><mrow><mi>b</mi><mi>e</mi><mi>t</mi><mi>w</mi><mi>e</mi><mi>e</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">AB_{between}</annotation></semantics></math>
-is the distance between time series, and
+is the distance between the time series samples, and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><msub><mi>B</mi><mrow><mi>w</mi><mi>i</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">AB_{within}</annotation></semantics></math>
 is the normalization factor.</p>
 <p>Going deeper into the math notation,
