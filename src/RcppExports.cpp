@@ -76,36 +76,36 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cost_matrix_diag_cpp
-NumericMatrix cost_matrix_diag_cpp(NumericMatrix dist_matrix);
-RcppExport SEXP _distantia_cost_matrix_diag_cpp(SEXP dist_matrixSEXP) {
+// cost_matrix_diagonal_cpp
+NumericMatrix cost_matrix_diagonal_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_diagonal_cpp(SEXP dist_matrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_matrix_diag_cpp(dist_matrix));
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_diagonal_cpp(dist_matrix));
     return rcpp_result_gen;
 END_RCPP
 }
-// cost_matrix_weighted_diag_cpp
-NumericMatrix cost_matrix_weighted_diag_cpp(NumericMatrix dist_matrix);
-RcppExport SEXP _distantia_cost_matrix_weighted_diag_cpp(SEXP dist_matrixSEXP) {
+// cost_matrix_diagonal_weighted_cpp
+NumericMatrix cost_matrix_diagonal_weighted_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_diagonal_weighted_cpp(SEXP dist_matrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_matrix_weighted_diag_cpp(dist_matrix));
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_diagonal_weighted_cpp(dist_matrix));
     return rcpp_result_gen;
 END_RCPP
 }
-// cost_matrix_cpp
-NumericMatrix cost_matrix_cpp(NumericMatrix dist_matrix);
-RcppExport SEXP _distantia_cost_matrix_cpp(SEXP dist_matrixSEXP) {
+// cost_matrix_orthogonal_cpp
+NumericMatrix cost_matrix_orthogonal_cpp(NumericMatrix dist_matrix);
+RcppExport SEXP _distantia_cost_matrix_orthogonal_cpp(SEXP dist_matrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_matrix_cpp(dist_matrix));
+    rcpp_result_gen = Rcpp::wrap(cost_matrix_orthogonal_cpp(dist_matrix));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -380,9 +380,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// importance_legacy_cpp
-DataFrame importance_legacy_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_legacy_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+// importance_dynamic_time_warping_legacy_cpp
+DataFrame importance_dynamic_time_warping_legacy_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_dynamic_time_warping_legacy_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -392,13 +392,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_legacy_cpp(y, x, distance, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_legacy_cpp(y, x, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
-// importance_robust_cpp
-DataFrame importance_robust_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_robust_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+// importance_dynamic_time_warping_robust_cpp
+DataFrame importance_dynamic_time_warping_robust_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_importance_dynamic_time_warping_robust_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -408,7 +408,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_robust_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_robust_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -464,16 +464,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// psi_formula_cpp
-double psi_formula_cpp(double cost_path_sum, double auto_sum, bool diagonal);
-RcppExport SEXP _distantia_psi_formula_cpp(SEXP cost_path_sumSEXP, SEXP auto_sumSEXP, SEXP diagonalSEXP) {
+// psi_equation_cpp
+double psi_equation_cpp(double a, double b, bool diagonal);
+RcppExport SEXP _distantia_psi_equation_cpp(SEXP aSEXP, SEXP bSEXP, SEXP diagonalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type cost_path_sum(cost_path_sumSEXP);
-    Rcpp::traits::input_parameter< double >::type auto_sum(auto_sumSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type b(bSEXP);
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_formula_cpp(cost_path_sum, auto_sum, diagonal));
+    rcpp_result_gen = Rcpp::wrap(psi_equation_cpp(a, b, diagonal));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -507,9 +507,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// psi_cpp
-double psi_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+// psi_dynamic_time_warping_cpp
+double psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
+RcppExport SEXP _distantia_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -519,13 +519,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
+    rcpp_result_gen = Rcpp::wrap(psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
     return rcpp_result_gen;
 END_RCPP
 }
-// null_psi_cpp
-NumericVector null_psi_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, int block_size, int seed);
-RcppExport SEXP _distantia_null_psi_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+// null_psi_dynamic_time_warping_cpp
+NumericVector null_psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, int block_size, int seed);
+RcppExport SEXP _distantia_null_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -539,7 +539,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_cpp(x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(null_psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -550,9 +550,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_auto_sum_full_cpp", (DL_FUNC) &_distantia_auto_sum_full_cpp, 3},
     {"_distantia_auto_sum_path_cpp", (DL_FUNC) &_distantia_auto_sum_path_cpp, 4},
     {"_distantia_auto_sum_cpp", (DL_FUNC) &_distantia_auto_sum_cpp, 5},
-    {"_distantia_cost_matrix_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_diag_cpp, 1},
-    {"_distantia_cost_matrix_weighted_diag_cpp", (DL_FUNC) &_distantia_cost_matrix_weighted_diag_cpp, 1},
-    {"_distantia_cost_matrix_cpp", (DL_FUNC) &_distantia_cost_matrix_cpp, 1},
+    {"_distantia_cost_matrix_diagonal_cpp", (DL_FUNC) &_distantia_cost_matrix_diagonal_cpp, 1},
+    {"_distantia_cost_matrix_diagonal_weighted_cpp", (DL_FUNC) &_distantia_cost_matrix_diagonal_weighted_cpp, 1},
+    {"_distantia_cost_matrix_orthogonal_cpp", (DL_FUNC) &_distantia_cost_matrix_orthogonal_cpp, 1},
     {"_distantia_cost_path_slotting_cpp", (DL_FUNC) &_distantia_cost_path_slotting_cpp, 2},
     {"_distantia_cost_path_orthogonal_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_cpp, 2},
     {"_distantia_cost_path_diagonal_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_cpp, 2},
@@ -575,17 +575,17 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
     {"_distantia_importance_lock_step_cpp", (DL_FUNC) &_distantia_importance_lock_step_cpp, 3},
-    {"_distantia_importance_legacy_cpp", (DL_FUNC) &_distantia_importance_legacy_cpp, 6},
-    {"_distantia_importance_robust_cpp", (DL_FUNC) &_distantia_importance_robust_cpp, 6},
+    {"_distantia_importance_dynamic_time_warping_legacy_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_legacy_cpp, 6},
+    {"_distantia_importance_dynamic_time_warping_robust_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_robust_cpp, 6},
     {"_distantia_permute_restricted_by_row_cpp", (DL_FUNC) &_distantia_permute_restricted_by_row_cpp, 3},
     {"_distantia_permute_free_by_row_cpp", (DL_FUNC) &_distantia_permute_free_by_row_cpp, 3},
     {"_distantia_permute_restricted_cpp", (DL_FUNC) &_distantia_permute_restricted_cpp, 3},
     {"_distantia_permute_free_cpp", (DL_FUNC) &_distantia_permute_free_cpp, 3},
-    {"_distantia_psi_formula_cpp", (DL_FUNC) &_distantia_psi_formula_cpp, 3},
+    {"_distantia_psi_equation_cpp", (DL_FUNC) &_distantia_psi_equation_cpp, 3},
     {"_distantia_psi_lock_step_cpp", (DL_FUNC) &_distantia_psi_lock_step_cpp, 3},
     {"_distantia_null_psi_lock_step_cpp", (DL_FUNC) &_distantia_null_psi_lock_step_cpp, 7},
-    {"_distantia_psi_cpp", (DL_FUNC) &_distantia_psi_cpp, 6},
-    {"_distantia_null_psi_cpp", (DL_FUNC) &_distantia_null_psi_cpp, 10},
+    {"_distantia_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_psi_dynamic_time_warping_cpp, 6},
+    {"_distantia_null_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_null_psi_dynamic_time_warping_cpp, 10},
     {NULL, NULL, 0}
 };
 

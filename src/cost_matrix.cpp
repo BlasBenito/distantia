@@ -9,7 +9,7 @@ using namespace Rcpp;
 //' @export
 //' @family Rcpp
 // [[Rcpp::export]]
-NumericMatrix cost_matrix_diag_cpp(
+NumericMatrix cost_matrix_diagonal_cpp(
     NumericMatrix dist_matrix
 ){
 
@@ -47,7 +47,7 @@ NumericMatrix cost_matrix_diag_cpp(
 //' @export
 //' @family Rcpp
 // [[Rcpp::export]]
-NumericMatrix cost_matrix_weighted_diag_cpp(
+NumericMatrix cost_matrix_diagonal_weighted_cpp(
     NumericMatrix dist_matrix
 ){
 
@@ -92,7 +92,7 @@ NumericMatrix cost_matrix_weighted_diag_cpp(
 //' @export
 //' @family Rcpp
 // [[Rcpp::export]]
-NumericMatrix cost_matrix_cpp(
+NumericMatrix cost_matrix_orthogonal_cpp(
      NumericMatrix dist_matrix
  ){
 
@@ -144,12 +144,12 @@ x[x == 0] <- 0.0001
 
 d <- distance_matrix_cpp(x, y)
 
-m <- cost_matrix_cpp(dist_matrix = d)
+m <- cost_matrix_orthogonal_cpp(dist_matrix = d)
 m[1:5, 1:5]
 
-m <- cost_matrix_diag_cpp(dist_matrix = d)
+m <- cost_matrix_diagonal_cpp(dist_matrix = d)
 m[1:5, 1:5]
 
-m <- cost_matrix_weighted_diag_cpp(dist_matrix = d)
+m <- cost_matrix_diagonal_weighted_cpp(dist_matrix = d)
 m[1:5, 1:5]
 */

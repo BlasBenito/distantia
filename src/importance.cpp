@@ -268,7 +268,7 @@ DataFrame importance_lock_step_cpp(
 //' nrow(x) == nrow(y)
 //'
 //' #compute importance
-//' df <- importance_legacy_cpp(
+//' df <- importance_dynamic_time_warping_legacy_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -278,7 +278,7 @@ DataFrame importance_lock_step_cpp(
 //' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_legacy_cpp(
+DataFrame importance_dynamic_time_warping_legacy_cpp(
     NumericMatrix y,
     NumericMatrix x,
     const std::string& distance = "euclidean",
@@ -295,7 +295,7 @@ DataFrame importance_legacy_cpp(
   NumericVector importance(y.ncol());
 
   //compute psi with all variables
-  double psi_all_variables = psi_cpp(
+  double psi_all_variables = psi_dynamic_time_warping_cpp(
     x,
     y,
     distance,
@@ -315,7 +315,7 @@ DataFrame importance_legacy_cpp(
     NumericMatrix y_only_with = select_column_cpp(y, i);
 
     //compute psi only with the column i
-    psi_only_with[i] = psi_cpp(
+    psi_only_with[i] = psi_dynamic_time_warping_cpp(
       x_only_with,
       y_only_with,
       distance,
@@ -329,7 +329,7 @@ DataFrame importance_legacy_cpp(
     NumericMatrix y_without = delete_column_cpp(y, i);
 
     //compute psi without the column i
-    psi_without[i] = psi_cpp(
+    psi_without[i] = psi_dynamic_time_warping_cpp(
       x_without,
       y_without,
       distance,
@@ -407,7 +407,7 @@ DataFrame importance_legacy_cpp(
 //' nrow(x) == nrow(y)
 //'
 //' #compute importance
-//' df <- importance_robust_cpp(
+//' df <- importance_dynamic_time_warping_robust_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -417,7 +417,7 @@ DataFrame importance_legacy_cpp(
 //' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_robust_cpp(
+DataFrame importance_dynamic_time_warping_robust_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -456,7 +456,7 @@ DataFrame importance_robust_cpp(
   );
 
   // overall psi distance
-  double psi_all_variables = psi_formula_cpp(
+  double psi_all_variables = psi_equation_cpp(
     path_sum,
     xy_sum,
     diagonal
@@ -492,7 +492,7 @@ DataFrame importance_robust_cpp(
     );
 
     //compute psi
-    psi_only_with[i] = psi_formula_cpp(
+    psi_only_with[i] = psi_equation_cpp(
       path_only_with_sum,
       xy_sum_only_with,
       diagonal
@@ -522,7 +522,7 @@ DataFrame importance_robust_cpp(
     );
 
     //compute psi
-    psi_without[i] = psi_formula_cpp(
+    psi_without[i] = psi_equation_cpp(
       path_without_sum,
       xy_sum_without,
       diagonal
@@ -555,7 +555,7 @@ library(distantia)
 x <- zoo_simulate()
 y <- zoo_simulate()
 
-df <- importance_robust_cpp(
+df <- importance_dynamic_time_warping_robust_cpp(
   x = x,
   y = y,
   distance = "manhattan"
@@ -582,10 +582,10 @@ path_update = update_path_dist_cpp(
 
 
 #overall psi value
-psi_cpp(x, y)
+psi_dynamic_time_warping_cpp(x, y)
 
 #old importance
-importance_vintage <- importance_legacy_cpp(
+importance_vintage <- importance_dynamic_time_warping_legacy_cpp(
   x,
   y
 )
@@ -593,7 +593,7 @@ importance_vintage <- importance_legacy_cpp(
 importance_vintage
 
 #new importance
-importance_robust <- importance_robust_cpp(
+importance_robust <- importance_dynamic_time_warping_robust_cpp(
   x,
   y
 )

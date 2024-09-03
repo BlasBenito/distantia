@@ -109,7 +109,7 @@ auto_sum_full_cpp <- function(x, y, distance = "euclidean") {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -166,7 +166,7 @@ auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -206,8 +206,8 @@ auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks = FAL
 #' @return Least cost matrix.
 #' @export
 #' @family Rcpp
-cost_matrix_diag_cpp <- function(dist_matrix) {
-    .Call(`_distantia_cost_matrix_diag_cpp`, dist_matrix)
+cost_matrix_diagonal_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_diagonal_cpp`, dist_matrix)
 }
 
 #' (C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix
@@ -217,8 +217,8 @@ cost_matrix_diag_cpp <- function(dist_matrix) {
 #' @return Least cost matrix.
 #' @export
 #' @family Rcpp
-cost_matrix_weighted_diag_cpp <- function(dist_matrix) {
-    .Call(`_distantia_cost_matrix_weighted_diag_cpp`, dist_matrix)
+cost_matrix_diagonal_weighted_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_diagonal_weighted_cpp`, dist_matrix)
 }
 
 #' (C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix
@@ -227,8 +227,8 @@ cost_matrix_weighted_diag_cpp <- function(dist_matrix) {
 #' @return Least cost matrix.
 #' @export
 #' @family Rcpp
-cost_matrix_cpp <- function(dist_matrix) {
-    .Call(`_distantia_cost_matrix_cpp`, dist_matrix)
+cost_matrix_orthogonal_cpp <- function(dist_matrix) {
+    .Call(`_distantia_cost_matrix_orthogonal_cpp`, dist_matrix)
 }
 
 #' (C++) Least Cost Path for Sequence Slotting
@@ -256,7 +256,7 @@ cost_matrix_cpp <- function(dist_matrix) {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -295,7 +295,7 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -334,7 +334,7 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -367,7 +367,7 @@ cost_path_diagonal_cpp <- function(dist_matrix, cost_matrix) {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -407,7 +407,7 @@ cost_path_trim_cpp <- function(path) {
 #' )
 #'
 #' #least cost matrix
-#' cost_matrix <- cost_matrix_cpp(
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
 #'   dist_matrix = dist_matrix
 #' )
 #'
@@ -752,7 +752,7 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' nrow(x) == nrow(y)
 #'
 #' #compute importance
-#' df <- importance_legacy_cpp(
+#' df <- importance_dynamic_time_warping_legacy_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
@@ -761,8 +761,8 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' df
 #' @family Rcpp
 #' @export
-importance_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
+importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_dynamic_time_warping_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)
@@ -813,7 +813,7 @@ importance_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE
 #' nrow(x) == nrow(y)
 #'
 #' #compute importance
-#' df <- importance_robust_cpp(
+#' df <- importance_dynamic_time_warping_robust_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
@@ -822,8 +822,8 @@ importance_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE
 #' df
 #' @family Rcpp
 #' @export
-importance_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
+importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
+    .Call(`_distantia_importance_dynamic_time_warping_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' (C++) Restricted Permutation of Complete Rows Within Blocks
@@ -881,19 +881,24 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_free_cpp`, x, block_size, seed)
 }
 
-#' (C++) Computation of the Psi Dissimilarity Score
-#' @description Computes the psi dissimilarity score between two time series from
-#' their least cost path sum and their auto sums.
-#' @param cost_path_sum (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
-#' @param auto_sum (required, numeric) auto sum of both sequences,
+#' (C++) Equation of the Psi Dissimilarity Score
+#' @description Equation to compute the `psi` dissimilarity score
+#' (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1},
+#' where \eqn{a} is the sum of distances between the relevant samples of two
+#' time series, and \eqn{b} is the cumulative sum of distances between
+#' consecutive samples in the two time series.
+#' If `a` is computed with dynamic time warping, and diagonals are used in the
+#' computation of the least cost path, then one is added to the result of the equation above.
+#' @param a (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
+#' @param b (required, numeric) auto sum of both sequences,
 #' result of [auto_sum_cpp()].
-#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-#' computation of the cost matrix. Default: FALSE.
+#' @param diagonal (optional, logical). Must be TRUE when diagonals are used in
+#' dynamic time warping and for lock-step distances. Default: FALSE.
 #' @return numeric
 #' @family Rcpp
 #' @export
-psi_formula_cpp <- function(cost_path_sum, auto_sum, diagonal = TRUE) {
-    .Call(`_distantia_psi_formula_cpp`, cost_path_sum, auto_sum, diagonal)
+psi_equation_cpp <- function(a, b, diagonal = TRUE) {
+    .Call(`_distantia_psi_equation_cpp`, a, b, diagonal)
 }
 
 #' (C++) Psi Dissimilarity Score of Two Aligned Time Series
@@ -948,7 +953,7 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
 #' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-#' @param y (required, numeric matrix).
+#' @param y (required, numeric matrix) time series.
 #' @param x (required, numeric matrix) of same number of columns as 'y'.
 #' @param distance (optional, character string) distance name from the "names"
 #' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
@@ -961,8 +966,8 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' @return numeric
 #' @family Rcpp
 #' @export
-psi_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
+psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
+    .Call(`_distantia_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
 
 #' (C++) Null Distribution of Dissimilarity Scores of Two Time Series
@@ -997,7 +1002,7 @@ psi_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TR
 #' @return numeric vector
 #' @family Rcpp
 #' @export
-null_psi_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
-    .Call(`_distantia_null_psi_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
+null_psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+    .Call(`_distantia_null_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
 }
 

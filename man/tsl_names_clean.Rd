@@ -88,6 +88,8 @@ Other data_preparation:
 \code{\link{tsl_initialize}()},
 \code{\link{tsl_names_set}()},
 \code{\link{tsl_repair}()},
+\code{\link{zoo_name_get}()},
+\code{\link{zoo_name_set}()},
 \code{\link{zoo_to_tsl}()}
 }
 \concept{data_preparation}

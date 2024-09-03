@@ -136,7 +136,7 @@
 #' #recreating the null distribution
 #' #direct call to C++ function
 #' #use same args as in distantia() call
-#' psi_null <- null_psi_cpp(
+#' psi_null <- null_psi_dynamic_time_warping_cpp(
 #'   x = tsl[["Spain"]],
 #'   y = tsl[["Sweden"]],
 #'   repetitions = 10, #increase to 100 or more
@@ -370,7 +370,7 @@ distantia <- function(
 
     } else {
 
-      df.i$psi <- psi_cpp(
+      df.i$psi <- psi_dynamic_time_warping_cpp(
         x = x,
         y = y,
         distance = df.i$distance,
@@ -381,7 +381,7 @@ distantia <- function(
 
       if(repetitions > 0){
 
-        psi_null <- null_psi_cpp(
+        psi_null <- null_psi_dynamic_time_warping_cpp(
           x = x,
           y = y,
           distance = df.i$distance,

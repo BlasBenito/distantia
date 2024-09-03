@@ -29,7 +29,7 @@ Rcpp::DataFrame importance_lock_step_cpp(
     const std::string& distance = "euclidean"
 );
 
-Rcpp::DataFrame importance_legacy_cpp(
+Rcpp::DataFrame importance_dynamic_time_warping_legacy_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",
@@ -38,7 +38,7 @@ Rcpp::DataFrame importance_legacy_cpp(
     bool ignore_blocks = false
 );
 
-Rcpp::DataFrame importance_robust_cpp(
+Rcpp::DataFrame importance_dynamic_time_warping_robust_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

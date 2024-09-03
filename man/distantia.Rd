@@ -162,7 +162,7 @@ if(interactive()){
 #recreating the null distribution
 #direct call to C++ function
 #use same args as in distantia() call
-psi_null <- null_psi_cpp(
+psi_null <- null_psi_dynamic_time_warping_cpp(
   x = tsl[["Spain"]],
   y = tsl[["Sweden"]],
   repetitions = 10, #increase to 100 or more

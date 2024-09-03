@@ -29,7 +29,7 @@ using namespace Rcpp;
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -160,7 +160,7 @@ DataFrame cost_path_slotting_cpp(
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -264,7 +264,7 @@ DataFrame cost_path_orthogonal_cpp(
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -360,7 +360,7 @@ DataFrame cost_path_diagonal_cpp(
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -439,7 +439,7 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -510,11 +510,11 @@ DataFrame cost_path_cpp(
  NumericMatrix cost_matrix(yn, xn);
 
  if (diagonal && weighted) {
-   cost_matrix = cost_matrix_weighted_diag_cpp(dist_matrix);
+   cost_matrix = cost_matrix_diagonal_weighted_cpp(dist_matrix);
  } else if (diagonal) {
-   cost_matrix = cost_matrix_diag_cpp(dist_matrix);
+   cost_matrix = cost_matrix_diagonal_cpp(dist_matrix);
  } else {
-   cost_matrix = cost_matrix_cpp(dist_matrix);
+   cost_matrix = cost_matrix_orthogonal_cpp(dist_matrix);
  }
 
  //compute cost path
@@ -552,7 +552,7 @@ x <- sequenceB |>
 
 dist_matrix <- distance_matrix_cpp(x, y, distance = "euclidean")
 
-cost_matrix <- cost_matrix_cpp(dist_matrix = dist_matrix)
+cost_matrix <- cost_matrix_orthogonal_cpp(dist_matrix = dist_matrix)
 
 cost_path <- cost_path_orthogonal_cpp(
   dist_matrix = dist_matrix,

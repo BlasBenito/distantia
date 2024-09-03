@@ -18,7 +18,7 @@
 #' }
 #'
 #' #distance matrix
-#' dist_matrix <- psi_dist_matrix(
+#' dist_matrix <- psi_distance_matrix(
 #'   x = tsl[[1]],
 #'   y = tsl[[2]],
 #'   distance = "euclidean"

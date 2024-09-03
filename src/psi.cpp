@@ -8,33 +8,38 @@ using namespace Rcpp;
 
 
 
-//' (C++) Computation of the Psi Dissimilarity Score
-//' @description Computes the psi dissimilarity score between two time series from
-//' their least cost path sum and their auto sums.
-//' @param path_sum (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
-//' @param auto_sum (required, numeric) auto sum of both sequences,
+//' (C++) Equation of the Psi Dissimilarity Score
+//' @description Equation to compute the `psi` dissimilarity score
+//' (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1},
+//' where \eqn{a} is the sum of distances between the relevant samples of two
+//' time series, and \eqn{b} is the cumulative sum of distances between
+//' consecutive samples in the two time series.
+//' If `a` is computed with dynamic time warping, and diagonals are used in the
+//' computation of the least cost path, then one is added to the result of the equation above.
+//' @param a (required, numeric) output of [cost_path_sum_cpp()] on a least cost path.
+//' @param b (required, numeric) auto sum of both sequences,
 //' result of [auto_sum_cpp()].
-//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-//' computation of the cost matrix. Default: FALSE.
+//' @param diagonal (optional, logical). Must be TRUE when diagonals are used in
+//' dynamic time warping and for lock-step distances. Default: FALSE.
 //' @return numeric
 //' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-double psi_formula_cpp(
-    double path_sum,
-    double auto_sum,
+double psi_equation_cpp(
+    double a,
+    double b,
     bool diagonal = true
 ){
 
   //compute psi
-  double psi_score = ((path_sum * 2) / auto_sum) - 1;
+  double psi = ((2 * a) / b) - 1;
 
   //add one if diagonals were used
   if(diagonal){
-    psi_score = psi_score + 1;
+    psi = psi + 1;
   }
 
-  return psi_score;
+  return psi;
 
 }
 
@@ -61,21 +66,26 @@ double psi_lock_step_cpp(
 ){
 
     //pairwise distances
-    double cost_path_sum = distance_lock_step_cpp(
+    double a = distance_lock_step_cpp(
       x,
       y,
       distance
     );
 
     //auto sum sequences
-    double xy_sum = auto_sum_full_cpp(
+    double b = auto_sum_full_cpp(
       x,
       y,
       distance
     );
 
-  //compute psi
-  return ((cost_path_sum  - xy_sum) / xy_sum) + 1;
+    double psi_score = psi_equation_cpp(
+      a,
+      b,
+      TRUE
+    );
+
+    return psi_score;
 
 }
 
@@ -131,21 +141,25 @@ NumericVector null_psi_lock_step_cpp(
   NumericVector psi_null(repetitions);
 
   //pairwise distances
-  double cost_path_sum = distance_lock_step_cpp(
+  double a = distance_lock_step_cpp(
     x,
     y,
     distance
   );
 
   //auto sum sequences
-  double xy_sum = auto_sum_full_cpp(
+  double b = auto_sum_full_cpp(
     x,
     y,
     distance
   );
 
   //compute psi
-  psi_null[0] = ((cost_path_sum  - xy_sum) / xy_sum) + 1;
+  psi_null[0] = psi_equation_cpp(
+    a,
+    b,
+    TRUE
+  );
 
   // Use the integer seed value
   Environment base_env("package:base");
@@ -170,14 +184,18 @@ NumericVector null_psi_lock_step_cpp(
     );
 
     //pairwise distances
-    double permuted_ab_distance = distance_lock_step_cpp(
+    double a_permuted = distance_lock_step_cpp(
       permuted_y,
       permuted_x,
       distance
     );
 
     // Compute Psi distance on permuted matrices and store result
-    psi_null[i] = ((permuted_ab_distance - xy_sum) / xy_sum) + 1;
+    psi_null[i] = psi_equation_cpp(
+      a_permuted,
+      b,
+      TRUE
+    );
 
   }
 
@@ -193,7 +211,7 @@ NumericVector null_psi_lock_step_cpp(
 //' NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
 //' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param y (required, numeric matrix).
+//' @param y (required, numeric matrix) time series.
 //' @param x (required, numeric matrix) of same number of columns as 'y'.
 //' @param distance (optional, character string) distance name from the "names"
 //' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
@@ -207,7 +225,7 @@ NumericVector null_psi_lock_step_cpp(
 //' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-double psi_cpp(
+double psi_dynamic_time_warping_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -225,9 +243,9 @@ double psi_cpp(
     ignore_blocks
   );
 
-  double path_sum = cost_path_sum_cpp(path);
+  double a = cost_path_sum_cpp(path);
 
-  double xy_sum = auto_sum_cpp(
+  double b = auto_sum_cpp(
     x,
     y,
     path,
@@ -235,9 +253,9 @@ double psi_cpp(
     ignore_blocks
   );
 
-  double psi_score = psi_formula_cpp(
-    path_sum,
-    xy_sum,
+  double psi_score = psi_equation_cpp(
+    a,
+    b,
     diagonal
   );
 
@@ -282,7 +300,7 @@ double psi_cpp(
 //' @family Rcpp
 //' @export
 // [[Rcpp::export]]
-NumericVector null_psi_cpp(
+NumericVector null_psi_dynamic_time_warping_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -318,10 +336,10 @@ NumericVector null_psi_cpp(
     ignore_blocks
   );
 
-  double path_sum = cost_path_sum_cpp(path);
+  double a = cost_path_sum_cpp(path);
 
   // auto sum of distances to normalize cost path sum
-  double xy_sum = auto_sum_cpp(
+  double b = auto_sum_cpp(
     x,
     y,
     path,
@@ -330,9 +348,9 @@ NumericVector null_psi_cpp(
   );
 
   // Add psi value of original matrices
-  psi_null[0] = psi_formula_cpp(
-    path_sum,
-    xy_sum,
+  psi_null[0] = psi_equation_cpp(
+    a,
+    b,
     diagonal
   );
 
@@ -368,12 +386,12 @@ NumericVector null_psi_cpp(
       ignore_blocks
     );
 
-    double permuted_path_sum = cost_path_sum_cpp(permuted_path);
+    double a_permuted = cost_path_sum_cpp(permuted_path);
 
     // Compute Psi distance on permuted matrices and store result
-    psi_null[i] = psi_formula_cpp(
-      permuted_path_sum,
-      xy_sum,
+    psi_null[i] = psi_equation_cpp(
+      a_permuted,
+      b,
       diagonal
     );
 
@@ -391,35 +409,35 @@ library(distantia)
 x <- zoo_simulate()
 y <- zoo_simulate()
 
-psi_cpp(
+psi_dynamic_time_warping_cpp(
   x, y
 )
 
-null_values <- null_psi_cpp(
+null_values <- null_psi_dynamic_time_warping_cpp(
   x, y, permutation = "free", seed = 100
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_cpp(
+null_values <- null_psi_dynamic_time_warping_cpp(
   x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_cpp(
+null_values <- null_psi_dynamic_time_warping_cpp(
   x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_cpp(
+null_values <- null_psi_dynamic_time_warping_cpp(
   x, y, permutation = "restricted"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_cpp(
+null_values <- null_psi_dynamic_time_warping_cpp(
   x, y, permutation = "restricted_by_row"
 )
 range(null_values)

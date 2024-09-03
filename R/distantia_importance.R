@@ -252,7 +252,7 @@ distantia_importance <- function(
 
       if(df.i$robust == TRUE){
 
-        importance.i <- importance_robust_cpp(
+        importance.i <- importance_dynamic_time_warping_robust_cpp(
           x = x,
           y = y,
           distance = df.i$distance,
@@ -263,7 +263,7 @@ distantia_importance <- function(
 
       } else {
 
-        importance.i <- importance_legacy_cpp(
+        importance.i <- importance_dynamic_time_warping_legacy_cpp(
           x = x,
           y = y,
           distance = df.i$distance,

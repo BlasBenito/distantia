@@ -5,7 +5,7 @@
 
 // Forward declarations of functions
 
-double psi_formula_cpp(
+double psi_equation_cpp(
     double cost_path_sum,
     double auto_sum,
     bool diagonal = false
@@ -27,7 +27,7 @@ Rcpp::NumericVector null_psi_lock_step_cpp(
     int repetitions = 100
 );
 
-double psi_cpp(
+double psi_dynamic_time_warping_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",
@@ -36,7 +36,7 @@ double psi_cpp(
     bool ignore_blocks = false
 );
 
-Rcpp::NumericVector null_psi_cpp(
+Rcpp::NumericVector null_psi_dynamic_time_warping_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

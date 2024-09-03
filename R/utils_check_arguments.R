@@ -184,7 +184,7 @@ utils_check_path_args <- function(
 
 #' Checks Input Matrix
 #'
-#' @param m (required, matrix) distance or cost matrix resulting from [psi_dist_matrix()] or [psi_cost_matrix()]. Default: NULL
+#' @param m (required, matrix) distance or cost matrix resulting from [psi_distance_matrix()] or [psi_cost_matrix()]. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return matrix

@@ -64,12 +64,12 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/f_trend_linear.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_dynamics.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/importance_legacy_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_legacy_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_lock_step_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/importance_robust_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_robust_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/mis.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/null_psi_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/null_psi_dynamic_time_warping_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/null_psi_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_free_by_row_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_free_cpp.html</loc></url>
@@ -82,9 +82,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_cost_path.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_cost_path_ignore_blocks.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_cost_path_sum.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/psi_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_dynamic_time_warping_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_dist_matrix.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/psi_formula_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_equation_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/subset_matrix_by_rows_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_aggregate.html</loc></url>

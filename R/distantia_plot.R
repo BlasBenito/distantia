@@ -168,7 +168,7 @@ distantia_plot <- function(
   xy_psi <- round(xy_psi, 3)
 
   # Distance and cost matrices ----
-  dist_m <- psi_dist_matrix(
+  dist_m <- psi_distance_matrix(
     x = tsl[[1]],
     y = tsl[[2]],
     distance = distance

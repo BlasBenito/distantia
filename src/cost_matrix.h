@@ -3,8 +3,8 @@
 
 #include <Rcpp.h>
 
-Rcpp::NumericMatrix cost_matrix_diag_cpp(Rcpp::NumericMatrix dist_matrix);
-Rcpp::NumericMatrix cost_matrix_weighted_diag_cpp(Rcpp::NumericMatrix dist_matrix);
-Rcpp::NumericMatrix cost_matrix_cpp(Rcpp::NumericMatrix dist_matrix);
+Rcpp::NumericMatrix cost_matrix_diagonal_cpp(Rcpp::NumericMatrix dist_matrix);
+Rcpp::NumericMatrix cost_matrix_diagonal_weighted_cpp(Rcpp::NumericMatrix dist_matrix);
+Rcpp::NumericMatrix cost_matrix_orthogonal_cpp(Rcpp::NumericMatrix dist_matrix);
 
 #endif // COST_MATRIX_H

@@ -166,7 +166,7 @@ double auto_sum_full_cpp(
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -253,7 +253,7 @@ double auto_sum_path_cpp(
 //' )
 //'
 //' #least cost matrix
-//' cost_matrix <- cost_matrix_cpp(
+//' cost_matrix <- cost_matrix_orthogonal_cpp(
 //'   dist_matrix = dist_matrix
 //' )
 //'
@@ -350,7 +350,7 @@ dist_matrix <- distance_matrix_cpp(
   distance
 )
 
-cost_matrix <- cost_matrix_cpp(
+cost_matrix <- cost_matrix_orthogonal_cpp(
   dist_matrix
 )
 

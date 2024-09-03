@@ -56,13 +56,13 @@ x_sum + y_sum
 Other psi_demo: 
 \code{\link{distance}()},
 \code{\link{distances}},
-\code{\link{psi}()},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
 \code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_cost_path_sum}()},
-\code{\link{psi_dist_lock_step}()},
-\code{\link{psi_dist_matrix}()}
+\code{\link{psi_distance_lock_step}()},
+\code{\link{psi_distance_matrix}()},
+\code{\link{psi_equation}()}
 }
 \concept{psi_demo}
