@@ -5,6 +5,7 @@
 \title{Simulate a Zoo Time Series}
 \usage{
 zoo_simulate(
+  name = "A",
   cols = 5,
   rows = 100,
   time_range = c("2010-01-01", "2020-01-01"),
@@ -17,6 +18,8 @@ zoo_simulate(
 )
 }
 \arguments{
+\item{name}{(optional, character string) Name of the zoo object, to be stored in the attribute "name". Default: "A"}
+
 \item{cols}{(optional, integer) Number of time series. Default: 5}
 
 \item{rows}{(optional, integer) Length of the time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100}

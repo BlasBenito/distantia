@@ -8,9 +8,9 @@ tsl_subset(
   tsl = NULL,
   names = NULL,
   colnames = NULL,
+  time = NULL,
   numeric_cols = TRUE,
-  shared_cols = TRUE,
-  time = NULL
+  shared_cols = TRUE
 )
 }
 \arguments{
@@ -20,11 +20,11 @@ tsl_subset(
 
 \item{colnames}{(optional, character vector) Column names of the zoo objects in \code{tsl}. If NULL, all columns are returned. Default: NULL}
 
+\item{time}{(optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in \code{tsl} are preserved. Default: NULL}
+
 \item{numeric_cols}{(optional, logical) If TRUE, only the numeric columns of the zoo objects are returned. Default: TRUE}
 
 \item{shared_cols}{(optional, logical) If TRUE, only columns shared across all zoo objects are returned. Default: TRUE}
-
-\item{time}{(optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in \code{tsl} are preserved. Default: NULL}
 }
 \value{
 time series list

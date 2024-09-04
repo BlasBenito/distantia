@@ -9,7 +9,7 @@ zoo_name_set(x = NULL, name = NULL)
 \arguments{
 \item{x}{(required, zoo object) Zoo time series to analyze. Default: NULL.}
 
-\item{name}{(required, character string) name or new name of the zoo object. Default: NULL}
+\item{name}{(required, character string) name or new name of the zoo object. If NULL, \code{x} is returned as is. Default: NULL}
 }
 \value{
 zoo time series

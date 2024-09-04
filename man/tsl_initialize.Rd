@@ -62,15 +62,10 @@ data("fagus_dynamics")
 
 #id_column is site
 #time column is date
-#in this case, all time series have the same
-#length, but that's only optional, as irregular
-#time series are fully supported.
 str(fagus_dynamics)
 
 #to tsl
-#main assumptions:
 #each group in id_column is a different time series
-#time series can have different lengths
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   id_column = "site",
@@ -83,50 +78,52 @@ tsl <- tsl_diagnose(tsl)
 #class of contained objects
 lapply(X = tsl, FUN = class)
 
-#get names of the list slots
-names(x = tsl)
-
-#get names (names of zoo objects in the list)
+#get list and zoo names (between double quotes)
 tsl_names_get(
   tsl = tsl,
   zoo = TRUE
   )
 
-#all names
-lapply(X = tsl, FUN = \(x) attributes(x)$name)
-
-#plots
+#plot tsl
 if(interactive()){
-
-  #plot tsl
   tsl_plot(tsl)
+}
 
-  #plot single zoo object
-  zoo_plot(x = tsl[[1]])
+#list of zoo objects
+#--------------------
+x <- zoo_simulate()
+y <- zoo_simulate()
 
-  #plot single zoo object with default plot method
-  plot(x = tsl[[1]])
+tsl <- tsl_initialize(
+  x = list(
+    x = x,
+    y = y
+  )
+)
 
+#plot
+if(interactive()){
+  tsl_plot(tsl)
 }
 
 
 #wide data frame
 #--------------------
-#wide data frame with same variable in different places
-df <- data.frame(
-  date = fagus_dynamics[
-  fagus_dynamics$site == "Spain", "date"
-  ],
-  Spain = fagus_dynamics[
-  fagus_dynamics$site == "Spain", "evi"
-  ],
-  Germany = fagus_dynamics[
-  fagus_dynamics$site == "Germany", "evi"
-  ],
-  Sweden = fagus_dynamics[
-  fagus_dynamics$site == "Sweden", "evi"
-  ]
+#wide data frame
+#each column is same variable in different places
+df <- stats::reshape(
+  data = fagus_dynamics[, c(
+    "site",
+    "date",
+    "evi"
+  )],
+  timevar = "site",
+  idvar = "date",
+  direction = "wide",
+  sep = "_"
 )
+
+str(df)
 
 #to tsl
 #key assumptions:
@@ -138,7 +135,14 @@ tsl <- tsl_initialize(
   time_column = "date"
   )
 
-#colnames are forced to be the same
+#colnames are forced to be the same...
+tsl_colnames_get(tsl)
+
+#...but can be changed
+tsl <- tsl_colnames_set(
+  tsl = tsl,
+  names = list(x = "evi")
+)
 tsl_colnames_get(tsl)
 
 #plot
@@ -232,7 +236,6 @@ tsl <- tsl_initialize(
 if(interactive()){
   tsl_plot(tsl)
 }
-
 
 }
 \seealso{

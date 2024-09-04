@@ -22,35 +22,49 @@ numeric vector
 Demonstration function to computes the sum of distances between consecutive samples in two time series.
 }
 \examples{
-#simulate two zoo objects
-tsl <- tsl_simulate(
-  n = 2,
+#distance metric
+d <- "euclidean"
+
+#simulate two irregular time series
+x <- zoo_simulate(
+  name = "x",
+  rows = 100,
+  seasons = 2,
   seed = 1
 )
 
+y <- zoo_simulate(
+  name = "y",
+  rows = 80,
+  seasons = 2,
+  seed = 2
+)
+
 if(interactive()){
-  tsl_plot(tsl = tsl)
+  zoo_plot(x = x)
+  zoo_plot(x = y)
 }
 
 #auto sum of distances
 psi_auto_sum(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  distance = "euclidean"
+  x = x,
+  y = y,
+  distance = d
 )
 
 #same as:
 x_sum <- psi_auto_distance(
-  x = tsl[[1]],
-  distance = "euclidean"
+  x = x,
+  distance = d
 )
 
 y_sum <- psi_auto_distance(
-  x = tsl[[2]],
-  distance = "euclidean"
+  x = y,
+  distance = d
 )
 
 x_sum + y_sum
+
 }
 \seealso{
 Other psi_demo: 

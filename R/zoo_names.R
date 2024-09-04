@@ -5,7 +5,7 @@
 #'
 #'
 #' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
-#' @param name (required, character string) name or new name of the zoo object. Default: NULL
+#' @param name (required, character string) name or new name of the zoo object. If NULL, `x` is returned as is. Default: NULL
 #'
 #' @return zoo time series
 #' @export
@@ -43,15 +43,21 @@ zoo_name_set <- function(
   }
 
   if(is.character(name) == FALSE){
-    stop("Argument 'name' must be a character string.")
+    return(x)
   }
 
   x_name <- attributes(x)$name
+
   if(!is.null(x_name)){
-    message("Renaming zoo time series from '", x_name, "' to '", name, "'.")
+    if(x_name != name){
+      message("Renaming zoo time series from '", x_name, "' to '", name, "'.")
+    }
   }
 
-  attr(x = x, which = "name") <- name
+  attr(
+    x = x,
+    which = "name"
+  ) <- name
 
   x
 

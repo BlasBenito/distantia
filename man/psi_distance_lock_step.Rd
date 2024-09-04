@@ -22,24 +22,37 @@ Demonstration function to compute the lock-step distance between two univariate 
 This function does not accept NA data in the matrices \code{x} and \code{y}.
 }
 \examples{
+#distance metric
+d <- "euclidean"
+
 #simulate two time series
-tsl <- tsl_simulate(
-  n = 2,
+#of the same length
+x <- zoo_simulate(
+  name = "x",
+  rows = 100,
+  seasons = 2,
   seed = 1
 )
 
-if(interactive()){
-  tsl_plot(tsl = tsl)
-}
-
-#distance matrix
-d <- psi_distance_lock_step(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  distance = "euclidean"
+y <- zoo_simulate(
+  name = "y",
+  rows = 100,
+  seasons = 2,
+  seed = 2
 )
 
-d
+if(interactive()){
+  zoo_plot(x = x)
+  zoo_plot(x = y)
+}
+
+#sum of distances
+#between pairs of samples
+psi_distance_lock_step(
+  x = x,
+  y = y,
+  distance = d
+)
 }
 \seealso{
 Other psi_demo: 

@@ -190,16 +190,21 @@ tsl_Inf_to_NA <- function(
   tsl <- lapply(
     X = tsl,
     FUN = function(x){
-      x.index <- zoo::index(x)
-      x.name <- attributes(x)$name
-      x <- as.matrix(x)
-      x[is.infinite(x)] <- NA
-      x <- zoo::zoo(
-        x = x,
-        order.by = x.index
+
+      y <- as.matrix(x)
+
+      y[is.infinite(y)] <- NA
+
+      y <- zoo::zoo(
+        x = y,
+        order.by = zoo::index(x)
       )
-      attr(x = x, which = "name") <- x.name
-      x
+
+      zoo_name_set(
+        x = y,
+        name = attributes(x)$name
+      )
+
     }
   )
 

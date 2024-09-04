@@ -11,15 +11,21 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #simulate a zoo object
+#' #distance metric
+#' d <- "euclidean"
+#'
+#' #simulate zoo time series
 #' x <- zoo_simulate(
+#'   name = "x",
+#'   rows = 100,
+#'   seasons = 2,
 #'   seed = 1
 #' )
 #'
-#' #sum of distances
+#' #sum distance between consecutive samples
 #' psi_auto_distance(
 #'   x = x,
-#'   distance = "euclidean"
+#'   distance = d
 #' )
 #' @family psi_demo
 psi_auto_distance <- function(

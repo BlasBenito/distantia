@@ -233,10 +233,10 @@ zoo_resample <- function(
       xout = new_time
     )
 
-    attr(
+    y <- zoo_name_set(
       x = y,
-      which = "name"
-    ) <- attributes(x)$name
+      name = attributes(x)$name
+    )
 
     return(y)
 
@@ -334,11 +334,9 @@ zoo_resample <- function(
   )
 
   #reset name
-  attr(
+  zoo_name_set(
     x = y,
-    which = "name"
-  ) <- attributes(x)$name
-
-  y
+    name = attributes(x)$name
+  )
 
 }

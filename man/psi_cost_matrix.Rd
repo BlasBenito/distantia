@@ -20,26 +20,43 @@ numeric matrix
 Demonstration function to compute a cost matrix from a distance matrix.
 }
 \examples{
-#simulate two time series
-tsl <- tsl_simulate(
-  n = 2,
+#distance metric
+d <- "euclidean"
+
+#use diagonals in least cost computations
+diagonal <- TRUE
+
+#simulate two irregular time series
+x <- zoo_simulate(
+  name = "x",
+  rows = 100,
+  seasons = 2,
   seed = 1
 )
 
+y <- zoo_simulate(
+  name = "y",
+  rows = 80,
+  seasons = 2,
+  seed = 2
+)
+
 if(interactive()){
-  tsl_plot(tsl = tsl)
+  zoo_plot(x = x)
+  zoo_plot(x = y)
 }
 
 #distance matrix
 dist_matrix <- psi_distance_matrix(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  distance = "euclidean"
+  x = x,
+  y = y,
+  distance = d
 )
 
 #cost matrix
 cost_matrix <- psi_cost_matrix(
-  dist_matrix = dist_matrix
+  dist_matrix = dist_matrix,
+  diagonal = diagonal
 )
 
 if(interactive()){

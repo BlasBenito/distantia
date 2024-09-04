@@ -21,20 +21,32 @@
 #' #remove blocks from least cost path
 #' ignore_blocks <- TRUE
 #'
-#' #simulate two time series
-#' tsl <- tsl_simulate(
-#'   n = 2,
+#' #simulate two irregular time series
+#' x <- zoo_simulate(
+#'   name = "x",
+#'   rows = 100,
+#'   seasons = 2,
 #'   seed = 1
-#' )
+#'   )
+#'
+#' y <- zoo_simulate(
+#'   name = "y",
+#'   rows = 80,
+#'   seasons = 2,
+#'   seed = 2
+#'   )
 #'
 #' if(interactive()){
-#'   tsl_plot(tsl = tsl)
+#'   zoo_plot(x = x)
+#'   zoo_plot(x = y)
 #' }
+#'
+#' #dynamic time warping
 #'
 #' #distance matrix
 #' dist_matrix <- psi_distance_matrix(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
+#'   x = x,
+#'   y = y,
 #'   distance = d
 #' )
 #'
@@ -65,27 +77,34 @@
 #'   )
 #' }
 #'
+#' #computation of psi score
+#'
 #' #sum of distances in least cost path
-#' xy_distance <- psi_cost_path_sum(
+#' a <- psi_cost_path_sum(
 #'   path = cost_path
 #'   )
 #'
 #' #auto sum of both time series
-#' xy_autodistance <- psi_auto_sum(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
+#' b <- psi_auto_sum(
+#'   x = x,
+#'   y = y,
 #'   path = cost_path,
 #'   distance = d
 #' )
 #'
 #' #dissimilarity score
 #' psi_equation(
-#'   a = xy_distance,
-#'   b = xy_autodistance,
+#'   a = a,
+#'   b = b,
 #'   diagonal = diagonal
 #' )
 #'
-#' #full computation in one line
+#' #full computation with distantia()
+#' tsl <- list(
+#'   x = x,
+#'   y = y
+#' )
+#'
 #' distantia(
 #'   tsl = tsl,
 #'   distance = d,

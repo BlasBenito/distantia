@@ -75,9 +75,10 @@ f_smooth_window <- function(
     ... = ...
   )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -127,9 +128,10 @@ f_rescale <- function(
     order.by = zoo::index(x)
   )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -174,9 +176,10 @@ f_pca <- function(
     order.by = zoo::index(x)
   )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -233,9 +236,10 @@ f_trend_linear <- function(
     order.by = zoo::index(x)
   )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -296,9 +300,10 @@ f_detrend_linear <- function(
     order.by = zoo::index(x)
     )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -375,9 +380,10 @@ f_detrend_difference <- function(
     order.by = zoo::index(x)
   )
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -421,9 +427,10 @@ f_proportion <- function(
 
   zoo::coredata(y) <- y_data
 
-  attr(x = y, which = "name") <- attributes(x)$name
-
-  y
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
 
 }
 
@@ -509,12 +516,10 @@ f_hellinger <- function(
 
   zoo::coredata(y) <- y_data
 
-  attr(
+  zoo_name_set(
     x = y,
-    which = "name"
-  ) <- attributes(x)$name
-
-  y
+    name = attributes(x)$name
+  )
 
 }
 

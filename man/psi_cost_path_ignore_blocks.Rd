@@ -16,21 +16,37 @@ data frame
 In orthogonal least cost paths (when diagonals are ignored), long straight segments (a.k.a "blocks") may appear in highly dissimilar sections of the time series. Blocks inflate psi dissimilarity scores, making pairs of time series seem more dissimilar than they actually are. This demonstration function identifies and removes blocks, resulting in fairer dissimilarity analyses.
 }
 \examples{
-#simulate two time series
-tsl <- tsl_simulate(
-  n = 2,
+#distance metric
+d <- "euclidean"
+
+#use diagonals in least cost computations
+diagonal <- TRUE
+
+#simulate two irregular time series
+x <- zoo_simulate(
+  name = "x",
+  rows = 100,
+  seasons = 2,
   seed = 1
 )
 
+y <- zoo_simulate(
+  name = "y",
+  rows = 80,
+  seasons = 2,
+  seed = 2
+)
+
 if(interactive()){
-  tsl_plot(tsl = tsl)
+  zoo_plot(x = x)
+  zoo_plot(x = y)
 }
 
 #distance matrix
 dist_matrix <- psi_distance_matrix(
-  x = tsl[[1]],
-  y = tsl[[2]],
-  distance = "euclidean"
+  x = x,
+  y = y,
+  distance = d
 )
 
 #orthogonal least cost matrix
@@ -46,9 +62,14 @@ cost_path <- psi_cost_path(
   diagonal = FALSE
 )
 
+#cost path details
 nrow(cost_path)
 
-#notice several blocks in the lower left corner
+psi_cost_path_sum(
+  path = cost_path
+)
+
+#notice blocks as long straight lines
 if(interactive()){
   utils_matrix_plot(
     m = cost_matrix,
@@ -57,21 +78,31 @@ if(interactive()){
 }
 
 #removing blocks
-cost_path_trimmed <- psi_cost_path_ignore_blocks(
+cost_path_no_blocks <- psi_cost_path_ignore_blocks(
   path = cost_path
 )
 
-#resulting data frame is much smaller
-#rows with repeated x or y coordinates removed
-nrow(cost_path_trimmed)
+#much smaller size
+nrow(cost_path_no_blocks)
+
+#much smaller distance sum
+psi_cost_path_sum(
+  path = cost_path_no_blocks
+)
 
 #but the path shape is preserved
 if(interactive()){
   utils_matrix_plot(
     m = cost_matrix,
-    path = cost_path_trimmed
+    path = cost_path_no_blocks
   )
 }
+
+#x and y to tsl
+tsl <- list(
+  x = x,
+  y = y
+)
 
 #psi score with blocks
 distantia(

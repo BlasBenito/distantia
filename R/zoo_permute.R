@@ -157,16 +157,16 @@ zoo_permute <- function(
       order.by = zoo::index(x)
     )
 
-    attr(
+    x_permuted <- zoo_name_set(
       x = x_permuted,
-      which = "name"
-    ) <- paste0(
-      x_name,
-      "_",
-      as.character(i)
+      name = paste0(
+        x_name,
+        "_",
+        as.character(i)
       )
+    )
 
-    x_permuted
+    return(x_permuted)
 
   }
 

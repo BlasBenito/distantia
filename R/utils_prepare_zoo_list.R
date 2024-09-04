@@ -71,20 +71,16 @@ utils_prepare_zoo_list <- function(
       i <- i[, sapply(i, is.numeric), drop = FALSE]
 
       #convert to zoo
-      i <- zoo::zoo(
+      zoo::zoo(
         x = i,
         order.by = i.index
         )
 
-      return(i)
-
     }
   )
 
-  for(i in seq_len(length(x))){
-    attr(x = x[[i]], which = "name") <- names(x)[i]
-  }
-
-  x
+  tsl_names_set(
+    tsl = x
+  )
 
 }

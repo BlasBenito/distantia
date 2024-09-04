@@ -7,45 +7,51 @@
 #' @param path (required, data frame) least cost path produced by [psi_cost_path()]. Default: NULL
 #' @return numeric value
 #' @examples
-#' #simulate two time series
-#' tsl <- tsl_simulate(
-#'   n = 2,
+#' #distance metric
+#' d <- "euclidean"
+#'
+#' #simulate two irregular time series
+#' x <- zoo_simulate(
+#'   name = "x",
+#'   rows = 100,
+#'   seasons = 2,
 #'   seed = 1
 #' )
 #'
+#' y <- zoo_simulate(
+#'   name = "y",
+#'   rows = 80,
+#'   seasons = 2,
+#'   seed = 2
+#' )
+#'
 #' if(interactive()){
-#'   tsl_plot(tsl = tsl)
+#'   zoo_plot(x = x)
+#'   zoo_plot(x = y)
 #' }
 #'
 #' #distance matrix
 #' dist_matrix <- psi_distance_matrix(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
-#'   distance = "euclidean"
+#'   x = x,
+#'   y = y,
+#'   distance = d
 #' )
 #'
-#' #cost matrix
+#' #orthogonal least cost matrix
 #' cost_matrix <- psi_cost_matrix(
 #'   dist_matrix = dist_matrix
 #' )
 #'
-#' #least cost path
+#' #orthogonal least cost path
 #' cost_path <- psi_cost_path(
 #'   dist_matrix = dist_matrix,
 #'   cost_matrix = cost_matrix
 #' )
 #'
-#' if(interactive()){
-#'   utils_matrix_plot(
-#'     m = cost_matrix,
-#'     path = path
-#'     )
-#' }
-#'
-#' #sum of distances of the least cost path
+#' #sum of distances in cost path
 #' psi_cost_path_sum(
 #'   path = cost_path
-#'   )
+#' )
 #' @autoglobal
 #' @export
 #' @family psi_demo

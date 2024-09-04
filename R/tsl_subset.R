@@ -3,9 +3,9 @@
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character or numeric vector) Character vector of names or numeric vector with list indices. If NULL, all time series are kept. Default: NULL
 #' @param colnames (optional, character vector) Column names of the zoo objects in `tsl`. If NULL, all columns are returned. Default: NULL
+#' @param time (optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in `tsl` are preserved. Default: NULL
 #' @param numeric_cols (optional, logical) If TRUE, only the numeric columns of the zoo objects are returned. Default: TRUE
 #' @param shared_cols (optional, logical) If TRUE, only columns shared across all zoo objects are returned. Default: TRUE
-#' @param time (optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in `tsl` are preserved. Default: NULL
 #'
 #' @return time series list
 #' @export
@@ -64,9 +64,9 @@ tsl_subset <- function(
     tsl = NULL,
     names = NULL,
     colnames = NULL,
+    time = NULL,
     numeric_cols = TRUE,
-    shared_cols = TRUE,
-    time = NULL
+    shared_cols = TRUE
 ){
 
   #check validity
@@ -133,10 +133,16 @@ tsl_subset <- function(
     tsl <- lapply(
       X = tsl,
       FUN = function(x){
+
         x_name <- attributes(x)$name
+
         x <- x[, colnames, drop = FALSE]
-        attr(x = x, which = "name") <- x_name
-        return(x)
+
+        zoo_name_set(
+          x = x,
+          name = x_name
+        )
+
       }
     )
 
@@ -166,12 +172,10 @@ tsl_subset <- function(
           drop = FALSE
         ]
 
-        attr(
+        zoo_name_set(
           x = y,
-          which = "name"
-          ) <- attributes(x)$name
-
-        return(y)
+          name = attributes(x)$name
+        )
 
       }
     )
@@ -220,12 +224,10 @@ tsl_subset <- function(
             drop = FALSE
           ]
 
-          attr(
+          zoo_name_set(
             x = y,
-            which = "name"
-          ) <- attributes(x)$name
-
-          return(y)
+            name = attributes(x)$name
+          )
 
         }
       )
@@ -290,16 +292,14 @@ tsl_subset <- function(
             end = max(time)
           )
 
-          if(nrow(x) == 0){
+          if(nrow(y) == 0){
             return(NULL)
           }
 
-          attr(
-            x = x,
-            which = "name"
-            ) <- attributes(x)$name
-
-          return(x)
+          zoo_name_set(
+            x = y,
+            name = attributes(x)$name
+          )
 
         }
 

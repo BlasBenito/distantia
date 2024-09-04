@@ -40,6 +40,10 @@ tsl_names_get <- function(
     zoo = TRUE
     ){
 
+  if(!is.list(tsl)){
+    stop("Argument 'tsl' must be a list.")
+  }
+
   if(zoo == TRUE){
 
     out <- sapply(
@@ -147,51 +151,57 @@ tsl_names_set <- function(
     names = NULL
 ){
 
-  #get tsl and zoo names
-  tsl_names <- tsl_names_get(
-    tsl = tsl,
-    zoo = FALSE
-  )
-
-  if(!is.null(tsl_names)){
-    tsl_names <- utils_clean_names(
-      x = tsl_names
-    )
+  if(!is.list(tsl)){
+    stop("Argument 'tsl' must be a list.")
   }
 
+  #function to deduplicate names
+  deduplicate <- function(x = NULL){
 
-  zoo_names <- tsl_names_get(
-    tsl = tsl,
-    zoo = TRUE
-  )
+    if(!is.null(x)){
 
-  if(!is.null(zoo_names)){
-    zoo_names <- utils_clean_names(
-      x = zoo_names
-    )
+      #deduplicates if required
+      x <- utils_clean_names(
+        x = x
+      )
+
+    }
+
+    x
+
   }
 
-  #argument names is NULL
-  #using names available in tsl object
-  #or creating new names from LETTERS
-  if(is.null(names)){
+  #user provided names if available
+  if(!is.null(names)){
 
-    #using names from zoo objects
-    if(all(!is.null(zoo_names))){
+    names <- deduplicate(
+      x = as.character(names)
+    )
 
-      names <- zoo_names
+  } else {
+    #generate names from input or LETTERS
 
-      #using names from list
-    } else if(
-      all(!is.null(tsl_names))
-      ){
+    #get names from tsl list
+    names <- tsl_names_get(
+      tsl = tsl,
+      zoo = FALSE
+    ) |>
+      deduplicate()
 
-      names <- tsl_names
+    #get names from zoo objects
+    if(is.null(names)){
 
-      #creating new names
-    } else {
+      #use zoo names as fallback
+      names <- tsl_names_get(
+        tsl = tsl,
+        zoo = TRUE
+      ) |>
+        deduplicate()
 
-      names <- utils_clean_names(x = names)
+    }
+
+    #get names from LETTERS
+    if(is.null(names)){
 
       n <- length(tsl)
 
@@ -216,36 +226,24 @@ tsl_names_set <- function(
 
       }
 
-      message("No names available in 'tsl' and argument 'names' is NULL. New names are: ", paste0(names, collapse = ", "), ".")
-
     }
 
   }
 
-  if(length(names) != length(tsl)){
-
-    stop(
-      "The length of the 'names' argument must be ",
-      length(tsl),
-      "."
-    )
-
-  }
-
   #setting names
-  names <- as.character(names)
 
-  #name list
+  #name list elements
   names(tsl) <- names
 
   #name zoo objects
   tsl <- Map(
     f = function(y, name) {
-      attr(
+
+      zoo_name_set(
         x = y,
-        which = "name"
-      ) <- name
-      y
+        name = name
+      )
+
     },
     tsl,
     names

@@ -118,7 +118,7 @@ tsl_colnames_get <- function(
 #' Set Column Names in Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param new_names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
+#' @param names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
 #'
 #' @return time series list
 #' @export
@@ -136,7 +136,7 @@ tsl_colnames_get <- function(
 #' #rename columns
 #' tsl <- tsl_colnames_set(
 #'   tsl = tsl,
-#'   new_names = list(
+#'   names = list(
 #'     a = "new_name_1",
 #'     b = "new_name_1",
 #'     c = "new_name_3"
@@ -151,27 +151,27 @@ tsl_colnames_get <- function(
 #' @family data_preparation
 tsl_colnames_set <- function(
     tsl = NULL,
-    new_names = NULL
+    names = NULL
 ){
 
-  if(is.list(new_names) == FALSE){
+  if(is.list(names) == FALSE){
     stop(
-      "Argument 'new_names' must be a list."
+      "Argument 'names' must be a list."
     )
   }
 
-  if(is.null(names(new_names)) == TRUE){
+  if(is.null(names(names)) == TRUE){
     stop(
-      "Argument 'new_names' must be a named list."
+      "Argument 'names' must be a named list."
     )
   }
 
-  new_names <- unlist(new_names)
+  names <- unlist(names)
 
   tsl <- lapply(
     X = tsl,
     FUN = function(x){
-      colnames(x)[colnames(x) %in% names(new_names)] <- new_names[names(new_names) %in% colnames(x)]
+      colnames(x)[colnames(x) %in% base::names(names)] <- names[base::names(names) %in% colnames(x)]
       x
     }
   )
@@ -226,7 +226,7 @@ tsl_colnames_set <- function(
 #' #rename columns
 #' tsl <- tsl_colnames_set(
 #'   tsl = tsl,
-#'   new_names = list(
+#'   names = list(
 #'     a = "New name 1",
 #'     b = "new Name 2",
 #'     c = "NEW NAME 3"
@@ -293,7 +293,7 @@ tsl_colnames_clean <- function(
 
   tsl <- tsl_colnames_set(
     tsl = tsl,
-    new_names = as.list(tsl.colnames)
+    names = as.list(tsl.colnames)
   )
 
   tsl

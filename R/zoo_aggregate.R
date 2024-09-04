@@ -143,11 +143,9 @@ zoo_aggregate <- function(
   )
 
   #reset name
-  attr(
+  zoo_name_set(
     x = y,
-    which = "name"
-  ) <- attributes(x)$name
-
-  y
+    name = attributes(x)$name
+  )
 
 }

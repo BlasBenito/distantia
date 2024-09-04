@@ -3,6 +3,7 @@
 #' @description
 #' Generates simulated zoo time series.
 #'
+#' @param name (optional, character string) Name of the zoo object, to be stored in the attribute "name". Default: "A"
 #' @param cols (optional, integer) Number of time series. Default: 5
 #' @param rows (optional, integer) Length of the time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100
 #' @param time_range (optional character or numeric vector) Interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between `time_range` and `rows` (for example, the number of days in `time_range` is smaller than `rows`), the upper value in `time_range` is adapted to `rows`. Default: c("2010-01-01", "2020-01-01")
@@ -48,6 +49,7 @@
 #' }
 #' @family example_data
 zoo_simulate <- function(
+    name = "A",
     cols = 5,
     rows = 100,
     time_range = c("2010-01-01", "2020-01-01"),
@@ -263,10 +265,11 @@ zoo_simulate <- function(
     order.by = time_vector
   )
 
-  attr(
+  #set name
+  m <- zoo_name_set(
     x = m,
-    which = "name"
-  ) <- "A"
+    name = as.character(name)
+  )
 
   m
 

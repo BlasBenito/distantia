@@ -10,34 +10,48 @@
 #' @return data frame
 #' @export
 #' @examples
-#' #simulate two time series
-#' tsl <- tsl_simulate(
-#'   n = 2,
+#' #distance metric
+#' d <- "euclidean"
+#'
+#' #simulate two irregular time series
+#' x <- zoo_simulate(
+#'   name = "x",
+#'   rows = 100,
+#'   seasons = 2,
 #'   seed = 1
 #' )
 #'
+#' y <- zoo_simulate(
+#'   name = "y",
+#'   rows = 80,
+#'   seasons = 2,
+#'   seed = 2
+#' )
+#'
 #' if(interactive()){
-#'   tsl_plot(tsl = tsl)
+#'   zoo_plot(x = x)
+#'   zoo_plot(x = y)
 #' }
 #'
 #' #distance matrix
 #' dist_matrix <- psi_distance_matrix(
-#'   x = tsl[[1]],
-#'   y = tsl[[2]],
-#'   distance = "euclidean"
-#' )
-#'
-#' #cost matrix
-#' cost_matrix <- psi_cost_matrix(
-#'   dist_matrix = dist_matrix,
-#'   diagonal = FALSE
+#'   x = x,
+#'   y = y,
+#'   distance = d
 #' )
 #'
 #' #diagonal least cost path
 #' #------------------------
+#'
+#' cost_matrix <- psi_cost_matrix(
+#'   dist_matrix = dist_matrix,
+#'   diagonal = TRUE
+#' )
+#'
 #' cost_path <- psi_cost_path(
 #'   dist_matrix = dist_matrix,
-#'   cost_matrix = cost_matrix
+#'   cost_matrix = cost_matrix,
+#'   diagonal = TRUE
 #' )
 #'
 #' if(interactive()){
@@ -50,6 +64,11 @@
 #'
 #' #orthogonal least cost path
 #' #--------------------------
+#' cost_matrix <- psi_cost_matrix(
+#'   dist_matrix = dist_matrix,
+#'   diagonal = FALSE
+#' )
+#'
 #' cost_path <- psi_cost_path(
 #'   dist_matrix = dist_matrix,
 #'   cost_matrix = cost_matrix,

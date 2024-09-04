@@ -37,10 +37,10 @@ zoo_to_tsl <- function(
     x_name <- ""
   }
 
-  attr(
+  x <- zoo_name_set(
     x = x,
-    which = "name"
-  ) <- x_name
+    name = x_name
+  )
 
   tsl <- list(x)
 
