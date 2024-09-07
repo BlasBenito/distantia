@@ -26,9 +26,7 @@ future::plan(
 )
 
 #progress bar
-if(interactive()){
-  progressr::handlers(global = TRUE)
-}
+# progressr::handlers(global = TRUE)
 
 #daily covid prevalence
 #in 10 California counties

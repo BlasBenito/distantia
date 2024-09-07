@@ -46,9 +46,7 @@
 #' )
 #'
 #' #progress bar
-#' if(interactive()){
-#'   progressr::handlers(global = TRUE)
-#' }
+#' # progressr::handlers(global = TRUE)
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
@@ -95,7 +93,6 @@ tsl_stats <- function(
   `%iterator%` <- doFuture::`%dofuture%`
 
   #computing stats
-  #TODO: this is failing with the fagus_dynamics dataset
   df <- foreach::foreach(
     i = seq_len(length(tsl)),
     .combine = "rbind",

@@ -4,12 +4,10 @@
 \alias{tsl_repair}
 \title{Repair Issues in Time Series Lists}
 \usage{
-tsl_repair(tsl = NULL, full = TRUE)
+tsl_repair(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
-
-\item{full}{(optional, logical) If TRUE, the function also subsets shared numeric columns across zoo objects and interpolates NA cases. Default: TRUE}
 }
 \value{
 time series list
@@ -56,8 +54,7 @@ tsl <- tsl_diagnose(
 
 #repair time series list
 tsl <- tsl_repair(
-  tsl = tsl,
-  full = TRUE
+  tsl = tsl
 )
 
 #diagnose again

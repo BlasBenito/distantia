@@ -70,9 +70,17 @@
 #' @family data_preparation
 tsl_handle_NA <- function(
     tsl = NULL,
-    na_action = "omit",
+    na_action = c(
+      "omit",
+      "impute"
+      ),
     quiet = FALSE
 ){
+
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
@@ -187,6 +195,11 @@ tsl_Inf_to_NA <- function(
     tsl = NULL
 ){
 
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   tsl <- lapply(
     X = tsl,
     FUN = function(x){
@@ -218,6 +231,11 @@ tsl_Inf_to_NA <- function(
 tsl_NaN_to_NA <- function(
     tsl = NULL
 ){
+
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   tsl <- lapply(
     X = tsl,

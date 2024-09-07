@@ -74,9 +74,7 @@
 #' )
 #'
 #' #progress bar
-#' if(interactive()){
-#'   progressr::handlers(global = TRUE)
-#' }
+#' # progressr::handlers(global = TRUE)
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands

@@ -6,7 +6,7 @@
 \alias{tsl_NaN_to_NA}
 \title{Handle NA Cases in Time Series Lists}
 \usage{
-tsl_handle_NA(tsl = NULL, na_action = "omit", quiet = FALSE)
+tsl_handle_NA(tsl = NULL, na_action = c("omit", "impute"), quiet = FALSE)
 
 tsl_Inf_to_NA(tsl = NULL)
 

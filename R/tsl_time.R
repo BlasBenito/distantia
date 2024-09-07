@@ -69,9 +69,9 @@ tsl_time <- function(
     )
 ){
 
-  tsl <- tsl_diagnose(
+  utils_check_tsl(
     tsl = tsl,
-    full = FALSE
+    min_length = 1
   )
 
   time_list <- lapply(

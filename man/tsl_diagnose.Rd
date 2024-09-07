@@ -56,8 +56,7 @@ tsl <- tsl_diagnose(
 
 #repair time series list
 tsl <- tsl_repair(
-  tsl = tsl,
-  full = TRUE
+  tsl = tsl
 )
 
 #diagnose again

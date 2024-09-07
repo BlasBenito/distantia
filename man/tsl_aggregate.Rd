@@ -66,9 +66,7 @@ future::plan(
 )
 
 #progress bar
-if(interactive()){
-  progressr::handlers(global = TRUE)
-}
+# progressr::handlers(global = TRUE)
 
 # daily aggregation
 #----------------------------------

@@ -12,8 +12,8 @@ tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 \item{names}{(optional, character string) Three different sets of column names can be requested:
 \itemize{
 \item "all" (default): list with the column names in each zoo object in \code{tsl}.
-\item "shared": character vector with the shared column names in \code{tsl}.
-\item "exclusive": list with names of exclusive columns in each zoo object in \code{tsl}.
+\item "shared": character vector with the shared column names in at least two zoo objects in \code{tsl}.
+\item "exclusive": list with names of exclusive columns (if any) in each zoo object in \code{tsl}.
 }}
 }
 \value{

@@ -197,7 +197,14 @@ tsl_subset <- function(
   }
 
   #subset shared cols
-  if(shared_cols == TRUE){
+  if(shared_cols == TRUE && length(tsl) > 1){
+
+    exclusive_cols <- tsl_colnames_get(
+      tsl = tsl,
+      names = "exclusive"
+    ) |>
+      unlist() |>
+      unique()
 
     shared_cols <- tsl_colnames_get(
       tsl = tsl,

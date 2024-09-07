@@ -101,9 +101,7 @@ future::plan(
 )
 
 #progress bar
-if(interactive()){
-  progressr::handlers(global = TRUE)
-}
+# progressr::handlers(global = TRUE)
 
 #generate irregular time series
 tsl <- tsl_simulate(

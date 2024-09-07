@@ -49,8 +49,7 @@
 #'
 #' #repair time series list
 #' tsl <- tsl_repair(
-#'   tsl = tsl,
-#'   full = TRUE
+#'   tsl = tsl
 #' )
 #'
 #' #diagnose again
@@ -64,19 +63,24 @@ tsl_diagnose <- function(
     full = TRUE
 ){
 
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   #all possible issues
   all_issues <- list(
-    tsl_not_a_list = "  - argument 'tsl' must be a list of zoo objects: see tsl_initialize().",
-    tsl_names_null =  "  - elements of 'tsl' must be named: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
-    tsl_names_duplicated = "  - elements of 'tsl' must have unique names: use tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
+    tsl_names_null =  "  - elements of 'tsl' must be named: functions distantia::tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
+    tsl_names_duplicated = "  - elements of 'tsl' must have unique names: functions distantia::tsl_names_clean() or names(tsl) <- c(...) to fix this issue.",
     tsl_objects_zoo = "  - objects in 'tsl' must be of the class 'zoo'.",
-    zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': use tsl_names_set() to fix this issue.",
-    zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.",
-    zoo_different_names = "  - zoo objects and list items have different names:  use tsl_names_set() to fix this issue.",
-    zoo_missing_names = "  - zoo objects in 'tsl' have no attribute 'name':  use tsl_names_set() to fix this issue.",
-    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: use tsl_colnames_get() to identify shared and/or exclusive columns.",
-    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': use tsl_subset() to fix this issue.",
-    zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with tsl_handle_NA() to fix this issue."
+    zoo_no_name = "  - zoo objects in 'tsl' must have the attribute 'name': function distantia::tsl_names_set() or distantia::ts_repair() may help fix this issue.",
+    zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: functions distantia::tsl_names_clean() or distantia::ts_repair() may help fix this issue.",
+    zoo_different_names = "  - zoo objects and list items have different names:  functions distantia::tsl_names_set() or distantia::tsl_repair() may help fix this issue.",
+    zoo_missing_names = "  - zoo objects in 'tsl' have no attribute 'name': functions distantia::tsl_names_set() or distantia::tsl_repair() may help fix this issue.",
+    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: function distantia::tsl_colnames_get() may help identify shared and/or exclusive columns.",
+    zoo_non_numeric_columns = "  - all columns of zoo objects in 'tsl' must be of class 'numeric': function distantia::tsl_subset() may help fix this issue.",
+    zoo_NA_cases = "  - zoo objects in 'tsl' have NA cases: interpolate or remove them with distantia::tsl_handle_NA() or distantia::tsl_repair() to fix this issue.",
+    zoo_no_matrix = "  - univariate zoo objects in 'tsl' must be matrices rather than vectors: function distantia::tsl_repair() may help fix this issue."
   )
 
   # initialize feedback
@@ -85,219 +89,220 @@ tsl_diagnose <- function(
 
   #list properties
 
-  # tsl is not a list
-  if(!is.list(tsl)){
+  # tsl has no names
+  if(any(is.null(names(tsl)))){
 
-    issues <- all_issues
+    issues <- c(
+      issues,
+      all_issues[["tsl_names_null"]]
+    )
 
     is_valid <- FALSE
 
-    #tsl is a list
+    # tsl has names
   } else {
 
-    # tsl has no names
-    if(any(is.null(names(tsl)))){
+    # duplicated names
+    if(any(duplicated(names(tsl)))){
 
       issues <- c(
         issues,
-        all_issues[["tsl_names_null"]]
+        all_issues[["tsl_names_duplicated"]]
       )
 
       is_valid <- FALSE
-
-    # tsl has names
-    } else {
-
-      # duplicated names
-      if(any(duplicated(names(tsl)))){
-
-        issues <- c(
-          issues,
-          all_issues[["tsl_names_duplicated"]]
-        )
-
-        is_valid <- FALSE
-
-      }
-
 
     }
 
-    #zoo objects
 
-    # elements in tsl are not zoo objects
-    if(
-      !all(
-        sapply(
-          X = tsl,
-          FUN = zoo::is.zoo
-        )
-      )
-    ){
+  }
+
+  #zoo objects
+
+  # get zoo names
+  zoo_names <- tsl_names_get(
+    tsl = tsl,
+    zoo = TRUE
+  )
+
+  # no zoo names
+  if(length(zoo_names) == 0){
+
+    issues <- c(
+      issues,
+      all_issues[["zoo_no_name"]]
+    )
+
+    is_valid <- FALSE
+
+  }
+
+  #only a few zoo names
+  if(length(zoo_names) < length(names(tsl))){
+
+    issues <- c(
+      issues,
+      all_issues[["zoo_missing_names"]]
+    )
+
+    is_valid <- FALSE
+
+  }
+
+  #all zoo objects are named
+  if(length(zoo_names) == length(names(tsl))){
+
+    # zoo names are unique
+    if(any(duplicated(zoo_names))){
 
       issues <- c(
         issues,
-        all_issues[["tsl_objects_zoo"]]
+        all_issues[["zoo_duplicated_names"]]
       )
 
       is_valid <- FALSE
 
-    # elemenets in tsl are zoo objects
-    } else {
+    }
 
-      # zoo objects have names
-      zoo_names <- tsl_names_get(
-        tsl = tsl,
-        zoo = TRUE
+    #any zoo names different from list names
+    if(any(!(zoo_names %in% names(tsl)))){
+
+      issues <- c(
+        issues,
+        all_issues[["zoo_different_names"]]
       )
 
-      if(length(zoo_names) == 0){
+      is_valid <- FALSE
 
-        issues <- c(
-          issues,
-          all_issues[["zoo_no_name"]]
-        )
+    }
 
-        is_valid <- FALSE
+  }
+
+  #run full test
+  if(full == TRUE){
+
+    # zoo objects have shared colnames
+    zoo_colnames_shared <- tsl_colnames_get(
+      tsl = tsl,
+      names = "shared"
+    )
+
+    #some objects have no shared columns
+    if(any(is.na(zoo_colnames_shared))){
+
+      wrong_zoos <- names(zoo_colnames_shared[is.na(zoo_colnames_shared)])
+
+      issues <- c(
+        issues,
+        paste0("  - zoo object/s '", paste0(wrong_zoos, collapse = "', '"), "' in 'tsl' have no shared columns with other zoo objects: functions distantia::tsl_colnames_clean() or distantia::tsl_colnames_set() may help fix this issue.")
+      )
+
+      is_valid <- FALSE
+
+    }
+
+    #there are no shared columns
+    if(all(is.na(zoo_colnames_shared))){
+
+      issues <- c(
+        issues,
+        all_issues[["zoo_no_shared_columns"]]
+      )
+
+      is_valid <- FALSE
+
+    }
+
+    #all columns in zoo objects are matrices
+    zoo.is.matrix <- lapply(
+      X = tsl,
+      FUN = is.matrix
+    ) |>
+      unlist()
+
+    if(any(zoo.is.matrix == FALSE)){
+
+      issues <- c(
+        issues,
+        all_issues[["zoo_no_matrix"]]
+      )
+
+      is_valid <- FALSE
+
+    }
+
+    #all columns in zoo objects are numeric
+    zoo.columns.numeric <- sapply(
+      X = tsl,
+      FUN = function(x){
+
+        #vector
+        if(is.null(dim(x))){
+
+          out <- is.numeric(x)
+
+        } else {
+          #matrix
+
+          out <- apply(
+            X = zoo::coredata(x),
+            FUN = is.numeric,
+            MARGIN = 2
+          ) |>
+            all()
+
+        }
+
+        out
 
       }
 
-      if(length(zoo_names) < length(names(tsl))){
+    ) |>
+      all()
 
-        issues <- c(
-          issues,
-          all_issues[["zoo_missing_names"]]
-        )
+    if(zoo.columns.numeric == FALSE){
 
-        is_valid <- FALSE
+      issues <- c(
+        issues,
+        all_issues[["zoo_non_numeric_columns"]]
+      )
 
-      }
+      is_valid <- FALSE
 
-      if(length(zoo_names) == length(names(tsl))){
+    }
 
-        # zoo names are unique
-        if(any(duplicated(zoo_names))){
+    # NA values
+    na.count <- tsl_count_NA(
+      tsl = tsl,
+      quiet = TRUE
+    ) |>
+      unlist() |>
+      sum()
 
-          issues <- c(
-            issues,
-            all_issues[["zoo_duplicated_names"]]
-          )
+    if(na.count > 0){
 
-          is_valid <- FALSE
+      issues <- c(
+        issues,
+        all_issues[["zoo_NA_cases"]]
+      )
 
-        }
+      is_valid <- FALSE
 
-        if(any(!(zoo_names %in% names(tsl)))){
+    }
 
-          issues <- c(
-            issues,
-            all_issues[["zoo_different_names"]]
-          )
+  } #end of full == TRUE
 
-          is_valid <- FALSE
 
-        }
 
-      }
 
-      #run full test
-      if(full == TRUE){
-
-        # zoo objects have shared colnames
-        zoo_colnames_shared <- tsl_colnames_get(
-          tsl = tsl,
-          names = "shared"
-        )
-
-        #check ignored for zoo vectors.
-        if(!is.null(zoo_colnames_shared)){
-
-          if(length(zoo_colnames_shared) == 0){
-
-            issues <- c(
-              issues,
-              all_issues[["zoo_no_shared_columns"]]
-            )
-
-            is_valid <- FALSE
-
-          }
-
-        }
-
-        #all columns in zoo objects are numeric
-        zoo.columns.numeric <- sapply(
-          X = tsl,
-          FUN = function(x){
-
-            #vector
-            if(is.null(dim(x))){
-
-              out <- is.numeric(x)
-
-            } else {
-              #matrix
-
-              out <- apply(
-                X = zoo::coredata(x),
-                FUN = is.numeric,
-                MARGIN = 2
-              ) |>
-                all()
-
-            }
-
-            out
-
-          }
-
-        ) |>
-          all()
-
-        if(zoo.columns.numeric == FALSE){
-
-          issues <- c(
-            issues,
-            all_issues[["zoo_non_numeric_columns"]]
-          )
-
-          is_valid <- FALSE
-
-        }
-
-        # NA values
-        na.count <- tsl_count_NA(
-          tsl = tsl,
-          quiet = TRUE
-        ) |>
-          unlist() |>
-          sum()
-
-        if(na.count > 0){
-
-          issues <- c(
-            issues,
-            all_issues[["zoo_NA_cases"]]
-          )
-
-          is_valid <- FALSE
-
-        }
-
-      } #end of full == TRUE
-
-    } #end of: elements in tsl are zoo objects
-
-  } #end of: tsl is a list
 
   if(is_valid == FALSE){
 
     message(
-      "This time series list is NOT VALID.\n",
-      "The issue/s to address are:\n",
+      "Argument 'tsl' is NOT VALID:.\n\n",
       paste(
         issues,
-        collapse = "\n"
+        collapse = "\n\n"
       )
     )
 

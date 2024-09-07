@@ -4,8 +4,8 @@
 #' @param names (optional, character string) Three different sets of column names can be requested:
 #' \itemize{
 #'   \item "all" (default): list with the column names in each zoo object in `tsl`.
-#'   \item "shared": character vector with the shared column names in `tsl`.
-#'   \item "exclusive": list with names of exclusive columns in each zoo object in `tsl`.
+#'   \item "shared": character vector with the shared column names in at least two zoo objects in `tsl`.
+#'   \item "exclusive": list with names of exclusive columns (if any) in each zoo object in `tsl`.
 #' }
 #'
 #' @return character vector or list with character vectors
@@ -51,7 +51,6 @@ tsl_colnames_get <- function(
       )
 ){
 
-
   names <- match.arg(
     arg = names,
     choices = c(
@@ -60,7 +59,13 @@ tsl_colnames_get <- function(
         "shared",
         "exclusive"
         )
-    )
+    ),
+    several.ok = FALSE
+  )
+
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
   )
 
   #all names
@@ -80,13 +85,32 @@ tsl_colnames_get <- function(
     unlist() |>
     table()
 
-  shared.names <- shared.names[shared.names == length(tsl)]
+  #returns shared names in at least 2 zoo objects
+  shared.names <- names(
+    shared.names[shared.names > 1]
+    )
 
-  shared.names <- names(shared.names)
+  #subset all.names to shared names
+  shared.names <- lapply(
+    X = all.names,
+    FUN = function(x){
+      y <- x[x %in% shared.names]
+      if(length(y) == 0){
+        return(NA)
+      }
+      y
+    }
+  )
 
   if(names == "shared"){
     return(shared.names)
   }
+
+  #convert shared names to vector
+  shared.names.vector <- shared.names |>
+    unlist() |>
+    unique() |>
+    stats::na.omit()
 
   #exclusive names
   exclusive.names <- lapply(
@@ -94,7 +118,7 @@ tsl_colnames_get <- function(
     FUN = function(x){
       x.exclusive <- setdiff(
         x = colnames(x),
-        y = shared.names
+        y = shared.names.vector
       )
       if(length(x.exclusive) == 0){
         return(NA)
@@ -103,12 +127,6 @@ tsl_colnames_get <- function(
       }
     }
   )
-
-  exclusive.names <- exclusive.names[!is.na(exclusive.names)]
-
-  if(length(exclusive.names) == 0){
-    return(exclusive.names)
-  }
 
   exclusive.names
 
@@ -154,6 +172,12 @@ tsl_colnames_set <- function(
     names = NULL
 ){
 
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
+  #TODO: this argument could be a vector too?
   if(is.list(names) == FALSE){
     stop(
       "Argument 'names' must be a list."
@@ -272,6 +296,11 @@ tsl_colnames_clean <- function(
     suffix = NULL,
     prefix = NULL
 ){
+
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   tsl.colnames <- tsl.old.names <- tsl_colnames_get(
     tsl = tsl,

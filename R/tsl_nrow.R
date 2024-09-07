@@ -20,6 +20,11 @@ tsl_nrow <- function(
     tsl = NULL
 ){
 
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   lapply(
     X = tsl,
     FUN = function(x){

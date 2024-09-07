@@ -229,6 +229,54 @@ utils_check_matrix_args <- function(
 
 }
 
+
+
+#' Structural Check for Time Series Lists
+#'
+#' @description
+#' Internal function to check that a time series list is a list of zoo objects and has a minimum number of objects. For a more comprehensive test, use [tsl_diagnose()].
+#'
+#'
+#' @param tsl (required, list) list of zoo objects. Default: NULL
+#' @param min_length (required, positive integer) minimum number of zoo objects in `tsl`. Default: 2
+#'
+#' @return error messages (if any)
+#' @export
+#' @autoglobal
+utils_check_tsl <- function(
+    tsl = NULL,
+    min_length = 2
+){
+
+  if(is.null(tsl)){
+    stop("Argument 'tsl' must not be NULL.")
+  }
+
+  #check list class
+  if(!is.list(tsl)){
+    stop("Argument 'tsl' must be a list.")
+  }
+
+  #check class of components
+  tsl.class <- lapply(
+    X = tsl,
+    FUN = class
+  ) |>
+    unlist() |>
+    unique()
+
+  if(tsl.class != "zoo"){
+    stop("Argument 'tsl' must be a list of zoo objects.")
+  }
+
+  #check min length
+  min_length <- abs(as.integer(min_length))
+  if(length(tsl) < min_length){
+    stop("Argument 'tsl' must be a list with at least ", min_length, " zoo objects.")
+  }
+
+}
+
 #' Checks Argument x
 #'
 #' @param x (required, list of matrices) list of input matrices generated with [tsl_initialize()]. Default: NULL

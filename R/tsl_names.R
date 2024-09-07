@@ -40,9 +40,10 @@ tsl_names_get <- function(
     zoo = TRUE
     ){
 
-  if(!is.list(tsl)){
-    stop("Argument 'tsl' must be a list.")
-  }
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   if(zoo == TRUE){
 
@@ -151,9 +152,10 @@ tsl_names_set <- function(
     names = NULL
 ){
 
-  if(!is.list(tsl)){
-    stop("Argument 'tsl' must be a list.")
-  }
+  utils_check_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   #function to deduplicate names
   deduplicate <- function(x = NULL){
