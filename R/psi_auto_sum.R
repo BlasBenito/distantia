@@ -70,7 +70,7 @@ psi_auto_sum <- function(
 
   if(!is.null(path)){
 
-    path <- utils_check_path_args(
+    path <- utils_check_args_path(
       path = path
     )
 

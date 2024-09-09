@@ -116,7 +116,7 @@ psi_cost_path_ignore_blocks <- function(
     path = NULL
     ){
 
-  path <- utils_check_path_args(
+  path <- utils_check_args_path(
     path = path
   )
 

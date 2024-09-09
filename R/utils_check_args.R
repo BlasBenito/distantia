@@ -22,7 +22,7 @@
 #' @export
 #' @autoglobal
 #' @family internal
-utils_check_distantia_args <- function(
+utils_check_args_distantia <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
@@ -145,7 +145,7 @@ utils_check_distantia_args <- function(
 #' @export
 #' @autoglobal
 #' @family internal
-utils_check_path_args <- function(
+utils_check_args_path <- function(
     path = NULL,
     arg_name = "path"
 ){
@@ -191,7 +191,7 @@ utils_check_path_args <- function(
 #' @export
 #' @autoglobal
 #' @family internal
-utils_check_matrix_args <- function(
+utils_check_args_matrix <- function(
     m = NULL,
     arg_name = "m"
 ){
@@ -243,7 +243,7 @@ utils_check_matrix_args <- function(
 #' @return error messages (if any)
 #' @export
 #' @autoglobal
-utils_check_tsl <- function(
+utils_check_args_tsl <- function(
     tsl = NULL,
     min_length = 2
 ){
@@ -286,7 +286,7 @@ utils_check_tsl <- function(
 #' @export
 #' @autoglobal
 #' @family internal
-utils_check_zoo_args <- function(
+utils_check_args_zoo <- function(
     x = NULL,
     arg_name = "x"
     ){

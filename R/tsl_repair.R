@@ -63,7 +63,7 @@ tsl_repair <- function(
 
   #TODO: review this functions logic along with tsl_diagnose().
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )

@@ -15,7 +15,7 @@ tsl_names_get(tsl = NULL, zoo = TRUE)
 list
 }
 \description{
-A time series list has two sets of names: the names of the list items (as returned by \code{names(tsl)}), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names.
+A time series list has two sets of names: the names of the list items (as returned by \code{names(tsl)}), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names,
 }
 \examples{
 #initialize a time series list

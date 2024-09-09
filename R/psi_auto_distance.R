@@ -35,7 +35,7 @@ psi_auto_distance <- function(
     ){
 
   #check x
-  x <- utils_check_zoo_args(
+  x <- utils_check_args_zoo(
     x = x,
     arg_name = "x"
   )
@@ -48,7 +48,7 @@ psi_auto_distance <- function(
   #subset time series using path
   if(!is.null(path)){
 
-    path <- utils_check_path_args(
+    path <- utils_check_args_path(
       path = path
     )
 

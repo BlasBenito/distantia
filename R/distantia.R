@@ -266,7 +266,7 @@ distantia <- function(
   }
 
   #check input arguments
-  args_test <- utils_check_distantia_args(
+  args_test <- utils_check_args_distantia(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,

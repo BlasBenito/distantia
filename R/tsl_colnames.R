@@ -63,7 +63,7 @@ tsl_colnames_get <- function(
     several.ok = FALSE
   )
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )
@@ -172,7 +172,7 @@ tsl_colnames_set <- function(
     names = NULL
 ){
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )
@@ -297,7 +297,7 @@ tsl_colnames_clean <- function(
     prefix = NULL
 ){
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )

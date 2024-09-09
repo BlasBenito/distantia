@@ -19,11 +19,11 @@ Checks Classes of List Elements Against Expectation
 }
 \seealso{
 Other internal: 
+\code{\link{utils_check_args_distantia}()},
+\code{\link{utils_check_args_matrix}()},
+\code{\link{utils_check_args_path}()},
+\code{\link{utils_check_args_zoo}()},
 \code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_distantia_args}()},
-\code{\link{utils_check_matrix_args}()},
-\code{\link{utils_check_path_args}()},
-\code{\link{utils_check_zoo_args}()},
 \code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_split}()},
 \code{\link{utils_distantia_df_to_matrix}()},

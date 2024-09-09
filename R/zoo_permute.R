@@ -100,7 +100,7 @@ zoo_permute <- function(
 ){
 
   #check x
-  x <- utils_check_zoo_args(x = x)
+  x <- utils_check_args_zoo(x = x)
 
   permutation <- match.arg(
     arg = permutation,

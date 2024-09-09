@@ -12,7 +12,7 @@ utils_color_breaks <- function(
     n = 100
     ){
 
-  m <- utils_check_matrix_args(m = m)
+  m <- utils_check_args_matrix(m = m)
 
   m.range <- range(m, na.rm = TRUE)
 

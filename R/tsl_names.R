@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' A time series list has two sets of names: the names of the list items (as returned by `names(tsl)`), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names.
+#' A time series list has two sets of names: the names of the list items (as returned by `names(tsl)`), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names,
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
@@ -40,10 +40,12 @@ tsl_names_get <- function(
     zoo = TRUE
     ){
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )
+
+  out <- names(tsl)
 
   if(zoo == TRUE){
 
@@ -57,10 +59,6 @@ tsl_names_get <- function(
     if(is.list(out)){
       out <- unlist(out)
     }
-
-  } else {
-
-    out <- names(tsl)
 
   }
 
@@ -152,7 +150,7 @@ tsl_names_set <- function(
     names = NULL
 ){
 
-  utils_check_tsl(
+  utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )

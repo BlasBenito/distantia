@@ -51,7 +51,7 @@ zoo_plot <- function(
 ){
 
   #check x
-  x <- utils_check_zoo_args(x = x)
+  x <- utils_check_args_zoo(x = x)
 
   #if standalone zoo plot
   if(subpanel == FALSE && guide == TRUE){

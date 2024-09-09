@@ -81,7 +81,7 @@ utils_matrix_plot <- function(
   }
 
   #check m
-  m <- utils_check_matrix_args(m = m)
+  m <- utils_check_args_matrix(m = m)
 
   #specific behaviours by matrix type
   m_type <- attributes(m)$type
@@ -319,7 +319,7 @@ utils_matrix_plot <- function(
   # least cost path ----
   if(!is.null(path)){
 
-    path <- utils_check_path_args(
+    path <- utils_check_args_path(
       path = path
     )
 
