@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_check_args.R
 \name{utils_check_args_distantia}
 \alias{utils_check_args_distantia}
-\title{Check Input Arguments}
+\title{Check Input Arguments to \code{distantia()}}
 \usage{
 utils_check_args_distantia(
   tsl = NULL,
@@ -51,7 +51,7 @@ utils_check_args_distantia(
 list
 }
 \description{
-Check Input Arguments
+Check Input Arguments to \code{distantia()}
 }
 \seealso{
 Other internal: 

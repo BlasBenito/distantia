@@ -1,28 +1,30 @@
 #' Diagnose Issues in Time Series Lists
 #'
 #' @description
-#' A Time Series List (`tsl` for short) is a list of zoo time series. This type of object, not defined as a class, is used throughout the `distantia` package to handle time series processing and analysis. The structure and values of `tsl` must fulfill several conditions:
+#' A Time Series List (`tsl` for short) is a named list of zoo time series. This type of object, not defined as a class, is used throughout the `distantia` package to contain time series data ready for processing and analysis.
+#'
+#' The structure and values of a `tsl` must fulfill several general conditions:
 #'
 #' Structure:
 #' \itemize{
-#'   \item Argument `tsl` is a named list of zoo time series
-#'   \item The list names match the attributes "name" of the zoo time series
-#'   \item All zoo time series must have at least one shared column name.
-#'   \item Data in univariate zoo time series (as extracted by `zoo::coredata(x)`) must be of the class "matrix". Univariate zoo time series are often represented as vectors, but this breaks several subsetting and transformation operations implemented in this package.
+#'   \item List names match the attributes "name" of the zoo time series.
+#'   \item Zoo time series must have at least one shared column name.
+#'   \item The index (as extracted by [zoo::index()]) of all zoo objects must be of the same class (either "Date", "POSIXct", "numeric", or "integer").
+#'   \item The "core data" (as extracted by [zoo::coredata()]) of univariate zoo time series must be of class "matrix".
 #' }
 #'
-#' Values (optional):
+#' Values (optional, when `full = TRUE`):
 #' \itemize{
 #'   \item All time series have at least one shared numeric column.
 #'   \item There are no NA, Inf, or NaN values in the time series.
 #' }
 #'
-#' This function analyzes a `tsl` to returns messages describing what conditions are not met, and provides hints on how to fix most issues.
+#' This function analyzes a `tsl` without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.
 #'
 #' @param tsl (required, list of zoo time series) Time series list to diagnose. Default: NULL
-#' @param full (optional, logical) If TRUE, the function also checks all individual values. Default: TRUE
+#' @param full (optional, logical) If TRUE, a full diagnostic is triggered. Otherwise, only the data structure is tested. Default: TRUE
 #'
-#' @return time series list, and messages describing detected issues
+#' @return time series list; messages
 #' @export
 #' @autoglobal
 #' @examples
@@ -75,30 +77,39 @@ tsl_diagnose <- function(
     full = TRUE
 ){
 
-  utils_check_args_tsl(
-    tsl = tsl,
-    min_length = 1
-  )
+  if(!is.logical(full)){
+    stop("Argument 'full' must be TRUE to run a full diagnostic, and FALSE otherwise.")
+  }
+
+  if(is.null(tsl)){
+    stop("Argument 'tsl' must not be NULL.")
+  }
+
+  if(!is.list(tsl)){
+    stop("Argument 'tsl' must be a list.")
+  }
+
 
   #all possible issues
   all_issues <- list(
-    tsl_names_null =  "  - elements of 'tsl' must be named: functions distantia::tsl_names_set() or names(tsl) <- c(...) to fix this issue.",
-    tsl_names_duplicated = "  - elements of 'tsl' must have unique names: functions distantia::tsl_names_clean() or names(tsl) <- c(...) to fix this issue.",
-    zoo_no_name = "  - all zoo objects in 'tsl' must have the attribute 'name': function distantia::tsl_names_set() or distantia::ts_repair() may help fix this issue.",
-    zoo_duplicated_names = "  - zoo objects in 'tsl' must have unique names: functions distantia::tsl_names_clean() or distantia::ts_repair() may help fix this issue.",
-    zoo_different_names = "  - zoo objects and list items have different names:  functions distantia::tsl_names_set() or distantia::tsl_repair() may help fix this issue.",
-    zoo_no_shared_columns = "  - zoo objects in 'tsl' must have at least one shared column: function distantia::tsl_colnames_get() may help identify shared and/or exclusive columns.",
-    zoo_non_numeric_columns = "  - all shared columns of zoo objects in 'tsl' must be of class 'numeric': function distantia::tsl_subset() may help fix this issue.",
-    zoo_NA_cases = "  - zoo objects in 'tsl' have NA, Inf, -Inf, or NaN cases: interpolate or remove them with distantia::tsl_handle_NA() or distantia::tsl_repair() to fix this issue.",
-    zoo_no_matrix = "  - univariate zoo objects in 'tsl' must be matrices rather than vectors: function distantia::tsl_repair() may help fix this issue."
+    tsl_objects_zoo = " - elements of 'tsl' must be time series of the class 'zoo': coerce at once with tsl <- lapply(tsl, zoo::zoo) or individually with zoo::zoo().",
+    tsl_names_null =  "  - elements of 'tsl' must be named: set names with distantia::tsl_names_set() or names(tsl) <- c(...).",
+    tsl_names_duplicated = "  - elements of 'tsl' must have unique names: apply distantia::tsl_names_clean() to deduplicate names, or distantia::tsl_names_set() to set new ones.",
+    zoo_no_name = "  - zoo time series must have the attribute 'name': apply distantia::tsl_names_set() to name them.",
+    zoo_duplicated_names = "  - zoo time series must have unique names: apply distantia::tsl_names_clean() to deduplicate them.",
+    zoo_different_names = "  - zoo time series and list items have different names:  apply distantia::tsl_names_set() to reset zoo names to list names.",
+    zoo_no_shared_columns = "  - all zoo time series must have at least one shared column: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns.",
+    zoo_time_class = "  - index of all zoo time series must be of the same class ('Date', 'POSIXct', 'numeric', or 'integer'): use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.",
+    zoo_non_numeric_columns = "  - columns shared across all zoo objects must be of the class 'numeric': function distantia::tsl_subset() may help fix this issue.",
+    zoo_NA_cases = "  - zoo time series have NA, Inf, -Inf, or NaN cases: interpolate or remove them with distantia::tsl_handle_NA().",
+    zoo_no_matrix = "  - core data of univariate zoo time series must be of class 'matrix': use lapply(tsl, distantia::zoo_vector_to_matrix) to fix this issue."
   )
 
   # initialize feedback
   issues_structure <- vector()
   issues_values <- vector()
 
-  #list properties
-  tsl_names <- names(tsl)
+  #list
 
   # tsl has no names
   if(
@@ -110,30 +121,66 @@ tsl_diagnose <- function(
       all_issues[["tsl_names_null"]]
     )
 
+  } else {
+
+    # duplicated names
+    if(
+      any(duplicated(names(tsl)))
+    ){
+
+      issues_structure <- c(
+        issues_structure,
+        all_issues[["tsl_names_duplicated"]]
+      )
+
+    }
+
   }
 
-  # duplicated names
+
+
+  #zoo objects
+
+  # elements in tsl are not zoo objects
   if(
-    any(duplicated(names(tsl)))
-    ){
+    !all(
+      sapply(
+        X = tsl,
+        FUN = zoo::is.zoo
+      )
+    )
+  ){
 
     issues_structure <- c(
       issues_structure,
-      all_issues[["tsl_names_duplicated"]]
+      all_issues[["tsl_objects_zoo"]]
     )
 
   }
 
-  #zoo objects
+  #all columns in zoo objects are matrices
+  zoo.is.not.matrix <- sapply(
+    X = tsl,
+    FUN = function(x) !is.matrix(zoo::coredata(x))
+  ) |>
+    any()
+
+  if(zoo.is.not.matrix){
+
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_no_matrix"]]
+    )
+
+  }
 
   # get zoo names
-  zoo_names <- lapply(
+  zoo_names <- sapply(
     X = tsl,
     FUN = function(x) attributes(x)$name
-  ) |>
-    unlist()
+  )
 
-  # no zoo names
+  # missing zoo names
   if(
      length(zoo_names) < length(tsl)
     ){
@@ -159,7 +206,7 @@ tsl_diagnose <- function(
 
   #any zoo names different from list names
   if(
-    any(!(zoo_names %in% tsl_names))
+    any(!(zoo_names %in% names(tsl)))
     ){
 
     issues_structure <- c(
@@ -189,20 +236,18 @@ tsl_diagnose <- function(
 
   }
 
-  #all columns in zoo objects are matrices
-  zoo.is.matrix <- lapply(
-    X = tsl,
-    FUN = is.matrix
-  ) |>
-    unlist()
+  #zoo time class
+  zoo.time.classes <- tsl_time(
+    tsl = tsl
+  )$class
 
   if(
-    any(zoo.is.matrix == FALSE)
+    length(zoo.time.classes) != 1
     ){
 
     issues_structure <- c(
       issues_structure,
-      all_issues[["zoo_no_matrix"]]
+      all_issues[["zoo_time_class"]]
     )
 
   }
@@ -272,8 +317,8 @@ tsl_diagnose <- function(
   if(length(issues_structure) > 0){
 
     message(
-      "Issues with tsl structure:\n",
-      "--------------------------\n\n",
+      "Structural issues:\n",
+      "------------------\n\n",
       paste(
         issues_structure,
         collapse = "\n\n"
@@ -285,8 +330,8 @@ tsl_diagnose <- function(
   if(length(issues_values) > 0){
 
     message(
-      "\n\nIssues with tsl values:\n",
-      "-----------------------\n\n",
+      "\n\nValue-related issues:\n",
+      "-------------------------\n\n",
       paste(
         issues_values,
         collapse = "\n\n"

@@ -4,64 +4,35 @@
 \alias{tsl_repair}
 \title{Repair Issues in Time Series Lists}
 \usage{
-tsl_repair(tsl = NULL)
+tsl_repair(tsl = NULL, full = TRUE)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
+
+\item{full}{(optional, logical) If TRUE, a full repair (structure and values) is triggered. Otherwise, only the data structure is repaired Default: TRUE}
 }
 \value{
 time series list
 }
 \description{
-Validity assessment of time series lists. The required features for a valid time series list are:
+A Time Series List (\code{tsl} for short) is a list of zoo time series. This type of object, not defined as a class, is used throughout the \code{distantia} package to contain time series data ready for processing and analysis.
+
+The structure and values of a \code{tsl} must fulfill several general conditions:
+
+Structure:
 \itemize{
-\item Argument \code{tsl} is a list.
-\item List \code{tsl} has unique names.
-\item All elements in \code{tsl} are \code{zoo} objects.
-\item All \code{zoo} objects have the attribute "name".
-\item All \code{zoo} objects have unique values in the attribute "name".
-\item Names of the list slots and the \code{zoo} objects are the same.
-\item All \code{zoo} objects have at least one shared column name.
-\item All columns in the \code{zoo} objects are numeric.
-\item All \code{zoo} objects have zero NA cases.
+\item The list names match the attributes "name" of the zoo time series
+\item All zoo time series must have at least one shared column name.
+\item Data in univariate zoo time series (as extracted by \code{zoo::coredata(x)}) must be of the class "matrix". Univariate zoo time series are often represented as vectors, but this breaks several subsetting and transformation operations implemented in this package.
 }
 
-This function takes a time series list, and tries to make it comply with the rules listed above. Finally, it runs \code{\link[=tsl_diagnose]{tsl_diagnose()}} and informs the user if there are any issues left to fix.
+Values (optional, when \code{full = TRUE}):
+\itemize{
+\item All time series have at least one shared numeric column.
+\item There are no NA, Inf, or NaN values in the time series.
 }
-\examples{
-#simulate time series list with NA data
-tsl <- tsl_simulate(
-  n = 3,
-  na_fraction = 0.1
-)
 
-#adding a few additional issues:
-
-#set names of one time series to uppercase
-colnames(tsl[[2]]) <- toupper(colnames(tsl[[2]]))
-
-#change name of one column in one time series
-colnames(tsl[[3]])[2] <- "x"
-
-#remove list names
-names(tsl) <- NULL
-
-#diagnose issues in tsl
-tsl <- tsl_diagnose(
-  tsl = tsl,
-  full = TRUE
-)
-
-#repair time series list
-tsl <- tsl_repair(
-  tsl = tsl
-)
-
-#diagnose again
-tsl <- tsl_diagnose(
-  tsl = tsl,
-  full = TRUE
-)
+This function analyzes a \code{tsl}, and tries to fix all possible issues to make it comply with the conditions listed above without any user input. Use with care, as it might defile your data.
 }
 \seealso{
 Other data_preparation: 
@@ -72,8 +43,10 @@ Other data_preparation:
 \code{\link{tsl_initialize}()},
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_set}()},
+\code{\link{tsl_time_class_set}()},
 \code{\link{zoo_name_get}()},
 \code{\link{zoo_name_set}()},
-\code{\link{zoo_to_tsl}()}
+\code{\link{zoo_to_tsl}()},
+\code{\link{zoo_vector_to_matrix}()}
 }
 \concept{data_preparation}

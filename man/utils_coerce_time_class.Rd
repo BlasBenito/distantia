@@ -4,12 +4,12 @@
 \alias{utils_coerce_time_class}
 \title{Coerces Vector to a Given Time Class}
 \usage{
-utils_coerce_time_class(x = NULL, to = "Date")
+utils_coerce_time_class(x = NULL, to = "POSIXct")
 }
 \arguments{
 \item{x}{(required, vector of class Date or POSIXct) time vector to convert. Default: NULL}
 
-\item{to}{(required, class name) either Date, POSIXct, or numeric. Default: Date}
+\item{to}{(required, class name) class to coerce \code{x} to. Either "Date", "POSIXct", "integer" or "numeric". Default: "POSIXct"}
 }
 \value{
 time vector

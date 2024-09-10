@@ -1,4 +1,4 @@
-#' Check Input Arguments
+#' Check Input Arguments to `distantia()`
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
@@ -279,7 +279,7 @@ utils_check_args_tsl <- function(
 
 #' Checks Argument x
 #'
-#' @param x (required, list of matrices) list of input matrices generated with [tsl_initialize()]. Default: NULL
+#' @param x (required, zoo object) zoo time series. Default: NULL
 #' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
 #'
 #' @return zoo object
@@ -291,44 +291,9 @@ utils_check_args_zoo <- function(
     arg_name = "x"
     ){
 
-  if(is.null(x)){
-    stop(
-      "Argument ",
-      arg_name,
-      "must not be NULL."
-      )
-  }
-
-  #check input data
-  if(inherits(x = x, what = "list") == FALSE){
-
     if(zoo::is.zoo(x) == FALSE){
-      stop("Argument ", arg_name, " must be a zoo object from a list generated with distantia::tsl_initialize().")
+      stop("Argument ", arg_name, " must be a time series of class 'zoo'.")
     }
-
-    name <- attributes(x)$name
-
-    if(!is.null(name)){
-      y <- x
-      x <- list(
-        x = y
-      )
-      names(x) <- name
-    }
-
-  }
-
-  if(is.null(names(x))){
-    names(x) <- paste0(
-      "ts_",
-      as.character(seq(1, length(x)))
-    )
-    warning("Argument ", arg_name, " was not named. The new time series names are: ", paste(names(x), collapse = ", "))
-  }
-
-  if(length(x) == 1){
-    x <- x[[1]]
-  }
 
   x
 

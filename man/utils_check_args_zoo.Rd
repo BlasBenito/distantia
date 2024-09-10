@@ -7,7 +7,7 @@
 utils_check_args_zoo(x = NULL, arg_name = "x")
 }
 \arguments{
-\item{x}{(required, list of matrices) list of input matrices generated with \code{\link[=tsl_initialize]{tsl_initialize()}}. Default: NULL}
+\item{x}{(required, zoo object) zoo time series. Default: NULL}
 
 \item{arg_name}{(optional, character string) name of the argument being checked. Default: NULL}
 }

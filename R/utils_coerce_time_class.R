@@ -1,7 +1,7 @@
 #' Coerces Vector to a Given Time Class
 #'
 #' @param x (required, vector of class Date or POSIXct) time vector to convert. Default: NULL
-#' @param to (required, class name) either Date, POSIXct, or numeric. Default: Date
+#' @param to (required, class name) class to coerce `x` to. Either "Date", "POSIXct", "integer" or "numeric". Default: "POSIXct"
 #'
 #' @return time vector
 #' @export
@@ -33,18 +33,21 @@
 #' @family internal_time_handling
 utils_coerce_time_class <- function(
     x = NULL,
-    to = "Date"
+    to = "POSIXct"
 ){
 
-  classes <- c("POSIXct", "Date", "numeric", "integer")
+  classes <- c(
+    "POSIXct",
+    "Date",
+    "numeric",
+    "integer"
+    )
 
-  if(!(to %in% classes)){
-    stop(
-      "Argument 'to' must be one of '",
-      paste(classes, collapse = "', '"),
-      "'."
-      )
-  }
+  to <- match.arg(
+    arg = to,
+    choices = classes,
+    several.ok = FALSE
+  )
 
   if(is.character(x)){
     x <- x |>
@@ -95,6 +98,7 @@ utils_coerce_time_class <- function(
   if(to == "integer"){
 
     x <- as.integer(x)
+
   }
 
   x

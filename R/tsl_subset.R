@@ -69,6 +69,8 @@ tsl_subset <- function(
     shared_cols = TRUE
 ){
 
+  #TODO: add subset by time class
+
   #check validity
   tsl <- tsl_diagnose(
     tsl = tsl,

@@ -9,29 +9,31 @@ tsl_diagnose(tsl = NULL, full = TRUE)
 \arguments{
 \item{tsl}{(required, list of zoo time series) Time series list to diagnose. Default: NULL}
 
-\item{full}{(optional, logical) If TRUE, the function also checks all individual values. Default: TRUE}
+\item{full}{(optional, logical) If TRUE, a full diagnostic is triggered. Otherwise, only the data structure is tested. Default: TRUE}
 }
 \value{
-time series list, and messages describing detected issues
+time series list; messages
 }
 \description{
-A Time Series List (\code{tsl} for short) is a list of zoo time series. This type of object, not defined as a class, is used throughout the \code{distantia} package to handle time series processing and analysis. The structure and values of \code{tsl} must fulfill several conditions:
+A Time Series List (\code{tsl} for short) is a named list of zoo time series. This type of object, not defined as a class, is used throughout the \code{distantia} package to contain time series data ready for processing and analysis.
+
+The structure and values of a \code{tsl} must fulfill several general conditions:
 
 Structure:
 \itemize{
-\item Argument \code{tsl} is a named list of zoo time series
-\item The list names match the attributes "name" of the zoo time series
-\item All zoo time series must have at least one shared column name.
-\item Data in univariate zoo time series (as extracted by \code{zoo::coredata(x)}) must be of the class "matrix". Univariate zoo time series are often represented as vectors, but this breaks several subsetting and transformation operations implemented in this package.
+\item List names match the attributes "name" of the zoo time series.
+\item Zoo time series must have at least one shared column name.
+\item The index (as extracted by \code{\link[zoo:index]{zoo::index()}}) of all zoo objects must be of the same class (either "Date", "POSIXct", "numeric", or "integer").
+\item The "core data" (as extracted by \code{\link[zoo:coredata]{zoo::coredata()}}) of univariate zoo time series must be of class "matrix".
 }
 
-Values (optional):
+Values (optional, when \code{full = TRUE}):
 \itemize{
 \item All time series have at least one shared numeric column.
 \item There are no NA, Inf, or NaN values in the time series.
 }
 
-This function analyzes a \code{tsl} to returns messages describing what conditions are not met, and provides hints on how to fix most issues.
+This function analyzes a \code{tsl} without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.
 }
 \examples{
 #creating three zoo time series with some NA values
@@ -87,8 +89,10 @@ Other data_preparation:
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_set}()},
 \code{\link{tsl_repair}()},
+\code{\link{tsl_time_class_set}()},
 \code{\link{zoo_name_get}()},
 \code{\link{zoo_name_set}()},
-\code{\link{zoo_to_tsl}()}
+\code{\link{zoo_to_tsl}()},
+\code{\link{zoo_vector_to_matrix}()}
 }
 \concept{data_preparation}
