@@ -28,6 +28,55 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #creating three zoo time series
+#'
+#' #one with NA values
+#' x <- zoo_simulate(
+#'   name = "x",
+#'   cols = 1,
+#'   na_fraction = 0.1
+#'   )
+#'
+#' #with different number of columns
+#' #wit repeated name
+#' y <- zoo_simulate(
+#'   name = "x",
+#'   cols = 2
+#'   )
+#'
+#' #with different time class
+#' z <- zoo_simulate(
+#'   name = "z",
+#'   cols = 1,
+#'   time_range = c(1, 100)
+#'   )
+#'
+#' #adding a few structural issues
+#'
+#' #changing the column name of x
+#' colnames(x) <- c("b")
+#'
+#' #converting z to vector
+#' z <- zoo::zoo(
+#'   x = runif(nrow(z)),
+#'   order.by = zoo::index(z)
+#' )
+#'
+#' #storing zoo objects in a list
+#' #with mismatched names
+#' tsl <- list(
+#'   a = x,
+#'   b = y,
+#'   c = z
+#' )
+#'
+#' #running full diagnose
+#' tsl <- tsl_diagnose(
+#'   tsl = tsl,
+#'   full = TRUE
+#'   )
+#'
+#' tsl <- tsl_repair(tsl)
 #' @family data_preparation
 tsl_repair <- function(
     tsl = NULL,
@@ -51,16 +100,11 @@ tsl_repair <- function(
   #all possible issues
   all_issues <- list(
     tsl_objects_zoo = "  - coerced objects in 'tsl' to the class 'zoo'.",
-    tsl_names_null =  "  - named 'tsl' elements with distantia::tsl_names_set().",
-    tsl_names_duplicated = "  - deduplicated names 'tsl' with distantia::tsl_names_clean().",
-    zoo_no_name = "  - named zoo objects in 'tsl' with distantia::tsl_names_set().",
-    zoo_duplicated_names = "  - deduplicated names of zoo objects in 'tsl' with distantia::tsl_names_clean().",
-    zoo_different_names = "  - matched names of 'tsl' and its zoo objects with distantia::tsl_names_set().",
-    zoo_missing_names = "  - named zoo objects in 'tsl' with distantia::tsl_names_set().",
-    zoo_no_shared_columns = "  - removed zoo objects with no shared columns with other zoo objects with distantia::tsl_subset().",
-    zoo_non_numeric_columns = "  - removed non-numeric columns from zoo objects with distantia::tsl_subset().",
-    zoo_NA_cases = "  - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().",
-    zoo_no_matrix = "  - converted univariate zoo vectors to matrix."
+    zoo_no_matrix = "  - converted univariate zoo vectors to matrix.",
+    tsl_names_issues =  "  - fixed naming issues.",
+    zoo_non_numeric_columns = "  - removed non-numeric columns from time series.",
+    zoo_no_shared_columns = "  - removed time series with no shared columns with other time series.",
+    zoo_NA_cases = "  - interpolated NA cases in zoo objects with distantia::tsl_handle_NA()."
   )
 
   # initialize feedback
@@ -68,45 +112,6 @@ tsl_repair <- function(
   issues_values <- vector()
 
   #structural fixes
-
-  #list
-
-  # tsl has no names
-  if(
-    any(is.null(names(tsl)))
-  ){
-
-    issues_structure <- c(
-      issues_structure,
-      all_issues[["tsl_names_null"]]
-    )
-
-    tsl <- tsl_names_set(
-      tsl = tsl
-    ) |>
-      suppressMessages()
-
-  } else {
-
-    # duplicated names
-    if(
-      any(duplicated(names(tsl)))
-    ){
-
-      issues_structure <- c(
-        issues_structure,
-        all_issues[["tsl_names_duplicated"]]
-      )
-
-      tsl <- tsl_names_clean(
-        tsl = tsl
-      )
-
-    }
-
-  }
-
-
 
   #zoo objects
 
@@ -130,79 +135,48 @@ tsl_repair <- function(
       FUN = zoo::zoo
     )
 
-  }
+  } else {
 
-  #univariate zoo to matrix
+    #univariate zoo to matrix
 
-  #all columns in zoo objects are matrices
-  zoo.is.not.matrix <- sapply(
-    X = tsl,
-    FUN = function(x) !is.matrix(zoo::coredata(x))
-  ) |>
-    any()
-
-  if(zoo.is.not.matrix){
-
-    issues_structure <- c(
-      issues_structure,
-      all_issues[["zoo_no_matrix"]]
-    )
-
-    #convert vectors to matrix
-    tsl <- lapply(
+    #all zoo objects are matrices
+    zoo.is.not.matrix <- sapply(
       X = tsl,
-      FUN = zoo_vector_to_matrix
-    )
+      FUN = function(x) !is.matrix(zoo::coredata(x))
+    ) |>
+      any()
+
+    if(zoo.is.not.matrix){
+
+      issues_structure <- c(
+        issues_structure,
+        all_issues[["zoo_no_matrix"]]
+      )
+
+      #convert vectors to matrix
+      tsl <- lapply(
+        X = tsl,
+        FUN = zoo_vector_to_matrix
+      )
+
+    }
 
   }
 
-  # get zoo names
-  zoo_names <- sapply(
-    X = tsl,
-    FUN = function(x) attributes(x)$name
-  )
-
-  # missing zoo names
-  if(length(zoo_names) < length(tsl)){
-
-    issues_structure <- c(
-      issues_structure,
-      all_issues[["zoo_no_name"]]
-    )
-
-    tsl <- tsl_names_set(
-      tsl = tsl
-    )
-
-  }
-
-  # zoo names are unique
+  #naming issues
   if(
-    any(duplicated(zoo_names))
-  ){
+    tsl_names_test(tsl = tsl) == FALSE
+    ){
 
     issues_structure <- c(
       issues_structure,
-      all_issues[["zoo_duplicated_names"]]
-    )
-
-    tsl <- tsl_names_clean(
-      tsl = tsl
-    )
-
-  }
-
-  #any zoo names different from list names
-  if(any(!(zoo_names %in% names(tsl)))){
-
-    issues_structure <- c(
-      issues_structure,
-      all_issues[["zoo_different_names"]]
+      all_issues[["tsl_names_issues"]]
     )
 
     tsl <- tsl_names_set(
       tsl = tsl
-    )
+    ) |>
+      suppressMessages()
 
   }
 

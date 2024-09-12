@@ -52,7 +52,11 @@ tsl_names_get <- function(
     out <- sapply(
       X = tsl,
       FUN = function(x){
-        attributes(x)$name
+        y <- attributes(x)$name
+        if(is.null(y)){
+          return("")
+        }
+        y
       }
     )
 
@@ -348,5 +352,54 @@ tsl_names_clean <- function(
 
   tsl
 
+
+}
+
+
+#' Tests Naming Issues in Time Series Lists
+#'
+#' @param tsl (required, list) Time series list. Default: NULL
+#'
+#' @return logical
+#' @export
+#' @autoglobal
+#' @examples
+#' #TODO example missing, use the one in tsl_diagnose()
+tsl_names_test <- function(
+    tsl = NULL
+){
+
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
+  #get object names
+  names_tsl <- names(tsl)
+
+  names_zoo <- sapply(
+    X = tsl,
+    FUN = function(x){
+      y <- attributes(x)$name
+      if(is.null(y)){
+        return("")
+      }
+      y
+    }
+  )
+
+  #problematic conditions
+  names_issues <- c(
+    is.null(names_tsl),
+    duplicated(names_tsl),
+    duplicated(names_zoo),
+    names_zoo == "",
+    names_zoo != names_tsl
+  )
+
+  #test outcome
+  #TRUE if no issues
+  #FALSE if issues
+  !any(names_issues)
 
 }
