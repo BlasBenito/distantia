@@ -103,7 +103,10 @@ tsl_repair <- function(
     zoo_no_matrix = "  - converted univariate zoo vectors to matrix.",
     tsl_names_issues =  "  - fixed naming issues.",
     zoo_non_numeric_columns = "  - removed non-numeric columns from time series.",
-    zoo_no_shared_columns = "  - removed time series with no shared columns with other time series.",
+    zoo_no_colnames = "  - REPAIR FAILED: cannot repair missing column names in zoo time series.",
+    zoo_no_shared_columns = "  - REPAIR FAILED: no valid shared column names found across all time series.",
+    zoo_duplicated_colnames = "  - deduplicated column names of zoo time series.",
+    zoo_shared_columns = "  - removed time series with no shared columns with other time series.",
     zoo_NA_cases = "  - interpolated NA cases in zoo objects with distantia::tsl_handle_NA()."
   )
 
@@ -180,27 +183,74 @@ tsl_repair <- function(
 
   }
 
-  # zoo objects have shared colnames
+  # zoo colnames
+  zoo_colnames_all <- tsl_colnames_get(
+    tsl = tsl,
+    names = "all"
+  )
+
+  if(any(unlist(zoo_colnames_all) == "unnamed")){
+
+    #cannot repair this automatically
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_no_colnames"]]
+    )
+
+  }
+
+  #test for duplicated colnames
+  zoo_colnames_duplicated <- lapply(
+    X = zoo_colnames_all,
+    FUN = duplicated
+  ) |>
+    unlist() |>
+    any()
+
+  if(zoo_colnames_duplicated){
+
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_duplicated_colnames"]]
+    )
+
+    tsl <- tsl_colnames_clean(
+      tsl = tsl
+    )
+
+  }
+
   zoo_colnames_shared <- tsl_colnames_get(
     tsl = tsl,
     names = "shared"
   )
 
-  #some objects have no shared columns
-  if(any(is.na(zoo_colnames_shared))){
+  #there are no shared columns
+  if(
+    all(is.na(zoo_colnames_shared))
+    ){
 
     issues_structure <- c(
       issues_structure,
       all_issues[["zoo_no_shared_columns"]]
     )
 
+  } else {
+
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_shared_columns"]]
+    )
+
     tsl <- tsl_subset(
       tsl = tsl,
       numeric_cols = FALSE,
       shared_cols = TRUE
-    )
+    ) |>
+      suppressWarnings()
 
   }
+
 
   #zoo time class
   zoo.time.classes <- tsl_time(
@@ -219,13 +269,6 @@ tsl_repair <- function(
     majority.class <- names(zoo.time.classes)[1]
 
     #TODO add new tsl_time_class() function here
-
-  }
-
-  #there are no shared columns
-  if(all(is.na(zoo_colnames_shared))){
-
-    stop("Zoo objects in 'tsl' must have at least one shared column name.")
 
   }
 

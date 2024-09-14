@@ -4,12 +4,12 @@
 \alias{zoo_vector_to_matrix}
 \title{Coerce Coredata of Univariate Zoo Time Series to Matrix}
 \usage{
-zoo_vector_to_matrix(x = NULL, name = "a")
+zoo_vector_to_matrix(x = NULL, name = NULL)
 }
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
 
-\item{name}{(required, character string) name of the matrix column. Default: "a"}
+\item{name}{(required, character string) name of the matrix column. Default: NULL}
 }
 \value{
 zoo time series

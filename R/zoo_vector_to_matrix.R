@@ -6,7 +6,7 @@
 #' Multivariate zoo objects are returned without changes.
 #'
 #' @param x (required, zoo object) zoo time series. Default: NULL
-#' @param name (required, character string) name of the matrix column. Default: "a"
+#' @param name (required, character string) name of the matrix column. Default: NULL
 #'
 #' @return zoo time series
 #' @export
@@ -30,7 +30,7 @@
 #' @family data_preparation
 zoo_vector_to_matrix <- function(
     x = NULL,
-    name = "a"
+    name = NULL
 ){
 
   #check x

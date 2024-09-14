@@ -3,14 +3,14 @@
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character string) Three different sets of column names can be requested:
 #' \itemize{
-#'   \item "all" (default): list with the column names in each zoo object in `tsl`.
+#'   \item "all" (default): list with the column names in each zoo object in `tsl`. Unnammed columns are tagged with the string "unnamed".
 #'   \item "shared": character vector with the shared column names in at least two zoo objects in `tsl`.
 #'   \item "exclusive": list with names of exclusive columns (if any) in each zoo object in `tsl`.
 #' }
 #'
-#' @return character vector or list with character vectors
+#' @return list
 #' @export
-#'
+#' @autoglobal
 #' @examples
 #' #generate example data
 #' tsl <- tsl_simulate()
@@ -72,7 +72,11 @@ tsl_colnames_get <- function(
   all.names <- lapply(
     X = tsl,
     FUN = function(x){
-      colnames(x)
+      y <- colnames(x)
+      if(is.null(y)){
+        y <- "unnamed"
+      }
+      y
     }
   )
 
@@ -81,14 +85,19 @@ tsl_colnames_get <- function(
   }
 
   #shared names
-  shared.names <- all.names |>
+  all.names.table <- all.names |>
     unlist() |>
     table()
 
   #returns shared names in at least 2 zoo objects
   shared.names <- names(
-    shared.names[shared.names > 1]
+    all.names.table[all.names.table == length(tsl)]
     )
+
+  #get exclusive names
+  exclusive.names <- names(
+    all.names.table[all.names.table == 1]
+  )
 
   #subset all.names to shared names
   shared.names <- lapply(
@@ -114,17 +123,13 @@ tsl_colnames_get <- function(
 
   #exclusive names
   exclusive.names <- lapply(
-    X = tsl,
+    X = all.names,
     FUN = function(x){
-      x.exclusive <- setdiff(
-        x = colnames(x),
-        y = shared.names.vector
-      )
-      if(length(x.exclusive) == 0){
+      y <- x[x %in% exclusive.names]
+      if(length(y) == 0){
         return(NA)
-      } else {
-        return(x.exclusive)
       }
+      y
     }
   )
 
@@ -136,35 +141,47 @@ tsl_colnames_get <- function(
 #' Set Column Names in Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param names (required, list) Named list. List names should match old column names in `tsl`, and each named item should contain a character string with the new name. For example, `colnames = list(old_name = "new_name")` changes the name of the column "old_name" to "new_name".
+#' @param names (required, list or character vector):
+#' \itemize{
+#'   \item list: with same names as 'tsl', containing a vector of new column names for each time series in 'tsl'.
+#'   \item character vector: vector of new column names assigned by position.
+#' }
 #'
 #' @return time series list
 #' @export
 #'
 #' @examples
-#' #generate example data
-#' tsl <- tsl_simulate(cols = 3)
+#' tsl <- tsl_simulate(
+#'   cols = 3
+#'   )
 #'
-#' #list all column names
 #' tsl_colnames_get(
+#'   tsl = tsl
+#'   )
+#'
+#' #using a vector
+#' #extra names are ignored
+#' tsl <- tsl_colnames_set(
 #'   tsl = tsl,
-#'   names = "all"
+#'   names = c("x", "y", "z", "zz")
 #' )
 #'
-#' #rename columns
+#' tsl_colnames_get(
+#'   tsl = tsl
+#' )
+#'
+#' #using a list
+#' #extra names are ignored too
 #' tsl <- tsl_colnames_set(
 #'   tsl = tsl,
 #'   names = list(
-#'     a = "new_name_1",
-#'     b = "new_name_1",
-#'     c = "new_name_3"
+#'     A = c("A", "B", "C"),
+#'     B = c("X", "Y", "Z", "ZZ")
 #'   )
 #' )
 #'
-#' #check result
 #' tsl_colnames_get(
-#'   tsl = tsl,
-#'   names = "all"
+#'   tsl = tsl
 #' )
 #' @family data_preparation
 tsl_colnames_set <- function(
@@ -177,31 +194,80 @@ tsl_colnames_set <- function(
     min_length = 1
   )
 
-  #TODO: this argument could be a vector too?
-  if(is.list(names) == FALSE){
-    stop(
-      "Argument 'names' must be a list."
-    )
-  }
-
-  if(is.null(names(names)) == TRUE){
-    stop(
-      "Argument 'names' must be a named list."
-    )
-  }
-
-  names <- unlist(names)
-
+  #coerce zoo vectors to matrices
   tsl <- lapply(
     X = tsl,
-    FUN = function(x){
-      colnames(x)[colnames(x) %in% base::names(names)] <- names[base::names(names) %in% colnames(x)]
-      x
-    }
+    FUN = zoo_vector_to_matrix
   )
 
-  tsl <- tsl_names_set(
-    tsl = tsl
+  #computing minimum names length
+  min.names.length <- lapply(
+    X = tsl,
+    FUN = ncol
+  ) |>
+    unlist() |>
+    max()
+
+  #names is a character vector
+  #convert to list
+  if(
+    is.vector(names) &&
+    is.character(names)
+  ){
+
+    if(length(names) < min.names.length){
+      stop("Argument 'names' must be a character vector of length ", min.names.length, ".")
+    }
+
+    #convert to list
+    names <- lapply(
+      X = tsl,
+      FUN = function(x){
+
+        names[seq_len(ncol(x))]
+
+      }
+    )
+
+  }
+
+  #names is a list
+  if(is.list(names)){
+
+    if(length(names) != length(tsl)){
+      stop("Arguments 'names' and 'tsl' must be lists of the same length.")
+    }
+
+    if(any(base::names(names) != base::names(tsl))){
+      stop("Arguments 'names' and 'tsl' must be lists with the same names.")
+    }
+
+    #test lengths
+    test.length <- Map(
+      f = function(x, name) {
+        length(name) >= ncol(x)
+      },
+      tsl,
+      names
+    ) |>
+      unlist() |>
+      any()
+
+    if(!any(test.length)){
+      stop("Length of each element in 'names' must match the number of columns of each element in 'tsl'.")
+    }
+
+
+  }
+
+  #rename zoo columns
+  tsl <- Map(
+    f = function(y, name) {
+      colnames(y) <- name[seq_len(length(colnames(y)))]
+      y
+    },
+    tsl,
+    names
   )
 
   tsl
@@ -250,10 +316,10 @@ tsl_colnames_set <- function(
 #' #rename columns
 #' tsl <- tsl_colnames_set(
 #'   tsl = tsl,
-#'   names = list(
-#'     a = "New name 1",
-#'     b = "new Name 2",
-#'     c = "NEW NAME 3"
+#'   names = c(
+#'   "New name 1",
+#'   "new Name 2",
+#'   "NEW NAME 3"
 #'   )
 #' )
 #'
@@ -302,27 +368,43 @@ tsl_colnames_clean <- function(
     min_length = 1
   )
 
-  tsl.colnames <- tsl.old.names <- tsl_colnames_get(
-    tsl = tsl,
-    names = "all"
-  ) |>
-    unlist() |>
-    unique()
+  #clean names
+  tsl <- lapply(
+    X = tsl,
+    FUN = function(x){
 
-  tsl.colnames <- utils_clean_names(
-    x = tsl.colnames,
-    lowercase = lowercase,
-    separator = separator,
-    capitalize_first = capitalize_first,
-    capitalize_all = capitalize_all,
-    length = length,
-    suffix = suffix,
-    prefix = prefix
-  )
+      x <- zoo_vector_to_matrix(
+        x = x,
+        name = NULL
+      )
 
-  tsl <- tsl_colnames_set(
-    tsl = tsl,
-    names = as.list(tsl.colnames)
+      x_colnames <- colnames(x)
+
+      if(is.null(x_colnames)){
+        x_colnames <- rep(
+          x = "unnamed",
+          times = ncol(x)
+          )
+      }
+
+      x_colnames <- utils_clean_names(
+        x = x_colnames,
+        lowercase = lowercase,
+        separator = separator,
+        capitalize_first = capitalize_first,
+        capitalize_all = capitalize_all,
+        length = length,
+        suffix = suffix,
+        prefix = prefix
+      )
+
+      base::names(x_colnames) <- NULL
+
+      colnames(x) <- x_colnames
+
+      x
+
+    }
   )
 
   tsl

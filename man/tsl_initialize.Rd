@@ -141,7 +141,7 @@ tsl_colnames_get(tsl)
 #...but can be changed
 tsl <- tsl_colnames_set(
   tsl = tsl,
-  names = list(x = "evi")
+  names = "evi"
 )
 tsl_colnames_get(tsl)
 

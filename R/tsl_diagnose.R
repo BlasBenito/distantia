@@ -96,11 +96,13 @@ tsl_diagnose <- function(
 
   #all possible issues
   all_issues <- list(
-    tsl_objects_zoo = " - elements of 'tsl' must be 'zoo' objects: coerce all at once with tsl <- lapply(tsl, zoo::zoo) or individually with zoo::zoo().",
-    tsl_names_issues =  "  - 'tsl' and time series names must match and be unique: reset names with distantia::tsl_names_set().",
-    zoo_no_shared_columns = "  - all time series must have at least one shared column: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns.",
+    tsl_objects_zoo = " - time series in 'tsl' must be 'zoo' objects: coerce all at once with tsl <- lapply(tsl, zoo::zoo) or individually with zoo::zoo().",
+    tsl_names_issues =  "  - list and time series names must match and be unique: reset names with distantia::tsl_names_set().",
+    zoo_no_colnames = "  - missing column names in zoo time series: use distantia::tsl_colnames_set() to rename columns as needed.",
+    zoo_duplicated_colnames = "  - zoo time series have duplicated column names: use distantia::tsl_colnames_clean() or distantia::tsl_colnames_set() to deduplicate.",
+    zoo_no_shared_columns = "  - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.",
     #TODO: update message zoo_time_class with new function call
-    zoo_time_class = "  - time in all time series in 'tsl' must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.",
+    zoo_time_class = "  - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.",
     zoo_non_numeric_columns = "  - columns shared across all time series must be numeric: the function distantia::tsl_subset() may help fix this issue.",
     zoo_NA_cases = "  - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().",
     zoo_no_matrix = "  - core data of univariate zoo time series must be of class 'matrix': use lapply(tsl, distantia::zoo_vector_to_matrix) to fix this issue."
@@ -161,6 +163,41 @@ tsl_diagnose <- function(
 
   #zoo colnames
 
+  # zoo objects have column names
+  zoo_colnames_all <- tsl_colnames_get(
+    tsl = tsl,
+    names = "all"
+  )
+
+  if(any(unlist(zoo_colnames_all) == "unnamed")){
+
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_no_colnames"]]
+    )
+
+  }
+
+
+  #test for duplicated colnames
+  zoo_colnames_duplicated <- lapply(
+    X = zoo_colnames_all,
+    FUN = duplicated
+  ) |>
+    unlist() |>
+    any()
+
+  #duplicated colnames in tsl
+  if(zoo_colnames_duplicated){
+
+    issues_structure <- c(
+      issues_structure,
+      all_issues[["zoo_duplicated_colnames"]]
+    )
+
+  }
+
+
   # zoo objects have shared colnames
   zoo_colnames_shared <- tsl_colnames_get(
     tsl = tsl,
@@ -169,8 +206,8 @@ tsl_diagnose <- function(
 
   #there are no shared columns
   if(
-    any(is.na(zoo_colnames_shared))
-    ){
+    all(is.na(zoo_colnames_shared))
+  ){
 
     issues_structure <- c(
       issues_structure,

@@ -11,13 +11,13 @@ tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 
 \item{names}{(optional, character string) Three different sets of column names can be requested:
 \itemize{
-\item "all" (default): list with the column names in each zoo object in \code{tsl}.
+\item "all" (default): list with the column names in each zoo object in \code{tsl}. Unnammed columns are tagged with the string "unnamed".
 \item "shared": character vector with the shared column names in at least two zoo objects in \code{tsl}.
 \item "exclusive": list with names of exclusive columns (if any) in each zoo object in \code{tsl}.
 }}
 }
 \value{
-character vector or list with character vectors
+list
 }
 \description{
 Get Column Names from a Time Series Lists

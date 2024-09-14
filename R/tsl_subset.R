@@ -70,11 +70,17 @@ tsl_subset <- function(
 ){
 
   #TODO: add subset by time class
+  #TODO: changes in tsl_colnames.R probably broke this function
 
-  #check validity
-  tsl <- tsl_diagnose(
+  utils_check_args_tsl(
     tsl = tsl,
-    full = FALSE
+    min_length = 1
+  )
+
+  #coerce zoo vectors to matrices
+  tsl <- lapply(
+    X = tsl,
+    FUN = zoo_vector_to_matrix
   )
 
   # subset names ----
@@ -199,21 +205,26 @@ tsl_subset <- function(
   }
 
   #subset shared cols
-  if(shared_cols == TRUE && length(tsl) > 1){
+  if(
+    shared_cols == TRUE &&
+    length(tsl) > 1
+    ){
 
     exclusive_cols <- tsl_colnames_get(
       tsl = tsl,
       names = "exclusive"
     ) |>
       unlist() |>
-      unique()
+      unique() |>
+      stats::na.omit()
 
     shared_cols <- tsl_colnames_get(
       tsl = tsl,
       names = "shared"
     ) |>
       unlist() |>
-      unique()
+      unique() |>
+      stats::na.omit()
 
     #TODO: remove zoo objects with no shared columns, and return a warning like the one used in numeric_cols == TRUE
 

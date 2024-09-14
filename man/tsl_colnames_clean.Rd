@@ -63,10 +63,10 @@ tsl_colnames_get(
 #rename columns
 tsl <- tsl_colnames_set(
   tsl = tsl,
-  names = list(
-    a = "New name 1",
-    b = "new Name 2",
-    c = "NEW NAME 3"
+  names = c(
+  "New name 1",
+  "new Name 2",
+  "NEW NAME 3"
   )
 )
 
