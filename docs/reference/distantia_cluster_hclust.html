@@ -101,9 +101,7 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#progress bar</span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#daily covid prevalence in California counties</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"covid_prevalence"</span><span class="op">)</span></span></span>
@@ -114,6 +112,10 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"county"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#subset 10 elements to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
@@ -127,6 +129,64 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  new_time <span class="op">=</span> <span class="st">"months"</span>,</span></span>
 <span class="r-in"><span>  fun <span class="op">=</span> <span class="va">sum</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Alameda' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Butte' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Contra_Costa' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'El_Dorado' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Fresno' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Humboldt' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Imperial' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Kern' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Kings' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Los_Angeles' to ''.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co">#plotting first three time series</span></span></span>
@@ -144,6 +204,10 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#hierarchical clustering with a given number of clusters</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------------------------------------</span></span></span>
@@ -170,26 +234,26 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#distance matrix used for clustering</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">d</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Alameda      Butte Contra_Costa  El_Dorado     Fresno</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        0.31437509                                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 0.07085902 0.27688289                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    0.30219813 0.13955419   0.27813504                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       0.26980716 0.27572515   0.24463870 0.32257382           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     0.35992954 0.23409632   0.33811131 0.19856448 0.42480715</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.37624785 0.48017860   0.36997653 0.49911229 0.23952458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.33035024 0.23240429   0.29380436 0.29036017 0.13138171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.43556491 0.47892863   0.41159846 0.52585482 0.22526556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.27125319 0.43703595   0.26317323 0.42994363 0.22711191</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Humboldt   Imperial       Kern      Kings</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.59942398                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.40814931 0.33767447                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.60886432 0.23742349 0.32109391           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.51412491 0.24802453 0.29612802 0.23162846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Alameda     Butte Contra_Costa El_Dorado    Fresno  Humboldt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        0.6287502                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 0.1417180 0.5537658                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    0.6043963 0.2791084    0.5562701                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       0.5396143 0.5514503    0.4892774 0.6451476                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     0.7198591 0.4681926    0.6762226 0.3971290 0.8496143          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.7524957 0.9603572    0.7399531 0.9982246 0.4790492 1.1988480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.6607005 0.4648086    0.5876087 0.5807203 0.2627634 0.8162986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.8711298 0.9578573    0.8231969 1.0517096 0.4505311 1.2177286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.5425064 0.8740719    0.5263465 0.8598873 0.4542238 1.0282498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Imperial      Kern     Kings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.6753489                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.4748470 0.6421878          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.4960491 0.5922560 0.4632569</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#number of clusters</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">clusters</span></span></span>

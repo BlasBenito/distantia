@@ -144,8 +144,14 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <code><a href="tsl_handle_NA.html">tsl_handle_NA</a>()</code>,
 <code><a href="tsl_names_clean.html">tsl_names_clean</a>()</code>,
 <code><a href="tsl_names_set.html">tsl_names_set</a>()</code>,
+<code><a href="tsl_names_test.html">tsl_names_test</a>()</code>,
 <code><a href="tsl_repair.html">tsl_repair</a>()</code>,
-<code><a href="zoo_to_tsl.html">zoo_to_tsl</a>()</code></p></div>
+<code><a href="tsl_time_class_set.html">tsl_time_class_set</a>()</code>,
+<code><a href="zoo_name_clean.html">zoo_name_clean</a>()</code>,
+<code><a href="zoo_name_get.html">zoo_name_get</a>()</code>,
+<code><a href="zoo_name_set.html">zoo_name_set</a>()</code>,
+<code><a href="zoo_to_tsl.html">zoo_to_tsl</a>()</code>,
+<code><a href="zoo_vector_to_matrix.html">zoo_vector_to_matrix</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -156,9 +162,6 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#id_column is site</span></span></span>
 <span class="r-in"><span><span class="co">#time column is date</span></span></span>
-<span class="r-in"><span><span class="co">#in this case, all time series have the same</span></span></span>
-<span class="r-in"><span><span class="co">#length, but that's only optional, as irregular</span></span></span>
-<span class="r-in"><span><span class="co">#time series are fully supported.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fagus_dynamics</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 'data.frame':	648 obs. of  5 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ site       : chr  "Spain" "Spain" "Spain" "Spain" ...</span>
@@ -168,17 +171,23 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ temperature: num  8.1 7.8 11 10.4 14.1 17.6 18.3 19.6 16.3 16.1 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#to tsl</span></span></span>
-<span class="r-in"><span><span class="co">#main assumptions:</span></span></span>
 <span class="r-in"><span><span class="co">#each group in id_column is a different time series</span></span></span>
-<span class="r-in"><span><span class="co">#time series can have different lengths</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">fagus_dynamics</span>,</span></span>
 <span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"site"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check validity (no messages or errors if valid)</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#class of contained objects</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl</span>, FUN <span class="op">=</span> <span class="va">class</span><span class="op">)</span></span></span>
@@ -192,11 +201,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "zoo"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#get names of the list slots</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Germany" "Spain"   "Sweden" </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#get names (names of zoo objects in the list)</span></span></span>
+<span class="r-in"><span><span class="co">#get list and zoo names (between double quotes)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  zoo <span class="op">=</span> <span class="cn">TRUE</span></span></span>
@@ -204,50 +209,63 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Germany     Spain    Sweden </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "Germany"   "Spain"  "Sweden" </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#all names</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl</span>, FUN <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Germany</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Germany"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Spain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Spain"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Sweden</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Sweden"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#plots</span></span></span>
+<span class="r-in"><span><span class="co">#plot tsl</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co">#plot tsl</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co">#plot single zoo object</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="zoo_plot.html">zoo_plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">#list of zoo objects</span></span></span>
+<span class="r-in"><span><span class="co">#--------------------</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co">#plot single zoo object with default plot method</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="va">y</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'x'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'y'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#plot</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#wide data frame</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
-<span class="r-in"><span><span class="co">#wide data frame with same variable in different places</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  date <span class="op">=</span> <span class="va">fagus_dynamics</span><span class="op">[</span></span></span>
-<span class="r-in"><span>  <span class="va">fagus_dynamics</span><span class="op">$</span><span class="va">site</span> <span class="op">==</span> <span class="st">"Spain"</span>, <span class="st">"date"</span></span></span>
-<span class="r-in"><span>  <span class="op">]</span>,</span></span>
-<span class="r-in"><span>  Spain <span class="op">=</span> <span class="va">fagus_dynamics</span><span class="op">[</span></span></span>
-<span class="r-in"><span>  <span class="va">fagus_dynamics</span><span class="op">$</span><span class="va">site</span> <span class="op">==</span> <span class="st">"Spain"</span>, <span class="st">"evi"</span></span></span>
-<span class="r-in"><span>  <span class="op">]</span>,</span></span>
-<span class="r-in"><span>  Germany <span class="op">=</span> <span class="va">fagus_dynamics</span><span class="op">[</span></span></span>
-<span class="r-in"><span>  <span class="va">fagus_dynamics</span><span class="op">$</span><span class="va">site</span> <span class="op">==</span> <span class="st">"Germany"</span>, <span class="st">"evi"</span></span></span>
-<span class="r-in"><span>  <span class="op">]</span>,</span></span>
-<span class="r-in"><span>  Sweden <span class="op">=</span> <span class="va">fagus_dynamics</span><span class="op">[</span></span></span>
-<span class="r-in"><span>  <span class="va">fagus_dynamics</span><span class="op">$</span><span class="va">site</span> <span class="op">==</span> <span class="st">"Sweden"</span>, <span class="st">"evi"</span></span></span>
-<span class="r-in"><span>  <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co">#wide data frame</span></span></span>
+<span class="r-in"><span><span class="co">#each column is same variable in different places</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/reshape.html" class="external-link">reshape</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">fagus_dynamics</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"site"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"date"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"evi"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  timevar <span class="op">=</span> <span class="st">"site"</span>,</span></span>
+<span class="r-in"><span>  idvar <span class="op">=</span> <span class="st">"date"</span>,</span></span>
+<span class="r-in"><span>  direction <span class="op">=</span> <span class="st">"wide"</span>,</span></span>
+<span class="r-in"><span>  sep <span class="op">=</span> <span class="st">"_"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 'data.frame':	216 obs. of  4 variables:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ date       : Date, format: "2001-01-01" "2001-02-01" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ evi_Spain  : num  0.193 0.242 0.276 0.396 0.445 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ evi_Germany: num  0.354 0.294 0.345 0.392 0.688 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ evi_Sweden : num  0.183 0.182 0.215 0.237 0.519 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "reshapeWide")=List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ v.names: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ timevar: chr "site"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ idvar  : chr "date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ times  : chr [1:3] "Spain" "Germany" "Sweden"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ varying: chr [1, 1:3] "evi_Spain" "evi_Germany" "evi_Sweden"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#to tsl</span></span></span>
 <span class="r-in"><span><span class="co">#key assumptions:</span></span></span>
@@ -258,17 +276,37 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">df</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#colnames are forced to be the same</span></span></span>
+<span class="r-in"><span><span class="co">#colnames are forced to be the same...</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Spain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Spain</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Germany</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Germany</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Sweden</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Sweden</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...but can be changed</span></span></span>
+<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_colnames_set.html">tsl_colnames_set</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
+<span class="r-in"><span>  names <span class="op">=</span> <span class="st">"evi"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Spain</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "evi"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Germany</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "evi"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $evi_Sweden</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "evi"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#plot</span></span></span>
@@ -295,6 +333,10 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">vector_list</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#plot</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
@@ -318,6 +360,10 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">matrix_list</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check column names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
@@ -355,16 +401,24 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#looks like a time series list! But...</span></span></span>
 <span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> This time series list is NOT VALID.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The issue/s to address are:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - zoo objects in 'tsl' must have unique names: use tsl_names_set() to fix this issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - zoo objects and list items have different names:  use tsl_names_set() to fix this issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#let's set the names</span></span></span>
 <span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_names_set.html">tsl_names_set</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'a'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'b'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check again: it's now a valid time series list</span></span></span>
 <span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#to do all this in one go:</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>
@@ -373,12 +427,17 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span>    b <span class="op">=</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'a'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'b'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#plot</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -182,9 +182,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#progress bar</span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">progressr</span><span class="fu">::</span><span class="fu"><a href="https://progressr.futureverse.org/reference/handlers.html" class="external-link">handlers</a></span><span class="op">(</span>global <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#three time series</span></span></span>
 <span class="r-in"><span><span class="co">#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden</span></span></span>
@@ -200,6 +198,14 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -214,6 +220,10 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span><span class="va">importance_dtw</span> <span class="op">&lt;-</span> <span class="fu">distantia_importance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#focus on important columns</span></span></span>
@@ -246,6 +256,10 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">importance_lock_step</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"x"</span>,</span></span>
@@ -255,16 +269,16 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="st">"importance"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"effect"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi    variable importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.6530664         evi   0.241829 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 0.6530664    rainfall  19.051052 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 0.6530664 temperature -30.814944 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.4288350         evi  28.539736 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.4288350    rainfall  -4.845232 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.4288350 temperature -25.011608 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 0.7354249         evi -22.912397 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 0.7354249    rainfall   9.732110 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 0.7354249 temperature  12.501949 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y      psi    variable importance               effect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.306133         evi   0.241829 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 1.306133    rainfall  19.051052 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 1.306133 temperature -30.814944 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.857670         evi  28.539736 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.857670    rainfall  -4.845232 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.857670 temperature -25.011608 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 1.470850         evi -22.912397 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 1.470850    rainfall   9.732110 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 1.470850 temperature  12.501949 decreases similarity</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#combinations of parameters</span></span></span>
@@ -275,6 +289,10 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">importance_df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"x"</span>,</span></span>
@@ -286,15 +304,15 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="st">"lock_step"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x      y       psi    variable importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain 0.6530664         evi   0.241829 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany  Spain 0.6530664    rainfall  19.051052 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Germany  Spain 0.6530664 temperature -30.814944 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany Sweden 0.4288350         evi  28.539736 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden 0.4288350    rainfall  -4.845232 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Germany Sweden 0.4288350 temperature -25.011608 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Spain Sweden 0.7354249         evi -22.912397 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Spain Sweden 0.7354249    rainfall   9.732110 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Spain Sweden 0.7354249 temperature  12.501949 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain 1.3061327         evi   0.241829 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany  Spain 1.3061327    rainfall  19.051052 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Germany  Spain 1.3061327 temperature -30.814944 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany Sweden 0.8576700         evi  28.539736 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden 0.8576700    rainfall  -4.845232 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Germany Sweden 0.8576700 temperature -25.011608 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Spain Sweden 1.4708497         evi -22.912397 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Spain Sweden 1.4708497    rainfall   9.732110 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Spain Sweden 1.4708497 temperature  12.501949 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 Germany  Spain 1.3429956         evi   6.512321 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Germany  Spain 1.3429956    rainfall  12.505764 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12 Germany  Spain 1.3429956 temperature -26.509115 increases similarity</span>

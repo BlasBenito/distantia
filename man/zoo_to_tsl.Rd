@@ -39,8 +39,10 @@ Other data_preparation:
 \code{\link{tsl_initialize}()},
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_set}()},
+\code{\link{tsl_names_test}()},
 \code{\link{tsl_repair}()},
 \code{\link{tsl_time_class_set}()},
+\code{\link{zoo_name_clean}()},
 \code{\link{zoo_name_get}()},
 \code{\link{zoo_name_set}()},
 \code{\link{zoo_vector_to_matrix}()}

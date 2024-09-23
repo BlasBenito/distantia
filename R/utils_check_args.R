@@ -243,6 +243,7 @@ utils_check_args_matrix <- function(
 #' @return error messages (if any)
 #' @export
 #' @autoglobal
+#' @family internal
 utils_check_args_tsl <- function(
     tsl = NULL,
     min_length = 2

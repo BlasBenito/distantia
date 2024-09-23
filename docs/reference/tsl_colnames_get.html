@@ -60,15 +60,15 @@
 
 
 <dt id="arg-names">names<a class="anchor" aria-label="anchor" href="#arg-names"></a></dt>
-<dd><p>(optional, character string) Three different sets of column names can be requested:</p><ul><li><p>"all" (default): list with the column names in each zoo object in <code>tsl</code>.</p></li>
-<li><p>"shared": character vector with the shared column names in <code>tsl</code>.</p></li>
-<li><p>"exclusive": list with names of exclusive columns in each zoo object in <code>tsl</code>.</p></li>
+<dd><p>(optional, character string) Three different sets of column names can be requested:</p><ul><li><p>"all" (default): list with the column names in each zoo object in <code>tsl</code>. Unnammed columns are tagged with the string "unnamed".</p></li>
+<li><p>"shared": character vector with the shared column names in at least two zoo objects in <code>tsl</code>.</p></li>
+<li><p>"exclusive": list with names of exclusive columns (if any) in each zoo object in <code>tsl</code>.</p></li>
 </ul></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>character vector or list with character vectors</p>
+    <p>list</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -121,7 +121,12 @@
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  names <span class="op">=</span> <span class="st">"shared"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "b" "c" "d" "e"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "b" "c" "d" "e"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#exclusive column names</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_colnames_get</span><span class="op">(</span></span></span>

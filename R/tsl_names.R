@@ -365,6 +365,7 @@ tsl_names_clean <- function(
 #' @autoglobal
 #' @examples
 #' #TODO example missing, use the one in tsl_diagnose()
+#' @family data_preparation
 tsl_names_test <- function(
     tsl = NULL
 ){

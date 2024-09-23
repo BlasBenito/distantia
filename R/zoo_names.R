@@ -133,6 +133,7 @@ zoo_name_get <- function(
 #' @return zoo timme series
 #'
 #' @autoglobal
+#' @family data_preparation
 #' @export
 #' @examples
 #' #simulate zoo time series

@@ -91,19 +91,23 @@
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tsl_to_df</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "name" "time" "a"    "b"    "c"    "d"    "e"   </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              name       time          a         b         c         d         e</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2010-07-07    A 2010-07-07 0.08348423 0.1793025 0.4799905 0.3907275 0.1919960</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2011-04-14    A 2011-04-14 0.16771339 0.2415401 0.3555188 0.2429726 0.2116954</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2011-07-16    A 2011-07-16 0.14881885 0.2273700 0.3728658 0.3049885 0.4347005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2012-04-22    A 2012-04-22 0.34990837 0.3158098 0.3334228 0.2009160 0.3146760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2013-05-02    A 2013-05-02 0.39211016 0.2815837 0.3209414 0.1858726 0.1659380</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A.2014-11-15    A 2014-11-15 0.36718074 0.3150592 0.3367337 0.1473642 0.2672202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              name       time         a         b         c         d          e</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2011-01-10    A 2011-01-10 0.4567578 0.8438665 0.5549751 0.2605360 0.09540473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2011-07-16    A 2011-07-16 0.5518568 0.7242469 0.4290758 0.3346983 0.45265080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2012-04-22    A 2012-04-22 0.7082593 0.8696346 0.4929685 0.4349255 0.62071815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2013-01-28    A 2013-01-28 0.7105106 0.5372702 0.3450217 0.4523439 0.26869769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2014-05-11    A 2014-05-11 0.6899930 0.4756761 0.4047447 0.5268385 0.11956761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A.2015-05-21    A 2015-05-21 0.6093574 0.4675206 0.3626851 0.4716171 0.31333461</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

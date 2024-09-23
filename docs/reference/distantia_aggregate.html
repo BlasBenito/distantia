@@ -110,6 +110,14 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -125,6 +133,10 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"manhattan"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: future</span>
 <span class="r-in"><span></span></span>
@@ -136,12 +148,12 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  <span class="st">"psi"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x      y  distance lock_step       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain euclidean      TRUE 0.6530664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany Sweden euclidean      TRUE 0.4288350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    Spain Sweden euclidean      TRUE 0.7354249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany  Spain manhattan      TRUE 0.6349461</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden manhattan      TRUE 0.4295597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    Spain Sweden manhattan      TRUE 0.7445143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Germany  Spain euclidean      TRUE 1.3061327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Germany Sweden euclidean      TRUE 0.8576700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    Spain Sweden euclidean      TRUE 1.4708497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Germany  Spain manhattan      TRUE 1.2698922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Germany Sweden manhattan      TRUE 0.8591195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    Spain Sweden manhattan      TRUE 1.4890286</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7  Germany  Spain euclidean     FALSE 1.3429956</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  Germany Sweden euclidean     FALSE 0.8571217</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9    Spain Sweden euclidean     FALSE 1.4803954</span>
@@ -157,9 +169,9 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.9790215</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.6420731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.1140649</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.3010246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.8566718</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.4840497</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#importance with multiple parameter combinations</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------------------</span></span></span>
@@ -168,6 +180,10 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"manhattan"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_multiple</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"x"</span>,</span></span>
@@ -223,15 +239,15 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y    variable       psi importance psi_without psi_only_with</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain         evi 0.9790215   3.586876   0.9625814     1.0061467</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden         evi 0.6420731  29.511986   0.5847083     0.7754992</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden         evi 1.1140649 -18.046795   1.1645114     0.9854782</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany  Spain    rainfall 0.9790215  18.134964   0.8874510     1.0578256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden    rainfall 0.6420731  -3.404155   0.6534268     0.6331313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain Sweden    rainfall 1.1140649   5.350935   1.1056575     1.1471501</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Germany  Spain temperature 0.9790215 -29.693952   1.0461449     0.7577219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Germany Sweden temperature 0.6420731 -27.467032   0.6897441     0.5099642</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden temperature 1.1140649  12.718079   1.0851205     1.2271369</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain         evi 1.3010246   3.586876   1.2811692     1.3281469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden         evi 0.8566718  29.511986   0.7807204     1.0335199</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden         evi 1.4840497 -18.046795   1.5579973     1.2901568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany  Spain    rainfall 1.3010246  18.134964   1.1741316     1.4091905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden    rainfall 0.8566718  -3.404155   0.8726797     0.8434902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain Sweden    rainfall 1.4840497   5.350935   1.4606764     1.5400981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Germany  Spain temperature 1.3010246 -29.693952   1.3907864     1.0048642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Germany Sweden temperature 0.8566718 -27.467032   0.9190628     0.6838117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden temperature 1.4840497  12.718079   1.4467168     1.6354357</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"x"</span>,</span></span>
@@ -257,12 +273,16 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_multiple</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y  distance diagonal weighted ignore_blocks lock_step       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain euclidean     TRUE     TRUE         FALSE      TRUE 0.6530664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden euclidean     TRUE     TRUE         FALSE      TRUE 0.4288350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden euclidean     TRUE     TRUE         FALSE      TRUE 0.7354249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y  distance diagonal weighted ignore_blocks lock_step      psi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain euclidean     TRUE     TRUE         FALSE      TRUE 1.306133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden euclidean     TRUE     TRUE         FALSE      TRUE 0.857670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden euclidean     TRUE     TRUE         FALSE      TRUE 1.470850</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#no aggregation happens, but all parameter columns are removed</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia_aggregate</span><span class="op">(</span></span></span>
@@ -271,10 +291,10 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.6530664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.4288350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 0.7354249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y      psi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.306133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.857670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.470850</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

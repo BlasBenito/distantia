@@ -52,9 +52,9 @@
 <span>  tsl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  names <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  colnames <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  numeric_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  shared_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  time <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  shared_cols <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,16 +74,16 @@
 <dd><p>(optional, character vector) Column names of the zoo objects in <code>tsl</code>. If NULL, all columns are returned. Default: NULL</p></dd>
 
 
+<dt id="arg-time">time<a class="anchor" aria-label="anchor" href="#arg-time"></a></dt>
+<dd><p>(optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in <code>tsl</code> are preserved. Default: NULL</p></dd>
+
+
 <dt id="arg-numeric-cols">numeric_cols<a class="anchor" aria-label="anchor" href="#arg-numeric-cols"></a></dt>
 <dd><p>(optional, logical) If TRUE, only the numeric columns of the zoo objects are returned. Default: TRUE</p></dd>
 
 
 <dt id="arg-shared-cols">shared_cols<a class="anchor" aria-label="anchor" href="#arg-shared-cols"></a></dt>
 <dd><p>(optional, logical) If TRUE, only columns shared across all zoo objects are returned. Default: TRUE</p></dd>
-
-
-<dt id="arg-time">time<a class="anchor" aria-label="anchor" href="#arg-time"></a></dt>
-<dd><p>(optional, numeric vector) time vector of length two used to subset rows by time. If NULL, all rows in <code>tsl</code> are preserved. Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -111,6 +111,10 @@
 <span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"site"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#checking available dimensions</span></span></span>
 <span class="r-in"><span></span></span>
@@ -177,8 +181,8 @@
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name      begin        end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sweden   Sweden 2001-01-01 2018-12-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Germany Germany 2001-01-01 2018-12-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sweden   Sweden 2010-01-01 2015-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Germany Germany 2010-01-01 2015-01-01</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

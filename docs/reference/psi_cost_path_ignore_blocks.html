@@ -68,33 +68,49 @@
     <div class="dont-index"><p>Other psi_demo:
 <code><a href="distance.html">distance</a>()</code>,
 <code><a href="distances.html">distances</a></code>,
-<code><a href="psi.html">psi</a>()</code>,
 <code><a href="psi_auto_distance.html">psi_auto_distance</a>()</code>,
 <code><a href="psi_auto_sum.html">psi_auto_sum</a>()</code>,
 <code><a href="psi_cost_matrix.html">psi_cost_matrix</a>()</code>,
 <code><a href="psi_cost_path.html">psi_cost_path</a>()</code>,
 <code><a href="psi_cost_path_sum.html">psi_cost_path_sum</a>()</code>,
-<code><a href="psi_dist_lock_step.html">psi_dist_lock_step</a>()</code>,
-<code><a href="psi_dist_matrix.html">psi_dist_matrix</a>()</code></p></div>
+<code><a href="psi_distance_lock_step.html">psi_distance_lock_step</a>()</code>,
+<code><a href="psi_distance_matrix.html">psi_distance_matrix</a>()</code>,
+<code><a href="psi_equation.html">psi_equation</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#simulate two time series</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">2</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#distance metric</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="st">"euclidean"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#use diagonals in least cost computations</span></span></span>
+<span class="r-in"><span><span class="va">diagonal</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#simulate two irregular time series</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="st">"x"</span>,</span></span>
+<span class="r-in"><span>  rows <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>  seasons <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="st">"y"</span>,</span></span>
+<span class="r-in"><span>  rows <span class="op">=</span> <span class="fl">80</span>,</span></span>
+<span class="r-in"><span>  seasons <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="zoo_plot.html">zoo_plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="zoo_plot.html">zoo_plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#distance matrix</span></span></span>
-<span class="r-in"><span><span class="va">dist_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="psi_dist_matrix.html">psi_dist_matrix</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  y <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span></span></span>
+<span class="r-in"><span><span class="va">dist_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="psi_distance_matrix.html">psi_distance_matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="va">y</span>,</span></span>
+<span class="r-in"><span>  distance <span class="op">=</span> <span class="va">d</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#orthogonal least cost matrix</span></span></span>
@@ -110,10 +126,16 @@
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#cost path details</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cost_path</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 199</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 179</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#notice several blocks in the lower left corner</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="psi_cost_path_sum.html">psi_cost_path_sum</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  path <span class="op">=</span> <span class="va">cost_path</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60.83981</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#notice blocks as long straight lines</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="utils_matrix_plot.html">utils_matrix_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    m <span class="op">=</span> <span class="va">cost_matrix</span>,</span></span>
@@ -122,22 +144,33 @@
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#removing blocks</span></span></span>
-<span class="r-in"><span><span class="va">cost_path_trimmed</span> <span class="op">&lt;-</span> <span class="fu">psi_cost_path_ignore_blocks</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">cost_path_no_blocks</span> <span class="op">&lt;-</span> <span class="fu">psi_cost_path_ignore_blocks</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  path <span class="op">=</span> <span class="va">cost_path</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#resulting data frame is much smaller</span></span></span>
-<span class="r-in"><span><span class="co">#rows with repeated x or y coordinates removed</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cost_path_trimmed</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 32</span>
+<span class="r-in"><span><span class="co">#much smaller size</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cost_path_no_blocks</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 31</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#much smaller distance sum</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="psi_cost_path_sum.html">psi_cost_path_sum</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  path <span class="op">=</span> <span class="va">cost_path_no_blocks</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.609695</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#but the path shape is preserved</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="utils_matrix_plot.html">utils_matrix_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    m <span class="op">=</span> <span class="va">cost_matrix</span>,</span></span>
-<span class="r-in"><span>    path <span class="op">=</span> <span class="va">cost_path_trimmed</span></span></span>
+<span class="r-in"><span>    path <span class="op">=</span> <span class="va">cost_path_no_blocks</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#x and y to tsl</span></span></span>
+<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="va">y</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#psi score with blocks</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="distantia.html">distantia</a></span><span class="op">(</span></span></span>
@@ -145,7 +178,11 @@
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.996377</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.221858</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#psi score without blocks</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="distantia.html">distantia</a></span><span class="op">(</span></span></span>
@@ -153,7 +190,11 @@
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.410087</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.701404</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

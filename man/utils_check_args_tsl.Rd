@@ -17,3 +17,23 @@ error messages (if any)
 \description{
 Internal function to check that a time series list is a list of zoo objects and has a minimum number of objects. For a more comprehensive test, use \code{\link[=tsl_diagnose]{tsl_diagnose()}}.
 }
+\seealso{
+Other internal: 
+\code{\link{utils_check_args_distantia}()},
+\code{\link{utils_check_args_matrix}()},
+\code{\link{utils_check_args_path}()},
+\code{\link{utils_check_args_zoo}()},
+\code{\link{utils_check_distance_args}()},
+\code{\link{utils_check_list_class}()},
+\code{\link{utils_digits}()},
+\code{\link{utils_distantia_df_split}()},
+\code{\link{utils_distantia_df_to_matrix}()},
+\code{\link{utils_prepare_df}()},
+\code{\link{utils_prepare_matrix}()},
+\code{\link{utils_prepare_matrix_list}()},
+\code{\link{utils_prepare_time}()},
+\code{\link{utils_prepare_vector_list}()},
+\code{\link{utils_prepare_zoo_list}()},
+\code{\link{utils_tsl_pairs}()}
+}
+\concept{internal}

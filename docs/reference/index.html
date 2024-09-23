@@ -171,7 +171,7 @@
           <code><a href="tsl_diagnose.html">tsl_diagnose()</a></code>
 
         </dt>
-        <dd>Validity Assessment of Time Series Lists</dd>
+        <dd>Diagnose Issues in Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="tsl_handle_NA.html">tsl_handle_NA()</a></code> <code><a href="tsl_handle_NA.html">tsl_Inf_to_NA()</a></code> <code><a href="tsl_handle_NA.html">tsl_NaN_to_NA()</a></code>
@@ -198,16 +198,52 @@
         <dd>Set Time Series Names in a Time Series List</dd>
       </dl><dl><dt>
 
+          <code><a href="tsl_names_test.html">tsl_names_test()</a></code>
+
+        </dt>
+        <dd>Tests Naming Issues in Time Series Lists</dd>
+      </dl><dl><dt>
+
           <code><a href="tsl_repair.html">tsl_repair()</a></code>
 
         </dt>
         <dd>Repair Issues in Time Series Lists</dd>
       </dl><dl><dt>
 
+          <code><a href="tsl_time_class_set.html">tsl_time_class_set()</a></code>
+
+        </dt>
+        <dd>Coerce Elements of Time Series List to same Time Class</dd>
+      </dl><dl><dt>
+
+          <code><a href="zoo_name_clean.html">zoo_name_clean()</a></code>
+
+        </dt>
+        <dd>Clean Name of a Zoo Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="zoo_name_get.html">zoo_name_get()</a></code>
+
+        </dt>
+        <dd>Get Name of a Zoo Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="zoo_name_set.html">zoo_name_set()</a></code>
+
+        </dt>
+        <dd>Set Name of a Zoo Time Series</dd>
+      </dl><dl><dt>
+
           <code><a href="zoo_to_tsl.html">zoo_to_tsl()</a></code>
 
         </dt>
         <dd>Convert Individual Zoo Objects to Time Series List</dd>
+      </dl><dl><dt>
+
+          <code><a href="zoo_vector_to_matrix.html">zoo_vector_to_matrix()</a></code>
+
+        </dt>
+        <dd>Coerce Coredata of Univariate Zoo Time Series to Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="utils_clean_names.html">utils_clean_names()</a></code>
@@ -584,22 +620,22 @@
         <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_cpp.html">cost_matrix_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_matrix_diag_cpp.html">cost_matrix_diag_cpp()</a></code>
+          <code><a href="cost_matrix_diagonal_cpp.html">cost_matrix_diagonal_cpp()</a></code>
 
         </dt>
         <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_weighted_diag_cpp.html">cost_matrix_weighted_diag_cpp()</a></code>
+          <code><a href="cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code>
 
         </dt>
         <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_matrix_orthogonal_cpp.html">cost_matrix_orthogonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
@@ -716,16 +752,16 @@
         <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
       </dl><dl><dt>
 
-          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
           <code><a href="importance_dynamic_time_warping_robust_cpp.html">importance_dynamic_time_warping_robust_cpp()</a></code>
 
         </dt>
         <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
+      </dl><dl><dt>
+
+          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_dynamic_time_warping_cpp.html">null_psi_dynamic_time_warping_cpp()</a></code>
@@ -773,7 +809,7 @@
           <code><a href="psi_equation_cpp.html">psi_equation_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Computation of the Psi Dissimilarity Score</dd>
+        <dd>(C++) Equation of the Psi Dissimilarity Score</dd>
       </dl><dl><dt>
 
           <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
@@ -809,12 +845,6 @@
 
         </dt>
         <dd>Distance Methods</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi.html">psi()</a></code>
-
-        </dt>
-        <dd>Normalized Dissimilarity Score</dd>
       </dl><dl><dt>
 
           <code><a href="psi_auto_distance.html">psi_auto_distance()</a></code>
@@ -853,16 +883,22 @@
         <dd>Sum of Distances in Least Cost Path</dd>
       </dl><dl><dt>
 
-          <code><a href="psi_dist_lock_step.html">psi_dist_lock_step()</a></code>
+          <code><a href="psi_distance_lock_step.html">psi_distance_lock_step()</a></code>
 
         </dt>
         <dd>Lock-Step Distance</dd>
       </dl><dl><dt>
 
-          <code><a href="psi_dist_matrix.html">psi_dist_matrix()</a></code>
+          <code><a href="psi_distance_matrix.html">psi_distance_matrix()</a></code>
 
         </dt>
         <dd>Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_equation.html">psi_equation()</a></code>
+
+        </dt>
+        <dd>Normalized Dissimilarity Score</dd>
       </dl></div><div class="section level2">
       <h2 id="c-functions">C++ Functions<a class="anchor" aria-label="anchor" href="#c-functions"></a></h2>
 
@@ -900,22 +936,22 @@
         <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_cpp.html">cost_matrix_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_matrix_diag_cpp.html">cost_matrix_diag_cpp()</a></code>
+          <code><a href="cost_matrix_diagonal_cpp.html">cost_matrix_diagonal_cpp()</a></code>
 
         </dt>
         <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_weighted_diag_cpp.html">cost_matrix_weighted_diag_cpp()</a></code>
+          <code><a href="cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code>
 
         </dt>
         <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_matrix_orthogonal_cpp.html">cost_matrix_orthogonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
       </dl><dl><dt>
 
           <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
@@ -1032,16 +1068,16 @@
         <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
       </dl><dl><dt>
 
-          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
           <code><a href="importance_dynamic_time_warping_robust_cpp.html">importance_dynamic_time_warping_robust_cpp()</a></code>
 
         </dt>
         <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
+      </dl><dl><dt>
+
+          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
       </dl><dl><dt>
 
           <code><a href="null_psi_dynamic_time_warping_cpp.html">null_psi_dynamic_time_warping_cpp()</a></code>
@@ -1089,7 +1125,7 @@
           <code><a href="psi_equation_cpp.html">psi_equation_cpp()</a></code>
 
         </dt>
-        <dd>(C++) Computation of the Psi Dissimilarity Score</dd>
+        <dd>(C++) Equation of the Psi Dissimilarity Score</dd>
       </dl><dl><dt>
 
           <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
@@ -1227,40 +1263,46 @@
 
       <dl><dt>
 
+          <code><a href="utils_check_args_distantia.html">utils_check_args_distantia()</a></code>
+
+        </dt>
+        <dd>Check Input Arguments to <code><a href="../reference/distantia.html">distantia()</a></code></dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_check_args_matrix.html">utils_check_args_matrix()</a></code>
+
+        </dt>
+        <dd>Checks Input Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_check_args_path.html">utils_check_args_path()</a></code>
+
+        </dt>
+        <dd>Checks Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_check_args_tsl.html">utils_check_args_tsl()</a></code>
+
+        </dt>
+        <dd>Structural Check for Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_check_args_zoo.html">utils_check_args_zoo()</a></code>
+
+        </dt>
+        <dd>Checks Argument x</dd>
+      </dl><dl><dt>
+
           <code><a href="utils_check_distance_args.html">utils_check_distance_args()</a></code>
 
         </dt>
         <dd>Check Distance Argument</dd>
       </dl><dl><dt>
 
-          <code><a href="utils_check_distantia_args.html">utils_check_distantia_args()</a></code>
-
-        </dt>
-        <dd>Check Input Arguments</dd>
-      </dl><dl><dt>
-
           <code><a href="utils_check_list_class.html">utils_check_list_class()</a></code>
 
         </dt>
         <dd>Checks Classes of List Elements Against Expectation</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_check_matrix_args.html">utils_check_matrix_args()</a></code>
-
-        </dt>
-        <dd>Checks Input Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_check_path_args.html">utils_check_path_args()</a></code>
-
-        </dt>
-        <dd>Checks Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_check_zoo_args.html">utils_check_zoo_args()</a></code>
-
-        </dt>
-        <dd>Checks Argument x</dd>
       </dl><dl><dt>
 
           <code><a href="utils_digits.html">utils_digits()</a></code>

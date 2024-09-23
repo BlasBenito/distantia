@@ -142,8 +142,14 @@ If prefix is provided, it is added at the beginning of the column name using the
 <code><a href="tsl_initialize.html">tsl_initialize</a>()</code>,
 <code><a href="tsl_names_clean.html">tsl_names_clean</a>()</code>,
 <code><a href="tsl_names_set.html">tsl_names_set</a>()</code>,
+<code><a href="tsl_names_test.html">tsl_names_test</a>()</code>,
 <code><a href="tsl_repair.html">tsl_repair</a>()</code>,
-<code><a href="zoo_to_tsl.html">zoo_to_tsl</a>()</code></p></div>
+<code><a href="tsl_time_class_set.html">tsl_time_class_set</a>()</code>,
+<code><a href="zoo_name_clean.html">zoo_name_clean</a>()</code>,
+<code><a href="zoo_name_get.html">zoo_name_get</a>()</code>,
+<code><a href="zoo_name_set.html">zoo_name_set</a>()</code>,
+<code><a href="zoo_to_tsl.html">zoo_to_tsl</a>()</code>,
+<code><a href="zoo_vector_to_matrix.html">zoo_vector_to_matrix</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -165,10 +171,10 @@ If prefix is provided, it is added at the beginning of the column name using the
 <span class="r-in"><span><span class="co">#rename columns</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_colnames_set.html">tsl_colnames_set</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  new_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    a <span class="op">=</span> <span class="st">"New name 1"</span>,</span></span>
-<span class="r-in"><span>    b <span class="op">=</span> <span class="st">"new Name 2"</span>,</span></span>
-<span class="r-in"><span>    c <span class="op">=</span> <span class="st">"NEW NAME 3"</span></span></span>
+<span class="r-in"><span>  names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"New name 1"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"new Name 2"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"NEW NAME 3"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
