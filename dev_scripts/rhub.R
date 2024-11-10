@@ -23,11 +23,9 @@ rhub::rhub_check(
     "mkl",
     "nold",
     "nosuggests",
-    "rchk",
     "ubuntu-clang",
     "ubuntu-gcc12",
     "ubuntu-next",
-    "ubuntu-release",
-    "valgrind"
+    "ubuntu-release"
   )
 )

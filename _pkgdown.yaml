@@ -2,6 +2,12 @@ url: https://blasbenito.github.io/distantia
 
 template:
   bootstrap: 5
+  fonts:
+    heading: Montserrat
+    body: Montserrat
+  includes:
+    in_header: |
+      <link rel="stylesheet" href="extra.css">
 
 authors:
   Blas M. Benito:

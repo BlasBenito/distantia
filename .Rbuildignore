@@ -11,3 +11,4 @@ README_old.Rmd
 _pkgdown.yaml
 ^\.github$
 ^vignettes/articles$
+^pkgdown$
