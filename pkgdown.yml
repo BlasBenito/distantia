@@ -1,6 +1,9 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-11-17T13:36Z
-
+articles:
+  articles/psi_dissimilarity_metric: psi_dissimilarity_metric.html
+last_built: 2024-11-10T06:53Z
+urls:
+  reference: https://blasbenito.github.io/distantia/reference
+  article: https://blasbenito.github.io/distantia/articles

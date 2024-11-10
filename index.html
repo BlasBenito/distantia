@@ -4,957 +4,75 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assessing Dissimilarity Between Multivariate Time Series • distantia</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Assessing Dissimilarity Between Multivariate Time Series">
-<meta property="og:description" content="Provides tools to assess the dissimilarity between multivariate time-series. It is based on the psi measure described  by Birks and Gordon (1985 &lt;doi:10.1002/jqs.3390020110&gt;), which computes dissimilarity between irregular time-series constrained by sample order. However, in this package the original idea has been extended to work with any kind of multivariate time-series, no matter whether they are regular, irregular, aligned or unaligned. Furthermore, the package allows to assess the significance of dissimilarity values by applying a restricted permutation test, allows to measure the contribution of individual variables to dissimilarity, and offers tools to transfer attributes (generally time or age, but other are possible) between sequences based on the similarity of their samples.">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>A Toolset for Time Series Dissimilarity Analysis • distantia</title>
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="A Toolset for Time Series Dissimilarity Analysis">
+<meta name="description" content="Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) &lt;doi:doi.org/10.1111/ecog.04895&gt;, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.">
+<meta property="og:description" content="Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) &lt;doi:doi.org/10.1111/ecog.04895&gt;, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.">
+<link rel="stylesheet" href="extra.css">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">distantia</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
-      </span>
-    </div>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="reference/index.html">Reference</a>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="index.html">distantia</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
+    <li><a class="dropdown-item" href="articles/psi_dissimilarity_metric.html">The Psi Dissimilarity Metric</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
+    <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
+  </ul>
 </li>
-<li>
-  <a href="news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/BlasBenito/distantia/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-<p>distantia: an R package to compute the dissimilarity between multivariate time-series ================</p>
-<ul>
-<li>
-<a href="#distantia-an-r-package-to-assess-dissimilarity-between-multivariate-time-series">distantia: an R package to assess dissimilarity between multivariate time-series</a>
-<ul>
-<li><a href="#summary">Summary</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#comparing-two-irregular-mets">Comparing two irregular METS</a></li>
-</ul>
-</li>
-<li><a href="#comparing-multiple-irregular-mets">Comparing multiple irregular METS</a></li>
-<li><a href="#comparing-regular-aligned-mets">Comparing regular aligned METS</a></li>
-<li><a href="#restricted-permutation-test-to-assess-the-significance-of-dissimilarity-values">Restricted permutation test to assess the significance of dissimilarity values</a></li>
-<li><a href="#assessing-the-contribution-of-a-variable-to-the-dissimilarity-between-two-sequences">Assessing the contribution of a variable to the dissimilarity between two sequences</a></li>
-<li><a href="#partial-matching-finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence">Partial matching: finding the section in a long sequence more similar to a given short sequence</a></li>
-<li><a href="#sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence">Sequence slotting: combining samples of two sequences into a single composite sequence</a></li>
-<li>
-<a href="#transferring-an-attribute-from-one-sequence-to-another">Transferring an attribute from one sequence to another</a>
-<ul>
-<li><a href="#direct-transfer">Direct transfer</a></li>
-<li><a href="#interpolated-transfer">Interpolated transfer</a></li>
-</ul>
-</li>
-</ul>
-<div class="section level1">
-<div class="page-header"><h1 id="distantia-an-r-package-to-assess-dissimilarity-between-multivariate-time-series">distantia: an R package to assess dissimilarity between multivariate time-series<a class="anchor" aria-label="anchor" href="#distantia-an-r-package-to-assess-dissimilarity-between-multivariate-time-series"></a>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="distantia-time-series-dissimilarity-analysis-with-dynamic-time-warping">distantia: Time Series Dissimilarity Analysis with Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#distantia-time-series-dissimilarity-analysis-with-dynamic-time-warping"></a>
 </h1></div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
 <!-- badges: end -->
-<div class="section level2">
-<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
-</h2>
-<p>The package <strong>distantia</strong> helps quantify dissimilarity between multivariate ecological time-series (<em>METS</em> hereafter). The package assumes that the target sequences are ordered along a given dimension, being depth and time the most common ones, but others such as latitude or elevation are also possible. Furthermore, the target METS can be regular or irregular, and have their samples aligned (same age/time/depth) or unaligned (different age/time/depth). The only requirement is that the sequences must have at least two (but ideally more) columns with the same name and units representing different variables relevant to the dynamics of an ecological system.</p>
-<p>In this document I explain the logic behind the method, show how to use it, and demonstrate how the <strong>distantia</strong> package introduces useful tools to compare multivariate time-series. The topics covered in this document are:</p>
-<ul>
-<li>Installation of the package.</li>
-<li>Comparing two irregular METS.</li>
-<li>Comparing multiple irregular METS.</li>
-<li>Comparing regular and aligned METS.</li>
-<li>Restricted permutation test to assess the significance of dissimilarity scores</li>
-<li>Assessing the contribution of every variable to the dissimilarity between two METS.</li>
-<li>Partial matching: finding the section in a long METS more similar to a given shorter one.</li>
-<li>Sequence slotting: combining samples of two METS into a single composite sequence.</li>
-<li>Tranferring an attribute from one METS to another: direct and interpolated modes.</li>
-</ul>
 </div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the released version of distantia (currently <em>v1.0.0</em>) from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"distantia"</span><span class="op">)</span></span></code></pre></div>
-<p>And the development version (currently v1.0.1) from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span></span>
-<span>  repo <span class="op">=</span> <span class="st">"BlasBenito/distantia"</span>, </span>
-<span>  ref <span class="op">=</span> <span class="st">"development"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>Loading the library, plus other helper libraries:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/" class="external-link">distantia</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">qgraph</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="comparing-two-irregular-mets">Comparing two irregular METS<a class="anchor" aria-label="anchor" href="#comparing-two-irregular-mets"></a>
-</h2>
-<p>In this section I will use two example datasets based on the Abernethy pollen core (Birks and Mathewes, 1978) to fully explain the logical backbone of the dissimilarity analyses implemented in <em>distantia</em>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading sequences</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequenceA</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequenceB</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#showing first rows</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">sequenceA</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Sequence A"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">sequenceB</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Sequence B"</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="data-preparation">Data preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
-</h3>
-<p>Notice that <strong>sequenceB</strong> has a few NA values (that were introduced to serve as an example). The function <strong>prepareSequences</strong> gets them ready for analysis by matching colum names and handling empty data. It allows to merge two or more METS into a single dataframe ready for further analyses. Note that, since the data represents pollen abundances, a <em>Hellinger</em> transformation (square root of the relative proportions of each taxa, it balances the relative abundances of rare and dominant taxa) is applied. This transformation balances the relative importance of very abundant versus rare taxa. The function <strong>prepareSequences</strong> will generally be the starting point of any analysis performed with the <em>distantia</em> package.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#preparing sequences</span></span>
-<span><span class="va">AB.sequences</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequence.A <span class="op">=</span> <span class="va">sequenceA</span>,</span>
-<span>  sequence.A.name <span class="op">=</span> <span class="st">"A"</span>,</span>
-<span>  sequence.B <span class="op">=</span> <span class="va">sequenceB</span>,</span>
-<span>  sequence.B.name <span class="op">=</span> <span class="st">"B"</span>,</span>
-<span>  merge.mode <span class="op">=</span> <span class="st">"complete"</span>,</span>
-<span>  if.empty.cases <span class="op">=</span> <span class="st">"zero"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"hellinger"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#showing first rows of the transformed data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span></span>
-<span>  <span class="va">AB.sequences</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, </span>
-<span>  digits <span class="op">=</span> <span class="fl">4</span>, </span>
-<span>  caption <span class="op">=</span> <span class="st">"Sequences A and B ready for analysis."</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>The computation of dissimilarity between the datasets A and B requires several steps.</p>
-</div>
-<div class="section level3">
-<h3 id="id_1-computation-of-a-distance-matrix-among-the-samples-of-both-sequences">1. Computation of a distance matrix among the samples of both sequences.<a class="anchor" aria-label="anchor" href="#id_1-computation-of-a-distance-matrix-among-the-samples-of-both-sequences"></a>
-</h3>
-<p>It is computed by the <strong>distanceMatrix</strong> function, which allows the user to select a distance metric (so far the ones implemented are <em>manhattan</em>, <em>euclidean</em>, <em>chi</em>, and <em>hellinger</em>). The function <strong>plotMatrix</strong> allows an easy visualization of the resulting distance matrix.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#computing distance matrix</span></span>
-<span><span class="va">AB.distance.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distanceMatrix.html">distanceMatrix</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">AB.sequences</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plotting distance matrix</span></span>
-<span><span class="fu"><a href="reference/plotMatrix.html">plotMatrix</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="va">AB.distance.matrix</span>,</span>
-<span>  color.palette <span class="op">=</span> <span class="st">"viridis"</span>,</span>
-<span>  margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_2-computation-of-the-least-cost-path-within-the-distance-matrix">2. Computation of the least-cost path within the distance matrix.<a class="anchor" aria-label="anchor" href="#id_2-computation-of-the-least-cost-path-within-the-distance-matrix"></a>
-</h3>
-<p>This step uses a <em>dynamic programming algorithm</em> to find the least-cost path that connnects the cell 1,1 of the matrix (lower left in the image above) and the last cell of the matrix (opposite corner). This can be done via in two different ways.</p>
-<ul>
-<li>an <strong>orthogonal search</strong> by moving either one step on the <em>x</em> axis or one step on the <em>y</em> axis at a time (see <strong>Equation 1</strong>).</li>
-</ul>
-<p><strong>Equation 1</strong></p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%5Csum_%7Bj%3D1%7D%5E%7Bn%7D%20min%5Cleft%28%5Cbegin%7Barray%7D%7Bc%7DD%28A_%7Bi%7D%2C%20B_%7Bj%2B1%7D%29%2C%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%7D%29%20%5Cend%7Barray%7D%5Cright%29%29" title="AB_{between} = 2 \times (D(A_{1}, B_{1}) + \sum_{i=1}^{m}\sum_{j=1}^{n} min\left(\begin{array}{c}D(A_{i}, B_{j+1}), \ D(A_{i+1}, B_{j}) \end{array}\right))"></embed><p class="caption">AB_{between} = 2 (D(A_{1}, B_{1}) + _{i=1}<sup>{m}_{j=1}</sup>{n} min(</p>
-</div>
-<ul>
-<li>an <strong>orthogonal and diagonal search</strong> (a.k.a <em>diagonal</em>) which includes the above, plus a diagonal search.</li>
-</ul>
-<p><strong>Equation 2</strong></p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%5Csum_%7Bj%3D1%7D%5E%7Bn%7D%20min%5Cleft%28%5Cbegin%7Barray%7D%7Bc%7DD%28A_%7Bi%7D%2C%20B_%7Bj%2B1%7D%29%2C%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%7D%20%5C%5C%20D%28A_%7Bi%2B1%7D%2C%20B_%7Bj%2B1%7D%29%20%5Cend%7Barray%7D%5Cright%29%29" title="AB_{between} = 2 \times (D(A_{1}, B_{1}) + \sum_{i=1}^{m}\sum_{j=1}^{n} min\left(\begin{array}{c}D(A_{i}, B_{j+1}), \ D(A_{i+1}, B_{j} \ D(A_{i+1}, B_{j+1}) \end{array}\right))"></embed><p class="caption">AB_{between} = 2 (D(A_{1}, B_{1}) + _{i=1}<sup>{m}_{j=1}</sup>{n} min(</p>
-</div>
-<p>Where:</p>
-<ul>
-<li>
-<embed src="https://latex.codecogs.com/png.latex?m" title="m"></embed> and <embed src="https://latex.codecogs.com/png.latex?n" title="n"></embed> are the number of samples of the multivariate time-series <embed src="https://latex.codecogs.com/png.latex?A" title="A"></embed> and <embed src="https://latex.codecogs.com/png.latex?B" title="B"></embed>.<br>
-</li>
-<li>
-<embed src="https://latex.codecogs.com/png.latex?i" title="i"></embed> and <embed src="https://latex.codecogs.com/png.latex?j" title="j"></embed> are the indices of the samples in <embed src="https://latex.codecogs.com/png.latex?A" title="A"></embed> and <embed src="https://latex.codecogs.com/png.latex?B" title="B"></embed> being considered on each step of the recursive algorithm.</li>
-<li>
-<embed src="https://latex.codecogs.com/png.latex?D" title="D"></embed> is a function that returns the multivariate distance (i.e. Manhattan) between any given pair of samples of <embed src="https://latex.codecogs.com/png.latex?A" title="A"></embed> and <embed src="https://latex.codecogs.com/png.latex?B" title="B"></embed>.</li>
-<li>
-<embed src="https://latex.codecogs.com/png.latex?min" title="min"></embed> is a function returning the minimum distance of a subset of distances defined in the neigborhood of the given indices <embed src="https://latex.codecogs.com/png.latex?i" title="i"></embed> and <embed src="https://latex.codecogs.com/png.latex?j" title="j"></embed>
-</li>
-</ul>
-<p>The equation returns <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed>, which is the double of the sum of distances that lie within the least-cost path, and represent the distance <em>between</em> the samples of A and B. The value of <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> is computed by using the functions <strong>leastCostMatrix</strong>, which computes the partial solutions to the least-cost problem, <strong>leastCostPath</strong>, which returns the best global solution, and <strong>leastCost</strong> function, which sums the distances of the least-cost path and multiplies them by 2.</p>
-<p>The code below performs these steps according to both equations</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">#ORTHOGONAL SEARCH</span></span>
-<span><span class="co">#computing least-cost matrix</span></span>
-<span><span class="va">AB.least.cost.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="va">AB.distance.matrix</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#extracting least-cost path</span></span>
-<span><span class="va">AB.least.cost.path</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostPath.html">leastCostPath</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="va">AB.distance.matrix</span>,</span>
-<span>  least.cost.matrix <span class="op">=</span> <span class="va">AB.least.cost.matrix</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#DIAGONAL SEARCH</span></span>
-<span><span class="co">#computing least-cost matrix</span></span>
-<span><span class="va">AB.least.cost.matrix.diag</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostMatrix.html">leastCostMatrix</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="va">AB.distance.matrix</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#extracting least-cost path</span></span>
-<span><span class="va">AB.least.cost.path.diag</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostPath.html">leastCostPath</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="va">AB.distance.matrix</span>,</span>
-<span>  least.cost.matrix <span class="op">=</span> <span class="va">AB.least.cost.matrix.diag</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plotting solutions</span></span>
-<span><span class="fu"><a href="reference/plotMatrix.html">plotMatrix</a></span><span class="op">(</span></span>
-<span>  distance.matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">'A|B'</span> <span class="op">=</span> <span class="va">AB.least.cost.matrix</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, </span>
-<span>    <span class="st">'A|B'</span> <span class="op">=</span> <span class="va">AB.least.cost.matrix.diag</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>  least.cost.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">'A|B'</span> <span class="op">=</span> <span class="va">AB.least.cost.path</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, </span>
-<span>    <span class="st">'A|B'</span> <span class="op">=</span> <span class="va">AB.least.cost.path.diag</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>  color.palette <span class="op">=</span> <span class="st">"viridis"</span>,</span>
-<span>  margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span>,</span>
-<span>  plot.rows <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  plot.columns <span class="op">=</span> <span class="fl">2</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>Computing <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> from these solutions is straightforward with the function <strong>leastCost</strong></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#orthogonal solution</span></span>
-<span><span class="va">AB.between</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCost.html">leastCost</a></span><span class="op">(</span></span>
-<span>  least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#diagonal solution</span></span>
-<span><span class="va">AB.between.diag</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCost.html">leastCost</a></span><span class="op">(</span></span>
-<span>  least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path.diag</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>Diagonal solutions always yield lower values for <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> than orthogonal ones.</p>
-<p>Notice the straight vertical and horizontal lines that show up in some regions of the least cost paths shown in the figure above. These are <em>blocks</em>, and happen in dissimilar sections of the compared sequences. Also, an unbalanced number of rows in the compared sequences can generate long blocks. Blocks inflate the value of <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> because the distance to a given sample is counted several times per block. This problem often leads to false negatives, that is, to the conclusion that two sequences are statistically different when actually they are not.</p>
-<p>This package includes an algorithm to remove blocks from the least cost path, which offers more realistic values for <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed>. The function <strong>leastCostPathNoBlocks</strong> reads a least cost path, and removes all blocks as follows.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#ORTHOGONAL SOLUTION</span></span>
-<span><span class="co">#removing blocks from least cost path</span></span>
-<span><span class="va">AB.least.cost.path.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostPathNoBlocks.html">leastCostPathNoBlocks</a></span><span class="op">(</span></span>
-<span>    least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path</span></span>
-<span>    <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#computing AB.between again</span></span>
-<span><span class="va">AB.between.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCost.html">leastCost</a></span><span class="op">(</span></span>
-<span>  least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path.nb</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#DIAGONAL SOLUTION</span></span>
-<span><span class="co">#removing blocks</span></span>
-<span><span class="va">AB.least.cost.path.diag.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCostPathNoBlocks.html">leastCostPathNoBlocks</a></span><span class="op">(</span></span>
-<span>    least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path.diag</span></span>
-<span>    <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#diagonal solution without blocks</span></span>
-<span><span class="va">AB.between.diag.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/leastCost.html">leastCost</a></span><span class="op">(</span></span>
-<span>  least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path.diag.nb</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
-<p>Notice how now the diagonal solution has a higher value, because by default, the diagonal method generates less blocks. That is why each measure of dissimilarity (orthogonal, diagonal, orthogonal no-blocks, and diagonal no-blocks) lies within a different comparative framework, and therefore, <strong>outputs from different methods should not be compared</strong>.</p>
-<p>Hereafter only the diagonal no-blocks option will be considered in the example cases, since it is the most general and safe solution of the four mentioned above.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#changing names of the selected solutions</span></span>
-<span><span class="va">AB.least.cost.path</span> <span class="op">&lt;-</span> <span class="va">AB.least.cost.path.diag.nb</span></span>
-<span><span class="va">AB.between</span> <span class="op">&lt;-</span> <span class="va">AB.between.diag.nb</span></span>
-<span></span>
-<span><span class="co">#removing unneeded objects</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">AB.between.diag</span>, <span class="va">AB.between.diag.nb</span>, <span class="va">AB.between.nb</span>, <span class="va">AB.distance.matrix</span>, <span class="va">AB.least.cost.matrix</span>, <span class="va">AB.least.cost.matrix.diag</span>, <span class="va">AB.least.cost.path.diag</span>, <span class="va">AB.least.cost.path.diag.nb</span>, <span class="va">AB.least.cost.path.nb</span>, <span class="va">sequenceA</span>, <span class="va">sequenceB</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_3-autosum-or-sum-of-the-distances-among-adjacent-samples-on-each-sequence">3. Autosum, or sum of the distances among adjacent samples on each sequence.<a class="anchor" aria-label="anchor" href="#id_3-autosum-or-sum-of-the-distances-among-adjacent-samples-on-each-sequence"></a>
-</h3>
-<p>This step requires to compute the distances between adjacent samples in each sequence and sum them, as shown in <strong>Equation 3</strong>.</p>
-<p><strong>Equation 3</strong></p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?AB_%7Bwithin%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%20D%28A_%7Bi%20%7D%2C%20A_%7Bi%20%2B%201%7D%29%20%2B%20%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20D%28B_%7Bi%20%7D%2C%20B_%7Bi%20%2B%201%7D%29" title="AB_{within} = \sum_{i=1}^{m} D(A_{i }, A_{i + 1}) + \sum_{i=1}^{n} D(B_{i }, B_{i + 1})"></embed><p class="caption">AB_{within} = _{i=1}^{m} D(A_{i }, A_{i + 1}) + _{i=1}^{n} D(B_{i }, B_{i + 1})</p>
-</div>
-<p>This operation is performed by the <strong>autoSum</strong> function shown below.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">AB.within</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/autoSum.html">autoSum</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">AB.sequences</span>,</span>
-<span>  least.cost.path <span class="op">=</span> <span class="va">AB.least.cost.path</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="va">AB.within</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_4-compute-dissimilarity-score-">4. Compute dissimilarity score <embed src="https://latex.codecogs.com/png.latex?%5Cpsi" title="\psi"></embed>.<a class="anchor" aria-label="anchor" href="#id_4-compute-dissimilarity-score-"></a>
-</h3>
-<p>The dissimilarity measure <embed src="https://latex.codecogs.com/png.latex?%5Cpsi" title="\psi"></embed> was first described in the book <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/gea.3340010406" class="external-link">“Numerical methods in Quaternary pollen analysis”</a> (Birks and Gordon, 1985). <strong>Psi</strong> is computed as shown in Equation 4a:</p>
-<p><strong>Equation 4a</strong></p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BAB_%7Bbetween%7D%20-%20AB_%7Bwithin%7D%7D%7BAB_%7Bwithin%7D%7D" title="\psi = \frac{AB_{between} - AB_{within}}{AB_{within}}"></embed><p class="caption">= </p>
-</div>
-<p>This equation has a particularity. Imagine two identical sequences A and B, with three samples each. In this case, <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> is computed as</p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B1%7D%29%20%2B%20D%28A_%7B1%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B3%7D%29%20%2B%20D%28A_%7B3%7D%2C%20B_%7B3%7D%29%29" title="AB_{between} = 2 \times (D(A_{1}, B_{1}) + D(A_{1}, B_{2}) + D(A_{2}, B_{2}) + D(A_{2}, B_{3}) + D(A_{3}, B_{3}))"></embed><p class="caption">AB_{between} = 2 (D(A_{1}, B_{1}) + D(A_{1}, B_{2}) + D(A_{2}, B_{2}) + D(A_{2}, B_{3}) + D(A_{3}, B_{3}))</p>
-</div>
-<p>Since the samples of each sequence with the same index are identical, this can be reduced to</p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D%20%3D%202%20%5Ctimes%20%28D%28A_%7B1%7D%2C%20B_%7B2%7D%29%20%2B%20D%28A_%7B2%7D%2C%20B_%7B3%7D%29%29%20%3D%20AB_%7Bwithin%7D" title="AB_{between} = 2 \times (D(A_{1}, B_{2}) + D(A_{2}, B_{3})) = AB_{within}"></embed><p class="caption">AB_{between} = 2 (D(A_{1}, B_{2}) + D(A_{2}, B_{3})) = AB_{within}</p>
-</div>
-<p>which in turn equals <embed src="https://latex.codecogs.com/png.latex?AB_%7Bwithin%7D" title="AB_{within}"></embed> as shown in Equation 4, yielding a <embed src="https://latex.codecogs.com/png.latex?%5Cpsi" title="\psi"></embed> value of 0.</p>
-<p>This equality does not work in the same way when the least-cost path search-method includes diagonals. When the sequenes are identical, diagonal methods yield an <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> of 0, leading to a <embed src="https://latex.codecogs.com/png.latex?%5Cpsi" title="\psi"></embed> equal to -1. To fix this shift, this package uses Equation 4b instead when <embed src="https://latex.codecogs.com/png.latex?diagonal%20%3D%20TRUE" title="diagonal = TRUE"></embed> is selected, which adds 1 to the final solution.</p>
-<p><strong>Equation 4b</strong></p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?%5Cpsi%20%3D%20%5Cfrac%7BAB_%7Bbetween%7D%20-%20AB_%7Bwithin%7D%7D%7BAB_%7Bwithin%7D%7D%20%2B%201" title="\psi = \frac{AB_{between} - AB_{within}}{AB_{within}} + 1"></embed><p class="caption">=  + 1</p>
-</div>
-<p>In any case, the <strong>psi</strong> function only requires the least-cost, and the autosum of both sequences to compute <embed src="https://latex.codecogs.com/png.latex?%5Cpsi" title="\psi"></embed>. Since we are working with a diagonal search, 1 has to be added to the final solution.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">AB.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/psi.html">psi</a></span><span class="op">(</span></span>
-<span>  least.cost <span class="op">=</span> <span class="va">AB.between</span>,</span>
-<span>  autosum <span class="op">=</span> <span class="va">AB.within</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="va">AB.psi</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">AB.psi</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span></span></code></pre></div>
-<p>The output of <strong>psi</strong> is a list, that can be transformed to a dataframe or a matrix by using the <strong>formatPsi</strong> function.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#to dataframe</span></span>
-<span><span class="va">AB.psi.dataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/formatPsi.html">formatPsi</a></span><span class="op">(</span></span>
-<span>  psi.values <span class="op">=</span> <span class="va">AB.psi</span>,</span>
-<span>  to <span class="op">=</span> <span class="st">"dataframe"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">AB.psi.dataframe</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="workflowpsi-doing-it-all-at-once">workflowPsi: doing it all at once<a class="anchor" aria-label="anchor" href="#workflowpsi-doing-it-all-at-once"></a>
-</h3>
-<p>All the steps required to compute <strong>psi</strong>, including the format options provided by <strong>formatPsi</strong> are wrapped together in the function <strong>workflowPsi</strong>. It includes options to switch to a diagonal method, and to ignore blocks, as shown below.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#checking the help file</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">workflowPsi</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#computing psi for A and B</span></span>
-<span><span class="va">AB.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowPsi.html">workflowPsi</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">AB.sequences</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  format <span class="op">=</span> <span class="st">"list"</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore.blocks <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">AB.psi</span></span></code></pre></div>
-<p>The function allows to exclude particular columns from the analysis (argument <em>exclude.columns</em>), select different distance metrics (argument <em>method</em>), use diagonals to find the least-cost path (argument <em>diagonal</em>), or measure psi by ignoring blocks in the least-cost path (argument <em>ignore.blocks</em>). Since we have observed several blocks in the least-cost path, below we compute psi by ignoring them.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-</div>
-<div class="section level1">
-<h1 id="comparing-multiple-irregular-mets">Comparing multiple irregular METS<a class="anchor" aria-label="anchor" href="#comparing-multiple-irregular-mets"></a>
-</h1>
-<p>The package can work seamlessly with any given number of sequences, as long as there is memory enough available (but check the new function <strong>workflowPsiHP</strong>, it can work with up to 40k sequences, if you have a cluster at hand, and a few years to waste). To do so, almost every function uses the packages <a href="https://CRAN.R-project.org/package=doParallel" class="external-link">“doParallel”</a> and <a href="https://CRAN.R-project.org/package=foreach" class="external-link">“foreach”</a>, that together allow to parallelize the execution of the <em>distantia</em> functions by using all the processors in your machine but one.</p>
-<p>The example dataset <em>sequencesMIS</em> contains 12 sections of the same sequence belonging to different marine isotopic stages identified by a column named “MIS”. MIS stages with odd numbers are generally interpreted as warm periods (interglacials), while the odd ones are interpreted as cold periods (glacials). In any case, this interpretation is not important to illustrate this capability of the library.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sequencesMIS</span>, n<span class="op">=</span><span class="fl">15</span><span class="op">)</span>, </span>
-<span>  digits <span class="op">=</span> <span class="fl">4</span>, </span>
-<span>  caption <span class="op">=</span> <span class="st">"Header of the sequencesMIS dataset."</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span><span class="op">)</span></span></code></pre></div>
-<p>The dataset is checked and prepared with <strong>prepareSequences</strong>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MIS.sequences</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  if.empty.cases <span class="op">=</span> <span class="st">"zero"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"hellinger"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The dissimilarity measure <strong>psi</strong> can be computed for every combination of sequences through the function <strong>workflowPsi</strong> shown below.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MIS.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowPsi.html">workflowPsi</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">MIS.sequences</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore.blocks <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span></span>
-<span>  <span class="va">MIS.psi</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">MIS.psi</span><span class="op">$</span><span class="va">psi</span><span class="op">)</span>, <span class="op">]</span>, </span>
-<span>  digits <span class="op">=</span> <span class="fl">4</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>There is also a “high-performance” (HP) version of this function with a much lower memory footprint. It uses the options method = “euclidean”, diagonal = TRUE, and ignore.blocks = TRUE by default.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MIS.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowPsiHP.html">workflowPsiHP</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">MIS.sequences</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The output of <code><a href="reference/workflowPsi.html">workflowPsi()</a></code> can transformed into a matrix to be plotted as an adjacency network with the <strong>qgraph</strong> package.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#psi values to matrix</span></span>
-<span><span class="va">MIS.psi.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/formatPsi.html">formatPsi</a></span><span class="op">(</span></span>
-<span>  psi.values <span class="op">=</span> <span class="va">MIS.psi</span>,</span>
-<span>  to <span class="op">=</span> <span class="st">"matrix"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#dissimilariy to distance</span></span>
-<span><span class="va">MIS.distance</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">MIS.psi.matrix</span><span class="op">**</span><span class="fl">4</span></span>
-<span></span>
-<span><span class="co">#plotting network</span></span>
-<span><span class="fu">qgraph</span><span class="fu">::</span><span class="fu">qgraph</span><span class="op">(</span></span>
-<span>  <span class="va">MIS.distance</span>,</span>
-<span>  layout<span class="op">=</span><span class="st">'spring'</span>,</span>
-<span>  vsize<span class="op">=</span><span class="fl">5</span>,</span>
-<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">MIS.distance</span><span class="op">)</span>,</span>
-<span>  colors <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis</a></span><span class="op">(</span><span class="fl">2</span>, begin <span class="op">=</span> <span class="fl">0.3</span>, end <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>Or as a matrix with <strong>ggplot2</strong>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#ordering factors to get a triangular matrix</span></span>
-<span><span class="va">MIS.psi</span><span class="op">$</span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">MIS.psi</span><span class="op">$</span><span class="va">A</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">MIS.psi</span><span class="op">$</span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">MIS.psi</span><span class="op">$</span><span class="va">B</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plotting matrix</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">MIS.psi</span><span class="op">)</span>, </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">A</span>, </span>
-<span>    y <span class="op">=</span> <span class="va">B</span>, </span>
-<span>    size <span class="op">=</span> <span class="va">psi</span>, </span>
-<span>    color <span class="op">=</span> <span class="va">psi</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html" class="external-link">scale_color_viridis</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>size <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The dataframe of dissimilarities between pairs of sequences can be also used to analyze the drivers of dissimilarity. To do so, attributes such as differences in time (when sequences represent different times) or distance (when sequences represent different sites) between sequences, or differences between physical/climatic attributes between sequences such as topography or climate can be added to the table, so models such as <embed src="https://latex.codecogs.com/png.latex?psi%20%3D%20A%20%2B%20B%20%2B%20C" title="psi = A + B + C"></embed> (were A, B, and C are these attributes) can be fitted.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="comparing-regular-aligned-mets">Comparing regular aligned METS<a class="anchor" aria-label="anchor" href="#comparing-regular-aligned-mets"></a>
-</h1>
-<p>The package <em>distantia</em> is also useful to compare synchronic sequences that have the same number of samples. In this particular case, distances to obtain <embed src="https://latex.codecogs.com/png.latex?AB_%7Bbetween%7D" title="AB_{between}"></embed> are computed only between samples with the same time/depth/order, and no distance matrix (nor least-cost analysis) is required. When the argument <em>paired.samples</em> in <strong>prepareSequences</strong> is set to TRUE, the function checks if the sequences have the same number of rows, and, if <em>time.column</em> is provided, it selects the samples that have valid time/depth columns for every sequence in the dataset.</p>
-<p>Here we test these ideas with the <strong>climate</strong> dataset included in the library. It represents simulated palaeoclimate over 200 ky. at four sites identified by the column <em>sequenceId</em>. Note that this time the transformation applied is “scaled”, which uses the <strong>scale</strong> function of R base to center and scale the data.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading sample data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#preparing sequences</span></span>
-<span><span class="va">climate</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">climate</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"sequenceId"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span>  paired.samples <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"scale"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>In this case, the argument <em>paired.samples</em> of <strong>workflowPsi</strong> must be set to TRUE. Additionally, if the argument <em>same.time</em> is set to TRUE, the time/age of the samples is checked, and samples without the same time/age are removed from the analysis.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#computing psi</span></span>
-<span><span class="va">climate.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowPsi.html">workflowPsi</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">climate</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"sequenceId"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  paired.samples <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#this bit is important</span></span>
-<span>  same.time <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#removes samples with unequal time</span></span>
-<span>  format <span class="op">=</span> <span class="st">"dataframe"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#ordered with lower psi on top</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">climate.psi</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">climate.psi</span><span class="op">$</span><span class="va">psi</span><span class="op">)</span>, <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">4</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">"Psi values between pairs of sequences in the 'climate' dataset."</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="restricted-permutation-test-to-assess-the-significance-of-dissimilarity-values">Restricted permutation test to assess the significance of dissimilarity values<a class="anchor" aria-label="anchor" href="#restricted-permutation-test-to-assess-the-significance-of-dissimilarity-values"></a>
-</h1>
-<p>One question that may arise when comparing time series is <em>to what extent are dissimilarity values a result of chance?</em>. Answering this question requires to compare a given dissimilarity value with a distribution of dissimilarity values resulting from chance. However… how do we simulate chance in a multivariate time-series? The natural answer is “permutation”. Since samples in a multivariate time-series are ordered, randomly re-shuffling samples is out of the question, because that would destroy the structure of the data. A more gentler alternative is to randomly switch single data-points (a case of a variable) independently by variable. This kind of permutation is named “restricted permutation”, and preserves global trends within the data, but changes local structure.</p>
-<p>A restricted permutation test on <em>psi</em> values requires the following steps:</p>
-<ul>
-<li>Compute the <em>real psi</em> on two given sequences A and B.</li>
-<li>Repeat the following steps several times (99 to 999):
-<ul>
-<li>For each case of each column of A and B, randomly apply one of these actions:
-<ul>
-<li>Leave it as is.</li>
-<li>Replace it with the previous case.</li>
-<li>Replace it with the next case.</li>
-</ul>
-</li>
-<li>Compute <em>randomized psi</em> between A and B and store the value.</li>
-</ul>
-</li>
-<li>Add <em>real psi</em> to the pool of <em>randomized psi</em>.</li>
-<li>Compute the proportion of <em>randomized psi</em> that is equal or lower than <em>real psi</em>.</li>
-</ul>
-<p>Such a proportion represents the probability of obtaining a value lower than <em>real psi</em> by chance.</p>
-<p>Since the restricted permutation only happens at a local scale within each column of each sequence, the probability values returned are <strong>very conservative</strong> and shouldn’t be interpreted in the same way p-values are interpreted.</p>
-<p>The process described above has been implemented in the <strong>workflowNullPsi</strong> function. We will apply it to three groups of the <em>sequencesMIS</em> dataset.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#getting example data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#working with 3 groups (to make this fast)</span></span>
-<span><span class="va">sequencesMIS</span> <span class="op">&lt;-</span> <span class="va">sequencesMIS</span><span class="op">[</span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span><span class="op">)</span>,<span class="op">]</span></span>
-<span></span>
-<span><span class="co">#preparing sequences</span></span>
-<span><span class="va">sequencesMIS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"hellinger"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The computation of the null psi values goes as follows:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">random.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowNullPsi.html">workflowNullPsi</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore.blocks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  repetitions <span class="op">=</span> <span class="fl">99</span>, <span class="co">#recommended value: 999</span></span>
-<span>  parallel.execution <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#there is also a high-performance version of this function with fewer options (diagonal = TRUE, ignore.blocks = TRUE, and method = "euclidean" are used by default)</span></span>
-<span><span class="va">random.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowNullPsiHP.html">workflowNullPsiHP</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  repetitions <span class="op">=</span> <span class="fl">99</span>, <span class="co">#recommended value: 999</span></span>
-<span>  parallel.execution <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Note that the number of repetitions has been set to 9 in order to speed-up execution. The actual number would ideally be 999.</p>
-<p>The output is a list with two dataframes, <strong>psi</strong> and <strong>p</strong>.</p>
-<p>The dataframe <strong>psi</strong> contains the real and random psi values. The column <em>psi</em> contains the dissimilarity between the sequences in the columns <em>A</em> and <em>B</em>. The columns <em>r1</em> to <em>r9</em> contain the psi values obtained from permutations of the sequences.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span></span>
-<span>  <span class="va">random.psi</span><span class="op">$</span><span class="va">psi</span>, </span>
-<span>  digits <span class="op">=</span> <span class="fl">4</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>The dataframe <em>p</em> contains the probability of obtaining the real <em>psi</em> value by chance for each combination of sequences.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">random.psi</span><span class="op">$</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="assessing-the-contribution-of-a-variable-to-the-dissimilarity-between-two-sequences">Assessing the contribution of a variable to the dissimilarity between two sequences<a class="anchor" aria-label="anchor" href="#assessing-the-contribution-of-a-variable-to-the-dissimilarity-between-two-sequences"></a>
-</h1>
-<p><em>What variables are more important in explaining the dissimilarity between two sequences?</em>, or in other words, <em>what variables contribute the most to the dissimilarity between two sequences?</em> One reasonable answer is: the one that reduces dissimilarity the most when removed from the data. This section explains how to use the function <strong>workflowImportance</strong> follows such a principle to evaluate the importance of given variables in explaining differences between sequences.</p>
-<p>First, we prepare the data. It is again <em>sequencesMIS</em>, but with only three groups selected (MIS 4 to 6) to simplify the analysis.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#getting example data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#getting three groups only to simplify</span></span>
-<span><span class="va">sequencesMIS</span> <span class="op">&lt;-</span> <span class="va">sequencesMIS</span><span class="op">[</span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MIS-4"</span>, <span class="st">"MIS-5"</span>, <span class="st">"MIS-6"</span><span class="op">)</span>,<span class="op">]</span></span>
-<span></span>
-<span><span class="co">#preparing sequences</span></span>
-<span><span class="va">sequences</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  merge.mode <span class="op">=</span> <span class="st">"complete"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The workflow function is pretty similar to the ones explained above. However, unlike the other functions in the package, that parallelize across the comparison of pairs of sequences, this one parallelizes the computation of <em>psi</em> on combinations of columns, removing one column each time.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">psi.importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowImportance.html">workflowImportance</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore.blocks <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>There is also a high performance version of this function, but with fewer options (it uses euclidean, diagonal, and ignores blocks by default)</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">psi.importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowImportanceHP.html">workflowImportanceHP</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">sequencesMIS</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"MIS"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>The output is a list with two slots named <em>psi</em> and <em>psi.drop</em>.</p>
-<p>The dataframe <strong>psi</strong> contains psi values for each combination of variables (named in the coluns <em>A</em> and <em>B</em>) computed for all columns in the column <em>All variables</em>, and one column per variable named <em>Without variable_name</em> containing the psi value when that variable is removed from the compared sequences.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">psi.importance</span><span class="op">$</span><span class="va">psi</span>, digits <span class="op">=</span> <span class="fl">4</span>,<span class="op">)</span></span></code></pre></div>
-<p>This table can be plotted as a bar plot as follows:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#extracting object</span></span>
-<span><span class="va">psi.df</span> <span class="op">&lt;-</span> <span class="va">psi.importance</span><span class="op">$</span><span class="va">psi</span></span>
-<span></span>
-<span><span class="co">#to long format</span></span>
-<span><span class="va">psi.df.long</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu">gather</span><span class="op">(</span><span class="va">psi.df</span>, <span class="va">variable</span>, <span class="va">psi</span>, <span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">psi.df</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#creating column with names of the sequences</span></span>
-<span><span class="va">psi.df.long</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">psi.df.long</span><span class="op">$</span><span class="va">A</span>, <span class="va">psi.df.long</span><span class="op">$</span><span class="va">B</span>, sep<span class="op">=</span><span class="st">" - "</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plot</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">psi.df.long</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">variable</span>, y<span class="op">=</span><span class="va">psi</span>, fill<span class="op">=</span><span class="va">psi</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html" class="external-link">scale_fill_viridis</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Contribution of separated variables to dissimilarity."</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Psi"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The second table, named <strong>psi.drop</strong> describes the drop in psi values, in percentage, when the given variable is removed from the analysis. Large positive numbers indicate that dissimilarity drops (increase in similarity) when the given variable is removed, confirming that the variable is important to explain the dissimilarity between both sequences. Negative values indicate an increase in dissimilarity between the sequences when the variable is dropped.</p>
-<p>In summary:</p>
-<ul>
-<li>High psi-drop value: variable contributes to dissimilarity.</li>
-<li>Low or negative psi-drop value: variable contributes to similarity.</li>
-</ul>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">psi.importance</span><span class="op">$</span><span class="va">psi.drop</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#extracting object</span></span>
-<span><span class="va">psi.drop.df</span> <span class="op">&lt;-</span> <span class="va">psi.importance</span><span class="op">$</span><span class="va">psi.drop</span></span>
-<span></span>
-<span><span class="co">#to long format</span></span>
-<span><span class="va">psi.drop.df.long</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu">gather</span><span class="op">(</span><span class="va">psi.drop.df</span>, <span class="va">variable</span>, <span class="va">psi</span>, <span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">psi.drop.df</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#creating column with names of the sequences</span></span>
-<span><span class="va">psi.drop.df.long</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">psi.drop.df.long</span><span class="op">$</span><span class="va">A</span>, <span class="va">psi.drop.df.long</span><span class="op">$</span><span class="va">B</span>, sep<span class="op">=</span><span class="st">" - "</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plot</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">psi.drop.df.long</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">variable</span>, y<span class="op">=</span><span class="va">psi</span>, fill<span class="op">=</span><span class="va">psi</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, size <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html" class="external-link">scale_fill_viridis</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Drop in dissimilarity when variables are removed."</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Drop in dissimilarity (%)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Psi drop (%)"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="partial-matching-finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence">Partial matching: finding the section in a long sequence more similar to a given short sequence<a class="anchor" aria-label="anchor" href="#partial-matching-finding-the-section-in-a-long-sequence-more-similar-to-a-given-short-sequence"></a>
-</h1>
-<p>In this scenario the user has one short and one long sequence, and the goal is to find the section in the long sequence that better matches the short one. To recreate this scenario we use the dataset <em>sequencesMIS</em>. The first 10 samples will serve as short sequence, and the first 40 samples as long sequence. These small subsets are selected to speed-up the execution time of this example.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading the data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sequencesMIS</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#removing grouping column</span></span>
-<span><span class="va">sequencesMIS</span><span class="op">$</span><span class="va">MIS</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span></span>
-<span><span class="co">#subsetting to get the short sequence</span></span>
-<span><span class="va">MIS.short</span> <span class="op">&lt;-</span> <span class="va">sequencesMIS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#subsetting to get the long sequence</span></span>
-<span><span class="va">MIS.long</span> <span class="op">&lt;-</span> <span class="va">sequencesMIS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">40</span>, <span class="op">]</span></span></code></pre></div>
-<p>The sequences have to be prepared and transformed. For simplicity, the sequences are named <em>short</em> and <em>long</em>, and the grouping column is named <em>id</em>, but the user can name them at will. Since the data represents community composition, a Hellinger transformation is applied.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MIS.short.long</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequence.A <span class="op">=</span> <span class="va">MIS.short</span>,</span>
-<span>  sequence.A.name <span class="op">=</span> <span class="st">"short"</span>,</span>
-<span>  sequence.B <span class="op">=</span> <span class="va">MIS.long</span>,</span>
-<span>  sequence.B.name <span class="op">=</span> <span class="st">"long"</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"hellinger"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function <strong>workflowPartialMatch</strong> shown below is going to subset the long sequence in sizes between <em>min.length</em> and <em>max.length</em>. In the example below this search space has the same size as <em>MIS.short</em> to speed-up the execution of this example, but wider windows are possible. If left empty, the length of the segment in the long sequence to be matched will have the same number of samples as the short sequence. In the example below we look for segments of the same length, two samples shorter, and two samples longer than the shorter sequence.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MIS.psi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowPartialMatch.html">workflowPartialMatch</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">MIS.short.long</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore.blocks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  min.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">MIS.short</span><span class="op">)</span>,</span>
-<span>  max.length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">MIS.short</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function returns a dataframe with three columns: <em>first.row</em> (first row of the matched segment of the long sequence), <em>last.row</em> (last row of the matched segment of the long sequence), and <em>psi</em> (ordered from lower to higher). In this case, since the long sequence contains the short sequence, the first row shows a perfect match.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">MIS.psi</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p>Subsetting the long sequence to obtain the segment best matching with the short sequence goes as follows.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#indices of the best matching segment</span></span>
-<span><span class="va">best.match.indices</span> <span class="op">&lt;-</span> <span class="va">MIS.psi</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"first.row"</span><span class="op">]</span><span class="op">:</span><span class="va">MIS.psi</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"last.row"</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co">#subsetting by these indices</span></span>
-<span><span class="va">best.match</span> <span class="op">&lt;-</span> <span class="va">MIS.long</span><span class="op">[</span><span class="va">best.match.indices</span>, <span class="op">]</span></span></code></pre></div>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence">Sequence slotting: combining samples of two sequences into a single composite sequence<a class="anchor" aria-label="anchor" href="#sequence-slotting-combining-samples-of-two-sequences-into-a-single-composite-sequence"></a>
-</h1>
-<p>Under this scenario, the objective is to combine two sequences into a single composite sequence. The basic assumption followed by the algorithm building the composite sequence is <em>most similar samples should go together, but respecting the original ordering of the sequences</em>. Therefore, the output will contain the samples in both sequences ordered in a way that minimizes the multivariate distance between consecutive samples. This scenario assumes that at least one of the sequences do not have a time/age/depth column, or that the values in such a column are uncertain. In any case, time/age/depth is not considered as a factor in the generation of the composite sequence.</p>
-<p>The example below uses the <strong>pollenGP</strong> dataset, which contains 200 samples, with 40 pollen types each. To create a smalle case study, the code below separates the first 20 samples of the sequence into two different sequences with 10 randomly selected samples each. Even though this scenario assumes that these sequences do not have depth or age, these columns will be kept so the result can be assessed. That is why these columns are added to the <em>exclude.columns</em> argument. Also, note that the argument <em>transformation</em> is set to “none”, so the output is not transformed, and the outcome can be easily interpreted. This will give more weight to the most abundant taxa, which will in fact guide the slotting.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading the data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#getting first 20 samples</span></span>
-<span><span class="va">pollenGP</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#sampling indices</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="co">#to get same result every time</span></span>
-<span><span class="va">sampling.indices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#subsetting the sequence</span></span>
-<span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="va">sampling.indices</span>, <span class="op">]</span></span>
-<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="op">-</span><span class="va">sampling.indices</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#preparing the sequences</span></span>
-<span><span class="va">AB</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequence.A <span class="op">=</span> <span class="va">A</span>,</span>
-<span>  sequence.A.name <span class="op">=</span> <span class="st">"A"</span>,</span>
-<span>  sequence.B <span class="op">=</span> <span class="va">B</span>,</span>
-<span>  sequence.B.name <span class="op">=</span> <span class="st">"B"</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  exclude.columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"depth"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"none"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Once the sequences are prepared, the function <strong>workflowSlotting</strong> will allow to combine (slot) them. The function computes a distance matrix between the samples in both sequences according to the <em>method</em> argument, computes the least-cost matrix, and generates the least-cost path. Note that it only uses an orthogonal method considering blocks, since this is the only option really suitable for this task.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">AB.combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowSlotting.html">workflowSlotting</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">AB</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"age"</span>, </span>
-<span>  exclude.columns <span class="op">=</span> <span class="st">"depth"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function reads the least-cost path in order to find the combination of samples of both sequences that minimizes dissimilarity, constrained by the order of the samples on each sequence. The output dataframe has a column named <em>original.index</em>, which has the index of each sample in the original datasets.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span></span>
-<span>  <span class="va">AB.combined</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, </span>
-<span>  digits <span class="op">=</span> <span class="fl">4</span>, </span>
-<span>  caption <span class="op">=</span> <span class="st">"Combination of sequences A and B."</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p>Note that several samples show inverted ages with respect to the previous samples. This is to be expected, since the slotting algorithm only takes into account distance/dissimilarity between adjacent samples to generate the ordering.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="transferring-an-attribute-from-one-sequence-to-another">Transferring an attribute from one sequence to another<a class="anchor" aria-label="anchor" href="#transferring-an-attribute-from-one-sequence-to-another"></a>
-</h1>
-<p>This scenario assumes that the user has two METS, one of them with a given attribute (age/time) that needs to be transferred to the other sequence by using similarity/dissimilarity (constrained by sample order) as a transfer criterion. This case is relatively common in palaeoecology, when a given dataset is dated, and another taken at a close location is not.</p>
-<p>The code below prepares the data for the example. The sequence <strong>pollenGP</strong> is the reference sequence, and contains the column <em>age</em>. The sequence <strong>pollenX</strong> is the target sequence, without an <em>age</em> column. We generate it by taking 40 random samples between the samples 50 and 100 of <strong>pollenGP</strong>. The sequences are prepared with <em>prepareSequences</em>, as usual, with the identificators “GP” and “X”</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading sample dataset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#subset pollenGP to make a shorter dataset</span></span>
-<span><span class="va">pollenGP</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#generating a subset of pollenGP </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">pollenX</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#we separate the age column</span></span>
-<span><span class="va">pollenX.age</span> <span class="op">&lt;-</span> <span class="va">pollenX</span><span class="op">$</span><span class="va">age</span></span>
-<span></span>
-<span><span class="co">#and remove the age values from pollenX</span></span>
-<span><span class="va">pollenX</span><span class="op">$</span><span class="va">age</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">pollenX</span><span class="op">$</span><span class="va">depth</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span></span>
-<span><span class="co">#removing some samples from pollenGP</span></span>
-<span><span class="co">#so pollenX is not a perfect subset of pollenGP</span></span>
-<span><span class="va">pollenGP</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">10</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#prepare sequences</span></span>
-<span><span class="va">GP.X</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequence.A <span class="op">=</span> <span class="va">pollenGP</span>,</span>
-<span>  sequence.A.name <span class="op">=</span> <span class="st">"GP"</span>,</span>
-<span>  sequence.B <span class="op">=</span> <span class="va">pollenX</span>,</span>
-<span>  sequence.B.name <span class="op">=</span> <span class="st">"X"</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  exclude.columns <span class="op">=</span> <span class="st">"depth"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"none"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The transfer of “age” values from <em>GP</em> to <em>X</em> can be done in two ways, both constrained by sample order:</p>
-<ul>
-<li>
-<strong>Direct</strong>: each sample in <em>X</em> gets the age of its most similar sample in <em>GP</em>.</li>
-<li>
-<strong>Interpolated</strong>: each sample in <em>X</em> gets an age interpolated from the ages of the two most similar samples in <em>GP</em>. The interpolation is weighted by the similarity between the samples.</li>
-</ul>
-<div class="section level2">
-<h2 id="direct-transfer">Direct transfer<a class="anchor" aria-label="anchor" href="#direct-transfer"></a>
-</h2>
-<p>A direct transfer of an attribute from the samples of one sequence to the samples of another requires to compute a distance matrix between samples, the least-cost matrix and its least-cost path (both with the option <em>diagonal</em> activated), and to parse the least-cost path file to assign attribute values. This is done by the function <strong>workflowTransfer</strong> with the option <embed src="https://latex.codecogs.com/png.latex?mode%20%3D%20%22direct%22" title='mode = "direct"'></embed>.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#parameters</span></span>
-<span><span class="va">X.new</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowTransfer.html">workflowTransfer</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">GP.X</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  transfer.what <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  transfer.from <span class="op">=</span> <span class="st">"GP"</span>,</span>
-<span>  transfer.to <span class="op">=</span> <span class="st">"X"</span>,</span>
-<span>  mode <span class="op">=</span> <span class="st">"direct"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">X.new</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p>The algorithm finds the most similar samples, and transfers attribute values directly between them. This can result in duplicated attribute values, as highlighted in the table above.</p>
-</div>
-<div class="section level2">
-<h2 id="interpolated-transfer">Interpolated transfer<a class="anchor" aria-label="anchor" href="#interpolated-transfer"></a>
-</h2>
-<p>If we consider:</p>
-<ul>
-<li>Two samples <embed src="https://latex.codecogs.com/png.latex?A_%7Bi%7D" title="A_{i}"></embed> and <embed src="https://latex.codecogs.com/png.latex?A_%7Bj%7D" title="A_{j}"></embed> of the sequence <embed src="https://latex.codecogs.com/png.latex?A" title="A"></embed>.</li>
-<li>Each one with a value the attribute <embed src="https://latex.codecogs.com/png.latex?t" title="t"></embed>, <embed src="https://latex.codecogs.com/png.latex?At_%7Bi%7D" title="At_{i}"></embed> and <embed src="https://latex.codecogs.com/png.latex?At_%7Bj%7D" title="At_{j}"></embed>.</li>
-<li>One sample <embed src="https://latex.codecogs.com/png.latex?B_%7Bk%7D" title="B_{k}"></embed> of the sequence <embed src="https://latex.codecogs.com/png.latex?B" title="B"></embed>.</li>
-<li>With an <strong>unknown attribute</strong> <embed src="https://latex.codecogs.com/png.latex?Bt_%7Bk%7D" title="Bt_{k}"></embed>.</li>
-<li>The multivariate distance <embed src="https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bi%7D%7D" title="D_{B_{k}A_{i}}"></embed> between the samples <embed src="https://latex.codecogs.com/png.latex?A_%7Bi%7D" title="A_{i}"></embed> and <embed src="https://latex.codecogs.com/png.latex?B_%7Bk%7D" title="B_{k}"></embed>.</li>
-<li>The multivariate distance <embed src="https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bj%7D%7D" title="D_{B_{k}A_{j}}"></embed> between the samples <embed src="https://latex.codecogs.com/png.latex?A_%7Bj%7D" title="A_{j}"></embed> and <embed src="https://latex.codecogs.com/png.latex?B_%7Bk%7D" title="B_{k}"></embed>.</li>
-<li>The weight <embed src="https://latex.codecogs.com/png.latex?w_%7Bi%7D" title="w_{i}"></embed>, computed as <embed src="https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2F%20%28D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2B%20D_%7BB_%7Bk%7DA_%7Bj%7D%7D%29" title="D_{B_{k}A_{i}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})"></embed>
-</li>
-<li>The weight <embed src="https://latex.codecogs.com/png.latex?w_%7Bj%7D" title="w_{j}"></embed>, computed as <embed src="https://latex.codecogs.com/png.latex?D_%7BB_%7Bk%7DA_%7Bj%7D%7D%20%2F%20%28D_%7BB_%7Bk%7DA_%7Bi%7D%7D%20%2B%20D_%7BB_%7Bk%7DA_%7Bj%7D%7D%29" title="D_{B_{k}A_{j}} / (D_{B_{k}A_{i}} + D_{B_{k}A_{j}})"></embed>
-</li>
-</ul>
-<p>The unknwon value <embed src="https://latex.codecogs.com/png.latex?Bt_%7Bk%7D" title="Bt_{k}"></embed> is computed as:</p>
-<div class="figure">
-<embed src="https://latex.codecogs.com/png.latex?Bt_%7Bk%7D%20%3D%20w_%7Bi%7D%20%5Ctimes%20At_%7Bi%7D%20%2B%20w_%7Bj%7D%20%5Ctimes%20At_%7Bj%7D" title="Bt_{k} = w_{i} \times At_{i} + w_{j} \times At_{j}"></embed><p class="caption">Bt_{k} = w_{i} At_{i} + w_{j} At_{j}</p>
-</div>
-<p>The code below exemplifies the operation, using the samples 1 and 4 of the dataset <em>pollenGP</em> as <embed src="https://latex.codecogs.com/png.latex?Ai" title="Ai"></embed> and <embed src="https://latex.codecogs.com/png.latex?Aj" title="Aj"></embed>, and the sample 3 as <embed src="https://latex.codecogs.com/png.latex?Bk" title="Bk"></embed>.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#samples in A</span></span>
-<span><span class="va">Ai</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">Aj</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co">#ages of the samples in A</span></span>
-<span><span class="va">Ati</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"age"</span><span class="op">]</span></span>
-<span><span class="va">Atj</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">4</span>, <span class="st">"age"</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co">#sample in B</span></span>
-<span><span class="va">Bk</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co">#computing distances between Bk, Ai, and Aj</span></span>
-<span><span class="va">DBkAi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distance.html">distance</a></span><span class="op">(</span><span class="va">Bk</span>, <span class="va">Ai</span><span class="op">)</span></span>
-<span><span class="va">DBkAj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distance.html">distance</a></span><span class="op">(</span><span class="va">Bk</span>, <span class="va">Aj</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#normalizing the distances to 1</span></span>
-<span><span class="va">wi</span> <span class="op">&lt;-</span> <span class="va">DBkAi</span> <span class="op">/</span> <span class="op">(</span><span class="va">DBkAi</span> <span class="op">+</span> <span class="va">DBkAj</span><span class="op">)</span></span>
-<span><span class="va">wj</span> <span class="op">&lt;-</span> <span class="va">DBkAj</span> <span class="op">/</span> <span class="op">(</span><span class="va">DBkAi</span> <span class="op">+</span> <span class="va">DBkAj</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#computing  Btk</span></span>
-<span><span class="va">Btk</span> <span class="op">&lt;-</span> <span class="va">wi</span> <span class="op">*</span> <span class="va">Ati</span> <span class="op">+</span> <span class="va">wj</span> <span class="op">*</span> <span class="va">Atj</span></span></code></pre></div>
-<p>The table below shows the observed versus the predicted values for <embed src="https://latex.codecogs.com/png.latex?Btk" title="Btk"></embed>.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">temp.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Observed <span class="op">=</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">3</span>, <span class="st">"age"</span><span class="op">]</span>, Predicted <span class="op">=</span> <span class="va">Btk</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">temp.df</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">4</span>, caption <span class="op">=</span> <span class="st">"Observed versus predicted value in the interpolation of an age based on similarity between samples."</span><span class="op">)</span></span></code></pre></div>
-<p>Below we create some example data, where a subset of <em>pollenGP</em> will be the donor of age values, and another subset of it, named <em>pollenX</em> will be the receiver of the age values.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#loading sample dataset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pollenGP</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#subset pollenGP to make a shorter dataset</span></span>
-<span><span class="va">pollenGP</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#generating a subset of pollenGP </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">pollenX</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#we separate the age column</span></span>
-<span><span class="va">pollenX.age</span> <span class="op">&lt;-</span> <span class="va">pollenX</span><span class="op">$</span><span class="va">age</span></span>
-<span></span>
-<span><span class="co">#and remove the age values from pollenX</span></span>
-<span><span class="va">pollenX</span><span class="op">$</span><span class="va">age</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">pollenX</span><span class="op">$</span><span class="va">depth</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span></span>
-<span><span class="co">#removing some samples from pollenGP</span></span>
-<span><span class="co">#so pollenX is not a perfect subset of pollenGP</span></span>
-<span><span class="va">pollenGP</span> <span class="op">&lt;-</span> <span class="va">pollenGP</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">10</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co">#prepare sequences</span></span>
-<span><span class="va">GP.X</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prepareSequences.html">prepareSequences</a></span><span class="op">(</span></span>
-<span>  sequence.A <span class="op">=</span> <span class="va">pollenGP</span>,</span>
-<span>  sequence.A.name <span class="op">=</span> <span class="st">"GP"</span>,</span>
-<span>  sequence.B <span class="op">=</span> <span class="va">pollenX</span>,</span>
-<span>  sequence.B.name <span class="op">=</span> <span class="st">"X"</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  exclude.columns <span class="op">=</span> <span class="st">"depth"</span>,</span>
-<span>  transformation <span class="op">=</span> <span class="st">"none"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>To transfer attributes from <em>GP</em> to <em>X</em> we use the <strong>workflowTransfer</strong> function with the option <em>mode = “interpolate”</em>.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#parameters</span></span>
-<span><span class="va">X.new</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/workflowTransfer.html">workflowTransfer</a></span><span class="op">(</span></span>
-<span>  sequences <span class="op">=</span> <span class="va">GP.X</span>,</span>
-<span>  grouping.column <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>  time.column <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
-<span>  transfer.what <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>  transfer.from <span class="op">=</span> <span class="st">"GP"</span>,</span>
-<span>  transfer.to <span class="op">=</span> <span class="st">"X"</span>,</span>
-<span>  mode <span class="op">=</span> <span class="st">"interpolated"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="va">X.new</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, <span class="op">]</span>, digits <span class="op">=</span> <span class="fl">4</span>, caption <span class="op">=</span> <span class="st">"Result of the transference of an age attribute from one sequence to another. NA values are expected when predicted ages for a given sample yield a higher number than the age of the previous sample."</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/row_spec.html" class="external-link">row_spec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">13</span><span class="op">)</span>, bold <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p>When interpolated values of the <em>age</em> column (transferred attribute via interpolation) show the value <em>NA</em>, it means that the interpolation yielded an age lower than the previous one. This happens when the same <embed src="https://latex.codecogs.com/png.latex?Ai" title="Ai"></embed> and <embed src="https://latex.codecogs.com/png.latex?Aj" title="Aj"></embed> are used to evaluate two or more different samples <embed src="https://latex.codecogs.com/png.latex?Bk" title="Bk"></embed>, and the second <embed src="https://latex.codecogs.com/png.latex?Bk" title="Bk"></embed> is more similar to <embed src="https://latex.codecogs.com/png.latex?Ai" title="Ai"></embed> than the first one. These NA values can be removed with <em>na.omit()</em>, or interpolated with the functions <a href="https://www.rdocumentation.org/packages/imputeTS/versions/2.7/topics/na.interpolation" class="external-link">imputeTS::na.interpolation</a> or <a href="https://www.rdocumentation.org/packages/zoo/versions/1.8-6/topics/na.approx" class="external-link">zoo::na.approx</a>.</p>
-<p><strong>IMPORTANT:</strong> the interpretation of the interpolated ages requires a careful consideration. Please, don’t do it blindly, because this algorithm has its limitations. For example, significant hiatuses in the data can introduce wild variations in interpolated ages.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#cleaning workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=distantia" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/BlasBenito/distantia/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/BlasBenito/distantia/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -976,7 +94,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Blas M. Benito <br><small class="roles"> Maintainer </small>  </li>
+<li>
+<a href="https://blasbenito.com" class="external-link">Blas M. Benito</a> <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0001-5105-7232" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -990,27 +109,24 @@
 </ul>
 </div>
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Blas M. Benito.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by <a href="https://blasbenito.com" class="external-link">Blas M. Benito</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
 
 
-  
+
 
   </body>
 </html>
