@@ -12,3 +12,4 @@ _pkgdown.yaml
 ^\.github$
 ^vignettes/articles$
 ^pkgdown$
+^_pkgdown\.yml$
