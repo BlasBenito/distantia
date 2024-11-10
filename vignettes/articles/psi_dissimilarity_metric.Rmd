@@ -38,7 +38,7 @@ where:
   + $d(X) + d(Y)$: normalization factor (named $AB_{within}$ in the original paper).
 
 
-```{r setup}
+```{r setup, echo  = FALSE}
 library(distantia)
 ```
 
