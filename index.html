@@ -66,6 +66,26 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
+<div class="section level2">
+<h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a>
+</h2>
+<p>Version 2.0.0 of <code>distantia</code> is a full re-write from scratch and <strong>will break existing workflows</strong>. Please refer to the Changelog for details before updating.</p>
+</div>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The <code>distantia</code> package has undergone a major overhaul to enhance both performance and usability. Core functions are now implemented in C++ for faster execution and improved memory efficiency, with streamlined R wrappers to simplify user interaction.</p>
+<p>Function and argument names have been updated to follow modern conventions, offering a more intuitive experience. Additionally, most time series operations are now powered by the <a href="https://cran.r-project.org/web/packages/zoo/index.html" class="external-link">zoo</a> library, providing consistent data handling and computational efficiency.</p>
+<p>Version 2.0 introduces the concept of “time series lists” (<code>tsl</code>), using lists of zoo objects to manage and organize time series data. A full suite of functions prefixed with <code>tsl_...()</code> allows users to easily generate, resample, transform, analyze, and visualize univariate, multivariate, regular, or irregular time series. Many of these functions support parallel execution via the <a href="https://future.futureverse.org/" class="external-link">future</a> package, with progress indicators provided by <a href="https://progressr.futureverse.org/" class="external-link">progressr</a> for a smoother user experience.</p>
+<p>Finally, to further aid learning and experimentation, new example datasets and tools for generating simulated time series are also included.</p>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you find this package useful, please cite it as:</p>
+<p><em>Blas M. Benito, H. John B. Birks (2020). distantia: an open-source toolset to quantify dissimilarity between multivariate ecological time-series. Ecography, 43(5), 660-667. doi: <a href="https://nsojournals.onlinelibrary.wiley.com/doi/10.1111/ecog.04895" class="external-link">10.1111/ecog.04895</a>.</em></p>
+<p><em>Blas M. Benito (2024). distantia: A Toolset for Time Series Dissimilarity Analysis. R package version 2.0.0. url: <a href="https://blasbenito.github.io/distantia/" class="uri">https://blasbenito.github.io/distantia/</a>.</em></p>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>

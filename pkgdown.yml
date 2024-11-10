@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/psi_dissimilarity_metric: psi_dissimilarity_metric.html
-last_built: 2024-11-10T06:56Z
+last_built: 2024-11-10T08:42Z
 urls:
   reference: https://blasbenito.github.io/distantia/reference
   article: https://blasbenito.github.io/distantia/articles
