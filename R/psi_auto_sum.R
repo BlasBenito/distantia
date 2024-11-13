@@ -6,7 +6,7 @@
 #' @param x (required, zoo object or numeric matrix) univariate or multivariate time series with no NAs. Default: NULL.
 #' @param y (required, zoo object or numeric matrix) a time series with the same number of columns as `x` and no NAs. Default: NULL.
 #' @param path (required, data frame) least cost path produced by [psi_cost_path()]. Only required when [psi_cost_path_ignore_blocks()] has been applied to `path`. Default: NULL.
-#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
+#' @inheritParams distantia
 #' @return numeric vector
 #' @examples
 #' #distance metric

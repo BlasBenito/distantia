@@ -5,7 +5,7 @@
 #'
 #' @param x (required, zoo object or matrix) univariate or multivariate time series with no NAs. Default: NULL
 #' @param path (optional, data frame) result of [psi_cost_path_ignore_blocks()], only required if blocks in the least cost path were ignored. Default: NULL
-#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
+#' @inheritParams distantia
 #'
 #' @return numeric value
 #' @export

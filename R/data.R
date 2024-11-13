@@ -13,7 +13,7 @@
 
 #' Time Series of Covid Prevalence in California Counties
 #'
-#' Dataset with Covid19 prevalence time series in California counties between 2020 and 2024. [Source](https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data).
+#' Dataset with Covid19 prevalence time series in California counties between 2020 and 2024, from healthdata.gov.
 #'
 #' Site coordinates for this dataset are in [covid_coordinates].
 #'
@@ -243,8 +243,8 @@
 #' Flight Path Time Series of Albatrosses in The Pacific
 #'
 #' @description
-#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the [data source](https://doi.org/10.5441/001/1.3hp3s250) (DOI: [https://doi.org/10.5441/001/1.3hp3s250](https://doi.org/10.5441/001/1.3hp3s250)) to learn more about this dataset.
-#'
+#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008.
+#' @references \doi{10.5441/001/1.3hp3s250}
 #' @docType data
 #' @keywords datasets
 #' @family example_data

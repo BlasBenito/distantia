@@ -41,27 +41,22 @@ This metric may not perform well when the clusters have irregular shapes or size
 This code was adapted from \url{https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R}.
 }
 \examples{
-#daily covid prevalence in California counties
-data("covid_prevalence")
-
-#load as tsl and aggregate to monthly data to accelerate example execution
+#daily covid prevalence in three California counties
+#load as tsl
+#subset first 10 time series
+#sum by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
   id_column = "county",
   time_column = "date"
 ) |>
+  tsl_subset(
+    names = 1:10
+  ) |>
   tsl_aggregate(
     new_time = "months",
-    fun = sum
+    method = sum
   )
-
-if(interactive()){
-  #plotting first three time series
-  tsl_plot(
-    tsl = tsl[1:3],
-    guide_columns = 3
-    )
-}
 
 #compute dissimilarity
 distantia_df <- distantia(

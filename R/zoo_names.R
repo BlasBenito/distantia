@@ -38,11 +38,11 @@ zoo_name_set <- function(
     name = NULL
 ){
 
-  if(zoo::is.zoo(object = x) == FALSE){
-    stop("Argument 'x' must be a zoo time series")
+  if(!zoo::is.zoo(object = x)){
+    stop("distantia::zoo_name_set(): argument 'x' must be a zoo time series.", call. = FALSE)
   }
 
-  if(is.character(name) == FALSE){
+  if(!is.character(name)){
     return(x)
   }
 
@@ -50,7 +50,7 @@ zoo_name_set <- function(
 
   if(!is.null(x_name)){
     if(x_name != name){
-      message("Renaming zoo time series from '", x_name, "' to '", name, "'.")
+      message("distantia::zoo_name_set(): renaming zoo time series from '", x_name, "' to '", name, "'.")
     }
   }
 

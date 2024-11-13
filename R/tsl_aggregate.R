@@ -176,6 +176,20 @@ tsl_aggregate <- function(
     keywords = "aggregate"
   )
 
+  #testing version
+  # tsl <- future.apply::future_lapply(
+  #   X = tsl,
+  #   FUN = function(x){
+  #
+  #     x <- zoo_aggregate(
+  #       x = x,
+  #       new_time = new_time,
+  #       method = method
+  #     )
+  #
+  #   }
+  # )
+
   #progress bar
   p <- progressr::progressor(along = tsl)
 

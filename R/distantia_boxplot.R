@@ -95,7 +95,7 @@ distantia_boxplot <- function(
   )
 
   if(!(df_type %in% types)){
-    stop("Argument 'df' must be the output of distantia() or distantia_importance()")
+    stop("distantia::distantia_boxplot(): argument 'df' must be the output of distantia::distantia() or distantia::distantia_importance()", call. = FALSE)
   }
 
   #aggregate df if needed
@@ -106,7 +106,7 @@ distantia_boxplot <- function(
   if(length(df_list) > 1){
 
     message(
-      "There are ",
+      "distantia::distantia_boxplot(): There are ",
       length(df_list),
       "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
     )

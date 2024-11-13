@@ -114,6 +114,7 @@
 #' #focus on the important details
 #' df_dtw[, c("x", "y", "psi", "p_value")]
 #' #smaller psi values indicate higher similarity
+#' #with small `repetitions` they all look the same though
 #' #p-values indicate chance of
 #' #finding a psi smaller than the observed
 #'
@@ -147,62 +148,6 @@
 #' #compare null mean with output of distantia()
 #' mean(psi_null)
 #' df_dtw$null_mean[3]
-#'
-#'
-#' #lock-step dissimilarity analysis
-#' #---------------------------------
-#' df_lock_step <- distantia(
-#'   tsl = tsl,
-#'   distance = "euclidean",
-#'   repetitions = 10, #increase to 100 or more
-#'   permutation = "restricted_by_row",
-#'   block_size = 6,
-#'   lock_step = TRUE
-#' )
-#'
-#' #focus on the important details
-#' df_lock_step[, c("x", "y", "psi", "p_value")]
-#'
-#' #recreating the null distribution
-#' psi_null <- null_psi_lock_step_cpp(
-#'   x = tsl[["Spain"]],
-#'   y = tsl[["Sweden"]],
-#'   repetitions = 10, #increase to 100 or more
-#'   distance = "euclidean",
-#'   permutation = "restricted_by_row",
-#'   block_size = 6,
-#'   seed = 1
-#' )
-#'
-#' #compare null mean with output of distantia()
-#' mean(psi_null)
-#' df_lock_step$null_mean[3]
-#'
-#'
-#' #combinations of parameters
-#' #---------------------------------
-#' #most distantia arguments accept vectors
-#' #the function combines these arguments
-#' df_multiple <- distantia(
-#'   tsl = tsl,
-#'   distance = c("euclidean", "manhattan")
-#' )
-#'
-#' df_multiple[, c(
-#'   "x",
-#'   "y",
-#'   "distance",
-#'   "psi"
-#' )]
-#'
-#' #see distantia_aggregate to average results
-#' #from different argument combinations
-#' df <- distantia_aggregate(
-#'   df = df_multiple
-#'   )
-#'
-#' df[, c("x", "y", "psi")]
-#'
 #'
 #' #disable parallelization
 #' future::plan(

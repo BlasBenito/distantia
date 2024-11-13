@@ -186,7 +186,7 @@ distantia_cluster_hclust <- function(
   if(length(df_list) > 1){
 
     message(
-      "There are ",
+      "distantia::distantia_cluster_hclust(): there are ",
       length(df_list),
       "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
       )

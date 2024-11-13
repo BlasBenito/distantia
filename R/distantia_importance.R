@@ -31,12 +31,7 @@
 #'
 #' This function also accepts a parallelization setup via [future::plan()], but it might only be worth it for very long time series.
 #'
-#' @param tsl (required, list) Time series list. Default: NULL
-#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
-#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time series are compared row wise and no least-cost path optimization is performed. Requires time series in argument `tsl` to be fully aligned. Default: FALSE.
+#' @inheritParams distantia
 #' @param robust (required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when `lock_step = TRUE`. Default: TRUE
 #' @return data frame:
 #' \itemize{

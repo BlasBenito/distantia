@@ -91,7 +91,7 @@ zoo_aggregate <- function(
   }
 
   if(is.function(method) == FALSE){
-    stop("Argument 'method' must be a function name. A few valid options are 'mean', 'median', 'max', 'min', and 'sd', among others.")
+    stop("distantia::zoo_aggregate(): Argument 'method' must be a function name. Examples of valid options are: 'mean', 'median', 'max', 'min', and 'sd'.", call. = FALSE)
   }
 
   #new_time from keyword
@@ -107,7 +107,7 @@ zoo_aggregate <- function(
       n = 1
       )
 
-    message("Aggregating 'x' with keyword '", new_time, "'.")
+    message("distantia::zoo_aggregate(): aggregating 'x' with keyword '", new_time, "'.")
 
   }
 

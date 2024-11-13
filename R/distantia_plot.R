@@ -8,11 +8,7 @@
 #'
 #' The argument `lock_step` is not available because this plot does not make sense in such a case.
 #'
-#' @param tsl (required, list) time series list with two elements. If more than two, only the first two time series are plotted. Default: NULL
-#' @param distance (optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE
-#' @param weighted @param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
-#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if `diagonal = TRUE`. Default: FALSE.
+#' @inheritParams distantia
 #' @param matrix_type (optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".
 #' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1

@@ -27,13 +27,12 @@ zoo_to_tsl <- function(
     x = NULL
 ){
 
-  if(zoo::is.zoo(x) == FALSE){
-    stop("Argument 'x' must be a zoo time series.")
+  if(!zoo::is.zoo(x)){
+    stop("distantia::zoo_to_tsl(): argument 'x' must be a zoo time series.", call. = FALSE)
   }
 
-  if("name" %in% attributes(x)){
-    x_name <- attributes(x)$name
-  } else {
+  x_name <- attributes(x)$name
+  if(is.null(x_name)){
     x_name <- ""
   }
 
@@ -42,10 +41,10 @@ zoo_to_tsl <- function(
     name = x_name
   )
 
-  tsl <- list(x)
+  out_tsl <- list(x)
 
-  names(tsl) <- x_name
+  names(out_tsl) <- x_name
 
-  tsl
+  out_tsl
 
 }
