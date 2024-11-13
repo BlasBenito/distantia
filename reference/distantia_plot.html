@@ -75,23 +75,23 @@ The argument lock_step is not available because this plot does not make sense in
 
 
 <dl><dt id="arg-tsl">tsl<a class="anchor" aria-label="anchor" href="#arg-tsl"></a></dt>
-<dd><p>(required, list) time series list with two elements. If more than two, only the first two time series are plotted. Default: NULL</p></dd>
+<dd><p>(required, time series list) list of zoo time series. Default: NULL</p></dd>
 
 
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
-<dd><p>(optional, character STRING) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset <code>distances</code>. Default: "euclidean".</p></dd>
+<dd><p>(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset <a href="distances.html">distances</a>. Default: "euclidean".</p></dd>
 
 
 <dt id="arg-diagonal">diagonal<a class="anchor" aria-label="anchor" href="#arg-diagonal"></a></dt>
-<dd><p>(optional, logical). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE</p></dd>
+<dd><p>(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE</p></dd>
 
 
 <dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
-<dd><p>@param weighted (optional, logical) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE</p></dd>
+<dd><p>(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE</p></dd>
 
 
 <dt id="arg-ignore-blocks">ignore_blocks<a class="anchor" aria-label="anchor" href="#arg-ignore-blocks"></a></dt>
-<dd><p>(optional, logical). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if <code>diagonal = TRUE</code>. Default: FALSE.</p></dd>
+<dd><p>(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if <code>diagonal = TRUE</code>. Default: FALSE.</p></dd>
 
 
 <dt id="arg-matrix-type">matrix_type<a class="anchor" aria-label="anchor" href="#arg-matrix-type"></a></dt>
@@ -155,14 +155,6 @@ The argument lock_step is not available because this plot does not make sense in
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span> <span class="co">#see help(f_scale)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>

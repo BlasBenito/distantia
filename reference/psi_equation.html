@@ -67,7 +67,7 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 
 
 <dt id="arg-diagonal">diagonal<a class="anchor" aria-label="anchor" href="#arg-diagonal"></a></dt>
-<dd><p>(optional, logical) Used to correct the computation of <code>psi</code> when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using <code>diagonal = TRUE</code>, this argument should be <code>TRUE</code> as well. Default: TRUE</p></dd>
+<dd><p>(optional, logical) Used to correct <code>psi</code> when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using <code>diagonal = TRUE</code>, this argument should be <code>TRUE</code> as well. Default: TRUE</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -191,10 +191,6 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="va">diagonal</span>,</span></span>
 <span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="va">ignore_blocks</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.293322</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>

@@ -95,10 +95,6 @@
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#list and zoo names (default)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>
@@ -120,9 +116,9 @@
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'A' to 'X'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'B' to 'Y'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'C' to 'Z'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'A' to 'X'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'B' to 'Y'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'C' to 'Z'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># check new names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>
@@ -150,28 +146,22 @@
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#fix issue with tsl_names_set()</span></span></span>
 <span class="r-in"><span><span class="co">#uses names of zoo objects for the list items</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_names_set</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Y' to 'B'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Y' to 'B'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#validate again</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#list names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>

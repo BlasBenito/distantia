@@ -168,8 +168,8 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  full <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - core data of univariate zoo time series must be of class 'matrix': use lapply(tsl, distantia::zoo_vector_to_matrix) to fix this issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -206,8 +206,8 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Re-diagnosing 'tsl':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): Structural issues:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>

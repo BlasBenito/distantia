@@ -101,8 +101,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#parallelization setup (not worth it for this data size)</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span></span>
 <span class="r-in"><span>  workers <span class="op">=</span> <span class="fl">2</span> <span class="co">#set to parallelly::availableWorkers() - 1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -120,38 +119,12 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"Sweden"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rainfall"</span>, <span class="st">"temperature"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#centering</span></span></span>
-<span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">#global centering based on</span></span></span>
-<span class="r-in"><span><span class="co">#mean of each variable</span></span></span>
-<span class="r-in"><span><span class="co">#across all time series</span></span></span>
-<span class="r-in"><span><span class="va">tsl_center</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_center</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl_center</span>,</span></span>
-<span class="r-in"><span>    guide_columns <span class="op">=</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#centering and scaling</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
@@ -160,10 +133,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_scale</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -171,14 +140,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>    guide_columns <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># #also, with base::scale()</span></span></span>
-<span class="r-in"><span><span class="co"># tsl_scale &lt;- tsl_transform(</span></span></span>
-<span class="r-in"><span><span class="co">#   tsl = tsl,</span></span></span>
-<span class="r-in"><span><span class="co">#   f = base::scale,</span></span></span>
-<span class="r-in"><span><span class="co">#   center = TRUE,</span></span></span>
-<span class="r-in"><span><span class="co">#   scale = TRUE</span></span></span>
-<span class="r-in"><span><span class="co"># )</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#rescaling to a new range</span></span></span>
@@ -191,10 +152,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  new_min <span class="op">=</span> <span class="op">-</span><span class="fl">100</span>,</span></span>
 <span class="r-in"><span>  new_max <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#old range</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl</span>, FUN <span class="op">=</span> <span class="va">range</span><span class="op">)</span></span></span>
@@ -209,33 +166,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   100    100</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rounding to n digits</span></span></span>
-<span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rounding to zero digits</span></span></span>
-<span class="r-in"><span><span class="va">tsl_round</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">round</span>,</span></span>
-<span class="r-in"><span>  digits <span class="op">=</span> <span class="fl">0</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#old values</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl</span>, FUN <span class="op">=</span> <span class="va">range</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Spain Sweden</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   4.5   -4.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 216.6  189.6</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#new range</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl_round</span>, FUN <span class="op">=</span> <span class="va">range</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Spain Sweden</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     4     -5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   217    190</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#moving window smoothing</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">tsl_smooth_mean</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
@@ -244,10 +174,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  smoothing_window <span class="op">=</span> <span class="fl">3</span>, <span class="co">#default</span></span></span>
 <span class="r-in"><span>  smoothing_f <span class="op">=</span> <span class="va">mean</span> <span class="co">#default</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -267,16 +193,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_pca</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#returns principal components</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_pca</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Spain</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PC1" "PC2"</span>
@@ -292,121 +209,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#detrending</span></span></span>
-<span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#annual temperature of Abidjan</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">cities_temperature</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"city"</span>,</span></span>
-<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    names <span class="op">=</span> <span class="st">"Abidjan"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>    color <span class="op">=</span> <span class="st">"red4"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#LINEAR DETRENDING</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_linear</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_detrend_linear</span>,</span></span>
-<span class="r-in"><span>  center <span class="op">=</span> <span class="cn">FALSE</span> <span class="co">#to keep temperature scale</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#show effect of linear detrending</span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">temperature</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">tsl_detrend_linear</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">temperature</span>, col <span class="op">=</span> <span class="st">"red4"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rename to join with the original tsl for plotting</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_linear</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_names_set.html">tsl_names_set</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl_detrend_linear</span>,</span></span>
-<span class="r-in"><span>  names <span class="op">=</span> <span class="st">"detrend_linear"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Abidjan' to 'detrend_linear'.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#DIFFERENCES DETRENDING with lag 1 (monthly lag)</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_difference_1</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  lag <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_detrend_difference</span>,</span></span>
-<span class="r-in"><span>  center <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rename to join with the original tsl for plotting</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_difference_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_names_set.html">tsl_names_set</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl_detrend_difference_1</span>,</span></span>
-<span class="r-in"><span>  names <span class="op">=</span> <span class="st">"difference_lag_1"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Abidjan' to 'difference_lag_1'.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#DIFFERENCES DETRENDING with lag 12 (yearly lag)</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_difference_12</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  lag <span class="op">=</span> <span class="fl">12</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_detrend_difference</span>,</span></span>
-<span class="r-in"><span>  center <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rename to join with the original tsl for plotting</span></span></span>
-<span class="r-in"><span><span class="va">tsl_detrend_difference_12</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_names_set.html">tsl_names_set</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl_detrend_difference_12</span>,</span></span>
-<span class="r-in"><span>  names <span class="op">=</span> <span class="st">"difference_lag_12"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Abidjan' to 'difference_lag_12'.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#join original data and detrended versions</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  <span class="va">tsl_detrend_linear</span>,</span></span>
-<span class="r-in"><span>  <span class="va">tsl_detrend_difference_1</span>,</span></span>
-<span class="r-in"><span>  <span class="va">tsl_detrend_difference_12</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#validate this new tsl</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>    color <span class="op">=</span> <span class="st">"red4"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#compare original vs detrended data using f_trend_linear()</span></span></span>
-<span class="r-in"><span><span class="va">tsl_linear_trend</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_trend_linear</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl_linear_trend</span>,</span></span>
-<span class="r-in"><span>    color <span class="op">=</span> <span class="st">"red4"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#numeric transformations</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
@@ -419,10 +221,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MIS_5"</span>, <span class="st">"MIS_7"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -435,10 +233,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_percentage</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -451,31 +245,12 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_hellinger</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl_hellinger</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#custom functions</span></span></span>
-<span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#multiply by a scalar y</span></span></span>
-<span class="r-in"><span><span class="co">#the custom function must return a zoo object</span></span></span>
-<span class="r-in"><span><span class="va">tsl_new</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">*</span> <span class="va">y</span>,</span></span>
-<span class="r-in"><span>  y <span class="op">=</span> <span class="fl">100</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>

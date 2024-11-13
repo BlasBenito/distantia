@@ -124,229 +124,28 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#daily covid prevalence in California counties</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"covid_prevalence"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#load as tsl and aggregate to monthly data to accelerate example execution</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#daily covid prevalence in three California counties</span></span></span>
+<span class="r-in"><span><span class="co">#load as tsl</span></span></span>
+<span class="r-in"><span><span class="co">#subset first 10 time series</span></span></span>
+<span class="r-in"><span><span class="co">#sum by month</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">covid_prevalence</span>,</span></span>
 <span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"county"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    new_time <span class="op">=</span> <span class="st">"months"</span>,</span></span>
-<span class="r-in"><span>    fun <span class="op">=</span> <span class="va">sum</span></span></span>
+<span class="r-in"><span>    method <span class="op">=</span> <span class="va">sum</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Alameda' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Butte' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Contra_Costa' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'El_Dorado' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Fresno' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Humboldt' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Imperial' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Kern' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Kings' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Los_Angeles' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Madera' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Marin' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Merced' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Monterey' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Napa' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Orange' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Placer' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Riverside' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Sacramento' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Bernardino' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Diego' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Francisco' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Joaquin' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Luis_Obispo' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'San_Mateo' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Santa_Barbara' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Santa_Clara' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Santa_Cruz' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Shasta' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Solano' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Sonoma' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Stanislaus' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Sutter' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Tulare' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Ventura' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Renaming zoo time series from 'Yolo' to ''.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="co">#plotting first three time series</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>    guide_columns <span class="op">=</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#compute dissimilarity</span></span></span>
 <span class="r-in"><span><span class="va">distantia_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia.html">distantia</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#generate dissimilarity matrix</span></span></span>
 <span class="r-in"><span><span class="va">psi_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_matrix.html">distantia_matrix</a></span><span class="op">(</span></span></span>
@@ -367,43 +166,17 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  labels <span class="op">=</span> <span class="va">psi_kmeans</span><span class="op">$</span><span class="va">cluster</span>,</span></span>
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          Alameda       2       0.51488693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            Butte       1      -0.11751773</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     Contra_Costa       2       0.48001729</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        El_Dorado       1      -0.15558287</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           Fresno       3       0.34073860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         Humboldt       1      -0.08456859</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Imperial       1      -0.36111634</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8             Kern       3       0.39377897</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9            Kings       1      -0.39255542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     Los_Angeles       3       0.11081494</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11          Madera       3       0.36572121</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Marin       1      -0.35241448</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13          Merced       3       0.37632186</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14        Monterey       3       0.25825883</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15            Napa       2       0.31129350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16          Orange       3       0.04150190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17          Placer       2       0.09141367</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18       Riverside       3       0.29862277</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19      Sacramento       2       0.25069931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  San_Bernardino       3       0.28074462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21       San_Diego       3      -0.03086572</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   San_Francisco       2       0.40814274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23     San_Joaquin       3       0.20789792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 San_Luis_Obispo       3      -0.05569190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25       San_Mateo       2       0.47932379</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   Santa_Barbara       2       0.05039840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27     Santa_Clara       2       0.45789494</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28      Santa_Cruz       2       0.31386690</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29          Shasta       1       0.01309183</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30          Solano       2       0.28868095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31          Sonoma       2       0.40809048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32      Stanislaus       3       0.32051027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33          Sutter       3       0.17084262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34          Tulare       3       0.39786161</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35         Ventura       3       0.08768112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36            Yolo       2       0.35047684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       3       0.78187592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       1       0.37062727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       3       0.76146848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       1       0.42069976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       2       0.19937452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       1       0.38218262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       2       0.29075065</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       2       0.12595502</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       2       0.40177740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       2       0.06915849</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -411,7 +184,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1810906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.380387</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example with hierarchical clustering</span></span></span>
@@ -433,43 +206,17 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  labels <span class="op">=</span> <span class="va">psi_hclust_labels</span>,</span></span>
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          Alameda       1       0.52628065</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            Butte       2       0.35971232</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     Contra_Costa       1       0.37010306</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        El_Dorado       2       0.42327079</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           Fresno       3       0.40733740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         Humboldt       2       0.33480996</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Imperial       3       0.21043941</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8             Kern       3       0.33095029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9            Kings       3       0.31049523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     Los_Angeles       3       0.16634427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11          Madera       3       0.41950800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12           Marin       1       0.27240071</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13          Merced       3       0.36830642</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14        Monterey       3       0.27351569</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15            Napa       3      -0.18805429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16          Orange       3       0.08316574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17          Placer       2       0.26921834</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18       Riverside       3       0.34111184</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19      Sacramento       3      -0.05742726</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  San_Bernardino       3       0.31723247</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21       San_Diego       3       0.12797878</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   San_Francisco       1       0.48410890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23     San_Joaquin       3       0.33842850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 San_Luis_Obispo       3       0.18757659</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25       San_Mateo       1       0.52419567</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   Santa_Barbara       3       0.01665411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27     Santa_Clara       1       0.44736113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28      Santa_Cruz       1       0.24697230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29          Shasta       2       0.30699059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30          Solano       3      -0.14532901</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31          Sonoma       1       0.31486796</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32      Stanislaus       3       0.25150478</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33          Sutter       3       0.05108068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34          Tulare       3       0.40141294</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35         Ventura       3       0.16109587</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36            Yolo       3      -0.22996449</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1       0.31548906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       2       0.32138333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       1       0.32050884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       2       0.43514897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       1       0.06805883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       2       0.43542395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       3       0.26809037</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       1       0.18897623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       3       0.32790086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       3       0.10060979</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -477,7 +224,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2506571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.278159</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

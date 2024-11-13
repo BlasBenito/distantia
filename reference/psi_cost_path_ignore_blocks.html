@@ -52,14 +52,6 @@
     </div>
 
     <div class="section level2">
-    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-
-
-<dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>(required, data frame) least cost path produced by <code><a href="psi_cost_path.html">psi_cost_path()</a></code>. Default: NULL</p></dd>
-
-</dl></div>
-    <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>data frame</p>
     </div>
@@ -178,10 +170,6 @@
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.221858</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#psi score without blocks</span></span></span>
@@ -190,10 +178,6 @@
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.701404</span>
 </code></pre></div>
     </div>

@@ -213,14 +213,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -243,10 +235,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  block_size <span class="op">=</span> <span class="fl">6</span>,</span></span>
 <span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#focus on the important details</span></span></span>
 <span class="r-in"><span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span></span>
@@ -255,6 +243,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.8571217     0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.4803954     0.1</span>
 <span class="r-in"><span><span class="co">#smaller psi values indicate higher similarity</span></span></span>
+<span class="r-in"><span><span class="co">#with small `repetitions` they all look the same though</span></span></span>
 <span class="r-in"><span><span class="co">#p-values indicate chance of</span></span></span>
 <span class="r-in"><span><span class="co">#finding a psi smaller than the observed</span></span></span>
 <span class="r-in"><span></span></span>
@@ -290,87 +279,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.885628</span>
 <span class="r-in"><span><span class="va">df_dtw</span><span class="op">$</span><span class="va">null_mean</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.885628</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#lock-step dissimilarity analysis</span></span></span>
-<span class="r-in"><span><span class="co">#---------------------------------</span></span></span>
-<span class="r-in"><span><span class="va">df_lock_step</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span></span>
-<span class="r-in"><span>  repetitions <span class="op">=</span> <span class="fl">10</span>, <span class="co">#increase to 100 or more</span></span></span>
-<span class="r-in"><span>  permutation <span class="op">=</span> <span class="st">"restricted_by_row"</span>,</span></span>
-<span class="r-in"><span>  block_size <span class="op">=</span> <span class="fl">6</span>,</span></span>
-<span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#focus on the important details</span></span></span>
-<span class="r-in"><span><span class="va">df_lock_step</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y      psi p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.306133     0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.857670     0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.470850     0.1</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#recreating the null distribution</span></span></span>
-<span class="r-in"><span><span class="va">psi_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="st">"Spain"</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  y <span class="op">=</span> <span class="va">tsl</span><span class="op">[[</span><span class="st">"Sweden"</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  repetitions <span class="op">=</span> <span class="fl">10</span>, <span class="co">#increase to 100 or more</span></span></span>
-<span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span></span>
-<span class="r-in"><span>  permutation <span class="op">=</span> <span class="st">"restricted_by_row"</span>,</span></span>
-<span class="r-in"><span>  block_size <span class="op">=</span> <span class="fl">6</span>,</span></span>
-<span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#compare null mean with output of distantia()</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">psi_null</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.872296</span>
-<span class="r-in"><span><span class="va">df_lock_step</span><span class="op">$</span><span class="va">null_mean</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.872296</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#combinations of parameters</span></span></span>
-<span class="r-in"><span><span class="co">#---------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">#most distantia arguments accept vectors</span></span></span>
-<span class="r-in"><span><span class="co">#the function combines these arguments</span></span></span>
-<span class="r-in"><span><span class="va">df_multiple</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"manhattan"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">df_multiple</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="st">"x"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"y"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"distance"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"psi"</span></span></span>
-<span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y  distance       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain euclidean 1.3429956</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden euclidean 0.8571217</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden euclidean 1.4803954</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany  Spain manhattan 1.2850779</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden manhattan 0.8527760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain Sweden manhattan 1.4959250</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#see distantia_aggregate to average results</span></span></span>
-<span class="r-in"><span><span class="co">#from different argument combinations</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_aggregate.html">distantia_aggregate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  df <span class="op">=</span> <span class="va">df_multiple</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.3140367</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.8549489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.4881602</span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
