@@ -112,8 +112,8 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span><span class="co">#two time series</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">fagus_dynamics</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"site"</span>,</span></span>
-<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
+<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"Sweden"</span><span class="op">)</span>,</span></span>
@@ -212,15 +212,14 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#numeric transformations</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">#pollen counts from 2 interglacials</span></span></span>
+<span class="r-in"><span><span class="co">#eemian pollen counts</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x <span class="op">=</span> <span class="va">mis</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"mis"</span>,</span></span>
-<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"sample_order"</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MIS_5"</span>, <span class="st">"MIS_7"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">eemian_pollen</span>,</span></span>
+<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Duplicated indices in 'Krumbach_I':</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> - value 6.8 replaced by 6.825</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -245,6 +244,18 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_hellinger</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_count_NA(): NA cases in 'tsl': </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>            name NA_cases</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1     Achenhang        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2   Glowczyn_G2        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3     Grobern94        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 4     Jammertal        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 5 Kletnia_Stara        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 6    Krumbach_I       22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 7         Naklo        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 8        Ostrow        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 9        W_KASP        0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please impute, replace, or remove them with tsl_handle_NA().FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>

@@ -130,27 +130,30 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span><span class="co">#sum by month</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">covid_prevalence</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"county"</span>,</span></span>
-<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
+<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    new_time <span class="op">=</span> <span class="st">"months"</span>,</span></span>
-<span class="r-in"><span>    method <span class="op">=</span> <span class="va">sum</span></span></span>
+<span class="r-in"><span>    method <span class="op">=</span> <span class="va">max</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils_prepare_df(x = x, id_column = id_column, time_column = time_column):</span> Column 'id' is not a column name of the data frame 'x'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#compute dissimilarity</span></span></span>
 <span class="r-in"><span><span class="va">distantia_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia.html">distantia</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#generate dissimilarity matrix</span></span></span>
 <span class="r-in"><span><span class="va">psi_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_matrix.html">distantia_matrix</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">distantia_df</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example with kmeans clustering</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------------------</span></span></span>
@@ -160,23 +163,14 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">psi_matrix</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  centers <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#case-wise silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  labels <span class="op">=</span> <span class="va">psi_kmeans</span><span class="op">$</span><span class="va">cluster</span>,</span></span>
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       3       0.78187592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       1       0.37062727</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       3       0.76146848</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       1       0.42069976</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       2       0.19937452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       1       0.38218262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       2       0.29075065</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       2       0.12595502</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       2       0.40177740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       2       0.06915849</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -184,7 +178,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.380387</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example with hierarchical clustering</span></span></span>
@@ -194,29 +188,21 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span><span class="va">psi_hclust</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">psi_matrix</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#generate labels for three groups</span></span></span>
 <span class="r-in"><span><span class="va">psi_hclust_labels</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tree <span class="op">=</span> <span class="va">psi_hclust</span>,</span></span>
 <span class="r-in"><span>  k <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_hclust' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#case-wise silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  labels <span class="op">=</span> <span class="va">psi_hclust_labels</span>,</span></span>
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1       0.31548906</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       2       0.32138333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       1       0.32050884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       2       0.43514897</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       1       0.06805883</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       2       0.43542395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       3       0.26809037</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       1       0.18897623</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       3       0.32790086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       3       0.10060979</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -224,7 +210,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.278159</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'psi_matrix' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -109,15 +109,17 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span><span class="co">#load as tsl and aggregate to monthly data to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">covid_prevalence</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"county"</span>,</span></span>
-<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"date"</span></span></span>
+<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils_prepare_df(x = x, id_column = id_column, time_column = time_column):</span> Column 'id' is not a column name of the data frame 'x'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#subset 10 elements to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#aggregateto monthly data to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span></span>
@@ -125,6 +127,7 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  new_time <span class="op">=</span> <span class="st">"months"</span>,</span></span>
 <span class="r-in"><span>  fun <span class="op">=</span> <span class="va">sum</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co">#plotting first three time series</span></span></span>
@@ -139,6 +142,7 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#kmeans with a given number of clusters</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------------------------------------</span></span></span>
@@ -146,99 +150,32 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">distantia_df</span>,</span></span>
 <span class="r-in"><span>  clusters <span class="op">=</span> <span class="fl">5</span> <span class="co">#arbitrary number!</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of the output object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">distantia_kmeans</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cluster_object"   "clusters"         "silhouette_width" "df"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "d"               </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#kmeans object</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">cluster_object</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 5 clusters of sizes 2, 2, 2, 1, 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Alameda     Butte Contra_Costa El_Dorado    Fresno  Humboldt  Imperial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.07085902 0.5912580   0.07085902 0.5803332 0.5144459 0.6980408 0.7462244</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.60015741 0.5081294   0.53844306 0.6129340 0.1313817 0.8329565 0.5771991</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.61657321 0.1395542   0.55501793 0.1395542 0.5982990 0.4326608 0.9792909</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.71985907 0.4681926   0.67622262 0.3971290 0.8496143 0.0000000 1.1988480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.72204396 0.9307621   0.69649882 0.9699405 0.4612680 1.1482755 0.3236320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        Kern     Kings Los_Angeles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6241546 0.8471634   0.5344264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1313817 0.5463595   0.5232399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.5227645 1.0047835   0.8669796</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8162986 1.2177286   1.0282498</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.6365976 0.3127013   0.3197687</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Clustering vector:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Alameda        Butte Contra_Costa    El_Dorado       Fresno     Humboldt </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            1            3            1            3            2            4 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Imperial         Kern        Kings  Los_Angeles </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            5            2            5            5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Within cluster sum of squares by cluster:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03030158 0.13475326 0.09705527 0.00000000 0.61045676</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (between_SS / total_SS =  89.4 %)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Available components:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "betweenss"    "size"         "iter"         "ifault"      </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#distance matrix used for clustering</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">d</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Alameda     Butte Contra_Costa El_Dorado    Fresno  Humboldt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      0.0000000 0.6287502    0.1417180 0.6043963 0.5396143 0.7198591</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        0.6287502 0.0000000    0.5537658 0.2791084 0.5514503 0.4681926</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 0.1417180 0.5537658    0.0000000 0.5562701 0.4892774 0.6762226</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    0.6043963 0.2791084    0.5562701 0.0000000 0.6451476 0.3971290</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       0.5396143 0.5514503    0.4892774 0.6451476 0.0000000 0.8496143</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     0.7198591 0.4681926    0.6762226 0.3971290 0.8496143 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.7524957 0.9603572    0.7399531 0.9982246 0.4790492 1.1988480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.6607005 0.4648086    0.5876087 0.5807203 0.2627634 0.8162986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.8711298 0.9578573    0.8231969 1.0517096 0.4505311 1.2177286</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.5425064 0.8740719    0.5263465 0.8598873 0.4542238 1.0282498</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Imperial      Kern     Kings Los_Angeles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      0.7524957 0.6607005 0.8711298   0.5425064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        0.9603572 0.4648086 0.9578573   0.8740719</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 0.7399531 0.5876087 0.8231969   0.5263465</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    0.9982246 0.5807203 1.0517096   0.8598873</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       0.4790492 0.2627634 0.4505311   0.4542238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     1.1988480 0.8162986 1.2177286   1.0282498</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.0000000 0.6753489 0.4748470   0.4960491</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         0.6753489 0.0000000 0.6421878   0.5922560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.4748470 0.6421878 0.0000000   0.4632569</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  0.4960491 0.5922560 0.4632569   0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"distantia_args")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    distance diagonal weighted ignore_blocks lock_step group</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 euclidean     TRUE     TRUE         FALSE      TRUE     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "distantia_matrix"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"distance")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "psi"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#number of clusters</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">clusters</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#clustering data frame</span></span></span>
 <span class="r-in"><span><span class="co">#group label in column "cluster"</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1        0.7638652</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       3        0.4038600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       1        0.7368003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       3        0.2971845</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       2        0.4303455</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       4        0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       5        0.1589591</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       2        0.4973579</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       5        0.1414957</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       5        0.0833020</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#mean silhouette width of the clustering solution</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">silhouette_width</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.351317</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#kmeans plot</span></span></span>
 <span class="r-in"><span><span class="co"># factoextra::fviz_cluster(</span></span></span>
@@ -254,23 +191,17 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">distantia_df</span>,</span></span>
 <span class="r-in"><span>  clusters <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of the output object</span></span></span>
 <span class="r-in"><span><span class="co">#a new object named "optimization" should appear</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">distantia_kmeans</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cluster_object"   "clusters"         "silhouette_width" "df"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "d"                "optimization"    </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#first rows of the optimization data frame</span></span></span>
 <span class="r-in"><span><span class="co">#optimized clustering in first row</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">optimization</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   clusters silhouette_mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        4       0.3953577</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        5       0.3513170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2       0.3435351</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        6       0.3107771</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        7       0.3084695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3       0.2760140</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_kmeans' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
