@@ -22,8 +22,8 @@ data("fagus_dynamics")
 #to time series list
 fagus <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 )
 
 #time series plot
@@ -46,7 +46,6 @@ Other example_data:
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

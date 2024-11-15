@@ -39,8 +39,8 @@
 #' #two time series
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "site",
-#'   time_column = "date"
+#'   id_column = "id",
+#'   time_column = "time"
 #' ) |>
 #'   tsl_subset(
 #'     names = c("Spain", "Sweden"),
@@ -127,15 +127,12 @@
 #'
 #' #numeric transformations
 #' #-----------------------------------------
-#' #pollen counts from 2 interglacials
+#' #eemian pollen counts
 #' tsl <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis",
-#'   time_column = "sample_order"
-#' ) |>
-#'   tsl_subset(
-#'     names = c("MIS_5", "MIS_7")
-#'   )
+#'   x = eemian_pollen,
+#'   id_column = "id",
+#'   time_column = "time"
+#' )
 #'
 #' if(interactive()){
 #'   tsl_plot(

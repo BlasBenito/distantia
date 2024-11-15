@@ -124,7 +124,6 @@ Other example_data:
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{zoo_simulate}()}
 }
 \concept{example_data}

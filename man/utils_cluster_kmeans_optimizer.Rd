@@ -33,15 +33,15 @@ future::plan(
 #aggregated by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 ) |>
   tsl_subset(
     names = 1:10
   ) |>
   tsl_aggregate(
     new_time = "months",
-    fun = sum
+    fun = max
   )
 
 if(interactive()){

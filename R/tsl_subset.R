@@ -14,8 +14,8 @@
 #' #initialize time series list
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "site",
-#'   time_column = "date"
+#'   id_column = "id",
+#'   time_column = "time"
 #' )
 #'
 #' #checking available dimensions

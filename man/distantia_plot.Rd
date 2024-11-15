@@ -63,8 +63,8 @@ data("fagus_dynamics")
 #scale and center to neutralize effect of different scales in temperature, rainfall, and ndvi
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 ) |>
   tsl_transform(
     f = f_scale #see help(f_scale)

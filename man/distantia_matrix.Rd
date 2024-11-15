@@ -22,8 +22,8 @@ Transforms a data frame resulting from \code{\link[=distantia]{distantia()}} int
 #sum by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 ) |>
   tsl_subset(
     names = 1:5

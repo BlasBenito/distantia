@@ -34,21 +34,21 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #daily covid prevalence in three California counties
+#' #weekly covid prevalence in three California counties
 #' #load as tsl
 #' #subset first 10 time series
 #' #sum by month
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "county",
-#'   time_column = "date"
+#'   id_column = "id",
+#'   time_column = "time"
 #' ) |>
 #'   tsl_subset(
 #'     names = 1:10
 #'   ) |>
 #'   tsl_aggregate(
 #'     new_time = "months",
-#'     method = sum
+#'     method = max
 #'   )
 #'
 #' #compute dissimilarity

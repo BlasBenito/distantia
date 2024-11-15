@@ -22,8 +22,8 @@ Convert List of Data Frames to List of Zoo Objects
 \examples{
 data(mis)
 x <- tsl_initialize(
-  x = mis,
-  id_column = "mis"
+  x = eemian_pollen,
+  id_column = "id"
 )
 }
 \seealso{

@@ -47,9 +47,13 @@ tsl_to_df <- function(
 
   )
 
-  do.call(
+  df <- do.call(
     what = "rbind",
     args = df_list
   )
+
+  rownames(df) <- NULL
+
+  df
 
 }

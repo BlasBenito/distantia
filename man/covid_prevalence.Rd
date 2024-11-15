@@ -20,8 +20,8 @@ Site coordinates for this dataset are in \link{covid_coordinates}.
 #to time series list
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 )
 
 #time series plot
@@ -48,7 +48,6 @@ Other example_data:
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

@@ -32,14 +32,14 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #daily covid prevalence in California counties
+#' #weekly covid prevalence in California counties
 #' data("covid_prevalence")
 #'
 #' #load as tsl
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "county",
-#'   time_column = "date"
+#'   id_column = "id",
+#'   time_column = "time"
 #' )
 #'
 #' #subset 10 elements to accelerate example execution

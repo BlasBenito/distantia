@@ -24,8 +24,8 @@
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "site",
-#'   time_column = "date"
+#'   id_column = "id",
+#'   time_column = "time"
 #' ) |>
 #'   tsl_transform(
 #'     f = f_scale

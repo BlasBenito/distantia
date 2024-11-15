@@ -21,8 +21,8 @@ data("cities_temperature")
 #to time series list
 cities <- tsl_initialize(
   x = cities_temperature,
-  id_column = "city",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 )
 
 #time series plot
@@ -49,7 +49,6 @@ Other example_data:
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

@@ -21,8 +21,8 @@ data("eemian_pollen")
 #to time series list
 tsl <- tsl_initialize(
   x = eemian_pollen,
-  id_column = "site",
-  time_column = "depth"
+  id_column = "id",
+  time_column = "time"
 )
 
 #time series plot
@@ -50,7 +50,6 @@ Other example_data:
 \code{\link{eemian_coordinates}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

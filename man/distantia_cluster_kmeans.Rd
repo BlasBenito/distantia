@@ -45,8 +45,8 @@ data("covid_prevalence")
 #load as tsl and aggregate to monthly data to accelerate example execution
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  id_column = "id",
+  time_column = "time"
 )
 
 #subset 10 elements to accelerate example execution
