@@ -103,23 +103,21 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span><span class="co">#progress bar</span></span></span>
 <span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#daily covid prevalence in California counties</span></span></span>
+<span class="r-in"><span><span class="co">#weekly covid prevalence in California counties</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"covid_prevalence"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#load as tsl</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">covid_prevalence</span>,</span></span>
-<span class="r-in"><span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils_prepare_df(x = x, id_column = id_column, time_column = time_column):</span> Column 'id' is not a column name of the data frame 'x'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#subset 10 elements to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#aggregateto monthly data to accelerate example execution</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span></span>
@@ -127,7 +125,6 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  new_time <span class="op">=</span> <span class="st">"months"</span>,</span></span>
 <span class="r-in"><span>  fun <span class="op">=</span> <span class="va">sum</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co">#plotting first three time series</span></span></span>
@@ -145,7 +142,6 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tsl' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#hierarchical clustering with a given number of clusters</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------------------------------------</span></span></span>
@@ -154,33 +150,68 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  clusters <span class="op">=</span> <span class="fl">5</span>, <span class="co">#arbitrary number!</span></span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"complete"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of the output object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">distantia_clust</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cluster_object"   "clusters"         "silhouette_width" "df"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "d"               </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#cluster object</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">cluster_object</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> stats::hclust(d = d_dist, method = method)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cluster method   : complete </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of objects: 10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#distance matrix used for clustering</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">d</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Alameda     Butte Contra_Costa El_Dorado    Fresno  Humboldt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        1.0467873                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 0.3651620 0.8229583                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    0.8964242 0.8303951    0.8740113                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       1.0683761 1.0541750    0.9433786 1.4500246                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     1.4417508 1.4913793    1.3337416 1.2920760 1.5195354          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     1.5714863 1.5658263    1.4824695 1.6810961 1.1057192 1.5212096</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         1.1551233 0.8667292    0.9884752 1.2460465 0.6881208 1.3363140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        1.8671845 1.7690531    1.7131840 1.9159343 1.2878686 1.7665323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  1.1665947 1.2619658    1.0206897 1.4942772 0.6815847 1.5526553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Imperial      Kern     Kings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         1.1944075                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        0.6761740 1.4009024          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  1.2219110 0.9391916 1.2182971</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#number of clusters</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">clusters</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#clustering data frame</span></span></span>
 <span class="r-in"><span><span class="co">#group label in column "cluster"</span></span></span>
 <span class="r-in"><span><span class="co">#negatives in column "silhouette_width" higlight anomalous cluster assignation</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">df</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1        0.6241664</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       2        0.1117560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       1        0.5696304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       2        0.0619312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       3        0.3191488</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       4        0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       5        0.4240487</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       3        0.2297752</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       5        0.4808071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       3        0.2590007</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#mean silhouette width of the clustering solution</span></span></span>
 <span class="r-in"><span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">silhouette_width</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3080265</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#plot</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
@@ -216,17 +247,23 @@ When clusters = NULL, the function utils_cluster_hclust_optimizer() is run under
 <span class="r-in"><span>  clusters <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of the output object</span></span></span>
 <span class="r-in"><span><span class="co">#a new object named "optimization" should appear</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">distantia_clust</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cluster_object"   "clusters"         "silhouette_width" "df"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "d"                "optimization"    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#first rows of the optimization data frame</span></span></span>
 <span class="r-in"><span><span class="co">#optimized clustering in first row</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">distantia_clust</span><span class="op">$</span><span class="va">optimization</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'distantia_clust' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   clusters   method silhouette_mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        2  average       0.3175009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 mcquitty       0.3175009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2   median       0.3175009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        5   ward.D       0.3080265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        5  ward.D2       0.3080265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        5 complete       0.3080265</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#plot</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
