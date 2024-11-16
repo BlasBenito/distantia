@@ -11,7 +11,7 @@ psi_equation(a = NULL, b = NULL, diagonal = TRUE)
 
 \item{b}{(required, numeric) Result of \code{\link[=psi_auto_sum]{psi_auto_sum()}}, the cumulative sum of the consecutive cases of two time series. Default: NULL}
 
-\item{diagonal}{(optional, logical) Used to correct the computation of \code{psi} when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Default: TRUE}
+\item{diagonal}{(optional, logical) Used to correct \code{psi} when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using \code{diagonal = TRUE}, this argument should be \code{TRUE} as well. Default: TRUE}
 }
 \value{
 numeric value

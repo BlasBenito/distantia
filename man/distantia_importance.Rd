@@ -15,17 +15,17 @@ distantia_importance(
 )
 }
 \arguments{
-\item{tsl}{(required, list) Time series list. Default: NULL}
+\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 
-\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: TRUE}
+\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE}
 
 \item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Ignored if \code{diagonal = TRUE}. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time series are compared row wise and no least-cost path optimization is performed. Requires time series in argument \code{tsl} to be fully aligned. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
 
 \item{robust}{(required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when \code{lock_step = TRUE}. Default: TRUE}
 }
@@ -97,8 +97,8 @@ data("fagus_dynamics")
 #center and scale with same parameters
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 ) |>
   tsl_transform(
     f = f_scale

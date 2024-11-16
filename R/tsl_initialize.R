@@ -22,7 +22,7 @@
 #' }
 #'
 #' @param x (required, list or data frame) Matrix or data frame in long format, list of vectors, list of matrices, or list of zoo objects. Default: NULL.
-#' @param id_column (optional, column name) Grouping column separating time series. Values in this column are used as time series names. Default: NULL
+#' @param name_column (optional, column name) Column naming individual time series. Numeric names are converted to character with the prefix "X". Default: NULL
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
 #' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
@@ -32,15 +32,15 @@
 #' #---------------------
 #' data("fagus_dynamics")
 #'
-#' #id_column is site
+#' #name_column is site
 #' #time column is date
 #' str(fagus_dynamics)
 #'
 #' #to tsl
-#' #each group in id_column is a different time series
+#' #each group in name_column is a different time series
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "site",
+#'   name_column = "site",
 #'   time_column = "date"
 #' )
 #'
@@ -214,7 +214,7 @@
 #' @family data_preparation
 tsl_initialize <- function(
     x = NULL,
-    id_column = NULL,
+    name_column = NULL,
     time_column = NULL,
     lock_step = FALSE,
     quiet = FALSE
@@ -230,7 +230,7 @@ tsl_initialize <- function(
 
   x <- utils_prepare_df(
     x = x,
-    id_column = id_column,
+    name_column = name_column,
     time_column = time_column
   )
 

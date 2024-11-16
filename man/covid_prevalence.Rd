@@ -11,17 +11,17 @@ data frame with 3 columns and 51048 rows
 data(covid_prevalence)
 }
 \description{
-Dataset with Covid19 prevalence time series in California counties between 2020 and 2024. \href{https://healthdata.gov/State/COVID-19-Time-Series-Metrics-by-County-and-State-A/cr6j-rwfz/about_data}{Source}.
+Dataset with Covid19 maximum weekly prevalence in California counties between 2020 and 2024, from healthdata.gov.
 }
 \details{
-Site coordinates for this dataset are in \link{covid_coordinates}.
+County coordinates for this dataset are in \link{covid_coordinates}.
 }
 \examples{
 #to time series list
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 )
 
 #time series plot
@@ -48,7 +48,6 @@ Other example_data:
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

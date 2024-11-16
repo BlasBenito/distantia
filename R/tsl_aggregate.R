@@ -66,7 +66,7 @@
 #' #scaled to improve visualization
 #' tsl <- tsl_initialize(
 #'   x = albatross,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
 #'   tsl_transform(
@@ -175,6 +175,20 @@ tsl_aggregate <- function(
     new_time = new_time,
     keywords = "aggregate"
   )
+
+  #testing version
+  # tsl <- future.apply::future_lapply(
+  #   X = tsl,
+  #   FUN = function(x){
+  #
+  #     x <- zoo_aggregate(
+  #       x = x,
+  #       new_time = new_time,
+  #       method = method
+  #     )
+  #
+  #   }
+  # )
 
   #progress bar
   p <- progressr::progressor(along = tsl)

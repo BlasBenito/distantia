@@ -8,8 +8,8 @@
 #' @examples
 #' data(mis)
 #' x <- tsl_initialize(
-#'   x = mis,
-#'   id_column = "mis"
+#'   x = eemian_pollen,
+#'   name_column = "name"
 #' )
 #' @autoglobal
 #' @export

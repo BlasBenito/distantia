@@ -36,8 +36,8 @@ In any case, if the argument \code{df} contains more than one combination of inp
 #centerd and scaled with global parameters
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 ) |>
   tsl_transform(
     f = f_scale

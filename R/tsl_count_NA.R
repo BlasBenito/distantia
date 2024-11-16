@@ -65,7 +65,7 @@ tsl_count_NA <- function(
       names(na_count_table) <- c("name", "NA_cases")
 
       message(
-        "NA cases in 'tsl': \n",
+        "distantia::tsl_count_NA(): NA cases in 'tsl': \n",
         paste(utils::capture.output(print(na_count_table)), collapse = "\n"),
         "\nPlease impute, replace, or remove them with tsl_handle_NA().",
         call. = FALSE

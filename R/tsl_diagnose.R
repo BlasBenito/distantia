@@ -205,9 +205,7 @@ tsl_diagnose <- function(
   )
 
   #there are no shared columns
-  if(
-    all(is.na(zoo_colnames_shared))
-  ){
+  if(all(is.na(zoo_colnames_shared))){
 
     issues_structure <- c(
       issues_structure,
@@ -217,13 +215,11 @@ tsl_diagnose <- function(
   }
 
   #zoo time class
-  zoo.time.classes <- tsl_time(
+  zoo.time.classes <- unique(tsl_time(
     tsl = tsl
-  )$class
+  )$class)
 
-  if(
-    length(zoo.time.classes) != 1
-    ){
+  if(length(zoo.time.classes) != 1){
 
     issues_structure <- c(
       issues_structure,
@@ -297,8 +293,8 @@ tsl_diagnose <- function(
   if(length(issues_structure) > 0){
 
     message(
-      "Structural issues:\n",
-      "------------------\n\n",
+      "distantia::tsl_diagnose(): Structural issues:\n",
+      "-------------------------------------------\n\n",
       paste(
         issues_structure,
         collapse = "\n\n"

@@ -2,12 +2,12 @@ testthat::test_that("Cost Matrix", {
 
   #assessing normal behavior
   set.seed(1)
-  a <- matrix(runif(1000), 100, 10)
-  b <- matrix(runif(500), 50, 10)
+  x <- matrix(runif(1000), 100, 10)
+  y <- matrix(runif(500), 50, 10)
 
-  d <- distance_matrix_cpp(a, b, method = "manhattan")
+  d <- distance_matrix_cpp(x, y, distance = "manhattan")
 
-  least_cost <- cost_matrix_cpp(d = d)
+  least_cost <- cost_matrix_orthogonal_cpp(d = d)
 
   testthat::expect_true(
     is.numeric(least_cost)
@@ -29,7 +29,7 @@ testthat::test_that("Cost Matrix", {
     dim(d), dim(least_cost)
   )
 
-  least_cost <- cost_matrix_diag_cpp(d = d)
+  least_cost <- cost_matrix_diagonal_cpp(d = d)
 
   testthat::expect_true(
     is.numeric(least_cost)

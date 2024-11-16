@@ -30,12 +30,10 @@ If there are no different combinations of arguments in the input data frame, no 
 \examples{
 #three time series
 #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-data("fagus_dynamics")
-
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 ) |>
   tsl_transform(
     f = f_scale
@@ -52,7 +50,7 @@ if(interactive()){
 #-------------------------------------
 df_multiple <- distantia(
   tsl = tsl,
-  distance = c("euclidean", "manhattan"),
+  distance = "euclidean",
   lock_step = c(TRUE, FALSE)
 )
 
@@ -65,56 +63,6 @@ df_multiple[, c(
 )]
 
 #aggregation using means
-df <- distantia_aggregate(
-  df = df_multiple,
-  f = mean
-)
-
-df
-
-#importance with multiple parameter combinations
-#-------------------------------------
-df_multiple <- distantia_importance(
-  tsl = tsl,
-  distance = c("euclidean", "manhattan"),
-  lock_step = c(FALSE, TRUE)
-)
-
-df_multiple[, c(
-  "x",
-  "y",
-  "variable",
-  "distance",
-  "lock_step",
-  "importance"
-)]
-
-#aggregation using means
-df <- distantia_aggregate(
-  df = df_multiple,
-  f = mean
-)
-
-df
-
-df[, c(
-  "x",
-  "y",
-  "variable",
-  "importance"
-)]
-
-#distantia with a single parameter combination
-#------------------------------
-df_multiple <- distantia(
-  tsl = tsl,
-  distance = "euclidean",
-  lock_step = TRUE
-)
-
-df_multiple
-
-#no aggregation happens, but all parameter columns are removed
 df <- distantia_aggregate(
   df = df_multiple,
   f = mean

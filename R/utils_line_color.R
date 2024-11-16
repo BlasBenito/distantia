@@ -4,7 +4,7 @@
 #' This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.
 #'
 #'
-#' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
+#' @param x (required, sequence) zoo object or time series list. Default: NULL
 #' @param color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return color vector
@@ -14,9 +14,6 @@ utils_line_color <- function(
     x = NULL,
     color = NULL
 ){
-
-  #check x
-  x <- utils_check_args_zoo(x = x)
 
   # get colnames for any length of x
   if(!is.matrix(x)){

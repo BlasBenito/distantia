@@ -11,7 +11,7 @@ psi_distance_matrix(x = NULL, y = NULL, distance = "euclidean")
 
 \item{y}{(zoo object or numeric matrix) a time series with the same columns as \code{x} and no NAs. Default: NULL}
 
-\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 }
 \value{
 numeric matrix

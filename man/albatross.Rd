@@ -11,7 +11,7 @@ data frame
 data(albatross)
 }
 \description{
-Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Please visit the \href{https://doi.org/10.5441/001/1.3hp3s250}{data source} (DOI: \url{https://doi.org/10.5441/001/1.3hp3s250}) to learn more about this dataset.
+Daily mean flight path data of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
 }
 \examples{
 #load as tsl
@@ -20,7 +20,7 @@ Data frame with id, time, latitude, longitude, ground speed, heading, and (uncal
 #align all time series to same temporal span
 tsl <- tsl_initialize(
   x = albatross,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_transform(
@@ -37,6 +37,9 @@ if(interactive()){
     )
 }
 }
+\references{
+\doi{10.5441/001/1.3hp3s250}
+}
 \seealso{
 Other example_data: 
 \code{\link{cities_coordinates}},
@@ -47,7 +50,6 @@ Other example_data:
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
 \code{\link{fagus_dynamics}},
-\code{\link{mis}},
 \code{\link{tsl_simulate}()},
 \code{\link{zoo_simulate}()}
 }

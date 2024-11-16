@@ -7,7 +7,7 @@
 utils_line_color(x = NULL, color = NULL)
 }
 \arguments{
-\item{x}{(required, sequence) a zoo time series or a time series list. Default: NULL}
+\item{x}{(required, sequence) zoo object or time series list. Default: NULL}
 
 \item{color}{(optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL}
 }

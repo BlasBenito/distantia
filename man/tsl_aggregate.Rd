@@ -75,7 +75,7 @@ future::plan(
 #scaled to improve visualization
 tsl <- tsl_initialize(
   x = albatross,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_transform(

@@ -1,21 +1,21 @@
 testthat::test_that("Auto Sum", {
 
   set.seed(1)
-  a <- matrix(runif(1000), 100, 10)
-  b <- matrix(runif(500), 50, 10)
+  x <- matrix(runif(1000), 100, 10)
+  y <- matrix(runif(500), 50, 10)
 
-  method_names <- c(methods$name, methods$abbreviation)
+  method_names <- c(distances$name, distances$abbreviation)
 
   for(method.i in method_names){
 
     a_autosum <- auto_distance_cpp(
-      m = a,
-      method = method.i
+      x = x,
+      distance = method.i
     )
 
     b_autosum <- auto_distance_cpp(
-      m = b,
-      method = method.i
+      x = y,
+      distance = method.i
     )
 
     if(!method.i %in% c("jaccard", "jac")){
@@ -25,12 +25,12 @@ testthat::test_that("Auto Sum", {
     }
 
     dist_matrix <- distance_matrix_cpp(
-      a,
-      b,
-      method = method.i
+      x,
+      y,
+      distance = method.i
     )
 
-    cost_matrix <- cost_matrix_cpp(
+    cost_matrix <- cost_matrix_orthogonal_cpp(
       dist_matrix = dist_matrix
     )
 
@@ -42,17 +42,17 @@ testthat::test_that("Auto Sum", {
     cost_path_trimmed <- cost_path_trim_cpp(cost_path)
 
     ab_sum_path <- auto_sum_path_cpp(
-      a = a,
-      b = b,
+      x = x,
+      y = y,
       path = cost_path,
-      method = method.i
+      distance = method.i
     )
 
-    ab_sum_path_r <- auto_sum(
-      a = a,
-      b = b,
+    ab_sum_path_r <- psi_auto_sum(
+      x = x,
+      y = y,
       path = cost_path,
-      method = method.i
+      distance = method.i
     )
 
     testthat::expect_true(
@@ -60,10 +60,10 @@ testthat::test_that("Auto Sum", {
     )
 
     ab_sum_path_trimmed <- auto_sum_path_cpp(
-      a = a,
-      b = b,
+      x = x,
+      y = y,
       path = cost_path_trimmed,
-      method = method.i
+      distance = method.i
     )
 
     if(!method.i %in% c("jaccard", "jac")){

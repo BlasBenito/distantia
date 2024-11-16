@@ -29,14 +29,14 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #daily covid prevalence in California counties
+#' #weekly covid prevalence in California counties
 #' data("covid_prevalence")
 #'
 #' #load as tsl and aggregate to monthly data to accelerate example execution
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "county",
-#'   time_column = "date"
+#'   name_column = "name",
+#'   time_column = "time"
 #' )
 #'
 #' #subset 10 elements to accelerate example execution
@@ -133,7 +133,7 @@ distantia_cluster_kmeans <- function(
   if(length(df_list) > 1){
 
     message(
-      "There are ",
+      "distantia::distantia_cluster_kmeans(): there are ",
       length(df_list),
       "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
       )

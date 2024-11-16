@@ -1,7 +1,7 @@
 #' Convert Data Frame to a List of Data Frames
 #'
 #' @param x (required, data frame) Input data frame. Default: NULL.
-#' @param id_column (optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL
+#' @param name_column (optional, column name) Column name used to split `x` to a list of data frames. If omitted, the split is done by column instead. Default: NULL
 #' @param time_column (optional, column name) Name of the column representing time, if any. Default: NULL.
 #' @return List of data frames
 #' @export
@@ -9,7 +9,7 @@
 #' @family internal
 utils_prepare_df <- function(
     x = NULL,
-    id_column = NULL,
+    name_column = NULL,
     time_column = NULL
 ){
 
@@ -29,11 +29,11 @@ utils_prepare_df <- function(
     }
   }
 
-  if(is.null(id_column)){
-    id_column <- NA
+  if(is.null(name_column)){
+    name_column <- NA
   } else {
-    if(!(id_column %in% names(x))){
-      stop("Column '", id_column, "' is not a column name of the data frame 'x'.")
+    if(!(name_column %in% names(x))){
+      stop("Column '", name_column, "' is not a column name of the data frame 'x'.")
     }
   }
 
@@ -42,9 +42,9 @@ utils_prepare_df <- function(
     x[[time_column]] <- NULL
   }
 
-  if(id_column %in% colnames(x)){
-    x.id <- x[[id_column]]
-    x[[id_column]] <- NULL
+  if(name_column %in% colnames(x)){
+    x.id <- x[[name_column]]
+    x[[name_column]] <- NULL
   }
 
   x <- x[, sapply(x, is.numeric), drop = FALSE]
@@ -55,11 +55,11 @@ utils_prepare_df <- function(
       x[[time_column]] <- x.time
     }
 
-    x[[id_column]] <- x.id
+    x[[name_column]] <- x.id
 
     x <- split(
-      x = x[, colnames(x) != id_column],
-      f = x[[id_column]]
+      x = x[, colnames(x) != name_column],
+      f = x[[name_column]]
     )
 
   } else {

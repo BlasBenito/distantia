@@ -21,8 +21,8 @@ A time series list has two sets of names: the names of the list items (as return
 #initialize a time series list
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 )
 
 

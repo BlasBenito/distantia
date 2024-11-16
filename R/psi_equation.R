@@ -8,7 +8,7 @@
 #'
 #' @param a (required, numeric) Result of [psi_cost_path_sum()], the sum of distances of the least cost path between two time series. Default: NULL
 #' @param b (required, numeric) Result of [psi_auto_sum()], the cumulative sum of the consecutive cases of two time series. Default: NULL
-#' @param diagonal (optional, logical) Used to correct the computation of `psi` when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Default: TRUE
+#' @param diagonal (optional, logical) Used to correct `psi` when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Default: TRUE
 #'
 #' @return numeric value
 #' @examples

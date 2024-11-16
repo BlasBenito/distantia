@@ -4,7 +4,7 @@
 #'
 #' In orthogonal least cost paths (when diagonals are ignored), long straight segments (a.k.a "blocks") may appear in highly dissimilar sections of the time series. Blocks inflate psi dissimilarity scores, making pairs of time series seem more dissimilar than they actually are. This demonstration function identifies and removes blocks, resulting in fairer dissimilarity analyses.
 #'
-#' @param path (required, data frame) least cost path produced by [psi_cost_path()]. Default: NULL
+#' @inheritParams psi_cost_path
 #' @return data frame
 #'
 #' @examples

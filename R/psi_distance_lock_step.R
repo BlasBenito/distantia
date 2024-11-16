@@ -7,7 +7,7 @@
 #'
 #' @param x (required, zoo object or numeric matrix) a time series with no NAs. Default: NULL
 #' @param y (zoo object or numeric matrix) a time series with the same columns as `x` and no NAs. Default: NULL
-#' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
+#' @inheritParams distantia
 #' @examples
 #' #distance metric
 #' d <- "euclidean"

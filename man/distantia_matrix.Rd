@@ -16,78 +16,56 @@ numeric matrix
 Transforms a data frame resulting from \code{\link[=distantia]{distantia()}} into a dissimilarity matrix.
 }
 \examples{
-#daily covid prevalence in California counties
-data("covid_prevalence")
-
-#load as tsl and aggregate to monthly data to accelerate example execution
+#weekly covid prevalence in three California counties
+#load as tsl
+#subset 5 counties
+#sum by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "county",
-  time_column = "date"
+  name_column = "name",
+  time_column = "time"
 ) |>
+  tsl_subset(
+    names = 1:5
+  ) |>
   tsl_aggregate(
     new_time = "months",
-    fun = sum
+    method = sum
   )
 
 if(interactive()){
+
   #plotting first three time series
   tsl_plot(
-    tsl = tsl[1:3],
+    tsl = tsl,
     guide_columns = 3
     )
+
+  dev.off()
+
 }
-
-#dissimilarity analysis
-#single combination of arguments
-#-------------------------------
-distantia_df <- distantia(
-  tsl = tsl,
-  lock_step = TRUE
-)
-
-#to dissimilarity matrix
-psi_matrix <- distantia_matrix(
-  df = distantia_df
-)
-
-#returns a list of matrices
-class(psi_matrix)
-length(psi_matrix)
-
-#only one matrix for this case
-class(psi_matrix[[1]])
-
-#plot matrix
-if(interactive()){
-  utils_matrix_plot(
-    m = psi_matrix
-    )
-}
-
 
 #dissimilarity analysis
 #two combinations of arguments
-#-------------------------------
 distantia_df <- distantia(
   tsl = tsl,
   lock_step = c(TRUE, FALSE)
 )
 
 #to dissimilarity matrix
-psi_matrix <- distantia_matrix(
+distantia_matrix <- distantia_matrix(
   df = distantia_df
 )
 
 #returns a list of matrices
 lapply(
-  X = psi_matrix,
+  X = distantia_matrix,
   FUN = class
   )
 
 #these matrices have attributes tracing how they were generated
 lapply(
-  X = psi_matrix,
+  X = distantia_matrix,
   FUN = \(x) attributes(x)$distantia_args
 )
 
@@ -96,12 +74,12 @@ if(interactive()){
 
   #plot first matrix (default behavior of utils_matrix_plot())
   utils_matrix_plot(
-    m = psi_matrix[[1]]
+    m = distantia_matrix
   )
 
   #plot second matrix
   utils_matrix_plot(
-    m = psi_matrix[[2]]
+    m = distantia_matrix[[2]]
   )
 
 }

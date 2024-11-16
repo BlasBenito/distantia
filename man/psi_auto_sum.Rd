@@ -13,7 +13,7 @@ psi_auto_sum(x = NULL, y = NULL, path = NULL, distance = "euclidean")
 
 \item{path}{(required, data frame) least cost path produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_ignore_blocks]{psi_cost_path_ignore_blocks()}} has been applied to \code{path}. Default: NULL.}
 
-\item{distance}{(optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 }
 \value{
 numeric vector
