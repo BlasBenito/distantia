@@ -4,7 +4,7 @@ data("covid")
 
 tsl <- tsl_initialize(
   x = covid,
-  id_column = "county",
+  name_column = "county",
   time_column = "date"
 )
 
@@ -240,7 +240,7 @@ data(mis)
 #function to initialize a set of time series
 y <- tsl_initialize(
   x = mis,
-  id_column = "MIS"
+  name_column = "MIS"
 )
 
 

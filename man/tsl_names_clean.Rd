@@ -42,7 +42,7 @@ Combines \code{\link[=utils_clean_names]{utils_clean_names()}} and \code{\link[=
 #initialize time series list
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 )
 

@@ -11,16 +11,16 @@ data frame with 3 columns and 51048 rows
 data(covid_prevalence)
 }
 \description{
-Dataset with Covid19 prevalence time series in California counties between 2020 and 2024, from healthdata.gov.
+Dataset with Covid19 maximum weekly prevalence in California counties between 2020 and 2024, from healthdata.gov.
 }
 \details{
-Site coordinates for this dataset are in \link{covid_coordinates}.
+County coordinates for this dataset are in \link{covid_coordinates}.
 }
 \examples{
 #to time series list
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 )
 

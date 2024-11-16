@@ -9,7 +9,7 @@
 #' data(mis)
 #' x <- tsl_initialize(
 #'   x = eemian_pollen,
-#'   id_column = "id"
+#'   name_column = "name"
 #' )
 #' @autoglobal
 #' @export

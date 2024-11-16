@@ -19,7 +19,7 @@
 #' #center and scale with same parameters
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
 #'   tsl_transform(
@@ -204,7 +204,7 @@ distantia_to_sf <- function(
     by.x = "x",
     by.y = xy_names
   )
-  colnames(df)[colnames(df) == "id"] <- "id_x"
+  colnames(df)[colnames(df) == "name"] <- "id_x"
 
   df <- merge(
     x = df,
@@ -212,7 +212,7 @@ distantia_to_sf <- function(
     by.x = "y",
     by.y = xy_names
   )
-  colnames(df)[colnames(df) == "id"] <- "id_y"
+  colnames(df)[colnames(df) == "name"] <- "id_y"
 
 
   # generate geonetwork ----

@@ -13,3 +13,4 @@ _pkgdown.yaml
 ^vignettes/articles$
 ^pkgdown$
 ^_pkgdown\.yml$
+data_full/

@@ -33,7 +33,7 @@ usethis::use_data(albatross, overwrite = TRUE)
 #aggregate to daily resolution
 tsl <- tsl_initialize(
   x = albatross,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_transform(

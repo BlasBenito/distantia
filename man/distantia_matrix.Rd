@@ -16,13 +16,13 @@ numeric matrix
 Transforms a data frame resulting from \code{\link[=distantia]{distantia()}} into a dissimilarity matrix.
 }
 \examples{
-#daily covid prevalence in three California counties
+#weekly covid prevalence in three California counties
 #load as tsl
 #subset 5 counties
 #sum by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_subset(

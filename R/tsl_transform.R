@@ -39,7 +39,7 @@
 #' #two time series
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
 #'   tsl_subset(
@@ -130,7 +130,7 @@
 #' #eemian pollen counts
 #' tsl <- tsl_initialize(
 #'   x = eemian_pollen,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'

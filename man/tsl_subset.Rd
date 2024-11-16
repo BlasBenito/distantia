@@ -36,7 +36,7 @@ Subset Time Series Lists by Time Series Names, Time, and/or Column Names
 #initialize time series list
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 )
 

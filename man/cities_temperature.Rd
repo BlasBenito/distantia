@@ -3,7 +3,7 @@
 \docType{data}
 \name{cities_temperature}
 \alias{cities_temperature}
-\title{Long Term Monthly Temperature in 100 Major Cities}
+\title{Long Term Monthly Temperature in 20 Major Cities}
 \format{
 data frame with 3 columns and 52100 rows.
 }
@@ -11,7 +11,7 @@ data frame with 3 columns and 52100 rows.
 data(cities_temperature)
 }
 \description{
-Average temperatures between 1975 and 2010 of 100 major cities of the world. \href{https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv}{Source}.
+Average temperatures between 1975 and 2010 of 20 major cities of the world. \href{https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv}{Source}.
 
 Site coordinates for this dataset are in \link{cities_coordinates}.
 }
@@ -21,7 +21,7 @@ data("cities_temperature")
 #to time series list
 cities <- tsl_initialize(
   x = cities_temperature,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 )
 

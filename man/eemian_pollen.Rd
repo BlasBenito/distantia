@@ -21,7 +21,7 @@ data("eemian_pollen")
 #to time series list
 tsl <- tsl_initialize(
   x = eemian_pollen,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 )
 

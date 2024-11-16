@@ -41,13 +41,13 @@ This metric may not perform well when the clusters have irregular shapes or size
 This code was adapted from \url{https://svn.r-project.org/R-packages/trunk/cluster/R/silhouette.R}.
 }
 \examples{
-#daily covid prevalence in three California counties
+#weekly covid prevalence in three California counties
 #load as tsl
 #subset first 10 time series
 #sum by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_subset(

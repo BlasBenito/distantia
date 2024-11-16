@@ -7,7 +7,7 @@
 \usage{
 tsl_initialize(
   x = NULL,
-  id_column = NULL,
+  name_column = NULL,
   time_column = NULL,
   lock_step = FALSE,
   quiet = FALSE
@@ -15,7 +15,7 @@ tsl_initialize(
 
 tsl_init(
   x = NULL,
-  id_column = NULL,
+  name_column = NULL,
   time_column = NULL,
   lock_step = FALSE,
   quiet = FALSE
@@ -24,7 +24,7 @@ tsl_init(
 \arguments{
 \item{x}{(required, list or data frame) Matrix or data frame in long format, list of vectors, list of matrices, or list of zoo objects. Default: NULL.}
 
-\item{id_column}{(optional, column name) Grouping column separating time series. Values in this column are used as time series names. Default: NULL}
+\item{name_column}{(optional, column name) Column naming individual time series. Numeric names are converted to character with the prefix "X". Default: NULL}
 
 \item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.}
 
@@ -60,15 +60,15 @@ The function \code{\link[=tsl_initialize]{tsl_initialize()}} (and its alias \cod
 #---------------------
 data("fagus_dynamics")
 
-#id_column is site
+#name_column is site
 #time column is date
 str(fagus_dynamics)
 
 #to tsl
-#each group in id_column is a different time series
+#each group in name_column is a different time series
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "site",
+  name_column = "site",
   time_column = "date"
 )
 

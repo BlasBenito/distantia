@@ -97,7 +97,7 @@ data("fagus_dynamics")
 #center and scale with same parameters
 tsl <- tsl_initialize(
   x = fagus_dynamics,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_transform(

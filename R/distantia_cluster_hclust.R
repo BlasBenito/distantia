@@ -38,7 +38,7 @@
 #' #load as tsl
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'

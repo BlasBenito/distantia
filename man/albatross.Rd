@@ -11,7 +11,7 @@ data frame
 data(albatross)
 }
 \description{
-Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008.
+Daily mean flight path data of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
 }
 \examples{
 #load as tsl
@@ -20,7 +20,7 @@ Data frame with id, time, latitude, longitude, ground speed, heading, and (uncal
 #align all time series to same temporal span
 tsl <- tsl_initialize(
   x = albatross,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_transform(

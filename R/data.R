@@ -26,7 +26,7 @@
 #' #to time series list
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
@@ -73,7 +73,7 @@
 #' #to time series list
 #' fagus <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
@@ -120,7 +120,7 @@
 #' #to time series list
 #' tsl <- tsl_initialize(
 #'   x = eemian_pollen,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
@@ -152,10 +152,10 @@
 #' @format sf data frame with 4 columns and 9 rows.
 "eemian_coordinates"
 
-#' Long Term Monthly Temperature in 100 Major Cities
+#' Long Term Monthly Temperature in 20 Major Cities
 #'
 #' @description
-#' Average temperatures between 1975 and 2010 of 100 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
+#' Average temperatures between 1975 and 2010 of 20 major cities of the world. [Source](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv).
 #'
 #' Site coordinates for this dataset are in [cities_coordinates].
 #'
@@ -170,7 +170,7 @@
 #' #to time series list
 #' cities <- tsl_initialize(
 #'   x = cities_temperature,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
@@ -209,7 +209,7 @@
 #' Flight Path Time Series of Albatrosses in The Pacific
 #'
 #' @description
-#' Data frame with id, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature of the flight paths of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008.
+#' Daily mean flight path data of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
 #' @references \doi{10.5441/001/1.3hp3s250}
 #' @docType data
 #' @keywords datasets
@@ -223,7 +223,7 @@
 #' #align all time series to same temporal span
 #' tsl <- tsl_initialize(
 #'   x = albatross,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
 #'   tsl_transform(

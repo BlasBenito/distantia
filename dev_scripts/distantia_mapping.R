@@ -4,7 +4,7 @@ data("eemian_coordinates")
 #initialize tsl
 tsl <- distantia::tsl_init(
   x = distantia::eemian_pollen,
-  id_column = "site",
+  name_column = "site",
   time_column = "depth"
 )
 

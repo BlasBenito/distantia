@@ -16,7 +16,7 @@
 #' #sum by month
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
 #'   tsl_subset(

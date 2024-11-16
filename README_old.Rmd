@@ -364,7 +364,7 @@ help(workflowPsi)
 #computing psi for A and B
 AB.psi <- workflowPsi(
   sequences = AB.sequences,
-  grouping.column = "id",
+  grouping.column = "name",
   method = "euclidean",
   format = "list",
   diagonal = TRUE,
@@ -759,7 +759,7 @@ MIS.short.long <- prepareSequences(
   sequence.A.name = "short",
   sequence.B = MIS.long,
   sequence.B.name = "long",
-  grouping.column = "id",
+  grouping.column = "name",
   transformation = "hellinger"
 )
 ```
@@ -769,7 +769,7 @@ The function **workflowPartialMatch** shown below is going to subset the long se
 ```{r}
 MIS.psi <- workflowPartialMatch(
   sequences = MIS.short.long,
-  grouping.column = "id",
+  grouping.column = "name",
   method = "euclidean",
   diagonal = TRUE,
   ignore.blocks = TRUE,
@@ -827,7 +827,7 @@ AB <- prepareSequences(
   sequence.A.name = "A",
   sequence.B = B,
   sequence.B.name = "B",
-  grouping.column = "id",
+  grouping.column = "name",
   exclude.columns = c("depth", "age"),
   transformation = "none"
 )
@@ -838,7 +838,7 @@ Once the sequences are prepared, the function **workflowSlotting** will allow to
 ```{r, fig.width = 5, fig.height = 3.5, fig.cap = "Distance matrix and least-cost path of the example sequences 'A' and 'B'.."}
 AB.combined <- workflowSlotting(
   sequences = AB,
-  grouping.column = "id",
+  grouping.column = "name",
   time.column = "age", 
   exclude.columns = "depth",
   method = "euclidean",
@@ -963,7 +963,7 @@ GP.X <- prepareSequences(
   sequence.A.name = "GP",
   sequence.B = pollenX,
   sequence.B.name = "X",
-  grouping.column = "id",
+  grouping.column = "name",
   time.column = "age",
   exclude.columns = "depth",
   transformation = "none"
@@ -984,7 +984,7 @@ A direct transfer of an attribute from the samples of one sequence to the sample
 #parameters
 X.new <- workflowTransfer(
   sequences = GP.X,
-  grouping.column = "id",
+  grouping.column = "name",
   time.column = "age",
   method = "euclidean",
   transfer.what = "age",
@@ -1082,7 +1082,7 @@ GP.X <- prepareSequences(
   sequence.A.name = "GP",
   sequence.B = pollenX,
   sequence.B.name = "X",
-  grouping.column = "id",
+  grouping.column = "name",
   time.column = "age",
   exclude.columns = "depth",
   transformation = "none"
@@ -1095,7 +1095,7 @@ To transfer attributes from *GP* to *X* we use the **workflowTransfer** function
 #parameters
 X.new <- workflowTransfer(
   sequences = GP.X,
-  grouping.column = "id",
+  grouping.column = "name",
   time.column = "age",
   method = "euclidean",
   transfer.what = "age",

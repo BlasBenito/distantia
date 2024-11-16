@@ -4,12 +4,12 @@
 \alias{utils_prepare_df}
 \title{Convert Data Frame to a List of Data Frames}
 \usage{
-utils_prepare_df(x = NULL, id_column = NULL, time_column = NULL)
+utils_prepare_df(x = NULL, name_column = NULL, time_column = NULL)
 }
 \arguments{
 \item{x}{(required, data frame) Input data frame. Default: NULL.}
 
-\item{id_column}{(optional, column name) Column name used to split \code{x} to a list of data frames. If omitted, the split is done by column instead. Default: NULL}
+\item{name_column}{(optional, column name) Column name used to split \code{x} to a list of data frames. If omitted, the split is done by column instead. Default: NULL}
 
 \item{time_column}{(optional, column name) Name of the column representing time, if any. Default: NULL.}
 }

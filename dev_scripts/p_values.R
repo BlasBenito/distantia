@@ -4,7 +4,7 @@
 #'
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "site",
+#'   name_column = "site",
 #'   time_column = "date"
 #' )
 #'

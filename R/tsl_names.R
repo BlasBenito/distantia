@@ -15,7 +15,7 @@
 #' #initialize a time series list
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
@@ -279,7 +279,7 @@ tsl_names_set <- function(
 #' #initialize time series list
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   id_column = "id",
+#'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'

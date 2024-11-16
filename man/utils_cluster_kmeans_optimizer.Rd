@@ -28,12 +28,12 @@ future::plan(
 #progress bar
 # progressr::handlers(global = TRUE)
 
-#daily covid prevalence
+#weekly covid prevalence
 #in 10 California counties
 #aggregated by month
 tsl <- tsl_initialize(
   x = covid_prevalence,
-  id_column = "id",
+  name_column = "name",
   time_column = "time"
 ) |>
   tsl_subset(
