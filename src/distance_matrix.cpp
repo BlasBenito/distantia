@@ -51,7 +51,7 @@ NumericMatrix distance_matrix_cpp(
 }
 
 
-//' (C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series
+//' (C++) Sum of Pairwise Distances Between Cases in Two Aligned Time Series
 //' @description Computes the lock-step sum of distances between two regular
 //' and aligned time series. NA values should be removed before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should

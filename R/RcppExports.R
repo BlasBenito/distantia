@@ -478,7 +478,7 @@ distance_matrix_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_distance_matrix_cpp`, x, y, distance)
 }
 
-#' (C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series
+#' (C++) Sum of Pairwise Distances Between Cases in Two Aligned Time Series
 #' @description Computes the lock-step sum of distances between two regular
 #' and aligned time series. NA values should be removed before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -658,7 +658,7 @@ delete_column_cpp <- function(x, column_index) {
 #' This function generates a data frame with the following columns:
 #' \itemize{
 #'   \item variable: name of the individual variable for which the importance
-#'   is being commputed, from the column names of the arguments `x` and `y`.
+#'   is being computed, from the column names of the arguments `x` and `y`.
 #'   \item psi: global dissimilarity score `psi` of the two time series.
 #'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
 #'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.
@@ -713,7 +713,7 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' This function generates a data frame with the following columns:
 #' \itemize{
 #'   \item variable: name of the individual variable for which the importance
-#'   is being commputed, from the column names of the arguments `x` and `y`.
+#'   is being computed, from the column names of the arguments `x` and `y`.
 #'   \item psi: global dissimilarity score `psi` of the two time series.
 #'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
 #'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.

@@ -65,51 +65,42 @@ future::plan(
   workers = 2 #set to parallelly::availableWorkers() - 1
 )
 
-#progress bar
+# progress bar (does not work in examples)
 # progressr::handlers(global = TRUE)
 
-# daily aggregation
+# yearly aggregation
 #----------------------------------
-
-#flight paths of five albatrosses
-#scaled to improve visualization
+#long-term monthly temperature of 20 cities
 tsl <- tsl_initialize(
-  x = albatross,
+  x = cities_temperature,
   name_column = "name",
   time_column = "time"
-) |>
-  tsl_transform(
-    f = f_scale
-  )
+)
 
 #plot time series
 if(interactive()){
   tsl_plot(
-    tsl = tsl,
+    tsl = tsl[1:4],
     guide_columns = 4
-    )
+  )
 }
 
 #check time features
-tsl_time(tsl)
-#many observations per day
-#different starting and ending dates
+tsl_time(tsl)[, c("name", "resolution", "units")]
 
-#aggregation: mean daily values
-tsl_daily <- tsl_aggregate(
+#aggregation: mean yearly values
+tsl_year <- tsl_aggregate(
   tsl = tsl,
-  new_time = "days",
+  new_time = "year",
   method = mean
 )
 
-#check time features
-tsl_time(tsl_daily)
-#one observation per day
-#same starting and ending dates
+#' #check time features
+tsl_time(tsl_year)[, c("name", "resolution", "units")]
 
 if(interactive()){
   tsl_plot(
-    tsl = tsl_daily,
+    tsl = tsl_year[1:4],
     guide_columns = 4
   )
 }
@@ -125,7 +116,7 @@ tsl <- tsl_simulate(
   time_range = c(
     "0000-01-01",
     as.character(Sys.Date())
-    )
+  )
 )
 
 #mean value by millennia (extreme case!!!)
@@ -140,16 +131,15 @@ if(interactive()){
 }
 
 #max value by centuries
-tsl_centuries <- tsl_aggregate(
+tsl_century <- tsl_aggregate(
   tsl = tsl,
-  new_time = "centuries",
+  new_time = "century",
   method = max
 )
 
 if(interactive()){
-  tsl_plot(tsl_centuries)
+  tsl_plot(tsl_century)
 }
-
 
 #quantile 0.75 value by centuries
 tsl_centuries <- tsl_aggregate(
@@ -159,13 +149,11 @@ tsl_centuries <- tsl_aggregate(
   probs = 0.75 #argument of stats::quantile()
 )
 
-if(interactive()){
-  tsl_plot(tsl_centuries)
-}
 #disable parallelization
 future::plan(
   future::sequential
 )
+
 }
 \seealso{
 \code{\link[=zoo_aggregate]{zoo_aggregate()}}

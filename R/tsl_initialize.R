@@ -1,4 +1,4 @@
-#' Tranform Data to a Time Series List
+#' Transform Data to a Time Series List
 #'
 #' @description
 #'
@@ -32,16 +32,16 @@
 #' #---------------------
 #' data("fagus_dynamics")
 #'
-#' #name_column is site
-#' #time column is date
+#' #name_column is name
+#' #time column is time
 #' str(fagus_dynamics)
 #'
 #' #to tsl
 #' #each group in name_column is a different time series
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
-#'   name_column = "site",
-#'   time_column = "date"
+#'   name_column = "name",
+#'   time_column = "time"
 #' )
 #'
 #' #check validity (no messages or errors if valid)
@@ -85,12 +85,12 @@
 #' #each column is same variable in different places
 #' df <- stats::reshape(
 #'   data = fagus_dynamics[, c(
-#'     "site",
-#'     "date",
+#'     "name",
+#'     "time",
 #'     "evi"
 #'   )],
-#'   timevar = "site",
-#'   idvar = "date",
+#'   timevar = "name",
+#'   idvar = "time",
 #'   direction = "wide",
 #'   sep = "_"
 #' )
@@ -99,12 +99,12 @@
 #'
 #' #to tsl
 #' #key assumptions:
-#' #all columns but "date" represent
+#' #all columns but "time" represent
 #' #the same variable in different places
 #' #all time series are of the same length
 #' tsl <- tsl_initialize(
 #'   x = df,
-#'   time_column = "date"
+#'   time_column = "time"
 #'   )
 #'
 #' #colnames are forced to be the same...

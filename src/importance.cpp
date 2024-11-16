@@ -103,7 +103,7 @@ NumericMatrix delete_column_cpp(
 //' This function generates a data frame with the following columns:
 //' \itemize{
 //'   \item variable: name of the individual variable for which the importance
-//'   is being commputed, from the column names of the arguments `x` and `y`.
+//'   is being computed, from the column names of the arguments `x` and `y`.
 //'   \item psi: global dissimilarity score `psi` of the two time series.
 //'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
 //'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.
@@ -229,7 +229,7 @@ DataFrame importance_lock_step_cpp(
 //' This function generates a data frame with the following columns:
 //' \itemize{
 //'   \item variable: name of the individual variable for which the importance
-//'   is being commputed, from the column names of the arguments `x` and `y`.
+//'   is being computed, from the column names of the arguments `x` and `y`.
 //'   \item psi: global dissimilarity score `psi` of the two time series.
 //'   \item psi_only_with: dissimilarity between `x` and `y` computed from the given variable alone.
 //'   \item psi_without: dissimilarity between `x` and `y` computed from all other variables.

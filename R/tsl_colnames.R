@@ -3,7 +3,7 @@
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character string) Three different sets of column names can be requested:
 #' \itemize{
-#'   \item "all" (default): list with the column names in each zoo object in `tsl`. Unnammed columns are tagged with the string "unnamed".
+#'   \item "all" (default): list with the column names in each zoo object in `tsl`. Unnamed columns are tagged with the string "unnamed".
 #'   \item "shared": character vector with the shared column names in at least two zoo objects in `tsl`.
 #'   \item "exclusive": list with names of exclusive columns (if any) in each zoo object in `tsl`.
 #' }
@@ -277,7 +277,7 @@ tsl_colnames_set <- function(
 #' Clean Column Names in Time Series Lists
 #'
 #' @description
-#' Uses the function [utils_clean_names()] to simplify and homogeneize messy column names in a time series list.
+#' Uses the function [utils_clean_names()] to simplify and normalize messy column names in a time series list.
 #'
 #' The cleanup operations are applied in the following order:
 #' \itemize{

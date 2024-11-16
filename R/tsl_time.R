@@ -85,6 +85,8 @@ tsl_time <- function(
     args = time_list
   )
 
+  rownames(out) <- NULL
+
   out
 
 }

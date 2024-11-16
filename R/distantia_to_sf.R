@@ -106,12 +106,12 @@ distantia_to_sf <- function(
       package = "sf",
       quietly = TRUE
     ) == FALSE){
-    stop("Please install the package 'sf' before running this function.")
+    stop("distantia::distantia_to_sf(): please install the package 'sf' before running this function.", call. = FALSE)
   }
 
   #check df
   if(is.null(df)){
-    stop("Argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().")
+    stop("distantia::distantia_to_sf(): argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().", call. = FALSE)
   }
 
   df_type <- attributes(df)$type
@@ -122,7 +122,7 @@ distantia_to_sf <- function(
   )
 
   if(!(df_type %in% types)){
-    stop("Argument 'df' must be the output of distantia::distantia().")
+    stop("distantia::distantia_to_sf(): argument 'df' must be the output of distantia::distantia().", call. = FALSE)
   }
 
   df_names <- unique(c(df$x, df$y))
@@ -141,11 +141,8 @@ distantia_to_sf <- function(
     nrow(df_aggregated) < nrow(df) &&
     ncol(df_aggregated) < ncol(df)
     ){
-    warning(
-      "Argument 'df' was simplified via distantia::distantia_aggregate(), resulting in the loss of the following columns: \n\n'",
-      paste(lost_cols, collapse = "'\n'"),
-    "'\n\nTo fix this issue, run distantia::distantia() or distantia::distantia_importance() with a single combination of arguments."
-    )
+    message(
+      "distantia::distantia_to_sf(): argument 'df' was aggregated via distantia::distantia_aggregate().")
 
     df <- df_aggregated
 
@@ -159,19 +156,19 @@ distantia_to_sf <- function(
 
   # xy ----
   if(is.null(xy)){
-    stop("Argument 'xy' must be a data frame with time series names and coordinates.")
+    stop("distantia::distantia_to_sf(): argument 'xy' must be a data frame with time series names and coordinates.", call. = FALSE)
   }
 
   ## find geometry ----
   if(inherits(x = xy, what = "sf") == FALSE){
 
-    stop("Argument 'xy' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.")
+    stop("distantia::distantia_to_sf(): argument 'xy' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.", call. = FALSE)
 
   }
 
   if(inherits(x = sf::st_geometry(xy), what = "sfc_POINT") == FALSE){
 
-    stop("The 'geometry' column in 'xy' must be of type 'POINT'.")
+    stop("distantia::distantia_to_sf(): The 'geometry' column in 'xy' must be of type 'POINT'.", call. = FALSE)
 
   }
 
@@ -191,7 +188,7 @@ distantia_to_sf <- function(
   xy_names <- names(xy_names[xy_names == TRUE])
 
   if(!(xy_names %in% colnames(xy))){
-    stop("Argument 'xy' must have a column with the time series names in 'df' (check values in df$x and df$y).")
+    stop("distantia::distantia_to_sf(): Argument 'xy' must have a column with the time series names in 'df' (check values in df$x and df$y).")
   }
 
   ## add id column ----
@@ -204,6 +201,7 @@ distantia_to_sf <- function(
     by.x = "x",
     by.y = xy_names
   )
+
   colnames(df)[colnames(df) == "name"] <- "id_x"
 
   df <- merge(
@@ -212,10 +210,11 @@ distantia_to_sf <- function(
     by.x = "y",
     by.y = xy_names
   )
+
   colnames(df)[colnames(df) == "name"] <- "id_y"
 
 
-  # generate geonetwork ----
+  # generate network ----
 
   ## function to create lines
   points_to_line <- function(id_x, id_y, xy) {
@@ -230,8 +229,8 @@ distantia_to_sf <- function(
   ## generate lines list ----
   xy_lines_list <- mapply(
     FUN = points_to_line,
-    df$id_x,
-    df$id_y,
+    df$id.x,
+    df$id.y,
     MoreArgs = list(xy = xy)
   )
 

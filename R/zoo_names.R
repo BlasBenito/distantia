@@ -130,7 +130,7 @@ zoo_name_get <- function(
 #' @param suffix (optional, character string) Suffix for the clean names. Default: NULL.
 #' @param prefix (optional, character string)  Prefix for the clean names. Default: NULL.
 #'
-#' @return zoo timme series
+#' @return zoo time series
 #'
 #' @autoglobal
 #' @family data_preparation

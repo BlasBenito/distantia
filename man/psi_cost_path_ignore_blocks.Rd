@@ -6,6 +6,9 @@
 \usage{
 psi_cost_path_ignore_blocks(path = NULL)
 }
+\arguments{
+\item{path}{(required, data frame) least cost path produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Default: NULL}
+}
 \value{
 data frame
 }

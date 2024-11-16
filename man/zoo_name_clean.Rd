@@ -33,7 +33,7 @@ zoo_name_clean(
 \item{prefix}{(optional, character string)  Prefix for the clean names. Default: NULL.}
 }
 \value{
-zoo timme series
+zoo time series
 }
 \description{
 Combines \code{\link[=utils_clean_names]{utils_clean_names()}} and \code{\link[=zoo_name_set]{zoo_name_set()}} to help clean, abbreviate, capitalize, and add a suffix or a prefix to the name of a zoo object.
@@ -62,7 +62,7 @@ x <- zoo_name_clean(
 zoo_name_get(x = x)
 }
 \seealso{
-Other data_preparation: 
+Other data_preparation:
 \code{\link{tsl_colnames_clean}()},
 \code{\link{tsl_colnames_set}()},
 \code{\link{tsl_diagnose}()},

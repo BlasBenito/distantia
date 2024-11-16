@@ -18,14 +18,14 @@ utils_prepare_df <- function(
   }
 
   if(nrow(x) < 3){
-    stop("Number of rows in 'x' is not enough for a dissimilarity analysis.")
+    stop("distantia::utils_prepare_df(): number of rows in 'x' is not enough for a dissimilarity analysis.", call. = FALSE)
   }
 
   if(is.null(time_column)){
     time_column <- NA
   } else {
     if(!(time_column %in% names(x))){
-      stop("Column '", time_column, "' is not a column name of the data frame 'x'.")
+      stop("distantia::utils_prepare_df(): Column '", time_column, "' is not a column name of the data frame 'x'.", call. = FALSE)
     }
   }
 
@@ -33,7 +33,7 @@ utils_prepare_df <- function(
     name_column <- NA
   } else {
     if(!(name_column %in% names(x))){
-      stop("Column '", name_column, "' is not a column name of the data frame 'x'.")
+      stop("distantia::utils_prepare_df(): column '", name_column, "' is not a column name of the data frame 'x'.", call. = FALSE)
     }
   }
 
@@ -78,6 +78,11 @@ utils_prepare_df <- function(
     )
 
   }
+
+  #drop geometry column, if any
+  x <- utils_drop_geometry(
+    df = x
+  )
 
   x
 

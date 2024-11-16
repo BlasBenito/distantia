@@ -104,7 +104,7 @@
 #'
 #' @description
 #'
-#' Pollen ounts of nine interglacial sites in central Europe.
+#' Pollen counts of nine interglacial sites in central Europe.
 #'
 #' Site coordinates for this dataset are in [eemian_coordinates].
 #'
