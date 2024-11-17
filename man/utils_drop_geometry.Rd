@@ -15,3 +15,11 @@ data frame
 \description{
 Replicates the functionality of  \code{sf::st_drop_geometry()} without depending on the \code{sf} package.
 }
+\seealso{
+Other tsl_processing_internal: 
+\code{\link{utils_global_scaling_params}()},
+\code{\link{utils_optimize_loess}()},
+\code{\link{utils_optimize_spline}()},
+\code{\link{utils_rescale_vector}()}
+}
+\concept{tsl_processing_internal}

@@ -46,14 +46,23 @@ lapply(tsl, colnames)
 
 }
 \seealso{
-Other data_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
+Other tsl_management: 
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_get}()},
+\code{\link{tsl_colnames_set}()},
+\code{\link{tsl_count_NA}()},
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_get}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_names_test}()},
+\code{\link{tsl_ncol}()},
+\code{\link{tsl_nrow}()},
+\code{\link{tsl_repair}()},
 \code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{tsl_time}()},
+\code{\link{tsl_time_class_set}()},
+\code{\link{tsl_to_df}()}
 }
-\concept{data_processing}
+\concept{tsl_management}

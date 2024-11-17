@@ -77,7 +77,7 @@
 #'   )
 #'
 #' tsl <- tsl_repair(tsl)
-#' @family data_preparation
+#' @family tsl_management
 tsl_repair <- function(
     tsl = NULL,
     full = TRUE

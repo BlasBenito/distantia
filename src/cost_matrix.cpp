@@ -7,7 +7,7 @@ using namespace Rcpp;
 //' @param dist_matrix (required, distance matrix). Square distance matrix, output of [distance_matrix_cpp()].
 //' @return Least cost matrix.
 //' @export
-//' @family Rcpp
+//' @family Rcpp_matrix
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_diagonal_cpp(
     NumericMatrix dist_matrix
@@ -45,7 +45,7 @@ NumericMatrix cost_matrix_diagonal_cpp(
 //' @param dist_matrix (required, distance matrix). Distance matrix.
 //' @return Least cost matrix.
 //' @export
-//' @family Rcpp
+//' @family Rcpp_matrix
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_diagonal_weighted_cpp(
     NumericMatrix dist_matrix
@@ -90,7 +90,7 @@ NumericMatrix cost_matrix_diagonal_weighted_cpp(
 //' @param dist_matrix (required, distance matrix). Output of [distance_matrix_cpp()].
 //' @return Least cost matrix.
 //' @export
-//' @family Rcpp
+//' @family Rcpp_matrix
 // [[Rcpp::export]]
 NumericMatrix cost_matrix_orthogonal_cpp(
      NumericMatrix dist_matrix

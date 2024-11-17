@@ -26,7 +26,7 @@ using namespace Rcpp;
 //'   distance = "euclidean"
 //' )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_matrix
 //' @name distance_matrix_cpp
 // [[Rcpp::export]]
 NumericMatrix distance_matrix_cpp(
@@ -80,7 +80,7 @@ NumericMatrix distance_matrix_cpp(
 //'   distance = "euclidean"
 //' )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_matrix
 // [[Rcpp::export]]
 double distance_lock_step_cpp(
     NumericMatrix x,

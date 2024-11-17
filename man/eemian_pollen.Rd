@@ -11,7 +11,7 @@ data frame with 24 columns and 376 rows.
 data(eemian_pollen)
 }
 \description{
-Pollen ounts of nine interglacial sites in central Europe.
+Pollen counts of nine interglacial sites in central Europe.
 
 Site coordinates for this dataset are in \link{eemian_coordinates}.
 }
@@ -49,9 +49,7 @@ Other example_data:
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
-\code{\link{tsl_simulate}()},
-\code{\link{zoo_simulate}()}
+\code{\link{fagus_dynamics}}
 }
 \concept{example_data}
 \keyword{datasets}

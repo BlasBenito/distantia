@@ -75,7 +75,7 @@
 #'   tsl = tsl,
 #'   full = TRUE
 #'   )
-#' @family data_preparation
+#' @family tsl_management
 tsl_diagnose <- function(
     tsl = NULL,
     full = TRUE

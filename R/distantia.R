@@ -153,7 +153,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-#' @family dissimilarity_analysis
+#' @family dissimilarity_analysis_main
 distantia <- function(
     tsl = NULL,
     distance = "euclidean",

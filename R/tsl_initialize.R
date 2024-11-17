@@ -1,4 +1,4 @@
-#' Transform Data to a Time Series List
+#' Transform Raw Time Series Data to Time Series List
 #'
 #' @description
 #'
@@ -211,7 +211,7 @@
 #'
 #' @autoglobal
 #' @export
-#' @family data_preparation
+#' @family tsl_initialize
 tsl_initialize <- function(
     x = NULL,
     name_column = NULL,

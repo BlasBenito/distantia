@@ -32,7 +32,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other data_transformation: 
+Other tsl_transformation: 
 \code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_hellinger}()},
@@ -46,4 +46,4 @@ Other data_transformation:
 \code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}
 }
-\concept{data_transformation}
+\concept{tsl_transformation}

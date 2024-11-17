@@ -7,6 +7,7 @@
 #' @return data frame
 #' @autoglobal
 #' @export
+#' @family tsl_processing_internal
 utils_drop_geometry <- function(
     df = NULL
 ){

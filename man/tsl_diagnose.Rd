@@ -85,20 +85,23 @@ tsl <- tsl_diagnose(
   )
 }
 \seealso{
-Other data_preparation: 
+Other tsl_management: 
 \code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_get}()},
 \code{\link{tsl_colnames_set}()},
+\code{\link{tsl_count_NA}()},
 \code{\link{tsl_handle_NA}()},
-\code{\link{tsl_initialize}()},
 \code{\link{tsl_names_clean}()},
+\code{\link{tsl_names_get}()},
 \code{\link{tsl_names_set}()},
 \code{\link{tsl_names_test}()},
+\code{\link{tsl_ncol}()},
+\code{\link{tsl_nrow}()},
 \code{\link{tsl_repair}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
+\code{\link{tsl_time}()},
 \code{\link{tsl_time_class_set}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+\code{\link{tsl_to_df}()}
 }
-\concept{data_preparation}
+\concept{tsl_management}

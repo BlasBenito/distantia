@@ -267,14 +267,9 @@ future::plan(
 \seealso{
 \code{\link[=zoo_resample]{zoo_resample()}}
 
-Other data_processing: 
+Other tsl_processing: 
 \code{\link{tsl_aggregate}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{tsl_stats}()},
+\code{\link{tsl_transform}()}
 }
-\concept{data_processing}
+\concept{tsl_processing}

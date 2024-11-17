@@ -70,7 +70,7 @@
 #' )
 #' @export
 #' @autoglobal
-#' @family data_exploration
+#' @family tsl_processing
 tsl_stats <- function(
     tsl = NULL,
     lags = 1L

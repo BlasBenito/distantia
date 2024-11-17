@@ -114,16 +114,7 @@ future::plan(
 )
 }
 \seealso{
-Other example_data: 
-\code{\link{albatross}},
-\code{\link{cities_coordinates}},
-\code{\link{cities_temperature}},
-\code{\link{covid_coordinates}},
-\code{\link{covid_prevalence}},
-\code{\link{eemian_coordinates}},
-\code{\link{eemian_pollen}},
-\code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
+Other simulate_time_series: 
 \code{\link{zoo_simulate}()}
 }
-\concept{example_data}
+\concept{simulate_time_series}

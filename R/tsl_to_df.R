@@ -1,4 +1,4 @@
-#' Time Series List to Data Frame
+#' Transform Time Series List to Data Frame
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #'
@@ -23,7 +23,7 @@
 #' names(df)
 #' nrow(df)
 #' head(df)
-#' @family data_processing
+#' @family tsl_management
 tsl_to_df <- function(
     tsl = NULL
 ){

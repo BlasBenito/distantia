@@ -20,7 +20,7 @@ using namespace Rcpp;
 //'   distance = "euclidean"
 //'   )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_auto_sum
 // [[Rcpp::export]]
 double auto_distance_cpp(
     NumericMatrix x,
@@ -68,7 +68,7 @@ double auto_distance_cpp(
 //' m[rows, ]
 //'
 //' @export
-//' @family Rcpp
+//' @family Rcpp_auto_sum
 // [[Rcpp::export]]
 NumericMatrix subset_matrix_by_rows_cpp(
     NumericMatrix m,
@@ -116,7 +116,7 @@ NumericMatrix subset_matrix_by_rows_cpp(
 //'   distance = "euclidean"
 //' )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_auto_sum
 // [[Rcpp::export]]
 double auto_sum_full_cpp(
     NumericMatrix x,
@@ -193,7 +193,7 @@ double auto_sum_full_cpp(
 //'   distance = "euclidean"
 //' )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_auto_sum
 // [[Rcpp::export]]
 double auto_sum_path_cpp(
   NumericMatrix x,
@@ -281,7 +281,7 @@ double auto_sum_path_cpp(
 //'   ignore_blocks = FALSE
 //' )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_auto_sum
 // [[Rcpp::export]]
 double auto_sum_cpp(
  NumericMatrix x,

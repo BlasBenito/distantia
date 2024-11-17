@@ -160,7 +160,7 @@
 #'   )
 #'
 #' }
-#' @family data_processing
+#' @family zoo_functions
 zoo_resample <- function(
     x = NULL,
     new_time = NULL,

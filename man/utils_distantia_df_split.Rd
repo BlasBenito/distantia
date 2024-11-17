@@ -58,6 +58,7 @@ Other internal:
 \code{\link{utils_check_args_zoo}()},
 \code{\link{utils_check_distance_args}()},
 \code{\link{utils_check_list_class}()},
+\code{\link{utils_clean_names}()},
 \code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_to_matrix}()},
 \code{\link{utils_prepare_df}()},

@@ -22,7 +22,7 @@ using namespace Rcpp;
 //' @param diagonal (optional, logical). Must be TRUE when diagonals are used in
 //' dynamic time warping and for lock-step distances. Default: FALSE.
 //' @return numeric
-//' @family Rcpp
+//' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
 double psi_equation_cpp(
@@ -56,7 +56,7 @@ double psi_equation_cpp(
 //' @param distance (optional, character string) distance name from the "names"
 //' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @return numeric
-//' @family Rcpp
+//' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
 double psi_lock_step_cpp(
@@ -113,7 +113,7 @@ double psi_lock_step_cpp(
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 //' @return numeric vector
-//' @family Rcpp
+//' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_lock_step_cpp(
@@ -222,7 +222,7 @@ NumericVector null_psi_lock_step_cpp(
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return numeric
-//' @family Rcpp
+//' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
 double psi_dynamic_time_warping_cpp(
@@ -297,7 +297,7 @@ double psi_dynamic_time_warping_cpp(
 //' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 //' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 //' @return numeric vector
-//' @family Rcpp
+//' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
 NumericVector null_psi_dynamic_time_warping_cpp(

@@ -45,15 +45,15 @@ zoo_time(
 )
 }
 \seealso{
-Other data_exploration: 
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_plot}()},
-\code{\link{tsl_stats}()},
-\code{\link{tsl_time}()},
-\code{\link{zoo_plot}()}
+Other zoo_functions: 
+\code{\link{zoo_aggregate}()},
+\code{\link{zoo_name_clean}()},
+\code{\link{zoo_name_get}()},
+\code{\link{zoo_name_set}()},
+\code{\link{zoo_permute}()},
+\code{\link{zoo_plot}()},
+\code{\link{zoo_resample}()},
+\code{\link{zoo_to_tsl}()},
+\code{\link{zoo_vector_to_matrix}()}
 }
-\concept{data_exploration}
+\concept{zoo_functions}

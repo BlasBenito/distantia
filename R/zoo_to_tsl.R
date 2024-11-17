@@ -22,7 +22,7 @@
 #' class(tsl[[1]])
 #' names(tsl)
 #' attributes(tsl[[1]])$name
-#' @family data_preparation
+#' @family zoo_functions
 zoo_to_tsl <- function(
     x = NULL
 ){

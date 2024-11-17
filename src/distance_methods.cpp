@@ -8,7 +8,7 @@ using namespace Rcpp;
 //' @return numeric
 //' @examples distance_chebyshev_cpp(x = runif(100), y = runif(100))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_chebyshev_cpp(NumericVector x, NumericVector y) {
 
@@ -36,7 +36,7 @@ double distance_chebyshev_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_jaccard_cpp(x = c(0, 1, 0, 1), y = c(1, 1, 0, 0))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_jaccard_cpp(NumericVector x, NumericVector y) {
 
@@ -69,7 +69,7 @@ double distance_jaccard_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_manhattan_cpp(x = runif(100), y = runif(100))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 
@@ -94,7 +94,7 @@ double distance_manhattan_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_euclidean_cpp(x = runif(100), y = runif(100))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 
@@ -120,7 +120,7 @@ double distance_euclidean_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_hellinger_cpp(x = runif(100), y = runif(100))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 
@@ -152,7 +152,7 @@ double distance_hellinger_cpp(NumericVector x, NumericVector y) {
 //' @param y (required, numeric vector) of same length as `x`.
 //' @return numeric
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_chi_cpp(NumericVector x, NumericVector y) {
 
@@ -186,7 +186,7 @@ double distance_chi_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_canberra_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_canberra_cpp(NumericVector x, NumericVector y) {
 
@@ -212,7 +212,7 @@ double distance_canberra_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_russelrao_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_russelrao_cpp(NumericVector x, NumericVector y) {
 
@@ -237,7 +237,7 @@ double distance_russelrao_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_cosine_cpp(NumericVector x, NumericVector y) {
 
@@ -265,7 +265,7 @@ double distance_cosine_cpp(NumericVector x, NumericVector y) {
 //' @return numeric
 //' @examples distance_hamming_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 //' @export
-//' @family Rcpp
+//' @family Rcpp_distance_methods
 // [[Rcpp::export]]
 double distance_hamming_cpp(NumericVector x, NumericVector y) {
 

@@ -8,7 +8,7 @@
 #' @autoglobal
 #' @examples
 #' #TODO missing example
-#' @family data_preparation
+#' @family tsl_management
 tsl_time_class_set <- function(
     tsl = NULL,
     to = NULL

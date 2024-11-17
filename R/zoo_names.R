@@ -32,7 +32,7 @@
 #' )
 #'
 #' zoo_name_get(x = x)
-#' @family data_preparation
+#' @family zoo_functions
 zoo_name_set <- function(
     x = NULL,
     name = NULL
@@ -97,7 +97,7 @@ zoo_name_set <- function(
 #' )
 #'
 #' zoo_name_get(x = x)
-#' @family data_preparation
+#' @family zoo_functions
 zoo_name_get <- function(
     x = NULL
 ){
@@ -133,7 +133,6 @@ zoo_name_get <- function(
 #' @return zoo time series
 #'
 #' @autoglobal
-#' @family data_preparation
 #' @export
 #' @examples
 #' #simulate zoo time series
@@ -157,6 +156,7 @@ zoo_name_get <- function(
 #' )
 #'
 #' zoo_name_get(x = x)
+#' @family zoo_functions
 zoo_name_clean <- function(
     x = NULL,
     lowercase = FALSE,

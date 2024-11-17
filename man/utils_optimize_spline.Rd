@@ -55,9 +55,10 @@ points(
 )
 }
 \seealso{
-Other internal_data_processing: 
+Other tsl_processing_internal: 
+\code{\link{utils_drop_geometry}()},
 \code{\link{utils_global_scaling_params}()},
 \code{\link{utils_optimize_loess}()},
 \code{\link{utils_rescale_vector}()}
 }
-\concept{internal_data_processing}
+\concept{tsl_processing_internal}

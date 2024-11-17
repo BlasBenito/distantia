@@ -17,7 +17,7 @@
 #'
 #' @export
 #' @autoglobal
-#' @family internal_data_processing
+#' @family tsl_processing_internal
 utils_rescale_vector <- function(
     x = NULL,
     new_min = 0,

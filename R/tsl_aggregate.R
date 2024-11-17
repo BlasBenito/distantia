@@ -145,7 +145,7 @@
 #'   future::sequential
 #' )
 #'
-#' @family data_processing
+#' @family tsl_processing
 tsl_aggregate <- function(
     tsl = NULL,
     new_time = NULL,

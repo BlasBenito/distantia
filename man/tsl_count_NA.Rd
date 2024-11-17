@@ -40,15 +40,23 @@ tsl[[1]][4, 1] <- NaN
 tsl_count_NA(tsl = tsl)
 }
 \seealso{
-Other data_exploration: 
+Other tsl_management: 
+\code{\link{tsl_colnames_clean}()},
 \code{\link{tsl_colnames_get}()},
+\code{\link{tsl_colnames_set}()},
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_get}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_names_test}()},
 \code{\link{tsl_ncol}()},
 \code{\link{tsl_nrow}()},
-\code{\link{tsl_plot}()},
-\code{\link{tsl_stats}()},
+\code{\link{tsl_repair}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
 \code{\link{tsl_time}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_time}()}
+\code{\link{tsl_time_class_set}()},
+\code{\link{tsl_to_df}()}
 }
-\concept{data_exploration}
+\concept{tsl_management}

@@ -13,7 +13,7 @@
 #' @return list
 #' @export
 #' @autoglobal
-#' @family internal_data_processing
+#' @family tsl_processing_internal
 utils_global_scaling_params <- function(
     tsl = NULL,
     f = NULL,

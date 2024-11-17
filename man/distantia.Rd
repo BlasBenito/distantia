@@ -181,14 +181,7 @@ future::plan(
 )
 }
 \seealso{
-Other dissimilarity_analysis: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_importance}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
-\code{\link{distantia_to_sf}()}
+Other dissimilarity_analysis_main: 
+\code{\link{distantia_importance}()}
 }
-\concept{dissimilarity_analysis}
+\concept{dissimilarity_analysis_main}

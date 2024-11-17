@@ -41,9 +41,10 @@ Rescale Numeric Vector to a New Data Range
 
 }
 \seealso{
-Other internal_data_processing: 
+Other tsl_processing_internal: 
+\code{\link{utils_drop_geometry}()},
 \code{\link{utils_global_scaling_params}()},
 \code{\link{utils_optimize_loess}()},
 \code{\link{utils_optimize_spline}()}
 }
-\concept{internal_data_processing}
+\concept{tsl_processing_internal}

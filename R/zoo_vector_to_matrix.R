@@ -27,7 +27,7 @@
 #'
 #' #coredata is now a matrix
 #' is.matrix(zoo::coredata(y))
-#' @family data_preparation
+#' @family zoo_functions
 zoo_vector_to_matrix <- function(
     x = NULL,
     name = NULL

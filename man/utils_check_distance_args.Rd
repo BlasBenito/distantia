@@ -32,6 +32,7 @@ Other internal:
 \code{\link{utils_check_args_tsl}()},
 \code{\link{utils_check_args_zoo}()},
 \code{\link{utils_check_list_class}()},
+\code{\link{utils_clean_names}()},
 \code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_split}()},
 \code{\link{utils_distantia_df_to_matrix}()},

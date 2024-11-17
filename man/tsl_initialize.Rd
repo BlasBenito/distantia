@@ -3,7 +3,7 @@
 \name{tsl_initialize}
 \alias{tsl_initialize}
 \alias{tsl_init}
-\title{Transform Data to a Time Series List}
+\title{Transform Raw Time Series Data to Time Series List}
 \usage{
 tsl_initialize(
   x = NULL,
@@ -238,21 +238,4 @@ if(interactive()){
 }
 
 }
-\seealso{
-Other data_preparation:
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_time_class_set}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
-}
-\concept{data_preparation}
+\concept{tsl_initialize}

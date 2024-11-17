@@ -11,7 +11,7 @@ tsl_colnames_get(tsl = NULL, names = c("all", "shared", "exclusive"))
 
 \item{names}{(optional, character string) Three different sets of column names can be requested:
 \itemize{
-\item "all" (default): list with the column names in each zoo object in \code{tsl}. Unnammed columns are tagged with the string "unnamed".
+\item "all" (default): list with the column names in each zoo object in \code{tsl}. Unnamed columns are tagged with the string "unnamed".
 \item "shared": character vector with the shared column names in at least two zoo objects in \code{tsl}.
 \item "exclusive": list with names of exclusive columns (if any) in each zoo object in \code{tsl}.
 }}
@@ -54,15 +54,23 @@ tsl_colnames_get(
 )
 }
 \seealso{
-Other data_exploration: 
+Other tsl_management: 
+\code{\link{tsl_colnames_clean}()},
+\code{\link{tsl_colnames_set}()},
 \code{\link{tsl_count_NA}()},
+\code{\link{tsl_diagnose}()},
+\code{\link{tsl_handle_NA}()},
+\code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_get}()},
+\code{\link{tsl_names_set}()},
+\code{\link{tsl_names_test}()},
 \code{\link{tsl_ncol}()},
 \code{\link{tsl_nrow}()},
-\code{\link{tsl_plot}()},
-\code{\link{tsl_stats}()},
+\code{\link{tsl_repair}()},
+\code{\link{tsl_split}()},
+\code{\link{tsl_subset}()},
 \code{\link{tsl_time}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_time}()}
+\code{\link{tsl_time_class_set}()},
+\code{\link{tsl_to_df}()}
 }
-\concept{data_exploration}
+\concept{tsl_management}

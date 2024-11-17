@@ -41,7 +41,7 @@ using namespace Rcpp;
 //'
 //' cost_path
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 DataFrame cost_path_slotting_cpp(
     NumericMatrix dist_matrix,
@@ -172,7 +172,7 @@ DataFrame cost_path_slotting_cpp(
 //'
 //' cost_path
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 DataFrame cost_path_orthogonal_cpp(
     NumericMatrix dist_matrix,
@@ -276,7 +276,7 @@ DataFrame cost_path_orthogonal_cpp(
 //'
 //' cost_path
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 DataFrame cost_path_diagonal_cpp(
     NumericMatrix dist_matrix,
@@ -379,7 +379,7 @@ DataFrame cost_path_diagonal_cpp(
 //'
 //' nrow(cost_path_trimmed)
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 DataFrame cost_path_trim_cpp(DataFrame path) {
 
@@ -453,7 +453,7 @@ DataFrame cost_path_trim_cpp(DataFrame path) {
 //'   path = cost_path
 //'   )
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 double cost_path_sum_cpp(
     DataFrame path
@@ -484,7 +484,7 @@ double cost_path_sum_cpp(
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @return data frame
 //' @export
-//' @family Rcpp
+//' @family Rcpp_cost_path
 // [[Rcpp::export]]
 DataFrame cost_path_cpp(
    NumericMatrix x,

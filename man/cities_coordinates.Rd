@@ -22,9 +22,7 @@ Other example_data:
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
-\code{\link{tsl_simulate}()},
-\code{\link{zoo_simulate}()}
+\code{\link{fagus_dynamics}}
 
 Other example_data: 
 \code{\link{albatross}},
@@ -34,9 +32,7 @@ Other example_data:
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
-\code{\link{tsl_simulate}()},
-\code{\link{zoo_simulate}()}
+\code{\link{fagus_dynamics}}
 }
 \concept{example_data}
 \keyword{datasets}

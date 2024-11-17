@@ -90,7 +90,7 @@
 #'     guide = FALSE
 #'   )
 #' }
-#' @family data_processing
+#' @family zoo_functions
 zoo_permute <- function(
     x = NULL,
     repetitions = 1L,

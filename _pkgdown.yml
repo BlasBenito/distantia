@@ -40,57 +40,77 @@ reference:
   desc: |
       The package follows these naming conventions:
 
-        - `tsl_...()`: functions to generate, process, and explore time series lists (TSLs).
-        - `zoo_...()`: functions to work with zoo time series.
-        - `distantia_...()`: functions to compare time series via dynamic time warping or lock-step methods.
+        - `distantia()` and `distantia_...()`: functions to assess time series dissimilarity via dynamic time warping or lock-step methods.
         - `psi_...()`: step-by-step demonstration of how psi dissimilarity scores are computed.
-        - `utils_...()`: internal functions and helpers.
+        - `tsl_...()`: functions to generate, process, and explore time series lists (TSLs).
         - `f_...()`: transformation functions used as input arguments for other functions.
-        - `..._cpp()`: C++ functions built via [Rcpp](https://CRAN.R-project.org/package=Rcpp) for efficient dissimilarity analysis.
+        - `zoo_...()`: functions to manage zoo time series.
+        - `utils_...()`: internal functions and helpers.
+        - `..._cpp()`: C++ core functions built via [Rcpp](https://CRAN.R-project.org/package=Rcpp) for efficient dissimilarity analysis.
 
-- title: Example Data
-  desc:  Time series datasets from different disciplines and functions to simulate time series data, to help learning how to use the R package `distantia`.
+- title: Example Time Series
+  desc:  Time series datasets from different disciplines.
 - contents:
   - has_concept("example_data")
 
-- title: Data Preparation
-  desc:  Load raw time series data into **time series lists** (TSLs hereafter), and diagnose and fix potential data issues.
+- title: Time Series Simulation
+  desc:  Functions to generate simulated time series.
 - contents:
-  - has_concept("data_preparation")
-  - has_concept("internal_data_preparation")
+  - has_concept("simulate_time_series")
 
-- title: Data Exploration
-  desc:  Functions to plot and explore key details of time series lists, such as names, dimensions, and others.
+- title: Core Functions for Time Series Dissimilarity Analysis
+  desc:  Functions to compare time series and assess the partial contribution of individual variables to dissimilarity.
 - contents:
-  - has_concept("data_exploration")
+  - has_concept("dissimilarity_analysis_main")
 
-- title: Data Processing
-  desc:  Functions to process and transform TSLs.
-- contents:
-  - has_concept("data_processing")
-  - has_concept("data_transformation")
-  - has_concept("internal_data_processing")
-
-- title: Dissimilarity Analysis and Clustering
-  desc:  Functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.
+- title: Support Functions for Dissimilarity Analysis
+  desc:  These functions use the output of `distantia()` or `distantia_importance()` to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.
 - contents:
   - has_concept("dissimilarity_analysis")
   - has_concept("internal_dissimilarity_analysis")
 
-- title: C++ Functions for Dissimilarity Analysis
-  desc:  Fast and efficient C++ functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison.
+- title: C++ Backend for Dissimilarity Analysis
+  desc:  These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in `distantia()` and `distantia_importance()`.
 - contents:
-  - has_concept("Rcpp")
+  - has_concept("Rcpp_dissimilarity_analysis")
+  - has_concept("Rcpp_importance")
+  - has_concept("Rcpp_permutation")
+  - has_concept("Rcpp_matrix")
+  - has_concept("Rcpp_auto_sum")
+  - has_concept("Rcpp_cost_path")
+  - has_concept("Rcpp_distance_methods")
 
-- title: Psi Dissimilarity Scores
-  desc:  Step-by-step demonstration of the *psi* dissimilarity score.
+- title: Psi Demo Functions
+  desc:  Step-by-step demonstration of *Psi* dissimilarity scores. These functions are R wrappers of several key C++ functions above.
 - contents:
   - has_concept("psi_demo")
 
-- title: C++ Functions
-  desc:  All C++ functions are focused on the efficient computation of psi dissimilarity scores via dynamic time warping or lock-step analysis.
+- title: Create Time Series Lists
+  desc:  Transform raw time series data into **time series lists** (TSLs hereafter). TSLs are lists of zoo time series objects used within the package for data management and analysis.
 - contents:
-  - has_concept("Rcpp")
+  - has_concept("tsl_initialize")
+
+- title: Manage Time Series Lists
+  desc:  Functions manage, diagnose, repair TSLs.
+- contents:
+  - has_concept("tsl_management")
+
+- title: Plot Time Series Lists
+  desc:  Main function to plot TSLs and its helpers.
+- contents:
+  - has_concept("tsl_visualization")
+
+- title: Processing Time Series Lists
+  desc:  Functions to transform, rescale, and aggregate TSLs.
+- contents:
+  - has_concept("tsl_processing")
+  - has_concept("tsl_transformation")
+  - has_concept("tsl_processing_internal")
+
+- title: Zoo Functions
+  desc:  Functions to Manage, Plot, and Transform Zoo Time Series
+- contents:
+  - has_concept("zoo_functions")
 
 - title: Plotting Helpers
   desc:  Internal functions to help with plotting tasks.

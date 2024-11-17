@@ -36,7 +36,7 @@
 #' zoo_time(
 #'   x = x
 #' )
-#' @family data_exploration
+#' @family zoo_functions
 zoo_time <- function(
     x = NULL,
     keywords = c(

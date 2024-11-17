@@ -142,7 +142,7 @@ NumericMatrix delete_column_cpp(
 //' )
 //'
 //' df
-//' @family Rcpp
+//' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_lock_step_cpp(
@@ -275,7 +275,7 @@ DataFrame importance_lock_step_cpp(
 //' )
 //'
 //' df
-//' @family Rcpp
+//' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_dynamic_time_warping_legacy_cpp(
@@ -414,7 +414,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
 //' )
 //'
 //' df
-//' @family Rcpp
+//' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
 DataFrame importance_dynamic_time_warping_robust_cpp(

@@ -19,7 +19,7 @@
 #'   distance = "euclidean"
 #'   )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_auto_sum
 auto_distance_cpp <- function(x, distance = "euclidean") {
     .Call(`_distantia_auto_distance_cpp`, x, distance)
 }
@@ -52,7 +52,7 @@ auto_distance_cpp <- function(x, distance = "euclidean") {
 #' m[rows, ]
 #'
 #' @export
-#' @family Rcpp
+#' @family Rcpp_auto_sum
 subset_matrix_by_rows_cpp <- function(m, rows) {
     .Call(`_distantia_subset_matrix_by_rows_cpp`, m, rows)
 }
@@ -78,7 +78,7 @@ subset_matrix_by_rows_cpp <- function(m, rows) {
 #'   distance = "euclidean"
 #' )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_auto_sum
 auto_sum_full_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_auto_sum_full_cpp`, x, y, distance)
 }
@@ -136,7 +136,7 @@ auto_sum_full_cpp <- function(x, y, distance = "euclidean") {
 #'   distance = "euclidean"
 #' )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_auto_sum
 auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
     .Call(`_distantia_auto_sum_path_cpp`, x, y, path, distance)
 }
@@ -194,7 +194,7 @@ auto_sum_path_cpp <- function(x, y, path, distance = "euclidean") {
 #'   ignore_blocks = FALSE
 #' )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_auto_sum
 auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks = FALSE) {
     .Call(`_distantia_auto_sum_cpp`, x, y, path, distance, ignore_blocks)
 }
@@ -205,7 +205,7 @@ auto_sum_cpp <- function(x, y, path, distance = "euclidean", ignore_blocks = FAL
 #' @param dist_matrix (required, distance matrix). Square distance matrix, output of [distance_matrix_cpp()].
 #' @return Least cost matrix.
 #' @export
-#' @family Rcpp
+#' @family Rcpp_matrix
 cost_matrix_diagonal_cpp <- function(dist_matrix) {
     .Call(`_distantia_cost_matrix_diagonal_cpp`, dist_matrix)
 }
@@ -216,7 +216,7 @@ cost_matrix_diagonal_cpp <- function(dist_matrix) {
 #' @param dist_matrix (required, distance matrix). Distance matrix.
 #' @return Least cost matrix.
 #' @export
-#' @family Rcpp
+#' @family Rcpp_matrix
 cost_matrix_diagonal_weighted_cpp <- function(dist_matrix) {
     .Call(`_distantia_cost_matrix_diagonal_weighted_cpp`, dist_matrix)
 }
@@ -226,7 +226,7 @@ cost_matrix_diagonal_weighted_cpp <- function(dist_matrix) {
 #' @param dist_matrix (required, distance matrix). Output of [distance_matrix_cpp()].
 #' @return Least cost matrix.
 #' @export
-#' @family Rcpp
+#' @family Rcpp_matrix
 cost_matrix_orthogonal_cpp <- function(dist_matrix) {
     .Call(`_distantia_cost_matrix_orthogonal_cpp`, dist_matrix)
 }
@@ -268,7 +268,7 @@ cost_matrix_orthogonal_cpp <- function(dist_matrix) {
 #'
 #' cost_path
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_slotting_cpp`, dist_matrix, cost_matrix)
 }
@@ -307,7 +307,7 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #'
 #' cost_path
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_orthogonal_cpp`, dist_matrix, cost_matrix)
 }
@@ -346,7 +346,7 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #'
 #' cost_path
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_diagonal_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_diagonal_cpp`, dist_matrix, cost_matrix)
 }
@@ -386,7 +386,7 @@ cost_path_diagonal_cpp <- function(dist_matrix, cost_matrix) {
 #'
 #' nrow(cost_path_trimmed)
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_trim_cpp <- function(path) {
     .Call(`_distantia_cost_path_trim_cpp`, path)
 }
@@ -421,7 +421,7 @@ cost_path_trim_cpp <- function(path) {
 #'   path = cost_path
 #'   )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_sum_cpp <- function(path) {
     .Call(`_distantia_cost_path_sum_cpp`, path)
 }
@@ -444,7 +444,7 @@ cost_path_sum_cpp <- function(path) {
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return data frame
 #' @export
-#' @family Rcpp
+#' @family Rcpp_cost_path
 cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
 }
@@ -472,7 +472,7 @@ cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighte
 #'   distance = "euclidean"
 #' )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_matrix
 #' @name distance_matrix_cpp
 distance_matrix_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_distance_matrix_cpp`, x, y, distance)
@@ -507,7 +507,7 @@ distance_matrix_cpp <- function(x, y, distance = "euclidean") {
 #'   distance = "euclidean"
 #' )
 #' @export
-#' @family Rcpp
+#' @family Rcpp_matrix
 distance_lock_step_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_distance_lock_step_cpp`, x, y, distance)
 }
@@ -519,7 +519,7 @@ distance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' @return numeric
 #' @examples distance_chebyshev_cpp(x = runif(100), y = runif(100))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_chebyshev_cpp <- function(x, y) {
     .Call(`_distantia_distance_chebyshev_cpp`, x, y)
 }
@@ -531,7 +531,7 @@ distance_chebyshev_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_jaccard_cpp(x = c(0, 1, 0, 1), y = c(1, 1, 0, 0))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_jaccard_cpp <- function(x, y) {
     .Call(`_distantia_distance_jaccard_cpp`, x, y)
 }
@@ -543,7 +543,7 @@ distance_jaccard_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_manhattan_cpp(x = runif(100), y = runif(100))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_manhattan_cpp <- function(x, y) {
     .Call(`_distantia_distance_manhattan_cpp`, x, y)
 }
@@ -555,7 +555,7 @@ distance_manhattan_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_euclidean_cpp(x = runif(100), y = runif(100))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_euclidean_cpp <- function(x, y) {
     .Call(`_distantia_distance_euclidean_cpp`, x, y)
 }
@@ -568,7 +568,7 @@ distance_euclidean_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_hellinger_cpp(x = runif(100), y = runif(100))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_hellinger_cpp <- function(x, y) {
     .Call(`_distantia_distance_hellinger_cpp`, x, y)
 }
@@ -587,7 +587,7 @@ distance_hellinger_cpp <- function(x, y) {
 #' @param y (required, numeric vector) of same length as `x`.
 #' @return numeric
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_chi_cpp <- function(x, y) {
     .Call(`_distantia_distance_chi_cpp`, x, y)
 }
@@ -599,7 +599,7 @@ distance_chi_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_canberra_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_canberra_cpp <- function(x, y) {
     .Call(`_distantia_distance_canberra_cpp`, x, y)
 }
@@ -611,7 +611,7 @@ distance_canberra_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_russelrao_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_russelrao_cpp <- function(x, y) {
     .Call(`_distantia_distance_russelrao_cpp`, x, y)
 }
@@ -623,7 +623,7 @@ distance_russelrao_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_cosine_cpp <- function(x, y) {
     .Call(`_distantia_distance_cosine_cpp`, x, y)
 }
@@ -635,7 +635,7 @@ distance_cosine_cpp <- function(x, y) {
 #' @return numeric
 #' @examples distance_hamming_cpp(c(0, 1, 0, 1), c(1, 1, 0, 0))
 #' @export
-#' @family Rcpp
+#' @family Rcpp_distance_methods
 distance_hamming_cpp <- function(x, y) {
     .Call(`_distantia_distance_hamming_cpp`, x, y)
 }
@@ -697,7 +697,7 @@ delete_column_cpp <- function(x, column_index) {
 #' )
 #'
 #' df
-#' @family Rcpp
+#' @family Rcpp_importance
 #' @export
 importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_importance_lock_step_cpp`, x, y, distance)
@@ -759,7 +759,7 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' )
 #'
 #' df
-#' @family Rcpp
+#' @family Rcpp_importance
 #' @export
 importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_importance_dynamic_time_warping_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
@@ -820,7 +820,7 @@ importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclide
 #' )
 #'
 #' df
-#' @family Rcpp
+#' @family Rcpp_importance
 #' @export
 importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_importance_dynamic_time_warping_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
@@ -835,7 +835,7 @@ importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclide
 #' Minimum value is 2, and maximum value is nrow(x).
 #' @param seed (optional, integer) random seed to use.
 #' @return numeric matrix
-#' @family Rcpp
+#' @family Rcpp_permutation
 #' @export
 permute_restricted_by_row_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_restricted_by_row_cpp`, x, block_size, seed)
@@ -847,7 +847,7 @@ permute_restricted_by_row_cpp <- function(x, block_size, seed = 1L) {
 #' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 #' @param seed (optional, integer) random seed to use.
 #' @return numeric matrix
-#' @family Rcpp
+#' @family Rcpp_permutation
 #' @export
 permute_free_by_row_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_free_by_row_cpp`, x, block_size, seed)
@@ -863,7 +863,7 @@ permute_free_by_row_cpp <- function(x, block_size, seed = 1L) {
 #' Minimum value is 2, and maximum value is nrow(x).
 #' @param seed (optional, integer) random seed to use.
 #' @return numeric matrix
-#' @family Rcpp
+#' @family Rcpp_permutation
 #' @export
 permute_restricted_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_restricted_cpp`, x, block_size, seed)
@@ -875,7 +875,7 @@ permute_restricted_cpp <- function(x, block_size, seed = 1L) {
 #' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 #' @param seed (optional, integer) random seed to use.
 #' @return numeric matrix
-#' @family Rcpp
+#' @family Rcpp_permutation
 #' @export
 permute_free_cpp <- function(x, block_size, seed = 1L) {
     .Call(`_distantia_permute_free_cpp`, x, block_size, seed)
@@ -895,7 +895,7 @@ permute_free_cpp <- function(x, block_size, seed = 1L) {
 #' @param diagonal (optional, logical). Must be TRUE when diagonals are used in
 #' dynamic time warping and for lock-step distances. Default: FALSE.
 #' @return numeric
-#' @family Rcpp
+#' @family Rcpp_dissimilarity_analysis
 #' @export
 psi_equation_cpp <- function(a, b, diagonal = TRUE) {
     .Call(`_distantia_psi_equation_cpp`, a, b, diagonal)
@@ -912,7 +912,7 @@ psi_equation_cpp <- function(a, b, diagonal = TRUE) {
 #' @param distance (optional, character string) distance name from the "names"
 #' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 #' @return numeric
-#' @family Rcpp
+#' @family Rcpp_dissimilarity_analysis
 #' @export
 psi_lock_step_cpp <- function(x, y, distance = "euclidean") {
     .Call(`_distantia_psi_lock_step_cpp`, x, y, distance)
@@ -941,7 +941,7 @@ psi_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return numeric vector
-#' @family Rcpp
+#' @family Rcpp_dissimilarity_analysis
 #' @export
 null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
     .Call(`_distantia_null_psi_lock_step_cpp`, x, y, distance, repetitions, permutation, block_size, seed)
@@ -964,7 +964,7 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @return numeric
-#' @family Rcpp
+#' @family Rcpp_dissimilarity_analysis
 #' @export
 psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
@@ -1000,7 +1000,7 @@ psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal 
 #' within a block of 3 adjacent rows. Minimum value is 2. Default: 3.
 #' @param seed (optional, integer) initial random seed to use for replicability. Default: 1
 #' @return numeric vector
-#' @family Rcpp
+#' @family Rcpp_dissimilarity_analysis
 #' @export
 null_psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
     .Call(`_distantia_null_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)

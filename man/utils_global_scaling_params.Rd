@@ -22,9 +22,10 @@ Internal function to compute global scaling parameters (mean and standard deviat
 Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
 }
 \seealso{
-Other internal_data_processing: 
+Other tsl_processing_internal: 
+\code{\link{utils_drop_geometry}()},
 \code{\link{utils_optimize_loess}()},
 \code{\link{utils_optimize_spline}()},
 \code{\link{utils_rescale_vector}()}
 }
-\concept{internal_data_processing}
+\concept{tsl_processing_internal}

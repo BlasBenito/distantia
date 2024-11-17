@@ -67,7 +67,7 @@
 #' if(interactive()){
 #'   tsl_plot(tsl = tsl_no_na)
 #' }
-#' @family data_preparation
+#' @family tsl_management
 tsl_handle_NA <- function(
     tsl = NULL,
     na_action = c(

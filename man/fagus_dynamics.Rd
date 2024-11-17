@@ -45,9 +45,7 @@ Other example_data:
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
-\code{\link{fagus_coordinates}},
-\code{\link{tsl_simulate}()},
-\code{\link{zoo_simulate}()}
+\code{\link{fagus_coordinates}}
 }
 \concept{example_data}
 \keyword{datasets}

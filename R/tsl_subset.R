@@ -59,7 +59,7 @@
 #' tsl_time(
 #'   tsl = tsl_new
 #' )[, c("name", "begin", "end")]
-#' @family data_processing
+#' @family tsl_management
 tsl_subset <- function(
     tsl = NULL,
     names = NULL,

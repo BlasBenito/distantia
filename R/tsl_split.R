@@ -36,7 +36,7 @@
 #'
 #' lapply(tsl, colnames)
 #'
-#' @family data_processing
+#' @family tsl_management
 tsl_split <- function(
     tsl = NULL,
     sep = "__"

@@ -47,7 +47,7 @@
 #'   )
 #'
 #' }
-#' @family example_data
+#' @family simulate_time_series
 zoo_simulate <- function(
     name = "A",
     cols = 5,

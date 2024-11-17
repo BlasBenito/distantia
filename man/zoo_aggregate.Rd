@@ -83,14 +83,15 @@ if(interactive()){
 }
 }
 \seealso{
-Other data_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_split}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()},
-\code{\link{tsl_transform}()},
+Other zoo_functions: 
+\code{\link{zoo_name_clean}()},
+\code{\link{zoo_name_get}()},
+\code{\link{zoo_name_set}()},
 \code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()}
+\code{\link{zoo_plot}()},
+\code{\link{zoo_resample}()},
+\code{\link{zoo_time}()},
+\code{\link{zoo_to_tsl}()},
+\code{\link{zoo_vector_to_matrix}()}
 }
-\concept{data_processing}
+\concept{zoo_functions}

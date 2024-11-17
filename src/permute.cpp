@@ -11,7 +11,7 @@ using namespace Rcpp;
 //' Minimum value is 2, and maximum value is nrow(x).
 //' @param seed (optional, integer) random seed to use.
 //' @return numeric matrix
-//' @family Rcpp
+//' @family Rcpp_permutation
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_restricted_by_row_cpp(
@@ -67,7 +67,7 @@ NumericMatrix permute_restricted_by_row_cpp(
 //' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 //' @param seed (optional, integer) random seed to use.
 //' @return numeric matrix
-//' @family Rcpp
+//' @family Rcpp_permutation
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_free_by_row_cpp(
@@ -97,7 +97,7 @@ NumericMatrix permute_free_by_row_cpp(
 //' Minimum value is 2, and maximum value is nrow(x).
 //' @param seed (optional, integer) random seed to use.
 //' @return numeric matrix
-//' @family Rcpp
+//' @family Rcpp_permutation
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_restricted_cpp(
@@ -150,7 +150,7 @@ NumericMatrix permute_restricted_cpp(
 //' @param block_size (optional, integer) this function ignores this argument and sets it to x.nrow().
 //' @param seed (optional, integer) random seed to use.
 //' @return numeric matrix
-//' @family Rcpp
+//' @family Rcpp_permutation
 //' @export
 // [[Rcpp::export]]
 NumericMatrix permute_free_cpp(
