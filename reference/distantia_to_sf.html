@@ -70,12 +70,10 @@
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other dissimilarity_analysis:
-<code><a href="distantia.html">distantia</a>()</code>,
 <code><a href="distantia_aggregate.html">distantia_aggregate</a>()</code>,
 <code><a href="distantia_boxplot.html">distantia_boxplot</a>()</code>,
 <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust</a>()</code>,
 <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans</a>()</code>,
-<code><a href="distantia_importance.html">distantia_importance</a>()</code>,
 <code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
 <code><a href="distantia_plot.html">distantia_plot</a>()</code></p></div>
     </div>
@@ -109,7 +107,6 @@
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">distantia_df</span>,</span></span>
 <span class="r-in"><span>  xy <span class="op">=</span> <span class="va">fagus_coordinates</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(..., check.names = FALSE):</span> arguments imply differing number of rows: 0, 3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#mapping with tmap</span></span></span>
 <span class="r-in"><span><span class="co"># library(tmap)</span></span></span>
@@ -135,10 +132,17 @@
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">importance_df</span>,</span></span>
 <span class="r-in"><span>  xy <span class="op">=</span> <span class="va">fagus_coordinates</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(..., check.names = FALSE):</span> arguments imply differing number of rows: 0, 3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">importance_sf</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'importance_sf' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "edge_name"                  "y"                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "x"                          "psi"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "most_similar"               "most_dissimilar"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "importance__evi"            "importance__rainfall"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "importance__temperature"    "psi_only_with__evi"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "psi_only_with__rainfall"    "psi_only_with__temperature"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "psi_without__evi"           "psi_without__rainfall"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "psi_without__temperature"   "id.x"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "id.y"                       "geometry"                  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># #map contribution to dissimilarity of evi</span></span></span>
 <span class="r-in"><span><span class="co"># #negative: contributes to similarity</span></span></span>

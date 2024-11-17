@@ -102,16 +102,24 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other data_exploration:
+    <div class="dont-index"><p>Other tsl_management:
+<code><a href="tsl_colnames_clean.html">tsl_colnames_clean</a>()</code>,
 <code><a href="tsl_colnames_get.html">tsl_colnames_get</a>()</code>,
+<code><a href="tsl_colnames_set.html">tsl_colnames_set</a>()</code>,
 <code><a href="tsl_count_NA.html">tsl_count_NA</a>()</code>,
+<code><a href="tsl_diagnose.html">tsl_diagnose</a>()</code>,
+<code><a href="tsl_handle_NA.html">tsl_handle_NA</a>()</code>,
+<code><a href="tsl_names_clean.html">tsl_names_clean</a>()</code>,
 <code><a href="tsl_names_get.html">tsl_names_get</a>()</code>,
+<code><a href="tsl_names_set.html">tsl_names_set</a>()</code>,
+<code><a href="tsl_names_test.html">tsl_names_test</a>()</code>,
 <code><a href="tsl_ncol.html">tsl_ncol</a>()</code>,
 <code><a href="tsl_nrow.html">tsl_nrow</a>()</code>,
-<code><a href="tsl_plot.html">tsl_plot</a>()</code>,
-<code><a href="tsl_stats.html">tsl_stats</a>()</code>,
-<code><a href="zoo_plot.html">zoo_plot</a>()</code>,
-<code><a href="zoo_time.html">zoo_time</a>()</code></p></div>
+<code><a href="tsl_repair.html">tsl_repair</a>()</code>,
+<code><a href="tsl_split.html">tsl_split</a>()</code>,
+<code><a href="tsl_subset.html">tsl_subset</a>()</code>,
+<code><a href="tsl_time_class_set.html">tsl_time_class_set</a>()</code>,
+<code><a href="tsl_to_df.html">tsl_to_df</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -132,9 +140,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A    A  150  Date  days 357.0785   2.396500 2023-11-23 2024-11-14 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B    B  150  Date  days 363.7813   2.441485 2023-11-18 2024-11-16 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C    C  150  Date  days 361.9533   2.429216 2023-11-17 2024-11-13 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  150  Date  days 357.0785   2.396500 2023-11-24 2024-11-15 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  150  Date  days 363.7813   2.441485 2023-11-19 2024-11-17 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  150  Date  days 361.9533   2.429216 2023-11-18 2024-11-14 quarters....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -147,10 +155,10 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-11-17"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-11-18"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-11-16"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-11-17"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6093489</span>

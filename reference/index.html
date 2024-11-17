@@ -44,26 +44,26 @@
       <h2 id="naming-conventions">Naming Conventions<a class="anchor" aria-label="anchor" href="#naming-conventions"></a></h2>
 
       <div class="section-desc"><p>The package follows these naming conventions:</p><ul><li>
-<code>tsl_...()</code>: functions to generate, process, and explore time series lists (TSLs).</li>
-<li>
-<code>zoo_...()</code>: functions to work with zoo time series.</li>
-<li>
-<code>distantia_...()</code>: functions to compare time series via dynamic time warping or lock-step methods.</li>
+<code><a href="../reference/distantia.html">distantia()</a></code> and <code>distantia_...()</code>: functions to assess time series dissimilarity via dynamic time warping or lock-step methods.</li>
 <li>
 <code>psi_...()</code>: step-by-step demonstration of how psi dissimilarity scores are computed.</li>
 <li>
-<code>utils_...()</code>: internal functions and helpers.</li>
+<code>tsl_...()</code>: functions to generate, process, and explore time series lists (TSLs).</li>
 <li>
 <code>f_...()</code>: transformation functions used as input arguments for other functions.</li>
 <li>
-<code>..._cpp()</code>: C++ functions built via <a href="https://CRAN.R-project.org/package=Rcpp" class="external-link">Rcpp</a> for efficient dissimilarity analysis.</li>
+<code>zoo_...()</code>: functions to manage zoo time series.</li>
+<li>
+<code>utils_...()</code>: internal functions and helpers.</li>
+<li>
+<code>..._cpp()</code>: C++ core functions built via <a href="https://CRAN.R-project.org/package=Rcpp" class="external-link">Rcpp</a> for efficient dissimilarity analysis.</li>
 </ul></div>
 
 
     </div><div class="section level2">
-      <h2 id="example-data">Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+      <h2 id="example-time-series">Example Time Series<a class="anchor" aria-label="anchor" href="#example-time-series"></a></h2>
 
-      <div class="section-desc"><p>Time series datasets from different disciplines and functions to simulate time series data, to help learning how to use the R package <code>distantia</code>.</p></div>
+      <div class="section-desc"><p>Time series datasets from different disciplines.</p></div>
 
 
     </div><div class="section level2">
@@ -125,7 +125,18 @@
 
         </dt>
         <dd>Time Series Data from Three Fagus sylvatica Stands</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="time-series-simulation">Time Series Simulation<a class="anchor" aria-label="anchor" href="#time-series-simulation"></a></h2>
+
+      <div class="section-desc"><p>Functions to generate simulated time series.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="tsl_simulate.html">tsl_simulate()</a></code>
 
@@ -138,9 +149,448 @@
         </dt>
         <dd>Simulate a Zoo Time Series</dd>
       </dl></div><div class="section level2">
-      <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a></h2>
+      <h2 id="core-functions-for-time-series-dissimilarity-analysis">Core Functions for Time Series Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#core-functions-for-time-series-dissimilarity-analysis"></a></h2>
 
-      <div class="section-desc"><p>Load raw time series data into <strong>time series lists</strong> (TSLs hereafter), and diagnose and fix potential data issues.</p></div>
+      <div class="section-desc"><p>Functions to compare time series and assess the partial contribution of individual variables to dissimilarity.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="distantia.html">distantia()</a></code>
+
+        </dt>
+        <dd>Dissimilarity Analysis of Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_importance.html">distantia_importance()</a></code>
+
+        </dt>
+        <dd>Contribution of Individual Variables to Dissimilarity in Time Series Lists</dd>
+      </dl></div><div class="section level2">
+      <h2 id="support-functions-for-dissimilarity-analysis">Support Functions for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#support-functions-for-dissimilarity-analysis"></a></h2>
+
+      <div class="section-desc"><p>These functions use the output of <code><a href="../reference/distantia.html">distantia()</a></code> or <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code> to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>
+
+        </dt>
+        <dd>Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_boxplot.html">distantia_boxplot()</a></code>
+
+        </dt>
+        <dd>Boxplot of Dissimilarity Analysis Data Frames</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust()</a></code>
+
+        </dt>
+        <dd>Hierarchical Clustering of Dissimilarity Analysis Data Frames</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans()</a></code>
+
+        </dt>
+        <dd>K-Means Clustering of Dissimilarity Analysis Data Frames</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_matrix.html">distantia_matrix()</a></code>
+
+        </dt>
+        <dd>Convert Dissimilarity Analysis Data Frame to Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_plot.html">distantia_plot()</a></code>
+
+        </dt>
+        <dd>Two-Way Dissimilarity Plots of Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_to_sf.html">distantia_to_sf()</a></code>
+
+        </dt>
+        <dd>Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_block_size.html">utils_block_size()</a></code>
+
+        </dt>
+        <dd>Default Block Size for Restricted Permutation in Dissimilarity Analyses</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer()</a></code>
+
+        </dt>
+        <dd>Optimize the Silhouette Width of Hierarchical Clustering Solutions</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer()</a></code>
+
+        </dt>
+        <dd>Optimize the Silhouette Width of K-Means Clustering Solutions</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette()</a></code>
+
+        </dt>
+        <dd>Compute Silhouette Width of a Clustering Solution</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_importance_df_to_wide.html">utils_importance_df_to_wide()</a></code>
+
+        </dt>
+        <dd>Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format</dd>
+      </dl></div><div class="section level2">
+      <h2 id="c-backend-for-dissimilarity-analysis">C++ Backend for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#c-backend-for-dissimilarity-analysis"></a></h2>
+
+      <div class="section-desc"><p>These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code>.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="null_psi_dynamic_time_warping_cpp.html">null_psi_dynamic_time_warping_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Null Distribution of Dissimilarity Scores of Two Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_dynamic_time_warping_cpp.html">psi_dynamic_time_warping_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Psi Dissimilarity Score of Two Time-Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_equation_cpp.html">psi_equation_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Equation of the Psi Dissimilarity Score</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Psi Dissimilarity Score of Two Aligned Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="importance_dynamic_time_warping_legacy_cpp.html">importance_dynamic_time_warping_legacy_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
+      </dl><dl><dt>
+
+          <code><a href="importance_dynamic_time_warping_robust_cpp.html">importance_dynamic_time_warping_robust_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
+      </dl><dl><dt>
+
+          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="permute_free_by_row_cpp.html">permute_free_by_row_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Unrestricted Permutation of Complete Rows</dd>
+      </dl><dl><dt>
+
+          <code><a href="permute_free_cpp.html">permute_free_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Unrestricted Permutation of Cases</dd>
+      </dl><dl><dt>
+
+          <code><a href="permute_restricted_by_row_cpp.html">permute_restricted_by_row_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Restricted Permutation of Complete Rows Within Blocks</dd>
+      </dl><dl><dt>
+
+          <code><a href="permute_restricted_cpp.html">permute_restricted_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Restricted Permutation of Cases Within Blocks</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_matrix_diagonal_cpp.html">cost_matrix_diagonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_matrix_orthogonal_cpp.html">cost_matrix_orthogonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_lock_step_cpp.html">distance_lock_step_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum of Pairwise Distances Between Cases in Two Aligned Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_matrix_cpp.html">distance_matrix_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Distance Matrix of Two Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="auto_distance_cpp.html">auto_distance_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum Distances Between Consecutive Samples in a Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="auto_sum_cpp.html">auto_sum_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum Distances Between Consecutive Samples in Two Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="auto_sum_full_cpp.html">auto_sum_full_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in Two Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="auto_sum_path_cpp.html">auto_sum_path_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="subset_matrix_by_rows_cpp.html">subset_matrix_by_rows_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Subset Matrix by Rows</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
+
+        </dt>
+        <dd>Find Least Cost Path within a Least Cost Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Least Cost Path for Sequence Slotting</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Sum Distances in a Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Remove Blocks from a Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_canberra_cpp.html">distance_canberra_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Canberra Distance Between Two Binary Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_chebyshev_cpp.html">distance_chebyshev_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Chebyshev Distance Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_chi_cpp.html">distance_chi_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Normalized Chi Distance Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_cosine_cpp.html">distance_cosine_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Cosine Dissimilarity Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_euclidean_cpp.html">distance_euclidean_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Euclidean Distance Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_hamming_cpp.html">distance_hamming_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Hamming Distance Between Two Binary Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_hellinger_cpp.html">distance_hellinger_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Hellinger Distance Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_jaccard_cpp.html">distance_jaccard_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Jaccard Distance Between Two Binary Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_manhattan_cpp.html">distance_manhattan_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Manhattan Distance Between Two Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distance_russelrao_cpp.html">distance_russelrao_cpp()</a></code>
+
+        </dt>
+        <dd>(C++) Russell-Rao Distance Between Two Binary Vectors</dd>
+      </dl></div><div class="section level2">
+      <h2 id="psi-demo-functions">Psi Demo Functions<a class="anchor" aria-label="anchor" href="#psi-demo-functions"></a></h2>
+
+      <div class="section-desc"><p>Step-by-step demonstration of <em>Psi</em> dissimilarity scores. These functions are R wrappers of several key C++ functions above.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="distance.html">distance()</a></code>
+
+        </dt>
+        <dd>Distance Between Numeric Vectors</dd>
+      </dl><dl><dt>
+
+          <code><a href="distances.html">distances</a></code>
+
+        </dt>
+        <dd>Distance Methods</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_auto_distance.html">psi_auto_distance()</a></code>
+
+        </dt>
+        <dd>Cumulative Sum of Distances Between Consecutive Cases in a Time Series</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_auto_sum.html">psi_auto_sum()</a></code>
+
+        </dt>
+        <dd>Auto Sum</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_cost_matrix.html">psi_cost_matrix()</a></code>
+
+        </dt>
+        <dd>Cost Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_cost_path.html">psi_cost_path()</a></code>
+
+        </dt>
+        <dd>Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_cost_path_ignore_blocks.html">psi_cost_path_ignore_blocks()</a></code>
+
+        </dt>
+        <dd>Trims Blocks from a Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_cost_path_sum.html">psi_cost_path_sum()</a></code>
+
+        </dt>
+        <dd>Sum of Distances in Least Cost Path</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_distance_lock_step.html">psi_distance_lock_step()</a></code>
+
+        </dt>
+        <dd>Lock-Step Distance</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_distance_matrix.html">psi_distance_matrix()</a></code>
+
+        </dt>
+        <dd>Distance Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="psi_equation.html">psi_equation()</a></code>
+
+        </dt>
+        <dd>Normalized Dissimilarity Score</dd>
+      </dl></div><div class="section level2">
+      <h2 id="create-time-series-lists">Create Time Series Lists<a class="anchor" aria-label="anchor" href="#create-time-series-lists"></a></h2>
+
+      <div class="section-desc"><p>Transform raw time series data into <strong>time series lists</strong> (TSLs hereafter). TSLs are lists of zoo time series objects used within the package for data management and analysis.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tsl_initialize.html">tsl_initialize()</a></code> <code><a href="tsl_initialize.html">tsl_init()</a></code>
+
+        </dt>
+        <dd>Transform Raw Time Series Data to Time Series List</dd>
+      </dl></div><div class="section level2">
+      <h2 id="manage-time-series-lists">Manage Time Series Lists<a class="anchor" aria-label="anchor" href="#manage-time-series-lists"></a></h2>
+
+      <div class="section-desc"><p>Functions manage, diagnose, repair TSLs.</p></div>
 
 
     </div><div class="section level2">
@@ -156,10 +606,22 @@
         <dd>Clean Column Names in Time Series Lists</dd>
       </dl><dl><dt>
 
+          <code><a href="tsl_colnames_get.html">tsl_colnames_get()</a></code>
+
+        </dt>
+        <dd>Get Column Names from a Time Series Lists</dd>
+      </dl><dl><dt>
+
           <code><a href="tsl_colnames_set.html">tsl_colnames_set()</a></code>
 
         </dt>
         <dd>Set Column Names in Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="tsl_count_NA.html">tsl_count_NA()</a></code>
+
+        </dt>
+        <dd>Count NA Cases in Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="tsl_diagnose.html">tsl_diagnose()</a></code>
@@ -174,16 +636,16 @@
         <dd>Handle NA Cases in Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="tsl_initialize.html">tsl_initialize()</a></code> <code><a href="tsl_initialize.html">tsl_init()</a></code>
-
-        </dt>
-        <dd>Tranform Data to a Time Series List</dd>
-      </dl><dl><dt>
-
           <code><a href="tsl_names_clean.html">tsl_names_clean()</a></code>
 
         </dt>
         <dd>Clean Time Series Names in a Time Series List</dd>
+      </dl><dl><dt>
+
+          <code><a href="tsl_names_get.html">tsl_names_get()</a></code>
+
+        </dt>
+        <dd>Get Time Series Names from a Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="tsl_names_set.html">tsl_names_set()</a></code>
@@ -198,83 +660,6 @@
         <dd>Tests Naming Issues in Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="tsl_repair.html">tsl_repair()</a></code>
-
-        </dt>
-        <dd>Repair Issues in Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="tsl_time_class_set.html">tsl_time_class_set()</a></code>
-
-        </dt>
-        <dd>Coerce Elements of Time Series List to same Time Class</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_name_clean.html">zoo_name_clean()</a></code>
-
-        </dt>
-        <dd>Clean Name of a Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_name_get.html">zoo_name_get()</a></code>
-
-        </dt>
-        <dd>Get Name of a Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_name_set.html">zoo_name_set()</a></code>
-
-        </dt>
-        <dd>Set Name of a Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_to_tsl.html">zoo_to_tsl()</a></code>
-
-        </dt>
-        <dd>Convert Individual Zoo Objects to Time Series List</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_vector_to_matrix.html">zoo_vector_to_matrix()</a></code>
-
-        </dt>
-        <dd>Coerce Coredata of Univariate Zoo Time Series to Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_clean_names.html">utils_clean_names()</a></code>
-
-        </dt>
-        <dd>Clean Character Vector of Names</dd>
-      </dl></div><div class="section level2">
-      <h2 id="data-exploration">Data Exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a></h2>
-
-      <div class="section-desc"><p>Functions to plot and explore key details of time series lists, such as names, dimensions, and others.</p></div>
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="tsl_colnames_get.html">tsl_colnames_get()</a></code>
-
-        </dt>
-        <dd>Get Column Names from a Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="tsl_count_NA.html">tsl_count_NA()</a></code>
-
-        </dt>
-        <dd>Count NA Cases in Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="tsl_names_get.html">tsl_names_get()</a></code>
-
-        </dt>
-        <dd>Get Time Series Names from a Time Series Lists</dd>
-      </dl><dl><dt>
-
           <code><a href="tsl_ncol.html">tsl_ncol()</a></code>
 
         </dt>
@@ -287,16 +672,22 @@
         <dd>Get Number of Rows in Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="tsl_plot.html">tsl_plot()</a></code>
+          <code><a href="tsl_repair.html">tsl_repair()</a></code>
 
         </dt>
-        <dd>Plot Time Series List</dd>
+        <dd>Repair Issues in Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="tsl_stats.html">tsl_stats()</a></code>
+          <code><a href="tsl_split.html">tsl_split()</a></code>
 
         </dt>
-        <dd>Summary Statistics of Time Series Lists</dd>
+        <dd>Splits Multivariate Time Series Lists to Univariate TSLs</dd>
+      </dl><dl><dt>
+
+          <code><a href="tsl_subset.html">tsl_subset()</a></code>
+
+        </dt>
+        <dd>Subset Time Series Lists by Time Series Names, Time, and/or Column Names</dd>
       </dl><dl><dt>
 
           <code><a href="tsl_time.html">tsl_time()</a></code> <code><a href="tsl_time.html">tsl_time_summary()</a></code>
@@ -305,20 +696,37 @@
         <dd>Time Features of Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="zoo_plot.html">zoo_plot()</a></code>
+          <code><a href="tsl_time_class_set.html">tsl_time_class_set()</a></code>
 
         </dt>
-        <dd>Plot Zoo Time Series</dd>
+        <dd>Coerce Elements of Time Series List to same Time Class</dd>
       </dl><dl><dt>
 
-          <code><a href="zoo_time.html">zoo_time()</a></code>
+          <code><a href="tsl_to_df.html">tsl_to_df()</a></code>
 
         </dt>
-        <dd>Get Time Features from Zoo Objects</dd>
+        <dd>Transform Time Series List to Data Frame</dd>
       </dl></div><div class="section level2">
-      <h2 id="data-processing">Data Processing<a class="anchor" aria-label="anchor" href="#data-processing"></a></h2>
+      <h2 id="plot-time-series-lists">Plot Time Series Lists<a class="anchor" aria-label="anchor" href="#plot-time-series-lists"></a></h2>
 
-      <div class="section-desc"><p>Functions to process and transform TSLs.</p></div>
+      <div class="section-desc"><p>Main function to plot TSLs and its helpers.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tsl_plot.html">tsl_plot()</a></code>
+
+        </dt>
+        <dd>Plot Time Series List</dd>
+      </dl></div><div class="section level2">
+      <h2 id="processing-time-series-lists">Processing Time Series Lists<a class="anchor" aria-label="anchor" href="#processing-time-series-lists"></a></h2>
+
+      <div class="section-desc"><p>Functions to transform, rescale, and aggregate TSLs.</p></div>
 
 
     </div><div class="section level2">
@@ -340,46 +748,16 @@
         <dd>Resample Time Series Lists to a New Time</dd>
       </dl><dl><dt>
 
-          <code><a href="tsl_split.html">tsl_split()</a></code>
+          <code><a href="tsl_stats.html">tsl_stats()</a></code>
 
         </dt>
-        <dd>Splits Multivariate Time Series Lists to Univariate TSLs</dd>
-      </dl><dl><dt>
-
-          <code><a href="tsl_subset.html">tsl_subset()</a></code>
-
-        </dt>
-        <dd>Subset Time Series Lists by Time Series Names, Time, and/or Column Names</dd>
-      </dl><dl><dt>
-
-          <code><a href="tsl_to_df.html">tsl_to_df()</a></code>
-
-        </dt>
-        <dd>Time Series List to Data Frame</dd>
+        <dd>Summary Statistics of Time Series Lists</dd>
       </dl><dl><dt>
 
           <code><a href="tsl_transform.html">tsl_transform()</a></code>
 
         </dt>
         <dd>Transform Values in Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_aggregate.html">zoo_aggregate()</a></code>
-
-        </dt>
-        <dd>Aggregate Cases in Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_permute.html">zoo_permute()</a></code>
-
-        </dt>
-        <dd>Random or Restricted Permutation of Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="zoo_resample.html">zoo_resample()</a></code>
-
-        </dt>
-        <dd>Resample Zoo Objects to a New Time</dd>
       </dl><dl><dt>
 
           <code><a href="f_center.html">f_center()</a></code>
@@ -460,6 +838,12 @@
         <dd>Data Transformation: Linear Trend of Zoo Time Series</dd>
       </dl><dl><dt>
 
+          <code><a href="utils_drop_geometry.html">utils_drop_geometry()</a></code>
+
+        </dt>
+        <dd>Removes Geometry Column from SF Data Frames</dd>
+      </dl><dl><dt>
+
           <code><a href="utils_global_scaling_params.html">utils_global_scaling_params()</a></code>
 
         </dt>
@@ -483,104 +867,9 @@
         </dt>
         <dd>Rescale Numeric Vector to a New Data Range</dd>
       </dl></div><div class="section level2">
-      <h2 id="dissimilarity-analysis-and-clustering">Dissimilarity Analysis and Clustering<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis-and-clustering"></a></h2>
+      <h2 id="zoo-functions">Zoo Functions<a class="anchor" aria-label="anchor" href="#zoo-functions"></a></h2>
 
-      <div class="section-desc"><p>Functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison, understand the partial contribution of individual variables to dissimilarity, and cluster time series based on dissimilarity scores.</p></div>
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="distantia.html">distantia()</a></code>
-
-        </dt>
-        <dd>Dissimilarity Analysis of Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>
-
-        </dt>
-        <dd>Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_boxplot.html">distantia_boxplot()</a></code>
-
-        </dt>
-        <dd>Boxplot of Dissimilarity Analysis Data Frames</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust()</a></code>
-
-        </dt>
-        <dd>Hierarchical Clustering of Dissimilarity Analysis Data Frames</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans()</a></code>
-
-        </dt>
-        <dd>K-Means Clustering of Dissimilarity Analysis Data Frames</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_importance.html">distantia_importance()</a></code>
-
-        </dt>
-        <dd>Contribution of Individual Variables to Dissimilarity in Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_matrix.html">distantia_matrix()</a></code>
-
-        </dt>
-        <dd>Convert Dissimilarity Analysis Data Frame to Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_plot.html">distantia_plot()</a></code>
-
-        </dt>
-        <dd>Two-Way Dissimilarity Plots of Time Series Lists</dd>
-      </dl><dl><dt>
-
-          <code><a href="distantia_to_sf.html">distantia_to_sf()</a></code>
-
-        </dt>
-        <dd>Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_block_size.html">utils_block_size()</a></code>
-
-        </dt>
-        <dd>Default Block Size for Restricted Permutation in Dissimilarity Analyses</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer()</a></code>
-
-        </dt>
-        <dd>Optimize the Silhouette Width of Hierarchical Clustering Solutions</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer()</a></code>
-
-        </dt>
-        <dd>Optimize the Silhouette Width of K-Means Clustering Solutions</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette()</a></code>
-
-        </dt>
-        <dd>Compute Silhouette Width of a Clustering Solution</dd>
-      </dl><dl><dt>
-
-          <code><a href="utils_importance_df_to_wide.html">utils_importance_df_to_wide()</a></code>
-
-        </dt>
-        <dd>Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format</dd>
-      </dl></div><div class="section level2">
-      <h2 id="c-functions-for-dissimilarity-analysis">C++ Functions for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#c-functions-for-dissimilarity-analysis"></a></h2>
-
-      <div class="section-desc"><p>Fast and efficient C++ functions for dissimilarity analysis of time series via dynamic time warping or lock-step comparison.</p></div>
+      <div class="section-desc"><p>Functions to Manage, Plot, and Transform Zoo Time Series</p></div>
 
 
     </div><div class="section level2">
@@ -590,548 +879,64 @@
 
       <dl><dt>
 
-          <code><a href="auto_distance_cpp.html">auto_distance_cpp()</a></code>
+          <code><a href="zoo_aggregate.html">zoo_aggregate()</a></code>
 
         </dt>
-        <dd>(C++) Sum Distances Between Consecutive Samples in a Time Series</dd>
+        <dd>Aggregate Cases in Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="auto_sum_cpp.html">auto_sum_cpp()</a></code>
+          <code><a href="zoo_name_clean.html">zoo_name_clean()</a></code>
 
         </dt>
-        <dd>(C++) Sum Distances Between Consecutive Samples in Two Time Series</dd>
+        <dd>Clean Name of a Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="auto_sum_full_cpp.html">auto_sum_full_cpp()</a></code>
+          <code><a href="zoo_name_get.html">zoo_name_get()</a></code>
 
         </dt>
-        <dd>(C++) Sum Distances Between All Consecutive Samples in Two Time Series</dd>
+        <dd>Get Name of a Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="auto_sum_path_cpp.html">auto_sum_path_cpp()</a></code>
+          <code><a href="zoo_name_set.html">zoo_name_set()</a></code>
 
         </dt>
-        <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
+        <dd>Set Name of a Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_diagonal_cpp.html">cost_matrix_diagonal_cpp()</a></code>
+          <code><a href="zoo_permute.html">zoo_permute()</a></code>
 
         </dt>
-        <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
+        <dd>Random or Restricted Permutation of Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code>
+          <code><a href="zoo_plot.html">zoo_plot()</a></code>
 
         </dt>
-        <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
+        <dd>Plot Zoo Time Series</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_matrix_orthogonal_cpp.html">cost_matrix_orthogonal_cpp()</a></code>
+          <code><a href="zoo_resample.html">zoo_resample()</a></code>
 
         </dt>
-        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
+        <dd>Resample Zoo Objects to a New Time</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
+          <code><a href="zoo_time.html">zoo_time()</a></code>
 
         </dt>
-        <dd>Find Least Cost Path within a Least Cost Matrix</dd>
+        <dd>Get Time Features from Zoo Objects</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp()</a></code>
+          <code><a href="zoo_to_tsl.html">zoo_to_tsl()</a></code>
 
         </dt>
-        <dd>(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix</dd>
+        <dd>Convert Individual Zoo Objects to Time Series List</dd>
       </dl><dl><dt>
 
-          <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp()</a></code>
+          <code><a href="zoo_vector_to_matrix.html">zoo_vector_to_matrix()</a></code>
 
         </dt>
-        <dd>(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Least Cost Path for Sequence Slotting</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances in a Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Remove Blocks from a Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_canberra_cpp.html">distance_canberra_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Canberra Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_chebyshev_cpp.html">distance_chebyshev_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Chebyshev Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_chi_cpp.html">distance_chi_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Normalized Chi Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_cosine_cpp.html">distance_cosine_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Cosine Dissimilarity Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_euclidean_cpp.html">distance_euclidean_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Euclidean Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_hamming_cpp.html">distance_hamming_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Hamming Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_hellinger_cpp.html">distance_hellinger_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Hellinger Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_jaccard_cpp.html">distance_jaccard_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Jaccard Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_lock_step_cpp.html">distance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_manhattan_cpp.html">distance_manhattan_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Manhattan Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_matrix_cpp.html">distance_matrix_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Distance Matrix of Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_russelrao_cpp.html">distance_russelrao_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Russell-Rao Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_dynamic_time_warping_legacy_cpp.html">importance_dynamic_time_warping_legacy_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_dynamic_time_warping_robust_cpp.html">importance_dynamic_time_warping_robust_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="null_psi_dynamic_time_warping_cpp.html">null_psi_dynamic_time_warping_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Null Distribution of Dissimilarity Scores of Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_free_by_row_cpp.html">permute_free_by_row_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Unrestricted Permutation of Complete Rows</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_free_cpp.html">permute_free_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Unrestricted Permutation of Cases</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_restricted_by_row_cpp.html">permute_restricted_by_row_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Restricted Permutation of Complete Rows Within Blocks</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_restricted_cpp.html">permute_restricted_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Restricted Permutation of Cases Within Blocks</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_dynamic_time_warping_cpp.html">psi_dynamic_time_warping_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Psi Dissimilarity Score of Two Time-Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_equation_cpp.html">psi_equation_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Equation of the Psi Dissimilarity Score</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Psi Dissimilarity Score of Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="subset_matrix_by_rows_cpp.html">subset_matrix_by_rows_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Subset Matrix by Rows</dd>
-      </dl></div><div class="section level2">
-      <h2 id="psi-dissimilarity-scores">Psi Dissimilarity Scores<a class="anchor" aria-label="anchor" href="#psi-dissimilarity-scores"></a></h2>
-
-      <div class="section-desc"><p>Step-by-step demonstration of the <em>psi</em> dissimilarity score.</p></div>
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="distance.html">distance()</a></code>
-
-        </dt>
-        <dd>Distance Between Numeric Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distances.html">distances</a></code>
-
-        </dt>
-        <dd>Distance Methods</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_auto_distance.html">psi_auto_distance()</a></code>
-
-        </dt>
-        <dd>Cumulative Sum of Distances Between Consecutive Cases in a Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_auto_sum.html">psi_auto_sum()</a></code>
-
-        </dt>
-        <dd>Auto Sum</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_cost_matrix.html">psi_cost_matrix()</a></code>
-
-        </dt>
-        <dd>Cost Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_cost_path.html">psi_cost_path()</a></code>
-
-        </dt>
-        <dd>Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_cost_path_ignore_blocks.html">psi_cost_path_ignore_blocks()</a></code>
-
-        </dt>
-        <dd>Trims Blocks from a Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_cost_path_sum.html">psi_cost_path_sum()</a></code>
-
-        </dt>
-        <dd>Sum of Distances in Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_distance_lock_step.html">psi_distance_lock_step()</a></code>
-
-        </dt>
-        <dd>Lock-Step Distance</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_distance_matrix.html">psi_distance_matrix()</a></code>
-
-        </dt>
-        <dd>Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_equation.html">psi_equation()</a></code>
-
-        </dt>
-        <dd>Normalized Dissimilarity Score</dd>
-      </dl></div><div class="section level2">
-      <h2 id="c-functions">C++ Functions<a class="anchor" aria-label="anchor" href="#c-functions"></a></h2>
-
-      <div class="section-desc"><p>All C++ functions are focused on the efficient computation of psi dissimilarity scores via dynamic time warping or lock-step analysis.</p></div>
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="auto_distance_cpp.html">auto_distance_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances Between Consecutive Samples in a Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="auto_sum_cpp.html">auto_sum_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances Between Consecutive Samples in Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="auto_sum_full_cpp.html">auto_sum_full_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances Between All Consecutive Samples in Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="auto_sum_path_cpp.html">auto_sum_path_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances Between All Consecutive Samples in the Least Cost Path Between Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_matrix_diagonal_cpp.html">cost_matrix_diagonal_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Compute Orthogonal and Diagonal Least Cost Matrix from a Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_matrix_orthogonal_cpp.html">cost_matrix_orthogonal_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Compute Orthogonal Least Cost Matrix from a Distance Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_cpp.html">cost_path_cpp()</a></code>
-
-        </dt>
-        <dd>Find Least Cost Path within a Least Cost Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Least Cost Path for Sequence Slotting</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum Distances in a Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Remove Blocks from a Least Cost Path</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_canberra_cpp.html">distance_canberra_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Canberra Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_chebyshev_cpp.html">distance_chebyshev_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Chebyshev Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_chi_cpp.html">distance_chi_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Normalized Chi Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_cosine_cpp.html">distance_cosine_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Cosine Dissimilarity Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_euclidean_cpp.html">distance_euclidean_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Euclidean Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_hamming_cpp.html">distance_hamming_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Hamming Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_hellinger_cpp.html">distance_hellinger_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Hellinger Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_jaccard_cpp.html">distance_jaccard_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Jaccard Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_lock_step_cpp.html">distance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Sum of Pairwise Distances Betwee Cases in Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_manhattan_cpp.html">distance_manhattan_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Manhattan Distance Between Two Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_matrix_cpp.html">distance_matrix_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Distance Matrix of Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="distance_russelrao_cpp.html">distance_russelrao_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Russell-Rao Distance Between Two Binary Vectors</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_dynamic_time_warping_legacy_cpp.html">importance_dynamic_time_warping_legacy_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_dynamic_time_warping_robust_cpp.html">importance_dynamic_time_warping_robust_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)</dd>
-      </dl><dl><dt>
-
-          <code><a href="importance_lock_step_cpp.html">importance_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Contribution of Individual Variables to the Dissimilarity Between Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="null_psi_dynamic_time_warping_cpp.html">null_psi_dynamic_time_warping_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Null Distribution of Dissimilarity Scores of Two Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="null_psi_lock_step_cpp.html">null_psi_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_free_by_row_cpp.html">permute_free_by_row_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Unrestricted Permutation of Complete Rows</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_free_cpp.html">permute_free_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Unrestricted Permutation of Cases</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_restricted_by_row_cpp.html">permute_restricted_by_row_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Restricted Permutation of Complete Rows Within Blocks</dd>
-      </dl><dl><dt>
-
-          <code><a href="permute_restricted_cpp.html">permute_restricted_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Restricted Permutation of Cases Within Blocks</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_dynamic_time_warping_cpp.html">psi_dynamic_time_warping_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Psi Dissimilarity Score of Two Time-Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_equation_cpp.html">psi_equation_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Equation of the Psi Dissimilarity Score</dd>
-      </dl><dl><dt>
-
-          <code><a href="psi_lock_step_cpp.html">psi_lock_step_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Psi Dissimilarity Score of Two Aligned Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="subset_matrix_by_rows_cpp.html">subset_matrix_by_rows_cpp()</a></code>
-
-        </dt>
-        <dd>(C++) Subset Matrix by Rows</dd>
+        <dd>Coerce Coredata of Univariate Zoo Time Series to Matrix</dd>
       </dl></div><div class="section level2">
       <h2 id="plotting-helpers">Plotting Helpers<a class="anchor" aria-label="anchor" href="#plotting-helpers"></a></h2>
 
@@ -1297,6 +1102,12 @@
 
         </dt>
         <dd>Checks Classes of List Elements Against Expectation</dd>
+      </dl><dl><dt>
+
+          <code><a href="utils_clean_names.html">utils_clean_names()</a></code>
+
+        </dt>
+        <dd>Clean Character Vector of Names</dd>
       </dl><dl><dt>
 
           <code><a href="utils_digits.html">utils_digits()</a></code>
