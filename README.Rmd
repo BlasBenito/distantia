@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 # distantia: Time Series Dissimilarity Analysis with Dynamic Time Warping
@@ -12,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  eval = FALSE
+  eval = TRUE
 )
 ```
 
@@ -88,13 +89,14 @@ This section provides a minimal example on how to use `distantia`. Please, check
 
 ### Setup
 
-The code below loads the required packages, defines a parallelization backend and loads the example data.
+The code below loads the required packages, and defines a parallelization backend.
 
-```{r packages, message = FALSE, warning = FALSE, include = FALSE}
+```{r packages, message = FALSE, warning = FALSE}
 #required packages
 library(distantia)
 library(future)
 library(parallelly)
+library(tmap)
 
 #parallelization setup
 future::plan(
@@ -104,18 +106,74 @@ future::plan(
 
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)
-
-#load example data frame
-data(albatross)
 ```
 
-The `albatross` data frame contains the flight paths of 4 individuals of Waved Albatross captured during summer of 2008.
+### Example data
 
-```{r, echo = FALSE}
-head(distantia::utils_drop_geometry(df = albatross))
+The data frame `fagus_dynamics` contains time series of enhanced vegetation index, rainfall, and temperature on stands of *Fagus sylvatica* in three countries.
+
+```{r}
+#load example data
+data(
+  fagus_dynamics,
+  fagus_coordiantes 
+  )
+
+head(fagus_dynamics)
+```
+
+The sf data frame `fagus_coordinates` contains the site coordinates.
+
+```{r}
+fagus_coordinates
+```
+### Converting to TSL
+
+The function `tsl_initialize()` transforms the target data frame into a time series list, which is a list of zoo objects.
+
+```{r}
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  name_column = "name",
+  time_column = "time"
+)
+
+lapply(tsl, class)
+```
+A quick visualization of the TSL shows that the variables are in different scales:
+
+```{r}
+tsl_plot(
+  tsl = tsl,
+  guide_columns = 3
+)
+```
+The function `tsl_transform()` helps apply common transformations to all zoo time series in a TSL. Please note that the function `f_scale` uses the global mean and standard deviation across all time series to perform the scaling.
+
+```{r}
+tsl <- tsl_transform(
+  tsl = tsl,
+  f = f_scale
+)
+
+tsl_plot(
+  tsl = tsl,
+  guide_columns = 3
+)
+```
+### Dissimilarity Analysis
+
+The function `distantia()` computes the dissimilarity between pairs of time series using dynamic time warping. Higher values indicate higher dissimilarity.
+
+```{r}
+df <- distantia(
+  tsl = tsl
+)
+
+df[, c("x", "y", "psi")]
 ```
 ```{r}
-
+distantia_boxplot(df = df)
 ```
 
 
