@@ -12,6 +12,8 @@ data(albatross)
 }
 \description{
 Daily mean flight path data of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
+
+The full dataset at hourly resolution can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/albatross.rda} (use the "Download raw file" button).
 }
 \examples{
 #load as tsl

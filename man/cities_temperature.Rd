@@ -14,6 +14,8 @@ data(cities_temperature)
 Average temperatures between 1975 and 2010 of 20 major cities of the world. \href{https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data?resource=download&select=GlobalLandTemperaturesByMajorCity.csv}{Source}.
 
 Site coordinates for this dataset are in \link{cities_coordinates}.
+
+The full dataset with 100 cities can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/cities_temperature.rda} (use the "Download raw file" button).
 }
 \examples{
 data("cities_temperature")

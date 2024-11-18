@@ -17,6 +17,8 @@
 #'
 #' County coordinates for this dataset are in [covid_coordinates].
 #'
+#' The full dataset at daily resolution can be downloaded from [https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda](https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda) (use the "Download raw file" button).
+#'
 #' @docType data
 #' @keywords datasets
 #' @family example_data
@@ -159,6 +161,8 @@
 #'
 #' Site coordinates for this dataset are in [cities_coordinates].
 #'
+#' The full dataset with 100 cities can be downloaded from [https://github.com/BlasBenito/distantia/blob/main/data_full/cities_temperature.rda](https://github.com/BlasBenito/distantia/blob/main/data_full/cities_temperature.rda) (use the "Download raw file" button).
+#'
 #' @docType data
 #' @keywords datasets
 #' @family example_data
@@ -196,6 +200,8 @@
 #' @description
 #' City coordinates for the dataset `cities_temperature`.
 #'
+#' The full dataset with 100 cities can be downloaded from [https://github.com/BlasBenito/distantia/blob/main/data_full/cities_coordinates.rda](https://github.com/BlasBenito/distantia/blob/main/data_full/cities_coordinates.rda) (use the "Download raw file" button).
+#'
 #' @docType data
 #' @keywords datasets
 #' @family example_data
@@ -209,7 +215,9 @@
 #' Flight Path Time Series of Albatrosses in The Pacific
 #'
 #' @description
-#' Daily mean flight path data of 5 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
+#' Daily mean flight path data of 4 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
+#'
+#' The full dataset at hourly resolution can be downloaded from [https://github.com/BlasBenito/distantia/blob/main/data_full/albatross.rda](https://github.com/BlasBenito/distantia/blob/main/data_full/albatross.rda) (use the "Download raw file" button).
 #' @references \doi{10.5441/001/1.3hp3s250}
 #' @docType data
 #' @keywords datasets

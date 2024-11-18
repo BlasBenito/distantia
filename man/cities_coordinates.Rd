@@ -12,6 +12,8 @@ data(cities_coordinates)
 }
 \description{
 City coordinates for the dataset \code{cities_temperature}.
+
+The full dataset with 100 cities can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/cities_coordinates.rda} (use the "Download raw file" button).
 }
 \seealso{
 Other example_data: 

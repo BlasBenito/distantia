@@ -15,6 +15,8 @@ Dataset with Covid19 maximum weekly prevalence in California counties between 20
 }
 \details{
 County coordinates for this dataset are in \link{covid_coordinates}.
+
+The full dataset at daily resolution can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda} (use the "Download raw file" button).
 }
 \examples{
 #to time series list
