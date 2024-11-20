@@ -561,10 +561,50 @@ f_center <- function(
 
 }
 
-#' Data Transformation: Data Centering and Scaling by Column
+#' Data Transformation: Data Centering and Scaling by Column Using Global Mean and Standard Deviation
 #'
 #' @description
 #' Wraps [base::scale()] for global centering and scaling with [tsl_transform()].
+#'
+#' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
+#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE
+#' @param .global (optional, logical) Used to trigger global scaling within [tsl_transform()].
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate()
+#'
+#' y <- f_scale(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_scale_global <- function(
+    x = NULL,
+    center = TRUE,
+    scale = TRUE,
+    .global
+){
+
+  scale(
+    x = x,
+    center = center,
+    scale = scale
+  )
+
+}
+
+#' Data Transformation: Data Centering and Scaling by Column
+#'
+#' @description
+#' Wraps [base::scale()] for centering and scaling with [tsl_transform()].
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE

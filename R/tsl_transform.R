@@ -30,7 +30,7 @@
 #parallelization setup (not worth it for this data size)
 #' future::plan(
 #'   future::multisession,
-#'   workers = 2 #set to parallelly::availableWorkers() - 1
+#'   workers = 2 #set to parallelly::availableCores() - 1
 #' )
 #'
 #' #progress bar
@@ -178,12 +178,13 @@ tsl_transform <- function(
   if(is.function(f) == FALSE){
 
     stop(
-      "Argument 'f' must be a function name with no quotes. Valid options are: ",
+      "distantia::tsl_transform(): Argument 'f' must be a function name with no quotes. Valid options are: ",
       paste(
         f_list(),
         collapse = ", "
       ),
-      "."
+      ".",
+      call. = FALSE
     )
 
   }
@@ -203,12 +204,17 @@ tsl_transform <- function(
     all(
       c(
         "center",
-        "scale"
+        "scale",
+        ".global"
       )
       %in%
       names(formals(f))
     )
   ){
+
+    message(
+      "distantia::tsl_transform(): scaling and/or centering with mean and standard deviation computed across all time series in 'tsl'."
+    )
 
     #remove exclusive columns
     tsl <- tsl_subset(

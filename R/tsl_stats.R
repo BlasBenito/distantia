@@ -42,7 +42,7 @@
 #' #parallelization setup (not worth it for this data size)
 #' future::plan(
 #'  future::multisession,
-#'  workers = 2 #set to parallelly::availableWorkers() - 1
+#'  workers = 2 #set to parallelly::availableCores() - 1
 #' )
 #'
 #' #progress bar

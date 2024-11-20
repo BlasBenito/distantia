@@ -132,144 +132,328 @@ future::plan(
 
 ### Example data
 
-The data frame `fagus_dynamics` contains time series of enhanced
-vegetation index, rainfall, and temperature on stands of *Fagus
-sylvatica* in three countries.
+The data frame `cities_temperature` contains long-term time series of
+monthly temperatures for 20 large cities.
 
 ``` r
-#load example data
-data(
-  fagus_dynamics,
-  fagus_coordiantes 
-  )
-#> Warning in data(fagus_dynamics, fagus_coordiantes): data set
-#> 'fagus_coordiantes' not found
-
-head(fagus_dynamics)
-#>    name       time    evi rainfall temperature
-#> 1 Spain 2001-01-01 0.1929    199.8         8.1
-#> 5 Spain 2001-02-01 0.2423     50.6         7.8
-#> 6 Spain 2001-03-01 0.2761    170.9        11.0
-#> 7 Spain 2001-04-01 0.3961     62.7        10.4
-#> 8 Spain 2001-05-01 0.4445     52.7        14.1
-#> 9 Spain 2001-06-01 0.6434     23.1        17.6
+head(cities_temperature)
+#>      name       time temperature
+#> 1 Bangkok 1975-01-01      25.277
+#> 2 Bangkok 1975-02-01      27.267
+#> 3 Bangkok 1975-03-01      29.378
+#> 4 Bangkok 1975-04-01      30.127
+#> 5 Bangkok 1975-05-01      28.861
+#> 6 Bangkok 1975-06-01      28.078
 ```
 
-The sf data frame `fagus_coordinates` contains the site coordinates.
+The sf data frame `cities_coordinates` contains city coordinates.
 
 ``` r
-fagus_coordinates
-#> Simple feature collection with 3 features and 3 fields
+cities_coordinates[, "name"]
+#> Simple feature collection with 20 features and 1 field
 #> Geometry type: POINT
 #> Dimension:     XY
-#> Bounding box:  xmin: -2.857322 ymin: 43.17743 xmax: 12.99502 ymax: 56.40471
+#> Bounding box:  xmin: -118.7 ymin: -23.31 xmax: 139.23 ymax: 55.45
 #> Geodetic CRS:  WGS 84
-#>           name         x        y                   geometry
-#> 400443   Spain -2.857322 43.17743 POINT (-2.857322 43.17743)
-#> 230572 Germany  7.517013 49.32505  POINT (7.517013 49.32505)
-#> 511784  Sweden 12.995025 56.40471  POINT (12.99502 56.40471)
+#> First 10 features:
+#>                name             geometry
+#> 1           Bangkok  POINT (99.91 13.66)
+#> 2            Bogotá  POINT (-74.73 4.02)
+#> 3             Cairo  POINT (31.38 29.74)
+#> 4             Dhaka     POINT (90 23.31)
+#> 5  Ho Chi Minh City POINT (107.18 10.45)
+#> 6          Istanbul  POINT (29.82 40.99)
+#> 7           Jakarta POINT (106.55 -5.63)
+#> 8           Karachi  POINT (67.39 24.92)
+#> 9          Kinshasa  POINT (15.27 -4.02)
+#> 10            Lagos    POINT (3.23 5.63)
 ```
 
 ### Converting to TSL
 
 The function `tsl_initialize()` transforms the target data frame into a
-time series list, which is a list of zoo objects.
+time series list.
 
 ``` r
 tsl <- tsl_initialize(
-  x = fagus_dynamics,
+  x = cities_temperature,
   name_column = "name",
   time_column = "time"
 )
 
-lapply(tsl, class)
-#> $Germany
+head(lapply(tsl, class))
+#> $Bangkok
 #> [1] "zoo"
 #> 
-#> $Spain
+#> $Bogotá
 #> [1] "zoo"
 #> 
-#> $Sweden
+#> $Cairo
+#> [1] "zoo"
+#> 
+#> $Dhaka
+#> [1] "zoo"
+#> 
+#> $Ho_Chi_Minh_City
+#> [1] "zoo"
+#> 
+#> $Istanbul
 #> [1] "zoo"
 ```
 
-A quick visualization of the TSL shows that the variables are in
-different scales:
+The functions `tsl_subset()` and `tsl_transform()` are used below to
+focus on a smaller subset of the the data to facilitate the explanations
+below, and to center and scale the data to facilitate the comparison
+between methods.
+
+``` r
+tsl_three_cities <- tsl |> 
+  tsl_subset(
+    names = c(
+      "London", 
+      "Paris", 
+      "Kinshasa"
+    ),
+    time = c("2000-01-01", "2005-01-01")
+  ) |> 
+  tsl_transform(
+    f = f_scale #centering and scaling
+  )
+```
+
+The function `tsl_time()` offers a quick look at the time features of
+the time series list.
+
+``` r
+tsl_time(tsl = tsl_three_cities)[, c(
+  "name", 
+  "class", 
+  "resolution", 
+  "units", 
+  "begin", 
+  "end"
+  )]
+#>       name class resolution units      begin        end
+#> 1   London  Date      30.45  days 2000-01-01 2005-01-01
+#> 2    Paris  Date      30.45  days 2000-01-01 2005-01-01
+#> 3 Kinshasa  Date      30.45  days 2000-01-01 2005-01-01
+```
+
+The function `tsl_plot()` facilitates a visual exploration of the data.
 
 ``` r
 tsl_plot(
-  tsl = tsl,
-  guide_columns = 3
+  tsl = tsl_three_cities,
+  ylim = "relative"
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" /> The
-function `tsl_transform()` helps apply common transformations to all zoo
-time series in a TSL. Please note that the function `f_scale` uses the
-global mean and standard deviation across all time series to perform the
-scaling.
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+### Dissimilarity Analysis
+
+The function `distantia()` offers two alternative methods to computes
+the dissimilarity between pairs of time series:
+
+- **Dynamic Time Warping (DTW)** (default): Warps time axes to align
+  sections with similar shapes. This method is ideal for comparing time
+  series with temporal shifts and is applicable to any type of time
+  series. However, DTW is sensitive to differences in magnitudes, so it
+  performs best when the data is scaled, and optionally centered if
+  absolute values are not critical for the analysis.
+
+- **Lock-step**: Compares values at corresponding time points directly,
+  without any temporal adjustments. This method is suitable for cases
+  where preserving temporal integrity is essential, but it requires time
+  series sampled at the same time points. This method does not require
+  scaling unless the results are to be compared with DTW, in which case
+  scaling ensures comparable results across both methods.
+
+#### Dynamic Time Warping
+
+When `lock_step = FALSE`, dynamic time warping is used to compare the
+time series.
 
 ``` r
-tsl <- tsl_transform(
+df_dtw <- distantia(
+  tsl = tsl_three_cities,
+  distance = "euclidean",
+  lock_step = FALSE #default, activates dynamic time warping
+)
+
+df_dtw[, c("x", "y", "psi")]
+#>        x        y       psi
+#> 1 London    Paris 0.2234164
+#> 2 London Kinshasa 1.1539690
+#> 3  Paris Kinshasa 1.1775570
+```
+
+The column “psi” represents the normalized dissimilarity between pairs
+of time series. According to these values, London and Kinshasa show the
+most dissimilar temperatures, while London and Paris show the most
+similar ones.
+
+The time warping analysis can be plotted with `distantia_plot()`. The
+temperature patterns of “Paris” and “London” are quite similar, and
+require no warping.
+
+``` r
+distantia_plot(
+  tsl = tsl_three_cities[c("Paris", "London")]
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+
+The warping alignment between “London” and “Kinshasa” shows the
+adjustments made by DTW to match the peaks and valleys of both time
+series, and compensate for their shifted patterns.
+
+``` r
+distantia_plot(
+  tsl = tsl_three_cities[c("London", "Kinshasa")]
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+
+When the data is not scaled and/or centered, the sensitivity to data
+magnitude of DTW may lead to local optima that distort the warping. The
+example below comparing the raw temperatures of London and Kinshasa
+shows two of these local optima, one in the *y* axis, at the minimum
+temperature in Kinshasa (winter of 2001), and another in the *x* axis,
+at the maximum temperature in London (summer of 2003).
+
+``` r
+tsl_two_cities <- tsl |> 
+  tsl_subset(
+    names = c(
+      "London", 
+      "Kinshasa"
+    ),
+    time = c("2000-01-01", "2005-01-01")
+  )
+
+distantia_plot(
+  tsl = tsl_two_cities
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
+
+This is not a particular issue of the algorithm implemented in
+`distantia`, but a general behavior of time warping methods. The code
+below shows a similar analysis performed with
+[`dtw`](https://CRAN.R-project.org/package=dtw).
+
+``` r
+library(dtw)
+
+xy_dtw <- dtw::dtw(
+  x = tsl_two_cities$London$temperature,
+  y = tsl_two_cities$Kinshasa$temperature,
+  keep = TRUE
+  )
+
+plot(xy_dtw, type = "threeway")
+```
+
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+
+#### Lock Step
+
+When `lock_step = TRUE`, the lock-step method is activated, and the time
+series are compared on an observation-to-observation basis. This method
+yields increased dissimilarity scores when the involved time series show
+shifted patterns.
+
+``` r
+df_ls <- distantia(
+  tsl = tsl_three_cities,
+  distance = "euclidean",
+  lock_step = TRUE #activates lock-step
+)
+
+#adding the results of dtw to facilitate comparison
+df_ls$psi_dtw <- df_dtw$psi
+df_ls$psi_lock_step <- df_ls$psi
+
+df_ls[, c("x", "y", "psi_lock_step",  "psi_dtw")]
+#>        x        y psi_lock_step   psi_dtw
+#> 1 London    Paris     0.2427342 0.2234164
+#> 2 London Kinshasa     2.7924554 1.1539690
+#> 3  Paris Kinshasa     2.7153379 1.1775570
+```
+
+It is important to take in mind that here we are performing the
+lock-step analysis with the scaled data to compare its output with the
+DTW results. The results on the raw data are shown below.
+
+``` r
+tsl_three_cities <- tsl |> 
+  tsl_subset(
+    names = c(
+      "London", 
+      "Paris", 
+      "Kinshasa"
+    ),
+    time = c("2000-01-01", "2005-01-01")
+  )
+
+df_ls <- distantia(
+  tsl = tsl_three_cities,
+  distance = "euclidean",
+  lock_step = TRUE #activates lock-step
+)
+
+df_ls[, c("x", "y", "psi")]
+#>        x        y       psi
+#> 1 London    Paris 0.4879081
+#> 2 London Kinshasa 9.3361647
+#> 3  Paris Kinshasa 7.5416106
+```
+
+### Manipulating TSLs
+
+This section only covers a few of the data-manipulation capabilities of
+`distantia`.
+
+#### Aggregation
+
+The function `tsl_aggregate()` applies an aggregation function to
+specific time frames. For example, the code below computes the maximum
+temperature per year
+
+``` r
+tsl_temp <- tsl_aggregate(
   tsl = tsl,
-  f = f_scale
+  new_time = "year",
+  method = max
 )
 
 tsl_plot(
+  tsl = tsl_temp[1:5],
+  ylim = "relative"
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+Same as above, but by decade.
+
+``` r
+tsl_temp <- tsl_aggregate(
   tsl = tsl,
-  guide_columns = 3
+  new_time = "decades",
+  method = max
+)
+
+tsl_plot(
+  tsl = tsl_temp[1:5],
+  ylim = "relative"
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" /> \###
-Dissimilarity Analysis
-
-The function `distantia()` computes the dissimilarity between pairs of
-time series using dynamic time warping. Higher values indicate higher
-dissimilarity.
-
-``` r
-df <- distantia(
-  tsl = tsl
-)
-
-df[, c("x", "y", "psi")]
-#>         x      y       psi
-#> 1 Germany  Spain 1.3429956
-#> 2 Germany Sweden 0.8571217
-#> 3   Spain Sweden 1.4803954
-```
-
-``` r
-distantia_boxplot(df = df)
-```
-
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-11-2.png" width="100%" />
-
-    #> $stats
-    #>           [,1]      [,2]     [,3]
-    #> [1,] 0.8571217 0.8571217 1.342996
-    #> [2,] 0.8571217 0.8571217 1.342996
-    #> [3,] 1.1000587 1.1687586 1.411696
-    #> [4,] 1.3429956 1.4803954 1.480395
-    #> [5,] 1.3429956 1.4803954 1.480395
-    #> 
-    #> $n
-    #> [1] 2 2 2
-    #> 
-    #> $conf
-    #>           [,1]      [,2]     [,3]
-    #> [1,] 0.5572264 0.4724193 1.258188
-    #> [2,] 1.6428909 1.8650979 1.565203
-    #> 
-    #> $out
-    #> numeric(0)
-    #> 
-    #> $group
-    #> numeric(0)
-    #> 
-    #> $names
-    #> [1] "Germany" "Sweden"  "Spain"
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
 
 ## Getting help
 

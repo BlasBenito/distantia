@@ -22,7 +22,7 @@ Performs a parallelized grid search to find the number of clusters maximizing th
 #for large datasets, parallelization accelerates cluster optimization
 future::plan(
   future::multisession,
-  workers = 2 #set to parallelly::availableWorkers() - 1
+  workers = 2 #set to parallelly::availableCores() - 1
 )
 
 #progress bar

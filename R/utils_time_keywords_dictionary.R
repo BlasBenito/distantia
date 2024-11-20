@@ -46,6 +46,7 @@ utils_time_keywords_dictionary <- function(){
 
   # decades ----
   decades <- c(
+    "decade",
     "decades",
     "decad",
     "10 years",

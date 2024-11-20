@@ -22,7 +22,7 @@ Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and 
 #for large datasets, parallelization accelerates cluster optimization
 future::plan(
   future::multisession,
-  workers = 2 #set to parallelly::availableWorkers() - 1
+  workers = 2 #set to parallelly::availableCores() - 1
 )
 
 #progress bar

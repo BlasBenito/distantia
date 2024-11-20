@@ -17,7 +17,7 @@ f_scale(x = NULL, center = TRUE, scale = TRUE)
 zoo object
 }
 \description{
-Wraps \code{\link[base:scale]{base::scale()}} for global centering and scaling with \code{\link[=tsl_transform]{tsl_transform()}}.
+Wraps \code{\link[base:scale]{base::scale()}} for centering and scaling with \code{\link[=tsl_transform]{tsl_transform()}}.
 }
 \examples{
 x <- zoo_simulate()
@@ -42,6 +42,7 @@ Other tsl_transformation:
 \code{\link{f_percentage}()},
 \code{\link{f_proportion}()},
 \code{\link{f_rescale}()},
+\code{\link{f_scale_global}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}

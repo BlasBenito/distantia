@@ -37,7 +37,7 @@ This function also accepts a parallelization setup via \code{\link[future:plan]{
 \examples{
 future::plan(
   future::multisession,
-  workers = 2 #set to parallelly::availableWorkers() - 1
+  workers = 2 #set to parallelly::availableCores() - 1
 )
 
 #progress bar
