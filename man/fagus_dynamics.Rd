@@ -45,7 +45,9 @@ Other example_data:
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
-\code{\link{fagus_coordinates}}
+\code{\link{fagus_coordinates}},
+\code{\link{honeycomb_climate}},
+\code{\link{honeycomb_polygons}}
 }
 \concept{example_data}
 \keyword{datasets}

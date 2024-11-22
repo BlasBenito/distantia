@@ -249,3 +249,30 @@
 #' }
 #' @format data frame
 "albatross"
+
+
+
+#' Rainfall and Temperature in The Americas
+#'
+#' @description
+#' Monthly temperature and rainfall between 2009 and 2019 in 72 hexagonal cells covering The Americas.
+#'
+#' @docType data
+#' @keywords datasets
+#' @family example_data
+#' @name honeycomb_climate
+#' @usage data(honeycomb_climate)
+"honeycomb_climate"
+
+
+#' Hexagonal Grid
+#'
+#' @description
+#' Sf data frame with hexagonal grid of the dataset [honeycomb_climate].
+#'
+#' @docType data
+#' @keywords datasets
+#' @family example_data
+#' @name honeycomb_polygons
+#' @usage data(honeycomb_polygons)
+"honeycomb_polygons"

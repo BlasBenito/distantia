@@ -22,7 +22,9 @@ Other example_data:
 \code{\link{covid_prevalence}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}}
+\code{\link{fagus_dynamics}},
+\code{\link{honeycomb_climate}},
+\code{\link{honeycomb_polygons}}
 
 Other example_data: 
 \code{\link{albatross}},
@@ -32,7 +34,9 @@ Other example_data:
 \code{\link{covid_prevalence}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}}
+\code{\link{fagus_dynamics}},
+\code{\link{honeycomb_climate}},
+\code{\link{honeycomb_polygons}}
 }
 \concept{example_data}
 \keyword{datasets}
