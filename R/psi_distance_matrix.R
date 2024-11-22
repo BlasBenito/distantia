@@ -58,6 +58,9 @@ psi_distance_matrix <- function(
     distance = distance
   )[1]
 
+  x <- as.matrix(x)
+  y <- as.matrix(y)
+
   #computing distance matrix
   m <- distance_matrix_cpp(
     x = x,
