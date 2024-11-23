@@ -2,8 +2,10 @@
 <url><loc>https://blasbenito.github.io/distantia/404.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/LICENSE-text.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/LICENSE.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/articles/dynamic_time_warping_and_lock_step.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/articles/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/articles/psi_dissimilarity_metric.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/articles/time_series_lists.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/authors.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/news/index.html</loc></url>
@@ -61,11 +63,14 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/f_proportion.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_rescale.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_scale.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/f_scale_global.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_slope.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_smooth_window.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_trend_linear.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_dynamics.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/honeycomb_climate.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/honeycomb_polygons.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_legacy_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_robust_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_lock_step_cpp.html</loc></url>

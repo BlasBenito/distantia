@@ -8,8 +8,8 @@
 <title>A Toolset for Time Series Dissimilarity Analysis • distantia</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="A Toolset for Time Series Dissimilarity Analysis">
 <meta name="description" content="Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) &lt;doi:10.1111/ecog.04895&gt;, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.">
@@ -40,6 +40,8 @@
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="articles/psi_dissimilarity_metric.html">The Psi Dissimilarity Metric</a></li>
+    <li><a class="dropdown-item" href="articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping and Lock Step Comparison</a></li>
+    <li><a class="dropdown-item" href="articles/time_series_lists.html">Working With Time Series Lists</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -69,15 +71,52 @@
 <div class="section level2">
 <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a>
 </h2>
-<p>Version 2.0.0 of <code>distantia</code> is a full re-write from scratch and <strong>will break existing workflows</strong>. Please refer to the Changelog for details before updating.</p>
+<p>Version 2.0.0 of <code>distantia</code> is a full re-write of the original package and <strong>will break existing workflows</strong>. Please refer to the <a href="https://blasbenito.github.io/distantia/news/index.html">Changelog</a> for details before updating.</p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>The <code>distantia</code> package has undergone a major overhaul to enhance both performance and usability. Core functions are now implemented in C++ for faster execution and improved memory efficiency, with streamlined R wrappers to simplify user interaction.</p>
-<p>Function and argument names have been updated to follow modern conventions, offering a more intuitive experience. Additionally, most time series operations are now powered by the <a href="https://cran.r-project.org/web/packages/zoo/index.html" class="external-link">zoo</a> library, providing consistent data handling and computational efficiency.</p>
-<p>Version 2.0 introduces the concept of “time series lists” (<code>tsl</code>), using lists of zoo objects to manage and organize time series data. A full suite of functions prefixed with <code>tsl_...()</code> allows users to easily generate, resample, transform, analyze, and visualize univariate, multivariate, regular, or irregular time series. Many of these functions support parallel execution via the <a href="https://future.futureverse.org/" class="external-link">future</a> package, with progress indicators provided by <a href="https://progressr.futureverse.org/" class="external-link">progressr</a> for a smoother user experience.</p>
-<p>Finally, to further aid learning and experimentation, new example datasets and tools for generating simulated time series are also included.</p>
+<p>The R package <strong><code>distantia</code></strong> offers an efficient, feature-rich toolkit for managing, comparing, and analyzing time series data. It is designed to handle a wide range of scenarios, including:</p>
+<ul>
+<li>Multivariate or univariate time series.</li>
+<li>Regular or irregular sampling.</li>
+<li>Time series of different lengths.</li>
+</ul>
+<div class="section level3">
+<h3 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
+</h3>
+<ul>
+<li>
+<strong>Comprehensive Analytical Tools</strong>:
+<ul>
+<li>10 distance metrics: see <code><a href="reference/distances.html">distantia::distances</a></code>.</li>
+<li>The normalized dissimilarity metric <code>psi</code>.</li>
+<li>Three Dynamic Time Warping (DTW) methods for shape-based comparisons.</li>
+<li>A Lock-Step method for sample-to-sample alignment.</li>
+<li>Restricted permutation tests for robust inferential support.</li>
+<li>Variable Importance Analysis: assessment of contribution to dissimilarity of individual variables in multivariate time series.</li>
+<li>Hierarchical and K-means clustering of time series based on dissimilarity matrices.</li>
+</ul>
+</li>
+<li>
+<strong>Computational Efficiency</strong>:
+<ul>
+<li>A <strong>C++ back-end</strong> powered by <a href="https://www.rcpp.org/" class="external-link">Rcpp</a>.</li>
+<li>
+<strong>Parallel processing</strong> managed through the <a href="https://future.futureverse.org/" class="external-link">future</a> package.</li>
+<li>
+<strong>Efficient data handling</strong> via <a href="https://cran.r-project.org/web/packages/zoo/index.html" class="external-link">zoo</a>.</li>
+</ul>
+</li>
+<li>
+<strong>Time Series Management Tools</strong>:
+<ul>
+<li>Introduces <strong>time series lists (<code>tsl</code>)</strong>, a versatile format for handling collections of time series stored as lists of <code>zoo</code> objects.</li>
+<li>Includes a suite of <code>tsl_...()</code> functions for generating, resampling, transforming, analyzing, and visualizing both univariate and multivariate time series.</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -85,6 +124,244 @@
 <p>If you find this package useful, please cite it as:</p>
 <p><em>Blas M. Benito, H. John B. Birks (2020). distantia: an open-source toolset to quantify dissimilarity between multivariate ecological time-series. Ecography, 43(5), 660-667. doi: <a href="https://nsojournals.onlinelibrary.wiley.com/doi/10.1111/ecog.04895" class="external-link">10.1111/ecog.04895</a>.</em></p>
 <p><em>Blas M. Benito (2024). distantia: A Toolset for Time Series Dissimilarity Analysis. R package version 2.0.0. url: <a href="https://blasbenito.github.io/distantia/" class="uri">https://blasbenito.github.io/distantia/</a>.</em></p>
+</div>
+<div class="section level2">
+<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+</h2>
+<p>The package <code>distantia</code> can be installed from CRAN.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"distantia"</span><span class="op">)</span></span></code></pre></div>
+<p>The development version can be installed from GitHub.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span></span>
+<span>  repo <span class="op">=</span> <span class="st">"blasbenito/distantia"</span>, </span>
+<span>  ref <span class="op">=</span> <span class="st">"development"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h2>
+<p>This section provides a minimal example on how to use <code>distantia</code>. Please, check the <strong>Articles</strong> section for further details.</p>
+<div class="section level3">
+<h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h3>
+<p>Most functions in <code>distantia</code> now support a parallelization backend and progress bars.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#required packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/">distantia</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://parallelly.futureverse.org" class="external-link">parallelly</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#parallelization setup</span></span>
+<span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span>
+<span>  workers <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
+<span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-data">Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a>
+</h3>
+<p>The <code>albatross</code> data frame contains daily GPS data of 4 individuals of Waved Albatross in the Pacific captured during the summer of 2008. The first 10 rows of this data frame are shown below.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#&gt;   name       time         x         y     speed temperature  heading</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; 1 X132 2008-05-31 -89.62097 -1.389512 0.1473333    29.06667 212.0307</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; 2 X132 2008-06-01 -89.62101 -1.389508 0.2156250    28.25000 184.0337</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 3 X132 2008-06-02 -89.62101 -1.389503 0.2143750    27.68750 123.1269</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 4 X132 2008-06-03 -89.62099 -1.389508 0.2018750    27.81250 183.4600</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 5 X132 2008-06-04 -89.62098 -1.389507 0.2256250    27.68750 114.8931</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 6 X132 2008-06-05 -89.62925 -1.425734 1.3706667    25.73333 245.8033</span></span></code></pre></div>
+<p>The <code>albatross</code> data is converted to <em>Time Series List</em> with <code><a href="reference/tsl_initialize.html">tsl_initialize()</a></code>, and scaled and centered with <code><a href="reference/tsl_transform.html">tsl_transform()</a></code> and <code>f_scale</code>, to facilitate shape-based comparisons and variable importance analyses.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">albatross</span>,</span>
+<span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  time_column <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>    f <span class="op">=</span> <span class="va">f_scale</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="dissimilarity-analysis">Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis"></a>
+</h3>
+<div class="section level4">
+<h4 id="lock-step-analysis">Lock-Step Analysis<a class="anchor" aria-label="anchor" href="#lock-step-analysis"></a>
+</h4>
+<p>The lock-step analysis performs a direct sample-to-sample comparison without any time distortion. It requires time series of the same length observed at the same times.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_ls</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_ls</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      x    y      psi</span></span>
+<span><span class="co">#&gt; 6 X136 X153 1.515698</span></span>
+<span><span class="co">#&gt; 5 X134 X153 1.703707</span></span>
+<span><span class="co">#&gt; 3 X132 X153 1.726095</span></span>
+<span><span class="co">#&gt; 4 X134 X136 1.745060</span></span>
+<span><span class="co">#&gt; 1 X132 X134 1.811480</span></span>
+<span><span class="co">#&gt; 2 X132 X136 1.837204</span></span></code></pre></div>
+<p>The column “psi” contains the value of normalized dissimilarity, and is used to order the data frame from lower to higher dissimilarity (first row shows the most similar time series).</p>
+<p>The function <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> helps to quickly identify these time series that are more different (top) or similar (bottom) to all others.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_ls</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+</div>
+<div class="section level4">
+<h4 id="dynamic-time-warping">Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#dynamic-time-warping"></a>
+</h4>
+<p>The function <code><a href="reference/distantia.html">distantia()</a></code> computes the dissimilarity between pairs of time series using <strong>dynamic time warping</strong> (DTW) with weighted diagonals by default. This analysis is useful when the time series might be shifted for reasons not relevant to the analysis at hand, such as varying phenology (different elevations, or different hemispheres), asynchronous behavior, or non-overlapping sampling periods</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      x    y      psi</span></span>
+<span><span class="co">#&gt; 1 X132 X134 1.209322</span></span>
+<span><span class="co">#&gt; 4 X134 X136 1.337882</span></span>
+<span><span class="co">#&gt; 2 X132 X136 1.440403</span></span>
+<span><span class="co">#&gt; 5 X134 X153 1.442791</span></span>
+<span><span class="co">#&gt; 6 X136 X153 1.466519</span></span>
+<span><span class="co">#&gt; 3 X132 X153 1.790897</span></span></code></pre></div>
+<p>The function <code><a href="reference/distantia_plot.html">distantia_plot()</a></code> provides a detailed insight on the alignment between a pair of time series resulting from dynamic time warping.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X132"</span>, <span class="st">"X153"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<p>Regions of the least cost path deviating from a perfect diagonal show adjustments made by the dynamic time warping algorithm to match the time series by shape rather than by time.</p>
+<p>Vertical or horizontal segments of the least cost path indicate that one sample of one time series is being paired with several samples of the other time.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="p-values">P-values<a class="anchor" aria-label="anchor" href="#p-values"></a>
+</h3>
+<p>The package <code>distantia</code> implements restricted permutation tests to help assess the significance of dissimilarity scores. It supports different setups to support different data assumptions.</p>
+<p>For example, the configuration below re-arranges complete rows within 7 days blocks. This setup assumes a strong dependency between variables in the same row, and a strong dependency between observations that are close in time (same week).</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  repetitions <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  permutation <span class="op">=</span> <span class="st">"restricted_by_row"</span>,</span>
+<span>  block_size <span class="op">=</span> <span class="fl">7</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      x    y      psi p_value</span></span>
+<span><span class="co">#&gt; 1 X132 X134 1.209322   0.001</span></span>
+<span><span class="co">#&gt; 4 X134 X136 1.337882   0.001</span></span>
+<span><span class="co">#&gt; 2 X132 X136 1.440403   0.003</span></span>
+<span><span class="co">#&gt; 5 X134 X153 1.442791   0.001</span></span>
+<span><span class="co">#&gt; 6 X136 X153 1.466519   0.001</span></span>
+<span><span class="co">#&gt; 3 X132 X153 1.790897   0.248</span></span></code></pre></div>
+<p>The column “p_value” represents the fraction of permutations yielding a <code>psi</code> score lower than the observed. It can be interpreted as the <em>strength of the similarity</em> between two time series.</p>
+<p>Given a significance level of interest (i.e. 0.05, but depends on the number of iterations), this p-value can help separate pairs of time series that are strongly similar from pairs that are strongly dissimilar.</p>
+</div>
+<div class="section level3">
+<h3 id="variable-importance">Variable Importance<a class="anchor" aria-label="anchor" href="#variable-importance"></a>
+</h3>
+<p>When comparing multivariate time series, there are variables that might be contributing more than others to similarity/dissimilarity. The function <code><a href="reference/distantia_importance.html">distantia_importance()</a></code> applies a leave-one-out algorithm to help identify these variables and quantify their individual contribution to the overall dissimilarity between time series.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia_importance.html">distantia_importance</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_importance</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"variable"</span>, <span class="st">"importance"</span>, <span class="st">"effect"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;       x    y    variable  importance               effect</span></span>
+<span><span class="co">#&gt; 1  X132 X134           x 151.4845183 decreases similarity</span></span>
+<span><span class="co">#&gt; 2  X132 X134           y 137.9871963 decreases similarity</span></span>
+<span><span class="co">#&gt; 3  X132 X134       speed  -8.5695768 increases similarity</span></span>
+<span><span class="co">#&gt; 4  X132 X134 temperature  12.1560062 decreases similarity</span></span>
+<span><span class="co">#&gt; 5  X132 X134     heading -37.5712802 increases similarity</span></span>
+<span><span class="co">#&gt; 6  X132 X136           x 134.0615862 decreases similarity</span></span>
+<span><span class="co">#&gt; 7  X132 X136           y 171.4272268 decreases similarity</span></span>
+<span><span class="co">#&gt; 8  X132 X136       speed -21.8177540 increases similarity</span></span>
+<span><span class="co">#&gt; 9  X132 X136 temperature  -0.7049952 increases similarity</span></span>
+<span><span class="co">#&gt; 10 X132 X136     heading -27.0675745 increases similarity</span></span>
+<span><span class="co">#&gt; 11 X132 X153           x 363.6775843 decreases similarity</span></span>
+<span><span class="co">#&gt; 12 X132 X153           y 259.4641204 decreases similarity</span></span>
+<span><span class="co">#&gt; 13 X132 X153       speed -40.8790600 increases similarity</span></span>
+<span><span class="co">#&gt; 14 X132 X153 temperature -12.2307646 increases similarity</span></span>
+<span><span class="co">#&gt; 15 X132 X153     heading -49.5883487 increases similarity</span></span>
+<span><span class="co">#&gt; 16 X134 X136           x  79.4974807 decreases similarity</span></span>
+<span><span class="co">#&gt; 17 X134 X136           y 131.6027786 decreases similarity</span></span>
+<span><span class="co">#&gt; 18 X134 X136       speed   2.6287070 decreases similarity</span></span>
+<span><span class="co">#&gt; 19 X134 X136 temperature   3.8804616 decreases similarity</span></span>
+<span><span class="co">#&gt; 20 X134 X136     heading -29.4241555 increases similarity</span></span>
+<span><span class="co">#&gt; 21 X134 X153           x 369.0825054 decreases similarity</span></span>
+<span><span class="co">#&gt; 22 X134 X153           y 158.8073779 decreases similarity</span></span>
+<span><span class="co">#&gt; 23 X134 X153       speed -10.3829941 increases similarity</span></span>
+<span><span class="co">#&gt; 24 X134 X153 temperature  -4.4291460 increases similarity</span></span>
+<span><span class="co">#&gt; 25 X134 X153     heading -49.6994243 increases similarity</span></span>
+<span><span class="co">#&gt; 26 X136 X153           x 273.1341218 decreases similarity</span></span>
+<span><span class="co">#&gt; 27 X136 X153           y  25.1517493 decreases similarity</span></span>
+<span><span class="co">#&gt; 28 X136 X153       speed   5.6063404 decreases similarity</span></span>
+<span><span class="co">#&gt; 29 X136 X153 temperature  -4.1899552 increases similarity</span></span>
+<span><span class="co">#&gt; 30 X136 X153     heading -34.6100591 increases similarity</span></span></code></pre></div>
+<p>Positive values in the column “importance” indicate variables increasing the differences between time series, while negative values indicate variables making the time series more similar. Please, read the function documentation to know more about how importance scores are computed.</p>
+<p>Here, the function <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> can help again to gain a quick insight on which variables contribute the most to similarity or dissimilarity.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">df_importance</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"> ### Clustering</p>
+<p>The package <code>distantia</code> provides several tools to group time series by similarity, either using hierarchical clustering, or k-means.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dtw_hclust</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia_cluster_hclust.html">distantia_cluster_hclust</a></span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">df_dtw</span>,</span>
+<span>  clusters <span class="op">=</span> <span class="cn">NULL</span>, <span class="co">#automatic mode</span></span>
+<span>  method <span class="op">=</span> <span class="cn">NULL</span>    <span class="co">#automatic mode</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co">#cluster object</span></span>
+<span><span class="va">dtw_hclust</span><span class="op">$</span><span class="va">cluster_object</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; stats::hclust(d = d_dist, method = method)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Cluster method   : ward.D </span></span>
+<span><span class="co">#&gt; Number of objects: 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#number of clusters</span></span>
+<span><span class="va">dtw_hclust</span><span class="op">$</span><span class="va">clusters</span></span>
+<span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#clustering data frame</span></span>
+<span><span class="co">#group label in column "cluster"</span></span>
+<span><span class="co">#negatives in column "silhouette_width" higlight anomalous cluster assignation</span></span>
+<span><span class="va">dtw_hclust</span><span class="op">$</span><span class="va">df</span></span>
+<span><span class="co">#&gt;   name cluster silhouette_width</span></span>
+<span><span class="co">#&gt; 1 X132       1       0.26022412</span></span>
+<span><span class="co">#&gt; 2 X134       1       0.11726523</span></span>
+<span><span class="co">#&gt; 3 X136       1       0.05276177</span></span>
+<span><span class="co">#&gt; 4 X153       2       0.00000000</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#tree plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">dtw_hclust</span><span class="op">$</span><span class="va">cluster_object</span>,</span>
+<span>  hang <span class="op">=</span> <span class="op">-</span><span class="fl">1</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<p>If you encounter bugs or issues with the documentation, please <a href="https://github.com/BlasBenito/distantia/issues" class="external-link">file a issue on GitHub</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
