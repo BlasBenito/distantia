@@ -192,8 +192,8 @@ The function `distantia()` computes the dissimilarity between pairs of
 time series using **dynamic time warping** (DTW) with weighted diagonals
 by default. This analysis is useful when the time series might be
 shifted for reasons not relevant to the analysis at hand, such as
-varying phenology, asynchronic behavior, or non-overlappig sampling
-periods
+varying phenology (different elevations, or different hemispheres),
+asynchronous behavior, or non-overlapping sampling periods
 
 ``` r
 df_dtw <- distantia(
@@ -233,7 +233,7 @@ other time.
 ### P-values
 
 The package `distantia` implements restricted permutation tests to help
-assess the significance of dissimilarity scores. It accepts different
+assess the significance of dissimilarity scores. It supports different
 setups to support different data assumptions.
 
 For example, the configuration below re-arranges complete rows within 7
@@ -259,13 +259,130 @@ df_dtw[, c("x", "y", "psi", "p_value")]
 #> 3 X132 X153 1.790897   0.248
 ```
 
-The p-values shown in the results represent the fraction of permutations
-that yield a psi score lower than the observed, and can be interpreted
-as the *strength of the similarity* between two time series.
+The column “p_value” represents the fraction of permutations yielding a
+`psi` score lower than the observed. It can be interpreted as the
+*strength of the similarity* between two time series.
 
 Given a significance level of interest (i.e. 0.05, but depends on the
-number of iterations), it can help separate pairs of time series that
-are similar from pairs of time series that are dissimilar.
+number of iterations), this p-value can help separate pairs of time
+series that are strongly similar from pairs that are strongly
+dissimilar.
+
+### Variable Importance
+
+When comparing multivariate time series, there are variables that might
+be contributing more than others to similarity/dissimilarity. The
+function `distantia_importance()` applies a leave-one-out algorithm to
+help identify these variables and quantify their individual contribution
+to the overall dissimilarity between time series.
+
+``` r
+df_importance <- distantia_importance(
+  tsl = tsl
+)
+
+df_importance[, c("x", "y", "variable", "importance", "effect")]
+#>       x    y    variable  importance               effect
+#> 1  X132 X134           x 151.4845183 decreases similarity
+#> 2  X132 X134           y 137.9871963 decreases similarity
+#> 3  X132 X134       speed  -8.5695768 increases similarity
+#> 4  X132 X134 temperature  12.1560062 decreases similarity
+#> 5  X132 X134     heading -37.5712802 increases similarity
+#> 6  X132 X136           x 134.0615862 decreases similarity
+#> 7  X132 X136           y 171.4272268 decreases similarity
+#> 8  X132 X136       speed -21.8177540 increases similarity
+#> 9  X132 X136 temperature  -0.7049952 increases similarity
+#> 10 X132 X136     heading -27.0675745 increases similarity
+#> 11 X132 X153           x 363.6775843 decreases similarity
+#> 12 X132 X153           y 259.4641204 decreases similarity
+#> 13 X132 X153       speed -40.8790600 increases similarity
+#> 14 X132 X153 temperature -12.2307646 increases similarity
+#> 15 X132 X153     heading -49.5883487 increases similarity
+#> 16 X134 X136           x  79.4974807 decreases similarity
+#> 17 X134 X136           y 131.6027786 decreases similarity
+#> 18 X134 X136       speed   2.6287070 decreases similarity
+#> 19 X134 X136 temperature   3.8804616 decreases similarity
+#> 20 X134 X136     heading -29.4241555 increases similarity
+#> 21 X134 X153           x 369.0825054 decreases similarity
+#> 22 X134 X153           y 158.8073779 decreases similarity
+#> 23 X134 X153       speed -10.3829941 increases similarity
+#> 24 X134 X153 temperature  -4.4291460 increases similarity
+#> 25 X134 X153     heading -49.6994243 increases similarity
+#> 26 X136 X153           x 273.1341218 decreases similarity
+#> 27 X136 X153           y  25.1517493 decreases similarity
+#> 28 X136 X153       speed   5.6063404 decreases similarity
+#> 29 X136 X153 temperature  -4.1899552 increases similarity
+#> 30 X136 X153     heading -34.6100591 increases similarity
+```
+
+Positive values in the column “importance” indicate variables increasing
+the differences between time series, while negative values indicate
+variables making the time series more similar. Please, read the function
+documentation to know more about how importance scores are computed.
+
+Here, the function `distantia_boxplot()` can help again to gain a quick
+insight on which variables contribute the most to similarity or
+dissimilarity.
+
+``` r
+distantia_boxplot(
+  df = df_importance
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+\### Clustering
+
+The package `distantia` provides several tools to group time series by
+similarity, either using hierarchical clustering, or k-means.
+
+``` r
+dtw_hclust <- distantia_cluster_hclust(
+  df = df_dtw,
+  clusters = NULL, #automatic mode
+  method = NULL    #automatic mode
+  )
+
+#cluster object
+dtw_hclust$cluster_object
+#> 
+#> Call:
+#> stats::hclust(d = d_dist, method = method)
+#> 
+#> Cluster method   : ward.D 
+#> Number of objects: 4
+```
+
+``` r
+
+#number of clusters
+dtw_hclust$clusters
+#> [1] 2
+```
+
+``` r
+
+#clustering data frame
+#group label in column "cluster"
+#negatives in column "silhouette_width" higlight anomalous cluster assignation
+dtw_hclust$df
+#>   name cluster silhouette_width
+#> 1 X132       1       0.26022412
+#> 2 X134       1       0.11726523
+#> 3 X136       1       0.05276177
+#> 4 X153       2       0.00000000
+```
+
+``` r
+
+#tree plot
+plot(
+  x = dtw_hclust$cluster_object,
+  hang = -1
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
 ## Getting help
 

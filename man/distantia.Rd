@@ -14,7 +14,7 @@ distantia(
   repetitions = 0L,
   permutation = "restricted_by_row",
   block_size = NULL,
-  seed = 1
+  seed = 1L
 )
 }
 \arguments{

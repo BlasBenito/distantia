@@ -32,10 +32,7 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #weekly covid prevalence in California counties
-#' data("covid_prevalence")
-#'
-#' #load as tsl
+#' #weekly covid prevalence in California
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
 #'   name_column = "name",
@@ -48,20 +45,10 @@
 #'   names = 1:10
 #' )
 #'
-#' #aggregateto monthly data to accelerate example execution
-#' tsl <- tsl_aggregate(
-#'   tsl = tsl,
-#'   new_time = "months",
-#'   fun = sum
-#' )
-#'
 #' if(interactive()){
 #'   #plotting first three time series
 #'   tsl_plot(
-#'     tsl = tsl_subset(
-#'       tsl = tsl,
-#'       names = 1:3
-#'     ),
+#'     tsl = tsl[1:3],
 #'     guide_columns = 3
 #'   )
 #' }
@@ -72,12 +59,13 @@
 #'   lock_step = TRUE
 #' )
 #'
-#' #hierarchical clustering with a given number of clusters
-#' #-------------------------------------------------------
+#' #hierarchical clustering
+#' #automated number of clusters
+#' #automated method selection
 #' distantia_clust <- distantia_cluster_hclust(
 #'   df = distantia_df,
-#'   clusters = 5, #arbitrary number!
-#'   method = "complete"
+#'   clusters = NULL,
+#'   method = NULL
 #' )
 #'
 #' #names of the output object
@@ -103,48 +91,7 @@
 #' #plot
 #' if(interactive()){
 #'
-#'   clust <- distantia_clust$cluster_object
-#'   k <- distantia_clust$clusters
-#'
-#'   #tree plot
-#'   plot(
-#'     x = clust,
-#'     hang = -1
-#'   )
-#'
-#'   #highlight groups
-#'   stats::rect.hclust(
-#'     tree = clust,
-#'     k = k,
-#'     cluster = stats::cutree(
-#'       tree = clust,
-#'       k = k
-#'     )
-#'   )
-#'
-#' }
-#'
-#'
-#' #optimized hierarchical clustering
-#' #---------------------------------
-#'
-#' #auto-optimization of clusters and method
-#' distantia_clust <- distantia_cluster_hclust(
-#'   df = distantia_df,
-#'   clusters = NULL,
-#'   method = NULL
-#' )
-#'
-#' #names of the output object
-#' #a new object named "optimization" should appear
-#' names(distantia_clust)
-#'
-#' #first rows of the optimization data frame
-#' #optimized clustering in first row
-#' head(distantia_clust$optimization)
-#'
-#' #plot
-#' if(interactive()){
+#'   dev.off()
 #'
 #'   clust <- distantia_clust$cluster_object
 #'   k <- distantia_clust$clusters

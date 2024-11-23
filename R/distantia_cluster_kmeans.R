@@ -29,10 +29,7 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #weekly covid prevalence in California counties
-#' data("covid_prevalence")
-#'
-#' #load as tsl and aggregate to monthly data to accelerate example execution
+#' #weekly covid prevalence in California
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
 #'   name_column = "name",
@@ -45,19 +42,12 @@
 #'   names = 1:10
 #' )
 #'
-#' #aggregateto monthly data to accelerate example execution
-#' tsl <- tsl_aggregate(
-#'   tsl = tsl,
-#'   new_time = "months",
-#'   fun = sum
-#' )
-#'
 #' if(interactive()){
 #'   #plotting first three time series
 #'   tsl_plot(
 #'     tsl = tsl[1:3],
 #'     guide_columns = 3
-#'     )
+#'   )
 #' }
 #'
 #' #dissimilarity analysis
@@ -66,11 +56,11 @@
 #'   lock_step = TRUE
 #' )
 #'
-#' #kmeans with a given number of clusters
-#' #-------------------------------------------------------
+#' #hierarchical clustering
+#' #automated number of clusters
 #' distantia_kmeans <- distantia_cluster_kmeans(
 #'   df = distantia_df,
-#'   clusters = 5 #arbitrary number!
+#'   clusters = NULL
 #' )
 #'
 #' #names of the output object
@@ -98,22 +88,6 @@
 #' #   data = distantia_kmeans$d,
 #' #   repel = TRUE
 #' # )
-#'
-#' #optimized kmeans
-#' #---------------------------------
-#' #auto-optimization of clusters and method
-#' distantia_kmeans <- distantia_cluster_kmeans(
-#'   df = distantia_df,
-#'   clusters = NULL
-#' )
-#'
-#' #names of the output object
-#' #a new object named "optimization" should appear
-#' names(distantia_kmeans)
-#'
-#' #first rows of the optimization data frame
-#' #optimized clustering in first row
-#' head(distantia_kmeans$optimization)
 #'
 #' #disable parallelization
 #' future::plan(

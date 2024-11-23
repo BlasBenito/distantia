@@ -156,13 +156,13 @@ The column "psi" contains the value of normalized dissimilarity, and is used to 
 
 The function `distantia_boxplot()` helps to quickly identify these time series that are more different (top) or similar (bottom) to all others.
 
-```{r, fig.width=5, fig.height=4.5}
+```{r, fig.width=4, fig.height=3}
 distantia_boxplot(df = df_ls)
 ```
 
 #### Dynamic Time Warping
 
-The function `distantia()` computes the dissimilarity between pairs of time series using **dynamic time warping** (DTW) with weighted diagonals by default. This analysis is useful when the time series might be shifted for reasons not relevant to the analysis at hand, such as varying phenology, asynchronic behavior, or non-overlappig sampling periods
+The function `distantia()` computes the dissimilarity between pairs of time series using **dynamic time warping** (DTW) with weighted diagonals by default. This analysis is useful when the time series might be shifted for reasons not relevant to the analysis at hand, such as varying phenology (different elevations, or different hemispheres), asynchronous behavior, or non-overlapping sampling periods
 
 ```{r}
 df_dtw <- distantia(
@@ -186,7 +186,7 @@ Vertical or horizontal segments of the least cost path indicate that one sample 
 
 ### P-values
 
-The package `distantia` implements restricted permutation tests to help assess the significance of dissimilarity scores. It accepts different setups to support different data assumptions. 
+The package `distantia` implements restricted permutation tests to help assess the significance of dissimilarity scores. It supports different setups to support different data assumptions. 
 
 For example, the configuration below re-arranges complete rows within 7 days blocks. This setup assumes a strong dependency between variables in the same row, and a strong dependency between observations that are close in time (same week). 
 
@@ -200,9 +200,60 @@ df_dtw <- distantia(
 
 df_dtw[, c("x", "y", "psi", "p_value")]
 ```
-The p-values shown in the results represent the fraction of permutations that yield a psi score lower than the observed, and can be interpreted as the *strength of the similarity* between two time series. 
 
-Given a significance level of interest (i.e. 0.05, but depends on the number of iterations), it can help separate pairs of time series that are similar from pairs of time series that are dissimilar.
+The column "p_value" represents the fraction of permutations yielding a `psi` score lower than the observed. It can be interpreted as the *strength of the similarity* between two time series. 
+
+Given a significance level of interest (i.e. 0.05, but depends on the number of iterations), this p-value can help separate pairs of time series that are strongly similar from pairs that are strongly dissimilar.
+
+### Variable Importance
+
+When comparing multivariate time series, there are variables that might be contributing more than others to similarity/dissimilarity. The function `distantia_importance()` applies a leave-one-out algorithm to help identify these variables and quantify their individual contribution to the overall dissimilarity between time series.
+
+```{r}
+df_importance <- distantia_importance(
+  tsl = tsl
+)
+
+df_importance[, c("x", "y", "variable", "importance", "effect")]
+```
+Positive values in the column "importance" indicate variables increasing the differences between time series, while negative values indicate variables making the time series more similar. Please, read the function documentation to know more about how importance scores are computed.
+
+Here, the function `distantia_boxplot()` can help again to gain a quick insight on which variables contribute the most to similarity or dissimilarity.
+
+```{r, fig.width=4.5, fig.height=3}
+distantia_boxplot(
+  df = df_importance
+)
+```
+### Clustering
+
+The package `distantia` provides several tools to group time series by similarity, either using hierarchical clustering, or k-means.
+
+```{r, fig.width=5, fig.height=4}
+dtw_hclust <- distantia_cluster_hclust(
+  df = df_dtw,
+  clusters = NULL, #automatic mode
+  method = NULL    #automatic mode
+  )
+
+#cluster object
+dtw_hclust$cluster_object
+
+#number of clusters
+dtw_hclust$clusters
+
+#clustering data frame
+#group label in column "cluster"
+#negatives in column "silhouette_width" higlight anomalous cluster assignation
+dtw_hclust$df
+
+#tree plot
+plot(
+  x = dtw_hclust$cluster_object,
+  hang = -1
+)
+```
+
 
 ## Getting help
 

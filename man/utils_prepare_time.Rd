@@ -4,7 +4,7 @@
 \alias{utils_prepare_time}
 \title{Handles Time Column in a List of Data Frames}
 \usage{
-utils_prepare_time(x = NULL, time_column = NULL, lock_step = NULL)
+utils_prepare_time(x = NULL, time_column = NULL, lock_step = FALSE)
 }
 \arguments{
 \item{x}{(required, named list of data frames). List with named data frames. Default: NULL.}

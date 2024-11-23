@@ -37,6 +37,16 @@ utils_distantia_df_to_matrix <- function(
     value = "psi"
 ){
 
+  #subset df
+  df <- df_ <- df[, c(x, y, value)]
+
+  #add mirrored pairs
+  df_$x <- df$y
+  df_$y <- df$x
+
+  #merge everything
+  df <- rbind(df, df_)
+
   #rows and col names
   xy_names <- unique(c(df[[x]], df[[y]]))
 
