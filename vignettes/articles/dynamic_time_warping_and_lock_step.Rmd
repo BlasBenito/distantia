@@ -9,12 +9,14 @@ output:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  eval = TRUE,
+  eval = FALSE,
   collapse = TRUE,
   comment = "#>",
   fig.show = 'hold' #side by side images
 )
 ```
+
+# WORK IN PROGRESS
 
 ## Summary
 

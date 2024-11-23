@@ -232,9 +232,9 @@ other time.
 
 ### P-values
 
-The package `distantia` implements a restricted permutation analysis to
-help assess the significance of dissimilarity scores. It accepts
-different setups to support different data assumptions.
+The package `distantia` implements restricted permutation tests to help
+assess the significance of dissimilarity scores. It accepts different
+setups to support different data assumptions.
 
 For example, the configuration below re-arranges complete rows within 7
 days blocks. This setup assumes a strong dependency between variables in
@@ -245,8 +245,8 @@ close in time (same week).
 df_dtw <- distantia(
   tsl = tsl,
   repetitions = 1000,
-  permutation = "restricted_by_row", #all variables co-dependent
-  block_size = 7 #one week
+  permutation = "restricted_by_row",
+  block_size = 7
 )
 
 df_dtw[, c("x", "y", "psi", "p_value")]
