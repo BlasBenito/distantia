@@ -350,6 +350,8 @@ distantia <- function(
   } |>
     suppressWarnings() #to remove future warning about random seed
 
+  df_distantia <- df_distantia[order(df_distantia$psi), ]
+
   #add type
   attr(
     x = df_distantia,

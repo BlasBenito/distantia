@@ -1,0 +1,55 @@
+---
+title: "Working With Time Series Lists"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_title: "Content"
+    source: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.show = 'hold' #side by side images
+)
+```
+
+
+
+### Manipulating TSLs
+
+This section only covers a few of the data-manipulation capabilities of `distantia`.
+
+#### Aggregation
+
+The function `tsl_aggregate()` applies an aggregation function to specific time frames. For example, the code below computes the maximum temperature per year
+
+```{r}
+tsl_temp <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "year",
+  method = max
+)
+
+tsl_plot(
+  tsl = tsl_temp[1:5],
+  ylim = "relative"
+)
+```
+Same as above, but by decade.
+
+```{r}
+tsl_temp <- tsl_aggregate(
+  tsl = tsl,
+  new_time = "decades",
+  method = max
+)
+
+tsl_plot(
+  tsl = tsl_temp[1:5],
+  ylim = "relative"
+)
+```
+

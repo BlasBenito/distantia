@@ -178,26 +178,19 @@ distantia_boxplot <- function(
   graphics::par(mar=c(5, 8, 4, 2))
 
   #notch or not
-  notch <- tryCatch({
-    graphics::boxplot(
-      formula = value ~ variable,
-      data = df_plot,
-      xlab = xlab,
-      ylab = ylab,
-      horizontal = TRUE,
-      notch = TRUE,
-      plot = TRUE
-    )
-  }, warning = function(w) {
-    return(FALSE)
-  })
-  if(is.list(notch)){
-    notch <- TRUE
+  notch <- {
+    if(
+      min(table(df_plot$variable)) > 30
+    ){
+      TRUE
+    } else {
+      FALSE
+    }
   }
 
   graphics::par(las = 1)
 
-  out <- graphics::boxplot(
+  graphics::boxplot(
     formula = value ~ variable,
     data = df_plot,
     xlab = xlab,
@@ -215,7 +208,5 @@ distantia_boxplot <- function(
       lwd = 2
       )
   }
-
-  out
 
 }

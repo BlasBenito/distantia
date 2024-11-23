@@ -11,7 +11,7 @@
 utils_prepare_time <- function(
     x = NULL,
     time_column = NULL,
-    lock_step = NULL
+    lock_step = FALSE
 ){
 
 
@@ -31,7 +31,7 @@ utils_prepare_time <- function(
   if(is.null(time_column)){
 
     if(lock_step == TRUE){
-      stop("Argument 'time_column' cannot be NULL when 'lock_step' is TRUE'.")
+      stop("distantia::utils_prepare_time(): argument 'time_column' cannot be NULL when 'lock_step' is TRUE'.", call. = FALSE)
     }
 
     time_column <- "row_id"
@@ -73,7 +73,7 @@ utils_prepare_time <- function(
   #ERROR if time missing from any element
   if(length(x.time.numeric) > 0){
 
-    stop("The time column '", time_column, "' is not numeric in these elements of 'x': ", paste(x.time.numeric, collapse = ", "))
+    stop("distantia::utils_prepare_time(): The time column '", time_column, "' is not numeric in these elements of 'x': ", paste(x.time.numeric, collapse = ", "), call. = FALSE)
 
     #check that time column is in all elements
     x.no.time <- lapply(
@@ -90,7 +90,7 @@ utils_prepare_time <- function(
     #ERROR if time missing from any element
     if(length(x.no.time) > 0){
 
-      stop("These elements of 'x' do not have the time column '", time_column, "': ", paste(x.no.time, collapse = ", "))
+      stop("distantia::utils_prepare_time(): these time series in 'x' do not have the time column '", time_column, "': ", paste(x.no.time, collapse = ", "), call. = FALSE)
 
     }
 
@@ -145,13 +145,13 @@ utils_prepare_time <- function(
         )
 
       warning(
-        "Duplicated indices in '",
+        "distantia::utils_prepare_time():  duplicated time indices in '",
         x.i.name,
         "':\n",
         paste0(
           "- value ",
           x.i.time[x.i.time.dupes],
-          " replaced by ",
+          " replaced with ",
           x.i.time.new[x.i.time.dupes],
           collapse = "\n"
         ),

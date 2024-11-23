@@ -21,6 +21,11 @@ utils_prepare_df <- function(
     stop("distantia::utils_prepare_df(): number of rows in 'x' is not enough for a dissimilarity analysis.", call. = FALSE)
   }
 
+  #drop geometry column, if any
+  x <- utils_drop_geometry(
+    df = x
+  )
+
   if(is.null(time_column)){
     time_column <- NA
   } else {
@@ -78,11 +83,6 @@ utils_prepare_df <- function(
     )
 
   }
-
-  #drop geometry column, if any
-  x <- utils_drop_geometry(
-    df = x
-  )
 
   x
 

@@ -20,6 +20,7 @@ articles:
   contents:
   - articles/psi_dissimilarity_metric
   - articles/dynamic_time_warping_and_lock_step
+  - articles/time_series_lists
 
 - title: "Original Paper"
   navbar: "Original Paper"
