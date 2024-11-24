@@ -14,6 +14,7 @@
 <meta property="og:title" content="A Toolset for Time Series Dissimilarity Analysis">
 <meta name="description" content="Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) &lt;doi:10.1111/ecog.04895&gt;, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.">
 <meta property="og:description" content="Fast C++ implementation of Dynamic Time Warping for time series dissimilarity analysis, with applications in environmental monitoring and sensor data analysis, climate science, signal processing and pattern recognition, and financial data analysis. Built upon the ideas presented in Benito and Birks (2020) &lt;doi:10.1111/ecog.04895&gt;, provides tools for analyzing time series of varying lengths and structures, including irregular multivariate time series. Key features include individual variable contribution analysis, restricted permutation tests for statistical significance, and imputation of missing data via GAMs. Additionally, the package provides an ample set of tools to prepare and manage time series data.">
+<meta property="og:image" content="https://blasbenito.github.io/distantia/logo.png">
 <link rel="stylesheet" href="extra.css">
 </head>
 <body>
@@ -62,10 +63,12 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="distantia-time-series-dissimilarity-">
-<code>distantia</code> Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia" class="external-link"><img src="readme_figures/logo.png" align="right" height="138"></a>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="distantia-time-series-dissimilarity-">
+<code>distantia</code> Time Series Dissimilarity 
 <a class="anchor" aria-label="anchor" href="#distantia-time-series-dissimilarity-"></a>
-</h1></div>
+</h1>
+</div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
@@ -190,7 +193,7 @@
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="readme_figuresunnamed-chunk-5-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="dissimilarity-analysis">Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis"></a>
@@ -217,7 +220,7 @@
 <p>The function <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> helps quickly identify time series that are either more dissimilar (top) or similar (bottom) to others.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_ls</span><span class="op">)</span></span></code></pre></div>
-<p><img src="readme_figuresunnamed-chunk-7-1.png" width="75%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="75%"></p>
 </div>
 <div class="section level4">
 <h4 id="dynamic-time-warping">Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#dynamic-time-warping"></a>
@@ -241,7 +244,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X132"</span>, <span class="st">"X153"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="readme_figuresunnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 <p>Deviations from the perfect diagonal in the least-cost path reveal adjustments made by DTW to align time series by shape rather than time. Vertical or horizontal segments indicate one sample of a time series is matched with multiple samples of another.</p>
 </div>
 </div>
@@ -315,7 +318,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">df_importance</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="readme_figuresunnamed-chunk-12-1.png" width="75%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="75%"></p>
 </div>
 <div class="section level3">
 <h3 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
@@ -363,7 +366,7 @@
 <span>    <span class="op">)</span>,</span>
 <span>  horiz <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="readme_figuresunnamed-chunk-13-1.png" width="75%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="75%"></p>
 </div>
 </div>
 <div class="section level2">

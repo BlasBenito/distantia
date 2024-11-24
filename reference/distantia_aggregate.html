@@ -7,7 +7,7 @@ If there are no different combinations of arguments in the input data frame, no 
 When df is the result of distantia(), the input data is grouped by pairs of time series, and the function f is applied to the column "psi" by group
 When df is the result of distantia_importance(), the input data is grouped by pairs of time series and variables, and the function f is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in distantia_importance()), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
 If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column psi to start dissimilarity scores at zero.
-If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.'><link rel="stylesheet" href="extra.css"></head><body>
+If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.'><meta property="og:image" content="https://blasbenito.github.io/distantia/logo.png"><link rel="stylesheet" href="extra.css"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -46,8 +46,7 @@ If there are no different combinations of arguments in the input data frame, no 
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations</h1>
       <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/main/R/distantia_aggregate.R" class="external-link"><code>R/distantia_aggregate.R</code></a></small>
       <div class="d-none name"><code>distantia_aggregate.Rd</code></div>
     </div>
