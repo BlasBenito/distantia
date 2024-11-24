@@ -103,7 +103,7 @@ zoo_simulate <- function(
 
   # data_range ----
   if(length(data_range) == 1 || length(unique(data_range)) == 1){
-    stop("Argument 'data_range' must have two different values.")
+    stop("distantia::zoo_simulate(): argument 'data_range' must have two different values.", call. = FALSE)
   }
   if(!is.numeric(data_range)){
     data_range <- c(0, 1)
@@ -115,7 +115,7 @@ zoo_simulate <- function(
 
   # time range ----
   if(length(time_range) != 2){
-    stop("Argument 'time_range' must be a vector of length 2.")
+    stop("distantia::zoo_simulate(): argument 'time_range' must be a vector of length 2.", call. = FALSE)
   }
 
   time_range <- utils_as_time(

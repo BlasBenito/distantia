@@ -93,7 +93,7 @@ double distance_lock_step_cpp(
   int yn = y.nrow();
 
   if (yn != x.nrow()) {
-    Rcpp::stop("Number of rows in 'y' and 'x' must be the same.");
+    Rcpp::stop("distantia::distance_lock_step_cpp(): number of rows in 'y' and 'x' must be the same.");
   }
 
   NumericVector D(yn);

@@ -12,11 +12,7 @@
 #' @param ylab (optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
 #' @param text_cex (optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1
 #' @param path (optional, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
-#' @param path_width (optional, numeric) width of the least-cost path. Default: 1
-#' @param path_color (optional, character string) color of the least-cost path. Default: "black"
-#' @param diagonal (optional, logical) If TRUE, the perfect diagonal is plotted. Default: TRUE
-#' @param diagonal_width (optional, numeric) width of the diagonal. Default: 0.5
-#' @param diagonal_color (optional, character string) color of the diagonal. Default: "white"
+#' @inheritParams distantia_plot
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].
 #' @param subpanel (optional, logical) internal argument used when generating the multi-panel plot produced by [distantia_plot()].
 #'
@@ -67,7 +63,6 @@ utils_matrix_plot <- function(
     path = NULL,
     path_width = 1,
     path_color = "black",
-    diagonal = TRUE,
     diagonal_width = 0.5,
     diagonal_color = "white",
     guide = TRUE,
@@ -94,7 +89,7 @@ utils_matrix_plot <- function(
 
   #generic matrix
   if(is.null(m_type)){
-    stop("Plotting for generic matrices is not implemented yet")
+    stop("distantia::utils_matrix_plot(): Plotting for generic matrices is not implemented supported.", call. = FALSE)
   }
 
   #distance matrix
@@ -103,7 +98,7 @@ utils_matrix_plot <- function(
     guide_title <- paste0(
       attributes(m)$distance,
       "\ndistance"
-      )
+    )
 
     x_name <- attributes(m)$x_name
     y_name <- attributes(m)$y_name
@@ -113,7 +108,7 @@ utils_matrix_plot <- function(
         attributes(m)$y_name,
         " vs. ",
         attributes(m)$x_name
-        )
+      )
     }
 
     if(is.null(xlab)){
@@ -189,7 +184,7 @@ utils_matrix_plot <- function(
   if(
     class(attributes(m)$x_time) %in% c("Date", "POSIXct") &&
     subpanel == FALSE
-    ){
+  ){
 
     axis_title_distance <- 4
     axis_labels_cex <- 0.6 * text_cex
@@ -282,21 +277,21 @@ utils_matrix_plot <- function(
     )
 
 
-      graphics::axis(
-        side = 1,
-        at = axis_x_at,
-        labels = axis_x_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
+    graphics::axis(
+      side = 1,
+      at = axis_x_at,
+      labels = axis_x_labels,
+      cex.axis = axis_labels_cex,
+      las = 2
+    )
 
-      graphics::axis(
-        side = 2,
-        at = axis_y_at,
-        labels = axis_y_labels,
-        cex.axis = axis_labels_cex,
-        las = 2
-      )
+    graphics::axis(
+      side = 2,
+      at = axis_y_at,
+      labels = axis_y_labels,
+      cex.axis = axis_labels_cex,
+      las = 2
+    )
 
   }
 
@@ -322,17 +317,13 @@ utils_matrix_plot <- function(
 
   }
 
-  if(diagonal == TRUE){
-
-    #plot diagonal
-    graphics::lines(
-      x = 1:ncol(m),
-      y = 1:nrow(m),
-      lwd = diagonal_width,
-      col = diagonal_color
-    )
-
-  }
+  #plot diagonal
+  graphics::lines(
+    x = 1:ncol(m),
+    y = 1:nrow(m),
+    lwd = diagonal_width,
+    col = diagonal_color
+  )
 
   # least cost path ----
   if(!is.null(path)){

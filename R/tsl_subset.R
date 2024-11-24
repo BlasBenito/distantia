@@ -70,7 +70,6 @@ tsl_subset <- function(
 ){
 
   #TODO: add subset by time class
-  #TODO: changes in tsl_colnames.R probably broke this function
 
   utils_check_args_tsl(
     tsl = tsl,
@@ -196,8 +195,10 @@ tsl_subset <- function(
       tsl <- tsl[!names(tsl) %in% tsl.na]
 
       warning(
-        "The following zoo object/s in 'tsl' have no numeric columns and have been removed: ",
-        paste(tsl.na, collapse = ", ")
+        "distantia::tsl_subset(): the following zoo object/s in 'tsl' have no numeric columns and have been removed: ",
+        paste(tsl.na, collapse = ", "),
+        ".",
+        call. = FALSE
         )
 
     }
@@ -230,7 +231,7 @@ tsl_subset <- function(
 
     if(length(shared_cols) == 0){
 
-      warning("Zoo objects within 'tsl' have no shared columns. Ignoring subsetting of shared columns.")
+      warning("distantia::tsl_subset(): zoo objects within 'tsl' have no shared columns. Ignoring subsetting of shared columns.", call. = FALSE)
 
     } else {
 
@@ -260,7 +261,7 @@ tsl_subset <- function(
   if(!is.null(time)){
 
     if(length(time) < 2){
-      stop("Argument 'time' must be of length 2.")
+      stop("distantia::tsl_subset(): argument 'time' must be of length 2.", call. = FALSE)
     }
 
     if(length(time) > 2){
@@ -290,13 +291,14 @@ tsl_subset <- function(
     ){
 
       warning(
-        "Argument time must be a vector of class '",
+        "distantia::tsl_subset(): Argument time must be a vector of class '",
         tsl_time_df$class[1],
         " ' with values between ",
         min(tsl_time_range),
         " and ",
         max(tsl_time_range),
-        ". Ignoring subset by time."
+        ". Ignoring subset by time.",
+        call. = FALSE
       )
 
     } else {
@@ -338,9 +340,10 @@ tsl_subset <- function(
 
       if(length(tsl_removed) > 0){
         warning(
-          "There following time series do not overlap with 'time' and have been removed: ",
+          "distantia::tsl_subset(): There following time series do not overlap with 'time' and have been removed: ",
           paste0(tsl_removed, collapse = ", "),
-          "."
+          ".",
+          call. = FALSE
         )
 
       }

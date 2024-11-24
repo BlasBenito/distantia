@@ -78,11 +78,11 @@ utils_cluster_hclust_optimizer <- function(
   }
 
   if(!is.matrix(d)){
-    stop("Argument 'd' must be a matrix.")
+    stop("distantia::utils_cluster_hclust_optimizer(): argument 'd' must be a matrix.", call. = FALSE)
   }
 
   if(nrow(d) != ncol(d)){
-    stop("Argument 'd' must be a square distance matrix")
+    stop("distantia::utils_cluster_hclust_optimizer(): argument 'd' must be a square distance matrix.", call. = FALSE)
   }
 
   d_dist <- stats::as.dist(d)

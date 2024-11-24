@@ -44,7 +44,7 @@ utils_matrix_guide <- function(
   title_distance <- 0.75
 
   if(inherits(x = m, what = "matrix") == FALSE){
-    stop("Argument 'm' must be a distance or cost matrix resulting from distantia::psi_distance_matrix() or distantia::psi_cost_matrix().")
+    stop("distantia::utils_matrix_guide(): argument 'm' must be a distance or cost matrix resulting from distantia::psi_distance_matrix() or distantia::psi_cost_matrix().", call. = FALSE)
   }
 
   if(is.null(color)){

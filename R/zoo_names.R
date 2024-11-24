@@ -103,13 +103,13 @@ zoo_name_get <- function(
 ){
 
   if(zoo::is.zoo(object = x) == FALSE){
-    stop("Argument 'x' must be a zoo time series")
+    stop("distantia::zoo_name_get(): argument 'x' must be a zoo time series", call. = FALSE)
   }
 
   x_name <- attributes(x)$name
 
   if(is.null(x_name)){
-    warning("Zoo object 'x' does not have the attribute 'name'.")
+    warning("distantia::zoo_name_get(): zoo object 'x' does not have the attribute 'name'.", call. = FALSE)
   }
 
   x_name
@@ -169,7 +169,7 @@ zoo_name_clean <- function(
 ){
 
   if(zoo::is.zoo(object = x) == FALSE){
-    stop("Argument 'x' must be a zoo time series")
+    stop("distantia::zoo_name_clean(): argument 'x' must be a zoo time series", call. = FALSE)
   }
 
   x_name <- zoo_name_get(
@@ -178,7 +178,7 @@ zoo_name_clean <- function(
     suppressWarnings()
 
   if(is.null(x_name)){
-    stop("Argument 'x' does not have the attribute 'name'. Please, set a name with 'distantia::zoo_name_set()' first.")
+    stop("distantia::zoo_name_clean(): Argument 'x' does not have the attribute 'name'. Please, set a name with 'distantia::zoo_name_set()' first.", call. = FALSE)
   }
 
   x_name_clean <- utils_clean_names(

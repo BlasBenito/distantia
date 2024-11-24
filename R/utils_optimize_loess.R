@@ -53,15 +53,15 @@ utils_optimize_loess <- function(
 ){
 
   if(!is.numeric(x)){
-    stop("Argument 'x' must be a numeric vector.")
+    stop("distantia::utils_optimize_loess(): argument 'x' must be a numeric vector.", call. = FALSE)
   }
 
   if(!is.numeric(y)){
-    stop("Argument 'y' must be a numeric vector.")
+    stop("distantia::utils_optimize_loess(): argument 'y' must be a numeric vector.", call. = FALSE)
   }
 
   if(length(x) != length(y)){
-    stop("Arguments 'x' and 'y' must be of the same length.")
+    stop("distantia::utils_optimize_loess(): arguments 'x' and 'y' must be of the same length.", call. = FALSE)
   }
 
   names(x) <- NULL

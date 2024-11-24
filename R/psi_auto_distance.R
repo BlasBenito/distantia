@@ -62,14 +62,15 @@ psi_auto_distance <- function(
       !(attributes(x)$name %in% names(path)[c(1, 2)])
     ){
       stop(
-        "Argument 'path' was computed for the sequences ",
+        "distantia::psi_auto_distance(): argument 'path' was computed for the sequences ",
         paste(
           colnames(path)[c(1, 2)],
           collapse =  " and "
         ),
         ", but time series 'x' is named ",
         attributes(x)$name,
-        "."
+        ".",
+        call. = FALSE
         )
     }
 

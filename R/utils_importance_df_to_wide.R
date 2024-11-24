@@ -56,7 +56,7 @@ utils_importance_df_to_wide <- function(
     )
   )
   ){
-    stop("Argument 'df' must be the output of distantia_importance()")
+    stop("distantia::utils_importance_df_to_wide(): argument 'df' must be the output of distantia_importance().", call. = FALSE)
   }
 
   #aggregate to keep the important columns only

@@ -221,7 +221,7 @@ tsl_initialize <- function(
 ){
 
   if(is.null(x)){
-    stop("Argument 'x' must not be NULL")
+    stop("distantia::tsl_initialize(): argument 'x' must not be NULL")
   }
 
   x <- utils_prepare_matrix(

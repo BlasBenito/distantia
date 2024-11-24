@@ -78,11 +78,11 @@ distantia_aggregate <- function(
     )
   )
   ){
-    stop("Argument 'df' must be the output of distantia() or distantia_importance()")
+    stop("distantia::distantia_aggregate(): argument 'df' must be the output of distantia() or distantia_importance().", call. = FALSE)
   }
 
   if(!is.function(f)){
-    stop("Argument 'f' must be a function such as mean, median, mean, max, and the likes")
+    stop("distantia::distantia_aggregate(): argument 'f' must be a function such as mean, median, mean, max, and the likes.", call. = FALSE)
   }
 
   # split ----
@@ -108,7 +108,7 @@ distantia_aggregate <- function(
 
       if(length(unique(df$robust)) == 2){
 
-        warning("Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not supported. Cases where 'df$robust == FALSE' will be ignored.")
+        warning("distantia::distantia_aggregate(): : Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not supported. Cases where 'df$robust == FALSE' will be ignored.", call. = FALSE)
 
         df <- df[df$robust == TRUE, ]
 

@@ -100,7 +100,7 @@ psi_cost_path <- function(
   )
 
   if(is.logical(diagonal) == FALSE){
-    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
+    stop("distantia::psi_cost_path(): argument 'diagonal' must be logical (TRUE or FALSE).", call. = FALSE)
   }
 
   if(diagonal == FALSE){

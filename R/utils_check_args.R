@@ -49,7 +49,7 @@ utils_check_args_distantia <- function(
   logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
 
   if(any(is.logical(diagonal) == FALSE)){
-    stop("Argument 'diagonal'", logical_message)
+    stop("distantia::utils_check_args(): Argument 'diagonal'", logical_message, ".", call. = FALSE)
   }
 
   if(length(diagonal) == 1){
@@ -61,15 +61,15 @@ utils_check_args_distantia <- function(
   }
 
   if(any(is.logical(weighted) == FALSE)){
-    stop("Argument 'weighted'", logical_message)
+    stop("distantia::utils_check_args(): argument 'weighted' ", logical_message, ".", call. = FALSE)
   }
 
   if(any(is.logical(ignore_blocks) == FALSE)){
-    stop("Argument 'ignore_blocks'", logical_message)
+    stop("distantia::utils_check_args(): Argument 'ignore_blocks'", logical_message, ".", call. = FALSE)
   }
 
   if(any(is.logical(lock_step) == FALSE)){
-    stop("Argument 'lock_step'", logical_message)
+    stop("distantia::utils_check_args(): Argument 'lock_step'", logical_message)
   }
 
   if(exists("robust")){
@@ -78,13 +78,13 @@ utils_check_args_distantia <- function(
     }
     if(length(robust) > 1){
       robust <- robust[1]
-      message("Argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.")
+      message("distantia::utils_check_args(): Argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.", call. = FALSE)
     }
   }
 
   repetitions <- as.integer(repetitions)
   if(any(is.integer(repetitions) == FALSE)){
-    stop("Argument 'repetitions' must be a integer or a numeric vector.")
+    stop("distantia::utils_check_args(): argument 'repetitions' must be a integer or a numeric vector.", call. = FALSE)
   }
 
   if(repetitions > 0){
@@ -102,12 +102,12 @@ utils_check_args_distantia <- function(
 
     block_size <- as.integer(block_size)
     if(any(is.integer(block_size) == FALSE)){
-      stop("Argument 'block_size' must be a integer or a numeric vector.")
+      stop("distantia::utils_check_args(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
     }
 
     seed <- as.integer(seed)
     if(any(is.integer(seed) == FALSE)){
-      stop("Argument 'block_size' must be a integer or a numeric vector.")
+      stop("distantia::utils_check_args(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
     }
 
   } else {
@@ -152,9 +152,10 @@ utils_check_args_path <- function(
 
   if(is.null(path)){
     stop(
-      "Argument ",
+      "distantia::utils_check_args_path() argument ",
       arg_name,
-      " must not be NULL."
+      " must not be NULL.",
+      call. = FALSE
     )
   }
 
@@ -172,9 +173,9 @@ utils_check_args_path <- function(
     )
   ){
     stop(
-      "Argument ",
+      "distantia::utils_check_args_path(): argument ",
       arg_name,
-      " must be a data frame resulting from distantia::psi_cost_path()."
+      " must be a data frame resulting from distantia::psi_cost_path().", call. = FALSE
     )
   }
 
@@ -198,9 +199,10 @@ utils_check_args_matrix <- function(
 
   if(is.null(m)){
     stop(
-      "Argument ",
+      "distantia::utils_check_args_matrix(): argument ",
       arg_name,
-      " must not be NULL."
+      " must not be NULL.",
+      call. = FALSE
     )
   }
 
@@ -208,9 +210,9 @@ utils_check_args_matrix <- function(
 
     if(length(m) > 1){
       warning(
-        "Argument ",
+        "distantia::utils_check_args_matrix(): Argument ",
         arg_name,
-        " is a list with several matrices, but only the first one will be used. Please use the notation m = m[[index]] to select a different one.")
+        " is a list with several matrices, but only the first one will be used. Please use the notation m = m[[index]] to select a different one.", call. = FALSE)
     }
 
     m <- m[[1]]
@@ -220,9 +222,9 @@ utils_check_args_matrix <- function(
   if(
     inherits(x = m, what = "matrix") == FALSE){
     stop(
-      "Argument ",
+      "distantia::utils_check_args_matrix(): Argument ",
       arg_name,
-      " must be of the class 'matrix'")
+      " must be of the class 'matrix'.", call. = FALSE)
   }
 
  m
@@ -250,12 +252,12 @@ utils_check_args_tsl <- function(
 ){
 
   if(is.null(tsl)){
-    stop("Argument 'tsl' must not be NULL.")
+    stop("distantia::utils_check_args_tsl(): argument 'tsl' must not be NULL.", call. = FALSE)
   }
 
   #check list class
   if(!is.list(tsl)){
-    stop("Argument 'tsl' must be a list.")
+    stop("distantia::utils_check_args_tsl(): argument 'tsl' must be a list.", call. = FALSE)
   }
 
   #check class of components
@@ -267,13 +269,13 @@ utils_check_args_tsl <- function(
     unique()
 
   if(tsl.class != "zoo"){
-    stop("Argument 'tsl' must be a list of zoo objects.")
+    stop("distantia::utils_check_args_tsl(): argument 'tsl' must be a list of zoo objects.", call. = FALSE)
   }
 
   #check min length
   min_length <- abs(as.integer(min_length))
   if(length(tsl) < min_length){
-    stop("Argument 'tsl' must be a list with at least ", min_length, " zoo objects.")
+    stop("distantia::utils_check_args_tsl(): argument 'tsl' must be a list with at least ", min_length, " zoo objects.", call. = FALSE)
   }
 
 }
@@ -293,7 +295,7 @@ utils_check_args_zoo <- function(
     ){
 
     if(zoo::is.zoo(x) == FALSE){
-      stop("Argument ", arg_name, " must be a time series of class 'zoo'.")
+      stop("distantia::utils_check_args_zoo(): argument ", arg_name, " must be a time series of class 'zoo'.", call. = FALSE)
     }
 
   x
@@ -338,7 +340,7 @@ utils_check_distance_args <- function(
   ]
 
   if(nrow(distances_df) == 0){
-    stop("Please use distance names or abbreviations available in data(distances).")
+    stop("distantia::utils_check_distance_args(): Please use distance names or abbreviations available in the data frame 'distances'.", call. = FALSE)
   }
 
   distances_df$name

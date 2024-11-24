@@ -39,18 +39,18 @@ utils_prepare_zoo_list <- function(
     ) == FALSE
   ){
 
-    stop("Argument 'x' must be a list of data frames.")
+    stop("distantia::utils_prepare_zoo_list(): argument 'x' must be a list of data frames.", call. = FALSE)
 
   }
 
   #at least 2 elements
   if(length(x) == 1){
-    stop("Argument 'x' must be a list with a least two elements.")
+    stop("distantia::utils_prepare_zoo_list(): argument 'x' must be a list with a least two elements.", call. = FALSE)
   }
 
   #elements must be named
   if(any(is.null(names(x)))){
-    stop("All elements in the list 'x' must be named.")
+    stop("distantia::utils_prepare_zoo_list(): all elements in the list 'x' must be named.", call. = FALSE)
   }
 
   # + convert to zoo

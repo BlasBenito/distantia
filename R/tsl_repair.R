@@ -86,15 +86,15 @@ tsl_repair <- function(
   #TODO: review this functions logic along with tsl_diagnose().
 
   if(!is.logical(full)){
-    stop("Argument 'full' must be TRUE to run a full repair, and FALSE otherwise.")
+    stop("distantia::ts_repair(): argument 'full' must be TRUE to run a full repair, and FALSE otherwise.", call. = FALSE)
   }
 
   if(is.null(tsl)){
-    stop("Argument 'tsl' must not be NULL.")
+    stop("distantia::ts_repair(): argument 'tsl' must not be NULL.", call. = FALSE)
   }
 
   if(!is.list(tsl)){
-    stop("Argument 'tsl' must be a list.")
+    stop("distantia::ts_repair(): argument 'tsl' must be a list.", call. = FALSE)
   }
 
   #all possible issues
@@ -338,7 +338,7 @@ tsl_repair <- function(
   if(length(issues_structure) > 0){
 
     message(
-      "Structural repairs:\n",
+      "distantia::ts_repair(): Structural repairs:\n",
       "--------------------------\n\n",
       paste(
         issues_structure,
@@ -361,7 +361,7 @@ tsl_repair <- function(
 
   }
 
-  message("\nRe-diagnosing 'tsl':\n")
+  message("\ndistantia::ts_repair(): Re-diagnosing 'tsl':\n")
 
   tsl <- tsl_diagnose(
     tsl = tsl,

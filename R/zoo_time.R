@@ -46,7 +46,7 @@ zoo_time <- function(
 ){
 
   if(zoo::is.zoo(x) == FALSE){
-    stop("Argument 'x' must be a zoo time series.")
+    stop("distantia::zoo_time(): argument 'x' must be a zoo time series.", call. = FALSE)
   }
 
   keywords <- match.arg(

@@ -24,7 +24,7 @@ utils_block_size <- function(
   # default
   if(is.null(block_size)){
 
-    message("Argument 'block_size' set to ", default_block_size, ".")
+    message("distantia::utils_block_size(): argument 'block_size' set to ", default_block_size, ".")
 
     return(default_block_size)
 

@@ -308,7 +308,7 @@ DistanceFunction select_distance_function_cpp(const std::string& distance = "euc
   } else if (distance == "chi") {
     return &distance_chi_cpp;
   } else {
-    Rcpp::stop("Invalid distance.");
+    Rcpp::stop("distantia::select_distance_function_cpp(): invalid distance name or abbreviation.");
   }
 }
 

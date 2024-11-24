@@ -23,15 +23,15 @@ distance <- function(
     ){
 
   if(is.null(x)){
-    stop("Argument 'x' must not be NULL.")
+    stop("distantia::distance(): argument 'x' must not be NULL.", call. = FALSE)
   }
 
   if(is.null(y)){
-    stop("Argument 'y' must not be NULL.")
+    stop("distantia::distance(): argument 'y' must not be NULL.", call. = FALSE)
   }
 
   if(length(x) != length(y)){
-    stop("Arguments 'x' and 'y' must be of the same length.")
+    stop("distantia::distance(): arguments 'x' and 'y' must be of the same length.", call. = FALSE)
   }
 
   #handling NA

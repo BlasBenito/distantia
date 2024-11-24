@@ -170,7 +170,7 @@ zoo_resample <- function(
 
 
   if(zoo::is.zoo(x) == FALSE){
-    stop("Argument 'x' must be a zoo object.")
+    stop("distantia::zoo_resample(): argument 'x' must be a zoo object.", call. = FALSE)
   }
 
   method <- match.arg(

@@ -77,7 +77,7 @@ zoo_aggregate <- function(
 ){
 
   if(zoo::is.zoo(x) == FALSE){
-    stop("Argument 'x' must be a zoo object.")
+    stop("distantia::zoo_aggregate(): argument 'x' must be a zoo object.", call. = FALSE)
   }
 
   #quoted name to unquoted

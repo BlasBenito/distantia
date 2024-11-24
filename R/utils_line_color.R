@@ -69,13 +69,14 @@ utils_line_color <- function(
   if(length(color) < length(x_colnames)){
 
     stop(
-      "There are fewer colors (",
+      "distantia::utils_line_color(): There are fewer colors (",
       length(color),
       ") than unique columns (",
       length(x_colnames),
       "). Argument 'color' must be a vector with ",
       length(x_colnames),
-      " colors."
+      " colors.",
+      call. = FALSE
     )
 
   }

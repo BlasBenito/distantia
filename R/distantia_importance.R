@@ -160,7 +160,7 @@ distantia_importance <- function(
 
   #length > 1
   if(length(tsl) < 2){
-    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+    stop("distantia::distantia_importance(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
   }
 
   #stop if tsl is univariate

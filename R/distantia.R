@@ -169,7 +169,7 @@ distantia <- function(
 
   #length > 1
   if(length(tsl) < 2){
-    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+    stop("distantia::distantia(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
   }
 
   #subset numeric and shared columns

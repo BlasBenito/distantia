@@ -129,7 +129,7 @@ utils_new_time <- function(
         n = 1
       )
 
-      message("Aggregating 'tsl' with keyword '", new_time, "'.")
+      message("distantia::utils_new_time(): aggregating 'tsl' with keyword '", new_time, "'.")
 
     } else {
 
@@ -144,7 +144,7 @@ utils_new_time <- function(
         length.out = floor(mean(old_time_df$rows))
       )
 
-      message("Resampling 'tsl' with a regular version of its own time.")
+      message("distantia::utils_new_time(): Resampling 'tsl' with a regular version of its own time.")
 
     }
 
@@ -316,9 +316,10 @@ utils_new_time_type <- function(
   if(length(time_summary$class) > 1){
     #TODO: implement function to homogenize time class of tsl
     stop(
-      "The time class of all zoo objects in 'tsl' must be the same, but they are: '",
+      "distantia::utils_new_time_type(): the time class of all zoo objects in 'tsl' must be the same, but they are: '",
       paste(time_summary$class, collapse = "', '"),
-      "'."
+      "'.",
+      call. = FALSE
     )
   }
 
@@ -391,13 +392,14 @@ utils_new_time_type <- function(
     }
 
     stop(
-      "Argument 'new_time' of length 1 must be:\n",
+      "distantia::utils_new_time_type(): argument 'new_time' of length 1 must be:\n",
       "  - one of these keywords: '",
       paste0(time_summary$keywords, collapse = "', '"),
       ".\n",
       "  - a number higher than ",
       time_summary_min_threshold,
-      " "
+      ".",
+      call. = FALSE
     )
 
   }
@@ -453,12 +455,13 @@ utils_new_time_type <- function(
   }
 
   stop(
-    "Argument 'new_time' of length higher than one must be a vector of class ",
+    "distantia::utils_new_time_type(): argument 'new_time' of length higher than one must be a vector of class ",
     time_summary$class,
     " with values between ",
     time_summary$begin, " and ",
     time_summary$end,
-    "."
+    ".",
+    call. = FALSE
   )
 
 }

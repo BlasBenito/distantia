@@ -13,7 +13,7 @@ utils_check_list_class <- function(
 ){
 
   if(inherits(x = x, what = "list") == FALSE){
-    stop("Argument 'x' is not a list.")
+    stop("distantia::utils_check_list_class(): argument 'x' is not a list.", call. = FALSE)
   }
 
   expected_class <- match.arg(

@@ -78,11 +78,11 @@ utils_cluster_kmeans_optimizer <- function(
   }
 
   if(!is.matrix(d)){
-    stop("Argument 'd' must be a matrix.")
+    stop("distantia::utils_cluster_kmeans_optimizer(): argument 'd' must be a matrix.", call. = FALSE)
   }
 
   if(nrow(d) != ncol(d)){
-    stop("Argument 'd' must be a square distance matrix")
+    stop("distantia::utils_cluster_kmeans_optimizer(): argument 'd' must be a square distance matrix.", call. = FALSE)
   }
 
   clusters_vector <- seq(
@@ -123,7 +123,7 @@ utils_cluster_kmeans_optimizer <- function(
 
   if(is.vector(sil) == FALSE){
 
-    stop("Function utils_cluster_kmeans_optimizer() failed. Error message was: '", paste0(sil$message), "'.")
+    stop("distantia::utils_cluster_kmeans_optimizer(): Clustering optimization failed. Error message was: '", paste0(sil$message), "'.")
 
   }
 

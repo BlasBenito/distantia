@@ -130,15 +130,15 @@ psi_equation <- function(
     ){
 
   if(!is.numeric(a)){
-    stop("Argument 'a' must be numeric.")
+    stop("distantia::psi_equation(): argument 'a' must be numeric.", call. = FALSE)
   }
 
   if(!is.numeric(b)){
-    stop("Argument 'b' must be numeric.")
+    stop("distantia::psi_equation(): argument 'b' must be numeric.", call. = FALSE)
   }
 
   if(is.logical(diagonal) == FALSE){
-    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
+    stop("distantia::psi_equation(): argument 'diagonal' must be logical (TRUE or FALSE).", call. = FALSE)
   }
 
   psi_equation_cpp(

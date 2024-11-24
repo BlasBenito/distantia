@@ -153,7 +153,7 @@ DataFrame importance_lock_step_cpp(
 
   // Check dimensions of y and x
   if (y.nrow() != x.nrow() || y.ncol() != x.ncol()) {
-    Rcpp::stop("Matrices y and x must have the same dimensions.");
+    Rcpp::stop("distantia::importance_lock_step_cpp(): matrices 'y' and 'x' must have the same dimensions.");
   }
 
   //vectors to store results

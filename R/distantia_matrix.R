@@ -89,7 +89,7 @@ distantia_matrix <- function(
   )
 
   if(!(df_type %in% types)){
-    stop("Argument 'df' must be the output of distantia() or distantia() |> distantia_aggregate().")
+    stop("distantia::distantia_matrix(): argument 'df' must be the output of distantia() or distantia() |> distantia_aggregate().", call. = FALSE)
   }
 
   df_list <- utils_distantia_df_split(

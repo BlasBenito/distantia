@@ -65,11 +65,11 @@ utils_clean_names <- function(
 ){
 
   if(!is.character(x)){
-    stop("Input 'names' must be a character vector.")
+    stop("distantia::utils_clean_names(): input 'names' must be a character vector.", call. = FALSE)
   }
 
   if(anyNA(x)){
-    stop("Input 'names' contains missing values.")
+    stop("distantia::utils_clean_names(): Input 'names' contains missing values.", call. = FALSE)
   }
 
   x.old <- x

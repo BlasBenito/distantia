@@ -130,7 +130,7 @@ tsl_simulate <- function(
 
   # time range ----
   if(length(time_range) != 2){
-    stop("Argument 'time_range' must be a vector of length 2.")
+    stop("distantia::tsl_simulate(): argument 'time_range' must be a vector of length 2.")
   }
 
   time_range <- utils_as_time(

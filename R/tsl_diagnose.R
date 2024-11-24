@@ -82,15 +82,15 @@ tsl_diagnose <- function(
 ){
 
   if(!is.logical(full)){
-    stop("Argument 'full' must be TRUE to run a full diagnostic, and FALSE otherwise.")
+    stop("distantia::tsl_diagnose(): argument 'full' must be TRUE to run a full diagnostic, and FALSE otherwise.", call. = FALSE)
   }
 
   if(is.null(tsl)){
-    stop("Argument 'tsl' must not be NULL.")
+    stop("distantia::tsl_diagnose(): argument 'tsl' must not be NULL.", call. = FALSE)
   }
 
   if(!is.list(tsl)){
-    stop("Argument 'tsl' must be a list.")
+    stop("distantia::tsl_diagnose(): argument 'tsl' must be a list.", call. = FALSE)
   }
 
 

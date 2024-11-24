@@ -66,11 +66,11 @@ psi_cost_matrix <- function(
   )
 
   if(is.logical(diagonal) == FALSE){
-    stop("Argument 'diagonal' must be logical (TRUE or FALSE)")
+    stop("distantia::psi_cost_matrix(): argument 'diagonal' must be logical (TRUE or FALSE).", call. = FALSE)
   }
 
   if(is.logical(weighted) == FALSE){
-    stop("Argument 'weighted' must be logical (TRUE or FALSE)")
+    stop("distantia::psi_cost_matrix(): argument 'weighted' must be logical (TRUE or FALSE).", call. = FALSE)
   }
 
   #diagonal is TRUE

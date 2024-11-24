@@ -185,7 +185,7 @@ PermutationFunction select_permutation_function_cpp(const std::string& permutati
   } else if (permutation == "free") {
     return &permute_free_cpp;
   }  else {
-    Rcpp::stop("Invalid permutation method. Valid values are: 'free', 'free_by_row', 'restricted', and 'restricted_by_row'");
+    Rcpp::stop("distantia::select_permutation_function_cpp(): Invalid permutation method. Valid values are: 'free', 'free_by_row', 'restricted', and 'restricted_by_row'");
   }
 }
 

@@ -13,6 +13,8 @@
 #' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
+#' @param diagonal_width (optional, numeric) width of the diagonal. Default: 0.5
+#' @param diagonal_color (optional, character string) color of the diagonal. Default: "white"
 #' @param line_color (optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of `matrix_color`.
 #' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
@@ -93,6 +95,8 @@ distantia_plot <- function(
     matrix_color = NULL,
     path_width = 1,
     path_color = "black",
+    diagonal_width = 0.5,
+    diagonal_color = "white",
     line_color = NULL,
     line_width = 1,
     text_cex = 1
@@ -106,13 +110,13 @@ distantia_plot <- function(
 
   #length > 1
   if(length(tsl) < 2){
-    stop("Argument 'tsl' must be a time series list of length 2 or higher.")
+    stop("distantia::distantia_plot(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
   }
 
   #only two elements
   if(length(tsl) > 2){
 
-    warning("Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.")
+    warning("distantia::distantia_plot(): Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.", call. = FALSE)
 
     tsl <- tsl_subset(
       tsl = tsl,
@@ -236,6 +240,8 @@ distantia_plot <- function(
     path = path,
     path_width = path_width,
     path_color = path_color,
+    diagonal_width = diagonal_width,
+    diagonal_color = diagonal_color,
     guide = FALSE,
     subpanel = TRUE,
   )

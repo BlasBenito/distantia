@@ -56,7 +56,8 @@ f_smooth_window <- function(
   if(is.function(smoothing_f) == FALSE){
 
     stop(
-      "Argument 'smoothing_fun' must be a function name."
+      "distantia::f_smooth_window(): argument 'smoothing_fun' must be a function name.",
+      call. = FALSE
     )
 
   }
@@ -667,7 +668,7 @@ f_slope <- function(
     ) {
 
   if(!is.numeric(x)) {
-    stop("Input must be a numeric vector.")
+    stop("distantia::f_slope(): argument 'x' must be a numeric vector.", call. = FALSE)
   }
 
   if(length(x) <= 1){

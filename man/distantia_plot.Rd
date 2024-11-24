@@ -14,6 +14,8 @@ distantia_plot(
   matrix_color = NULL,
   path_width = 1,
   path_color = "black",
+  diagonal_width = 0.5,
+  diagonal_color = "white",
   line_color = NULL,
   line_width = 1,
   text_cex = 1
@@ -37,6 +39,10 @@ distantia_plot(
 \item{path_width}{(optional, numeric) width of the least cost path. Default: 1}
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
+
+\item{diagonal_width}{(optional, numeric) width of the diagonal. Default: 0.5}
+
+\item{diagonal_color}{(optional, character string) color of the diagonal. Default: "white"}
 
 \item{line_color}{(optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of \code{matrix_color}.}
 

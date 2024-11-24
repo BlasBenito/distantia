@@ -216,7 +216,7 @@ tsl_colnames_set <- function(
   ){
 
     if(length(names) < min.names.length){
-      stop("Argument 'names' must be a character vector of length ", min.names.length, ".")
+      stop("distantia::tsl_colnames_set(): argument 'names' must be a character vector of length ", min.names.length, ".", call. = FALSE)
     }
 
     #convert to list
@@ -235,11 +235,11 @@ tsl_colnames_set <- function(
   if(is.list(names)){
 
     if(length(names) != length(tsl)){
-      stop("Arguments 'names' and 'tsl' must be lists of the same length.")
+      stop("distantia::tsl_colnames_set(): arguments 'names' and 'tsl' must be lists of the same length.", call. = FALSE)
     }
 
     if(any(base::names(names) != base::names(tsl))){
-      stop("Arguments 'names' and 'tsl' must be lists with the same names.")
+      stop("distantia::tsl_colnames_set(): arguments 'names' and 'tsl' must be lists with the same names.", call. = FALSE)
     }
 
     #test lengths
@@ -254,7 +254,7 @@ tsl_colnames_set <- function(
       any()
 
     if(!any(test.length)){
-      stop("Length of each element in 'names' must match the number of columns of each element in 'tsl'.")
+      stop("distantia::tsl_colnames_set(): length of each element in 'names' must match the number of columns of each element in 'tsl'.", call. = FALSE)
     }
 
 

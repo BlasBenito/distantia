@@ -27,7 +27,7 @@ utils_rescale_vector <- function(
 ){
 
   if(!is.vector(x) || !is.numeric(x)){
-    stop("x must be a numeric vector.")
+    stop("distantia::utils_rescale_vector(): x must be a numeric vector.", call. = FALSE)
   }
 
   if(is.null(old_min)){
