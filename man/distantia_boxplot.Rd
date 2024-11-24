@@ -4,7 +4,7 @@
 \alias{distantia_boxplot}
 \title{Boxplot of Dissimilarity Analysis Data Frames}
 \usage{
-distantia_boxplot(df = NULL, color = NULL, f = median, ...)
+distantia_boxplot(df = NULL, color = NULL, f = median, ..., text_cex = 1)
 }
 \arguments{
 \item{df}{(required, data frame) output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
@@ -13,7 +13,9 @@ distantia_boxplot(df = NULL, color = NULL, f = median, ...)
 
 \item{f}{(optional, function) function used to arrange the boxes. Can be one of \code{mean}, \code{median}, \code{min}, \code{max}, or \code{quantile}. Default: \code{median}.}
 
-\item{...}{(optional, additional arguments to \code{f}). If \code{f} is \code{quantile}, \code{probs = 0.75} can be used. Default: ...}
+\item{...}{(optional, additional arguments to \code{f}). If \code{f} is \code{quantile}, additional arguments such as \code{probs = 0.75} can be used. Default: ...}
+
+\item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 1}
 }
 \value{
 boxplot

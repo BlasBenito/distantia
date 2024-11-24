@@ -14,6 +14,9 @@
 #' @param path (optional, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
 #' @param path_width (optional, numeric) width of the least-cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
+#' @param diagonal (optional, logical) If TRUE, the perfect diagonal is plotted. Default: TRUE
+#' @param diagonal_width (optional, numeric) width of the diagonal. Default: 0.5
+#' @param diagonal_color (optional, character string) color of the diagonal. Default: "white"
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].
 #' @param subpanel (optional, logical) internal argument used when generating the multi-panel plot produced by [distantia_plot()].
 #'
@@ -64,6 +67,9 @@ utils_matrix_plot <- function(
     path = NULL,
     path_width = 1,
     path_color = "black",
+    diagonal = TRUE,
+    diagonal_width = 0.5,
+    diagonal_color = "white",
     guide = TRUE,
     subpanel = FALSE
 ){
@@ -316,6 +322,18 @@ utils_matrix_plot <- function(
 
   }
 
+  if(diagonal == TRUE){
+
+    #plot diagonal
+    graphics::lines(
+      x = 1:ncol(m),
+      y = 1:nrow(m),
+      lwd = diagonal_width,
+      col = diagonal_color
+    )
+
+  }
+
   # least cost path ----
   if(!is.null(path)){
 
@@ -327,7 +345,7 @@ utils_matrix_plot <- function(
       attributes(path)$y_name != y_name ||
       attributes(path)$x_name != x_name
     ){
-      stop("Arguments 'm' and 'path' must be computed for the same sequences.")
+      stop("distantia::utils_matrix_plot(): time series names in arguments 'm' and 'path' do not match.", call. = FALSE)
     }
 
     #rename path columns

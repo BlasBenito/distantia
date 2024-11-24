@@ -15,7 +15,8 @@
 #' @param df (required, data frame) output of [distantia()] or [distantia_importance()]. Default: NULL
 #' @param color (optional, character vector) boxplot fill color. Default: NULL
 #' @param f (optional, function) function used to arrange the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `median`.
-#' @param ... (optional, additional arguments to `f`). If `f` is `quantile`, `probs = 0.75` can be used. Default: ...
+#' @param ... (optional, additional arguments to `f`). If `f` is `quantile`, additional arguments such as `probs = 0.75` can be used. Default: ...
+#' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
 #'
 #' @return boxplot
 #' @export
@@ -81,7 +82,8 @@ distantia_boxplot <- function(
     df = NULL,
     color = NULL,
     f = median,
-    ...
+    ...,
+    text_cex = 1
 ){
 
   old_par <- graphics::par(no.readonly = TRUE)
@@ -175,8 +177,6 @@ distantia_boxplot <- function(
     levels = variable_order
     )
 
-  graphics::par(mar=c(5, 8, 4, 2))
-
   #notch or not
   notch <- {
     if(
@@ -188,7 +188,13 @@ distantia_boxplot <- function(
     }
   }
 
-  graphics::par(las = 1)
+  graphics::par(
+    mar=c(5, 8, 4, 2),
+    las = 1,
+    cex.main = 0.8 * text_cex,
+    cex.lab = 0.8 * text_cex,
+    cex.axis = 0.7 * text_cex
+    )
 
   graphics::boxplot(
     formula = value ~ variable,

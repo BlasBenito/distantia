@@ -15,6 +15,9 @@ utils_matrix_plot(
   path = NULL,
   path_width = 1,
   path_color = "black",
+  diagonal = TRUE,
+  diagonal_width = 0.5,
+  diagonal_color = "white",
   guide = TRUE,
   subpanel = FALSE
 )
@@ -39,6 +42,12 @@ utils_matrix_plot(
 \item{path_width}{(optional, numeric) width of the least-cost path. Default: 1}
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
+
+\item{diagonal}{(optional, logical) If TRUE, the perfect diagonal is plotted. Default: TRUE}
+
+\item{diagonal_width}{(optional, numeric) width of the diagonal. Default: 0.5}
+
+\item{diagonal_color}{(optional, character string) color of the diagonal. Default: "white"}
 
 \item{guide}{(optional, logical) if TRUE, a color guide for the matrix \code{m} is added by \code{\link[=utils_matrix_guide]{utils_matrix_guide()}}.}
 
