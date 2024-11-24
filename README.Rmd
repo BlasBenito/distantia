@@ -3,7 +3,7 @@ output: github_document
 always_allow_html: true
 ---
 
-# `distantia` \n Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia"><img src="readme_figures/logo.png" align="right" height="138" /></a>
+# `distantia` \n Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -11,7 +11,7 @@ always_allow_html: true
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "readme_figures",
+  fig.path = "man/figures/README-",
   eval = TRUE,
   dpi = 300
 )

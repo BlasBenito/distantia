@@ -1,5 +1,5 @@
 
-# `distantia` Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia"><img src="readme_figures/logo.png" align="right" height="138" /></a>
+# `distantia` Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -150,7 +150,7 @@ tsl_plot(
 )
 ```
 
-<img src="readme_figuresunnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ### Dissimilarity Analysis
 
@@ -187,7 +187,7 @@ that are either more dissimilar (top) or similar (bottom) to others.
 distantia_boxplot(df = df_ls)
 ```
 
-<img src="readme_figuresunnamed-chunk-7-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="75%" />
 
 #### Dynamic Time Warping
 
@@ -221,7 +221,7 @@ distantia_plot(
 )
 ```
 
-<img src="readme_figuresunnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 Deviations from the perfect diagonal in the least-cost path reveal
 adjustments made by DTW to align time series by shape rather than time.
@@ -322,7 +322,7 @@ distantia_boxplot(
 )
 ```
 
-<img src="readme_figuresunnamed-chunk-12-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="75%" />
 
 ### Clustering
 
@@ -379,7 +379,7 @@ plot(
 )
 ```
 
-<img src="readme_figuresunnamed-chunk-13-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" />
 
 ## Getting help
 
