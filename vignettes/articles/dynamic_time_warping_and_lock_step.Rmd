@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Summary
 
-The R package `distantia` implements two general methods to compare time series: **dynamic time warping** and **lock step comparison**. This article presents how these methods are implemented, and offers hints about their application scope.
+The R package `distantia` offers two general methods to compare time series: **dynamic time warping** and **lock step comparison**. TODO
 
 ## Setup
 
@@ -33,7 +33,7 @@ if(!requireNamespace(package = "dtw")){
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, include = FALSE}
 library(distantia)
 library(dtw)
 ```
@@ -76,7 +76,7 @@ tsl_plot(
   tsl = tsl_raw
 )
 ```
-The resulting TSL contains two synchronous time series with similar temperature ranges (London and Paris), and a third one (Kinshasa) with a much higher average temperature, and a different temporal pattern. A different setup in the function `tsl_plot()` should make such pattern more obvious.
+The resulting TSL contains two synchronous time series with similar temperature ranges (London and Paris), and a third one (Kinshasa) with a much higher average temperature, and a different temporal pattern. A different setup in the function `tsl_plot()` should make these patterns more obvious.
 
 ```{r}
 tsl_plot(
@@ -85,11 +85,11 @@ tsl_plot(
 )
 ```
 
-This data is in fact ready for a direct time series comparison with a lock-step method. However,  dynamic time warping works much better on scaled and centered data when there are important differences in magnitude between time series. The function `tsl_transform()` paired with `f_scale` applies this transformation.
+This data would be ready for a comparison with lock-step methods. However, dynamic time warping works much better on scaled and centered data when there are important differences in magnitude between time series. To help compare the results of both methods, the code below applies the functions `tsl_transform()` and `f_scale` to transform the data.
 
 ```{r}
 tsl_scaled <- tsl_transform(
-  tsl = tsl,
+  tsl = tsl_raw,
   f = f_scale,
   center = TRUE,
   scale = TRUE
@@ -100,12 +100,34 @@ tsl_plot(
 )
 ```
 
+## Lock-Step
 
-## Methods for Dissimilarity Analysis
+Lock-step compares values at corresponding time points directly, and is suitable for cases where preserving temporal integrity is essential. It requires time series of the same length sampled at the same time points. 
 
-The function `distantia()` offers two alternative methods to compare time series: **Dynamic Time Warping** and **Lock-Step**.
+The first step requires computing the sum of distances between all pairs of samples in the two time series
 
-### Dynamic Time Warping (DTW)
+```{r}
+d <- psi_distance_lock_step(
+  x = tsl_scaled[["London"]],
+  y = tsl_scaled[["Kinshasa"]],
+  distance = "euclidean"
+)
+
+d
+```
+The code above is equivalent to:
+
+```{r}
+x <- tsl_scaled$London$temperature
+y <- tsl_scaled$Kinshasa$temperature
+
+#sum of euclidean distances
+sum(sqrt((x - y)^2))
+```
+
+
+
+## Dynamic Time Warping (DTW)
 
 This method warps the time axes of the compared time series to maximize the alignment of sections with similar shapes. DTW involves these steps:
 
@@ -194,9 +216,7 @@ plot(xy_dtw, type = "threeway")
 
 , so it performs best when the data is scaled, and optionally centered if absolute values are not critical for the analysis.       
  
-### Lock-Step (LS)
 
-Compares values at corresponding time points directly, without any temporal adjustments. This method is suitable for cases where preserving temporal integrity is essential, but it requires time series sampled at the same time points. This method does not require scaling unless the results are to be compared with DTW, in which case scaling ensures comparable results across both methods.
 
 
 
