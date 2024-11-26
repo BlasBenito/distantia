@@ -1,5 +1,5 @@
 ---
-title: "Dynamic Time Warping and Lock Step Comparison"
+title: "Comparing Time Series with distantia: DTW vs Lock-Step"
 output: 
   rmarkdown::html_document:
     toc: true
@@ -9,25 +9,24 @@ output:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  eval = FALSE,
+  eval = TRUE,
   collapse = TRUE,
   comment = "#>",
+  dpi = 300,
   fig.show = 'hold' #side by side images
 )
 ```
 
-# WORK IN PROGRESS
-
 ## Summary
 
-The R package `distantia` offers two general methods to compare time series: **dynamic time warping** (DTW) and **lock-step** (LS). This article explains their implementation within `distantia` and illustrates their use cases with code examples.  
+The R package `distantia` provides tools for comparing time series through two distinct methods: dynamic time warping (DTW) and lock-step (LS). These approaches cater to different analysis needs—DTW for handling temporal shifts and LS for preserving temporal alignment. This article explores the conceptual foundations of both methods, their implementation in `distantia`, and showcases their practical use with illustrative code examples and visualizations.
 
 ## Setup
 
 The packages required to run the code in this article are `distantia` and `dtw`.
 
-```{r, echo = FALSE}
-if(!requireNamespace(package = "dtw", quiet = TRUE)){
+```{r, include = FALSE}
+if(!requireNamespace(package = "dtw")){
   install.packages("dtw")
 }
 ```
@@ -38,18 +37,10 @@ library(distantia)
 library(dtw)
 ```
 
+
 ## Example data
 
-The data frame `cities_temperature` contains long-term time series of monthly temperatures for 20 large cities.
-
-```{r}
-head(cities_temperature)
-```
-
-The code below performs these operations:
-
-  - Uses the function `tsl_initialize()` to transform the `cities_temperature` data frame into a time series list.
-  - Applies `tsl_subset()` to select three cities and a shorter time span to simplify the data.
+The `cities_temperature` dataset contains monthly temperature records for 20 cities. Below, we transform it into a Time Series List (TSL) and select a subset of three cities from 2000 to 2005 for demonstration
 
 ```{r}
 tsl_raw <- tsl_initialize(
@@ -65,27 +56,19 @@ tsl_raw <- tsl_initialize(
     ),
     time = c(
       "2000-01-01", 
-      "2005-01-01")
+      "2005-01-01"
+    )
   )
-```
 
-The time series plot below shows the resulting data.
-
-```{r}
-tsl_plot(
-  tsl = tsl_raw
-)
-```
-The resulting TSL contains two synchronous time series with similar temperature ranges (London and Paris), and a third one (Kinshasa) with a much higher average temperature and a shifted temporal pattern. Using a relative vertical axis in `tsl_plot()` should make these patterns more obvious.
-
-```{r}
 tsl_plot(
   tsl = tsl_raw,
   ylim = "relative"
 )
 ```
 
-Finally, to help compare the results of DTW and LS, the code below applies the functions `tsl_transform()` and `f_scale` to center and scale the data.
+The transformed TSL contains two synchronous time series with similar temperature ranges (London and Paris) and one (Kinshasa) with higher averages and a shifted temporal pattern.
+
+To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` and `f_scale` to center and scale the data. 
 
 ```{r}
 tsl_scaled <- tsl_transform(
@@ -100,7 +83,7 @@ tsl_plot(
 )
 ```
 
-## Lock-Step
+## Lock-Step (LS)
 
 **Lock-step** methods compare values at corresponding time points, requiring time series of the same length sampled at identical times. This approach is well-suited for cases where maintaining the temporal alignment of the compared time series is crucial. The method is straightforward and computationally efficient.
 
@@ -130,71 +113,66 @@ step_2 <- sum(
 #3.- compute normalized dissimilarity score
 ((2 * step_1) / step_2)
 ```
-In `distantia()`, the lower level implementation of this concept is in the C++ function `psi_lock_step_cpp()`, which calls `distance_lock_step_cpp()`, `auto_sum_full_cpp()`, and `psi_equation_cpp()` to perform steps one to three.
 
-```{r}
-psi_lock_step_cpp(
-  x = x,
-  y = y,
-  distance = "euclidean"
-)
-```
-Finally, the proper user interface to perform this operation is the function `distantia()` with `lock_step = TRUE` (default is `FALSE`).
+The function `distantia()` performs this task when `lock_step = TRUE` (default is `FALSE`).
 
 ```{r}
 df <- distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
-  lock_step = TRUE
+  lock_step = TRUE,
+  distance = "euclidean"
 )
 df$psi
 ```
 
-## Dynamic Time Warping (DTW)
+The function `distantia()` can compute LS-based dissimilarity scores for time series in `tsl` at once.
 
-This method aligns the time axes of the compared time series to maximize the match between similar patterns, even if they are shifted in time. This method is particularly useful for comparing time series with similar shapes but temporal misalignments. However, it comes at the cost of higher computational complexity and lower efficiency compared to the lock-step method, and it may be challenging to apply to time series with thousands of data points.
+```{r}
+df_LS <- distantia(
+  tsl = tsl_scaled,
+  lock_step = TRUE
+)
+df_LS[, c("x", "y", "psi")]
+```
 
-DTW follows the same three conceptual steps as the lock-step method, but with significant additional logic in the first step:
+As expected, London and Paris show the most similar temperature time series, while London and Kinshasa are the most different ones.
+
+## Dynamic Time Warping
+
+Dynamic Time Warping (DTW) aligns the time axes of two time series to maximize pattern similarity, even when temporal shifts are present. This makes DTW ideal for comparing time series with similar shapes but misaligned time points. However, it is computationally more intensive and less efficient than the lock-step method, particularly for large datasets.
+
+DTW involves three conceptual steps, similar to the lock-step method, but with additional complexity in the first step:
 
 **1.-** Sum the distances between pairs of samples.
 
-  - **1a** Compute distance matrix between all pairs of samples in both time series.
+  - **1a** Compute a distance matrix between all pairs of samples.
 
-  - **1b** Compute least-cost matrix.
+  - **1b** Build the least-cost matrix.
 
-  - **1c** Find least-cost path.
+  - **1c** Find the least-cost path.
 
-  - **1d** Sum distances of pair of samples connected by the least-cost path.
+  - **1d** Sum distances along the least-cost path.
       
-**2.-** Sum the distances between consecutive samples within each time series.
+**2.-** Sum distances between consecutive samples within each time series.
   
-**3.-** Compute the normalized dissimilarity score *psi* (with a slightly different formula!).
+**3.-** Calculate the normalized dissimilarity score *psi* (with a slightly different formula!).
   
-Let's take a look at the code now.
+Now, let's dive into the code.
 
 ```{r, echo = FALSE}
 x <- tsl_scaled$London
 y <- tsl_scaled$Kinshasa
 ```
 
-The objective of the step 1 is computing the sum of distances between pairs of samples matched together by the time warping algorithm.
+The objective of the step **1** is computing the sum of distances between pairs of samples matched together by the time warping algorithm.
 
-
-
-1.- Computation of the distance matrix between all pairs of samples. This step is implemented in the C++ function `distance_matrix_cpp()`. Below we its R interface `psi_distance_matrix()` just because it prepares the matrix for plotting with `utils_matrix_plot()`.
-
-```{r}
-m.dist <- distance_matrix_cpp(
-  x = x,
-  y = y,
-  distance = "euclidean"
-)
-```
-
+It starts with step **1a**, shown below, which computes the distance matrix between all pairs of samples. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
 
 ```{r, fig.width=4, fig.height=4}
 m.dist <- psi_distance_matrix(
   x = x,
-  y = y
+  y = y,
+  distance = "euclidean"
 )
 
 utils_matrix_plot(
@@ -203,21 +181,34 @@ utils_matrix_plot(
   )
 ```
 
-2.- Transform the distance matrix into a cost matrix.
+Step **1b** involves transforming the distance matrix into a cost matrix. This transformation requires a dynamic algorithm in which each new cell adds its own distance to the distance accumulated by its preceding neighbor. There are three implementations of this method in `distantia`:
+
+  - **orthogonal**: distance addition only happens towards the *x* and *y* axis, ignoring diagonals.
+  - **orthogonal and diagonal**: distance addition also happens in diagonals. However, is not recommended unless there is a special interest in favoring diagonal paths in step **1c**.
+  - **orthogonal and weighted diagonal**: as above, but diagonals are weighted by a factor of `1.414214` to make distance accumulation comparable across all three axes of movement.
+
+These options are wrapped in the function `psi_cost_matrix()`, which by default, like `distantia()` uses weighted diagonals.
 
 ```{r, fig.width=4, fig.height=4}
 m.cost <- psi_cost_matrix(
-  dist_matrix = m.dist
+  dist_matrix = m.dist,
+  diagonal = TRUE, #default
+  weighted = TRUE #default
 )
 
-utils_matrix_plot(m = m.cost)
+utils_matrix_plot(
+  m = m.cost,
+  diagonal_width = 0
+  )
 ```
-3. Find the least cost path
+
+In step **1c**, the distance and cost matrices are used to find the least-cost path.
 
 ```{r, fig.width=4, fig.height=4}
 m.cost.path <- psi_cost_path(
   dist_matrix = m.dist,
-  cost_matrix = m.cost
+  cost_matrix = m.cost,
+  diagonal = TRUE #default
 )
 
 utils_matrix_plot(
@@ -225,46 +216,82 @@ utils_matrix_plot(
   path = m.cost.path
 )
 ```
-The time warping is implicit in the coordinates of the least cost path. For example, in the lower left corner of the plot above, the first sample of London (column "y") is paired with the saples 1 to 4 of Kinshasa (column "x").
+
+The time warping is implicit in the coordinates of the least cost path. For example, in the lower left corner of the plot above, the first sample of Kinshasa (column "y") is paired with the samples 1 to 4 of London (column "x"). Please notice that the cost-path data frame has the origin cell in the last row.
 
 ```{r}
 tail(m.cost.path)
 ```
 
-All these individual steps plus the computation of the *psi* dissimilarity score can be performed at once with the function `distantia()`, as follows:
+The step **1d** finalizes the DTW logic by adding the distances between pair of samples connected by the least-cost path. This istep is just `sum(m.cost.path$dist)`, but it is implemented in `psi_cost_path_sum()`, which also checks that the path file is correct.
+
+```{r}
+step_1 <- psi_cost_path_sum(
+  path = m.cost.path
+)
+
+step_1
+```
+
+Step **2** returns the distances between consecutive samples within each time series, as computed by  `psi_auto_sum()`. 
+
+```{r, eval = FALSE}
+step_2 <- psi_auto_sum(
+  x = x,
+  y = y,
+  distance = "euclidean"
+)
+
+step_2
+```
+
+Finally, in the step **3** we compute the normalized dissimilarity score.
+
+```{r, eval=FALSE}
+psi <- psi_equation(
+  a = step_1,
+  b = step_2,
+  diagonal = TRUE
+)
+```
+
+All these individual steps can be performed at once with the function `distantia()`.
 
 ```{r, fig.width=4, fig.height=3.5}
 df <- distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
-  lock_step = FALSE #default, lock step disabled
+  lock_step = FALSE, #default, lock step disabled
+  distance = "euclidean" #default
 )
 
 df[, c("x", "y", "psi")]
 ```
 
-The function `distantia_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
+Additionally, the function `distantia_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
 
-```{r, fig.width=4, fig.height=3.5}
+```{r, fig.width=6, fig.height=5.5}
 distantia_plot(
   tsl = tsl_scaled[c("London", "Kinshasa")]
 )
 ```
 
+### Pitfalls
+
 DTW is an ideal method to compare time series with temporal shifts, and is applicable to regular and irregular time series with the same or different numbers of samples. 
 
-**DTW is sensitive to differences in magnitudes**
+However, **DTW is highly sensitive to differences in ata magnitudes**. When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima able to distort the warping. 
 
-When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima that distort the warping. The example below comparing the raw temperatures of London and Kinshasa shows two of these local optima, one in the *y* axis, at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis, at the maximum temperature in London (summer of 2003).
+The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows two of these local optima, one in the *y* axis (long horizontal line), at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line), at the maximum temperature in London (summer of 2003).
 
-```{r, fig.width=4, fig.height=3.5}
+```{r, fig.width=6, fig.height=5.5}
 distantia_plot(
   tsl = tsl_raw[c("London", "Kinshasa")]
 )
 ```
 
-This is not a particular issue of the algorithm implemented in `distantia`, but a general behavior of time warping methods. The code below shows a similar analysis performed with the R package [`dtw`](https://CRAN.R-project.org/package=dtw).
+This is not a particular issue of the algorithm implemented in `distantia`, but a general behavior of time warping methods. The code below shows a similar analysis performed with the R package [`dtw`](https://CRAN.R-project.org/package=dtw). The default implementation ignores diagonals when building the cost matrix.
 
-```{r, fig.width=4, fig.height=3.5}
+```{r, fig.width=5, fig.height=4.5}
 xy_dtw <- dtw::dtw(
   x = tsl_raw$London$temperature,
   y = tsl_raw$Kinshasa$temperature,
@@ -274,92 +301,76 @@ xy_dtw <- dtw::dtw(
 plot(xy_dtw, type = "threeway")
 ```
 
-
-
-, so it performs best when the data is scaled, and optionally centered if absolute values are not critical for the analysis.       
- 
-
-
-
-
-
-The column "psi" represents the normalized dissimilarity between pairs of time series. According to these values, London and Kinshasa show the most dissimilar temperatures, while London and Paris show the most similar ones.
-
-The time warping analysis can be plotted with `distantia_plot()`. The temperature patterns of "Paris" and "London" are quite similar, and require no warping.
+The "twoway" plot provided by `dtw` shows the alingment as a line bar, with the sample matches represented as dotted lines, and two vertical lines highlighting the local optima
 
 ```{r}
-distantia_plot(
-  tsl = tsl_three_cities[c("Paris", "London")]
+plot(xy_dtw, type = "twoway")
+abline(v=0.13, col="red3", lwd = 2)
+abline(v=0.70, col="black", lwd = 2)
+```
+
+## Comparing DTW and LS
+
+Dynamic Time Warping (DTW) and Lock-Step (LS) methods differ in scope and application.
+
+DTW is ideal for comparing data that may be shifted in time due to positional differences, such as phenological time series observed across different hemispheres or elevations. It also facilitates the comparison of time series with varying lengths, observation periods, or sampling resolutions. This versatility makes DTW a general-purpose tool for time series analysis.
+
+In contrast, LS is designed for synchronized time series that, at a minimum, must have the same length. While its scope is narrower, LS is more intuitive and accurate than DTW for comparing time series without time shifts, as it measures raw differences directly.
+
+In essence, DTW, with its ability to adjust the time axis, answers the question, *How similar can these two time series be?*, while LS addresses the question, "How different are these two time series?"
+
+The code below computes the dissimilarity score of the temperatures in Paris, London, and Kinshasa using DTW and LS and compares them in a data frame.
+
+```{r}
+df_dtw <- distantia(
+  tsl = tsl_scaled
+)
+
+df_ls <- distantia(
+  tsl = tsl_scaled,
+  lock_step = TRUE
+)
+
+data.frame(
+  x = df_dtw$x,
+  y = df_dtw$y,
+  psi_dtw = round(df_dtw$psi, 3),
+  psi_ls = round(df_ls$psi, 3)
 )
 ```
 
-The warping alignment between "London" and "Kinshasa" shows the adjustments made by DTW to match the peaks and valleys of both time series, and compensate for their shifted patterns.
+For London and Paris, both DTW and LS show very similar values, because the time series are very similar and DTW cannot do much else to adjust them even more. On the other hand, DTW shows much lower values than LS when Kinshasa comes into play, as it compensates the seasonal shifts in these time series. In that sense, LS provides a more accurate image of the raw differences between these time series.
 
-```{r}
-distantia_plot(
-  tsl = tsl_three_cities[c("London", "Kinshasa")]
-)
-```
-
-When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima that distort the warping. The example below comparing the raw temperatures of London and Kinshasa shows two of these local optima, one in the *y* axis, at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis, at the maximum temperature in London (summer of 2003).
-
-```{r}
-tsl_two_cities <- tsl |> 
-  tsl_subset(
-    names = c(
-      "London", 
-      "Kinshasa"
-    ),
-    time = c("2000-01-01", "2005-01-01")
-  )
-
-distantia_plot(
-  tsl = tsl_two_cities
-)
-```
-
-
-
-
-
-#### Lock Step
-
-When `lock_step = TRUE`, the lock-step method is activated, and the time series are compared on an observation-to-observation basis. This method yields increased dissimilarity scores when the involved time series show shifted patterns.
+As a clear advantage, LS does not require data normalization for univariate time series, and therefore can provide a dissimilarity score in the same units of the variable at hand.
 
 ```{r}
 df_ls <- distantia(
-  tsl = tsl_three_cities,
-  distance = "euclidean",
-  lock_step = TRUE #activates lock-step
-)
-
-#adding the results of dtw to facilitate comparison
-df_ls$psi_dtw <- df_dtw$psi
-df_ls$psi_lock_step <- df_ls$psi
-
-df_ls[, c("x", "y", "psi_lock_step",  "psi_dtw")]
-```
-
-It is important to take in mind that here we are performing the lock-step analysis with the scaled data to compare its output with the DTW results. The results on the raw data are shown below.
-
-```{r}
-tsl_three_cities <- tsl |> 
-  tsl_subset(
-    names = c(
-      "London", 
-      "Paris", 
-      "Kinshasa"
-    ),
-    time = c("2000-01-01", "2005-01-01")
-  )
-
-df_ls <- distantia(
-  tsl = tsl_three_cities,
-  distance = "euclidean",
-  lock_step = TRUE #activates lock-step
+  tsl = tsl_raw,
+  lock_step = TRUE
 )
 
 df_ls[, c("x", "y", "psi")]
 ```
+
+Comparing the dissimilarity scores above with the mean temperatures of the three cities below can give a sense of how approximate LS scores are to what we could expect.
+
+```{r}
+df_stats <- tsl_stats(
+  tsl = tsl_raw,
+  lags = 0
+)
+
+df_stats[, c("name", "mean")]
+```
+
+##  Closing Thoughts
+
+The `distantia` package strikes a balance between flexibility and simplicity, enabling a more nuanced exploration of time series data. With support for both dynamic time warping and lock-step methods, it provides users with the tools needed to uncover insights while respecting the unique constraints of their data. Whether you're working on sequence alignment or strict temporal comparisons, `distantia` is designed to adapt to your analytical needs. 
+
+I encourage you to give it a try and see how it fits into your workflows.
+
+
+
+
 
 

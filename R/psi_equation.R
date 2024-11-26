@@ -138,7 +138,7 @@ psi_equation <- function(
   }
 
   if(is.logical(diagonal) == FALSE){
-    stop("distantia::psi_equation(): argument 'diagonal' must be logical (TRUE or FALSE).", call. = FALSE)
+    stop("distantia::psi_equation(): argument 'diagonal' must be logical.", call. = FALSE)
   }
 
   psi_equation_cpp(

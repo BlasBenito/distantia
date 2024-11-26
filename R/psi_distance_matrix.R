@@ -58,25 +58,34 @@ psi_distance_matrix <- function(
     distance = distance
   )[1]
 
-  x <- as.matrix(x)
-  y <- as.matrix(y)
+  if(zoo::is.zoo(x)){
+    x_index <- zoo::index(x)
+  } else {
+    x_index <- 1:nrow(x)
+  }
+
+  if(zoo::is.zoo(y)){
+    y_index <- zoo::index(y)
+  } else {
+    y_index <- 1:nrow(y)
+  }
 
   #computing distance matrix
   m <- distance_matrix_cpp(
-    x = x,
-    y = y,
+    x = as.matrix(x),
+    y = as.matrix(y),
     distance = distance
     )
 
   #adding names
   dimnames(m) <- list(
-    as.character(attributes(y)$index),
-    as.character(attributes(x)$index)
+    as.character(y_index),
+    as.character(x_index)
   )
 
   #adding attributes
-  attr(x = m, which = "x_time") <- attributes(x)$index
-  attr(x = m, which = "y_time") <- attributes(y)$index
+  attr(x = m, which = "x_time") <- x_index
+  attr(x = m, which = "y_time") <- y_index
   attr(x = m, which = "x_name") <- attributes(x)$name
   attr(x = m, which = "y_name") <- attributes(y)$name
   attr(x = m, which = "type") <- "distance"

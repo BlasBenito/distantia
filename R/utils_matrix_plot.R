@@ -95,10 +95,20 @@ utils_matrix_plot <- function(
   #distance matrix
   if(m_type %in% c("distance", "cost")){
 
-    guide_title <- paste0(
-      attributes(m)$distance,
-      "\ndistance"
-    )
+    if(m_type == "distance"){
+      guide_title <- paste0(
+        attributes(m)$distance,
+        "\ndistance"
+      )
+    }
+
+    if(m_type == "cost"){
+      guide_title <- paste0(
+        attributes(m)$distance,
+        "\ncumulative\ncost"
+      )
+    }
+
 
     x_name <- attributes(m)$x_name
     y_name <- attributes(m)$y_name
@@ -147,10 +157,6 @@ utils_matrix_plot <- function(
     axis_x_labels <- attributes(axis_x_labels_pretty)$labels
     axis_y_labels <- attributes(axis_y_labels_pretty)$labels
 
-    #get tick locations
-    # axis_x_at <- seq_len(length(axis_x_labels))
-    # axis_y_at <- seq_len(length(axis_y_labels))
-
   }
 
   #psi matrix
@@ -186,7 +192,7 @@ utils_matrix_plot <- function(
     subpanel == FALSE
   ){
 
-    axis_title_distance <- 4
+    axis_title_distance <- 2.5
     axis_labels_cex <- 0.6 * text_cex
 
   } else {
