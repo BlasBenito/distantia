@@ -106,7 +106,7 @@ tsl_repair <- function(
     zoo_no_colnames = "  - REPAIR FAILED: cannot repair missing column names in zoo time series.",
     zoo_no_shared_columns = "  - REPAIR FAILED: no valid shared column names found across all time series.",
     zoo_duplicated_colnames = "  - deduplicated column names of zoo time series.",
-    zoo_shared_columns = "  - removed time series with no shared columns with other time series.",
+    zoo_shared_columns = "  - removed exclusive columns not shared across time series.",
     zoo_NA_cases = "  - interpolated NA cases in zoo objects with distantia::tsl_handle_NA()."
   )
 
@@ -360,8 +360,6 @@ tsl_repair <- function(
     )
 
   }
-
-  message("\ndistantia::ts_repair(): Re-diagnosing 'tsl':\n")
 
   tsl <- tsl_diagnose(
     tsl = tsl,

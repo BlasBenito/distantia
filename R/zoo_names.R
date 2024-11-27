@@ -48,12 +48,6 @@ zoo_name_set <- function(
 
   x_name <- attributes(x)$name
 
-  if(!is.null(x_name)){
-    if(x_name != name){
-      message("distantia::zoo_name_set(): renaming zoo time series from '", x_name, "' to '", name, "'.")
-    }
-  }
-
   attr(
     x = x,
     which = "name"

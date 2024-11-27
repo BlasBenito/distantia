@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   dpi = 300,
-  fig.show = 'hold' #side by side images
+  fig.show = 'hold'
 )
 ```
 

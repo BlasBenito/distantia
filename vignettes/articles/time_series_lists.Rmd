@@ -1,5 +1,5 @@
 ---
-title: "Working With Time Series Lists"
+title: "Handling Time Series Lists"
 output: 
   rmarkdown::html_document:
     toc: true
@@ -9,47 +9,274 @@ output:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  eval = FALSE,
+  eval = TRUE,
   collapse = TRUE,
   comment = "#>",
-  fig.show = 'hold' #side by side images
+  dpi = 300,
+  fig.show = 'hold',
+  fig.width = 5
 )
 ```
 
-# WORK IN PROGRESS
 
-### Manipulating TSLs
+## Summary
 
-This section only covers a few of the data-manipulation capabilities of `distantia`.
+The R package `distantia` 2.0 introduces Time Series Lists as working unit for dissimilarity analyses, and provides a complete toolset to manages them.
 
-#### Aggregation
+This article describes Time Series Lists in detail, and showcases the most common data handling procedures enabled by the new functions included in the package. 
 
-The function `tsl_aggregate()` applies an aggregation function to specific time frames. For example, the code below computes the maximum temperature per year
+## Introduction to Time Series Lists
+
+In this new version of `distantia`, groups of time series are organized as named lists of [zoo](https://cran.r-project.org/web/packages/zoo/index.html) objects. These lists are named **Time Series Lists** (TSL) within the package, and are designed to facilitate the parallelization of dissimilarity analyses. 
+
+TSL is not a class by choice, as the idea is keeping them as simple as possible to grant users the autonomy to create or modify them as needed.
+
+### Zoo Time Series
+
+The R package `zoo` provides an S3 class of the same name designed to handle observations ordered by an index. It supports various index classes, such as Date, POSIXct, or even custom numeric or character indices, and handles regular and irregular time series equally well.
+
+Other advantages of using zoo objects include a seamless intergration with base R methods, and built-in tools for alignment, merging, and subsetting.
+
+Let's take a look at a little zoo object.
+
+```{r, fig.width=5, fig.height=3}
+library(distantia)
+
+z <- zoo_simulate(
+  name = "my_zoo",
+  cols = 3,
+  rows = 10,
+  time_range = c(
+    "2024-01-01", 
+    "2024-12-31"
+    ),
+  na_fraction = 0.1,
+  irregular = TRUE,
+  seed = 1
+)
+
+zoo_plot(x = z)
+```
+
+Zoo objects have two main components, a data matrix with the time series observations, and an index representing time or sample order.
+
+The data matrix is extracted with `zoo::coredata()`.
 
 ```{r}
-tsl_temp <- tsl_aggregate(
-  tsl = tsl,
-  new_time = "year",
-  method = max
+zoo::coredata(z)
+class(zoo::coredata(z))
+```
+The core data of a zoo object can also be a vector when the time series is univariate.
+
+```{r}
+x <- zoo::zoo(x = runif(10))
+is.vector(zoo::coredata(x))
+```
+However, this is **frowned upon** in `distantia`, and these vectors should always be converted to matrices.
+
+```{r}
+x <- distantia::zoo_vector_to_matrix(x = x)
+is.vector(zoo::coredata(x))
+is.matrix(zoo::coredata(x))
+```
+
+The index of zoo time series is extracted with `zoo::index()`.
+
+```{r}
+zoo::index(z)
+class(zoo::index(z))
+```
+The classes for zoo indices explicitly supported in `distantia` are `Date`, `POSIXct`, and `numeric`. The function `distantia::zoo_time()` helps summarize the time features of a zoo object
+
+```{r}
+distantia::zoo_time(x = z)
+```
+
+Additionally, in `distantia` all zoo objects are expected to have the attribute `name`.
+
+```{r}
+attributes(z)$name
+```
+This attribute is used to facilitate plotting operations, and it is managed internally by `tsl_...()` functions. There are several functions in `distantia` to manage the names of zoo objects.
+
+```{r}
+#reset zoo name
+z <- distantia::zoo_name_set(
+  x = z,
+  name = "My_Zoo"
+)
+
+#get zoo name
+distantia::zoo_name_get(x = z)
+
+#clean zoo name
+z <- distantia::zoo_name_clean(
+  x = z,
+  lowercase = TRUE
+)
+
+distantia::zoo_name_get(x = z)
+```
+
+
+### Time Series Lists
+
+TSLs are *named* lists of zoo time series. The example below shows how to build a TSL from scratch with zoo objects. But this is not the most common or comfortable case, so please, visit the section **Creating TSLs** to learn how to convert your data easily to TSL.
+
+```{r}
+#create simple tsl
+my_tsl <- list(
+  A = zoo_simulate(
+    cols = 4,
+    na_fraction = 0.2
+  ),
+  B = zoo_simulate()
+)
+
+names(my_tsl)
+
+class(my_tsl)
+
+#names of the zoo objects
+lapply(X = my_tsl, FUN = distantia::zoo_name_get)
+
+#class of the objects within the list
+lapply(X = my_tsl, FUN = class)
+```
+
+TSLs ready for dissimilarity analyses **must follow several rules**:
+
+  - The elements of the list or the zoo objects must be named.
+  - Time series names cannot be duplicated.
+  - The coredata of all zoo objects must be of class `matrix`.
+  - There cannot be NA, Inf, or NaN in the zoo objects.
+  - All zoo columns must be named.
+  - All zoo columns must be numeric.
+  - All zoo objects within the TSL must share at least one column name.
+  - The index of the zoo objects must be of the same class.
+  
+These are many rules, I know, but the functions `tsl_diagnose()` and `tsl_repair()` are there to help you forget about them.
+
+When applying `tsl_diagnose()` to `my_tsl` we can see it has several issues.
+
+```{r}
+my_tsl <- distantia::tsl_diagnose(tsl = my_tsl)
+```
+From there, we can either follow the suggestions, or apply `tsl_repair()` directly, as done below.
+
+```{r}
+my_tsl <- distantia::tsl_repair(tsl = my_tsl)
+```
+This function identifies the issues raised up by `tsl_diagnose()` and repairs them when possible.
+
+If we run `tsl_diagnose()` again, all checks should be ok.
+
+```{r}
+my_tsl <- distantia::tsl_diagnose(
+  tsl = my_tsl
+)
+```
+
+From this point, our TSL is ready to go!
+
+```{r}
+distantia::tsl_plot(
+  tsl = my_tsl
+)
+```
+
+## Creating Time Series List
+
+The function `tsl_initialize()` (with the alias `tsl_init()`) is designed to help transform several data structures to Time Series List.
+
+### Long Data Frame to TSL
+
+Long and tidy data frames are convenient structures to store multivariate time series of a reasonable size. For example, the data frame `fagus_dynamics` shown below has the column "name" identifying separate time series, the column "time" with observation dates, and three numeric columns with environmental observations.
+
+```{r}
+head(fagus_dynamics)
+```
+Transforming this data frame to TSL is quite straightforward:
+
+```{r}
+tsl <- tsl_initialize(
+  x = fagus_dynamics,
+  name_column = "name",
+  time_column = "time"
+)
+
+#even shorter!
+tsl <- tsl_init(
+  x = fagus_dynamics,
+  name = "name",
+  time = "time"
 )
 
 tsl_plot(
-  tsl = tsl_temp[1:5],
-  ylim = "relative"
+  tsl  = tsl
 )
 ```
-Same as above, but by decade.
+Once manipulated and/or analyzed, a TSL can be converted back to data frame with `tsl_to_df()`.
 
 ```{r}
-tsl_temp <- tsl_aggregate(
-  tsl = tsl,
-  new_time = "decades",
-  method = max
-)
+df <- tsl_to_df(tsl = tsl)
+head(df)
+```
+### Wide Data Frame to TSL
 
-tsl_plot(
-  tsl = tsl_temp[1:5],
-  ylim = "relative"
+```{r, echo = FALSE}
+evi_wide <- stats::reshape(
+  data = fagus_dynamics[, c(
+    "name",
+    "time",
+    "evi"
+  )],
+  timevar = "name",
+  idvar = "time",
+  direction = "wide",
+  sep = "_"
 )
 ```
+
+A wide data frame is a useful structure to store univariate time series observed in different places at the same times.
+
+```{r}
+head(evi_wide)
+```
+When no `name_column` is provided, `tsl_initialize()` assumes that the time series are coded as separate columns.
+
+```{r}
+tsl <- tsl_initialize(
+  x = evi_wide,
+  time_column = "time"
+  )
+
+tsl_plot(
+  tsl = tsl
+)
+```
+In this case, the column names of the univariate zoo objects will have the same name ("x").
+
+```{r}
+tsl_colnames_get(tsl = tsl)
+```
+This name can be reset as needed with `tsl_colnames_set()`.
+
+```{r}
+tsl <- tsl_colnames_set(
+  tsl = tsl,
+  names = "evi"
+)
+
+tsl_colnames_get(tsl = tsl)
+```
+This TSL can be converted to data frame, but this time the result comes in long format.
+
+```{r}
+df <- tsl_to_df(tsl = tsl)
+head(df)
+```
+
+
+
 
