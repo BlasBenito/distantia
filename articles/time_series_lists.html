@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Working With Time Series Lists • distantia</title>
+<title>Handling Time Series Lists • distantia</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Working With Time Series Lists">
+<meta property="og:title" content="Handling Time Series Lists">
 <link rel="stylesheet" href="extra.css">
 </head>
 <body>
@@ -39,7 +39,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/psi_dissimilarity_metric.html">The Psi Dissimilarity Metric</a></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Comparing Time Series with distantia: DTW vs Lock-Step</a></li>
-    <li><a class="dropdown-item" href="../articles/time_series_lists.html">Working With Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -64,7 +64,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Working With Time Series Lists</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Handling Time Series Lists</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/time_series_lists.Rmd" class="external-link"><code>vignettes/articles/time_series_lists.Rmd</code></a></small>
@@ -74,43 +74,363 @@
     
     
 <div class="section level2">
-<h2 id="work-in-progress">WORK IN PROGRESS<a class="anchor" aria-label="anchor" href="#work-in-progress"></a>
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<div class="section level4">
-<h4 id="manipulating-tsls">Manipulating TSLs<a class="anchor" aria-label="anchor" href="#manipulating-tsls"></a>
-</h4>
-<p>This section only covers a few of the data-manipulation capabilities
-of <code>distantia</code>.</p>
-<div class="section level5">
-<h5 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
-</h5>
-<p>The function <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code> applies an aggregation
-function to specific time frames. For example, the code below computes
-the maximum temperature per year</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  new_time <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>  method <span class="op">=</span> <span class="va">max</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_temp</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span>
-<span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Same as above, but by decade.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  new_time <span class="op">=</span> <span class="st">"decades"</span>,</span>
-<span>  method <span class="op">=</span> <span class="va">max</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_temp</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span>
-<span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<p>The R package <code>distantia</code> 2.0 introduces Time Series Lists
+as working unit for dissimilarity analyses, and provides a complete
+toolset to manages them.</p>
+<p>This article describes Time Series Lists in detail, and showcases the
+most common data handling procedures enabled by the new functions
+included in the package.</p>
 </div>
+<div class="section level2">
+<h2 id="introduction-to-time-series-lists">Introduction to Time Series Lists<a class="anchor" aria-label="anchor" href="#introduction-to-time-series-lists"></a>
+</h2>
+<p>In this new version of <code>distantia</code>, groups of time series
+are organized as named lists of <a href="https://cran.r-project.org/web/packages/zoo/index.html" class="external-link">zoo</a>
+objects. These lists are named <strong>Time Series Lists</strong> (TSL)
+within the package, and are designed to facilitate the parallelization
+of dissimilarity analyses.</p>
+<p>TSL is not a class by choice, as the idea is keeping them as simple
+as possible to grant users the autonomy to create or modify them as
+needed.</p>
+<div class="section level3">
+<h3 id="zoo-time-series">Zoo Time Series<a class="anchor" aria-label="anchor" href="#zoo-time-series"></a>
+</h3>
+<p>The R package <code>zoo</code> provides an S3 class of the same name
+designed to handle observations ordered by an index. It supports various
+index classes, such as Date, POSIXct, or even custom numeric or
+character indices, and handles regular and irregular time series equally
+well.</p>
+<p>Other advantages of using zoo objects include a seamless intergration
+with base R methods, and built-in tools for alignment, merging, and
+subsetting.</p>
+<p>Let’s take a look at a little zoo object.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/">distantia</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"my_zoo"</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  time_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"2024-01-01"</span>, </span>
+<span>    <span class="st">"2024-12-31"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>  na_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  irregular <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/zoo_plot.html">zoo_plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-2-1.png" width="1500"></p>
+<p>Zoo objects have two main components, a data matrix with the time
+series observations, and an index representing time or sample order.</p>
+<p>The data matrix is extracted with <code><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">zoo::coredata()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">coredata</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                    a         b         c</span></span>
+<span><span class="co">#&gt; 2024-01-01 0.2766156        NA 0.4311940</span></span>
+<span><span class="co">#&gt; 2024-01-20 0.2757911 0.2576964 0.5035254</span></span>
+<span><span class="co">#&gt; 2024-02-08 0.6195721 0.6088013 0.7032048</span></span>
+<span><span class="co">#&gt; 2024-02-27 0.7287392 0.7720906 0.8115532</span></span>
+<span><span class="co">#&gt; 2024-04-25 0.6145089 0.6955610 0.6016670</span></span>
+<span><span class="co">#&gt; 2024-07-11 0.4504343 0.3641707 0.2375049</span></span>
+<span><span class="co">#&gt; 2024-08-18        NA        NA 0.2669233</span></span>
+<span><span class="co">#&gt; 2024-09-06 0.3662741 0.3615319 0.2490074</span></span>
+<span><span class="co">#&gt; 2024-11-03 0.3074425 0.3016022 0.4022756</span></span>
+<span><span class="co">#&gt; 2024-12-11 0.3435016 0.1728781 0.3047951</span></span>
+<span><span class="co">#&gt; attr(,"name")</span></span>
+<span><span class="co">#&gt; [1] "my_zoo"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">coredata</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "matrix" "array"</span></span></code></pre></div>
+<p>The core data of a zoo object can also be a vector when the time
+series is univariate.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/zoo.html" class="external-link">zoo</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">is.vector</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">coredata</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>However, this is <strong>frowned upon</strong> in
+<code>distantia</code>, and these vectors should always be converted to
+matrices.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_vector_to_matrix.html">zoo_vector_to_matrix</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">is.vector</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">coredata</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">is.matrix</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">coredata</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>The index of zoo time series is extracted with
+<code><a href="https://rdrr.io/pkg/zoo/man/index.html" class="external-link">zoo::index()</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html" class="external-link">index</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "2024-01-01" "2024-01-20" "2024-02-08" "2024-02-27" "2024-04-25"</span></span>
+<span><span class="co">#&gt;  [6] "2024-07-11" "2024-08-18" "2024-09-06" "2024-11-03" "2024-12-11"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html" class="external-link">index</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Date"</span></span></code></pre></div>
+<p>The classes for zoo indices explicitly supported in
+<code>distantia</code> are <code>Date</code>, <code>POSIXct</code>, and
+<code>numeric</code>. The function <code><a href="../reference/zoo_time.html">distantia::zoo_time()</a></code>
+helps summarize the time features of a zoo object</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_time.html">zoo_time</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     name rows class units   length resolution      begin        end</span></span>
+<span><span class="co">#&gt; 1 my_zoo   10  Date  days 345.7895   38.42105 2024-01-01 2024-12-11</span></span>
+<span><span class="co">#&gt;       keywords</span></span>
+<span><span class="co">#&gt; 1 years, q....</span></span></code></pre></div>
+<p>Additionally, in <code>distantia</code> all zoo objects are expected
+to have the attribute <code>name</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">$</span><span class="va">name</span></span>
+<span><span class="co">#&gt; [1] "my_zoo"</span></span></code></pre></div>
+<p>This attribute is used to facilitate plotting operations, and it is
+managed internally by <code>tsl_...()</code> functions. There are
+several functions in <code>distantia</code> to manage the names of zoo
+objects.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#reset zoo name</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_set.html">zoo_name_set</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">z</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"My_Zoo"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#get zoo name</span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_get.html">zoo_name_get</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "My_Zoo"</span></span>
+<span></span>
+<span><span class="co">#clean zoo name</span></span>
+<span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_clean.html">zoo_name_clean</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">z</span>,</span>
+<span>  lowercase <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_get.html">zoo_name_get</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "my_zoo"</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="time-series-lists">Time Series Lists<a class="anchor" aria-label="anchor" href="#time-series-lists"></a>
+</h3>
+<p>TSLs are <em>named</em> lists of zoo time series. The example below
+shows how to build a TSL from scratch with zoo objects. But this is not
+the most common or comfortable case, so please, visit the section
+<strong>Creating TSLs</strong> to learn how to convert your data easily
+to TSL.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#create simple tsl</span></span>
+<span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  A <span class="op">=</span> <span class="fu"><a href="../reference/zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span>
+<span>    cols <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    na_fraction <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  B <span class="op">=</span> <span class="fu"><a href="../reference/zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">my_tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "A" "B"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">my_tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "list"</span></span>
+<span></span>
+<span><span class="co">#names of the zoo objects</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_tsl</span>, FUN <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/zoo_name_get.html">zoo_name_get</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "A"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] "A"</span></span>
+<span></span>
+<span><span class="co">#class of the objects within the list</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_tsl</span>, FUN <span class="op">=</span> <span class="va">class</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "zoo"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] "zoo"</span></span></code></pre></div>
+<p>TSLs ready for dissimilarity analyses <strong>must follow several
+rules</strong>:</p>
+<ul>
+<li>The elements of the list or the zoo objects must be named.</li>
+<li>Time series names cannot be duplicated.</li>
+<li>The coredata of all zoo objects must be of class
+<code>matrix</code>.</li>
+<li>There cannot be NA, Inf, or NaN in the zoo objects.</li>
+<li>All zoo columns must be named.</li>
+<li>All zoo columns must be numeric.</li>
+<li>All zoo objects within the TSL must share at least one column
+name.</li>
+<li>The index of the zoo objects must be of the same class.</li>
+</ul>
+<p>These are many rules, I know, but the functions
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code> are there to
+help you forget about them.</p>
+<p>When applying <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> to <code>my_tsl</code> we
+can see it has several issues.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): Structural issues:</span></span>
+<span><span class="co">#&gt; -------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Value-related issues:</span></span>
+<span><span class="co">#&gt; -------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span></span></code></pre></div>
+<p>From there, we can either follow the suggestions, or apply
+<code><a href="../reference/tsl_repair.html">tsl_repair()</a></code> directly, as done below.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_repair.html">tsl_repair</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::ts_repair(): Structural repairs:</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - fixed naming issues.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - removed exclusive columns not shared across time series.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Value-related repairs:</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span></code></pre></div>
+<p>This function identifies the issues raised up by
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and repairs them when possible.</p>
+<p>If we run <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> again, all checks should be
+ok.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>From this point, our TSL is ready to go!</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-14-1.png" width="1500"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="creating-time-series-list">Creating Time Series List<a class="anchor" aria-label="anchor" href="#creating-time-series-list"></a>
+</h2>
+<p>The function <code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> (with the alias
+<code><a href="../reference/tsl_initialize.html">tsl_init()</a></code>) is designed to help transform several data
+structures to Time Series List.</p>
+<div class="section level3">
+<h3 id="long-data-frame-to-tsl">Long Data Frame to TSL<a class="anchor" aria-label="anchor" href="#long-data-frame-to-tsl"></a>
+</h3>
+<p>Long and tidy data frames are convenient structures to store
+multivariate time series of a reasonable size. For example, the data
+frame <code>fagus_dynamics</code> shown below has the column “name”
+identifying separate time series, the column “time” with observation
+dates, and three numeric columns with environmental observations.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fagus_dynamics</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    name       time    evi rainfall temperature</span></span>
+<span><span class="co">#&gt; 1 Spain 2001-01-01 0.1929    199.8         8.1</span></span>
+<span><span class="co">#&gt; 5 Spain 2001-02-01 0.2423     50.6         7.8</span></span>
+<span><span class="co">#&gt; 6 Spain 2001-03-01 0.2761    170.9        11.0</span></span>
+<span><span class="co">#&gt; 7 Spain 2001-04-01 0.3961     62.7        10.4</span></span>
+<span><span class="co">#&gt; 8 Spain 2001-05-01 0.4445     52.7        14.1</span></span>
+<span><span class="co">#&gt; 9 Spain 2001-06-01 0.6434     23.1        17.6</span></span></code></pre></div>
+<p>Transforming this data frame to TSL is quite straightforward:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">fagus_dynamics</span>,</span>
+<span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#even shorter!</span></span>
+<span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">fagus_dynamics</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">"time"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl  <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-16-1.png" width="1500">
+Once manipulated and/or analyzed, a TSL can be converted back to data
+frame with <code><a href="../reference/tsl_to_df.html">tsl_to_df()</a></code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_to_df.html">tsl_to_df</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      name       time    evi rainfall temperature</span></span>
+<span><span class="co">#&gt; 1 Germany 2001-01-01 0.3539     68.6         2.1</span></span>
+<span><span class="co">#&gt; 2 Germany 2001-02-01 0.2940     56.6         3.8</span></span>
+<span><span class="co">#&gt; 3 Germany 2001-03-01 0.3453    128.2         6.8</span></span>
+<span><span class="co">#&gt; 4 Germany 2001-04-01 0.3924     82.5         8.2</span></span>
+<span><span class="co">#&gt; 5 Germany 2001-05-01 0.6880     32.7        15.9</span></span>
+<span><span class="co">#&gt; 6 Germany 2001-06-01 0.6837     70.8        16.0</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="wide-data-frame-to-tsl">Wide Data Frame to TSL<a class="anchor" aria-label="anchor" href="#wide-data-frame-to-tsl"></a>
+</h3>
+<p>A wide data frame is a useful structure to store univariate time
+series observed in different places at the same times.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">evi_wide</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         time evi_Spain evi_Germany evi_Sweden</span></span>
+<span><span class="co">#&gt; 1 2001-01-01    0.1929      0.3539     0.1827</span></span>
+<span><span class="co">#&gt; 5 2001-02-01    0.2423      0.2940     0.1819</span></span>
+<span><span class="co">#&gt; 6 2001-03-01    0.2761      0.3453     0.2155</span></span>
+<span><span class="co">#&gt; 7 2001-04-01    0.3961      0.3924     0.2369</span></span>
+<span><span class="co">#&gt; 8 2001-05-01    0.4445      0.6880     0.5192</span></span>
+<span><span class="co">#&gt; 9 2001-06-01    0.6434      0.6837     0.5917</span></span></code></pre></div>
+<p>When no <code>name_column</code> is provided,
+<code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> assumes that the time series are coded as
+separate columns.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">evi_wide</span>,</span>
+<span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-20-1.png" width="1500">
+In this case, the column names of the univariate zoo objects will have
+the same name (“x”).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $evi_Spain</span></span>
+<span><span class="co">#&gt; [1] "x"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $evi_Germany</span></span>
+<span><span class="co">#&gt; [1] "x"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $evi_Sweden</span></span>
+<span><span class="co">#&gt; [1] "x"</span></span></code></pre></div>
+<p>This name can be reset as needed with
+<code><a href="../reference/tsl_colnames_set.html">tsl_colnames_set()</a></code>.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_colnames_set.html">tsl_colnames_set</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  names <span class="op">=</span> <span class="st">"evi"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $evi_Spain</span></span>
+<span><span class="co">#&gt; [1] "evi"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $evi_Germany</span></span>
+<span><span class="co">#&gt; [1] "evi"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $evi_Sweden</span></span>
+<span><span class="co">#&gt; [1] "evi"</span></span></code></pre></div>
+<p>This TSL can be converted to data frame, but this time the result
+comes in long format.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_to_df.html">tsl_to_df</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name       time    evi</span></span>
+<span><span class="co">#&gt; 1 evi_Spain 2001-01-01 0.1929</span></span>
+<span><span class="co">#&gt; 2 evi_Spain 2001-02-01 0.2423</span></span>
+<span><span class="co">#&gt; 3 evi_Spain 2001-03-01 0.2761</span></span>
+<span><span class="co">#&gt; 4 evi_Spain 2001-04-01 0.3961</span></span>
+<span><span class="co">#&gt; 5 evi_Spain 2001-05-01 0.4445</span></span>
+<span><span class="co">#&gt; 6 evi_Spain 2001-06-01 0.6434</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

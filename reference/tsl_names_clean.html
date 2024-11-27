@@ -22,7 +22,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/psi_dissimilarity_metric.html">The Psi Dissimilarity Metric</a></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Comparing Time Series with distantia: DTW vs Lock-Step</a></li>
-    <li><a class="dropdown-item" href="../articles/time_series_lists.html">Working With Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -146,9 +146,6 @@
 <span class="r-in"><span>  capitalize_first <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  length <span class="op">=</span> <span class="fl">4</span> <span class="co">#abbreviate to 4 characters</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Germany' to 'Grmn'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Spain' to 'Span'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Sweden' to 'Swdn'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#new names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>
@@ -166,9 +163,6 @@
 <span class="r-in"><span>  suffix <span class="op">=</span> <span class="st">"fagus"</span>,</span></span>
 <span class="r-in"><span>  prefix <span class="op">=</span> <span class="st">"country"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Germany' to 'COUNTRY_GERMANY_FAGUS'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Spain' to 'COUNTRY_SPAIN_FAGUS'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::zoo_name_set(): renaming zoo time series from 'Sweden' to 'COUNTRY_SWEDEN_FAGUS'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#new names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span></span></span>
