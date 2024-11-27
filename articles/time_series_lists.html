@@ -265,7 +265,7 @@ help you forget about them.</p>
 <p>When applying <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> to <code>my_tsl</code> we
 can see it has several issues.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; distantia::tsl_diagnose(): Structural issues:</span></span>
 <span><span class="co">#&gt; -------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -280,7 +280,7 @@ can see it has several issues.</p>
 <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code> directly, as done below.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_repair.html">tsl_repair</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::ts_repair(): Structural repairs:</span></span>
+<span><span class="co">#&gt; distantia::tsl_repair(): Structural repairs:</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - fixed naming issues.</span></span>
@@ -297,7 +297,7 @@ can see it has several issues.</p>
 <p>If we run <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> again, all checks should be
 ok.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>From this point, our TSL is ready to go!</p>
@@ -309,7 +309,7 @@ ok.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="creating-time-series-list">Creating Time Series List<a class="anchor" aria-label="anchor" href="#creating-time-series-list"></a>
+<h2 id="creating-time-series-lists">Creating Time Series Lists<a class="anchor" aria-label="anchor" href="#creating-time-series-lists"></a>
 </h2>
 <p>The function <code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> (with the alias
 <code><a href="../reference/tsl_initialize.html">tsl_init()</a></code>) is designed to help transform several data
@@ -432,6 +432,209 @@ comes in long format.</p>
 <span><span class="co">#&gt; 5 evi_Spain 2001-05-01 0.4445</span></span>
 <span><span class="co">#&gt; 6 evi_Spain 2001-06-01 0.6434</span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="vectors-and-matrices-to-tsl">Vectors and Matrices to TSL<a class="anchor" aria-label="anchor" href="#vectors-and-matrices-to-tsl"></a>
+</h3>
+<p>A list of numeric vectors can also be converted to TSL. In this case,
+the zoo index is a sequence of integers.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>,</span>
+<span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-24-1.png" width="1500"></p>
+<p>The same thing can be done with matrices as well.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
+<span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-25-1.png" width="1500"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="exploring-time-series-lists">Exploring Time Series Lists<a class="anchor" aria-label="anchor" href="#exploring-time-series-lists"></a>
+</h2>
+<p>This section showcases the tools available in <code>distantia</code>
+to extract details from our Time Series Lists. But first, let’s create a
+simulated TSL.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seasons <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  na_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  irregular <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: foreach</span></span>
+<span><span class="co">#&gt; Loading required package: future</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-26-1.png" width="1500"></p>
+<p>The most general ones are focused on simple things such as names and
+dimensions.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#time series names</span></span>
+<span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   A   B   C   D </span></span>
+<span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
+<span></span>
+<span><span class="co">#time series column names</span></span>
+<span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span></span>
+<span><span class="co">#number of columns</span></span>
+<span><span class="fu"><a href="../reference/tsl_ncol.html">tsl_ncol</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span></span>
+<span><span class="co">#number of roes</span></span>
+<span><span class="fu"><a href="../reference/tsl_nrow.html">tsl_nrow</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] 895</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] 828</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] 948</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] 755</span></span></code></pre></div>
+<p>The function <code><a href="../reference/tsl_time.html">tsl_time()</a></code> generates a data frame with key
+details about the time in each time series. This is particularly useful
+when the time series are irregular.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   name rows class units   length resolution      begin        end     keywords</span></span>
+<span><span class="co">#&gt; 1    A  895  Date  days 3624.449   4.054194 2010-01-15 2019-12-18 years, q....</span></span>
+<span><span class="co">#&gt; 2    B  828  Date  days 3646.485   4.409293 2010-01-02 2019-12-27 decades,....</span></span>
+<span><span class="co">#&gt; 3    C  948  Date  days 3638.513   3.842147 2010-01-05 2019-12-23 years, q....</span></span>
+<span><span class="co">#&gt; 4    D  755  Date  days 3643.532   4.832271 2010-01-04 2019-12-27 years, q....</span></span></code></pre></div>
+<p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code> provides a summary of the time
+series stats.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
+<span>  lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="co">#temporal autocorrelation lags</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_stats</span></span>
+<span><span class="co">#&gt;    name variable rows colums time_units time_begin   time_end time_length</span></span>
+<span><span class="co">#&gt; 1     A        a  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
+<span><span class="co">#&gt; 2     A        b  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
+<span><span class="co">#&gt; 3     A        c  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
+<span><span class="co">#&gt; 4     A        d  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
+<span><span class="co">#&gt; 5     A        e  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
+<span><span class="co">#&gt; 6     B        a  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
+<span><span class="co">#&gt; 7     B        b  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
+<span><span class="co">#&gt; 8     B        c  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
+<span><span class="co">#&gt; 9     B        d  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
+<span><span class="co">#&gt; 10    B        e  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
+<span><span class="co">#&gt; 11    C        a  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
+<span><span class="co">#&gt; 12    C        b  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
+<span><span class="co">#&gt; 13    C        c  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
+<span><span class="co">#&gt; 14    C        d  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
+<span><span class="co">#&gt; 15    C        e  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
+<span><span class="co">#&gt; 16    D        a  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
+<span><span class="co">#&gt; 17    D        b  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
+<span><span class="co">#&gt; 18    D        c  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
+<span><span class="co">#&gt; 19    D        d  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
+<span><span class="co">#&gt; 20    D        e  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
+<span><span class="co">#&gt;    time_resolution        min        q1    median        q3       max      mean</span></span>
+<span><span class="co">#&gt; 1         4.054194 0.09800680 0.2865991 0.3860854 0.5362996 0.7674207 0.4054364</span></span>
+<span><span class="co">#&gt; 2         4.054194 0.18276448 0.4154632 0.5385707 0.7195362 0.9493957 0.5577836</span></span>
+<span><span class="co">#&gt; 3         4.054194 0.27818993 0.3897020 0.5314049 0.6073242 0.6982036 0.5007989</span></span>
+<span><span class="co">#&gt; 4         4.054194 0.09104849 0.2016606 0.3690569 0.5891050 0.8119424 0.3984365</span></span>
+<span><span class="co">#&gt; 5         4.054194 0.09011920 0.4458402 0.5398291 0.6695812 0.8667772 0.5433025</span></span>
+<span><span class="co">#&gt; 6         4.409293 0.13872269 0.3011110 0.3960141 0.4948026 0.6487662 0.3942658</span></span>
+<span><span class="co">#&gt; 7         4.409293 0.17210765 0.3928576 0.5493011 0.6733630 0.8386715 0.5336470</span></span>
+<span><span class="co">#&gt; 8         4.409293 0.20903477 0.3350768 0.5126195 0.5814762 0.6830350 0.4620552</span></span>
+<span><span class="co">#&gt; 9         4.409293 0.14081870 0.2189538 0.3759116 0.5732191 0.7702173 0.3988605</span></span>
+<span><span class="co">#&gt; 10        4.409293 0.14337879 0.4175946 0.4852792 0.6027239 0.7738121 0.5033805</span></span>
+<span><span class="co">#&gt; 11        3.842147 0.26809253 0.4099058 0.4642859 0.5038189 0.6624000 0.4597331</span></span>
+<span><span class="co">#&gt; 12        3.842147 0.18745969 0.4236590 0.5205625 0.5923407 0.8933747 0.5150940</span></span>
+<span><span class="co">#&gt; 13        3.842147 0.23959900 0.3578305 0.5288750 0.6091902 0.7548251 0.4965255</span></span>
+<span><span class="co">#&gt; 14        3.842147 0.14189279 0.3077307 0.4017208 0.4846262 0.6477854 0.3972652</span></span>
+<span><span class="co">#&gt; 15        3.842147 0.20399463 0.3981160 0.4905218 0.5986905 0.7625843 0.4952336</span></span>
+<span><span class="co">#&gt; 16        4.832271 0.10229087 0.3021580 0.3835108 0.4395235 0.6986380 0.3777097</span></span>
+<span><span class="co">#&gt; 17        4.832271 0.27306583 0.4266517 0.4890610 0.5416712 0.6738263 0.4812658</span></span>
+<span><span class="co">#&gt; 18        4.832271 0.26436389 0.3776546 0.4245795 0.5307587 0.7708494 0.4597975</span></span>
+<span><span class="co">#&gt; 19        4.832271 0.07457297 0.2111376 0.3644885 0.5397931 0.7086870 0.3779138</span></span>
+<span><span class="co">#&gt; 20        4.832271 0.08108168 0.3166727 0.3929367 0.5606692 0.7388785 0.4220499</span></span>
+<span><span class="co">#&gt;            sd     range  iq_range    skewness    kurtosis  ac_lag_1  ac_lag_2</span></span>
+<span><span class="co">#&gt; 1  0.15236468 0.6694139 0.2497005  0.14352174 -0.94630379 0.9911252 0.9810466</span></span>
+<span><span class="co">#&gt; 2  0.18805775 0.7666312 0.3040730  0.02792404 -1.00789294 0.9952306 0.9892891</span></span>
+<span><span class="co">#&gt; 3  0.11857923 0.4200137 0.2176221 -0.09012687 -1.47256461 0.9964848 0.9926413</span></span>
+<span><span class="co">#&gt; 4  0.20906235 0.7208939 0.3874444  0.34300217 -1.25700478 0.9966661 0.9930170</span></span>
+<span><span class="co">#&gt; 5  0.15539786 0.7766579 0.2237410 -0.10027682 -0.49221799 0.9925278 0.9829107</span></span>
+<span><span class="co">#&gt; 6  0.12077357 0.5100435 0.1936916 -0.03433897 -0.91389241 0.9887647 0.9763167</span></span>
+<span><span class="co">#&gt; 7  0.16640304 0.6665638 0.2805054 -0.19968777 -1.07938553 0.9958404 0.9900759</span></span>
+<span><span class="co">#&gt; 8  0.13369768 0.4740003 0.2463994 -0.23628693 -1.45487548 0.9972523 0.9942886</span></span>
+<span><span class="co">#&gt; 9  0.18838087 0.6293986 0.3542652  0.29612768 -1.41078992 0.9972801 0.9943335</span></span>
+<span><span class="co">#&gt; 10 0.12279608 0.6304333 0.1851293  0.04018844 -0.60685828 0.9913450 0.9800389</span></span>
+<span><span class="co">#&gt; 11 0.07039953 0.3943075 0.0939131  0.02217160 -0.08769490 0.9906636 0.9789024</span></span>
+<span><span class="co">#&gt; 12 0.14010720 0.7059150 0.1686817  0.19771030 -0.30649906 0.9957370 0.9900622</span></span>
+<span><span class="co">#&gt; 13 0.13858124 0.5152261 0.2513597 -0.09889346 -1.30171532 0.9967171 0.9932459</span></span>
+<span><span class="co">#&gt; 14 0.11152485 0.5058926 0.1768955  0.02263948 -0.77721549 0.9956457 0.9899241</span></span>
+<span><span class="co">#&gt; 15 0.12917222 0.5585897 0.2005745  0.14340698 -0.83560081 0.9960085 0.9913516</span></span>
+<span><span class="co">#&gt; 16 0.11104748 0.5963471 0.1373655  0.33023359  0.59329678 0.9828077 0.9647279</span></span>
+<span><span class="co">#&gt; 17 0.08822126 0.4007605 0.1150196 -0.41235842 -0.30275440 0.9940935 0.9872402</span></span>
+<span><span class="co">#&gt; 18 0.11494718 0.5064855 0.1531041  0.87056341 -0.02920572 0.9944061 0.9883983</span></span>
+<span><span class="co">#&gt; 19 0.17777429 0.6341141 0.3286555  0.15560204 -1.35502463 0.9944840 0.9880477</span></span>
+<span><span class="co">#&gt; 20 0.15424678 0.6577968 0.2439965  0.07715143 -0.85372856 0.9952680 0.9895965</span></span>
+<span><span class="co">#&gt;     ac_lag_3</span></span>
+<span><span class="co">#&gt; 1  0.9707984</span></span>
+<span><span class="co">#&gt; 2  0.9829903</span></span>
+<span><span class="co">#&gt; 3  0.9885648</span></span>
+<span><span class="co">#&gt; 4  0.9892725</span></span>
+<span><span class="co">#&gt; 5  0.9731579</span></span>
+<span><span class="co">#&gt; 6  0.9635783</span></span>
+<span><span class="co">#&gt; 7  0.9837511</span></span>
+<span><span class="co">#&gt; 8  0.9912356</span></span>
+<span><span class="co">#&gt; 9  0.9912557</span></span>
+<span><span class="co">#&gt; 10 0.9679993</span></span>
+<span><span class="co">#&gt; 11 0.9675808</span></span>
+<span><span class="co">#&gt; 12 0.9836375</span></span>
+<span><span class="co">#&gt; 13 0.9895650</span></span>
+<span><span class="co">#&gt; 14 0.9837353</span></span>
+<span><span class="co">#&gt; 15 0.9863293</span></span>
+<span><span class="co">#&gt; 16 0.9472117</span></span>
+<span><span class="co">#&gt; 17 0.9805008</span></span>
+<span><span class="co">#&gt; 18 0.9824449</span></span>
+<span><span class="co">#&gt; 19 0.9816857</span></span>
+<span><span class="co">#&gt; 20 0.9835759</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

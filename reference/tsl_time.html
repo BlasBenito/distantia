@@ -141,9 +141,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  150  Date  days 357.0785   2.396500 2023-12-04 2024-11-25 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  150  Date  days 363.7813   2.441485 2023-11-29 2024-11-27 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  150  Date  days 361.9533   2.429216 2023-11-28 2024-11-24 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  146  Date  days 356.2350   2.456793 2023-12-04 2024-11-25 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  120  Date  days 359.6660   3.022403 2023-12-01 2024-11-25 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  129  Date  days 361.4563   2.823877 2023-11-28 2024-11-24 quarters....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -159,20 +159,19 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-11-28"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-11-27"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-11-25"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6093489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.626072</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_min</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17.06177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.76409</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "quarters" "months"   "weeks"    "days"     "years"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "quarters" "months"   "weeks"    "days"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $units_df</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor base_units    units threshold keyword</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     NA       days    years       365    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5     NA       days quarters        90    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     NA       days   months        30    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7     NA       days    weeks         7    TRUE</span>

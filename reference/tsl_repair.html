@@ -168,7 +168,7 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#running full diagnose</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  full <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
@@ -192,7 +192,7 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_repair</span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::ts_repair(): Structural repairs:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_repair(): Structural repairs:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - converted univariate zoo vectors to matrix.</span>

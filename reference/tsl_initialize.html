@@ -162,7 +162,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check validity (no messages or errors if valid)</span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#class of contained objects</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tsl</span>, FUN <span class="op">=</span> <span class="va">class</span><span class="op">)</span></span></span>
@@ -357,7 +357,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#looks like a time series list! But...</span></span></span>
-<span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): Structural issues:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -367,7 +367,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_names_set.html">tsl_names_set</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check again: it's now a valid time series list</span></span></span>
-<span class="r-in"><span><span class="va">zoo_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">zoo_list</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#to do all this in one go:</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_initialize</span><span class="op">(</span></span></span>

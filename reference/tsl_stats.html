@@ -133,46 +133,46 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      name rows colums time_units time_begin   time_end time_length</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Spain  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Sweden  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Spain  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Sweden  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Sweden  216      3       days 2001-01-01 2018-12-01        6543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   time_resolution    variable     min        q1   median         q3      max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        30.43256         evi  0.0689  0.328025  0.44070   0.581550   0.7528</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        30.43256         evi  0.1828  0.271000  0.34525   0.466925   0.6434</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7        30.43256         evi  0.0413  0.203850  0.30580   0.608775   0.8764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        30.43256    rainfall  3.6000 37.450000 55.95000  76.850000 144.1000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        30.43256    rainfall 11.3000 55.650000 78.50000 117.550000 216.6000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8        30.43256    rainfall  8.3000 40.775000 59.25000  82.075000 189.6000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        30.43256 temperature -1.9000  4.900000 10.40000  16.900000  23.2000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        30.43256 temperature  4.5000  8.700000 12.60000  17.700000  21.7000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9        30.43256 temperature -4.7000  3.200000  8.15000  14.300000  20.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         mean         sd    range  iq_range    skewness   kurtosis  ac_lag_1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.4475370  0.1467074   0.6839  0.253525 -0.05783267 -1.0177517 0.7223353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.3687245  0.1170178   0.4606  0.195925  0.28642807 -1.1547325 0.7709169</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  0.3890579  0.2116391   0.8351  0.404925  0.27701665 -1.5166381 0.7577843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 58.7157407 27.8993379 140.5000 39.400000  0.51192914 -0.1499229 0.1321953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 91.1606481 48.1853638 205.3000 61.900000  0.75359061 -0.2612889 0.3567376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 64.7592593 32.5032507 181.3000 41.300000  0.87978813  0.7386146 0.2765852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 10.6861111  6.7015369  25.1000 12.000000 -0.05073437 -1.3166755 0.8147649</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 13.0263889  4.7681695  17.2000  9.000000  0.04692060 -1.3981559 0.8208431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  8.5263889  6.5337833  24.7000 11.100000 -0.04126297 -1.3096657 0.8282803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ac_lag_2     ac_lag_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.40102839  0.014216053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.43377523  0.009326848</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  0.40574397 -0.008121973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.06056026 -0.043789909</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.13744019 -0.055413521</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  0.08031474 -0.060240093</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.46143388  0.004390029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  0.45715549 -0.004872615</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.46942292  0.006882327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      name    variable rows colums time_units time_begin   time_end time_length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany         evi  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany    rainfall  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany temperature  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Spain         evi  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Spain    rainfall  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain temperature  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Sweden         evi  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Sweden    rainfall  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Sweden temperature  216      3       days 2001-01-01 2018-12-01        6543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   time_resolution     min        q1   median         q3      max       mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        30.43256  0.0689  0.328025  0.44070   0.581550   0.7528  0.4475370</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        30.43256  3.6000 37.450000 55.95000  76.850000 144.1000 58.7157407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        30.43256 -1.9000  4.900000 10.40000  16.900000  23.2000 10.6861111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        30.43256  0.1828  0.271000  0.34525   0.466925   0.6434  0.3687245</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        30.43256 11.3000 55.650000 78.50000 117.550000 216.6000 91.1606481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        30.43256  4.5000  8.700000 12.60000  17.700000  21.7000 13.0263889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        30.43256  0.0413  0.203850  0.30580   0.608775   0.8764  0.3890579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        30.43256  8.3000 40.775000 59.25000  82.075000 189.6000 64.7592593</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        30.43256 -4.7000  3.200000  8.15000  14.300000  20.0000  8.5263889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           sd    range  iq_range    skewness   kurtosis  ac_lag_1    ac_lag_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.1467074   0.6839  0.253525 -0.05783267 -1.0177517 0.7223353  0.40102839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 27.8993379 140.5000 39.400000  0.51192914 -0.1499229 0.1321953 -0.06056026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  6.7015369  25.1000 12.000000 -0.05073437 -1.3166755 0.8147649  0.46143388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.1170178   0.4606  0.195925  0.28642807 -1.1547325 0.7709169  0.43377523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 48.1853638 205.3000 61.900000  0.75359061 -0.2612889 0.3567376  0.13744019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  4.7681695  17.2000  9.000000  0.04692060 -1.3981559 0.8208431  0.45715549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  0.2116391   0.8351  0.404925  0.27701665 -1.5166381 0.7577843  0.40574397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 32.5032507 181.3000 41.300000  0.87978813  0.7386146 0.2765852  0.08031474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  6.5337833  24.7000 11.100000 -0.04126297 -1.3096657 0.8282803  0.46942292</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       ac_lag_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.014216053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.043789909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.004390029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.009326848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -0.055413521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -0.004872615</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -0.008121973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 -0.060240093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.006882327</span>
 <span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/sequential.html" class="external-link">sequential</a></span></span></span>
