@@ -13,7 +13,7 @@
 #' @param seasons (optional, integer) Number of seasons in the resulting time series. The maximum number of seasons is computed as `floor(rows/3)`. Default: 0
 #' @param na_fraction (optional, numeric) Value between 0 and 0.5 indicating the approximate fraction of NA data in the simulated time series. Default: 0.
 #' @param independent (optional, logical) If TRUE, each new column in a simulated time series is averaged with the previous column to generate dependency across columns, and each new simulated time series is weighted-averaged with a time series template to generate dependency across time series. Irrelevant when `cols < 2` or `n < 2`, and hard to perceive in the output when `seasons > 0`. Default: FALSE
-#' @param irregular (optional, logical) If TRUE, the time intervals between consecutive samples are irregular. Default: TRUE
+#' @param irregular (optional, logical) If TRUE, the time intervals between consecutive samples and the number of rows are irregular. Default: TRUE
 #' @param seed (optional, integer) Random seed used to simulate the zoo object. If NULL (default), a seed is selected at random. Default: NULL
 #'
 #' @return time series list
@@ -172,7 +172,7 @@ tsl_simulate <- function(
   }
 
   #progress bar
-  # p <- progressr::progressor(along = seq_len(n))
+  p <- progressr::progressor(along = seq_len(n))
 
   #parallelization setup
   `%iterator%` <- doFuture::`%dofuture%`
@@ -185,7 +185,7 @@ tsl_simulate <- function(
   ) %iterator% {
 
     #call to progress bar
-    # p()
+    p()
 
     #regular zoo with no NA
     zoo.i <- zoo_simulate(
@@ -208,20 +208,44 @@ tsl_simulate <- function(
         zoo.i * (1 - template_weight[i]) +
         template * template_weight[i]
 
-      #regular or irregular time
-      zoo::index(x = zoo.i) <- seq(
-        from = min(time_range),
-        to = max(time_range),
-        length.out = rows * ifelse(
-          test = irregular == TRUE,
-          yes = 4,
-          no = 1
-        )
-      ) |>
-        sample(size = rows) |>
-        sort()
+    }
+
+    #regular or irregular rows
+    if(irregular == TRUE){
+
+      if(rows > 10){
+
+        #compute rows to keep
+        rows.i <- sample(
+          x = rows,
+          size = rows - sample.int(n = rows/4, size = 1)
+        ) |>
+          sort()
+
+        #subsetting
+        zoo.i <- zoo.i[rows.i]
+
+      }
+
+
+    } else {
+
+      rows.i <- rows
 
     }
+
+    #regular or irregular time
+    zoo::index(x = zoo.i) <- seq(
+      from = min(time_range),
+      to = max(time_range),
+      length.out = length(rows.i) * ifelse(
+        test = irregular == TRUE,
+        yes = 4,
+        no = 1
+      )
+    ) |>
+      sample(size = length(rows.i)) |>
+      sort()
 
     #apply na_fraction
     zoo.i[

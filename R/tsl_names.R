@@ -88,7 +88,7 @@ tsl_names_get <- function(
 #' tsl <- tsl_simulate(n = 3)
 #'
 #' #assess validity
-#' tsl <- tsl_diagnose(
+#' tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -129,7 +129,7 @@ tsl_names_get <- function(
 #' #validate tsl
 #' #returns NOT VALID
 #' #recommends a solution
-#' tsl <- tsl_diagnose(
+#' tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'
@@ -140,7 +140,7 @@ tsl_names_get <- function(
 #' )
 #'
 #' #validate again
-#' tsl <- tsl_diagnose(
+#' tsl_diagnose(
 #'   tsl = tsl
 #' )
 #'

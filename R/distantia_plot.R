@@ -102,12 +102,6 @@ distantia_plot <- function(
     text_cex = 1
 ){
 
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = TRUE
-  )
-
   #length > 1
   if(length(tsl) < 2){
     stop("distantia::distantia_plot(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)

@@ -22,7 +22,7 @@ Sets the names of a time series list and the internal names of the zoo objects i
 tsl <- tsl_simulate(n = 3)
 
 #assess validity
-tsl <- tsl_diagnose(
+tsl_diagnose(
   tsl = tsl
 )
 
@@ -63,7 +63,7 @@ tsl_names_get(
 #validate tsl
 #returns NOT VALID
 #recommends a solution
-tsl <- tsl_diagnose(
+tsl_diagnose(
   tsl = tsl
 )
 
@@ -74,7 +74,7 @@ tsl <- tsl_names_set(
 )
 
 #validate again
-tsl <- tsl_diagnose(
+tsl_diagnose(
   tsl = tsl
 )
 

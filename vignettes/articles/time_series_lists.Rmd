@@ -160,7 +160,7 @@ These are many rules, I know, but the functions `tsl_diagnose()` and `tsl_repair
 When applying `tsl_diagnose()` to `my_tsl` we can see it has several issues.
 
 ```{r}
-my_tsl <- distantia::tsl_diagnose(tsl = my_tsl)
+distantia::tsl_diagnose(tsl = my_tsl)
 ```
 From there, we can either follow the suggestions, or apply `tsl_repair()` directly, as done below.
 
@@ -172,7 +172,7 @@ This function identifies the issues raised up by `tsl_diagnose()` and repairs th
 If we run `tsl_diagnose()` again, all checks should be ok.
 
 ```{r}
-my_tsl <- distantia::tsl_diagnose(
+distantia::tsl_diagnose(
   tsl = my_tsl
 )
 ```
@@ -185,7 +185,7 @@ distantia::tsl_plot(
 )
 ```
 
-## Creating Time Series List
+## Creating Time Series Lists
 
 The function `tsl_initialize()` (with the alias `tsl_init()`) is designed to help transform several data structures to Time Series List.
 
@@ -222,6 +222,7 @@ Once manipulated and/or analyzed, a TSL can be converted back to data frame with
 df <- tsl_to_df(tsl = tsl)
 head(df)
 ```
+
 ### Wide Data Frame to TSL
 
 ```{r, echo = FALSE}
@@ -277,6 +278,84 @@ df <- tsl_to_df(tsl = tsl)
 head(df)
 ```
 
+### Vectors and Matrices to TSL
 
+A list of numeric vectors can also be converted to TSL. In this case, the zoo index is a sequence of integers.
+
+```{r}
+tsl <- tsl_initialize(
+  x = list(
+    a = runif(10),
+    b = runif(10)
+  )
+)
+
+tsl_plot(
+  tsl = tsl
+)
+```
+
+The same thing can be done with matrices as well.
+
+```{r}
+tsl <- tsl_initialize(
+  x = list(
+    a = matrix(data = runif(100), ncol = 2, nrow = 50),
+    b = matrix(data = runif(100), ncol = 2, nrow = 50)
+  )
+)
+
+tsl_plot(
+  tsl = tsl
+)
+```
+
+## Exploring Time Series Lists
+
+This section showcases the tools available in `distantia` to extract details from our Time Series Lists. But first, let's create a simulated TSL.
+
+```{r}
+tsl <- tsl_simulate(
+  n = 4,
+  rows = 1000,
+  seasons = 10,
+  na_fraction = 0.1,
+  irregular = TRUE
+)
+
+tsl_plot(tsl = tsl)
+```
+
+The most general ones are focused on simple things such as names and dimensions.
+
+```{r}
+#time series names
+tsl_names_get(tsl = tsl)
+
+#time series column names
+tsl_colnames_get(tsl = tsl)
+
+#number of columns
+tsl_ncol(tsl = tsl)
+
+#number of roes
+tsl_nrow(tsl = tsl)
+```
+
+The function `tsl_time()` generates a data frame with key details about the time in each time series. This is particularly useful when the time series are irregular.
+
+```{r}
+tsl_time(tsl = tsl)
+```
+The function `tsl_stats()` provides a summary of the time series stats.
+
+```{r}
+df_stats <- tsl_stats(
+  tsl = tsl, 
+  lags = 1:3 #temporal autocorrelation lags
+  )
+
+df_stats
+```
 
 

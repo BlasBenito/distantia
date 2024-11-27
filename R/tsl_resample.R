@@ -260,12 +260,6 @@ tsl_resample <- function(
     max_complexity = FALSE
 ){
 
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   old_time <- tsl_time(
     tsl = tsl,
     keywords = "resample"

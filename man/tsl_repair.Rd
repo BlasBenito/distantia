@@ -78,7 +78,7 @@ tsl <- list(
 )
 
 #running full diagnose
-tsl <- tsl_diagnose(
+tsl_diagnose(
   tsl = tsl,
   full = TRUE
   )

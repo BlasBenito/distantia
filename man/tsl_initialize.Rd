@@ -73,7 +73,7 @@ tsl <- tsl_initialize(
 )
 
 #check validity (no messages or errors if valid)
-tsl <- tsl_diagnose(tsl)
+tsl_diagnose(tsl)
 
 #class of contained objects
 lapply(X = tsl, FUN = class)
@@ -216,13 +216,13 @@ zoo_list <- list(
 )
 
 #looks like a time series list! But...
-zoo_list <- tsl_diagnose(tsl = zoo_list)
+tsl_diagnose(tsl = zoo_list)
 
 #let's set the names
 zoo_list <- tsl_names_set(tsl = zoo_list)
 
 #check again: it's now a valid time series list
-zoo_list <- tsl_diagnose(tsl = zoo_list)
+tsl_diagnose(tsl = zoo_list)
 
 #to do all this in one go:
 tsl <- tsl_initialize(

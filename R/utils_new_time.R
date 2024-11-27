@@ -108,12 +108,6 @@ utils_new_time <- function(
     several.ok = FALSE
   )
 
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   old_time <- tsl_time_summary(
     tsl = tsl,
     keywords = keywords
@@ -162,11 +156,6 @@ utils_new_time <- function(
     is.list(new_time) &&
     zoo::is.zoo(new_time[[1]])
   ){
-
-    new_time <- tsl_diagnose(
-      tsl = new_time,
-      full = FALSE
-    )
 
     new_time <- tsl_time(
       tsl = new_time

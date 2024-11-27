@@ -28,11 +28,6 @@ tsl_to_df <- function(
     tsl = NULL
 ){
 
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   df_list <- lapply(
     X = tsl,
     FUN = function(x){

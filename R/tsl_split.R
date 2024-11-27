@@ -42,12 +42,6 @@ tsl_split <- function(
     sep = "__"
 ){
 
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   #return tsl if univariate already
   tsl_columns <- tsl_ncol(tsl) |>
     unlist() |>

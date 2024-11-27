@@ -70,12 +70,6 @@ tsl_plot <- function(
     guide_cex = 0.8
 ){
 
-  #check validity
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   axis_title_distance <- 2.2
 
   # Preserve user's config

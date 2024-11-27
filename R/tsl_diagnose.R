@@ -24,7 +24,7 @@
 #' @param tsl (required, list of zoo time series) Time series list to diagnose. Default: NULL
 #' @param full (optional, logical) If TRUE, a full diagnostic is triggered. Otherwise, only the data structure is tested. Default: TRUE
 #'
-#' @return time series list; messages
+#' @return invisible
 #' @export
 #' @autoglobal
 #' @examples
@@ -71,7 +71,7 @@
 #' )
 #'
 #' #running full diagnose
-#' tsl <- tsl_diagnose(
+#' tsl_diagnose(
 #'   tsl = tsl,
 #'   full = TRUE
 #'   )
@@ -316,7 +316,7 @@ tsl_diagnose <- function(
 
   }
 
-  tsl
+  invisible()
 
 }
 

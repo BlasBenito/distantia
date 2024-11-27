@@ -12,7 +12,7 @@ tsl_diagnose(tsl = NULL, full = TRUE)
 \item{full}{(optional, logical) If TRUE, a full diagnostic is triggered. Otherwise, only the data structure is tested. Default: TRUE}
 }
 \value{
-time series list; messages
+invisible
 }
 \description{
 A Time Series List (\code{tsl} for short) is a named list of zoo time series. This type of object, not defined as a class, is used throughout the \code{distantia} package to contain time series data ready for processing and analysis.
@@ -79,7 +79,7 @@ tsl <- list(
 )
 
 #running full diagnose
-tsl <- tsl_diagnose(
+tsl_diagnose(
   tsl = tsl,
   full = TRUE
   )

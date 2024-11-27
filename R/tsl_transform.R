@@ -189,12 +189,6 @@ tsl_transform <- function(
 
   }
 
-  #diagnose issues
-  tsl <- tsl_diagnose(
-    tsl = tsl,
-    full = FALSE
-  )
-
   #progress bar
   p <- progressr::progressor(along = tsl)
 
