@@ -111,17 +111,21 @@ tsl_stats <- function(
 
     zoo.i.details <- data.frame(
       name = zoo.i.time$name,
+      variable = colnames(zoo.i.data),
       rows = zoo.i.time$rows,
       colums = ncol(zoo.i.data),
       time_units = zoo.i.time$units,
       time_begin = zoo.i.time$begin,
       time_end = zoo.i.time$end,
       time_length = zoo.i.time$length,
-      time_resolution = zoo.i.time$resolution,
-      variable = colnames(zoo.i.data)
+      time_resolution = zoo.i.time$resolution
     )
 
     zoo.i.details.names <- names(zoo.i.details)
+
+    zoo.i <- zoo::na.spline(
+      object = zoo.i
+    )
 
     #column stats
     zoo.i.stats <- apply(
@@ -133,9 +137,9 @@ tsl_stats <- function(
         #column stats
         x.stats <- data.frame(
           min = min(x, na.rm = TRUE),
-          q1 = stats::quantile(x, probs = 0.25),
+          q1 = stats::quantile(x, probs = 0.25, na.rm = TRUE),
           median = stats::median(x = x, na.rm = TRUE),
-          q3 = stats::quantile(x, probs = 0.75),
+          q3 = stats::quantile(x, probs = 0.75, na.rm = TRUE),
           max = max(x, na.rm = TRUE),
           mean = mean(x, na.rm = TRUE),
           sd = stats::sd(x, na.rm = TRUE)
@@ -202,6 +206,7 @@ tsl_stats <- function(
     zoo.i.stats.names <- names(zoo.i.stats)
 
     zoo.i.stats$variable <- row.names(zoo.i.stats)
+
     rownames(zoo.i.stats) <- NULL
 
     #merging general details and column stats
@@ -223,7 +228,7 @@ tsl_stats <- function(
   }
 
   #sort by variable
-  df <- df[order(df$variable), ]
+  # df <- df[order(df$variable), ]
 
   df
 

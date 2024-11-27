@@ -168,7 +168,6 @@ tsl_simulate <- function(
     arg_irregular <- irregular
     arg_na_fraction <- na_fraction
 
-
   }
 
   #progress bar
@@ -230,7 +229,7 @@ tsl_simulate <- function(
 
     } else {
 
-      rows.i <- rows
+      rows.i <- seq_len(rows)
 
     }
 

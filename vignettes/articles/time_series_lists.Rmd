@@ -282,7 +282,7 @@ head(df)
 
 A list of numeric vectors can also be converted to TSL. In this case, the zoo index is a sequence of integers.
 
-```{r}
+```{r, fig.height=3.5}
 tsl <- tsl_initialize(
   x = list(
     a = runif(10),
@@ -297,7 +297,7 @@ tsl_plot(
 
 The same thing can be done with matrices as well.
 
-```{r}
+```{r, fig.height=3.5}
 tsl <- tsl_initialize(
   x = list(
     a = matrix(data = runif(100), ncol = 2, nrow = 50),
@@ -314,7 +314,7 @@ tsl_plot(
 
 This section showcases the tools available in `distantia` to extract details from our Time Series Lists. But first, let's create a simulated TSL.
 
-```{r}
+```{r, fig.height=6}
 tsl <- tsl_simulate(
   n = 4,
   rows = 1000,
@@ -347,6 +347,7 @@ The function `tsl_time()` generates a data frame with key details about the time
 ```{r}
 tsl_time(tsl = tsl)
 ```
+
 The function `tsl_stats()` provides a summary of the time series stats.
 
 ```{r}

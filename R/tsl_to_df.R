@@ -13,7 +13,8 @@
 #'   time_range = c(
 #'     "2010-01-01",
 #'     "2020-01-01"
-#'   )
+#'   ),
+#'   irregular = FALSE
 #' )
 #'
 #' df <- tsl_to_df(
