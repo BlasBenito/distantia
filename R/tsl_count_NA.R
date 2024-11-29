@@ -47,33 +47,17 @@ tsl_count_NA <- function(
     tsl = tsl
   )
 
-  na_count_list <- lapply(
+  #progress bar
+  p <- progressr::progressor(along = tsl)
+
+  na_count_list <- future.apply::future_lapply(
     X = tsl,
-    FUN = function(tsl) sum(is.na(tsl))
+    FUN = function(x){
+      p()
+      sum(is.na(x))
+    }
   )
 
-  na_sum <- sum(unlist(na_count_list))
-
-  if(na_sum > 0){
-
-    if(quiet == FALSE){
-
-      na_count_table <-  utils::stack(na_count_list)
-
-      na_count_table <- na_count_table[, c("ind", "values")]
-
-      names(na_count_table) <- c("name", "NA_cases")
-
-      message(
-        "distantia::tsl_count_NA(): NA cases in 'tsl': \n",
-        paste(utils::capture.output(print(na_count_table)), collapse = "\n"),
-        "\nPlease impute, replace, or remove them with tsl_handle_NA().",
-        call. = FALSE
-      )
-
-    }
-
-  }
 
   na_count_list
 

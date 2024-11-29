@@ -1,12 +1,12 @@
-#' Splits Multivariate Time Series Lists to Univariate TSLs
+#' Multivariate TSL to Univariate TSL
 #'
 #' @description
-#' This function takes a time series list with multivariate zoo objects to generate a new one with univariate zoo objects. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c". The only column of each new zoo object is named "x".
+#' Takes a time series list with multivariate zoo objects to generate a new one with one univariate zoo objects per variable. A time series list with the the zoo objects "A" and "B", each with the columns "a", "b", and "c", becomes a time series list with the zoo objects "A__a", "A__b", "A__c", "B__a", "B__b", and "B__c". The only column of each new zoo object is named "x".
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param sep (required, character string) separator between the time series name and the column name.
+#' @param sep (required, character string) separator between the time series name and the column name. Default: "__"
 #'
-#' @return time series list
+#' @return time series list: list of univariate zoo objects with a column named "x".
 #' @export
 #' @autoglobal
 #' @examples
@@ -37,7 +37,7 @@
 #' lapply(tsl, colnames)
 #'
 #' @family tsl_management
-tsl_split <- function(
+tsl_burst <- function(
     tsl = NULL,
     sep = "__"
 ){

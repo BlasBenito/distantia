@@ -117,11 +117,18 @@ z <- distantia::zoo_name_clean(
 
 distantia::zoo_name_get(x = z)
 ```
+This package comes with several functions to manipulate zoo objects:
 
+  - `zoo_name_set()`, `zoo_name_get()` and `zoo_name_clean()`: handle the attribute "name".
+  - `zoo_time()`: details of the zoo index.
+  - `zoo_aggregate()`: time aggregation of zoo objects.
+  - `zoo_resample()`: interpolation or extrapolation to a different time, or from irregular to regular time.
+  - `zoo_permute()`: restricted permutation.
+  - `zoo_vector_to_matrix()` and `zoo_to_tsl()`: internal functions to facilitate handling zoo objects within TSLs.
 
-### Time Series Lists
+### Time Series Lists (TSL)
 
-TSLs are *named* lists of zoo time series. The example below shows how to build a TSL from scratch with zoo objects. But this is not the most common or comfortable case, so please, visit the section **Creating TSLs** to learn how to convert your data easily to TSL.
+TSLs are *named* lists of zoo time series. The example below shows how to build a TSL from scratch with zoo objects. But this is not the most common or comfortable case, so please, visit the section **Creating Time Series Lists** to find out how to convert your data easily to TSL.
 
 ```{r}
 #create simple tsl
@@ -185,7 +192,7 @@ distantia::tsl_plot(
 )
 ```
 
-## Creating Time Series Lists
+## Creating TSLs
 
 The function `tsl_initialize()` (with the alias `tsl_init()`) is designed to help transform several data structures to Time Series List.
 
@@ -309,8 +316,32 @@ tsl_plot(
   tsl = tsl
 )
 ```
+## The TSL Toolset
 
-## Exploring Time Series Lists
+All functions in `distantia` to handle TSLs are named `tsl_...()`. Several of these functions are designed to explore and better understand your TSLs, while others are designed to manipulate and transform them to facilitate dissimilarity analyses.
+
+### Parallelization Setup
+
+All TSL functions have something in common: **they are a bunch of `lapply` in a trench coat**. Most use a parallelized version of `lapply` from the `future.apply` package, `future.apply::future_lapply()`, and a few combine `foreach::foreach()` with `doFuture::`%dofuture%` in parallelized loops.
+
+As such, they all support a parallelization backend provided by the `future` package, as shown below.
+
+```{r}
+library(future)
+library(parallelly)
+
+future::plan(
+  future::multisession,
+  workers = parallelly::availableCores() - 1
+  )
+
+#progress bar (does not work in Rmarkdown)
+#progressr::handlers(global = TRUE)
+```
+
+They also support progress bars via the [`progressr`](https://progressr.futureverse.org/) package. However, this option, commented in the code above, does not work in Rmarkdown.
+
+### Explore TSLs
 
 This section showcases the tools available in `distantia` to extract details from our Time Series Lists. But first, let's create a simulated TSL.
 
@@ -326,7 +357,7 @@ tsl <- tsl_simulate(
 tsl_plot(tsl = tsl)
 ```
 
-The most general ones are focused on simple things such as names and dimensions.
+The most general tools in this section are focused on simple things such as TSL names and dimensions.
 
 ```{r}
 #time series names
@@ -342,21 +373,98 @@ tsl_ncol(tsl = tsl)
 tsl_nrow(tsl = tsl)
 ```
 
-The function `tsl_time()` generates a data frame with key details about the time in each time series. This is particularly useful when the time series are irregular.
+The function `tsl_time()` analyzes the time features of all time series in a TSL and generates a data frame.
 
 ```{r}
 tsl_time(tsl = tsl)
 ```
+```{r}
+tsl_time
+```
 
-The function `tsl_stats()` provides a summary of the time series stats.
+
+The function `tsl_stats()` focuses on the data values instead to provides a summary of their stats by time series and variable.
 
 ```{r}
 df_stats <- tsl_stats(
   tsl = tsl, 
-  lags = 1:3 #temporal autocorrelation lags
+  lags = 1:2 #temporal autocorrelation lags
   )
 
 df_stats
 ```
+### Handle NA Cases
 
+Dissimilarity analyses with `distantia`, because they designed with computational efficiency in mind, **do not support NA cases**. 
+
+There are two alternate workflows to handle NA data in time series list.
+
+The first uses `tsl_count_NA()` and `tsl_handle_NA()`. The former converts Inf and NaN to NA and counts NA cases in each time series, while the latter either omits or imputes NA cases via `zoo::na.approx()`.
+
+```{r}
+tsl_count_NA(tsl = tsl) 
+
+tsl_notNA <- tsl_handle_NA(
+  tsl = tsl,
+  na_action = "impute"
+)
+
+tsl_count_NA(tsl = tsl_notNA) 
+```
+The second workflow is more general because it can address other potential issues. It involves using `tsl_diagnose()` and `tsl_repair()`.
+
+```{r}
+#diagnose issues with NA values
+tsl_diagnose(tsl = tsl)
+
+#impute NA cases
+tsl <- tsl_repair(tsl = tsl)
+
+#re-diagnose to check result
+tsl_diagnose(tsl = tsl)
+```
+
+### Subsetting
+
+The function `tsl_subset()` helps focus on particular *regions* of a time series list. Additionally, this function returns by default the numeric columns that are shared across all time series in a TSL.
+
+```{r, fig.height=4.5}
+#check details
+tsl_names_get(tsl = tsl)
+tsl_colnames_get(tsl = tsl)
+tsl_time(tsl = tsl)[, c("name", "begin", "end")]
+
+#subset
+tsl_new <- tsl_subset(
+  tsl = tsl,
+  names = c("A", "C", "D"),
+  colnames = c("a", "b"),
+  time = c("2014-01-01", "2018-01-01")
+)
+
+#check details of new tsl
+tsl_names_get(tsl = tsl_new)
+tsl_colnames_get(tsl = tsl_new)
+tsl_time(tsl = tsl_new)[, c("name", "begin", "end")]
+
+#plotting the new tsl
+tsl_plot(tsl = tsl_new)
+```
+
+The function `tsl_burst()` transforms a multivariate TSL into a univariate TSL by creating a new zoo object from each column of the original zoo objects. This function helps apply dissimilarity analysis between individual variables in multivariate time series.
+
+
+```{r, fig.height=5}
+tsl_univariate <- tsl_burst(
+  tsl = tsl_new
+)
+
+#check new names and colnames
+tsl_names_get(tsl = tsl)
+tsl_colnames_get(tsl = tsl)
+
+#plot new tsl
+tsl_plot(tsl = tsl_univariate)
+
+```
 

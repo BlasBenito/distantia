@@ -37,6 +37,7 @@ head(df)
 }
 \seealso{
 Other tsl_management: 
+\code{\link{tsl_burst}()},
 \code{\link{tsl_colnames_clean}()},
 \code{\link{tsl_colnames_get}()},
 \code{\link{tsl_colnames_set}()},
@@ -50,7 +51,6 @@ Other tsl_management:
 \code{\link{tsl_ncol}()},
 \code{\link{tsl_nrow}()},
 \code{\link{tsl_repair}()},
-\code{\link{tsl_split}()},
 \code{\link{tsl_subset}()},
 \code{\link{tsl_time}()},
 \code{\link{tsl_time_class_set}()}

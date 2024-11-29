@@ -235,7 +235,16 @@ tsl_repair <- function(
       all_issues[["zoo_no_shared_columns"]]
     )
 
-  } else {
+  }
+
+  zoo_colnames_exclusive <- tsl_colnames_get(
+    tsl = tsl,
+    names = "exclusive"
+  ) |>
+    unlist() |>
+    unique()
+
+  if(any(!is.na(zoo_colnames_exclusive))){
 
     issues_structure <- c(
       issues_structure,

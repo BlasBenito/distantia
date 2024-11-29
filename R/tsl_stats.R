@@ -104,35 +104,38 @@ tsl_stats <- function(
     #general details of the zoo object i
     zoo.i <- tsl[[i]]
 
-    zoo.i.time <- zoo_time(x = zoo.i)
-
     zoo.i.data <- zoo::coredata(zoo.i)
     zoo.i.index <- zoo::index(zoo.i)
+    zoo.i.name <- zoo_name_get(x = zoo.i)
 
     zoo.i.details <- data.frame(
-      name = zoo.i.time$name,
+      name =zoo.i.name,
       variable = colnames(zoo.i.data),
-      rows = zoo.i.time$rows,
-      colums = ncol(zoo.i.data),
-      time_units = zoo.i.time$units,
-      time_begin = zoo.i.time$begin,
-      time_end = zoo.i.time$end,
-      time_length = zoo.i.time$length,
-      time_resolution = zoo.i.time$resolution
+      NA_count = apply(
+        X = zoo.i.data,
+        MARGIN = 2,
+        FUN = function(x) sum(is.na(x))
+        )
     )
 
     zoo.i.details.names <- names(zoo.i.details)
-
-    zoo.i <- zoo::na.spline(
-      object = zoo.i
-    )
 
     #column stats
     zoo.i.stats <- apply(
       X = zoo.i,
       FUN = function(x){
 
-        n <- length(x)
+        x <- zoo::zoo(
+          x = x,
+          order.by = zoo.i.index
+        )
+
+        x <- zoo_vector_to_matrix(
+          x = x,
+          name = zoo.i.name
+        )
+
+        n <- nrow(x)
 
         #column stats
         x.stats <- data.frame(
@@ -158,6 +161,15 @@ tsl_stats <- function(
         #autocorrelation
         if(!is.null(lags)){
 
+          #fill NA
+          if(sum(is.na(x)) > 0){
+
+            x <- zoo::na.spline(
+              object = x
+            )
+
+          }
+
           #if irregular, resample
           x.regular <- zoo::is.regular(
             x = x,
@@ -173,6 +185,7 @@ tsl_stats <- function(
           x.ac <- stats::acf(
             x = as.numeric(x),
             lag.max = lags,
+            na.action = na.omit,
             plot = FALSE
           )$acf |>
             as.vector() |>
@@ -228,7 +241,9 @@ tsl_stats <- function(
   }
 
   #sort by variable
-  # df <- df[order(df$variable), ]
+  df <- df[order(df$variable), ]
+
+  rownames(df) <- NULL
 
   df
 

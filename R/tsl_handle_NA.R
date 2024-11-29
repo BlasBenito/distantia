@@ -104,9 +104,15 @@ tsl_handle_NA <- function(
 
   if(na_action == "omit"){
 
-    tsl <- lapply(
+    #progress bar
+    p <- progressr::progressor(along = tsl)
+
+    tsl <- future.apply::future_lapply(
       X = tsl,
-      FUN = stats::na.omit
+      FUN = function(x){
+        p()
+        stats::na.omit(x)
+      }
     )
 
   }
@@ -114,9 +120,14 @@ tsl_handle_NA <- function(
 
   if(na_action == "impute"){
 
-    tsl <- lapply(
+    #progress bar
+    p <- progressr::progressor(along = tsl)
+
+    tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
+
+        p()
 
         #check if x is integer
         x.integer <- is.integer(x)
@@ -200,7 +211,7 @@ tsl_Inf_to_NA <- function(
     min_length = 1
   )
 
-  tsl <- lapply(
+  tsl <- future.apply::future_lapply(
     X = tsl,
     FUN = function(x){
 
@@ -237,7 +248,7 @@ tsl_NaN_to_NA <- function(
     min_length = 1
   )
 
-  tsl <- lapply(
+  tsl <- future.apply::future_lapply(
     X = tsl,
     FUN = function(x){
       x[is.nan(x)] <- NA

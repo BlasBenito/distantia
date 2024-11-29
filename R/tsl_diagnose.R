@@ -314,6 +314,12 @@ tsl_diagnose <- function(
       )
     )
 
+  } else {
+
+    message(
+      "distantia::tsl_diagnose(): No issues found."
+    )
+
   }
 
   invisible()

@@ -69,15 +69,13 @@ tsl_subset <- function(
     shared_cols = TRUE
 ){
 
-  #TODO: add subset by time class
-
   utils_check_args_tsl(
     tsl = tsl,
     min_length = 1
   )
 
   #coerce zoo vectors to matrices
-  tsl <- lapply(
+  tsl <- future.apply::future_lapply(
     X = tsl,
     FUN = zoo_vector_to_matrix
   )
@@ -137,7 +135,7 @@ tsl_subset <- function(
     ) |>
       unique()
 
-    tsl <- lapply(
+    tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
 
@@ -159,7 +157,7 @@ tsl_subset <- function(
   if(numeric_cols == TRUE){
 
     #returns NA if no columns are numeric
-    tsl <- lapply(
+    tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
 
@@ -235,7 +233,7 @@ tsl_subset <- function(
 
     } else {
 
-      tsl <- lapply(
+      tsl <- future.apply::future_lapply(
         X = tsl,
         FUN = function(x){
 
@@ -304,7 +302,7 @@ tsl_subset <- function(
     } else {
 
       #subset by time
-      tsl <- lapply(
+      tsl <- future.apply::future_lapply(
         X = tsl,
         FUN = function(x){
 
