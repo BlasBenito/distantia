@@ -102,29 +102,42 @@
 <span class="r-in"><span>  cols <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A" "B"</span>
+<span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A   B </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "A" "B" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_split</span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tsl_split(tsl = tsl):</span> could not find function "tsl_split"</span>
+<span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">tsl_burst</span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A" "B"</span>
+<span class="r-in"><span><span class="fu"><a href="tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span><span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A__a   A__b   A__c   B__a   B__b   B__c </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "A__a" "A__b" "A__c" "B__a" "B__b" "B__c" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">tsl</span>, <span class="va">colnames</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c"</span>
+<span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A__a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $B</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A__b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A__c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B__a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B__b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $B__c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
