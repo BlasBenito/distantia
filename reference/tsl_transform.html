@@ -115,6 +115,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"Sweden"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rainfall"</span>, <span class="st">"temperature"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -216,6 +217,7 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>distantia::utils_prepare_time():  duplicated time indices in 'Krumbach_I':</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> - value 6.8 replaced with 6.825</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -240,18 +242,6 @@ This function also accepts a parallelization setup via future::plan(), but it mi
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_hellinger</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_count_NA(): NA cases in 'tsl': </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>            name NA_cases</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1     Achenhang        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2   Glowczyn_G2        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3     Grobern94        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 4     Jammertal        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 5 Kletnia_Stara        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 6    Krumbach_I       22</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 7         Naklo        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 8        Ostrow        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 9        W_KASP        0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Please impute, replace, or remove them with tsl_handle_NA().FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>

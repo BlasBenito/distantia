@@ -114,6 +114,7 @@ for demonstration</p>
 <span>      <span class="st">"2005-01-01"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span>,</span>
@@ -182,6 +183,7 @@ euclidean distances to keep it simple.</p>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span><span class="co">#&gt; Loading required package: foreach</span></span>
 <span><span class="co">#&gt; Loading required package: future</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">psi</span></span>
@@ -193,6 +195,7 @@ dissimilarity scores for time series in <code>tsl</code> at once.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span><span class="va">df_LS</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y       psi</span></span>
 <span><span class="co">#&gt; 1 London    Paris 0.2427342</span></span>
@@ -347,6 +350,7 @@ dissimilarity score.</p>
 <span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co">#default, lock step disabled</span></span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span> <span class="co">#default</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y      psi</span></span>
@@ -357,7 +361,8 @@ computation of the <em>psi</em> dissimilarity score.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-18-1.png" width="1800"></p>
 <div class="section level3">
 <h3 id="pitfalls">Pitfalls<a class="anchor" aria-label="anchor" href="#pitfalls"></a>
@@ -378,7 +383,8 @@ vertical line), at the maximum temperature in London (summer of
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-19-1.png" width="1800"></p>
 <p>This is not a particular issue of the algorithm implemented in
 <code>distantia</code>, but a general behavior of time warping methods.
@@ -430,11 +436,13 @@ data frame.</p>
 <code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_ls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">df_dtw</span><span class="op">$</span><span class="va">x</span>,</span>
@@ -460,6 +468,7 @@ in the same units of the variable at hand.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_ls</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y       psi</span></span>

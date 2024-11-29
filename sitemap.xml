@@ -95,6 +95,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/subset_matrix_by_rows_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_aggregate.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/tsl_burst.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_clean.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_get.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_set.html</loc></url>
@@ -112,7 +113,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_repair.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_resample.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_simulate.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/tsl_split.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_subset.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_time.html</loc></url>

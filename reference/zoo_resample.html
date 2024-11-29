@@ -229,13 +229,13 @@ This function offers three methods for time series interpolation:</p>
 <span class="r-in"><span><span class="va">x_intervals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/index.html" class="external-link">index</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x_intervals</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time differences in days</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 184.44444  36.88889 147.55556  36.88889  73.77778  36.88889 147.55556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  36.88889  36.88889 184.44444  36.88889  36.88889  36.88889  36.88889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15]  36.88889 110.66667  36.88889  36.88889  73.77778  73.77778  36.88889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22]  36.88889 110.66667 221.33333  36.88889  36.88889  36.88889 110.66667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29]  36.88889  36.88889  36.88889  36.88889  73.77778 147.55556 184.44444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  36.88889  36.88889  73.77778  36.88889  36.88889  73.77778  36.88889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43] 110.66667  73.77778  36.88889 147.55556  73.77778  36.88889 147.55556</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  73.77778 110.66667  36.88889  36.88889  36.88889  36.88889  73.77778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 221.33333  73.77778  36.88889  73.77778  36.88889  36.88889 221.33333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15]  73.77778  36.88889 147.55556  73.77778  36.88889 295.11111  73.77778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22]  36.88889  73.77778  36.88889  73.77778  36.88889  73.77778 110.66667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29]  73.77778 147.55556  36.88889  73.77778  73.77778  73.77778  36.88889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  36.88889  36.88889  36.88889 147.55556  73.77778  36.88889  36.88889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  36.88889  73.77778  73.77778  36.88889  36.88889  73.77778  36.88889</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#create regular time from the minimum of the observed intervals</span></span></span>
 <span class="r-in"><span><span class="va">new_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span></span></span>

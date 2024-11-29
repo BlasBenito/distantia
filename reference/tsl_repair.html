@@ -104,6 +104,7 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other tsl_management:
+<code><a href="tsl_burst.html">tsl_burst</a>()</code>,
 <code><a href="tsl_colnames_clean.html">tsl_colnames_clean</a>()</code>,
 <code><a href="tsl_colnames_get.html">tsl_colnames_get</a>()</code>,
 <code><a href="tsl_colnames_set.html">tsl_colnames_set</a>()</code>,
@@ -116,7 +117,6 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <code><a href="tsl_names_test.html">tsl_names_test</a>()</code>,
 <code><a href="tsl_ncol.html">tsl_ncol</a>()</code>,
 <code><a href="tsl_nrow.html">tsl_nrow</a>()</code>,
-<code><a href="tsl_split.html">tsl_split</a>()</code>,
 <code><a href="tsl_subset.html">tsl_subset</a>()</code>,
 <code><a href="tsl_time.html">tsl_time</a>()</code>,
 <code><a href="tsl_time_class_set.html">tsl_time_class_set</a>()</code>,
@@ -203,6 +203,8 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - REPAIR FAILED: no valid shared column names found across all time series.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - removed exclusive columns not shared across time series.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Value-related repairs:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------</span>
@@ -214,6 +216,7 @@ This function analyzes a tsl, and tries to fix all possible issues to make it co
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

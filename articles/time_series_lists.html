@@ -205,15 +205,34 @@ objects.</p>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_get.html">zoo_name_get</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "my_zoo"</span></span></code></pre></div>
+<p>This package comes with several functions to manipulate zoo
+objects:</p>
+<ul>
+<li>
+<code><a href="../reference/zoo_name_set.html">zoo_name_set()</a></code>, <code><a href="../reference/zoo_name_get.html">zoo_name_get()</a></code> and
+<code><a href="../reference/zoo_name_clean.html">zoo_name_clean()</a></code>: handle the attribute “name”.</li>
+<li>
+<code><a href="../reference/zoo_time.html">zoo_time()</a></code>: details of the zoo index.</li>
+<li>
+<code><a href="../reference/zoo_aggregate.html">zoo_aggregate()</a></code>: time aggregation of zoo objects.</li>
+<li>
+<code><a href="../reference/zoo_resample.html">zoo_resample()</a></code>: interpolation or extrapolation to a
+different time, or from irregular to regular time.</li>
+<li>
+<code><a href="../reference/zoo_permute.html">zoo_permute()</a></code>: restricted permutation.</li>
+<li>
+<code><a href="../reference/zoo_vector_to_matrix.html">zoo_vector_to_matrix()</a></code> and <code><a href="../reference/zoo_to_tsl.html">zoo_to_tsl()</a></code>:
+internal functions to facilitate handling zoo objects within TSLs.</li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="time-series-lists">Time Series Lists<a class="anchor" aria-label="anchor" href="#time-series-lists"></a>
+<h3 id="time-series-lists-tsl">Time Series Lists (TSL)<a class="anchor" aria-label="anchor" href="#time-series-lists-tsl"></a>
 </h3>
 <p>TSLs are <em>named</em> lists of zoo time series. The example below
 shows how to build a TSL from scratch with zoo objects. But this is not
 the most common or comfortable case, so please, visit the section
-<strong>Creating TSLs</strong> to learn how to convert your data easily
-to TSL.</p>
+<strong>Creating Time Series Lists</strong> to find out how to convert
+your data easily to TSL.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create simple tsl</span></span>
 <span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -291,7 +310,8 @@ can see it has several issues.</p>
 <span><span class="co">#&gt; Value-related repairs:</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span></code></pre></div>
+<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
 <p>This function identifies the issues raised up by
 <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and repairs them when possible.</p>
 <p>If we run <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> again, all checks should be
@@ -299,7 +319,8 @@ ok.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
 <p>From this point, our TSL is ready to go!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
@@ -309,7 +330,7 @@ ok.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="creating-time-series-lists">Creating Time Series Lists<a class="anchor" aria-label="anchor" href="#creating-time-series-lists"></a>
+<h2 id="creating-tsls">Creating TSLs<a class="anchor" aria-label="anchor" href="#creating-tsls"></a>
 </h2>
 <p>The function <code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> (with the alias
 <code><a href="../reference/tsl_initialize.html">tsl_init()</a></code>) is designed to help transform several data
@@ -338,6 +359,7 @@ dates, and three numeric columns with environmental observations.</p>
 <span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="co">#even shorter!</span></span>
 <span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
@@ -345,6 +367,7 @@ dates, and three numeric columns with environmental observations.</p>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl  <span class="op">=</span> <span class="va">tsl</span></span>
@@ -385,6 +408,7 @@ separate columns.</p>
 <span>  x <span class="op">=</span> <span class="va">evi_wide</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
@@ -444,6 +468,7 @@ the zoo index is a sequence of integers.</p>
 <span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
@@ -457,20 +482,52 @@ the zoo index is a sequence of integers.</p>
 <span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-25-1.png" width="1500"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-25-1.png" width="1500">
+## The TSL Toolset</p>
+<p>All functions in <code>distantia</code> to handle TSLs are named
+<code>tsl_...()</code>. Several of these functions are designed to
+explore and better understand your TSLs, while others are designed to
+manipulate and transform them to facilitate dissimilarity analyses.</p>
 </div>
+<div class="section level3">
+<h3 id="parallelization-setup">Parallelization Setup<a class="anchor" aria-label="anchor" href="#parallelization-setup"></a>
+</h3>
+<p>All TSL functions have something in common: <strong>they are a bunch
+of <code>lapply</code> in a trench coat</strong>. Most use a
+parallelized version of <code>lapply</code> from the
+<code>future.apply</code> package,
+<code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>, and a few combine
+<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with <code>doFuture::</code>%dofuture%`
+in parallelized loops.</p>
+<p>As such, they all support a parallelization backend provided by the
+<code>future</code> package, as shown below.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://parallelly.futureverse.org" class="external-link">parallelly</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span>
+<span>  workers <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
+<span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
+<p>They also support progress bars via the <a href="https://progressr.futureverse.org/" class="external-link"><code>progressr</code></a>
+package. However, this option, commented in the code above, does not
+work in Rmarkdown.</p>
 </div>
-<div class="section level2">
-<h2 id="exploring-time-series-lists">Exploring Time Series Lists<a class="anchor" aria-label="anchor" href="#exploring-time-series-lists"></a>
-</h2>
+<div class="section level3">
+<h3 id="explore-tsls">Explore TSLs<a class="anchor" aria-label="anchor" href="#explore-tsls"></a>
+</h3>
 <p>This section showcases the tools available in <code>distantia</code>
 to extract details from our Time Series Lists. But first, let’s create a
 simulated TSL.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  rows <span class="op">=</span> <span class="fl">1000</span>,</span>
@@ -478,14 +535,12 @@ simulated TSL.</p>
 <span>  na_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  irregular <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: foreach</span></span>
-<span><span class="co">#&gt; Loading required package: future</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-26-1.png" width="1500"></p>
-<p>The most general ones are focused on simple things such as names and
-dimensions.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-27-1.png" width="1500"></p>
+<p>The most general tools in this section are focused on simple things
+such as TSL names and dimensions.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#time series names</span></span>
 <span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   A   B   C   D </span></span>
@@ -532,109 +587,262 @@ dimensions.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $D</span></span>
 <span><span class="co">#&gt; [1] 755</span></span></code></pre></div>
-<p>The function <code><a href="../reference/tsl_time.html">tsl_time()</a></code> generates a data frame with key
-details about the time in each time series. This is particularly useful
-when the time series are irregular.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<p>The function <code><a href="../reference/tsl_time.html">tsl_time()</a></code> analyzes the time features of
+all time series in a TSL and generates a data frame.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   name rows class units   length resolution      begin        end     keywords</span></span>
 <span><span class="co">#&gt; 1    A  895  Date  days 3624.449   4.054194 2010-01-15 2019-12-18 years, q....</span></span>
 <span><span class="co">#&gt; 2    B  828  Date  days 3646.485   4.409293 2010-01-02 2019-12-27 decades,....</span></span>
 <span><span class="co">#&gt; 3    C  948  Date  days 3638.513   3.842147 2010-01-05 2019-12-23 years, q....</span></span>
 <span><span class="co">#&gt; 4    D  755  Date  days 3643.532   4.832271 2010-01-04 2019-12-27 years, q....</span></span></code></pre></div>
-<p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code> provides a summary of the time
-series stats.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_time</span></span>
+<span><span class="co">#&gt; function (tsl = NULL, keywords = c("resample", "aggregate")) </span></span>
+<span><span class="co">#&gt; {</span></span>
+<span><span class="co">#&gt;     utils_check_args_tsl(tsl = tsl, min_length = 1)</span></span>
+<span><span class="co">#&gt;     time_list &lt;- lapply(X = tsl, FUN = zoo_time, keywords = keywords)</span></span>
+<span><span class="co">#&gt;     out &lt;- do.call(what = "rbind", args = time_list)</span></span>
+<span><span class="co">#&gt;     rownames(out) &lt;- NULL</span></span>
+<span><span class="co">#&gt;     out</span></span>
+<span><span class="co">#&gt; }</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5563fcab8740&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: namespace:distantia&gt;</span></span></code></pre></div>
+<p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code> focuses on the data values
+instead to provides a summary of their stats by time series and
+variable.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
-<span>  lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="co">#temporal autocorrelation lags</span></span>
+<span>  lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span> <span class="co">#temporal autocorrelation lags</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_stats</span></span>
-<span><span class="co">#&gt;    name variable rows colums time_units time_begin   time_end time_length</span></span>
-<span><span class="co">#&gt; 1     A        a  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
-<span><span class="co">#&gt; 2     A        b  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
-<span><span class="co">#&gt; 3     A        c  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
-<span><span class="co">#&gt; 4     A        d  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
-<span><span class="co">#&gt; 5     A        e  895      5       days 2010-01-15 2019-12-18    3624.449</span></span>
-<span><span class="co">#&gt; 6     B        a  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
-<span><span class="co">#&gt; 7     B        b  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
-<span><span class="co">#&gt; 8     B        c  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
-<span><span class="co">#&gt; 9     B        d  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
-<span><span class="co">#&gt; 10    B        e  828      5       days 2010-01-02 2019-12-27    3646.485</span></span>
-<span><span class="co">#&gt; 11    C        a  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
-<span><span class="co">#&gt; 12    C        b  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
-<span><span class="co">#&gt; 13    C        c  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
-<span><span class="co">#&gt; 14    C        d  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
-<span><span class="co">#&gt; 15    C        e  948      5       days 2010-01-05 2019-12-23    3638.513</span></span>
-<span><span class="co">#&gt; 16    D        a  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
-<span><span class="co">#&gt; 17    D        b  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
-<span><span class="co">#&gt; 18    D        c  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
-<span><span class="co">#&gt; 19    D        d  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
-<span><span class="co">#&gt; 20    D        e  755      5       days 2010-01-04 2019-12-27    3643.532</span></span>
-<span><span class="co">#&gt;    time_resolution        min        q1    median        q3       max      mean</span></span>
-<span><span class="co">#&gt; 1         4.054194 0.09800680 0.2865991 0.3860854 0.5362996 0.7674207 0.4054364</span></span>
-<span><span class="co">#&gt; 2         4.054194 0.18276448 0.4154632 0.5385707 0.7195362 0.9493957 0.5577836</span></span>
-<span><span class="co">#&gt; 3         4.054194 0.27818993 0.3897020 0.5314049 0.6073242 0.6982036 0.5007989</span></span>
-<span><span class="co">#&gt; 4         4.054194 0.09104849 0.2016606 0.3690569 0.5891050 0.8119424 0.3984365</span></span>
-<span><span class="co">#&gt; 5         4.054194 0.09011920 0.4458402 0.5398291 0.6695812 0.8667772 0.5433025</span></span>
-<span><span class="co">#&gt; 6         4.409293 0.13872269 0.3011110 0.3960141 0.4948026 0.6487662 0.3942658</span></span>
-<span><span class="co">#&gt; 7         4.409293 0.17210765 0.3928576 0.5493011 0.6733630 0.8386715 0.5336470</span></span>
-<span><span class="co">#&gt; 8         4.409293 0.20903477 0.3350768 0.5126195 0.5814762 0.6830350 0.4620552</span></span>
-<span><span class="co">#&gt; 9         4.409293 0.14081870 0.2189538 0.3759116 0.5732191 0.7702173 0.3988605</span></span>
-<span><span class="co">#&gt; 10        4.409293 0.14337879 0.4175946 0.4852792 0.6027239 0.7738121 0.5033805</span></span>
-<span><span class="co">#&gt; 11        3.842147 0.26809253 0.4099058 0.4642859 0.5038189 0.6624000 0.4597331</span></span>
-<span><span class="co">#&gt; 12        3.842147 0.18745969 0.4236590 0.5205625 0.5923407 0.8933747 0.5150940</span></span>
-<span><span class="co">#&gt; 13        3.842147 0.23959900 0.3578305 0.5288750 0.6091902 0.7548251 0.4965255</span></span>
-<span><span class="co">#&gt; 14        3.842147 0.14189279 0.3077307 0.4017208 0.4846262 0.6477854 0.3972652</span></span>
-<span><span class="co">#&gt; 15        3.842147 0.20399463 0.3981160 0.4905218 0.5986905 0.7625843 0.4952336</span></span>
-<span><span class="co">#&gt; 16        4.832271 0.10229087 0.3021580 0.3835108 0.4395235 0.6986380 0.3777097</span></span>
-<span><span class="co">#&gt; 17        4.832271 0.27306583 0.4266517 0.4890610 0.5416712 0.6738263 0.4812658</span></span>
-<span><span class="co">#&gt; 18        4.832271 0.26436389 0.3776546 0.4245795 0.5307587 0.7708494 0.4597975</span></span>
-<span><span class="co">#&gt; 19        4.832271 0.07457297 0.2111376 0.3644885 0.5397931 0.7086870 0.3779138</span></span>
-<span><span class="co">#&gt; 20        4.832271 0.08108168 0.3166727 0.3929367 0.5606692 0.7388785 0.4220499</span></span>
-<span><span class="co">#&gt;            sd     range  iq_range    skewness    kurtosis  ac_lag_1  ac_lag_2</span></span>
-<span><span class="co">#&gt; 1  0.15236468 0.6694139 0.2497005  0.14352174 -0.94630379 0.9911252 0.9810466</span></span>
-<span><span class="co">#&gt; 2  0.18805775 0.7666312 0.3040730  0.02792404 -1.00789294 0.9952306 0.9892891</span></span>
-<span><span class="co">#&gt; 3  0.11857923 0.4200137 0.2176221 -0.09012687 -1.47256461 0.9964848 0.9926413</span></span>
-<span><span class="co">#&gt; 4  0.20906235 0.7208939 0.3874444  0.34300217 -1.25700478 0.9966661 0.9930170</span></span>
-<span><span class="co">#&gt; 5  0.15539786 0.7766579 0.2237410 -0.10027682 -0.49221799 0.9925278 0.9829107</span></span>
-<span><span class="co">#&gt; 6  0.12077357 0.5100435 0.1936916 -0.03433897 -0.91389241 0.9887647 0.9763167</span></span>
-<span><span class="co">#&gt; 7  0.16640304 0.6665638 0.2805054 -0.19968777 -1.07938553 0.9958404 0.9900759</span></span>
-<span><span class="co">#&gt; 8  0.13369768 0.4740003 0.2463994 -0.23628693 -1.45487548 0.9972523 0.9942886</span></span>
-<span><span class="co">#&gt; 9  0.18838087 0.6293986 0.3542652  0.29612768 -1.41078992 0.9972801 0.9943335</span></span>
-<span><span class="co">#&gt; 10 0.12279608 0.6304333 0.1851293  0.04018844 -0.60685828 0.9913450 0.9800389</span></span>
-<span><span class="co">#&gt; 11 0.07039953 0.3943075 0.0939131  0.02217160 -0.08769490 0.9906636 0.9789024</span></span>
-<span><span class="co">#&gt; 12 0.14010720 0.7059150 0.1686817  0.19771030 -0.30649906 0.9957370 0.9900622</span></span>
-<span><span class="co">#&gt; 13 0.13858124 0.5152261 0.2513597 -0.09889346 -1.30171532 0.9967171 0.9932459</span></span>
-<span><span class="co">#&gt; 14 0.11152485 0.5058926 0.1768955  0.02263948 -0.77721549 0.9956457 0.9899241</span></span>
-<span><span class="co">#&gt; 15 0.12917222 0.5585897 0.2005745  0.14340698 -0.83560081 0.9960085 0.9913516</span></span>
-<span><span class="co">#&gt; 16 0.11104748 0.5963471 0.1373655  0.33023359  0.59329678 0.9828077 0.9647279</span></span>
-<span><span class="co">#&gt; 17 0.08822126 0.4007605 0.1150196 -0.41235842 -0.30275440 0.9940935 0.9872402</span></span>
-<span><span class="co">#&gt; 18 0.11494718 0.5064855 0.1531041  0.87056341 -0.02920572 0.9944061 0.9883983</span></span>
-<span><span class="co">#&gt; 19 0.17777429 0.6341141 0.3286555  0.15560204 -1.35502463 0.9944840 0.9880477</span></span>
-<span><span class="co">#&gt; 20 0.15424678 0.6577968 0.2439965  0.07715143 -0.85372856 0.9952680 0.9895965</span></span>
-<span><span class="co">#&gt;     ac_lag_3</span></span>
-<span><span class="co">#&gt; 1  0.9707984</span></span>
-<span><span class="co">#&gt; 2  0.9829903</span></span>
-<span><span class="co">#&gt; 3  0.9885648</span></span>
-<span><span class="co">#&gt; 4  0.9892725</span></span>
-<span><span class="co">#&gt; 5  0.9731579</span></span>
-<span><span class="co">#&gt; 6  0.9635783</span></span>
-<span><span class="co">#&gt; 7  0.9837511</span></span>
-<span><span class="co">#&gt; 8  0.9912356</span></span>
-<span><span class="co">#&gt; 9  0.9912557</span></span>
-<span><span class="co">#&gt; 10 0.9679993</span></span>
-<span><span class="co">#&gt; 11 0.9675808</span></span>
-<span><span class="co">#&gt; 12 0.9836375</span></span>
-<span><span class="co">#&gt; 13 0.9895650</span></span>
-<span><span class="co">#&gt; 14 0.9837353</span></span>
-<span><span class="co">#&gt; 15 0.9863293</span></span>
-<span><span class="co">#&gt; 16 0.9472117</span></span>
-<span><span class="co">#&gt; 17 0.9805008</span></span>
-<span><span class="co">#&gt; 18 0.9824449</span></span>
-<span><span class="co">#&gt; 19 0.9816857</span></span>
-<span><span class="co">#&gt; 20 0.9835759</span></span></code></pre></div>
+<span><span class="co">#&gt;    name variable NA_count        min        q1    median        q3       max</span></span>
+<span><span class="co">#&gt; 1     A        a       95 0.09800680 0.2854132 0.3849914 0.5370719 0.7674207</span></span>
+<span><span class="co">#&gt; 2     B        a       79 0.13872269 0.3007013 0.3942495 0.4940126 0.6487662</span></span>
+<span><span class="co">#&gt; 3     C        a      109 0.27719376 0.4101711 0.4665759 0.5036950 0.6624000</span></span>
+<span><span class="co">#&gt; 4     D        a       84 0.10229087 0.3040870 0.3835407 0.4393233 0.6986380</span></span>
+<span><span class="co">#&gt; 5     A        b       92 0.18770587 0.4184237 0.5425625 0.7183262 0.9493957</span></span>
+<span><span class="co">#&gt; 6     B        b       91 0.17210765 0.3897937 0.5482020 0.6652081 0.8337273</span></span>
+<span><span class="co">#&gt; 7     C        b       82 0.18745969 0.4215132 0.5207325 0.5916581 0.8933747</span></span>
+<span><span class="co">#&gt; 8     D        b       74 0.27306583 0.4311374 0.4926373 0.5442130 0.6738263</span></span>
+<span><span class="co">#&gt; 9     A        c       86 0.27818993 0.3897210 0.5338184 0.6072574 0.6982036</span></span>
+<span><span class="co">#&gt; 10    B        c       72 0.20903477 0.3370288 0.5106152 0.5814762 0.6790678</span></span>
+<span><span class="co">#&gt; 11    C        c       84 0.24096347 0.3557717 0.5255553 0.6063718 0.7548251</span></span>
+<span><span class="co">#&gt; 12    D        c       86 0.26436389 0.3780786 0.4232056 0.5317723 0.7708494</span></span>
+<span><span class="co">#&gt; 13    A        d       74 0.09104849 0.2030033 0.3816940 0.5920768 0.8119424</span></span>
+<span><span class="co">#&gt; 14    B        d       81 0.14081870 0.2190328 0.3864535 0.5775882 0.7702173</span></span>
+<span><span class="co">#&gt; 15    C        d       93 0.14189279 0.3069329 0.3949073 0.4852792 0.6477854</span></span>
+<span><span class="co">#&gt; 16    D        d       58 0.07457297 0.2129388 0.3626525 0.5392032 0.7086870</span></span>
+<span><span class="co">#&gt; 17    A        e      100 0.09011920 0.4445964 0.5367143 0.6687842 0.8646269</span></span>
+<span><span class="co">#&gt; 18    B        e       91 0.15213822 0.4179866 0.4870679 0.6072825 0.7692504</span></span>
+<span><span class="co">#&gt; 19    C        e      106 0.20399463 0.3968680 0.4878493 0.5956665 0.7596875</span></span>
+<span><span class="co">#&gt; 20    D        e       75 0.08108168 0.3135596 0.3926041 0.5660621 0.7388785</span></span>
+<span><span class="co">#&gt;         mean         sd     range   iq_range     skewness   kurtosis  ac_lag_1</span></span>
+<span><span class="co">#&gt; 1  0.4044377 0.15283312 0.6694139 0.25165869  0.135796703 -1.1614189 0.9923180</span></span>
+<span><span class="co">#&gt; 2  0.3928407 0.12114009 0.5100435 0.19331131 -0.053857813 -1.1259414 0.9907480</span></span>
+<span><span class="co">#&gt; 3  0.4597313 0.07042273 0.3852063 0.09352395  0.005461071 -0.4426902 0.9925611</span></span>
+<span><span class="co">#&gt; 4  0.3795733 0.11119890 0.5963471 0.13523637  0.300669286  0.2207331 0.9857942</span></span>
+<span><span class="co">#&gt; 5  0.5589036 0.18735525 0.7616898 0.29990253  0.009134059 -1.2069282 0.9956180</span></span>
+<span><span class="co">#&gt; 6  0.5299596 0.16545720 0.6616196 0.27541447 -0.175211756 -1.2978824 0.9963093</span></span>
+<span><span class="co">#&gt; 7  0.5136854 0.14010779 0.7059150 0.17014492  0.169843739 -0.5512491 0.9962088</span></span>
+<span><span class="co">#&gt; 8  0.4833612 0.08858408 0.4007605 0.11307562 -0.404070295 -0.5451592 0.9947963</span></span>
+<span><span class="co">#&gt; 9  0.5011489 0.11874399 0.4200137 0.21753637 -0.089411492 -1.6131048 0.9967500</span></span>
+<span><span class="co">#&gt; 10 0.4623944 0.13293121 0.4700330 0.24444742 -0.216507414 -1.5854223 0.9975072</span></span>
+<span><span class="co">#&gt; 11 0.4942972 0.13852011 0.5138616 0.25060008 -0.068798985 -1.4743774 0.9969533</span></span>
+<span><span class="co">#&gt; 12 0.4593613 0.11521512 0.5064855 0.15369375  0.793200483 -0.3362831 0.9952735</span></span>
+<span><span class="co">#&gt; 13 0.4019948 0.20923281 0.7208939 0.38907341  0.294977793 -1.4117867 0.9971173</span></span>
+<span><span class="co">#&gt; 14 0.4008981 0.18935485 0.6293986 0.35855547  0.248743033 -1.5865958 0.9975460</span></span>
+<span><span class="co">#&gt; 15 0.3961837 0.11144364 0.5058926 0.17834624  0.031279206 -0.9949715 0.9961713</span></span>
+<span><span class="co">#&gt; 16 0.3773762 0.17764114 0.6341141 0.32626441  0.155830203 -1.4716906 0.9955135</span></span>
+<span><span class="co">#&gt; 17 0.5404382 0.15653877 0.7745077 0.22418779 -0.086928464 -0.7879823 0.9936674</span></span>
+<span><span class="co">#&gt; 18 0.5047805 0.12378891 0.6171122 0.18929582  0.023233593 -0.9391389 0.9928874</span></span>
+<span><span class="co">#&gt; 19 0.4924585 0.12809646 0.5556929 0.19879847  0.138175689 -1.0669619 0.9964616</span></span>
+<span><span class="co">#&gt; 20 0.4213054 0.15606866 0.6577968 0.25250251  0.064335980 -1.0802679 0.9962414</span></span>
+<span><span class="co">#&gt;     ac_lag_2</span></span>
+<span><span class="co">#&gt; 1  0.9820548</span></span>
+<span><span class="co">#&gt; 2  0.9782573</span></span>
+<span><span class="co">#&gt; 3  0.9802158</span></span>
+<span><span class="co">#&gt; 4  0.9673955</span></span>
+<span><span class="co">#&gt; 5  0.9896085</span></span>
+<span><span class="co">#&gt; 6  0.9906097</span></span>
+<span><span class="co">#&gt; 7  0.9901845</span></span>
+<span><span class="co">#&gt; 8  0.9873492</span></span>
+<span><span class="co">#&gt; 9  0.9928838</span></span>
+<span><span class="co">#&gt; 10 0.9946141</span></span>
+<span><span class="co">#&gt; 11 0.9933415</span></span>
+<span><span class="co">#&gt; 12 0.9891781</span></span>
+<span><span class="co">#&gt; 13 0.9934534</span></span>
+<span><span class="co">#&gt; 14 0.9946784</span></span>
+<span><span class="co">#&gt; 15 0.9903574</span></span>
+<span><span class="co">#&gt; 16 0.9894083</span></span>
+<span><span class="co">#&gt; 17 0.9834178</span></span>
+<span><span class="co">#&gt; 18 0.9810267</span></span>
+<span><span class="co">#&gt; 19 0.9917753</span></span>
+<span><span class="co">#&gt; 20 0.9906243</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="handle-na-cases">Handle NA Cases<a class="anchor" aria-label="anchor" href="#handle-na-cases"></a>
+</h3>
+<p>Dissimilarity analyses with <code>distantia</code>, because they
+designed with computational efficiency in mind, <strong>do not support
+NA cases</strong>.</p>
+<p>There are two alternate workflows to handle NA data in time series
+list.</p>
+<p>The first uses <code><a href="../reference/tsl_count_NA.html">tsl_count_NA()</a></code> and
+<code><a href="../reference/tsl_handle_NA.html">tsl_handle_NA()</a></code>. The former converts Inf and NaN to NA and
+counts NA cases in each time series, while the latter either omits or
+imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" class="external-link">zoo::na.approx()</a></code>.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tsl_count_NA.html">tsl_count_NA</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] 447</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] 414</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] 474</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] 377</span></span>
+<span></span>
+<span><span class="va">tsl_notNA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_handle_NA.html">tsl_handle_NA</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  na_action <span class="op">=</span> <span class="st">"impute"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_count_NA.html">tsl_count_NA</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_notNA</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>The second workflow is more general because it can address other
+potential issues. It involves using <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and
+<code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#diagnose issues with NA values</span></span>
+<span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Value-related issues:</span></span>
+<span><span class="co">#&gt; -------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span></span>
+<span></span>
+<span><span class="co">#impute NA cases</span></span>
+<span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_repair.html">tsl_repair</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Value-related repairs:</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
+<span></span>
+<span><span class="co">#re-diagnose to check result</span></span>
+<span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
+</h3>
+<p>The function <code><a href="../reference/tsl_subset.html">tsl_subset()</a></code> helps focus on particular
+<em>regions</em> of a time series list. Additionally, this function
+returns by default the numeric columns that are shared across all time
+series in a TSL.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#check details</span></span>
+<span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   A   B   C   D </span></span>
+<span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
+<span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;   name      begin        end</span></span>
+<span><span class="co">#&gt; 1    A 2010-01-15 2019-12-18</span></span>
+<span><span class="co">#&gt; 2    B 2010-01-02 2019-12-27</span></span>
+<span><span class="co">#&gt; 3    C 2010-01-05 2019-12-23</span></span>
+<span><span class="co">#&gt; 4    D 2010-01-04 2019-12-27</span></span>
+<span></span>
+<span><span class="co">#subset</span></span>
+<span><span class="va">tsl_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,</span>
+<span>  colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>,</span>
+<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2014-01-01"</span>, <span class="st">"2018-01-01"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#check details of new tsl</span></span>
+<span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   A   C   D </span></span>
+<span><span class="co">#&gt; "A" "C" "D"</span></span>
+<span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "a" "b"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] "a" "b"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] "a" "b"</span></span>
+<span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;   name      begin        end</span></span>
+<span><span class="co">#&gt; 1    A 2014-01-02 2017-12-31</span></span>
+<span><span class="co">#&gt; 2    C 2014-01-10 2017-12-30</span></span>
+<span><span class="co">#&gt; 3    D 2014-01-08 2017-12-28</span></span>
+<span></span>
+<span><span class="co">#plotting the new tsl</span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-34-1.png" width="1500"></p>
+<p>The function <code><a href="../reference/tsl_burst.html">tsl_burst()</a></code> transforms a multivariate TSL
+into a univariate TSL by creating a new zoo object from each column of
+the original zoo objects. This function helps apply dissimilarity
+analysis between individual variables in multivariate time series.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_univariate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_burst.html">tsl_burst</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#check new names and colnames</span></span>
+<span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   A   B   C   D </span></span>
+<span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
+<span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $A</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $B</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $D</span></span>
+<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
+<span></span>
+<span><span class="co">#plot new tsl</span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_univariate</span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-35-1.png" width="1500"></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
