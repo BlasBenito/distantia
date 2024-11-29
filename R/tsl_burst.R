@@ -20,22 +20,21 @@
 #'   cols = 3
 #' )
 #'
-#' names(tsl)
+#' tsl_names_get(tsl)
+#' tsl_colnames_get(tsl)
 #'
 #' if(interactive()){
-#'   tsl_plot(tsl = tsl)
+#'   tsl_plot(tsl)
 #' }
 #'
-#' tsl <- tsl_split(tsl = tsl)
+#' tsl <- tsl_burst(tsl)
 #'
-#' names(tsl)
+#' tsl_names_get(tsl)
+#' tsl_colnames_get(tsl)
 #'
 #' if(interactive()){
-#'   tsl_plot(tsl = tsl)
+#'   tsl_plot(tsl)
 #' }
-#'
-#' lapply(tsl, colnames)
-#'
 #' @family tsl_management
 tsl_burst <- function(
     tsl = NULL,

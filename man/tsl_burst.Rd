@@ -28,21 +28,21 @@ tsl <- tsl_simulate(
   cols = 3
 )
 
-names(tsl)
+tsl_names_get(tsl)
 
 if(interactive()){
   tsl_plot(tsl = tsl)
 }
 
-tsl <- tsl_split(tsl = tsl)
+tsl <- tsl_burst(tsl = tsl)
 
-names(tsl)
+tsl_names_get(tsl)
 
 if(interactive()){
   tsl_plot(tsl = tsl)
 }
 
-lapply(tsl, colnames)
+tsl_colnames_get(tsl = tsl)
 
 }
 \seealso{
