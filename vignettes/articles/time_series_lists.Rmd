@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   eval = TRUE,
   collapse = TRUE,
   comment = "#>",
-  dpi = 300,
+  dpi = 150,
   fig.show = 'hold',
   fig.width = 5
 )
@@ -39,10 +39,10 @@ Other advantages of using zoo objects include a seamless intergration with base 
 
 Let's take a look at a little zoo object.
 
-```{r, fig.width=5, fig.height=3}
+```{r, fig.height=2.5}
 library(distantia)
 
-z <- zoo_simulate(
+z <- distantia::zoo_simulate(
   name = "my_zoo",
   cols = 3,
   rows = 10,
@@ -133,11 +133,11 @@ TSLs are *named* lists of zoo time series. The example below shows how to build 
 ```{r}
 #create simple tsl
 my_tsl <- list(
-  A = zoo_simulate(
+  A = distantia::zoo_simulate(
     cols = 4,
     na_fraction = 0.2
   ),
-  B = zoo_simulate()
+  B = distantia::zoo_simulate()
 )
 
 names(my_tsl)
@@ -186,9 +186,10 @@ distantia::tsl_diagnose(
 
 From this point, our TSL is ready to go!
 
-```{r}
+```{r, fig.height=2.5}
 distantia::tsl_plot(
-  tsl = my_tsl
+  tsl = my_tsl,
+  guide = FALSE
 )
 ```
 
@@ -205,28 +206,28 @@ head(fagus_dynamics)
 ```
 Transforming this data frame to TSL is quite straightforward:
 
-```{r}
-tsl <- tsl_initialize(
+```{r, fig.height=4}
+tsl <- distantia::tsl_initialize(
   x = fagus_dynamics,
   name_column = "name",
   time_column = "time"
 )
 
 #even shorter!
-tsl <- tsl_init(
+tsl <- distantia::tsl_init(
   x = fagus_dynamics,
   name = "name",
   time = "time"
 )
 
-tsl_plot(
+distantia::tsl_plot(
   tsl  = tsl
 )
 ```
 Once manipulated and/or analyzed, a TSL can be converted back to data frame with `tsl_to_df()`.
 
 ```{r}
-df <- tsl_to_df(tsl = tsl)
+df <- distantia::tsl_to_df(tsl = tsl)
 head(df)
 ```
 
@@ -253,35 +254,36 @@ head(evi_wide)
 ```
 When no `name_column` is provided, `tsl_initialize()` assumes that the time series are coded as separate columns.
 
-```{r}
-tsl <- tsl_initialize(
+```{r, fig.height=3}
+tsl <- distantia::tsl_initialize(
   x = evi_wide,
   time_column = "time"
   )
 
 tsl_plot(
-  tsl = tsl
+  tsl = tsl,
+  guide = FALSE
 )
 ```
 In this case, the column names of the univariate zoo objects will have the same name ("x").
 
 ```{r}
-tsl_colnames_get(tsl = tsl)
+distantia::tsl_colnames_get(tsl = tsl)
 ```
 This name can be reset as needed with `tsl_colnames_set()`.
 
 ```{r}
-tsl <- tsl_colnames_set(
+tsl <- distantia::tsl_colnames_set(
   tsl = tsl,
   names = "evi"
 )
 
-tsl_colnames_get(tsl = tsl)
+distantia::tsl_colnames_get(tsl = tsl)
 ```
 This TSL can be converted to data frame, but this time the result comes in long format.
 
 ```{r}
-df <- tsl_to_df(tsl = tsl)
+df <- distantia::tsl_to_df(tsl = tsl)
 head(df)
 ```
 
@@ -289,33 +291,36 @@ head(df)
 
 A list of numeric vectors can also be converted to TSL. In this case, the zoo index is a sequence of integers.
 
-```{r, fig.height=3.5}
-tsl <- tsl_initialize(
+```{r, fig.height=2.5}
+tsl <- distantia::tsl_initialize(
   x = list(
     a = runif(10),
     b = runif(10)
   )
 )
 
-tsl_plot(
-  tsl = tsl
+distantia::tsl_plot(
+  tsl = tsl,
+  guide = FALSE
 )
 ```
 
 The same thing can be done with matrices as well.
 
-```{r, fig.height=3.5}
-tsl <- tsl_initialize(
+```{r, fig.height=2.5}
+tsl <- distantia::tsl_initialize(
   x = list(
     a = matrix(data = runif(100), ncol = 2, nrow = 50),
     b = matrix(data = runif(100), ncol = 2, nrow = 50)
   )
 )
 
-tsl_plot(
-  tsl = tsl
+distantia::tsl_plot(
+  tsl = tsl,
+  guide = FALSE
 )
 ```
+
 ## The TSL Toolset
 
 All functions in `distantia` to handle TSLs are named `tsl_...()`. Several of these functions are designed to explore and better understand your TSLs, while others are designed to manipulate and transform them to facilitate dissimilarity analyses.
@@ -345,8 +350,8 @@ They also support progress bars via the [`progressr`](https://progressr.futureve
 
 This section showcases the tools available in `distantia` to extract details from our Time Series Lists. But first, let's create a simulated TSL.
 
-```{r, fig.height=6}
-tsl <- tsl_simulate(
+```{r, fig.height=4}
+tsl <- distantia::tsl_simulate(
   n = 4,
   rows = 1000,
   seasons = 10,
@@ -354,29 +359,32 @@ tsl <- tsl_simulate(
   irregular = TRUE
 )
 
-tsl_plot(tsl = tsl)
+tsl_plot(
+  tsl = tsl,
+  guide = FALSE
+  )
 ```
 
 The most general tools in this section are focused on simple things such as TSL names and dimensions.
 
 ```{r}
 #time series names
-tsl_names_get(tsl = tsl)
+distantia::tsl_names_get(tsl = tsl)
 
 #time series column names
-tsl_colnames_get(tsl = tsl)
+distantia::tsl_colnames_get(tsl = tsl)
 
 #number of columns
-tsl_ncol(tsl = tsl)
+distantia::tsl_ncol(tsl = tsl)
 
 #number of roes
-tsl_nrow(tsl = tsl)
+distantia::tsl_nrow(tsl = tsl)
 ```
 
 The function `tsl_time()` analyzes the time features of all time series in a TSL and generates a data frame.
 
 ```{r}
-tsl_time(tsl = tsl)
+distantia::tsl_time(tsl = tsl)
 ```
 ```{r}
 tsl_time
@@ -386,9 +394,9 @@ tsl_time
 The function `tsl_stats()` focuses on the data values instead to provides a summary of their stats by time series and variable.
 
 ```{r}
-df_stats <- tsl_stats(
+df_stats <- distantia::tsl_stats(
   tsl = tsl, 
-  lags = 1:2 #temporal autocorrelation lags
+  lags = 1 #temporal autocorrelation lag
   )
 
 df_stats
@@ -402,69 +410,137 @@ There are two alternate workflows to handle NA data in time series list.
 The first uses `tsl_count_NA()` and `tsl_handle_NA()`. The former converts Inf and NaN to NA and counts NA cases in each time series, while the latter either omits or imputes NA cases via `zoo::na.approx()`.
 
 ```{r}
-tsl_count_NA(tsl = tsl) 
+#count NA
+distantia::tsl_count_NA(tsl = tsl) 
 
-tsl_notNA <- tsl_handle_NA(
+#impute NA cases
+tsl_notNA <- distantia::tsl_handle_NA(
   tsl = tsl,
   na_action = "impute"
 )
 
-tsl_count_NA(tsl = tsl_notNA) 
+#re-count
+distantia::tsl_count_NA(tsl = tsl_notNA) 
 ```
 The second workflow is more general because it can address other potential issues. It involves using `tsl_diagnose()` and `tsl_repair()`.
 
 ```{r}
 #diagnose issues with NA values
-tsl_diagnose(tsl = tsl)
+distantia::tsl_diagnose(tsl = tsl)
 
 #impute NA cases
 tsl <- tsl_repair(tsl = tsl)
 
 #re-diagnose to check result
-tsl_diagnose(tsl = tsl)
+distantia::tsl_diagnose(tsl = tsl)
 ```
 
 ### Subsetting
 
 The function `tsl_subset()` helps focus on particular *regions* of a time series list. Additionally, this function returns by default the numeric columns that are shared across all time series in a TSL.
 
-```{r, fig.height=4.5}
-#check details
-tsl_names_get(tsl = tsl)
-tsl_colnames_get(tsl = tsl)
-tsl_time(tsl = tsl)[, c("name", "begin", "end")]
+```{r, fig.height=3.5}
+distantia::tsl_names_get(tsl = tsl)
+distantia::tsl_colnames_get(tsl = tsl)
+distantia::tsl_time(tsl = tsl)[, c("name", "begin", "end")]
 
-#subset
-tsl_new <- tsl_subset(
+tsl_new <- distantia::tsl_subset(
   tsl = tsl,
   names = c("A", "C", "D"),
   colnames = c("a", "b"),
   time = c("2014-01-01", "2018-01-01")
 )
 
-#check details of new tsl
-tsl_names_get(tsl = tsl_new)
-tsl_colnames_get(tsl = tsl_new)
-tsl_time(tsl = tsl_new)[, c("name", "begin", "end")]
 
-#plotting the new tsl
-tsl_plot(tsl = tsl_new)
+distantia::tsl_names_get(tsl = tsl_new)
+distantia::tsl_colnames_get(tsl = tsl_new)
+distantia::tsl_time(tsl = tsl_new)[, c("name", "begin", "end")]
+
+distantia::tsl_plot(
+  tsl = tsl_new,
+  guide = FALSE
+  )
 ```
 
 The function `tsl_burst()` transforms a multivariate TSL into a univariate TSL by creating a new zoo object from each column of the original zoo objects. This function helps apply dissimilarity analysis between individual variables in multivariate time series.
 
 
-```{r, fig.height=5}
-tsl_univariate <- tsl_burst(
+```{r, fig.height=6}
+tsl_univariate <- distantia::tsl_burst(
   tsl = tsl_new
 )
 
-#check new names and colnames
-tsl_names_get(tsl = tsl)
-tsl_colnames_get(tsl = tsl)
+distantia::tsl_names_get(tsl = tsl_univariate)
+distantia::tsl_colnames_get(tsl = tsl_univariate)
 
-#plot new tsl
-tsl_plot(tsl = tsl_univariate)
+distantia::tsl_plot(
+  tsl = tsl_univariate,
+  guide = FALSE
+  )
+```
 
+### Data Transformations
+
+The function `tsl_transform()` applies a function `f` to transform the values of all time series in a TSL. The names of these `f` functions can be listed with `f_list()`.
+
+```{r}
+distantia::f_list()
+```
+
+Let's take a look at a few examples.
+
+#### Scaling and Centering
+
+The three time series in the dataset `fagus_dynamics` have three variables in different units, which may result in unreliable dissimilarity analyses.
+
+```{r}
+tsl <- distantia::tsl_init(
+  x = distantia::fagus_dynamics,
+  name = "name",
+  time = "time"
+)
+
+distantia::tsl_stats(
+  tsl = tsl
+)[, c("name", "variable", "mean", "sd")]
+```
+
+Applying `tsl_transform()` with `f_scale()` scales and centers each variable individually to their means are ~0, and their standard deviations are 1. 
+
+```{r}
+tsl_scaled <- distantia::tsl_transform(
+  tsl = tsl,
+  f = f_scale
+)
+
+distantia::tsl_stats(
+  tsl = tsl_scaled
+)[, c("name", "variable", "mean", "sd")]
+```
+
+But this transformation removes information that may be important in a dissimilarity analysis. For example, temperature is usually much higher in Spain when compared to Sweden, but after scaling this detail goes away.
+
+An alternative is to use a global scaling, in which each variable is scaled by its average and standard deviation across all time series.
+
+```{r}
+tsl_scaled_global <- distantia::tsl_transform(
+  tsl = tsl,
+  f = f_scale_global
+)
+
+distantia::tsl_stats(
+  tsl = tsl_scaled_global
+)[, c("name", "variable", "mean", "sd")]
+```
+
+The result of this operation preserves differences between time series, but if we convert the scaled tsl to data frame, we can see that the global mean and standard deviation of the variable "temperature" are still ~0 and 1.
+
+```{r}
+df_scaled_global <- distantia::tsl_to_df(
+  tsl = tsl_scaled_global
+)
+
+mean(df_scaled_global$temperature)
+stats::sd(df_scaled_global$temperature)
 ```
 
