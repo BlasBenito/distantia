@@ -121,7 +121,7 @@ albatross |>
   head()
 ```
 
-The `albatross` data is converted to *Time Series List* with `tsl_initialize()`, and scaled and centered with `tsl_transform()` and `f_scale`, to facilitate shape-based comparisons and variable importance analyses.
+The `albatross` data is converted to *Time Series List* with `tsl_initialize()`, and scaled and centered with `tsl_transform()` and `f_scale_local`, to facilitate shape-based comparisons and variable importance analyses.
 
 ```{r, fig.width=5, fig.height=4.5, out.width = "100%"}
 tsl <- tsl_initialize(
@@ -131,7 +131,7 @@ tsl <- tsl_initialize(
   lock_step = TRUE
 ) |> 
   tsl_transform(
-    f = f_scale
+    f = f_scale_local
   )
 
 tsl_plot(

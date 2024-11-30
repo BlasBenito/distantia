@@ -130,8 +130,8 @@ are the first 10 rows of this data frame:
 
 The `albatross` data is converted to *Time Series List* with
 `tsl_initialize()`, and scaled and centered with `tsl_transform()` and
-`f_scale`, to facilitate shape-based comparisons and variable importance
-analyses.
+`f_scale_local`, to facilitate shape-based comparisons and variable
+importance analyses.
 
 ``` r
 tsl <- tsl_initialize(
@@ -141,9 +141,8 @@ tsl <- tsl_initialize(
   lock_step = TRUE
 ) |> 
   tsl_transform(
-    f = f_scale
+    f = f_scale_local
   )
-#> distantia::tsl_diagnose(): No issues found.
 
 tsl_plot(
   tsl = tsl,
@@ -166,7 +165,6 @@ df_ls <- distantia(
   tsl = tsl,
   lock_step = TRUE
 )
-#> distantia::tsl_diagnose(): No issues found.
 
 df_ls[, c("x", "y", "psi")]
 #>      x    y      psi
@@ -203,7 +201,6 @@ or non-overlapping sampling periods.
 df_dtw <- distantia(
   tsl = tsl
 )
-#> distantia::tsl_diagnose(): No issues found.
 
 df_dtw[, c("x", "y", "psi")]
 #>      x    y      psi
@@ -222,7 +219,6 @@ alignment between a pair of time series resulting from DTW.
 distantia_plot(
   tsl = tsl[c("X132", "X153")]
 )
-#> distantia::tsl_diagnose(): No issues found.
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
@@ -249,7 +245,6 @@ df_dtw <- distantia(
   permutation = "restricted_by_row",
   block_size = 7
 )
-#> distantia::tsl_diagnose(): No issues found.
 
 df_dtw[, c("x", "y", "psi", "p_value")]
 #>      x    y      psi p_value
@@ -278,7 +273,6 @@ contribution.
 df_importance <- distantia_importance(
   tsl = tsl
 )
-#> distantia::tsl_diagnose(): No issues found.
 
 df_importance[, c("x", "y", "variable", "importance", "effect")]
 #>       x    y    variable  importance               effect
@@ -350,10 +344,16 @@ dtw_hclust$cluster_object
 #> 
 #> Cluster method   : ward.D 
 #> Number of objects: 4
+```
+
+``` r
 
 #number of clusters
 dtw_hclust$clusters
 #> [1] 2
+```
+
+``` r
 
 #clustering data frame
 #group label in column "cluster"
@@ -364,6 +364,9 @@ dtw_hclust$df
 #> 2 X134       1       0.11726523
 #> 3 X136       1       0.05276177
 #> 4 X153       2       0.00000000
+```
+
+``` r
 
 #tree plot
 par(mar=c(3,1,1,3))
