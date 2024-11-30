@@ -9,7 +9,7 @@ utils_global_scaling_params(tsl = NULL, f = NULL, ...)
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{f}{(required, function) function name. Usually, one of \code{\link[=f_center]{f_center()}}, \code{\link[=f_scale]{f_scale()}}, or \code{\link[base:scale]{base::scale()}}. Default: NULL}
+\item{f}{(required, function) function \code{\link[=f_scale_global]{f_scale_global()}}. Default: NULL}
 
 \item{...}{(optional, arguments of \code{f}) Optional arguments for the transformation function. Used only when \code{f = scale} for arguments \code{center} and \code{scale}.}
 }
@@ -17,7 +17,7 @@ utils_global_scaling_params(tsl = NULL, f = NULL, ...)
 list
 }
 \description{
-Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within \code{\link[=tsl_transform]{tsl_transform()}} when the scaling functions \code{\link[=f_center]{f_center()}}, \code{\link[=f_scale]{f_scale()}}, or \code{\link[base:scale]{base::scale()}} are used as inputs for the argument \code{f}.
+Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within \code{\link[=tsl_transform]{tsl_transform()}} when the scaling function \code{\link[=f_scale_global]{f_scale_global()}} is used as input for the argument \code{f}.
 
 Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
 }

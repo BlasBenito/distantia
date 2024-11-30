@@ -73,7 +73,7 @@ tsl <- tsl_initialize(
   time_column = "time"
 ) |>
   tsl_transform(
-    f = f_scale #see help(f_scale)
+    f = f_scale_global #see help(f_scale_global)
   )
 
 if(interactive()){

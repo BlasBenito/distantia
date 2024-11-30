@@ -491,56 +491,98 @@ Let's take a look at a few examples.
 
 #### Scaling and Centering
 
-The three time series in the dataset `fagus_dynamics` have three variables in different units, which may result in unreliable dissimilarity analyses.
+Scaling and centering multivariate time series is essential in dynamic time warping to ensure all variables contribute equally, regardless of their range or units.
 
-```{r}
+For example, the dataset `fagus_dynamics` has variables in different units, and is a good example for this topic.
+
+```{r, fig.height=3.5, message=FALSE}
 tsl <- distantia::tsl_init(
   x = distantia::fagus_dynamics,
   name = "name",
   time = "time"
 )
 
-distantia::tsl_stats(
+distantia::tsl_plot(
   tsl = tsl
-)[, c("name", "variable", "mean", "sd")]
+)
 ```
+Due to the differences in magnitude between variables, a dynamic time warping analysis will focus on `rainfall` disproportionately, biasing the results. The code below computes the overall contribution of each variable to the dissimilarity between locations to show this issue.
 
-Applying `tsl_transform()` with `f_scale()` scales and centers each variable individually to their means are ~0, and their standard deviations are 1. 
+```{r, fig.height=2.5}
+df_importance <- distantia::distantia_importance(
+  tsl = tsl
+)
 
-```{r}
-tsl_scaled <- distantia::tsl_transform(
+distantia::distantia_boxplot(
+  df = df_importance
+  )
+```
+The boxplot indicates that `rainfall` is the only variable contributing to similarity because its higher values take over when computing euclidean distances between samples.
+
+To solve this issue, the package `distantia` implements two flavors of scaling and/or centering:
+
+  - **Local**: each variable is scaled and/or centered independently by time series.
+  - **Global**: each variable is scaled and/or centering using its mean and standard deviation across all time series.
+  
+Let's see how they work.
+
+```{r, fig.height=3.5, message=FALSE}
+#local scaling
+tsl_local_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = f_scale
+  f = f_scale_local,
+  scale = TRUE, #default
+  center = TRUE #default
 )
 
-distantia::tsl_stats(
-  tsl = tsl_scaled
-)[, c("name", "variable", "mean", "sd")]
-```
-
-But this transformation removes information that may be important in a dissimilarity analysis. For example, temperature is usually much higher in Spain when compared to Sweden, but after scaling this detail goes away.
-
-An alternative is to use a global scaling, in which each variable is scaled by its average and standard deviation across all time series.
-
-```{r}
-tsl_scaled_global <- distantia::tsl_transform(
+#global scaling
+tsl_global_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = f_scale_global
+  f = f_scale_global,
+  scale = TRUE, #default
+  center = TRUE #default
 )
-
-distantia::tsl_stats(
-  tsl = tsl_scaled_global
-)[, c("name", "variable", "mean", "sd")]
 ```
 
-The result of this operation preserves differences between time series, but if we convert the scaled tsl to data frame, we can see that the global mean and standard deviation of the variable "temperature" are still ~0 and 1.
+The stats of both scalings show that the global one preserves variable offsets between locations, while in the local one all variables have a mean ~0.
 
 ```{r}
-df_scaled_global <- distantia::tsl_to_df(
-  tsl = tsl_scaled_global
+stats_cols <- c(
+  "name", 
+  "variable", 
+  "mean", 
+  "sd"
+  )
+
+#stats of local scaling
+distantia::tsl_stats(
+  tsl = tsl_local_scaling
+)[, stats_cols]
+
+#stats of global scaling
+distantia::tsl_stats(
+  tsl = tsl_global_scaling
+)[, stats_cols]
+```
+
+If we analyze the individual contribution to dissimilarity for both scalings.
+
+```{r, fig.height=2.5}
+df_local_scaling <- distantia::distantia_importance(
+  tsl = tsl_local_scaling
 )
 
-mean(df_scaled_global$temperature)
-stats::sd(df_scaled_global$temperature)
+df_global_scaling <- distantia::distantia_importance(
+  tsl = tsl_global_scaling
+)
+
+distantia::distantia_boxplot(
+  df = df_local_scaling
+  )
+
+distantia::distantia_boxplot(
+  df = df_global_scaling
+  )
 ```
+
 

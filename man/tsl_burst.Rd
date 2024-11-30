@@ -29,21 +29,20 @@ tsl <- tsl_simulate(
 )
 
 tsl_names_get(tsl)
+tsl_colnames_get(tsl)
 
 if(interactive()){
-  tsl_plot(tsl = tsl)
+  tsl_plot(tsl)
 }
 
-tsl <- tsl_burst(tsl = tsl)
+tsl <- tsl_burst(tsl)
 
 tsl_names_get(tsl)
+tsl_colnames_get(tsl)
 
 if(interactive()){
-  tsl_plot(tsl = tsl)
+  tsl_plot(tsl)
 }
-
-tsl_colnames_get(tsl = tsl)
-
 }
 \seealso{
 Other tsl_management: 

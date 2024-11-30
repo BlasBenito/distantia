@@ -524,48 +524,10 @@ f_hellinger <- function(
 
 }
 
-#' Data Transformation: Data Centering by Column
-#'
-#' @description
-#' Wraps [base::scale()] for global centering with [tsl_transform()].
-#'
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
-#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: FALSE
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate()
-#'
-#' y <- f_center(
-#'   x = x
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_center <- function(
-    x = NULL,
-    center = TRUE,
-    scale = FALSE
-){
-
-  scale(
-    x = x,
-    center = center,
-    scale = scale
-  )
-
-}
-
 #' Data Transformation: Data Centering and Scaling by Column Using Global Mean and Standard Deviation
 #'
 #' @description
-#' Wraps [base::scale()] for global centering and scaling with [tsl_transform()].
+#' Scaling and/or centering by variable using the mean and standard deviation computed across all time series. Global scaling helps dynamic time warping take variable offsets between time series into account.
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
@@ -578,7 +540,7 @@ f_center <- function(
 #' @examples
 #' x <- zoo_simulate()
 #'
-#' y <- f_scale(
+#' y <- f_scale_global(
 #'   x = x
 #' )
 #'
@@ -605,7 +567,7 @@ f_scale_global <- function(
 #' Data Transformation: Data Centering and Scaling by Column
 #'
 #' @description
-#' Wraps [base::scale()] for centering and scaling with [tsl_transform()].
+#' Scaling and/or centering by variable and time series. Local scaling helps dynamic time warping focus entirely on shape comparisons.
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
@@ -617,7 +579,7 @@ f_scale_global <- function(
 #' @examples
 #' x <- zoo_simulate()
 #'
-#' y <- f_scale(
+#' y <- f_scale_local(
 #'   x = x
 #' )
 #'
@@ -626,7 +588,7 @@ f_scale_global <- function(
 #'   zoo_plot(y)
 #' }
 #' @family tsl_transformation
-f_scale <- function(
+f_scale_local <- function(
     x = NULL,
     center = TRUE,
     scale = TRUE

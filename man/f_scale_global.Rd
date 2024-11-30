@@ -19,12 +19,12 @@ f_scale_global(x = NULL, center = TRUE, scale = TRUE, .global)
 zoo object
 }
 \description{
-Wraps \code{\link[base:scale]{base::scale()}} for global centering and scaling with \code{\link[=tsl_transform]{tsl_transform()}}.
+Scaling and/or centering by variable using the mean and standard deviation computed across all time series. Global scaling helps dynamic time warping take variable offsets between time series into account.
 }
 \examples{
 x <- zoo_simulate()
 
-y <- f_scale(
+y <- f_scale_global(
   x = x
 )
 
@@ -35,7 +35,6 @@ if(interactive()){
 }
 \seealso{
 Other tsl_transformation: 
-\code{\link{f_center}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
 \code{\link{f_hellinger}()},
@@ -44,7 +43,7 @@ Other tsl_transformation:
 \code{\link{f_percentage}()},
 \code{\link{f_proportion}()},
 \code{\link{f_rescale}()},
-\code{\link{f_scale}()},
+\code{\link{f_scale_local}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}

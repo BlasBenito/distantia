@@ -1,13 +1,13 @@
 #' Global Centering and Scaling Parameters of Time Series Lists
 #'
 #' @description
-#' Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within [tsl_transform()] when the scaling functions [f_center()], [f_scale()], or [base::scale()] are used as inputs for the argument `f`.
+#' Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within [tsl_transform()] when the scaling function [f_scale_global()] is used as input for the argument `f`.
 #'
 #' Warning: this function removes exclusive columns from the data. See function [tsl_subset()].
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param f (required, function) function name. Usually, one of [f_center()], [f_scale()], or [base::scale()]. Default: NULL
+#' @param f (required, function) function [f_scale_global()]. Default: NULL
 #' @param ... (optional, arguments of `f`) Optional arguments for the transformation function. Used only when `f = scale` for arguments `center` and `scale`.
 #'
 #' @return list

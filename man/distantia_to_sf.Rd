@@ -31,7 +31,7 @@ tsl <- tsl_initialize(
   time_column = "time"
 ) |>
   tsl_transform(
-    f = f_scale
+    f = f_scale_global
   )
 
 #example using distantia()
