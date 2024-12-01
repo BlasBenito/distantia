@@ -194,17 +194,7 @@ tsl_transform <- function(
 
   #apply centering and or scaling
   #if f has the formals "center" and "scale"
-  if(
-    all(
-      c(
-        "center",
-        "scale",
-        ".global"
-      )
-      %in%
-      names(formals(f))
-    )
-  ){
+  if(".global" %in% names(formals(f))){
 
     #remove exclusive columns
     tsl <- tsl_subset(
@@ -230,7 +220,10 @@ tsl_transform <- function(
         f(
           x = x,
           center = scaling_params$center,
-          scale = scaling_params$scale
+          scale = scaling_params$scale,
+          old_min = scaling_params$old_min,
+          old_max = scaling_params$old_max,
+          ... = ...
         )
 
       }

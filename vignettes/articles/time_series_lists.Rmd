@@ -481,7 +481,7 @@ distantia::tsl_plot(
 
 ### Data Transformations
 
-The function `tsl_transform()` applies a function `f` to transform the values of all time series in a TSL. The names of these `f` functions can be listed with `f_list()`.
+The function `tsl_transform()` applies a function `f` to transform the values of a TSL. The names of the available `f` functions can be listed with `f_list()`.
 
 ```{r}
 distantia::f_list()
@@ -489,7 +489,7 @@ distantia::f_list()
 
 Let's take a look at a few examples.
 
-#### Scaling and Centering
+#### Scaling
 
 Scaling and centering multivariate time series is essential in dynamic time warping to ensure all variables contribute equally, regardless of their range or units.
 
@@ -506,25 +506,12 @@ distantia::tsl_plot(
   tsl = tsl
 )
 ```
-Due to the differences in magnitude between variables, a dynamic time warping analysis will focus on `rainfall` disproportionately, biasing the results. The code below computes the overall contribution of each variable to the dissimilarity between locations to show this issue.
-
-```{r, fig.height=2.5}
-df_importance <- distantia::distantia_importance(
-  tsl = tsl
-)
-
-distantia::distantia_boxplot(
-  df = df_importance
-  )
-```
-The boxplot indicates that `rainfall` is the only variable contributing to similarity because its higher values take over when computing euclidean distances between samples.
+Due to the differences in magnitude between variables, a dynamic time warping analysis will focus on `rainfall` disproportionately, biasing the results. 
 
 To solve this issue, the package `distantia` implements two flavors of scaling and/or centering:
 
   - **Local**: each variable is scaled and/or centered independently by time series.
   - **Global**: each variable is scaled and/or centering using its mean and standard deviation across all time series.
-  
-Let's see how they work.
 
 ```{r, fig.height=3.5, message=FALSE}
 #local scaling
@@ -543,6 +530,7 @@ tsl_global_scaling <- distantia::tsl_transform(
   center = TRUE #default
 )
 ```
+
 
 The stats of both scalings show that the global one preserves variable offsets between locations, while in the local one all variables have a mean ~0.
 
@@ -565,24 +553,44 @@ distantia::tsl_stats(
 )[, stats_cols]
 ```
 
-If we analyze the individual contribution to dissimilarity for both scalings.
+The functions `f_rescale_local` and `f_rescale_global` work under the same principle to rescale the range of the time series variables. By default, these functions rescale all time series between 0 and 1, but the arguments `new_min` and `new_max` can receive numeric vestor to set different new ranges for each column in a time series list.
 
-```{r, fig.height=2.5}
-df_local_scaling <- distantia::distantia_importance(
-  tsl = tsl_local_scaling
+```{r}
+tsl_rescaled_local <- tsl_transform(
+  tsl = tsl,
+  f = f_rescale_local,
+  new_min = 0, #same for all variables
+  new_max = c(0, 100, 10)
 )
 
-df_global_scaling <- distantia::distantia_importance(
-  tsl = tsl_global_scaling
+tsl_rescaled_global <- tsl_transform(
+  tsl = tsl,
+  f = f_rescale_global,
+  new_min = 0,
+  new_max = c(0, 100, 10)
 )
-
-distantia::distantia_boxplot(
-  df = df_local_scaling
-  )
-
-distantia::distantia_boxplot(
-  df = df_global_scaling
-  )
 ```
+
+The stats below show the result of the rescaling for each method.
+
+```{r}
+stats_cols <- c(
+  "name", 
+  "variable", 
+  "min", 
+  "max"
+  )
+
+distantia::tsl_stats(
+  tsl = tsl_rescaled_local
+)[, stats_cols]
+
+distantia::tsl_stats(
+  tsl = tsl_rescaled_global
+)[, stats_cols]
+```
+
+
+
 
 

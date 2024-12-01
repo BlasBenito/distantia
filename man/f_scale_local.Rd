@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_scale_local}
 \alias{f_scale_local}
-\title{Data Transformation: Data Centering and Scaling by Column}
+\title{Data Transformation: Local Centering and Scaling}
 \usage{
 f_scale_local(x = NULL, center = TRUE, scale = TRUE)
 }
@@ -22,7 +22,7 @@ Scaling and/or centering by variable and time series. Local scaling helps dynami
 \examples{
 x <- zoo_simulate()
 
-y <- f_scale_local(
+y <- f_scale_global(
   x = x
 )
 
@@ -40,10 +40,8 @@ Other tsl_transformation:
 \code{\link{f_pca}()},
 \code{\link{f_percentage}()},
 \code{\link{f_proportion}()},
-\code{\link{f_rescale}()},
-\code{\link{f_scale_global}()},
+\code{\link{f_rescale_global}()},
 \code{\link{f_slope}()},
 \code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}
 }
-\concept{tsl_transformation}

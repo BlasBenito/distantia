@@ -83,58 +83,6 @@ f_smooth_window <- function(
 
 }
 
-#' @title Data Transformation: Rescaling Values of Zoo Time Series to a New Range
-#' @param x (required, zoo object) Time Series. Default: `NULL`
-#' @param new_min (optional, numeric) New minimum value. Default: `0`
-#' @param new_max (optional_numeric) New maximum value. Default: `1`
-#' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
-#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate(cols = 2)
-#'
-#' y <- f_rescale(
-#'   x = x,
-#'   new_min = 0,
-#'   new_max = 100
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_rescale <- function(
-    x = NULL,
-    new_min = 0,
-    new_max = 1,
-    old_min = NULL,
-    old_max = NULL
-){
-
-  y <- apply(
-    X = as.matrix(x),
-    MARGIN = 2,
-    FUN = utils_rescale_vector,
-    new_min = new_min,
-    new_max = new_max,
-    old_min = old_min,
-    old_max = old_max
-  )
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-  )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
-
-}
 
 
 #' Data Transformation: Principal Components of Zoo Time Series
@@ -524,84 +472,6 @@ f_hellinger <- function(
 
 }
 
-#' Data Transformation: Data Centering and Scaling by Column Using Global Mean and Standard Deviation
-#'
-#' @description
-#' Scaling and/or centering by variable using the mean and standard deviation computed across all time series. Global scaling helps dynamic time warping take variable offsets between time series into account.
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
-#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE
-#' @param .global (optional, logical) Used to trigger global scaling within [tsl_transform()].
-#'
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate()
-#'
-#' y <- f_scale_global(
-#'   x = x
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_scale_global <- function(
-    x = NULL,
-    center = TRUE,
-    scale = TRUE,
-    .global
-){
-
-  scale(
-    x = x,
-    center = center,
-    scale = scale
-  )
-
-}
-
-#' Data Transformation: Data Centering and Scaling by Column
-#'
-#' @description
-#' Scaling and/or centering by variable and time series. Local scaling helps dynamic time warping focus entirely on shape comparisons.
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
-#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE
-#'
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate()
-#'
-#' y <- f_scale_local(
-#'   x = x
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_scale_local <- function(
-    x = NULL,
-    center = TRUE,
-    scale = TRUE
-){
-
-  scale(
-    x = x,
-    center = center,
-    scale = scale
-  )
-
-}
-
 
 #' Data Transformation: Slope of Linear Regression with Time
 #'
@@ -627,7 +497,7 @@ f_scale_local <- function(
 f_slope <- function(
     x = NULL,
     ...
-    ) {
+) {
 
   if(!is.numeric(x)) {
     stop("distantia::f_slope(): argument 'x' must be a numeric vector.", call. = FALSE)
@@ -644,8 +514,8 @@ f_slope <- function(
         summary(
           stats::lm(
             formula = x ~ seq_along(x)
-            )
-          )$coefficients[2, 1]
+          )
+        )$coefficients[2, 1]
       },
       error = function(e){
         return(NA)
@@ -662,3 +532,212 @@ f_slope <- function(
   slope
 
 }
+
+
+# Rescaling ----
+
+#' Data Transformation: Global Centering and Scaling
+#'
+#' @description
+#' Scaling and/or centering by variable using the mean and standard deviation computed across all time series. Global scaling helps dynamic time warping take variable offsets between time series into account.
+#'
+#' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE
+#' @param scale (optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE
+#' @param .global (optional, logical) Used to trigger global scaling within [tsl_transform()].
+#' @param ... (optional, additional arguments) Ignored in this function.
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate()
+#'
+#' y <- f_scale_global(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_scale_global <- function(
+    x = NULL,
+    center = TRUE,
+    scale = TRUE,
+    .global,
+    ...
+){
+
+  scale(
+    x = x,
+    center = center,
+    scale = scale
+  )
+
+}
+
+#' Data Transformation: Local Centering and Scaling
+#'
+#' @description
+#' Scaling and/or centering by variable and time series. Local scaling helps dynamic time warping focus entirely on shape comparisons.
+#'
+#' @inherit f_scale_global
+#' @export
+#' @autoglobal
+f_scale_local <- function(
+    x = NULL,
+    center = TRUE,
+    scale = TRUE
+){
+
+  scale(
+    x = x,
+    center = center,
+    scale = scale
+  )
+
+}
+
+#' @title Data Transformation: Local Rescaling of to a New Range
+#' @inherit f_rescale_global
+#' @export
+#' @autoglobal
+f_rescale_local <- function(
+    x = NULL,
+    new_min = 0,
+    new_max = 1,
+    old_min = NULL,
+    old_max = NULL,
+    ...
+){
+
+  y <- as.matrix(x)
+
+  if(!is.null(old_min) && length(old_min) < ncol(y)){
+    stop(
+      "distantia::f_rescale_global(): argument 'old_min' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
+    )
+  }
+
+  if(!is.null(old_max) && length(old_max) < ncol(y)){
+    stop(
+      "distantia::f_rescale_global(): argument 'old_max' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
+    )
+  }
+
+  if(length(new_min) < ncol(y)){
+    new_min <- rep(x = new_min, times = ncol(y))
+  }
+
+  if(length(new_max) < ncol(y)){
+    new_max <- rep(x = new_max, times = ncol(y))
+  }
+
+  for(i in seq_len(ncol(y))){
+
+    y[, i] <- utils_rescale_vector(
+      x =  y[, i],
+      new_min = new_min[i],
+      new_max = new_max[i],
+      old_min = old_min[i],
+      old_max = old_max[i]
+    )
+
+  }
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  )
+
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
+
+}
+
+
+#' @title Data Transformation: Global Rescaling of to a New Range
+#' @param x (required, zoo object) Time Series. Default: `NULL`
+#' @param new_min (optional, numeric) New minimum value. Default: `0`
+#' @param new_max (optional_numeric) New maximum value. Default: `1`
+#' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
+#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
+#' @param ... (optional, additional arguments) Ignored in this function.
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_rescale_global(
+#'   x = x,
+#'   new_min = 0,
+#'   new_max = 100
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_rescale_global <- function(
+    x = NULL,
+    new_min = 0,
+    new_max = 1,
+    old_min = NULL,
+    old_max = NULL,
+    .global,
+    ...
+){
+
+  y <- as.matrix(x)
+
+  if(!is.null(old_min) && length(old_min) < ncol(y)){
+    stop(
+      "distantia::f_rescale_global(): argument 'old_min' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
+    )
+  }
+
+  if(!is.null(old_max) && length(old_max) < ncol(y)){
+    stop(
+      "distantia::f_rescale_global(): argument 'old_max' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
+    )
+  }
+
+  if(length(new_min) < ncol(y)){
+    new_min <- rep(x = new_min, times = ncol(y))
+  }
+
+  if(length(new_max) < ncol(y)){
+    new_max <- rep(x = new_max, times = ncol(y))
+  }
+
+  for(i in seq_len(ncol(y))){
+
+    y[, i] <- utils_rescale_vector(
+      x =  y[, i],
+      new_min = new_min[i],
+      new_max = new_max[i],
+      old_min = old_min[i],
+      old_max = old_max[i]
+    )
+
+  }
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  )
+
+  zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
+
+}
+
+

@@ -14,7 +14,6 @@ utils::globalVariables(c(
   "distances", # <utils_check_distance_args>
   "i", # <utils_cluster_hclust_optimizer>
   "i", # <utils_cluster_kmeans_optimizer>
-  "sd", # <utils_global_scaling_params>
   "i", # <zoo_permute>
   "i", # <zoo_resample>
   NULL

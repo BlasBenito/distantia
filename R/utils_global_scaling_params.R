@@ -22,19 +22,39 @@ utils_global_scaling_params <- function(
 
   #user values for center and scale
   args <- list(...)
-  args <- args[names(args) %in% c("center", "scale")]
 
-  #giving priority to user input via ...
   if("center" %in% names(args)){
+    #get user input
     center <- args$center
-  } else {
+  } else if ("center" %in% names(formals(f))){
+    #get function default
     center <- formals(f)$center
+  } else {
+    center <- "none"
   }
 
   if("scale" %in% names(args)){
     scale <- args$scale
-  } else {
+  } else if ("scale" %in% names(formals(f))){
     scale <- formals(f)$scale
+  } else {
+    scale <- "none"
+  }
+
+  if("old_min" %in% names(args)){
+    old_min <- args$old_min
+  } else if ("old_min" %in% names(formals(f))){
+    old_min <- formals(f)$old_min
+  } else {
+    old_min <- "none"
+  }
+
+  if("old_max" %in% names(args)){
+    old_max <- args$old_max
+  } else if ("old_max" %in% names(formals(f))){
+    old_max <- formals(f)$old_max
+  } else {
+    old_max <- "none"
   }
 
   #joining data for mean and sd computation
@@ -46,31 +66,48 @@ utils_global_scaling_params <- function(
     )
   )
 
-  #default output
-  center.mean <- FALSE
-  scale.sd <- FALSE
+  #output list
+  out_list <- list()
 
   #computing mean
   if(center == TRUE){
-    center.mean <- apply(
+    out_list$center <- apply(
       X = tsl.matrix,
       MARGIN = 2,
-      FUN = mean
+      FUN = mean,
+      na.rm = TRUE
     )
   }
 
   #computing sd
   if(scale == TRUE){
-    scale.sd <- apply(
+    out_list$scale <- apply(
       X = tsl.matrix,
       MARGIN = 2,
-      FUN = sd
+      FUN = stats::sd,
+      na.rm = TRUE
     )
   }
 
-  list(
-    center = center.mean,
-    scale = scale.sd
-  )
+  #computing old_min
+  if(is.null(old_min)){
+    out_list$old_min <- apply(
+      X = tsl.matrix,
+      MARGIN = 2,
+      FUN = min,
+      na.rm = TRUE
+    )
+  }
+
+  if(is.null(old_max)){
+    out_list$old_max <- apply(
+      X = tsl.matrix,
+      MARGIN = 2,
+      FUN = max,
+      na.rm = TRUE
+    )
+  }
+
+  out_list
 
 }
