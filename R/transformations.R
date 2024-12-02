@@ -527,6 +527,7 @@ f_scale_global <- function(
 #' @inherit f_scale_global
 #' @export
 #' @autoglobal
+#' @family tsl_transformation
 f_scale_local <- function(
     x = NULL,
     center = TRUE,
@@ -546,6 +547,7 @@ f_scale_local <- function(
 #' @inherit f_rescale_global
 #' @export
 #' @autoglobal
+#' @family tsl_transformation
 f_rescale_local <- function(
     x = NULL,
     new_min = 0,
