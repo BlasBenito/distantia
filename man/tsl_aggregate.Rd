@@ -4,7 +4,7 @@
 \alias{tsl_aggregate}
 \title{Aggregate Cases in Time Series Lists}
 \usage{
-tsl_aggregate(tsl = NULL, new_time = NULL, method = mean, ...)
+tsl_aggregate(tsl = NULL, new_time = NULL, f = mean, ...)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
@@ -17,9 +17,9 @@ tsl_aggregate(tsl = NULL, new_time = NULL, method = mean, ...)
 \item keyword (see \code{\link[=utils_time_units]{utils_time_units()}}): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 }}
 
-\item{method}{(required, function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
+\item{f}{(required, function name) Name of function taking a vector as input and returning a single value as output. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
 
-\item{...}{(optional) further arguments for \code{method}.}
+\item{...}{(optional) further arguments for \code{f}.}
 }
 \value{
 time series list
@@ -92,7 +92,7 @@ tsl_time(tsl)[, c("name", "resolution", "units")]
 tsl_year <- tsl_aggregate(
   tsl = tsl,
   new_time = "year",
-  method = mean
+  f = mean
 )
 
 #' #check time features
@@ -123,7 +123,7 @@ tsl <- tsl_simulate(
 tsl_millennia <- tsl_aggregate(
   tsl = tsl,
   new_time = "millennia",
-  method = mean
+  f = mean
 )
 
 if(interactive()){
@@ -134,7 +134,7 @@ if(interactive()){
 tsl_century <- tsl_aggregate(
   tsl = tsl,
   new_time = "century",
-  method = max
+  f = max
 )
 
 if(interactive()){
@@ -145,7 +145,7 @@ if(interactive()){
 tsl_centuries <- tsl_aggregate(
   tsl = tsl,
   new_time = "centuries",
-  method = stats::quantile,
+  f = stats::quantile,
   probs = 0.75 #argument of stats::quantile()
 )
 
@@ -160,6 +160,7 @@ future::plan(
 
 Other tsl_processing: 
 \code{\link{tsl_resample}()},
+\code{\link{tsl_smoothing}()},
 \code{\link{tsl_stats}()},
 \code{\link{tsl_transform}()}
 }

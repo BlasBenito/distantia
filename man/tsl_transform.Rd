@@ -80,7 +80,7 @@ if(interactive()){
 #rescale between -100 and 100
 tsl_rescaled <- tsl_transform(
   tsl = tsl,
-  f = f_rescale,
+  f = f_rescale_local,
   new_min = -100,
   new_max = 100
 )
@@ -91,22 +91,6 @@ sapply(X = tsl, FUN = range)
 #new range
 sapply(X = tsl_rescaled, FUN = range)
 
-
-#moving window smoothing
-#-----------------------------------------
-tsl_smooth_mean <- tsl_transform(
-  tsl = tsl,
-  f = f_smooth_window,
-  smoothing_window = 3, #default
-  smoothing_f = mean #default
-)
-
-if(interactive()){
-  tsl_plot(
-    tsl = tsl_smooth_mean,
-    guide_columns = 3
-  )
-}
 
 #principal components
 #-----------------------------------------
@@ -178,6 +162,7 @@ future::plan(
 Other tsl_processing: 
 \code{\link{tsl_aggregate}()},
 \code{\link{tsl_resample}()},
+\code{\link{tsl_smoothing}()},
 \code{\link{tsl_stats}()}
 }
 \concept{tsl_processing}

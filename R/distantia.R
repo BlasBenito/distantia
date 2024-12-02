@@ -307,7 +307,7 @@ distantia <- function(
 
         df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
         df.i$null_mean <- mean(psi_null)
-        df.i$null_sd <- sd(psi_null)
+        df.i$null_sd <- stats::sd(psi_null)
 
       }
 
@@ -339,7 +339,7 @@ distantia <- function(
 
         df.i$p_value <- sum(psi_null <= df.i$psi) / repetitions
         df.i$null_mean <- mean(psi_null)
-        df.i$null_sd <- sd(psi_null)
+        df.i$null_sd <- stats::sd(psi_null)
 
       }
 

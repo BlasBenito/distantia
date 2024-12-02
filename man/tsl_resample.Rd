@@ -269,6 +269,7 @@ future::plan(
 
 Other tsl_processing: 
 \code{\link{tsl_aggregate}()},
+\code{\link{tsl_smoothing}()},
 \code{\link{tsl_stats}()},
 \code{\link{tsl_transform}()}
 }

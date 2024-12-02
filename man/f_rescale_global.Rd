@@ -25,6 +25,8 @@ f_rescale_global(
 
 \item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
 
+\item{.global}{(optional, logical) Used to trigger global scaling within \code{\link[=tsl_transform]{tsl_transform()}}.}
+
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
@@ -58,7 +60,6 @@ Other tsl_transformation:
 \code{\link{f_proportion}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}

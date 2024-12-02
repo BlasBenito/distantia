@@ -9,8 +9,8 @@
 #'   \item keyword: a valid keyword returned by `zoo_time(x)$keywords`, used to generate a time vector with the relevant units.
 #'   \item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by `zoo_time(x)$units`.
 #' }
-#' @param method (optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
-#' @param ... (optional, additional arguments) additional arguments to `method`.
+#' @param f (optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `f`.
 #'
 #' @return zoo object
 #' @export
@@ -39,7 +39,7 @@
 #' x_millennia <- zoo_aggregate(
 #'   x = x,
 #'   new_time = "millennia",
-#'   method = mean
+#'   f = mean
 #' )
 #'
 #' if(interactive()){
@@ -50,7 +50,7 @@
 #' x_centuries <- zoo_aggregate(
 #'   x = x,
 #'   new_time = "centuries",
-#'   method = max
+#'   f = max
 #' )
 #'
 #' if(interactive()){
@@ -61,7 +61,7 @@
 #' x_centuries <- zoo_aggregate(
 #'   x = x,
 #'   new_time = "centuries",
-#'   method = stats::quantile,
+#'   f = stats::quantile,
 #'   probs = 0.75 #argument of stats::quantile()
 #' )
 #'
@@ -72,7 +72,7 @@
 zoo_aggregate <- function(
     x = NULL,
     new_time = NULL,
-    method = mean,
+    f = mean,
     ...
 ){
 
@@ -80,18 +80,17 @@ zoo_aggregate <- function(
     stop("distantia::zoo_aggregate(): argument 'x' must be a zoo object.", call. = FALSE)
   }
 
-  #quoted name to unquoted
-  if(is.character(method)){
+  if(is.character(f)){
 
-    method <- tryCatch(
-      match.fun(method),
+    f <- tryCatch(
+      match.fun(f),
       error = function(e) NULL
     )
 
   }
 
-  if(is.function(method) == FALSE){
-    stop("distantia::zoo_aggregate(): Argument 'method' must be a function name. Examples of valid options are: 'mean', 'median', 'max', 'min', and 'sd'.", call. = FALSE)
+  if(is.function(f) == FALSE){
+    stop("distantia::zoo_aggregate(): Argument 'f' must be a function name. Examples of valid options are: 'mean', 'median', 'max', 'min', and 'sd'.", call. = FALSE)
   }
 
   #new_time from keyword
@@ -131,7 +130,7 @@ zoo_aggregate <- function(
   y <- stats::aggregate(
     x = x,
     by = new_time_groups,
-    FUN = method,
+    FUN = f,
     ... = ...
   )
 

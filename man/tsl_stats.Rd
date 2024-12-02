@@ -82,6 +82,7 @@ future::plan(
 Other tsl_processing: 
 \code{\link{tsl_aggregate}()},
 \code{\link{tsl_resample}()},
+\code{\link{tsl_smoothing}()},
 \code{\link{tsl_transform}()}
 }
 \concept{tsl_processing}

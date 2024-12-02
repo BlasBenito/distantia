@@ -4,7 +4,7 @@
 \alias{zoo_aggregate}
 \title{Aggregate Cases in Zoo Time Series}
 \usage{
-zoo_aggregate(x = NULL, new_time = NULL, method = mean, ...)
+zoo_aggregate(x = NULL, new_time = NULL, f = mean, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Time series to aggregate. Default: NULL}
@@ -18,9 +18,9 @@ zoo_aggregate(x = NULL, new_time = NULL, method = mean, ...)
 \item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by \code{zoo_time(x)$units}.
 }}
 
-\item{method}{(optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
+\item{f}{(optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
 
-\item{...}{(optional, additional arguments) additional arguments to \code{method}.}
+\item{...}{(optional, additional arguments) additional arguments to \code{f}.}
 }
 \value{
 zoo object
@@ -52,7 +52,7 @@ x_time$keywords
 x_millennia <- zoo_aggregate(
   x = x,
   new_time = "millennia",
-  method = mean
+  f = mean
 )
 
 if(interactive()){
@@ -63,7 +63,7 @@ if(interactive()){
 x_centuries <- zoo_aggregate(
   x = x,
   new_time = "centuries",
-  method = max
+  f = max
 )
 
 if(interactive()){
@@ -74,7 +74,7 @@ if(interactive()){
 x_centuries <- zoo_aggregate(
   x = x,
   new_time = "centuries",
-  method = stats::quantile,
+  f = stats::quantile,
   probs = 0.75 #argument of stats::quantile()
 )
 
@@ -90,6 +90,7 @@ Other zoo_functions:
 \code{\link{zoo_permute}()},
 \code{\link{zoo_plot}()},
 \code{\link{zoo_resample}()},
+\code{\link{zoo_smoothing}()},
 \code{\link{zoo_time}()},
 \code{\link{zoo_to_tsl}()},
 \code{\link{zoo_vector_to_matrix}()}

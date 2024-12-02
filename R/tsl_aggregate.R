@@ -43,8 +43,8 @@
 #'   \item numeric: defines fixed time intervals in the units of `tsl` for time series aggregation. Used as is when the time class is "numeric", and coerced to integer and interpreted as days for the time classes "Date" and "POSIXct".
 #'   \item keyword (see [utils_time_units()]): the common options for the time classes "Date" and "POSIXct" are: "millennia", "centuries", "decades", "years", "quarters", "months", and "weeks". Exclusive keywords for the "POSIXct" time class are: "days", "hours", "minutes", and "seconds". The time class "numeric" accepts keywords coded as scientific numbers, from "1e8" to "1e-8".
 #' }
-#' @param method (required, function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
-#' @param ... (optional) further arguments for `method`.
+#' @param f (required, function name) Name of function taking a vector as input and returning a single value as output. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param ... (optional) further arguments for `f`.
 #'
 #' @return time series list
 #' @export
@@ -83,7 +83,7 @@
 #' tsl_year <- tsl_aggregate(
 #'   tsl = tsl,
 #'   new_time = "year",
-#'   method = mean
+#'   f = mean
 #' )
 #'
 #' #' #check time features
@@ -114,7 +114,7 @@
 #' tsl_millennia <- tsl_aggregate(
 #'   tsl = tsl,
 #'   new_time = "millennia",
-#'   method = mean
+#'   f = mean
 #' )
 #'
 #' if(interactive()){
@@ -125,7 +125,7 @@
 #' tsl_century <- tsl_aggregate(
 #'   tsl = tsl,
 #'   new_time = "century",
-#'   method = max
+#'   f = max
 #' )
 #'
 #' if(interactive()){
@@ -136,7 +136,7 @@
 #' tsl_centuries <- tsl_aggregate(
 #'   tsl = tsl,
 #'   new_time = "centuries",
-#'   method = stats::quantile,
+#'   f = stats::quantile,
 #'   probs = 0.75 #argument of stats::quantile()
 #' )
 #'
@@ -149,7 +149,7 @@
 tsl_aggregate <- function(
     tsl = NULL,
     new_time = NULL,
-    method = mean,
+    f = mean,
     ...
 ){
 
@@ -167,7 +167,7 @@ tsl_aggregate <- function(
   #     x <- zoo_aggregate(
   #       x = x,
   #       new_time = new_time,
-  #       method = method
+  #       f = f
   #     )
   #
   #   }
@@ -186,7 +186,7 @@ tsl_aggregate <- function(
       x <- zoo_aggregate(
         x = x,
         new_time = new_time,
-        method = method,
+        f = f,
         ... = ...
       )
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_detrend_difference}
 \alias{f_detrend_difference}
-\title{Data Transformation: Differencing Detrending of Zoo Time Series}
+\title{Data Transformation: Detrending and Differencing}
 \usage{
 f_detrend_difference(x = NULL, lag = 1, center = TRUE, ...)
 }
@@ -19,7 +19,7 @@ f_detrend_difference(x = NULL, lag = 1, center = TRUE, ...)
 zoo object
 }
 \description{
-Differencing detrending via \code{\link[=diff]{diff()}}. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
+Performs differencing to remove trends from a zoo time series, isolating short-term fluctuations by subtracting values at specified lags. The function preserves the original index and metadata, with an option to center the output around the mean of the original series. Suitable for preprocessing time series data to focus on random fluctuations unrelated to overall trends.
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -51,7 +51,6 @@ Other tsl_transformation:
 \code{\link{f_rescale_global}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}

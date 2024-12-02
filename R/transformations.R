@@ -18,72 +18,6 @@ f_list <- function(){
 }
 
 
-#' Data Transformation: Moving Window Smoothing of Zoo Time Series
-#'
-#' @description
-#' Simplified wrapper to [zoo::rollapply()] to apply rolling window smoothing to zoo objects.
-#'
-#'
-#' @param x (required, zoo object) Zoo time series object to transform. Default: NULL
-#' @param window (required, odd integer) Width of the window to compute the rolling statistics of the time series. Should be an odd number. Even numbers are coerced to odd by adding one. Default: 3
-#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
-#' @param ... (optional, additional arguments) additional arguments to `f`. Used as argument `...` in [zoo::rollapply()].
-#'
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate(cols = 2)
-#'
-#' y <- f_smooth_window(
-#'   x = x,
-#'   window = 5,
-#'   f = mean
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_smooth_window <- function(
-    x = NULL,
-    window = 3,
-    f = mean,
-    ...
-){
-
-  if(is.function(f) == FALSE){
-
-    stop(
-      "distantia::f_smooth_window(): argument 'f' must be a function name.",
-      call. = FALSE
-    )
-
-  }
-
-  #set window to even
-  window <- as.integer(window)
-  if((window %% 2) == 0){
-    window <- window + 1
-  }
-
-  y <- zoo::rollapply(
-    data = x,
-    width = window,
-    fill = rep(x = "extend", times = window),
-    FUN = f,
-    ... = ...
-  )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
-
-}
-
-
 
 #' Data Transformation: Principal Components of Zoo Time Series
 #'
@@ -674,6 +608,7 @@ f_rescale_local <- function(
 #' @param new_max (optional_numeric) New maximum value. Default: `1`
 #' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
 #' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
+#' @param .global (optional, logical) Used to trigger global scaling within [tsl_transform()].
 #' @param ... (optional, additional arguments) Ignored in this function.
 #' @return zoo object
 #' @export

@@ -116,6 +116,7 @@ Other zoo_functions:
 \code{\link{zoo_name_set}()},
 \code{\link{zoo_plot}()},
 \code{\link{zoo_resample}()},
+\code{\link{zoo_smoothing}()},
 \code{\link{zoo_time}()},
 \code{\link{zoo_to_tsl}()},
 \code{\link{zoo_vector_to_matrix}()}

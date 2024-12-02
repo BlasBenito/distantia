@@ -26,7 +26,6 @@ Other tsl_transformation:
 \code{\link{f_rescale_global}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_slope}()},
-\code{\link{f_smooth_window}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}
