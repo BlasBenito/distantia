@@ -607,7 +607,8 @@ tsl_plot(
   width = 1.5
 )
 ```
-We can compute the stats of these linear trends to identify the cities with steeper temperature changes.
+
+We can now compute the stats of these linear trends to identify the cities with a steeper long-term temperature change.
 
 ```{r}
 #compute stats of linear trends
@@ -632,7 +633,7 @@ tsl_detrended <- distantia::tsl_transform(
 )
 ```
 
-The code below computes the linear trend stats of the detrended data. A range 
+With the code below we can check that the linear detrending actually removed linear trends from the data.
 
 ```{r, fig.height=10}
 tsl_trend <- distantia::tsl_transform(
@@ -645,10 +646,7 @@ df_stats <- distantia::tsl_stats(
   lags = 0
 )
 
-df_stats[
-  order(df_stats$range, decreasing = TRUE), 
-  c("name", "range")
-  ]
+df_stats[, c("name", "range")]
 ```
 
 

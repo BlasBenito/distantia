@@ -104,7 +104,7 @@ tsl.raw <- tsl_transform(
 
 tsl.scale <- tsl_transform(
   tsl = tsl,
-  f = f_scale
+  f = f_scale_local
 )
 
 tsl.center <- tsl_transform(
@@ -224,7 +224,7 @@ tsl_plot(
 
 x <- tsl_transform(
   x = x,
-  f = f_scale
+  f = f_scale_lodal
 )
 
 x <- tsl_transform(

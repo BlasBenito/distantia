@@ -73,7 +73,7 @@ To facilitate the comparison of DTW and LS, the code below applies the functions
 ```{r}
 tsl_scaled <- tsl_transform(
   tsl = tsl_raw,
-  f = f_scale,
+  f = f_scale_local,
   center = TRUE,
   scale = TRUE
 )

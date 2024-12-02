@@ -37,7 +37,7 @@ tsl <- tsl_initialize(
   time_column = "time"
 ) |>
   tsl_transform(
-    f = f_scale
+    f = f_scale_local
   ) |>
   tsl_aggregate(
     new_time = "days"
