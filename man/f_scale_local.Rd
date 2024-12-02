@@ -4,7 +4,7 @@
 \alias{f_scale_local}
 \title{Data Transformation: Local Centering and Scaling}
 \usage{
-f_scale_local(x = NULL, center = TRUE, scale = TRUE)
+f_scale_local(x = NULL, center = TRUE, scale = TRUE, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
@@ -12,6 +12,8 @@ f_scale_local(x = NULL, center = TRUE, scale = TRUE)
 \item{center}{(optional, logical or numeric vector) Triggers centering if TRUE. Default: TRUE}
 
 \item{scale}{(optional, logical or numeric vector) Triggers scaling if TRUE. Default: TRUE}
+
+\item{...}{(optional, additional arguments) Ignored in this function.}
 }
 \value{
 zoo object

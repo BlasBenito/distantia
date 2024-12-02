@@ -25,9 +25,9 @@ f_list <- function(){
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform. Default: NULL
-#' @param smoothing_window (required, odd integer) Width of the window to compute the rolling statistics of the time series. Should be an odd number. Even numbers are coerced to odd by adding one. Default: 3
-#' @param smoothing_f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
-#' @param ... (optional, additional arguments) additional arguments to `smoothing_f`. Used as argument `...` in [zoo::rollapply()].
+#' @param window (required, odd integer) Width of the window to compute the rolling statistics of the time series. Should be an odd number. Even numbers are coerced to odd by adding one. Default: 3
+#' @param f (required, function) name without quotes and parenthesis of a standard function to smooth a time series. Typical examples are `mean` (default), `max`, `mean`, `median`, and `sd`. Custom functions able to handle zoo objects or matrices are also allowed. Default: `mean`.
+#' @param ... (optional, additional arguments) additional arguments to `f`. Used as argument `...` in [zoo::rollapply()].
 #'
 #' @return zoo object
 #' @export
@@ -37,8 +37,8 @@ f_list <- function(){
 #'
 #' y <- f_smooth_window(
 #'   x = x,
-#'   smoothing_window = 5,
-#'   smoothing_f = mean
+#'   window = 5,
+#'   f = mean
 #' )
 #'
 #' if(interactive()){
@@ -48,31 +48,31 @@ f_list <- function(){
 #' @family tsl_transformation
 f_smooth_window <- function(
     x = NULL,
-    smoothing_window = 3,
-    smoothing_f = mean,
+    window = 3,
+    f = mean,
     ...
 ){
 
-  if(is.function(smoothing_f) == FALSE){
+  if(is.function(f) == FALSE){
 
     stop(
-      "distantia::f_smooth_window(): argument 'smoothing_fun' must be a function name.",
+      "distantia::f_smooth_window(): argument 'f' must be a function name.",
       call. = FALSE
     )
 
   }
 
   #set window to even
-  smoothing_window <- as.integer(smoothing_window)
-  if((smoothing_window %% 2) == 0){
-    smoothing_window <- smoothing_window + 1
+  window <- as.integer(window)
+  if((window %% 2) == 0){
+    window <- window + 1
   }
 
   y <- zoo::rollapply(
     data = x,
-    width = smoothing_window,
-    fill = rep(x = "extend", times = smoothing_window),
-    FUN = smoothing_f,
+    width = window,
+    fill = rep(x = "extend", times = window),
+    FUN = f,
     ... = ...
   )
 
@@ -131,6 +131,10 @@ f_pca <- function(
   )
 
 }
+
+
+
+# Detrending ----
 
 #' Data Transformation: Linear Trend of Zoo Time Series
 #'
@@ -191,7 +195,6 @@ f_trend_linear <- function(
   )
 
 }
-
 
 #' Data Transformation: Linear Detrending of Zoo Time Series
 #'
@@ -256,10 +259,10 @@ f_detrend_linear <- function(
 
 }
 
-#' Data Transformation: Differencing Detrending of Zoo Time Series
+#' Data Transformation: Detrending and Differencing
 #'
 #' @description
-#' Differencing detrending via [diff()]. Returns randomm fluctuations from sample to sample not related to the overall trend of the time series.
+#' Performs differencing to remove trends from a zoo time series, isolating short-term fluctuations by subtracting values at specified lags. The function preserves the original index and metadata, with an option to center the output around the mean of the original series. Suitable for preprocessing time series data to focus on random fluctuations unrelated to overall trends.
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param lag (optional, integer)
@@ -336,7 +339,70 @@ f_detrend_difference <- function(
 
 }
 
+# Aggregation ----
 
+#' Data Transformation: Slope of Linear Regression with Time
+#'
+#' @description
+#' Designed for usage in [tsl_aggregate()]. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
+#'
+#' @param x (required, numeric vector) input vector. Default: NULL
+#' @param ... (optional, additional arguments) Ignored in this function.
+#' @return numeric value
+#' @export
+#' @autoglobal
+#'
+#' @examples
+#' # Numeric vector of any length
+#' f_slope(x = cumsum(runif(10)))
+#'
+#' # Numeric vector with length = 1
+#' f_slope(x = 10)
+#'
+#' # Numeric vector with length = 0
+#' f_slope(x = numeric(0))
+#' @family tsl_transformation
+f_slope <- function(
+    x = NULL,
+    ...
+) {
+
+  if(!is.numeric(x)) {
+    stop("distantia::f_slope(): argument 'x' must be a numeric vector.", call. = FALSE)
+  }
+
+  if(length(x) <= 1){
+
+    slope <- 0
+
+  } else {
+
+    slope <- tryCatch(
+      {
+        summary(
+          stats::lm(
+            formula = x ~ seq_along(x)
+          )
+        )$coefficients[2, 1]
+      },
+      error = function(e){
+        return(NA)
+      }
+    ) |>
+      suppressWarnings()
+
+  }
+
+  if(is.na(slope)){
+    slope <- 0
+  }
+
+  slope
+
+}
+
+
+# Rowwise Transformations ----
 
 #' Data Transformation: Convert Values to Proportions by Row
 #'
@@ -473,65 +539,6 @@ f_hellinger <- function(
 }
 
 
-#' Data Transformation: Slope of Linear Regression with Time
-#'
-#' @description
-#' Designed for usage in [tsl_aggregate()]. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
-#'
-#' @param x (required, numeric vector) input vector. Default: NULL
-#' @param ... (optional, additional arguments) Ignored in this function.
-#' @return numeric value
-#' @export
-#' @autoglobal
-#'
-#' @examples
-#' # Numeric vector of any length
-#' f_slope(x = cumsum(runif(10)))
-#'
-#' # Numeric vector with length = 1
-#' f_slope(x = 10)
-#'
-#' # Numeric vector with length = 0
-#' f_slope(x = numeric(0))
-#' @family tsl_transformation
-f_slope <- function(
-    x = NULL,
-    ...
-) {
-
-  if(!is.numeric(x)) {
-    stop("distantia::f_slope(): argument 'x' must be a numeric vector.", call. = FALSE)
-  }
-
-  if(length(x) <= 1){
-
-    slope <- 0
-
-  } else {
-
-    slope <- tryCatch(
-      {
-        summary(
-          stats::lm(
-            formula = x ~ seq_along(x)
-          )
-        )$coefficients[2, 1]
-      },
-      error = function(e){
-        return(NA)
-      }
-    ) |>
-      suppressWarnings()
-
-  }
-
-  if(is.na(slope)){
-    slope <- 0
-  }
-
-  slope
-
-}
 
 
 # Rescaling ----
@@ -589,7 +596,8 @@ f_scale_global <- function(
 f_scale_local <- function(
     x = NULL,
     center = TRUE,
-    scale = TRUE
+    scale = TRUE,
+    ...
 ){
 
   scale(

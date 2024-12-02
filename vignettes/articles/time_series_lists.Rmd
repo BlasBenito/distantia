@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
   fig.show = 'hold',
   fig.width = 5
 )
+
+options(scipen = 9999)
 ```
 
 
@@ -386,10 +388,6 @@ The function `tsl_time()` analyzes the time features of all time series in a TSL
 ```{r}
 distantia::tsl_time(tsl = tsl)
 ```
-```{r}
-tsl_time
-```
-
 
 The function `tsl_stats()` focuses on the data values instead to provides a summary of their stats by time series and variable.
 
@@ -493,7 +491,7 @@ Let's take a look at a few examples.
 
 Scaling and centering multivariate time series is essential in dynamic time warping to ensure all variables contribute equally, regardless of their range or units.
 
-For example, the dataset `fagus_dynamics` has variables in different units, and is a good example for this topic.
+For example, the dataset `fagus_dynamics` has variables in different units.
 
 ```{r, fig.height=3.5, message=FALSE}
 tsl <- distantia::tsl_init(
@@ -517,7 +515,7 @@ To solve this issue, the package `distantia` implements two flavors of scaling a
 #local scaling
 tsl_local_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = f_scale_local,
+  f = distantia::f_scale_local,
   scale = TRUE, #default
   center = TRUE #default
 )
@@ -525,7 +523,7 @@ tsl_local_scaling <- distantia::tsl_transform(
 #global scaling
 tsl_global_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = f_scale_global,
+  f = distantia::f_scale_global,
   scale = TRUE, #default
   center = TRUE #default
 )
@@ -535,12 +533,7 @@ tsl_global_scaling <- distantia::tsl_transform(
 The stats of both scalings show that the global one preserves variable offsets between locations, while in the local one all variables have a mean ~0.
 
 ```{r}
-stats_cols <- c(
-  "name", 
-  "variable", 
-  "mean", 
-  "sd"
-  )
+stats_cols <- c("name", "variable", "mean", "sd")
 
 #stats of local scaling
 distantia::tsl_stats(
@@ -553,7 +546,7 @@ distantia::tsl_stats(
 )[, stats_cols]
 ```
 
-The functions `f_rescale_local` and `f_rescale_global` work under the same principle to rescale the range of the time series variables. By default, these functions rescale all time series between 0 and 1, but the arguments `new_min` and `new_max` can receive numeric vestor to set different new ranges for each column in a time series list.
+The functions `f_rescale_local` and `f_rescale_global` work under the same principle to rescale variable ranges. By default, these functions rescale all time series between 0 and 1, but the arguments `new_min` and `new_max` can receive numeric vectors to set different ranges per variable.
 
 ```{r}
 tsl_rescaled_local <- tsl_transform(
@@ -571,15 +564,10 @@ tsl_rescaled_global <- tsl_transform(
 )
 ```
 
-The stats below show the result of the rescaling for each method.
+The stats below show the results of the local and global rescaling.
 
 ```{r}
-stats_cols <- c(
-  "name", 
-  "variable", 
-  "min", 
-  "max"
-  )
+stats_cols <- c("name", "variable", "min", "max")
 
 distantia::tsl_stats(
   tsl = tsl_rescaled_local
@@ -590,7 +578,85 @@ distantia::tsl_stats(
 )[, stats_cols]
 ```
 
+#### Detrending
 
+Removing trends in time series before applying dynamic time warping is crucial because it prevents inflated distance measurements caused by non-stationary components and ensures that the alignment focuses on meaningful shape features rather than being distorted by long-term trends.
+
+The transformation function `f_trend_linear` transforms time series into their linear trend. The example below applies this function to the `cities_temperature` dataset.
+
+```{r, fig.height=10}
+#loading cities_temperature as tsl
+tsl <- distantia::tsl_init(
+  x = distantia::cities_temperature,
+  name = "name",
+  time = "time"
+)
+
+#computing linear trends
+tsl_trend <- distantia::tsl_transform(
+  tsl = tsl,
+  f = distantia::f_trend_linear
+)
+
+#plotting linear trends
+tsl_plot(
+  tsl = tsl_trend,
+  columns = 2,
+  guide = FALSE,
+  color = "red4",
+  width = 1.5
+)
+```
+We can compute the stats of these linear trends to identify the cities with steeper temperature changes.
+
+```{r}
+#compute stats of linear trends
+df_stats <- distantia::tsl_stats(
+  tsl = tsl_trend,
+  lags = 0
+)
+
+#arrange from higher to lower range
+df_stats[
+  order(df_stats$range, decreasing = TRUE), 
+  c("name", "range")
+  ]
+```
+
+The function `f_detrend_linear` removes these temporal trends from the data.
+
+```{r}
+tsl_detrended <- distantia::tsl_transform(
+  tsl = tsl,
+  f = distantia::f_detrend_linear
+)
+```
+
+The code below computes the linear trend stats of the detrended data. A range 
+
+```{r, fig.height=10}
+tsl_trend <- distantia::tsl_transform(
+  tsl = tsl_detrended,
+  f = distantia::f_trend_linear
+)
+
+df_stats <- distantia::tsl_stats(
+  tsl = tsl_trend,
+  lags = 0
+)
+
+df_stats[
+  order(df_stats$range, decreasing = TRUE), 
+  c("name", "range")
+  ]
+```
+
+
+#### Proportions and Percentages
+
+#### Hellinger Transformation
+
+#### Smoothing
 
 
 

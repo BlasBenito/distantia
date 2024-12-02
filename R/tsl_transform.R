@@ -206,8 +206,8 @@ tsl_transform <- function(
     #compute global scaling parameters
     scaling_params <- utils_global_scaling_params(
       tsl = tsl,
-      f = f,
-      ... = ...
+      f = f#,
+      #... = ...
     )
 
     # scaling with scaling params
@@ -222,8 +222,8 @@ tsl_transform <- function(
           center = scaling_params$center,
           scale = scaling_params$scale,
           old_min = scaling_params$old_min,
-          old_max = scaling_params$old_max,
-          ... = ...
+          old_max = scaling_params$old_max#,
+          #... = ...
         )
 
       }
