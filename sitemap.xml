@@ -53,7 +53,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_to_sf.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_pollen.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/f_center.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_detrend_difference.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_detrend_linear.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_hellinger.html</loc></url>
@@ -61,11 +60,11 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/f_pca.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_percentage.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_proportion.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/f_rescale.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/f_scale.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/f_rescale_global.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/f_rescale_local.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_scale_global.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/f_scale_local.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_slope.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/f_smooth_window.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_trend_linear.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_dynamics.html</loc></url>
@@ -113,6 +112,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_repair.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_resample.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_simulate.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/tsl_smoothing.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_subset.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_time.html</loc></url>
@@ -170,6 +170,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_plot.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_resample.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_simulate.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/zoo_smoothing.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_time.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_to_tsl.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_vector_to_matrix.html</loc></url>

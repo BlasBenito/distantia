@@ -106,36 +106,34 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span></span></span>
+<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale_global</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#importance data frame</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_importance.html">distantia_importance</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi    variable importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.9947403         evi -14.508771 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 0.9947403    rainfall  35.666900 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 0.9947403 temperature -42.473911 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.7018922         evi  -6.523915 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.7018922    rainfall  36.531485 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.7018922 temperature -54.420090 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 1.1082660         evi -36.569755 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 1.1082660    rainfall  57.678064 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 1.1082660 temperature -50.150369 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.3429956         evi   6.512321 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany  Spain 1.3429956    rainfall  12.505764 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Germany  Spain 1.3429956 temperature -26.509115 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany Sweden 0.8571217         evi  29.026504 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden 0.8571217    rainfall  -4.209397 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Germany Sweden 0.8571217 temperature -26.661768 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Spain Sweden 1.4803954         evi  -6.625437 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Spain Sweden 1.4803954    rainfall  -4.416941 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Spain Sweden 1.4803954 temperature  13.668290 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_difference psi_without psi_only_with  distance diagonal weighted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    -0.14432459   1.0193192     0.8749946 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     0.35479302   0.7900431     1.1448361 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    -0.42250509   1.0646350     0.6421299 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    -0.04579085   0.7065423     0.6607514 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     0.25641166   0.5474000     0.8038117 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    -0.38197039   0.7608013     0.3788309 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    -0.40529016   1.1806979     0.7754078 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     0.63922638   0.7313681     1.3705945 euclidean     TRUE     TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    -0.55579950   1.2030043     0.6472048 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     0.08746019   1.3091727     1.3966329 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     0.16795186   1.2442260     1.4121779 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    -0.35601625   1.4170621     1.0610458 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     0.24879247   0.7850271     1.0338196 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    -0.03607966   0.8800855     0.8440058 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    -0.22852381   0.9121250     0.6836012 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    -0.09808266   1.5155933     1.4175106 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    -0.06538819   1.5451489     1.4797607 euclidean     TRUE     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     0.20234474   1.4411407     1.6434855 euclidean     TRUE     TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ignore_blocks lock_step robust</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         FALSE     FALSE   TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         FALSE     FALSE   TRUE</span>
@@ -153,21 +151,21 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df_wide</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi most_similar most_dissimilar importance__evi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.9947403  temperature        rainfall      -14.508771</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.7018922  temperature        rainfall       -6.523915</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.1082660  temperature        rainfall      -36.569755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.3429956  temperature        rainfall        6.512321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.8571217  temperature             evi       29.026504</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.4803954          evi     temperature       -6.625437</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   importance__rainfall importance__temperature psi_only_with__evi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             35.66690               -42.47391          0.8749946</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             36.53148               -54.42009          0.6607514</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             57.67806               -50.15037          0.7754078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            12.505764               -26.50912           1.396633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            -4.209397               -26.66177           1.033820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            -4.416941                13.66829           1.417511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__rainfall psi_only_with__temperature psi_without__evi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               1.1448361                  0.6421299        1.0193192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               0.8038117                  0.3788309        0.7065423</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               1.3705945                  0.6472048        1.1806979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1               1.4121779                  1.0610458        1.3091727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2               0.8440058                  0.6836012        0.7850271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3               1.4797607                  1.6434855        1.5155933</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__rainfall psi_without__temperature</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             0.7900431                1.0646350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             0.5474000                0.7608013</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             0.7313681                1.2030043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             1.2442260                 1.417062</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             0.8800855                 0.912125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             1.5451489                 1.441141</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

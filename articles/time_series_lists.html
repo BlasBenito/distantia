@@ -310,8 +310,7 @@ can see it has several issues.</p>
 <span><span class="co">#&gt; Value-related repairs:</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
+<span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span></code></pre></div>
 <p>This function identifies the issues raised up by
 <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and repairs them when possible.</p>
 <p>If we run <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> again, all checks should be
@@ -319,8 +318,7 @@ ok.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p>From this point, our TSL is ready to go!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
@@ -360,7 +358,6 @@ dates, and three numeric columns with environmental observations.</p>
 <span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="co">#even shorter!</span></span>
 <span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
@@ -368,7 +365,6 @@ dates, and three numeric columns with environmental observations.</p>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl  <span class="op">=</span> <span class="va">tsl</span></span>
@@ -409,7 +405,6 @@ separate columns.</p>
 <span>  x <span class="op">=</span> <span class="va">evi_wide</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="st">"time"</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -470,7 +465,6 @@ the zoo index is a sequence of integers.</p>
 <span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -485,7 +479,6 @@ the zoo index is a sequence of integers.</p>
 <span>    b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, nrow <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -606,22 +599,10 @@ all time series in a TSL and generates a data frame.</p>
 <span><span class="co">#&gt; 2    B  828  Date  days 3646.485   4.409293 2010-01-02 2019-12-27 decades,....</span></span>
 <span><span class="co">#&gt; 3    C  948  Date  days 3638.513   3.842147 2010-01-05 2019-12-23 years, q....</span></span>
 <span><span class="co">#&gt; 4    D  755  Date  days 3643.532   4.832271 2010-01-04 2019-12-27 years, q....</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_time</span></span>
-<span><span class="co">#&gt; function (tsl = NULL, keywords = c("resample", "aggregate")) </span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;     utils_check_args_tsl(tsl = tsl, min_length = 1)</span></span>
-<span><span class="co">#&gt;     time_list &lt;- lapply(X = tsl, FUN = zoo_time, keywords = keywords)</span></span>
-<span><span class="co">#&gt;     out &lt;- do.call(what = "rbind", args = time_list)</span></span>
-<span><span class="co">#&gt;     rownames(out) &lt;- NULL</span></span>
-<span><span class="co">#&gt;     out</span></span>
-<span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55b333c1e980&gt;</span></span>
-<span><span class="co">#&gt; &lt;environment: namespace:distantia&gt;</span></span></code></pre></div>
 <p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code> focuses on the data values
 instead to provides a summary of their stats by time series and
 variable.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
 <span>  lags <span class="op">=</span> <span class="fl">1</span> <span class="co">#temporal autocorrelation lag</span></span>
@@ -683,7 +664,7 @@ list.</p>
 <code><a href="../reference/tsl_handle_NA.html">tsl_handle_NA()</a></code>. The former converts Inf and NaN to NA and
 counts NA cases in each time series, while the latter either omits or
 imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" class="external-link">zoo::na.approx()</a></code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#count NA</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_count_NA.html">tsl_count_NA</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; $A</span></span>
@@ -720,7 +701,7 @@ imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" 
 <p>The second workflow is more general because it can address other
 potential issues. It involves using <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and
 <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#diagnose issues with NA values</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -738,11 +719,9 @@ potential issues. It involves using <code><a href="../reference/tsl_diagnose.htm
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="co">#re-diagnose to check result</span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
@@ -751,7 +730,7 @@ potential issues. It involves using <code><a href="../reference/tsl_diagnose.htm
 <em>regions</em> of a time series list. Additionally, this function
 returns by default the numeric columns that are shared across all time
 series in a TSL.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   A   B   C   D </span></span>
 <span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
@@ -804,12 +783,12 @@ series in a TSL.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_new</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-34-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-33-1.png" width="750"></p>
 <p>The function <code><a href="../reference/tsl_burst.html">tsl_burst()</a></code> transforms a multivariate TSL
 into a univariate TSL by creating a new zoo object from each column of
 the original zoo objects. This function helps apply dissimilarity
 analysis between individual variables in multivariate time series.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_univariate</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_burst.html">tsl_burst</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
 <span><span class="op">)</span></span>
@@ -840,88 +819,95 @@ analysis between individual variables in multivariate time series.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_univariate</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-35-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-34-1.png" width="750"></p>
 </div>
 <div class="section level3">
 <h3 id="data-transformations">Data Transformations<a class="anchor" aria-label="anchor" href="#data-transformations"></a>
 </h3>
 <p>The function <code><a href="../reference/tsl_transform.html">tsl_transform()</a></code> applies a function
-<code>f</code> to transform the values of all time series in a TSL. The
-names of these <code>f</code> functions can be listed with
+<code>f</code> to transform the values of a TSL. The names of the
+available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "f_center"             "f_detrend_difference" "f_detrend_linear"    </span></span>
-<span><span class="co">#&gt;  [4] "f_hellinger"          "f_pca"                "f_percentage"        </span></span>
-<span><span class="co">#&gt;  [7] "f_proportion"         "f_rescale"            "f_scale"             </span></span>
-<span><span class="co">#&gt; [10] "f_scale_global"       "f_slope"              "f_smooth_window"     </span></span>
-<span><span class="co">#&gt; [13] "f_trend_linear"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
+<span><span class="co">#&gt;  [4] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
+<span><span class="co">#&gt;  [7] "f_rescale_global"     "f_rescale_local"      "f_scale_global"      </span></span>
+<span><span class="co">#&gt; [10] "f_scale_local"        "f_slope"              "f_trend_linear"</span></span></code></pre></div>
 <p>Let’s take a look at a few examples.</p>
 <div class="section level4">
-<h4 id="scaling-and-centering">Scaling and Centering<a class="anchor" aria-label="anchor" href="#scaling-and-centering"></a>
+<h4 id="scaling">Scaling<a class="anchor" aria-label="anchor" href="#scaling"></a>
 </h4>
-<p>The three time series in the dataset <code>fagus_dynamics</code> have
-three variables in different units, which may result in unreliable
-dissimilarity analyses.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<p>Scaling and centering multivariate time series is essential in
+dynamic time warping to ensure all variables contribute equally,
+regardless of their range or units.</p>
+<p>For example, the dataset <code>fagus_dynamics</code> has variables in
+different units.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/fagus_dynamics.html">fagus_dynamics</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
-<span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;      name    variable       mean         sd</span></span>
-<span><span class="co">#&gt; 1 Germany         evi  0.4475370  0.1467074</span></span>
-<span><span class="co">#&gt; 2   Spain         evi  0.3687245  0.1170178</span></span>
-<span><span class="co">#&gt; 3  Sweden         evi  0.3890579  0.2116391</span></span>
-<span><span class="co">#&gt; 4 Germany    rainfall 58.7157407 27.8993379</span></span>
-<span><span class="co">#&gt; 5   Spain    rainfall 91.1606481 48.1853638</span></span>
-<span><span class="co">#&gt; 6  Sweden    rainfall 64.7592593 32.5032507</span></span>
-<span><span class="co">#&gt; 7 Germany temperature 10.6861111  6.7015369</span></span>
-<span><span class="co">#&gt; 8   Spain temperature 13.0263889  4.7681695</span></span>
-<span><span class="co">#&gt; 9  Sweden temperature  8.5263889  6.5337833</span></span></code></pre></div>
-<p>Applying <code><a href="../reference/tsl_transform.html">tsl_transform()</a></code> with <code><a href="../reference/f_scale.html">f_scale()</a></code>
-scales and centers each variable individually to their means are ~0, and
-their standard deviations are 1.</p>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-36-1.png" width="750">
+Due to the differences in magnitude between variables, a dynamic time
+warping analysis will focus on <code>rainfall</code> disproportionately,
+biasing the results.</p>
+<p>To solve this issue, the package <code>distantia</code> implements
+two flavors of scaling and/or centering:</p>
+<ul>
+<li>
+<strong>Local</strong>: each variable is scaled and/or centered
+independently by time series.</li>
+<li>
+<strong>Global</strong>: each variable is scaled and/or centering
+using its mean and standard deviation across all time series.</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#local scaling</span></span>
+<span><span class="va">tsl_local_scaling</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_local.html">f_scale_local</a></span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#default</span></span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#global scaling</span></span>
+<span><span class="va">tsl_global_scaling</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_global.html">f_scale_global</a></span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#default</span></span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The stats of both scalings show that the global one preserves
+variable offsets between locations, while in the local one all variables
+have a mean ~0.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_scaled</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  f <span class="op">=</span> <span class="va">f_scale</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">#stats of local scaling</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span></span>
-<span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;      name    variable          mean sd</span></span>
-<span><span class="co">#&gt; 1 Germany         evi -6.831308e-17  1</span></span>
-<span><span class="co">#&gt; 2   Spain         evi -2.052254e-17  1</span></span>
-<span><span class="co">#&gt; 3  Sweden         evi  7.098864e-17  1</span></span>
-<span><span class="co">#&gt; 4 Germany    rainfall -4.628439e-17  1</span></span>
-<span><span class="co">#&gt; 5   Spain    rainfall -1.452216e-16  1</span></span>
-<span><span class="co">#&gt; 6  Sweden    rainfall  2.171218e-16  1</span></span>
-<span><span class="co">#&gt; 7 Germany temperature -1.090456e-16  1</span></span>
-<span><span class="co">#&gt; 8   Spain temperature  6.240186e-17  1</span></span>
-<span><span class="co">#&gt; 9  Sweden temperature  4.371794e-17  1</span></span></code></pre></div>
-<p>But this transformation removes information that may be important in
-a dissimilarity analysis. For example, temperature is usually much
-higher in Spain when compared to Sweden, but after scaling this detail
-goes away.</p>
-<p>An alternative is to use a global scaling, in which each variable is
-scaled by its average and standard deviation across all time series.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_scaled_global</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  f <span class="op">=</span> <span class="va">f_scale_global</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_transform(): scaling and/or centering with mean and standard deviation computed across all time series in 'tsl'.</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_local_scaling</span></span>
+<span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      name    variable                       mean sd</span></span>
+<span><span class="co">#&gt; 1 Germany         evi -0.00000000000000006831308  1</span></span>
+<span><span class="co">#&gt; 2   Spain         evi -0.00000000000000002052254  1</span></span>
+<span><span class="co">#&gt; 3  Sweden         evi  0.00000000000000007098864  1</span></span>
+<span><span class="co">#&gt; 4 Germany    rainfall -0.00000000000000004628439  1</span></span>
+<span><span class="co">#&gt; 5   Spain    rainfall -0.00000000000000014522160  1</span></span>
+<span><span class="co">#&gt; 6  Sweden    rainfall  0.00000000000000021712177  1</span></span>
+<span><span class="co">#&gt; 7 Germany temperature -0.00000000000000010904564  1</span></span>
+<span><span class="co">#&gt; 8   Spain temperature  0.00000000000000006240186  1</span></span>
+<span><span class="co">#&gt; 9  Sweden temperature  0.00000000000000004371794  1</span></span>
 <span></span>
+<span><span class="co">#stats of global scaling</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_scaled_global</span></span>
-<span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_global_scaling</span></span>
+<span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      name    variable         mean        sd</span></span>
 <span><span class="co">#&gt; 1 Germany         evi  0.274946362 0.8814083</span></span>
 <span><span class="co">#&gt; 2   Spain         evi -0.198553830 0.7030354</span></span>
@@ -932,19 +918,182 @@ scaled by its average and standard deviation across all time series.</p>
 <span><span class="co">#&gt; 7 Germany temperature -0.009510512 1.0589824</span></span>
 <span><span class="co">#&gt; 8   Spain temperature  0.360302107 0.7534701</span></span>
 <span><span class="co">#&gt; 9  Sweden temperature -0.350791594 1.0324738</span></span></code></pre></div>
-<p>The result of this operation preserves differences between time
-series, but if we convert the scaled tsl to data frame, we can see that
-the global mean and standard deviation of the variable “temperature” are
-still ~0 and 1.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_scaled_global</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_to_df.html">tsl_to_df</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_scaled_global</span></span>
+<p>The functions <code>f_rescale_local</code> and
+<code>f_rescale_global</code> work under the same principle to rescale
+variable ranges. By default, these functions rescale all time series
+between 0 and 1, but the arguments <code>new_min</code> and
+<code>new_max</code> can receive numeric vectors to set different ranges
+per variable.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_rescaled_local</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="va">f_rescale_local</span>,</span>
+<span>  new_min <span class="op">=</span> <span class="fl">0</span>, <span class="co">#same for all variables</span></span>
+<span>  new_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">df_scaled_global</span><span class="op">$</span><span class="va">temperature</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -1.017731e-16</span></span>
-<span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">df_scaled_global</span><span class="op">$</span><span class="va">temperature</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+<span><span class="va">tsl_rescaled_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="va">f_rescale_global</span>,</span>
+<span>  new_min <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  new_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The stats below show the results of the local and global
+rescaling.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"min"</span>, <span class="st">"max"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_rescaled_local</span></span>
+<span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      name    variable min max</span></span>
+<span><span class="co">#&gt; 1 Germany         evi   0   0</span></span>
+<span><span class="co">#&gt; 2   Spain         evi   0   0</span></span>
+<span><span class="co">#&gt; 3  Sweden         evi   0   0</span></span>
+<span><span class="co">#&gt; 4 Germany    rainfall   0 100</span></span>
+<span><span class="co">#&gt; 5   Spain    rainfall   0 100</span></span>
+<span><span class="co">#&gt; 6  Sweden    rainfall   0 100</span></span>
+<span><span class="co">#&gt; 7 Germany temperature   0  10</span></span>
+<span><span class="co">#&gt; 8   Spain temperature   0  10</span></span>
+<span><span class="co">#&gt; 9  Sweden temperature   0  10</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_rescaled_global</span></span>
+<span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
+<span><span class="co">#&gt;      name    variable        min       max</span></span>
+<span><span class="co">#&gt; 1 Germany         evi 0.03304993 0.8519938</span></span>
+<span><span class="co">#&gt; 2   Spain         evi 0.16944079 0.7209915</span></span>
+<span><span class="co">#&gt; 3  Sweden         evi 0.00000000 1.0000000</span></span>
+<span><span class="co">#&gt; 4 Germany    rainfall 0.00000000 0.6596244</span></span>
+<span><span class="co">#&gt; 5   Spain    rainfall 0.03615023 1.0000000</span></span>
+<span><span class="co">#&gt; 6  Sweden    rainfall 0.02206573 0.8732394</span></span>
+<span><span class="co">#&gt; 7 Germany temperature 0.10035842 1.0000000</span></span>
+<span><span class="co">#&gt; 8   Spain temperature 0.32974910 0.9462366</span></span>
+<span><span class="co">#&gt; 9  Sweden temperature 0.00000000 0.8853047</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="detrending">Detrending<a class="anchor" aria-label="anchor" href="#detrending"></a>
+</h4>
+<p>Removing trends in time series before applying dynamic time warping
+is crucial because it prevents inflated distance measurements caused by
+non-stationary components and ensures that the alignment focuses on
+meaningful shape features rather than being distorted by long-term
+trends.</p>
+<p>The transformation function <code>f_trend_linear</code> transforms
+time series into their linear trend. The example below applies this
+function to the <code>cities_temperature</code> dataset.</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#loading cities_temperature as tsl</span></span>
+<span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/cities_temperature.html">cities_temperature</a></span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">"time"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#computing linear trends</span></span>
+<span><span class="va">tsl_trend</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_trend_linear.html">f_trend_linear</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#plotting linear trends</span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
+<span>  columns <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  guide <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  color <span class="op">=</span> <span class="st">"red4"</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">1.5</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-41-1.png" width="750"></p>
+<p>We can now compute the stats of these linear trends to identify the
+cities with a steeper long-term temperature change.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#compute stats of linear trends</span></span>
+<span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
+<span>  lags <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#arrange from higher to lower range</span></span>
+<span><span class="va">df_stats</span><span class="op">[</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">df_stats</span><span class="op">$</span><span class="va">range</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"range"</span><span class="op">)</span></span>
+<span>  <span class="op">]</span></span>
+<span><span class="co">#&gt;                name     range</span></span>
+<span><span class="co">#&gt; 15           Moscow 1.6821989</span></span>
+<span><span class="co">#&gt; 12           London 1.3864875</span></span>
+<span><span class="co">#&gt; 19         Shanghai 1.3791695</span></span>
+<span><span class="co">#&gt; 16            Paris 1.3286522</span></span>
+<span><span class="co">#&gt; 6          Istanbul 1.3026069</span></span>
+<span><span class="co">#&gt; 3             Cairo 1.2096175</span></span>
+<span><span class="co">#&gt; 20            Tokyo 1.0892597</span></span>
+<span><span class="co">#&gt; 8           Karachi 1.0320425</span></span>
+<span><span class="co">#&gt; 18        São_Paulo 0.8453958</span></span>
+<span><span class="co">#&gt; 13      Los_Angeles 0.8322052</span></span>
+<span><span class="co">#&gt; 17   Rio_De_Janeiro 0.7802845</span></span>
+<span><span class="co">#&gt; 10            Lagos 0.7670465</span></span>
+<span><span class="co">#&gt; 9          Kinshasa 0.6908596</span></span>
+<span><span class="co">#&gt; 7           Jakarta 0.6667040</span></span>
+<span><span class="co">#&gt; 2            Bogotá 0.4577014</span></span>
+<span><span class="co">#&gt; 5  Ho_Chi_Minh_City 0.3983325</span></span>
+<span><span class="co">#&gt; 14           Manila 0.3216708</span></span>
+<span><span class="co">#&gt; 1           Bangkok 0.2431807</span></span>
+<span><span class="co">#&gt; 11             Lima 0.2421891</span></span>
+<span><span class="co">#&gt; 4             Dhaka 0.2317552</span></span></code></pre></div>
+<p>The function <code>f_detrend_linear</code> removes these temporal
+trends from the data.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_detrended</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_detrend_linear.html">f_detrend_linear</a></span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>With the code below we can check that the linear detrending actually
+removed linear trends from the data.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_trend</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_detrended</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_trend_linear.html">f_trend_linear</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
+<span>  lags <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_stats</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"range"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                name                      range</span></span>
+<span><span class="co">#&gt; 1           Bangkok 0.000000000000000328592658</span></span>
+<span><span class="co">#&gt; 2            Bogotá 0.000000000000000484878289</span></span>
+<span><span class="co">#&gt; 3             Cairo 0.000000000000000943646582</span></span>
+<span><span class="co">#&gt; 4             Dhaka 0.000000000000000329773971</span></span>
+<span><span class="co">#&gt; 5  Ho_Chi_Minh_City 0.000000000000000890841633</span></span>
+<span><span class="co">#&gt; 6          Istanbul 0.000000000000000808987093</span></span>
+<span><span class="co">#&gt; 7           Jakarta 0.000000000000001206220863</span></span>
+<span><span class="co">#&gt; 8           Karachi 0.000000000000000581163990</span></span>
+<span><span class="co">#&gt; 9          Kinshasa 0.000000000000002226721698</span></span>
+<span><span class="co">#&gt; 10            Lagos 0.000000000000001024499755</span></span>
+<span><span class="co">#&gt; 11             Lima 0.000000000000000709047629</span></span>
+<span><span class="co">#&gt; 12           London 0.000000000000000614810456</span></span>
+<span><span class="co">#&gt; 13      Los_Angeles 0.000000000000000469843877</span></span>
+<span><span class="co">#&gt; 14           Manila 0.000000000000000006671831</span></span>
+<span><span class="co">#&gt; 15           Moscow 0.000000000000000851634434</span></span>
+<span><span class="co">#&gt; 16            Paris 0.000000000000000317550377</span></span>
+<span><span class="co">#&gt; 17   Rio_De_Janeiro 0.000000000000000841054716</span></span>
+<span><span class="co">#&gt; 18        São_Paulo 0.000000000000000464026082</span></span>
+<span><span class="co">#&gt; 19         Shanghai 0.000000000000000087755817</span></span>
+<span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="proportions-and-percentages">Proportions and Percentages<a class="anchor" aria-label="anchor" href="#proportions-and-percentages"></a>
+</h4>
+</div>
+<div class="section level4">
+<h4 id="hellinger-transformation">Hellinger Transformation<a class="anchor" aria-label="anchor" href="#hellinger-transformation"></a>
+</h4>
+</div>
+<div class="section level4">
+<h4 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
+</h4>
 </div>
 </div>
 </div>

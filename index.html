@@ -177,7 +177,7 @@
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 4 X132 2008-06-03 -89.62099 -1.389508 0.2018750    27.81250 183.4600</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 5 X132 2008-06-04 -89.62098 -1.389507 0.2256250    27.68750 114.8931</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 6 X132 2008-06-05 -89.62925 -1.425734 1.3706667    25.73333 245.8033</span></span></code></pre></div>
-<p>The <code>albatross</code> data is converted to <em>Time Series List</em> with <code><a href="reference/tsl_initialize.html">tsl_initialize()</a></code>, and scaled and centered with <code><a href="reference/tsl_transform.html">tsl_transform()</a></code> and <code>f_scale</code>, to facilitate shape-based comparisons and variable importance analyses.</p>
+<p>The <code>albatross</code> data is converted to <em>Time Series List</em> with <code><a href="reference/tsl_initialize.html">tsl_initialize()</a></code>, and scaled and centered with <code><a href="reference/tsl_transform.html">tsl_transform()</a></code> and <code>f_scale_local</code>, to facilitate shape-based comparisons and variable importance analyses.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">albatross</span>,</span>
@@ -186,9 +186,8 @@
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
-<span>    f <span class="op">=</span> <span class="va">f_scale</span></span>
+<span>    f <span class="op">=</span> <span class="va">f_scale_local</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -208,7 +207,6 @@
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_ls</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      x    y      psi</span></span>
@@ -232,7 +230,6 @@
 <code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      x    y      psi</span></span>
@@ -246,8 +243,7 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X132"</span>, <span class="st">"X153"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 <p>Deviations from the perfect diagonal in the least-cost path reveal adjustments made by DTW to align time series by shape rather than time. Vertical or horizontal segments indicate one sample of a time series is matched with multiple samples of another.</p>
 </div>
@@ -264,7 +260,6 @@
 <span>  permutation <span class="op">=</span> <span class="st">"restricted_by_row"</span>,</span>
 <span>  block_size <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      x    y      psi p_value</span></span>
@@ -284,7 +279,6 @@
 <code class="sourceCode R"><span><span class="va">df_importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia_importance.html">distantia_importance</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): No issues found.</span></span>
 <span></span>
 <span><span class="va">df_importance</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"variable"</span>, <span class="st">"importance"</span>, <span class="st">"effect"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;       x    y    variable  importance               effect</span></span>
@@ -344,12 +338,14 @@
 <span><span class="co">#&gt; stats::hclust(d = d_dist, method = method)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Cluster method   : ward.D </span></span>
-<span><span class="co">#&gt; Number of objects: 4</span></span>
-<span></span>
+<span><span class="co">#&gt; Number of objects: 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">#number of clusters</span></span>
 <span><span class="va">dtw_hclust</span><span class="op">$</span><span class="va">clusters</span></span>
-<span><span class="co">#&gt; [1] 2</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">#clustering data frame</span></span>
 <span><span class="co">#group label in column "cluster"</span></span>
 <span><span class="co">#negatives in column "silhouette_width" higlight anomalous cluster assignation</span></span>
@@ -358,8 +354,9 @@
 <span><span class="co">#&gt; 1 X132       1       0.26022412</span></span>
 <span><span class="co">#&gt; 2 X134       1       0.11726523</span></span>
 <span><span class="co">#&gt; 3 X136       1       0.05276177</span></span>
-<span><span class="co">#&gt; 4 X153       2       0.00000000</span></span>
-<span></span>
+<span><span class="co">#&gt; 4 X153       2       0.00000000</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">#tree plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>

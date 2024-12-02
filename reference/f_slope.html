@@ -71,7 +71,6 @@
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other tsl_transformation:
-<code><a href="f_center.html">f_center</a>()</code>,
 <code><a href="f_detrend_difference.html">f_detrend_difference</a>()</code>,
 <code><a href="f_detrend_linear.html">f_detrend_linear</a>()</code>,
 <code><a href="f_hellinger.html">f_hellinger</a>()</code>,
@@ -79,10 +78,10 @@
 <code><a href="f_pca.html">f_pca</a>()</code>,
 <code><a href="f_percentage.html">f_percentage</a>()</code>,
 <code><a href="f_proportion.html">f_proportion</a>()</code>,
-<code><a href="f_rescale.html">f_rescale</a>()</code>,
-<code><a href="f_scale.html">f_scale</a>()</code>,
+<code><a href="f_rescale_global.html">f_rescale_global</a>()</code>,
+<code><a href="f_rescale_local.html">f_rescale_local</a>()</code>,
 <code><a href="f_scale_global.html">f_scale_global</a>()</code>,
-<code><a href="f_smooth_window.html">f_smooth_window</a>()</code>,
+<code><a href="f_scale_local.html">f_scale_local</a>()</code>,
 <code><a href="f_trend_linear.html">f_trend_linear</a>()</code></p></div>
     </div>
 
@@ -90,7 +89,7 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Numeric vector of any length</span></span></span>
 <span class="r-in"><span><span class="fu">f_slope</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3591415</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3110479</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Numeric vector with length = 1</span></span></span>
 <span class="r-in"><span><span class="fu">f_slope</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>

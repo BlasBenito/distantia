@@ -105,9 +105,8 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale</span></span></span>
+<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale_global</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
@@ -123,7 +122,6 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span></span>
 <span class="r-in"><span>  lock_step <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): No issues found.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: future</span>
 <span class="r-in"><span></span></span>
@@ -135,12 +133,12 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span>  <span class="st">"psi"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y  distance lock_step       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden euclidean     FALSE 0.7018922</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden euclidean      TRUE 0.7034206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain euclidean      TRUE 0.9892150</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany  Spain euclidean     FALSE 0.9947403</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain Sweden euclidean     FALSE 1.1082660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden euclidean      TRUE 1.1233541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Germany Sweden euclidean     FALSE 0.8571217</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden euclidean      TRUE 0.8576700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain euclidean      TRUE 1.3061327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Germany  Spain euclidean     FALSE 1.3429956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden euclidean      TRUE 1.4708497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Spain Sweden euclidean     FALSE 1.4803954</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#aggregation using means</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia_aggregate</span><span class="op">(</span></span></span>
@@ -150,9 +148,9 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         x      y       psi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 0.9919776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.7026564</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.1158100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Germany  Spain 1.3245642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Germany Sweden 0.8573959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Spain Sweden 1.4756226</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
