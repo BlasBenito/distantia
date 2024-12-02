@@ -649,10 +649,9 @@ df_stats <- distantia::tsl_stats(
 df_stats[, c("name", "range")]
 ```
 
+#### Rowwise Transformations
 
-#### Proportions and Percentages
-
-#### Hellinger Transformation
+This section focuses on transformations involving rowwise operations. These are proportions, percentages, and the Hellinger transformation.
 
 #### Smoothing
 
