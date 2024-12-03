@@ -789,10 +789,12 @@ into a univariate TSL by creating a new zoo object from each column of
 the original zoo objects. This function helps apply dissimilarity
 analysis between individual variables in multivariate time series.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_univariate</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_burst.html">tsl_burst</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co">#burst multivariate time series to univariate</span></span>
+<span><span class="va">tsl_univariate</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_burst.html">tsl_burst</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">#check new names and column names</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_univariate</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   A__a   A__b   C__a   C__b   D__a   D__b </span></span>
 <span><span class="co">#&gt; "A__a" "A__b" "C__a" "C__b" "D__a" "D__b"</span></span>
@@ -815,11 +817,83 @@ analysis between individual variables in multivariate time series.</p>
 <span><span class="co">#&gt; $D__b</span></span>
 <span><span class="co">#&gt; [1] "x"</span></span>
 <span></span>
+<span><span class="co">#plot univariate time series</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_univariate</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-34-1.png" width="750"></p>
+</div>
+<div class="section level3">
+<h3 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
+</h3>
+<p>Aggregation summarizes multiple data points into a single value over
+a specified time interval. It reduces the number of samples, smooths
+noise out, and can transform irregular time series into regular. On the
+other hand, it obscures fine grain detail and alters statistical
+properties such as variance and autocorrelation.</p>
+<p>In <code>distantia</code>, this operation is supported by the
+function <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code>. This function has two
+arguments:</p>
+<ul>
+<li>
+<code>new_time</code>: time vector or keyword defining aggregation
+time intervals.</li>
+<li>
+<code>f</code>: aggregation function summarizing observations over
+aggregation time intervals.</li>
+</ul>
+<p>In the code below I will illustrate the usage of
+<code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code> to compute yearly temperature and
+precipitation indicators from the monthly observations of the dataset
+<code>honeycomb_climate</code>.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/honeycomb_climate.html">honeycomb_climate</a></span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"cell"</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">"time"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-35-1.png" width="750"></p>
+<p>The easiest way to define aggregation intervals in
+<code>distantia</code> is to use a keyword. The function
+<code><a href="../reference/tsl_time.html">tsl_time()</a></code> returns the supported keywords for a given
+TSL.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  keywords <span class="op">=</span> <span class="st">"aggregate"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">keywords</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "decades"  "years"    "quarters"</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="st">"years"</span></span></code></pre></div>
+<p>Computing temperature indicators</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  colnames <span class="op">=</span> <span class="st">"temperature"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Computing precipitation indicators</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_precipitation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  colnames <span class="op">=</span> <span class="st">"precipitation"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
+</h3>
 </div>
 <div class="section level3">
 <h3 id="data-transformations">Data Transformations<a class="anchor" aria-label="anchor" href="#data-transformations"></a>
@@ -828,7 +902,7 @@ analysis between individual variables in multivariate time series.</p>
 <code>f</code> to transform the values of a TSL. The names of the
 available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
 <span><span class="co">#&gt;  [4] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
@@ -843,7 +917,7 @@ dynamic time warping to ensure all variables contribute equally,
 regardless of their range or units.</p>
 <p>For example, the dataset <code>fagus_dynamics</code> has variables in
 different units.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/fagus_dynamics.html">fagus_dynamics</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
@@ -853,7 +927,7 @@ different units.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-36-1.png" width="750">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-41-1.png" width="750">
 Due to the differences in magnitude between variables, a dynamic time
 warping analysis will focus on <code>rainfall</code> disproportionately,
 biasing the results.</p>
@@ -867,7 +941,7 @@ independently by time series.</li>
 <strong>Global</strong>: each variable is scaled and/or centering
 using its mean and standard deviation across all time series.</li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#local scaling</span></span>
 <span><span class="va">tsl_local_scaling</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -886,7 +960,7 @@ using its mean and standard deviation across all time series.</li>
 <p>The stats of both scalings show that the global one preserves
 variable offsets between locations, while in the local one all variables
 have a mean ~0.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#stats of local scaling</span></span>
@@ -924,7 +998,7 @@ variable ranges. By default, these functions rescale all time series
 between 0 and 1, but the arguments <code>new_min</code> and
 <code>new_max</code> can receive numeric vectors to set different ranges
 per variable.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_rescaled_local</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="va">f_rescale_local</span>,</span>
@@ -940,7 +1014,7 @@ per variable.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The stats below show the results of the local and global
 rescaling.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"min"</span>, <span class="st">"max"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
@@ -982,7 +1056,7 @@ trends.</p>
 <p>The transformation function <code>f_trend_linear</code> transforms
 time series into their linear trend. The example below applies this
 function to the <code>cities_temperature</code> dataset.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#loading cities_temperature as tsl</span></span>
 <span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/cities_temperature.html">cities_temperature</a></span>,</span>
@@ -1004,10 +1078,10 @@ function to the <code>cities_temperature</code> dataset.</p>
 <span>  color <span class="op">=</span> <span class="st">"red4"</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">1.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-41-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-46-1.png" width="750"></p>
 <p>We can now compute the stats of these linear trends to identify the
 cities with a steeper long-term temperature change.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute stats of linear trends</span></span>
 <span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
@@ -1042,14 +1116,14 @@ cities with a steeper long-term temperature change.</p>
 <span><span class="co">#&gt; 4             Dhaka 0.2317552</span></span></code></pre></div>
 <p>The function <code>f_detrend_linear</code> removes these temporal
 trends from the data.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_detrended</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_detrend_linear.html">f_detrend_linear</a></span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>With the code below we can check that the linear detrending actually
 removed linear trends from the data.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_trend</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_detrended</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_trend_linear.html">f_trend_linear</a></span></span>
@@ -1089,10 +1163,6 @@ removed linear trends from the data.</p>
 <p>This section focuses on transformations involving rowwise operations.
 These are proportions, percentages, and the Hellinger
 transformation.</p>
-</div>
-<div class="section level4">
-<h4 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
-</h4>
 </div>
 </div>
 </div>

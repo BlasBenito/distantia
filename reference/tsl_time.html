@@ -111,6 +111,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <code><a href="tsl_count_NA.html">tsl_count_NA</a>()</code>,
 <code><a href="tsl_diagnose.html">tsl_diagnose</a>()</code>,
 <code><a href="tsl_handle_NA.html">tsl_handle_NA</a>()</code>,
+<code><a href="tsl_join.html">tsl_join</a>()</code>,
 <code><a href="tsl_names_clean.html">tsl_names_clean</a>()</code>,
 <code><a href="tsl_names_get.html">tsl_names_get</a>()</code>,
 <code><a href="tsl_names_set.html">tsl_names_set</a>()</code>,
@@ -141,9 +142,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  119  Date  days 360.3895   3.054148 2023-12-04 2024-11-28 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  137  Date  days 363.6654   2.674011 2023-12-04 2024-12-02 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  118  Date  days 363.4501   3.106411 2023-12-03 2024-12-01 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  134  Date  days 363.6355   2.734102 2023-12-04 2024-12-02 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  148  Date  days 360.6768   2.453584 2023-12-07 2024-12-01 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  117  Date  days 362.6552   3.126338 2023-12-04 2024-11-30 years, q....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -156,19 +157,19 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-12-03"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-12-04"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-12-02"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6672761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6175973</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_min</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17.67368</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14.85011</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "quarters" "months"   "weeks"    "days"     "years"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "years"    "quarters" "months"   "weeks"    "days"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $units_df</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor base_units    units threshold keyword</span>
