@@ -5,7 +5,6 @@
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
 #'
 #' @return list
 #' @export
@@ -33,8 +32,7 @@
 #' tsl_count_NA(tsl = tsl)
 #' @family tsl_management
 tsl_count_NA <- function(
-    tsl = NULL,
-    quiet = FALSE
+    tsl = NULL
 ){
 
   #replaces Inf with Na

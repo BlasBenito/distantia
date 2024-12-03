@@ -273,8 +273,7 @@ tsl_diagnose <- function(
 
     # NA values
     na.count <- tsl_count_NA(
-      tsl = tsl,
-      quiet = TRUE
+      tsl = tsl
     ) |>
       unlist() |>
       sum()

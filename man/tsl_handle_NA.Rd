@@ -6,7 +6,7 @@
 \alias{tsl_NaN_to_NA}
 \title{Handle NA Cases in Time Series Lists}
 \usage{
-tsl_handle_NA(tsl = NULL, na_action = c("omit", "impute"), quiet = FALSE)
+tsl_handle_NA(tsl = NULL, na_action = c("impute", "omit"))
 
 tsl_Inf_to_NA(tsl = NULL)
 
@@ -17,11 +17,9 @@ tsl_NaN_to_NA(tsl = NULL)
 
 \item{na_action}{(required, character) NA handling action. Available options are:
 \itemize{
-\item "omit" (default): rows with NA cases are removed.
-\item "impute" : NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.approx]{zoo::na.spline()}}).
+\item "impute" (default): NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.approx]{zoo::na.spline()}}).
+\item "omit": rows with NA cases are removed.
 }}
-
-\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
 time series list
@@ -50,7 +48,8 @@ tsl_nrow(tsl = tsl)
 
 #remove rows with NA
 tsl_no_na <- tsl_handle_NA(
-  tsl = tsl
+  tsl = tsl,
+  na_action = "omit"
 )
 
 #count rows again
@@ -90,6 +89,7 @@ Other tsl_management:
 \code{\link{tsl_colnames_set}()},
 \code{\link{tsl_count_NA}()},
 \code{\link{tsl_diagnose}()},
+\code{\link{tsl_join}()},
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_get}()},
 \code{\link{tsl_names_set}()},

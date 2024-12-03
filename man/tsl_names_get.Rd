@@ -50,6 +50,7 @@ Other tsl_management:
 \code{\link{tsl_count_NA}()},
 \code{\link{tsl_diagnose}()},
 \code{\link{tsl_handle_NA}()},
+\code{\link{tsl_join}()},
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_set}()},
 \code{\link{tsl_names_test}()},

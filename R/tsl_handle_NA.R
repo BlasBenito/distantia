@@ -7,10 +7,10 @@
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param na_action (required, character) NA handling action. Available options are:
 #' \itemize{
-#'   \item "omit" (default): rows with NA cases are removed.
-#'   \item "impute" : NA cases are interpolated from neighbors as a function of time (see [zoo::na.approx()] and [zoo::na.spline()]).
+#'   \item "impute" (default): NA cases are interpolated from neighbors as a function of time (see [zoo::na.approx()] and [zoo::na.spline()]).
+#'   \item "omit": rows with NA cases are removed.
+
 #' }
-#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
 #'
 #' @return time series list
 #' @export
@@ -36,7 +36,8 @@
 #'
 #' #remove rows with NA
 #' tsl_no_na <- tsl_handle_NA(
-#'   tsl = tsl
+#'   tsl = tsl,
+#'   na_action = "omit"
 #' )
 #'
 #' #count rows again
@@ -71,10 +72,9 @@
 tsl_handle_NA <- function(
     tsl = NULL,
     na_action = c(
-      "omit",
-      "impute"
-      ),
-    quiet = FALSE
+      "impute",
+      "omit"
+      )
 ){
 
   utils_check_args_tsl(
@@ -93,7 +93,7 @@ tsl_handle_NA <- function(
   )
 
   na_action <- match.arg(
-    arg = na_action,
+    arg = na_action[1],
     choices = c(
       "omit",
       "impute"
@@ -186,8 +186,7 @@ tsl_handle_NA <- function(
   }
 
   na.count <- tsl_count_NA(
-    tsl = tsl,
-    quiet = quiet
+    tsl = tsl
   )
 
   tsl <- tsl_names_set(

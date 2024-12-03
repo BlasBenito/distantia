@@ -464,18 +464,88 @@ The function `tsl_burst()` transforms a multivariate TSL into a univariate TSL b
 
 
 ```{r, fig.height=6}
+#burst multivariate time series to univariate
 tsl_univariate <- distantia::tsl_burst(
   tsl = tsl_new
 )
 
+#check new names and column names
 distantia::tsl_names_get(tsl = tsl_univariate)
 distantia::tsl_colnames_get(tsl = tsl_univariate)
 
+#plot univariate time series
 distantia::tsl_plot(
   tsl = tsl_univariate,
   guide = FALSE
   )
 ```
+
+### Aggregation
+
+Aggregation summarizes multiple data points into a single value over a specified time interval. It reduces the number of samples, smooths noise out, and can transform irregular time series into regular. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and autocorrelation.
+
+In `distantia`, this operation is supported by the function `tsl_aggregate()`. This function has two arguments:
+
+ - `new_time`: time vector or keyword defining aggregation time intervals.
+ - `f`: aggregation function summarizing observations over aggregation time intervals.
+ 
+In the code below I will illustrate the usage of `tsl_aggregate()` to compute yearly temperature and precipitation indicators from the monthly observations of the dataset `honeycomb_climate`.
+
+```{r, fig.height=5}
+tsl <- distantia::tsl_init(
+  x = distantia::honeycomb_climate,
+  name = "cell",
+  time = "time"
+)
+
+distantia::tsl_plot(
+  tsl = tsl[1:5]
+)
+```
+
+The easiest way to define aggregation intervals in `distantia` is to use a keyword. The function `tsl_time()` returns the supported keywords for a given TSL.
+
+```{r}
+df <- tsl_time(
+  tsl = tsl,
+  keywords = "aggregate"
+  )
+
+df$keywords |> 
+  unlist() |> 
+  unique()
+```
+```{r}
+interval <- "years"
+```
+
+Computing temperature indicators
+
+```{r}
+tsl_temperature <- tsl_subset(
+  tsl = tsl,
+  colnames = "temperature"
+)
+```
+
+
+Computing precipitation indicators
+
+```{r}
+tsl_precipitation <- tsl_subset(
+  tsl = tsl,
+  colnames = "precipitation"
+)
+```
+
+
+
+
+
+
+### Resampling
+
+### Smoothing
 
 ### Data Transformations
 
@@ -653,7 +723,7 @@ df_stats[, c("name", "range")]
 
 This section focuses on transformations involving rowwise operations. These are proportions, percentages, and the Hellinger transformation.
 
-#### Smoothing
+
 
 
 

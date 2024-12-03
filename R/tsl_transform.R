@@ -242,8 +242,7 @@ tsl_transform <- function(
   )
 
   na.count <- tsl_count_NA(
-    tsl = tsl,
-    quiet = FALSE
+    tsl = tsl
   )
 
   tsl

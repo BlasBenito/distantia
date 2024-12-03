@@ -4,12 +4,10 @@
 \alias{tsl_count_NA}
 \title{Count NA Cases in Time Series Lists}
 \usage{
-tsl_count_NA(tsl = NULL, quiet = FALSE)
+tsl_count_NA(tsl = NULL)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
-
-\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
 list
@@ -47,6 +45,7 @@ Other tsl_management:
 \code{\link{tsl_colnames_set}()},
 \code{\link{tsl_diagnose}()},
 \code{\link{tsl_handle_NA}()},
+\code{\link{tsl_join}()},
 \code{\link{tsl_names_clean}()},
 \code{\link{tsl_names_get}()},
 \code{\link{tsl_names_set}()},
