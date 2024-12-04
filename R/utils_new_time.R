@@ -138,7 +138,7 @@ utils_new_time <- function(
         length.out = floor(mean(old_time_df$rows))
       )
 
-      message("distantia::utils_new_time(): Resampling 'tsl' with a regular version of its own time.")
+      message("distantia::utils_new_time(): resampling 'tsl' to its average resolution.")
 
     }
 

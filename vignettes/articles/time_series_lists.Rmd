@@ -482,7 +482,7 @@ distantia::tsl_plot(
 
 ### Aggregation
 
-Aggregation summarizes multiple data points into a single value over a specified time interval. It reduces the number of samples, smooths noise out, can transform irregular time series into regular, and generate entirely new time series depending on the aggregation stats. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and autocorrelation.
+Aggregation reduces time series frequency (a.k.a **downsampling**) by summarizing multiple data points into a single value over a specified time interval. It results in a reduction in the number of samples, smooths noise out, can transform irregular time series into regular, and can generate entirely new time series depending on the aggregation stats. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and temporal autocorrelation.
 
 In `distantia`, this operation is supported by the function `tsl_aggregate()`. This function has two arguments:
 
@@ -637,7 +637,112 @@ tsl_plot(
 
 ### Resampling
 
-### Smoothing
+Resampling is a model-based method to change the frequency of a time series via interpolation. It is useful to align time series that are irregular or have different resolutions. It is important to take in mind that resampling to a frequency much higher than the original will definitely result in interpolation artifacts and distorted time series.
+
+The code below creates a TSL with two irregular time series with different number of rows.
+
+```{r, fig.height=2.5}
+tsl <- distantia::tsl_init(
+  x = list(
+    A = zoo_simulate(rows = 100, seasons = 10),
+    B = zoo_simulate(rows = 50, seasons = 10)
+  )
+)
+
+distantia::tsl_plot(
+  tsl = tsl, 
+  guide = FALSE
+  )
+```
+The time features of this TSL show clear differences in frequency between the time series A and B.
+
+```{r}
+distantia::tsl_time(tsl = tsl)[, c("name", "rows", "resolution", "begin", "end")]
+```
+By default, if the argument `new_time` is omitted, a linear model is used to resample the TSL to its average resolution over the intersection of its time ranges.
+
+```{r, fig.height=2.5, message = FALSE}
+tsl_resampled <- distantia::tsl_resample(
+  tsl = tsl
+)
+
+distantia::tsl_time(tsl = tsl_resampled)[, c("name", "rows", "resolution", "begin", "end")]
+
+distantia::tsl_plot(
+  tsl = tsl_resampled, 
+  guide = FALSE
+  )
+```
+Otherwise, a keyword can be used to define the resampling frequency. Again, we can find valid keywords using `distantia::tsl_time()`, but replacing "aggregate" with "resample" in the argument `keywords`.
+
+```{r}
+df <- distantia::tsl_time(
+  tsl = tsl,
+  keywords = "resample"
+  )
+
+df$keywords |> 
+  unlist() |> 
+  unique()
+```
+
+```{r, fig.height=2.5, message = FALSE}
+tsl_resampled <- distantia::tsl_resample(
+  tsl = tsl,
+  new_time = "weeks",
+  method = "loess"
+)
+
+tsl_time(tsl = tsl_resampled)[, c("name", "rows", "resolution", "begin", "end")]
+
+distantia::tsl_plot(
+  tsl = tsl_resampled, 
+  guide = FALSE
+  )
+```
+
+### Rolling-Window Smoothing
+
+This method computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series. In `distantia()`, this functionality is implemented in `tsl_smooth()`. Please, take in mind that it should not be applied to highly irregular time series, as it ignores time distance.
+
+The code below generates a noisy high-frequency time series, and applies `tsl_smooth()` with a couple of window sizes.
+
+```{r}
+tsl <- distantia::tsl_simulate(
+  rows = 1000,
+  irregular = FALSE
+)
+
+distantia::tsl_plot(
+  tsl = tsl,
+  guide = FALSE
+  )
+
+#smoothing with window 100
+tsl_smooth_100 <- tsl_smooth(
+  tsl = tsl,
+  window = 100,
+  f = mean
+)
+
+distantia::tsl_plot(
+  tsl = tsl_smooth_100,
+  guide = FALSE
+  )
+
+#smoothing with window 10
+tsl_smooth_10 <- tsl_smooth(
+  tsl = tsl,
+  window = 10,
+  f = mean
+)
+
+distantia::tsl_plot(
+  tsl = tsl_smooth_10,
+  guide = FALSE
+  )
+```
+
 
 ### Data Transformations
 

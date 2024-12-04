@@ -101,7 +101,9 @@ tsl_colnames_get(
 Other tsl_management: 
 \code{\link{tsl_burst}()},
 \code{\link{tsl_colnames_get}()},
+\code{\link{tsl_colnames_prefix}()},
 \code{\link{tsl_colnames_set}()},
+\code{\link{tsl_colnames_suffix}()},
 \code{\link{tsl_count_NA}()},
 \code{\link{tsl_diagnose}()},
 \code{\link{tsl_handle_NA}()},

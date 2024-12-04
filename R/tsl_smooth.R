@@ -21,7 +21,7 @@
 #'
 #' tsl <- tsl_simulate(n = 2)
 #'
-#' tsl_smooth <- tsl_smoothing(
+#' tsl_smooth <- tsl_smooth(
 #'   tsl = tsl,
 #'   window = 5,
 #'   f = mean
@@ -35,7 +35,7 @@
 #' future::plan(
 #'   future::sequential
 #' )
-tsl_smoothing <- function(
+tsl_smooth <- function(
     tsl = NULL,
     window = 3,
     f = NULL,
@@ -57,7 +57,7 @@ tsl_smoothing <- function(
 
       p()
 
-      x <- zoo_smoothing(
+      x <- zoo_smooth(
         x = x,
         window = window,
         f = f,

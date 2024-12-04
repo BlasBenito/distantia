@@ -26,7 +26,7 @@ time series list
 \description{
 \strong{Objective}
 
-Time series resampling involves interpolating new values for time steps not available in the original time series. This operation is useful to:
+Time series resampling interpolates new values for time steps not available in the original time series. This operation is useful to:
 \itemize{
 \item Transform irregular time series into regular.
 \item Align time series with different temporal resolutions.
@@ -263,7 +263,7 @@ future::plan(
 
 Other tsl_processing: 
 \code{\link{tsl_aggregate}()},
-\code{\link{tsl_smoothing}()},
+\code{\link{tsl_smooth}()},
 \code{\link{tsl_stats}()},
 \code{\link{tsl_transform}()}
 }

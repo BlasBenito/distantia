@@ -243,22 +243,23 @@ zoo_resample <- function(
   }
 
   #convert times to numeric
-  time_numeric <- utils_coerce_time_class(
+  new_time_numeric <- utils_coerce_time_class(
     x = new_time,
     to = "numeric"
   )
+
+  old_time <- zoo::index(x)
 
   old_time_numeric <- utils_coerce_time_class(
     x = old_time,
     to = "numeric"
   )
 
-  iterations <- seq_len(ncol(x))
-
+  #interpolate
   `%iterator%` <- foreach::`%do%`
 
   y <- foreach::foreach(
-    i = iterations,
+    i = seq_len(ncol(x)),
     .combine = "cbind",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
@@ -302,7 +303,7 @@ zoo_resample <- function(
 
       y.i <- stats::predict(
         object = interpolation.model,
-        x = time_numeric
+        x = new_time_numeric
       )$y
 
     } else {
@@ -310,7 +311,7 @@ zoo_resample <- function(
       y.i <- stats::predict(
         object = interpolation.model,
         newdata = data.frame(
-          x = time_numeric
+          x = new_time_numeric
         )
       )
 

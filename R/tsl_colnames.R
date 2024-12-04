@@ -429,6 +429,7 @@ tsl_colnames_clean <- function(
 #' )
 #'
 #' tsl_colnames_get(tsl = tsl)
+#' @family tsl_management
 tsl_colnames_suffix <- function(
     tsl = NULL,
     suffix = NULL
@@ -478,6 +479,7 @@ tsl_colnames_suffix <- function(
 #' )
 #'
 #' tsl_colnames_get(tsl = tsl)
+#' @family tsl_management
 tsl_colnames_prefix <- function(
     tsl = NULL,
     prefix = NULL
