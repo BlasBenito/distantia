@@ -97,7 +97,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_burst.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_clean.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_get.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_prefix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_set.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/tsl_colnames_suffix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_count_NA.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_diagnose.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_handle_NA.html</loc></url>
@@ -113,7 +115,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_repair.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_resample.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_simulate.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/tsl_smoothing.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/tsl_smooth.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_subset.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_time.html</loc></url>
@@ -171,7 +173,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_plot.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_resample.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_simulate.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/zoo_smoothing.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/zoo_smooth.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_time.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_to_tsl.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/zoo_vector_to_matrix.html</loc></url>
