@@ -299,8 +299,8 @@ tsl_colnames_set <- function(
 #' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
 #' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
-#' @param suffix (optional, character string) String to append to the cleaned names. Default: NULL.
-#' @param prefix (optional, character string)  String to prepend to the cleaned names. Default: NULL.
+#' @param suffix (optional, character string) String to append to the column names. Default: NULL.
+#' @param prefix (optional, character string)  String to prepend to the column names. Default: NULL.
 #'
 #' @return time series list
 #'
@@ -401,6 +401,105 @@ tsl_colnames_clean <- function(
       base::names(x_colnames) <- NULL
 
       colnames(x) <- x_colnames
+
+      x
+
+    }
+  )
+
+  tsl
+
+}
+
+
+#' Append Suffix to Column Names of Time Series List
+#'
+#' @inheritParams tsl_colnames_clean
+#' @return time series list
+#' @export
+#' @autoglobal
+#' @examples
+#' tsl <- tsl_simulate()
+#'
+#' tsl_colnames_get(tsl = tsl)
+#'
+#' tsl <- tsl_colnames_suffix(
+#'   tsl = tsl,
+#'   suffix = "_my_suffix"
+#' )
+#'
+#' tsl_colnames_get(tsl = tsl)
+tsl_colnames_suffix <- function(
+    tsl = NULL,
+    suffix = NULL
+){
+
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
+  if(is.null(suffix)){
+    return(tsl)
+  }
+
+  tsl <- future.apply::future_lapply(
+    X = tsl,
+    FUN = function(x){
+
+      colnames(x) <- paste0(
+        colnames(x),
+        suffix
+      )
+
+      x
+
+    }
+  )
+
+  tsl
+
+}
+
+#' Append Prefix to Column Names of Time Series List
+#'
+#' @inheritParams tsl_colnames_clean
+#' @return time series list
+#' @export
+#' @autoglobal
+#' @examples
+#' tsl <- tsl_simulate()
+#'
+#' tsl_colnames_get(tsl = tsl)
+#'
+#' tsl <- tsl_colnames_prefix(
+#'   tsl = tsl,
+#'   prefix = "my_prefix_"
+#' )
+#'
+#' tsl_colnames_get(tsl = tsl)
+tsl_colnames_prefix <- function(
+    tsl = NULL,
+    prefix = NULL
+){
+
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
+  if(is.null(prefix)){
+    return(tsl)
+  }
+
+  tsl <- future.apply::future_lapply(
+    X = tsl,
+    FUN = function(x){
+
+      colnames(x) <- paste0(
+        prefix,
+        colnames(x)
+      )
 
       x
 

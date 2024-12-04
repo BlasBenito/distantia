@@ -36,6 +36,11 @@ tsl_count_NA <- function(
     tsl = NULL
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   #replaces Inf with Na
   tsl <- tsl_Inf_to_NA(
     tsl = tsl

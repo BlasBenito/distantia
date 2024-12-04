@@ -81,6 +81,11 @@ tsl_diagnose <- function(
     full = TRUE
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   if(!is.logical(full)){
     stop("distantia::tsl_diagnose(): argument 'full' must be TRUE to run a full diagnostic, and FALSE otherwise.", call. = FALSE)
   }

@@ -482,7 +482,7 @@ distantia::tsl_plot(
 
 ### Aggregation
 
-Aggregation summarizes multiple data points into a single value over a specified time interval. It reduces the number of samples, smooths noise out, and can transform irregular time series into regular. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and autocorrelation.
+Aggregation summarizes multiple data points into a single value over a specified time interval. It reduces the number of samples, smooths noise out, can transform irregular time series into regular, and generate entirely new time series depending on the aggregation stats. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and autocorrelation.
 
 In `distantia`, this operation is supported by the function `tsl_aggregate()`. This function has two arguments:
 
@@ -496,17 +496,20 @@ tsl <- distantia::tsl_init(
   x = distantia::honeycomb_climate,
   name = "cell",
   time = "time"
-)
+) |> 
+  tsl_subset(
+    names = 1:5 #subset first five elements
+  )
 
 distantia::tsl_plot(
-  tsl = tsl[1:5]
+  tsl = tsl
 )
 ```
 
 The easiest way to define aggregation intervals in `distantia` is to use a keyword. The function `tsl_time()` returns the supported keywords for a given TSL.
 
 ```{r}
-df <- tsl_time(
+df <- distantia::tsl_time(
   tsl = tsl,
   keywords = "aggregate"
   )
@@ -515,41 +518,122 @@ df$keywords |>
   unlist() |> 
   unique()
 ```
-Let's settle for "years" in this example.
+Let's settle for "quarters" in this example.
 
 ```{r}
-interval <- "years"
+interval <- "quarters"
 ```
 
-Computing temperature indicators
+The code below subsets the column "temperature" in `tsl`, computes the yearly minimum, maximum, and mean, adds a suffix to each stats, and join all results in a new time series list.
 
-```{r}
-tsl_temperature <- tsl_subset(
+```{r, fig.height=5}
+#subset temperature column
+tsl_temperature <- distantia::tsl_subset(
   tsl = tsl,
   colnames = "temperature"
 )
 
-tsl_temperature_agg <- tsl_aggregate(
-  tsl = tsl,
+#compute stats: minimum, maximum, and mean
+tsl_temperature_min <- distantia::tsl_aggregate(
+  tsl = tsl_temperature,
   new_time = interval,
   f = min
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_min" #set suffix for aggregated column
+  )
+
+tsl_temperature_max <- distantia::tsl_aggregate(
+  tsl = tsl_temperature,
+  new_time = interval,
+  f = max
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_max"
+  )
+
+tsl_temperature_mean <- distantia::tsl_aggregate(
+  tsl = tsl_temperature,
+  new_time = interval,
+  f = mean
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_mean"
+  )
+
+#join stats together
+tsl_temperature_stats <- distantia::tsl_join(
+  tsl_temperature_min,
+  tsl_temperature_max,
+  tsl_temperature_mean
+)
+
+#plot first 
+tsl_plot(
+  tsl = tsl_temperature_stats
 )
 ```
+Something similar can be done with the precipitation column.
 
-
-Computing precipitation indicators
-
-```{r}
-tsl_precipitation <- tsl_subset(
+```{r, fig.height=5}
+#subset temperature column
+tsl_precipitation <- distantia::tsl_subset(
   tsl = tsl,
   colnames = "precipitation"
 )
+
+#compute stats: minimum, maximum, and mean
+tsl_precipitation_sum <- distantia::tsl_aggregate(
+  tsl = tsl_precipitation,
+  new_time = interval,
+  f = sum
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_sum" #set suffix for aggregated column
+  )
+
+tsl_precipitation_max <- distantia::tsl_aggregate(
+  tsl = tsl_precipitation,
+  new_time = interval,
+  f = max
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_max"
+  )
+
+tsl_precipitation_min <- distantia::tsl_aggregate(
+  tsl = tsl_precipitation,
+  new_time = interval,
+  f = min
+) |> 
+  distantia::tsl_colnames_suffix(
+    suffix = "_min"
+  )
+
+#join stats together
+tsl_precipitation_stats <- distantia::tsl_join(
+  tsl_precipitation_sum,
+  tsl_precipitation_max,
+  tsl_precipitation_min
+)
+
+#plot first 
+tsl_plot(
+  tsl = tsl_precipitation_stats
+)
 ```
+To finalize this section, we join together the resuls of all aggregations.
 
+```{r, fig.height=5}
+tsl_climate_stats <- tsl_join(
+  tsl_temperature_stats,
+  tsl_precipitation_stats
+)
 
-
-
-
+tsl_plot(
+  tsl = tsl_climate_stats
+)
+```
 
 ### Resampling
 

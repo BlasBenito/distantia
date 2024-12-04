@@ -42,6 +42,11 @@ tsl_smoothing <- function(
     ...
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   #progress bar
   p <- progressr::progressor(along = tsl)
 

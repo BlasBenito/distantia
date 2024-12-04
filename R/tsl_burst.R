@@ -41,6 +41,11 @@ tsl_burst <- function(
     sep = "__"
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   #return tsl if univariate already
   tsl_columns <- tsl_ncol(tsl) |>
     unlist() |>

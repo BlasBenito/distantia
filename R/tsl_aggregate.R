@@ -148,6 +148,11 @@ tsl_aggregate <- function(
     ...
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   new_time <- utils_new_time(
     tsl = tsl,
     new_time = new_time,

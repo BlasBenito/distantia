@@ -70,6 +70,11 @@ tsl_plot <- function(
     guide_cex = 0.8
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   axis_title_distance <- 2.2
 
   # Preserve user's config

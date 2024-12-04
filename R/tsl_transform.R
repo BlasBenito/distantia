@@ -157,6 +157,11 @@ tsl_transform <- function(
     ...
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   if(is.function(f) == FALSE){
 
     stop(

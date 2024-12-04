@@ -28,9 +28,9 @@ tsl_colnames_clean(
 
 \item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via \code{\link[=abbreviate]{abbreviate()}}. Default: NULL.}
 
-\item{suffix}{(optional, character string) String to append to the cleaned names. Default: NULL.}
+\item{suffix}{(optional, character string) String to append to the column names. Default: NULL.}
 
-\item{prefix}{(optional, character string)  String to prepend to the cleaned names. Default: NULL.}
+\item{prefix}{(optional, character string)  String to prepend to the column names. Default: NULL.}
 }
 \value{
 time series list

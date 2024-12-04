@@ -29,6 +29,11 @@ tsl_to_df <- function(
     tsl = NULL
 ){
 
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
+
   df_list <- lapply(
     X = tsl,
     FUN = function(x){

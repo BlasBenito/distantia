@@ -83,7 +83,10 @@ tsl_repair <- function(
     full = TRUE
 ){
 
-  #TODO: review this functions logic along with tsl_diagnose().
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 1
+  )
 
   if(!is.logical(full)){
     stop("distantia::tsl_repair(): argument 'full' must be TRUE to run a full repair, and FALSE otherwise.", call. = FALSE)
