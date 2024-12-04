@@ -4,9 +4,7 @@
 #'
 #' Function for time series transformations without changes in data dimensions. Generally, functions introduced via the argument `f` should not change the dimensions of the output time series list. See [tsl_resample()] and [tsl_aggregate()] for transformations requiring changes in time series dimensions.
 #'
-#'
-#' This function also accepts a parallelization setup via [future::plan()] and progress bars via the `progressr` package.
-#'
+#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param f (required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, [scale()]) should work as well:

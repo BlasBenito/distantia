@@ -26,8 +26,20 @@ time series list
 }
 \description{
 Removes or imputes NA cases in time series lists. Imputation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.approx]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
+
+This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
+
+#parallelization setup (not worth it for this data size)
+future::plan(
+ future::multisession,
+ workers = 2 #set to parallelly::availableCores() - 1
+)
+
+#progress bar
+# progressr::handlers(global = TRUE)
+
 #tsl with NA cases
 tsl <- tsl_simulate(
   na_fraction = 0.25
@@ -80,6 +92,11 @@ tsl_nrow(tsl = tsl_no_na)
 if(interactive()){
   tsl_plot(tsl = tsl_no_na)
 }
+
+#disable parallelization
+future::plan(
+  future::sequential
+)
 }
 \seealso{
 Other tsl_management: 

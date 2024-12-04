@@ -28,8 +28,6 @@ future::plan(
   workers = 2 #set to parallelly::availableCores() - 1
 )
 
-#progress bar
-progressr::handlers(global = TRUE)
 
 #generate two time series list to join
 tsl_a <- tsl_simulate(

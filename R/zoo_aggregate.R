@@ -80,18 +80,12 @@ zoo_aggregate <- function(
     stop("distantia::zoo_aggregate(): argument 'x' must be a zoo object.", call. = FALSE)
   }
 
-  if(is.character(f)){
-
-    f <- tryCatch(
-      match.fun(f),
-      error = function(e) NULL
-    )
-
-  }
-
-  if(is.function(f) == FALSE){
-    stop("distantia::zoo_aggregate(): Argument 'f' must be a function name. Examples of valid options are: 'mean', 'median', 'max', 'min', and 'sd'.", call. = FALSE)
-  }
+  f <- tryCatch(
+    match.fun(f),
+    error = function(e){
+      stop("distantia::zoo_aggregate(): Argument 'f' must be a function name. Examples of valid options are: 'mean', 'median', 'max', 'min', and 'sd'.", call. = FALSE)
+    }
+  )
 
   #new_time from keyword
   if(is.null(new_time)){

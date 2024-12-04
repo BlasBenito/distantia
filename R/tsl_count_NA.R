@@ -30,6 +30,7 @@
 #' tsl[[1]][4, 1] <- NaN
 #'
 #' tsl_count_NA(tsl = tsl)
+#'
 #' @family tsl_management
 tsl_count_NA <- function(
     tsl = NULL
@@ -45,13 +46,9 @@ tsl_count_NA <- function(
     tsl = tsl
   )
 
-  #progress bar
-  p <- progressr::progressor(along = tsl)
-
   na_count_list <- future.apply::future_lapply(
     X = tsl,
     FUN = function(x){
-      p()
       sum(is.na(x))
     }
   )

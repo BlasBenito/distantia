@@ -486,10 +486,10 @@ Aggregation summarizes multiple data points into a single value over a specified
 
 In `distantia`, this operation is supported by the function `tsl_aggregate()`. This function has two arguments:
 
- - `new_time`: time vector or keyword defining aggregation time intervals.
+ - `new_time`: time vector or keyword defining time intervals to aggregate over.
  - `f`: aggregation function summarizing observations over aggregation time intervals.
  
-In the code below I will illustrate the usage of `tsl_aggregate()` to compute yearly temperature and precipitation indicators from the monthly observations of the dataset `honeycomb_climate`.
+The code below illustrates the usage of `tsl_aggregate()` to compute yearly temperature and precipitation indicators from the monthly observations of the dataset `honeycomb_climate`.
 
 ```{r, fig.height=5}
 tsl <- distantia::tsl_init(
@@ -515,6 +515,8 @@ df$keywords |>
   unlist() |> 
   unique()
 ```
+Let's settle for "years" in this example.
+
 ```{r}
 interval <- "years"
 ```
@@ -525,6 +527,12 @@ Computing temperature indicators
 tsl_temperature <- tsl_subset(
   tsl = tsl,
   colnames = "temperature"
+)
+
+tsl_temperature_agg <- tsl_aggregate(
+  tsl = tsl,
+  new_time = interval,
+  f = min
 )
 ```
 

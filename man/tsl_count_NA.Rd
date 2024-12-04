@@ -36,6 +36,7 @@ tsl[[1]][3, 1] <- NaN
 tsl[[1]][4, 1] <- NaN
 
 tsl_count_NA(tsl = tsl)
+
 }
 \seealso{
 Other tsl_management: 

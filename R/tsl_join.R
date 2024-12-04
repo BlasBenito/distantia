@@ -16,8 +16,6 @@
 #'   workers = 2 #set to parallelly::availableCores() - 1
 #' )
 #'
-#' #progress bar
-#' progressr::handlers(global = TRUE)
 #'
 #' #generate two time series list to join
 #' tsl_a <- tsl_simulate(
@@ -87,14 +85,10 @@ tsl_join <- function(
     )
   }
 
-  p <- progressr::progressor(along = tsls)
-
   #subset common elements in all lists
   tsls <- future.apply::future_lapply(
     X = tsls,
     FUN = function(x){
-
-      p()
 
       tsl_subset(
         tsl = x,
@@ -103,14 +97,9 @@ tsl_join <- function(
 
     })
 
-  #join
-  p <- progressr::progressor(along = shared_names)
-
   tsl <- future.apply::future_lapply(
     X = shared_names,
     FUN = function(name) {
-
-      # p()
 
       do.call(
         what = zoo::merge.zoo,

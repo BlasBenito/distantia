@@ -142,8 +142,6 @@ utils_new_time <- function(
 
     }
 
-
-
   }
 
   # new_time is zoo ----
@@ -184,8 +182,14 @@ utils_new_time <- function(
   if(new_time_type == "standard_keyword"){
 
     new_time <- seq(
-      from = old_time$begin,
-      to = old_time$end,
+      from = lubridate::floor_date(
+        x = old_time$begin,
+        unit = new_time
+        ),
+      to = lubridate::ceiling_date(
+        x = old_time$end,
+        unit = new_time
+        ),
       by = new_time
     )
 

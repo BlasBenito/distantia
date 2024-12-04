@@ -3,6 +3,7 @@
 #' @description
 #' Removes or imputes NA cases in time series lists. Imputation is done via interpolation against time via [zoo::na.approx()], and if there are still leading or trailing NA cases after NA interpolation, then [zoo::na.spline()] is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
 #'
+#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param na_action (required, character) NA handling action. Available options are:
@@ -16,6 +17,16 @@
 #' @export
 #'
 #' @examples
+#'
+#' #parallelization setup (not worth it for this data size)
+#' future::plan(
+#'  future::multisession,
+#'  workers = 2 #set to parallelly::availableCores() - 1
+#' )
+#'
+#' #progress bar
+#' # progressr::handlers(global = TRUE)
+#'
 #' #tsl with NA cases
 #' tsl <- tsl_simulate(
 #'   na_fraction = 0.25
@@ -68,6 +79,11 @@
 #' if(interactive()){
 #'   tsl_plot(tsl = tsl_no_na)
 #' }
+#'
+#' #disable parallelization
+#' future::plan(
+#'   future::sequential
+#' )
 #' @family tsl_management
 tsl_handle_NA <- function(
     tsl = NULL,
@@ -101,17 +117,19 @@ tsl_handle_NA <- function(
     several.ok = FALSE
   )
 
+  #progress bar
+  p <- progressr::progressor(along = tsl)
 
   if(na_action == "omit"){
-
-    #progress bar
-    p <- progressr::progressor(along = tsl)
 
     tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
+
         p()
+
         stats::na.omit(x)
+
       }
     )
 
@@ -119,9 +137,6 @@ tsl_handle_NA <- function(
 
 
   if(na_action == "impute"){
-
-    #progress bar
-    p <- progressr::progressor(along = tsl)
 
     tsl <- future.apply::future_lapply(
       X = tsl,

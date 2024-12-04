@@ -30,7 +30,7 @@ time series list
 \description{
 Function for time series transformations without changes in data dimensions. Generally, functions introduced via the argument \code{f} should not change the dimensions of the output time series list. See \code{\link[=tsl_resample]{tsl_resample()}} and \code{\link[=tsl_aggregate]{tsl_aggregate()}} for transformations requiring changes in time series dimensions.
 
-This function also accepts a parallelization setup via \code{\link[future:plan]{future::plan()}} and progress bars via the \code{progressr} package.
+This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
 future::plan(

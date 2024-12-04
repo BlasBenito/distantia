@@ -16,6 +16,8 @@ data frame
 }
 \description{
 Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}} for more details.
+
+This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
 #parallelization and progress bar

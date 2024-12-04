@@ -3,7 +3,7 @@
 #' @description
 #' Fast permutation of zoo time series for null model testing using a fast and efficient C++ implementations of different restricted and free permutation methods.
 #'
-#' The available  permutation methods are:
+#' The available permutation methods are:
 #'
 #' \itemize{
 #'   \item "free" (see [permute_free_cpp()]): Unrestricted and independent re-shuffling of individual cases across rows and columns. Individual values are relocated to a new row and column within the dimensions of the original matrix.
@@ -11,6 +11,8 @@
 #' \item "restricted" (see [permute_restricted_cpp()]): Data re-shuffling across rows and columns is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, and individual cases are then assigned to a new row and column within their original block.
 #' \item "restricted_by_row" (see [permute_restricted_by_row_cpp()]): Re-shuffling of complete rows is restricted to blocks of contiguous rows. The algorithm divides the data matrix into a set of blocks of contiguous rows, each individual row is given a new random row number within its original block, and the block is reordered accordingly to generate the permuted output.
 #' }
+#'
+#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #' @param x (required, zoo object) zoo time series. Default: NULL
 #' @param repetitions (optional, integer) number of permutations to compute. Large numbers may compromise your R session. Default: 1
@@ -28,6 +30,16 @@
 #' @export
 #' @autoglobal
 #' @examples
+#' #parallelization and progress bar
+#' #for large datasets, parallelization accelerates cluster optimization
+#' future::plan(
+#'   future::multisession,
+#'   workers = 2 #set to parallelly::availableCores() - 1
+#' )
+#'
+#' #progress bar
+#' # progressr::handlers(global = TRUE)
+#'
 #' #simulate zoo time series
 #' x <- zoo_simulate(cols = 2)
 #'
@@ -90,6 +102,11 @@
 #'     guide = FALSE
 #'   )
 #' }
+#'
+#' #disable parallelization
+#' future::plan(
+#'   future::sequential
+#' )
 #' @family zoo_functions
 zoo_permute <- function(
     x = NULL,

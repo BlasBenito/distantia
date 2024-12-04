@@ -19,7 +19,7 @@ tsl_smoothing(tsl = NULL, window = 3, f = NULL, ...)
 time series list
 }
 \description{
-Rolling Window Smoothing of Time Series Lists
+This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
 

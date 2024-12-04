@@ -1,5 +1,7 @@
 #' Rolling Window Smoothing of Time Series Lists
 #'
+#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
+#'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @inheritParams zoo_smoothing
 #'
