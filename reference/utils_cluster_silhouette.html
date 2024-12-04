@@ -168,16 +168,16 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       3        0.1784972</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Imperial       2        0.5017030</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        Fresno       3        0.2587471</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         Butte       3        0.1295252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Contra_Costa       3        0.2497958</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          Kern       3        0.2816433</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Kings       2        0.5617081</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     El_Dorado       1       -0.1239964</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      Humboldt       1        0.1063839</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       3        0.1689190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       3       0.42264373</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Fresno       2       0.19610751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Imperial       2       0.32692191</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         Butte       3       0.33171545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Contra_Costa       3       0.44437549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          Kern       2       0.02226524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Kings       2       0.31397263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     El_Dorado       3       0.38899482</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      Humboldt       1       0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       2       0.18091946</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -185,7 +185,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2312926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2627916</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example with hierarchical clustering</span></span></span>
@@ -208,16 +208,16 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1       0.43660542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Imperial       2       0.31005370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        Fresno       2       0.16666706</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         Butte       1       0.30954165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Contra_Costa       1       0.44099284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          Kern       2       0.00792978</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Kings       2       0.35137866</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     El_Dorado       1       0.32903052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       1       0.42264373</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Fresno       2       0.19610751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Imperial       2       0.32692191</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         Butte       1       0.33171545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Contra_Costa       1       0.44437549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          Kern       2       0.02226524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7         Kings       2       0.31397263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     El_Dorado       1       0.38899482</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9      Humboldt       3       0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       2       0.17852496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       2       0.18091946</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#overall silhouette width</span></span></span>
 <span class="r-in"><span><span class="fu">utils_cluster_silhouette</span><span class="op">(</span></span></span>
@@ -225,7 +225,7 @@ This code was adapted from https://svn.r-project.org/R-packages/trunk/cluster/R/
 <span class="r-in"><span>  d <span class="op">=</span> <span class="va">psi_matrix</span>,</span></span>
 <span class="r-in"><span>  mean <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2530725</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2627916</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

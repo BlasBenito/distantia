@@ -61,7 +61,8 @@
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>(optional, character string) Argument of <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code> defining the agglomerative method. One of: "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Unambiguous abbreviations are accepted as well.</p></dd>
+<dd><p>(optional, character string) Argument of <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code> defining the agglomerative method. One of: "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Unambiguous abbreviations are accepted as well.</p>
+<p>This function supports a parallelization setup via <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>, and progress bars provided by the package <a href="https://CRAN.R-project.org/package=progressr" class="external-link">progressr</a>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -131,12 +132,12 @@
 <span class="r-in"><span><span class="co">#best solution in first row</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hclust_optimization</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   clusters   method silhouette_mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        2  average       0.3175009</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 mcquitty       0.3175009</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2   median       0.3175009</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        5   ward.D       0.3080265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        5  ward.D2       0.3080265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        5 complete       0.3080265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5   ward.D       0.3127728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        5  ward.D2       0.3127728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        5   single       0.3127728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        5 complete       0.3127728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        5  average       0.3127728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        5 mcquitty       0.3127728</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>

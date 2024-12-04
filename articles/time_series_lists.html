@@ -837,16 +837,15 @@ function <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></co
 arguments:</p>
 <ul>
 <li>
-<code>new_time</code>: time vector or keyword defining aggregation
-time intervals.</li>
+<code>new_time</code>: time vector or keyword defining time
+intervals to aggregate over.</li>
 <li>
 <code>f</code>: aggregation function summarizing observations over
 aggregation time intervals.</li>
 </ul>
-<p>In the code below I will illustrate the usage of
-<code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code> to compute yearly temperature and
-precipitation indicators from the monthly observations of the dataset
-<code>honeycomb_climate</code>.</p>
+<p>The code below illustrates the usage of <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code>
+to compute yearly temperature and precipitation indicators from the
+monthly observations of the dataset <code>honeycomb_climate</code>.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/honeycomb_climate.html">honeycomb_climate</a></span>,</span>
@@ -872,6 +871,7 @@ TSL.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "decades"  "years"    "quarters"</span></span></code></pre></div>
+<p>Let’s settle for “years” in this example.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="st">"years"</span></span></code></pre></div>
 <p>Computing temperature indicators</p>
@@ -879,6 +879,12 @@ TSL.</p>
 <code class="sourceCode R"><span><span class="va">tsl_temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  colnames <span class="op">=</span> <span class="st">"temperature"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tsl_temperature_agg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_aggregate.html">tsl_aggregate</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  new_time <span class="op">=</span> <span class="va">interval</span>,</span>
+<span>  f <span class="op">=</span> <span class="va">min</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Computing precipitation indicators</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
