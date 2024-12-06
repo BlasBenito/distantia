@@ -349,8 +349,8 @@ tsl_repair <- function(
   if(length(issues_structure) > 0){
 
     message(
-      "distantia::tsl_repair(): Structural repairs:\n",
-      "--------------------------\n\n",
+      "distantia::tsl_repair(): repairs in TSL structure:\n",
+      "--------------------------------------------------\n\n",
       paste(
         issues_structure,
         collapse = "\n\n"
@@ -362,8 +362,8 @@ tsl_repair <- function(
   if(length(issues_values) > 0){
 
     message(
-      "\n\nValue-related repairs:\n",
-      "--------------------------\n\n",
+      "\ndistantia::tsl_repair(): repairs in TSL values:\n",
+      "-------------------------------------------------\n\n",
       paste(
         issues_values,
         collapse = "\n\n"

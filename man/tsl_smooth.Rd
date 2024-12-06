@@ -2,9 +2,9 @@
 % Please edit documentation in R/tsl_smooth.R
 \name{tsl_smooth}
 \alias{tsl_smooth}
-\title{Rolling Window Smoothing of Time Series Lists}
+\title{Smoothing of Time Series Lists}
 \usage{
-tsl_smooth(tsl = NULL, window = 3, f = NULL, ...)
+tsl_smooth(tsl = NULL, window = 3, f = mean, alpha = NULL, ...)
 }
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
@@ -13,12 +13,20 @@ tsl_smooth(tsl = NULL, window = 3, f = NULL, ...)
 
 \item{f}{(optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
 
+\item{alpha}{(required, numeric) Exponential smoothing factor in the range (0, 1]. Determines the weight of the current value relative to past values. If not NULL, the arguments \code{window} and \code{f} are ignored, and exponential smoothing is performed instead. Default: NULL}
+
 \item{...}{(optional, additional arguments) additional arguments to \code{f}.}
 }
 \value{
 time series list
 }
 \description{
+Rolling-window and exponential smoothing of Time Series Lists.
+
+Rolling-window smoothing This computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series.
+
+Exponential smoothing computes each value as the weighted average of the current value and past smoothed values. This method is useful for reducing noise in time series data while preserving the overall trend.
+
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
@@ -33,10 +41,22 @@ future::plan(
 
 tsl <- tsl_simulate(n = 2)
 
+#rolling window smoothing
 tsl_smooth <- tsl_smooth(
   tsl = tsl,
   window = 5,
   f = mean
+)
+
+if(interactive()){
+  tsl_plot(tsl)
+  tsl_plot(tsl_smooth)
+}
+
+#exponential smoothing
+tsl_smooth <- tsl_smooth(
+  tsl = tsl,
+  alpha = 0.2
 )
 
 if(interactive()){

@@ -1,8 +1,7 @@
 #' Rolling Window Smoothing of Zoo Time Series
 #'
 #' @description
-#' Just a fancy wrapper of [zoo::rollapply()].
-#'
+#' Just a fancy wrapper for [zoo::rollapply()].
 #'
 #' @param x (required, zoo object) Time series to smooth Default: NULL
 #' @param window (optional, integer) Smoothing window width, in number of cases. Default: 3
@@ -60,7 +59,8 @@ zoo_smooth <- function(
   y <- zoo::rollapply(
     data = x,
     width = window,
-    fill = rep(x = "extend", times = window),
+    # fill = rep(x = "extend", times = window),
+    fill = "extend",
     FUN = f,
     ... = ...
   )

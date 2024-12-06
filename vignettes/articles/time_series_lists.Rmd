@@ -88,7 +88,8 @@ The index of zoo time series is extracted with `zoo::index()`.
 zoo::index(z)
 class(zoo::index(z))
 ```
-The classes for zoo indices explicitly supported in `distantia` are `Date`, `POSIXct`, and `numeric`. The function `distantia::zoo_time()` helps summarize the time features of a zoo object
+
+The classes for zoo indices explicitly supported in `distantia` are `Date`, `POSIXct`, and `numeric`. The function `distantia::zoo_time()` helps summarize the time features of a zoo object, including the time class.
 
 ```{r}
 distantia::zoo_time(x = z)
@@ -99,7 +100,8 @@ Additionally, in `distantia` all zoo objects are expected to have the attribute 
 ```{r}
 attributes(z)$name
 ```
-This attribute is used to facilitate plotting operations, and it is managed internally by `tsl_...()` functions. There are several functions in `distantia` to manage the names of zoo objects.
+
+This attribute, not part of the `zoo` class, is used to facilitate plotting operations, and it is managed internally by `tsl_...()` functions. There are several functions in `distantia` to manage the names of zoo objects.
 
 ```{r}
 #reset zoo name
@@ -125,8 +127,14 @@ This package comes with several functions to manipulate zoo objects:
   - `zoo_time()`: details of the zoo index.
   - `zoo_aggregate()`: time aggregation of zoo objects.
   - `zoo_resample()`: interpolation or extrapolation to a different time, or from irregular to regular time.
+  - `zoo_smooth()`: rolling-window smoothing.
   - `zoo_permute()`: restricted permutation.
   - `zoo_vector_to_matrix()` and `zoo_to_tsl()`: internal functions to facilitate handling zoo objects within TSLs.
+  
+```{r, echo = FALSE}
+rm(x, z)
+```
+
 
 ### Time Series Lists (TSL)
 
@@ -153,7 +161,7 @@ lapply(X = my_tsl, FUN = distantia::zoo_name_get)
 lapply(X = my_tsl, FUN = class)
 ```
 
-TSLs ready for dissimilarity analyses **must follow several rules**:
+TSLs ready for dissimilarity analyses **must follow several rules** to ensure that dissimilarity analyses run without issues:
 
   - The elements of the list or the zoo objects must be named.
   - Time series names cannot be duplicated.
@@ -164,21 +172,19 @@ TSLs ready for dissimilarity analyses **must follow several rules**:
   - All zoo objects within the TSL must share at least one column name.
   - The index of the zoo objects must be of the same class.
   
-These are many rules, I know, but the functions `tsl_diagnose()` and `tsl_repair()` are there to help you forget about them.
-
-When applying `tsl_diagnose()` to `my_tsl` we can see it has several issues.
+I understand these are way too many rules, but the functions `tsl_diagnose()` and `tsl_repair()` are there to help you forget about them. When applying `tsl_diagnose()` to `my_tsl` we can see it has several issues.
 
 ```{r}
 distantia::tsl_diagnose(tsl = my_tsl)
 ```
+
 From there, we can either follow the suggestions, or apply `tsl_repair()` directly, as done below.
 
 ```{r}
 my_tsl <- distantia::tsl_repair(tsl = my_tsl)
 ```
-This function identifies the issues raised up by `tsl_diagnose()` and repairs them when possible.
 
-If we run `tsl_diagnose()` again, all checks should be ok.
+This function identifies the issues raised up by `tsl_diagnose()` and repairs them when possible. If `tsl_diagnose()` is run again, it should stay silent if everything is ok.
 
 ```{r}
 distantia::tsl_diagnose(
@@ -194,6 +200,10 @@ distantia::tsl_plot(
   guide = FALSE
 )
 ```
+```{r, echo = FALSE}
+rm(my_tsl)
+```
+
 
 ## Creating TSLs
 
@@ -206,6 +216,7 @@ Long and tidy data frames are convenient structures to store multivariate time s
 ```{r}
 head(fagus_dynamics)
 ```
+
 Transforming this data frame to TSL is quite straightforward:
 
 ```{r, fig.height=4}
@@ -226,6 +237,7 @@ distantia::tsl_plot(
   tsl  = tsl
 )
 ```
+
 Once manipulated and/or analyzed, a TSL can be converted back to data frame with `tsl_to_df()`.
 
 ```{r}
@@ -233,11 +245,16 @@ df <- distantia::tsl_to_df(tsl = tsl)
 head(df)
 ```
 
+```{r, echo = FALSE}
+rm(df, tsl)
+```
+
+
 ### Wide Data Frame to TSL
 
 ```{r, echo = FALSE}
 evi_wide <- stats::reshape(
-  data = fagus_dynamics[, c(
+  data = distantia::fagus_dynamics[, c(
     "name",
     "time",
     "evi"
@@ -254,7 +271,8 @@ A wide data frame is a useful structure to store univariate time series observed
 ```{r}
 head(evi_wide)
 ```
-When no `name_column` is provided, `tsl_initialize()` assumes that the time series are coded as separate columns.
+
+When no `name_column` is provided, `tsl_initialize()` assumes that each column is a univariate time series.
 
 ```{r, fig.height=3}
 tsl <- distantia::tsl_initialize(
@@ -267,11 +285,13 @@ tsl_plot(
   guide = FALSE
 )
 ```
-In this case, the column names of the univariate zoo objects will have the same name ("x").
+
+In this case, the column names of the univariate zoo objects will "x".
 
 ```{r}
 distantia::tsl_colnames_get(tsl = tsl)
 ```
+
 This name can be reset as needed with `tsl_colnames_set()`.
 
 ```{r}
@@ -282,12 +302,18 @@ tsl <- distantia::tsl_colnames_set(
 
 distantia::tsl_colnames_get(tsl = tsl)
 ```
-This TSL can be converted to data frame, but this time the result comes in long format.
+
+This TSL can be converted to data frame, but this time the result is a long data frame.
 
 ```{r}
 df <- distantia::tsl_to_df(tsl = tsl)
 head(df)
 ```
+
+```{r, echo = FALSE}
+rm(df, evi_wide, tsl)
+```
+
 
 ### Vectors and Matrices to TSL
 
@@ -322,14 +348,20 @@ distantia::tsl_plot(
   guide = FALSE
 )
 ```
+```{r, echo = FALSE}
+rm(tsl)
+```
+
 
 ## The TSL Toolset
 
-All functions in `distantia` to handle TSLs are named `tsl_...()`. Several of these functions are designed to explore and better understand your TSLs, while others are designed to manipulate and transform them to facilitate dissimilarity analyses.
+The functions in `distantia` to handle TSLs are named after the pattern `tsl_...()`. Some of these functions are designed to explore and better understand your TSLs, while others are designed to manipulate and transform them to facilitate dissimilarity analyses.
+
+This section offers a complete overview of these functions and their applications.
 
 ### Parallelization Setup
 
-All TSL functions have something in common: **they are a bunch of `lapply` in a trench coat**. Most use a parallelized version of `lapply` from the `future.apply` package, `future.apply::future_lapply()`, and a few combine `foreach::foreach()` with `doFuture::`%dofuture%` in parallelized loops.
+The functions to manage TSLs **are a bunch of `lapply` in a trench coat**. Most use `future.apply::future_lapply()`, a parallelized version of `lapply` from the `future.apply` package, and a few combine `foreach::foreach()` with `doFuture::%dofuture%` in shameless parallelized loops.
 
 As such, they all support a parallelization backend provided by the `future` package, as shown below.
 
@@ -341,21 +373,27 @@ future::plan(
   future::multisession,
   workers = parallelly::availableCores() - 1
   )
+```
 
+They also support progress bars via the [`progressr`](https://progressr.futureverse.org/) package. However, this option, commented in the code below, does not work in Rmarkdown.
+
+```{r}
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)
 ```
 
-They also support progress bars via the [`progressr`](https://progressr.futureverse.org/) package. However, this option, commented in the code above, does not work in Rmarkdown.
 
 ### Explore TSLs
 
-This section showcases the tools available in `distantia` to extract details from our Time Series Lists. But first, let's create a simulated TSL.
+This section showcases all tools available in `distantia` to better understand our Time Series Lists. Logically, the section starts with `distantia::tsl_simulate()`, a function that has nothing to do with such purpose.
 
 ```{r, fig.height=4}
 tsl <- distantia::tsl_simulate(
   n = 4,
+  cols = 5,
   rows = 1000,
+  time_range = c("2010-01-01", "2020-01-01"),
+  data_range = c(0, 1),
   seasons = 10,
   na_fraction = 0.1,
   irregular = TRUE
@@ -367,29 +405,29 @@ tsl_plot(
   )
 ```
 
-The most general tools in this section are focused on simple things such as TSL names and dimensions.
+The simpler tools to explore TSLs are focused on simpler things, like extracting TSL names and dimensions.
 
 ```{r}
 #time series names
 distantia::tsl_names_get(tsl = tsl)
 
-#time series column names
+#column names
 distantia::tsl_colnames_get(tsl = tsl)
 
 #number of columns
 distantia::tsl_ncol(tsl = tsl)
 
-#number of roes
+#number of rows
 distantia::tsl_nrow(tsl = tsl)
 ```
 
-The function `tsl_time()` analyzes the time features of all time series in a TSL and generates a data frame.
+The function `tsl_time()` summarizes the time features of all time series in a TSL.
 
 ```{r}
 distantia::tsl_time(tsl = tsl)
 ```
 
-The function `tsl_stats()` focuses on the data values instead to provides a summary of their stats by time series and variable.
+The function `tsl_stats()`, on the other hand, computes stats by time series and variable to summarize the TSL values.
 
 ```{r}
 df_stats <- distantia::tsl_stats(
@@ -399,13 +437,12 @@ df_stats <- distantia::tsl_stats(
 
 df_stats
 ```
+
 ### Handle NA Cases
 
-Dissimilarity analyses with `distantia`, because they designed with computational efficiency in mind, **do not support NA cases**. 
+The dissimilarity analyses implemented in version 2.0 of `distantia` **do not support NA cases** in time series lists. There are two alternate workflows to handle NA cases in time series list. 
 
-There are two alternate workflows to handle NA data in time series list.
-
-The first uses `tsl_count_NA()` and `tsl_handle_NA()`. The former converts Inf and NaN to NA and counts NA cases in each time series, while the latter either omits or imputes NA cases via `zoo::na.approx()`.
+The first uses `tsl_count_NA()` and `tsl_handle_NA()`. The former function converts Inf and NaN to NA and counts NA cases in each time series, while the latter either omits or imputes NA cases via `zoo::na.approx()`.
 
 ```{r}
 #count NA
@@ -420,7 +457,8 @@ tsl_notNA <- distantia::tsl_handle_NA(
 #re-count
 distantia::tsl_count_NA(tsl = tsl_notNA) 
 ```
-The second workflow is more general because it can address other potential issues. It involves using `tsl_diagnose()` and `tsl_repair()`.
+
+The second workflow involves the functions `tsl_diagnose()` and `tsl_repair()`, is more general because it addresses other potential issues at once.
 
 ```{r}
 #diagnose issues with NA values
@@ -435,28 +473,20 @@ distantia::tsl_diagnose(tsl = tsl)
 
 ### Subsetting
 
-The function `tsl_subset()` helps focus on particular *regions* of a time series list. Additionally, this function returns by default the numeric columns that are shared across all time series in a TSL.
+The function `tsl_subset()` helps focus on particular *regions* of a time series list. Additionally, by default this function returns the numeric columns that are shared across all time series in a TSL.
 
 ```{r, fig.height=3.5}
-distantia::tsl_names_get(tsl = tsl)
-distantia::tsl_colnames_get(tsl = tsl)
-distantia::tsl_time(tsl = tsl)[, c("name", "begin", "end")]
-
 tsl_new <- distantia::tsl_subset(
   tsl = tsl,
   names = c("A", "C", "D"),
   colnames = c("a", "b"),
-  time = c("2014-01-01", "2018-01-01")
+  time = c("2014-01-01", "2018-01-01"),
+  numeric_cols = TRUE,
+  shared_cols = TRUE
 )
 
-
-distantia::tsl_names_get(tsl = tsl_new)
-distantia::tsl_colnames_get(tsl = tsl_new)
-distantia::tsl_time(tsl = tsl_new)[, c("name", "begin", "end")]
-
 distantia::tsl_plot(
-  tsl = tsl_new,
-  guide = FALSE
+  tsl = tsl_new
   )
 ```
 
@@ -469,8 +499,10 @@ tsl_univariate <- distantia::tsl_burst(
   tsl = tsl_new
 )
 
-#check new names and column names
+#check new time series names
 distantia::tsl_names_get(tsl = tsl_univariate)
+
+#check new column names
 distantia::tsl_colnames_get(tsl = tsl_univariate)
 
 #plot univariate time series
@@ -480,16 +512,21 @@ distantia::tsl_plot(
   )
 ```
 
+```{r, echo = FALSE}
+rm(tsl, tsl_new, tsl_notNA, tsl_univariate, df_stats)
+```
+
+
 ### Aggregation
 
 Aggregation reduces time series frequency (a.k.a **downsampling**) by summarizing multiple data points into a single value over a specified time interval. It results in a reduction in the number of samples, smooths noise out, can transform irregular time series into regular, and can generate entirely new time series depending on the aggregation stats. On the other hand, it obscures fine grain detail and alters statistical properties such as variance and temporal autocorrelation.
 
-In `distantia`, this operation is supported by the function `tsl_aggregate()`. This function has two arguments:
+In `distantia`, this operation is supported by the function `tsl_aggregate()`, with two arguments:
 
  - `new_time`: time vector or keyword defining time intervals to aggregate over.
  - `f`: aggregation function summarizing observations over aggregation time intervals.
  
-The code below illustrates the usage of `tsl_aggregate()` to compute yearly temperature and precipitation indicators from the monthly observations of the dataset `honeycomb_climate`.
+The code below illustrates this function's usage to compute yearly temperature and precipitation indicators from the monthly observations in the dataset `honeycomb_climate`.
 
 ```{r, fig.height=5}
 tsl <- distantia::tsl_init(
@@ -509,22 +546,24 @@ distantia::tsl_plot(
 The easiest way to define aggregation intervals in `distantia` is to use a keyword. The function `tsl_time()` returns the supported keywords for a given TSL.
 
 ```{r}
-df <- distantia::tsl_time(
+df_time <- distantia::tsl_time(
   tsl = tsl,
   keywords = "aggregate"
   )
 
-df$keywords |> 
+df_time$keywords |> 
   unlist() |> 
   unique()
 ```
-Let's settle for "quarters" in this example.
+
+Let's focus on "quarters" for the rest of the example.
 
 ```{r}
 interval <- "quarters"
 ```
 
-The code below subsets the column "temperature" in `tsl`, computes the yearly minimum, maximum, and mean, adds a suffix to each stats, and join all results in a new time series list.
+
+The code below subsets the column "temperature" in `tsl`, aggregates by computing the minimum, maximum, and mean per quarter, and adds a suffix to each new aggregated column.
 
 ```{r, fig.height=5}
 #subset temperature column
@@ -560,20 +599,10 @@ tsl_temperature_mean <- distantia::tsl_aggregate(
   distantia::tsl_colnames_suffix(
     suffix = "_mean"
   )
-
-#join stats together
-tsl_temperature_stats <- distantia::tsl_join(
-  tsl_temperature_min,
-  tsl_temperature_max,
-  tsl_temperature_mean
-)
-
-#plot first 
-tsl_plot(
-  tsl = tsl_temperature_stats
-)
 ```
-Something similar can be done with the precipitation column.
+
+
+Similar steps can be followed to process the variable "precipitation".
 
 ```{r, fig.height=5}
 #subset temperature column
@@ -609,37 +638,48 @@ tsl_precipitation_min <- distantia::tsl_aggregate(
   distantia::tsl_colnames_suffix(
     suffix = "_min"
   )
+```
 
-#join stats together
-tsl_precipitation_stats <- distantia::tsl_join(
+Finally, we join all new TSLs together to examine the result.
+
+```{r, fig.height=5}
+tsl_climate_stats <- distantia::tsl_join(
+  tsl_temperature_min,
+  tsl_temperature_max,
+  tsl_temperature_mean,
   tsl_precipitation_sum,
   tsl_precipitation_max,
   tsl_precipitation_min
 )
 
-#plot first 
-tsl_plot(
-  tsl = tsl_precipitation_stats
+distantia::tsl_plot(
+  tsl = tsl_climate_stats,
+  ylim = "relative"
 )
 ```
-To finalize this section, we join together the resuls of all aggregations.
 
-```{r, fig.height=5}
-tsl_climate_stats <- tsl_join(
-  tsl_temperature_stats,
-  tsl_precipitation_stats
-)
 
-tsl_plot(
-  tsl = tsl_climate_stats
+```{r, echo = FALSE}
+rm(
+  tsl_temperature_min,
+  tsl_temperature_max,
+  tsl_temperature_mean,
+  tsl_precipitation_sum,
+  tsl_precipitation_max,
+  tsl_precipitation_min,
+  tsl_climate_stats,
+  tsl_precipitation,
+  tsl_temperature,
+  interval
 )
 ```
+
 
 ### Resampling
 
 Resampling is a model-based method to change the frequency of a time series via interpolation. It is useful to align time series that are irregular or have different resolutions. It is important to take in mind that resampling to a frequency much higher than the original will definitely result in interpolation artifacts and distorted time series.
 
-The code below creates a TSL with two irregular time series with different number of rows.
+The code below creates two irregular time series with different number of rows.
 
 ```{r, fig.height=2.5}
 tsl <- distantia::tsl_init(
@@ -654,26 +694,38 @@ distantia::tsl_plot(
   guide = FALSE
   )
 ```
-The time features of this TSL show clear differences in frequency between the time series A and B.
+
+
+The time features of this TSL show clear differences in frequency between these time series.
 
 ```{r}
-distantia::tsl_time(tsl = tsl)[, c("name", "rows", "resolution", "begin", "end")]
+distantia::tsl_time(tsl = tsl)[
+  , 
+  c("name", "rows", "resolution", "begin", "end")
+  ]
 ```
-By default, if the argument `new_time` is omitted, a linear model is used to resample the TSL to its average resolution over the intersection of its time ranges.
+
+
+By default, if the argument `new_time` is omitted, a linear model (computed via `zoo:::na.approx()`) is used to resample the TSL to its average resolution over the intersection of all its time ranges.
 
 ```{r, fig.height=2.5, message = FALSE}
 tsl_resampled <- distantia::tsl_resample(
   tsl = tsl
 )
 
-distantia::tsl_time(tsl = tsl_resampled)[, c("name", "rows", "resolution", "begin", "end")]
+distantia::tsl_time(tsl = tsl_resampled)[
+  , 
+  c("name", "rows", "resolution", "begin", "end")
+  ]
 
 distantia::tsl_plot(
   tsl = tsl_resampled, 
   guide = FALSE
   )
 ```
-Otherwise, a keyword can be used to define the resampling frequency. Again, we can find valid keywords using `distantia::tsl_time()`, but replacing "aggregate" with "resample" in the argument `keywords`.
+
+
+Otherwise, a keyword can be used to define the resampling frequency. Again, we can find valid keywords using `tsl_time()`, but replacing "aggregate" with "resample" in the argument `keywords`.
 
 ```{r}
 df <- distantia::tsl_time(
@@ -693,7 +745,10 @@ tsl_resampled <- distantia::tsl_resample(
   method = "loess"
 )
 
-tsl_time(tsl = tsl_resampled)[, c("name", "rows", "resolution", "begin", "end")]
+tsl_time(tsl = tsl_resampled)[
+  , 
+  c("name", "rows", "resolution", "begin", "end")
+  ]
 
 distantia::tsl_plot(
   tsl = tsl_resampled, 
@@ -701,13 +756,20 @@ distantia::tsl_plot(
   )
 ```
 
-### Rolling-Window Smoothing
+```{r, echo = FALSE}
+rm(df, df_time, tsl, tsl_resampled)
+```
 
-This method computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series. In `distantia()`, this functionality is implemented in `tsl_smooth()`. Please, take in mind that it should not be applied to highly irregular time series, as it ignores time distance.
 
-The code below generates a noisy high-frequency time series, and applies `tsl_smooth()` with a couple of window sizes.
+### Smoothing
 
-```{r}
+Time series smoothing is used to mitigate noise in high-frequency time series, or to highlight general trends rather than fine-grain details. 
+
+The function `tsl_smooth()` implements two smoothing methods: rolling-window and exponential.
+
+To check how these methods work we first need a long and noisy TSL.
+
+```{r, fig.height=2.5}
 tsl <- distantia::tsl_simulate(
   rows = 1000,
   irregular = FALSE
@@ -717,7 +779,16 @@ distantia::tsl_plot(
   tsl = tsl,
   guide = FALSE
   )
+```
 
+
+#### Rolling-Window Smoothing
+
+This method computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It should not be applied to highly irregular time series, as it ignores time distance.
+
+The code below applies this method with two different window sizes.
+
+```{r, fig.height=2.5}
 #smoothing with window 100
 tsl_smooth_100 <- tsl_smooth(
   tsl = tsl,
@@ -742,17 +813,55 @@ distantia::tsl_plot(
   guide = FALSE
   )
 ```
+The window size determines the smoothing scale, and with that, the type of trend highlighted in the smoothing results.
+
+#### Exponential Smoothing
+
+This method generates each new value as the weighted average of the current value and past smoothed values. This weight is defined by the argument `alpha` in `tsl_smooth()`.
+
+```{r, fig.height=2.5}
+#smoothing with alpha 0.2
+tsl_smooth_exp_0.2 <- tsl_smooth(
+  tsl = tsl,
+  alpha = 0.2
+)
+
+distantia::tsl_plot(
+  tsl = tsl_smooth_exp_0.2,
+  guide = FALSE
+  )
+
+#smoothing with alpha 0.8
+tsl_smooth_exp_0.8 <- tsl_smooth(
+  tsl = tsl,
+  alpha = 0.8
+)
+
+distantia::tsl_plot(
+  tsl = tsl_smooth_exp_0.8,
+  guide = FALSE
+  )
+```
+Alpha values closer to zero produce smoother results, as the plots above show.
+
+```{r, echo = FALSE}
+rm(
+  tsl, 
+  tsl_smooth_10,
+  tsl_smooth_100,
+  tsl_smooth_exp_0.2,
+  tsl_smooth_exp_0.8
+)
+```
 
 
-### Data Transformations
+### Transformations
 
 The function `tsl_transform()` applies a function `f` to transform the values of a TSL. The names of the available `f` functions can be listed with `f_list()`.
 
 ```{r}
 distantia::f_list()
 ```
-
-Let's take a look at a few examples.
 
 #### Scaling
 
@@ -771,6 +880,7 @@ distantia::tsl_plot(
   tsl = tsl
 )
 ```
+
 Due to the differences in magnitude between variables, a dynamic time warping analysis will focus on `rainfall` disproportionately, biasing the results. 
 
 To solve this issue, the package `distantia` implements two flavors of scaling and/or centering:
@@ -782,22 +892,18 @@ To solve this issue, the package `distantia` implements two flavors of scaling a
 #local scaling
 tsl_local_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = distantia::f_scale_local,
-  scale = TRUE, #default
-  center = TRUE #default
+  f = distantia::f_scale_local
 )
 
 #global scaling
 tsl_global_scaling <- distantia::tsl_transform(
   tsl = tsl,
-  f = distantia::f_scale_global,
-  scale = TRUE, #default
-  center = TRUE #default
+  f = distantia::f_scale_global
 )
 ```
 
 
-The stats of both scalings show that the global one preserves variable offsets between locations, while in the local one all variables have a mean ~0.
+The stats of both operations show that the global one preserves variable offsets between locations, while the local one shows an average 0 and standard deviation 1 across all variables.
 
 ```{r}
 stats_cols <- c("name", "variable", "mean", "sd")
@@ -813,17 +919,17 @@ distantia::tsl_stats(
 )[, stats_cols]
 ```
 
-The functions `f_rescale_local` and `f_rescale_global` work under the same principle to rescale variable ranges. By default, these functions rescale all time series between 0 and 1, but the arguments `new_min` and `new_max` can receive numeric vectors to set different ranges per variable.
+The functions `f_rescale_local` and `f_rescale_global` work under the same principle to rescale variable ranges. By default, these functions rescale all time series between 0 and 1, but the arguments `new_min` and `new_max` can receive numeric vectors to set different ranges for different variables.
 
 ```{r}
-tsl_rescaled_local <- tsl_transform(
+tsl_local_rescaling <- tsl_transform(
   tsl = tsl,
   f = f_rescale_local,
   new_min = 0, #same for all variables
   new_max = c(0, 100, 10)
 )
 
-tsl_rescaled_global <- tsl_transform(
+tsl_global_rescaling <- tsl_transform(
   tsl = tsl,
   f = f_rescale_global,
   new_min = 0,
@@ -837,19 +943,33 @@ The stats below show the results of the local and global rescaling.
 stats_cols <- c("name", "variable", "min", "max")
 
 distantia::tsl_stats(
-  tsl = tsl_rescaled_local
+  tsl = tsl_local_rescaling
 )[, stats_cols]
 
 distantia::tsl_stats(
-  tsl = tsl_rescaled_global
+  tsl = tsl_global_rescaling
 )[, stats_cols]
 ```
 
+```{r, echo = FALSE}
+rm(
+  tsl,
+  tsl_global_scaling,
+  tsl_local_scaling,
+  tsl_global_rescaling,
+  tsl_local_rescaling,
+  stats_cols
+)
+```
+
+
 #### Detrending
 
-Removing trends in time series before applying dynamic time warping is crucial because it prevents inflated distance measurements caused by non-stationary components and ensures that the alignment focuses on meaningful shape features rather than being distorted by long-term trends.
+Removing trends in time series before applying dynamic time warping may help prevents inflated dissimilarity scores caused by non-stationary components. Detrending also ensures that the alignment generated by dynamic time warping focuses on meaningful shape features rather than being distorted by long-term trends.
 
-The transformation function `f_trend_linear` transforms time series into their linear trend. The example below applies this function to the `cities_temperature` dataset.
+The transformation function `f_trend_linear` transforms time series into their linear trend to help identify whether a time series needs detrending or not. 
+
+The example below applies this function to the `cities_temperature` dataset.
 
 ```{r, fig.height=10}
 #loading cities_temperature as tsl
@@ -891,7 +1011,7 @@ df_stats[
   ]
 ```
 
-The function `f_detrend_linear` removes these temporal trends from the data.
+Now that we identified the issue, the function `f_detrend_linear` helps remove these temporal trends from the data.
 
 ```{r}
 tsl_detrended <- distantia::tsl_transform(
@@ -900,7 +1020,7 @@ tsl_detrended <- distantia::tsl_transform(
 )
 ```
 
-With the code below we can check that the linear detrending actually removed linear trends from the data.
+The code below applies `f_trend_linear` again to demonstrate that the linear detrending worked as expected.
 
 ```{r, fig.height=10}
 tsl_trend <- distantia::tsl_transform(
@@ -915,6 +1035,15 @@ df_stats <- distantia::tsl_stats(
 
 df_stats[, c("name", "range")]
 ```
+```{r, echo = FALSE}
+rm(
+  tsl,
+  tsl_trend,
+  tsl_detrended,
+  df_stats
+)
+```
+
 
 #### Rowwise Transformations
 

@@ -46,6 +46,7 @@ Other zoo_functions:
 \code{\link{zoo_plot}()},
 \code{\link{zoo_resample}()},
 \code{\link{zoo_smooth}()},
+\code{\link{zoo_smooth_exponential}()},
 \code{\link{zoo_time}()},
 \code{\link{zoo_to_tsl}()}
 }

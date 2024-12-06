@@ -297,8 +297,8 @@ tsl_diagnose <- function(
   if(length(issues_structure) > 0){
 
     message(
-      "distantia::tsl_diagnose(): Structural issues:\n",
-      "-------------------------------------------\n\n",
+      "distantia::tsl_diagnose(): issues in TSL structure:\n",
+      "---------------------------------------------------\n\n",
       paste(
         issues_structure,
         collapse = "\n\n"
@@ -310,8 +310,8 @@ tsl_diagnose <- function(
   if(length(issues_values) > 0){
 
     message(
-      "\n\nValue-related issues:\n",
-      "-------------------------\n\n",
+      "\ndistantia::tsl_diagnose(): issues in TSL values:\n",
+      "--------------------------------------------------\n\n",
       paste(
         issues_values,
         collapse = "\n\n"
