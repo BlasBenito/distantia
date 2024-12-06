@@ -13,7 +13,7 @@
 #' @examples
 #' x <- zoo_simulate()
 #'
-#' x_smooth <- zoo_smooth_exp(
+#' x_smooth <- zoo_smooth_exponential(
 #'   x = x,
 #'   alpha = 0.2
 #' )

@@ -1047,7 +1047,7 @@ rm(
 
 #### Rowwise Transformations
 
-This section focuses on transformations involving rowwise operations. These are proportions, percentages, and the Hellinger transformation.
+This section focuses on transformations involving full rows. These are proportions, percentages, and the Hellinger transformation.
 
 
 

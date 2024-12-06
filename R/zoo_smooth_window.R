@@ -15,7 +15,7 @@
 #' @examples
 #' x <- zoo_simulate()
 #'
-#' x_smooth <- zoo_smooth(
+#' x_smooth <- zoo_smooth_window(
 #'   x = x,
 #'   window = 5,
 #'   f = mean
@@ -25,7 +25,7 @@
 #'   zoo_plot(x)
 #'   zoo_plot(x_smooth)
 #' }
-zoo_smooth <- function(
+zoo_smooth_window <- function(
     x = NULL,
     window = 3,
     f = mean,

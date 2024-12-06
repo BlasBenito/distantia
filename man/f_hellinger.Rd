@@ -4,7 +4,7 @@
 \alias{f_hellinger}
 \title{Data Transformation: Hellinger Transformation by Rows}
 \usage{
-f_hellinger(x = NULL, pseudozero = 1e-04, ...)
+f_hellinger(x = NULL, pseudozero = 0.0001, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}

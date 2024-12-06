@@ -10,7 +10,7 @@
 #' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @inheritParams zoo_smooth
+#' @inheritParams zoo_smooth_window
 #' @param alpha (required, numeric) Exponential smoothing factor in the range (0, 1]. Determines the weight of the current value relative to past values. If not NULL, the arguments `window` and `f` are ignored, and exponential smoothing is performed instead. Default: NULL
 #'
 #' @return time series list
@@ -84,7 +84,7 @@ tsl_smooth <- function(
 
       if(is.null(alpha)){
 
-        x <- zoo_smooth(
+        x <- zoo_smooth_window(
           x = x,
           window = window,
           f = f,
