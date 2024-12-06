@@ -44,6 +44,11 @@ utils_color_discrete_default <- function(
   if(n > 26 && n <= 36){
     pal <- "Polychrome 36"
   }
+  if(n > 36){
+    return(
+      utils_color_continuous_default(n = n)
+    )
+  }
 
   grDevices::palette.colors(
     n = n,
