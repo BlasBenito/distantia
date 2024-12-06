@@ -178,8 +178,8 @@ This function analyzes a tsl without modifying it to returns messages describing
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  full <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): Structural issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): issues in TSL structure:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ---------------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - core data of univariate zoo time series must be of class 'matrix': use lapply(tsl, distantia::zoo_vector_to_matrix) to fix this issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -191,9 +191,8 @@ This function analyzes a tsl without modifying it to returns messages describing
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Value-related issues:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> distantia::tsl_diagnose(): issues in TSL values:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span>
 </code></pre></div>

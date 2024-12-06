@@ -170,7 +170,8 @@ matrices.</p>
 <p>The classes for zoo indices explicitly supported in
 <code>distantia</code> are <code>Date</code>, <code>POSIXct</code>, and
 <code>numeric</code>. The function <code><a href="../reference/zoo_time.html">distantia::zoo_time()</a></code>
-helps summarize the time features of a zoo object</p>
+helps summarize the time features of a zoo object, including the time
+class.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_time.html">zoo_time</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     name rows class units   length resolution      begin        end</span></span>
@@ -182,10 +183,10 @@ to have the attribute <code>name</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="co">#&gt; [1] "my_zoo"</span></span></code></pre></div>
-<p>This attribute is used to facilitate plotting operations, and it is
-managed internally by <code>tsl_...()</code> functions. There are
-several functions in <code>distantia</code> to manage the names of zoo
-objects.</p>
+<p>This attribute, not part of the <code>zoo</code> class, is used to
+facilitate plotting operations, and it is managed internally by
+<code>tsl_...()</code> functions. There are several functions in
+<code>distantia</code> to manage the names of zoo objects.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#reset zoo name</span></span>
 <span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/zoo_name_set.html">zoo_name_set</a></span><span class="op">(</span></span>
@@ -218,6 +219,8 @@ objects:</p>
 <li>
 <code><a href="../reference/zoo_resample.html">zoo_resample()</a></code>: interpolation or extrapolation to a
 different time, or from irregular to regular time.</li>
+<li>
+<code><a href="../reference/zoo_smooth.html">zoo_smooth()</a></code>: rolling-window smoothing.</li>
 <li>
 <code><a href="../reference/zoo_permute.html">zoo_permute()</a></code>: restricted permutation.</li>
 <li>
@@ -265,7 +268,8 @@ your data easily to TSL.</p>
 <span><span class="co">#&gt; $B</span></span>
 <span><span class="co">#&gt; [1] "zoo"</span></span></code></pre></div>
 <p>TSLs ready for dissimilarity analyses <strong>must follow several
-rules</strong>:</p>
+rules</strong> to ensure that dissimilarity analyses run without
+issues:</p>
 <ul>
 <li>The elements of the list or the zoo objects must be named.</li>
 <li>Time series names cannot be duplicated.</li>
@@ -278,43 +282,40 @@ rules</strong>:</p>
 name.</li>
 <li>The index of the zoo objects must be of the same class.</li>
 </ul>
-<p>These are many rules, I know, but the functions
+<p>I understand these are way too many rules, but the functions
 <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code> are there to
-help you forget about them.</p>
-<p>When applying <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> to <code>my_tsl</code> we
-can see it has several issues.</p>
+help you forget about them. When applying <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> to
+<code>my_tsl</code> we can see it has several issues.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_diagnose(): Structural issues:</span></span>
-<span><span class="co">#&gt; -------------------------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): issues in TSL structure:</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - list and time series names must match and be unique: reset names with distantia::tsl_names_set().</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Value-related issues:</span></span>
-<span><span class="co">#&gt; -------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): issues in TSL values:</span></span>
+<span><span class="co">#&gt; --------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span></span></code></pre></div>
 <p>From there, we can either follow the suggestions, or apply
 <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code> directly, as done below.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_repair.html">tsl_repair</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">my_tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::tsl_repair(): Structural repairs:</span></span>
-<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_repair(): repairs in TSL structure:</span></span>
+<span><span class="co">#&gt; --------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - fixed naming issues.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - removed exclusive columns not shared across time series.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Value-related repairs:</span></span>
-<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_repair(): repairs in TSL values:</span></span>
+<span><span class="co">#&gt; -------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span></code></pre></div>
 <p>This function identifies the issues raised up by
-<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and repairs them when possible.</p>
-<p>If we run <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> again, all checks should be
-ok.</p>
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and repairs them when possible. If
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> is run again, it should stay silent if
+everything is ok.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span></span>
@@ -325,7 +326,7 @@ ok.</p>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-14-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-15-1.png" width="750"></p>
 </div>
 </div>
 <div class="section level2">
@@ -369,8 +370,8 @@ dates, and three numeric columns with environmental observations.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl  <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-16-1.png" width="750">
-Once manipulated and/or analyzed, a TSL can be converted back to data
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-18-1.png" width="750"></p>
+<p>Once manipulated and/or analyzed, a TSL can be converted back to data
 frame with <code><a href="../reference/tsl_to_df.html">tsl_to_df()</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_to_df.html">tsl_to_df</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
@@ -398,8 +399,8 @@ series observed in different places at the same times.</p>
 <span><span class="co">#&gt; 8 2001-05-01    0.4445      0.6880     0.5192</span></span>
 <span><span class="co">#&gt; 9 2001-06-01    0.6434      0.6837     0.5917</span></span></code></pre></div>
 <p>When no <code>name_column</code> is provided,
-<code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> assumes that the time series are coded as
-separate columns.</p>
+<code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> assumes that each column is a univariate
+time series.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">evi_wide</span>,</span>
@@ -410,9 +411,9 @@ separate columns.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-20-1.png" width="750">
-In this case, the column names of the univariate zoo objects will have
-the same name (“x”).</p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-23-1.png" width="750"></p>
+<p>In this case, the column names of the univariate zoo objects will
+“x”.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $evi_Spain</span></span>
@@ -440,8 +441,8 @@ the same name (“x”).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $evi_Sweden</span></span>
 <span><span class="co">#&gt; [1] "evi"</span></span></code></pre></div>
-<p>This TSL can be converted to data frame, but this time the result
-comes in long format.</p>
+<p>This TSL can be converted to data frame, but this time the result is
+a long data frame.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_to_df.html">tsl_to_df</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
@@ -470,7 +471,7 @@ the zoo index is a sequence of integers.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-24-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-28-1.png" width="750"></p>
 <p>The same thing can be done with matrices as well.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
@@ -484,26 +485,28 @@ the zoo index is a sequence of integers.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-25-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-29-1.png" width="750"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="the-tsl-toolset">The TSL Toolset<a class="anchor" aria-label="anchor" href="#the-tsl-toolset"></a>
 </h2>
-<p>All functions in <code>distantia</code> to handle TSLs are named
-<code>tsl_...()</code>. Several of these functions are designed to
-explore and better understand your TSLs, while others are designed to
-manipulate and transform them to facilitate dissimilarity analyses.</p>
+<p>The functions in <code>distantia</code> to handle TSLs are named
+after the pattern <code>tsl_...()</code>. Some of these functions are
+designed to explore and better understand your TSLs, while others are
+designed to manipulate and transform them to facilitate dissimilarity
+analyses.</p>
+<p>This section offers a complete overview of these functions and their
+applications.</p>
 <div class="section level3">
 <h3 id="parallelization-setup">Parallelization Setup<a class="anchor" aria-label="anchor" href="#parallelization-setup"></a>
 </h3>
-<p>All TSL functions have something in common: <strong>they are a bunch
-of <code>lapply</code> in a trench coat</strong>. Most use a
-parallelized version of <code>lapply</code> from the
-<code>future.apply</code> package,
-<code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>, and a few combine
-<code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with <code>doFuture::</code>%dofuture%`
-in parallelized loops.</p>
+<p>The functions to manage TSLs <strong>are a bunch of
+<code>lapply</code> in a trench coat</strong>. Most use
+<code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>, a parallelized version of
+<code>lapply</code> from the <code>future.apply</code> package, and a
+few combine <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with
+<code>doFuture::%dofuture%</code> in shameless parallelized loops.</p>
 <p>As such, they all support a parallelization backend provided by the
 <code>future</code> package, as shown below.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -513,24 +516,28 @@ in parallelized loops.</p>
 <span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
 <span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span>
 <span>  workers <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
-<span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>They also support progress bars via the <a href="https://progressr.futureverse.org/" class="external-link"><code>progressr</code></a>
-package. However, this option, commented in the code above, does not
+package. However, this option, commented in the code below, does not
 work in Rmarkdown.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
+<span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="explore-tsls">Explore TSLs<a class="anchor" aria-label="anchor" href="#explore-tsls"></a>
 </h3>
-<p>This section showcases the tools available in <code>distantia</code>
-to extract details from our Time Series Lists. But first, let’s create a
-simulated TSL.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<p>This section showcases all tools available in <code>distantia</code>
+to better understand our Time Series Lists. Logically, the section
+starts with <code><a href="../reference/tsl_simulate.html">distantia::tsl_simulate()</a></code>, a function that has
+nothing to do with such purpose.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span>
 <span>  n <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  rows <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  time_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2010-01-01"</span>, <span class="st">"2020-01-01"</span><span class="op">)</span>,</span>
+<span>  data_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  seasons <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  na_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  irregular <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -540,16 +547,16 @@ simulated TSL.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-27-1.png" width="750"></p>
-<p>The most general tools in this section are focused on simple things
-such as TSL names and dimensions.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-33-1.png" width="750"></p>
+<p>The simpler tools to explore TSLs are focused on simpler things, like
+extracting TSL names and dimensions.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#time series names</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   A   B   C   D </span></span>
 <span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
 <span></span>
-<span><span class="co">#time series column names</span></span>
+<span><span class="co">#column names</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $A</span></span>
 <span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
@@ -577,7 +584,7 @@ such as TSL names and dimensions.</p>
 <span><span class="co">#&gt; $D</span></span>
 <span><span class="co">#&gt; [1] 5</span></span>
 <span></span>
-<span><span class="co">#number of roes</span></span>
+<span><span class="co">#number of rows</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_nrow.html">tsl_nrow</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $A</span></span>
 <span><span class="co">#&gt; [1] 895</span></span>
@@ -590,19 +597,18 @@ such as TSL names and dimensions.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $D</span></span>
 <span><span class="co">#&gt; [1] 755</span></span></code></pre></div>
-<p>The function <code><a href="../reference/tsl_time.html">tsl_time()</a></code> analyzes the time features of
-all time series in a TSL and generates a data frame.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<p>The function <code><a href="../reference/tsl_time.html">tsl_time()</a></code> summarizes the time features of
+all time series in a TSL.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   name rows class units   length resolution      begin        end     keywords</span></span>
 <span><span class="co">#&gt; 1    A  895  Date  days 3624.449   4.054194 2010-01-15 2019-12-18 years, q....</span></span>
 <span><span class="co">#&gt; 2    B  828  Date  days 3646.485   4.409293 2010-01-02 2019-12-27 decades,....</span></span>
 <span><span class="co">#&gt; 3    C  948  Date  days 3638.513   3.842147 2010-01-05 2019-12-23 years, q....</span></span>
 <span><span class="co">#&gt; 4    D  755  Date  days 3643.532   4.832271 2010-01-04 2019-12-27 years, q....</span></span></code></pre></div>
-<p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code> focuses on the data values
-instead to provides a summary of their stats by time series and
-variable.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<p>The function <code><a href="../reference/tsl_stats.html">tsl_stats()</a></code>, on the other hand, computes
+stats by time series and variable to summarize the TSL values.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
 <span>  lags <span class="op">=</span> <span class="fl">1</span> <span class="co">#temporal autocorrelation lag</span></span>
@@ -655,16 +661,15 @@ variable.</p>
 <div class="section level3">
 <h3 id="handle-na-cases">Handle NA Cases<a class="anchor" aria-label="anchor" href="#handle-na-cases"></a>
 </h3>
-<p>Dissimilarity analyses with <code>distantia</code>, because they
-designed with computational efficiency in mind, <strong>do not support
-NA cases</strong>.</p>
-<p>There are two alternate workflows to handle NA data in time series
-list.</p>
+<p>The dissimilarity analyses implemented in version 2.0 of
+<code>distantia</code> <strong>do not support NA cases</strong> in time
+series lists. There are two alternate workflows to handle NA cases in
+time series list.</p>
 <p>The first uses <code><a href="../reference/tsl_count_NA.html">tsl_count_NA()</a></code> and
-<code><a href="../reference/tsl_handle_NA.html">tsl_handle_NA()</a></code>. The former converts Inf and NaN to NA and
-counts NA cases in each time series, while the latter either omits or
-imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" class="external-link">zoo::na.approx()</a></code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code><a href="../reference/tsl_handle_NA.html">tsl_handle_NA()</a></code>. The former function converts Inf and NaN
+to NA and counts NA cases in each time series, while the latter either
+omits or imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" class="external-link">zoo::na.approx()</a></code>.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#count NA</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_count_NA.html">tsl_count_NA</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; $A</span></span>
@@ -698,25 +703,23 @@ imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" 
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $D</span></span>
 <span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>The second workflow is more general because it can address other
-potential issues. It involves using <code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and
-<code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p>The second workflow involves the functions
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>, is more
+general because it addresses other potential issues at once.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#diagnose issues with NA values</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Value-related issues:</span></span>
-<span><span class="co">#&gt; -------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_diagnose(): issues in TSL values:</span></span>
+<span><span class="co">#&gt; --------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().</span></span>
 <span></span>
 <span><span class="co">#impute NA cases</span></span>
 <span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_repair.html">tsl_repair</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Value-related repairs:</span></span>
-<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; distantia::tsl_repair(): repairs in TSL values:</span></span>
+<span><span class="co">#&gt; -------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   - interpolated NA cases in zoo objects with distantia::tsl_handle_NA().</span></span>
 <span></span>
@@ -727,77 +730,39 @@ potential issues. It involves using <code><a href="../reference/tsl_diagnose.htm
 <h3 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
 </h3>
 <p>The function <code><a href="../reference/tsl_subset.html">tsl_subset()</a></code> helps focus on particular
-<em>regions</em> of a time series list. Additionally, this function
-returns by default the numeric columns that are shared across all time
+<em>regions</em> of a time series list. Additionally, by default this
+function returns the numeric columns that are shared across all time
 series in a TSL.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   A   B   C   D </span></span>
-<span><span class="co">#&gt; "A" "B" "C" "D"</span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $A</span></span>
-<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $B</span></span>
-<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $D</span></span>
-<span><span class="co">#&gt; [1] "a" "b" "c" "d" "e"</span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;   name      begin        end</span></span>
-<span><span class="co">#&gt; 1    A 2010-01-15 2019-12-18</span></span>
-<span><span class="co">#&gt; 2    B 2010-01-02 2019-12-27</span></span>
-<span><span class="co">#&gt; 3    C 2010-01-05 2019-12-23</span></span>
-<span><span class="co">#&gt; 4    D 2010-01-04 2019-12-27</span></span>
-<span></span>
-<span><span class="va">tsl_new</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_new</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,</span>
 <span>  colnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>,</span>
-<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2014-01-01"</span>, <span class="st">"2018-01-01"</span><span class="op">)</span></span>
+<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2014-01-01"</span>, <span class="st">"2018-01-01"</span><span class="op">)</span>,</span>
+<span>  numeric_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  shared_cols <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   A   C   D </span></span>
-<span><span class="co">#&gt; "A" "C" "D"</span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $A</span></span>
-<span><span class="co">#&gt; [1] "a" "b"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] "a" "b"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $D</span></span>
-<span><span class="co">#&gt; [1] "a" "b"</span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_new</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;   name      begin        end</span></span>
-<span><span class="co">#&gt; 1    A 2014-01-02 2017-12-31</span></span>
-<span><span class="co">#&gt; 2    C 2014-01-10 2017-12-30</span></span>
-<span><span class="co">#&gt; 3    D 2014-01-08 2017-12-28</span></span>
-<span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_new</span>,</span>
-<span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-33-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-39-1.png" width="750"></p>
 <p>The function <code><a href="../reference/tsl_burst.html">tsl_burst()</a></code> transforms a multivariate TSL
 into a univariate TSL by creating a new zoo object from each column of
 the original zoo objects. This function helps apply dissimilarity
 analysis between individual variables in multivariate time series.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#burst multivariate time series to univariate</span></span>
 <span><span class="va">tsl_univariate</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_burst.html">tsl_burst</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#check new names and column names</span></span>
+<span><span class="co">#check new time series names</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_names_get.html">tsl_names_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_univariate</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   A__a   A__b   C__a   C__b   D__a   D__b </span></span>
 <span><span class="co">#&gt; "A__a" "A__b" "C__a" "C__b" "D__a" "D__b"</span></span>
+<span></span>
+<span><span class="co">#check new column names</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_univariate</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $A__a</span></span>
 <span><span class="co">#&gt; [1] "x"</span></span>
@@ -822,7 +787,7 @@ analysis between individual variables in multivariate time series.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_univariate</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-34-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-40-1.png" width="750"></p>
 </div>
 <div class="section level3">
 <h3 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
@@ -836,8 +801,7 @@ depending on the aggregation stats. On the other hand, it obscures fine
 grain detail and alters statistical properties such as variance and
 temporal autocorrelation.</p>
 <p>In <code>distantia</code>, this operation is supported by the
-function <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code>. This function has two
-arguments:</p>
+function <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code>, with two arguments:</p>
 <ul>
 <li>
 <code>new_time</code>: time vector or keyword defining time
@@ -846,10 +810,10 @@ intervals to aggregate over.</li>
 <code>f</code>: aggregation function summarizing observations over
 aggregation time intervals.</li>
 </ul>
-<p>The code below illustrates the usage of <code><a href="../reference/tsl_aggregate.html">tsl_aggregate()</a></code>
-to compute yearly temperature and precipitation indicators from the
-monthly observations of the dataset <code>honeycomb_climate</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p>The code below illustrates this function’s usage to compute yearly
+temperature and precipitation indicators from the monthly observations
+in the dataset <code>honeycomb_climate</code>.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/honeycomb_climate.html">honeycomb_climate</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"cell"</span>,</span>
@@ -862,28 +826,28 @@ monthly observations of the dataset <code>honeycomb_climate</code>.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-35-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-42-1.png" width="750"></p>
 <p>The easiest way to define aggregation intervals in
 <code>distantia</code> is to use a keyword. The function
 <code><a href="../reference/tsl_time.html">tsl_time()</a></code> returns the supported keywords for a given
 TSL.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_time</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  keywords <span class="op">=</span> <span class="st">"aggregate"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">df</span><span class="op">$</span><span class="va">keywords</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">df_time</span><span class="op">$</span><span class="va">keywords</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "decades"  "years"    "quarters"</span></span></code></pre></div>
-<p>Let’s settle for “quarters” in this example.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<p>Let’s focus on “quarters” for the rest of the example.</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="st">"quarters"</span></span></code></pre></div>
 <p>The code below subsets the column “temperature” in <code>tsl</code>,
-computes the yearly minimum, maximum, and mean, adds a suffix to each
-stats, and join all results in a new time series list.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+aggregates by computing the minimum, maximum, and mean per quarter, and
+adds a suffix to each new aggregated column.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#subset temperature column</span></span>
 <span><span class="va">tsl_temperature</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -916,22 +880,10 @@ stats, and join all results in a new time series list.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_suffix.html">tsl_colnames_suffix</a></span><span class="op">(</span></span>
 <span>    suffix <span class="op">=</span> <span class="st">"_mean"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#join stats together</span></span>
-<span><span class="va">tsl_temperature_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_join.html">tsl_join</a></span><span class="op">(</span></span>
-<span>  <span class="va">tsl_temperature_min</span>,</span>
-<span>  <span class="va">tsl_temperature_max</span>,</span>
-<span>  <span class="va">tsl_temperature_mean</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#plot first </span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_temperature_stats</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-38-1.png" width="750">
-Something similar can be done with the precipitation column.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Similar steps can be followed to process the variable
+“precipitation”.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#subset temperature column</span></span>
 <span><span class="va">tsl_precipitation</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -964,32 +916,23 @@ Something similar can be done with the precipitation column.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_suffix.html">tsl_colnames_suffix</a></span><span class="op">(</span></span>
 <span>    suffix <span class="op">=</span> <span class="st">"_min"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#join stats together</span></span>
-<span><span class="va">tsl_precipitation_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_join.html">tsl_join</a></span><span class="op">(</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Finally, we join all new TSLs together to examine the result.</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_climate_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_join.html">tsl_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">tsl_temperature_min</span>,</span>
+<span>  <span class="va">tsl_temperature_max</span>,</span>
+<span>  <span class="va">tsl_temperature_mean</span>,</span>
 <span>  <span class="va">tsl_precipitation_sum</span>,</span>
 <span>  <span class="va">tsl_precipitation_max</span>,</span>
 <span>  <span class="va">tsl_precipitation_min</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#plot first </span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_precipitation_stats</span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_climate_stats</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-39-1.png" width="750">
-To finalize this section, we join together the resuls of all
-aggregations.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_climate_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_join.html">tsl_join</a></span><span class="op">(</span></span>
-<span>  <span class="va">tsl_temperature_stats</span>,</span>
-<span>  <span class="va">tsl_precipitation_stats</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_climate_stats</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-40-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-47-1.png" width="750"></p>
 </div>
 <div class="section level3">
 <h3 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
@@ -1000,9 +943,9 @@ irregular or have different resolutions. It is important to take in mind
 that resampling to a frequency much higher than the original will
 definitely result in interpolation artifacts and distorted time
 series.</p>
-<p>The code below creates a TSL with two irregular time series with
-different number of rows.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<p>The code below creates two irregular time series with different
+number of rows.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    A <span class="op">=</span> <span class="fu"><a href="../reference/zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">100</span>, seasons <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
@@ -1014,23 +957,30 @@ different number of rows.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-41-1.png" width="750">
-The time features of this TSL show clear differences in frequency
-between the time series A and B.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-49-1.png" width="750"></p>
+<p>The time features of this TSL show clear differences in frequency
+between these time series.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span><span class="op">[</span></span>
+<span>  , </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span></span>
+<span>  <span class="op">]</span></span>
 <span><span class="co">#&gt;   name rows resolution      begin        end</span></span>
 <span><span class="co">#&gt; 1    A  100   36.70352 2010-01-01 2019-12-13</span></span>
 <span><span class="co">#&gt; 2    B   50   74.53061 2010-01-01 2020-01-01</span></span></code></pre></div>
 <p>By default, if the argument <code>new_time</code> is omitted, a
-linear model is used to resample the TSL to its average resolution over
-the intersection of its time ranges.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+linear model (computed via <code>zoo:::na.approx()</code>) is used to
+resample the TSL to its average resolution over the intersection of all
+its time ranges.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_resampled</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_resample.html">tsl_resample</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span></span>
+<span>  , </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span></span>
+<span>  <span class="op">]</span></span>
 <span><span class="co">#&gt;   name rows resolution      begin        end</span></span>
 <span><span class="co">#&gt; 1    A   75   49.10335 2010-01-01 2019-12-13</span></span>
 <span><span class="co">#&gt; 2    B   75   49.10335 2010-01-01 2019-12-13</span></span>
@@ -1039,12 +989,12 @@ the intersection of its time ranges.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_resampled</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-43-1.png" width="750">
-Otherwise, a keyword can be used to define the resampling frequency.
-Again, we can find valid keywords using
-<code><a href="../reference/tsl_time.html">distantia::tsl_time()</a></code>, but replacing “aggregate” with
-“resample” in the argument <code>keywords</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-51-1.png" width="750"></p>
+<p>Otherwise, a keyword can be used to define the resampling frequency.
+Again, we can find valid keywords using <code><a href="../reference/tsl_time.html">tsl_time()</a></code>, but
+replacing “aggregate” with “resample” in the argument
+<code>keywords</code>.</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  keywords <span class="op">=</span> <span class="st">"resample"</span></span>
@@ -1054,7 +1004,7 @@ Again, we can find valid keywords using
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "years"    "quarters" "months"   "weeks"</span></span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_resampled</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_resample.html">tsl_resample</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  new_time <span class="op">=</span> <span class="st">"weeks"</span>,</span>
@@ -1065,7 +1015,10 @@ Again, we can find valid keywords using
 <span><span class="co">#&gt; differ in one order of magnitude or more. The output time series might be</span></span>
 <span><span class="co">#&gt; highly distorted.</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span></span>
+<span>  , </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"rows"</span>, <span class="st">"resolution"</span>, <span class="st">"begin"</span>, <span class="st">"end"</span><span class="op">)</span></span>
+<span>  <span class="op">]</span></span>
 <span><span class="co">#&gt;   name rows resolution      begin        end</span></span>
 <span><span class="co">#&gt; 1    A  519          7 2010-01-03 2019-12-08</span></span>
 <span><span class="co">#&gt; 2    B  522          7 2010-01-03 2019-12-29</span></span>
@@ -1074,21 +1027,19 @@ Again, we can find valid keywords using
 <span>  tsl <span class="op">=</span> <span class="va">tsl_resampled</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-45-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-53-1.png" width="750"></p>
 </div>
 <div class="section level3">
-<h3 id="rolling-window-smoothing">Rolling-Window Smoothing<a class="anchor" aria-label="anchor" href="#rolling-window-smoothing"></a>
+<h3 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
 </h3>
-<p>This method computes a statistic over a fixed-width window of
-consecutive cases and replaces each central value with the computed
-statistic. It is commonly used to mitigate noise in high-frequency time
-series. In <code><a href="../reference/distantia.html">distantia()</a></code>, this functionality is implemented
-in <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code>. Please, take in mind that it should not be
-applied to highly irregular time series, as it ignores time
-distance.</p>
-<p>The code below generates a noisy high-frequency time series, and
-applies <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code> with a couple of window sizes.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<p>Time series smoothing is used to mitigate noise in high-frequency
+time series, or to highlight general trends rather than fine-grain
+details.</p>
+<p>The function <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code> implements two smoothing
+methods: rolling-window and exponential.</p>
+<p>To check how these methods work we first need a long and noisy
+TSL.</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span>
 <span>  rows <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  irregular <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -1097,9 +1048,19 @@ applies <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code> wit
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co">#smoothing with window 100</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-55-1.png" width="750"></p>
+<div class="section level4">
+<h4 id="rolling-window-smoothing">Rolling-Window Smoothing<a class="anchor" aria-label="anchor" href="#rolling-window-smoothing"></a>
+</h4>
+<p>This method computes a statistic over a fixed-width window of
+consecutive cases and replaces each central value with the computed
+statistic. It should not be applied to highly irregular time series, as
+it ignores time distance.</p>
+<p>The code below applies this method with two different window
+sizes.</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#smoothing with window 100</span></span>
 <span><span class="va">tsl_smooth_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_smooth.html">tsl_smooth</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  window <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -1122,22 +1083,56 @@ applies <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code> wit
 <span>  tsl <span class="op">=</span> <span class="va">tsl_smooth_10</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-46-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-46-2.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-46-3.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-56-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-56-2.png" width="750">
+The window size determines the smoothing scale, and with that, the type
+of trend highlighted in the smoothing results.</p>
+</div>
+<div class="section level4">
+<h4 id="exponential-smoothing">Exponential Smoothing<a class="anchor" aria-label="anchor" href="#exponential-smoothing"></a>
+</h4>
+<p>This method generates each new value as the weighted average of the
+current value and past smoothed values. This weight is defined by the
+argument <code>alpha</code> in <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code>.</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#smoothing with alpha 0.2</span></span>
+<span><span class="va">tsl_smooth_exp_0.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_smooth.html">tsl_smooth</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.2</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_smooth_exp_0.2</span>,</span>
+<span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co">#smoothing with alpha 0.8</span></span>
+<span><span class="va">tsl_smooth_exp_0.8</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_smooth.html">tsl_smooth</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.8</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_smooth_exp_0.8</span>,</span>
+<span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-57-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-57-2.png" width="750">
+Alpha values closer to zero produce smoother results, as the plots above
+show.</p>
+</div>
 </div>
 <div class="section level3">
-<h3 id="data-transformations">Data Transformations<a class="anchor" aria-label="anchor" href="#data-transformations"></a>
+<h3 id="transformations">Transformations<a class="anchor" aria-label="anchor" href="#transformations"></a>
 </h3>
 <p>The function <code><a href="../reference/tsl_transform.html">tsl_transform()</a></code> applies a function
 <code>f</code> to transform the values of a TSL. The names of the
 available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
 <span><span class="co">#&gt;  [4] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
 <span><span class="co">#&gt;  [7] "f_rescale_global"     "f_rescale_local"      "f_scale_global"      </span></span>
 <span><span class="co">#&gt; [10] "f_scale_local"        "f_slope"              "f_trend_linear"</span></span></code></pre></div>
-<p>Let’s take a look at a few examples.</p>
 <div class="section level4">
 <h4 id="scaling">Scaling<a class="anchor" aria-label="anchor" href="#scaling"></a>
 </h4>
@@ -1146,7 +1141,7 @@ dynamic time warping to ensure all variables contribute equally,
 regardless of their range or units.</p>
 <p>For example, the dataset <code>fagus_dynamics</code> has variables in
 different units.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/fagus_dynamics.html">fagus_dynamics</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
@@ -1156,8 +1151,8 @@ different units.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-48-1.png" width="750">
-Due to the differences in magnitude between variables, a dynamic time
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-60-1.png" width="750"></p>
+<p>Due to the differences in magnitude between variables, a dynamic time
 warping analysis will focus on <code>rainfall</code> disproportionately,
 biasing the results.</p>
 <p>To solve this issue, the package <code>distantia</code> implements
@@ -1170,26 +1165,22 @@ independently by time series.</li>
 <strong>Global</strong>: each variable is scaled and/or centering
 using its mean and standard deviation across all time series.</li>
 </ul>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#local scaling</span></span>
 <span><span class="va">tsl_local_scaling</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_local.html">f_scale_local</a></span>,</span>
-<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#default</span></span>
-<span>  center <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_local.html">f_scale_local</a></span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#global scaling</span></span>
 <span><span class="va">tsl_global_scaling</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
-<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_global.html">f_scale_global</a></span>,</span>
-<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#default</span></span>
-<span>  center <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_scale_global.html">f_scale_global</a></span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The stats of both scalings show that the global one preserves
-variable offsets between locations, while in the local one all variables
-have a mean ~0.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<p>The stats of both operations show that the global one preserves
+variable offsets between locations, while the local one shows an average
+0 and standard deviation 1 across all variables.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#stats of local scaling</span></span>
@@ -1226,16 +1217,16 @@ have a mean ~0.</p>
 variable ranges. By default, these functions rescale all time series
 between 0 and 1, but the arguments <code>new_min</code> and
 <code>new_max</code> can receive numeric vectors to set different ranges
-per variable.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl_rescaled_local</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+for different variables.</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_local_rescaling</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="va">f_rescale_local</span>,</span>
 <span>  new_min <span class="op">=</span> <span class="fl">0</span>, <span class="co">#same for all variables</span></span>
 <span>  new_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tsl_rescaled_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span><span class="va">tsl_global_rescaling</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="va">f_rescale_global</span>,</span>
 <span>  new_min <span class="op">=</span> <span class="fl">0</span>,</span>
@@ -1243,11 +1234,11 @@ per variable.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The stats below show the results of the local and global
 rescaling.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stats_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"variable"</span>, <span class="st">"min"</span>, <span class="st">"max"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_rescaled_local</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_local_rescaling</span></span>
 <span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      name    variable min max</span></span>
 <span><span class="co">#&gt; 1 Germany         evi   0   0</span></span>
@@ -1261,7 +1252,7 @@ rescaling.</p>
 <span><span class="co">#&gt; 9  Sweden temperature   0  10</span></span>
 <span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_rescaled_global</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_global_rescaling</span></span>
 <span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      name    variable        min       max</span></span>
 <span><span class="co">#&gt; 1 Germany         evi 0.03304993 0.8519938</span></span>
@@ -1278,14 +1269,16 @@ rescaling.</p>
 <h4 id="detrending">Detrending<a class="anchor" aria-label="anchor" href="#detrending"></a>
 </h4>
 <p>Removing trends in time series before applying dynamic time warping
-is crucial because it prevents inflated distance measurements caused by
-non-stationary components and ensures that the alignment focuses on
-meaningful shape features rather than being distorted by long-term
-trends.</p>
+may help prevents inflated dissimilarity scores caused by non-stationary
+components. Detrending also ensures that the alignment generated by
+dynamic time warping focuses on meaningful shape features rather than
+being distorted by long-term trends.</p>
 <p>The transformation function <code>f_trend_linear</code> transforms
-time series into their linear trend. The example below applies this
-function to the <code>cities_temperature</code> dataset.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+time series into their linear trend to help identify whether a time
+series needs detrending or not.</p>
+<p>The example below applies this function to the
+<code>cities_temperature</code> dataset.</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#loading cities_temperature as tsl</span></span>
 <span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/cities_temperature.html">cities_temperature</a></span>,</span>
@@ -1307,10 +1300,10 @@ function to the <code>cities_temperature</code> dataset.</p>
 <span>  color <span class="op">=</span> <span class="st">"red4"</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">1.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-53-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-66-1.png" width="750"></p>
 <p>We can now compute the stats of these linear trends to identify the
 cities with a steeper long-term temperature change.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute stats of linear trends</span></span>
 <span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
@@ -1343,16 +1336,17 @@ cities with a steeper long-term temperature change.</p>
 <span><span class="co">#&gt; 1           Bangkok 0.2431807</span></span>
 <span><span class="co">#&gt; 11             Lima 0.2421891</span></span>
 <span><span class="co">#&gt; 4             Dhaka 0.2317552</span></span></code></pre></div>
-<p>The function <code>f_detrend_linear</code> removes these temporal
-trends from the data.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<p>Now that we identified the issue, the function
+<code>f_detrend_linear</code> helps remove these temporal trends from
+the data.</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_detrended</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_detrend_linear.html">f_detrend_linear</a></span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>With the code below we can check that the linear detrending actually
-removed linear trends from the data.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<p>The code below applies <code>f_trend_linear</code> again to
+demonstrate that the linear detrending worked as expected.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_trend</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_detrended</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_trend_linear.html">f_trend_linear</a></span></span>
