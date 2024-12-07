@@ -164,8 +164,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#parallelization setup (not worth it for this data size)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#parallelization setup (not worth it for this data size)</span></span></span>
 <span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span> <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span></span>
 <span class="r-in"><span> workers <span class="op">=</span> <span class="fl">2</span> <span class="co">#set to parallelly::availableCores() - 1</span></span></span>
@@ -174,12 +173,8 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="co">#progress bar</span></span></span>
 <span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#three time series</span></span></span>
-<span class="r-in"><span><span class="co">#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fagus_dynamics"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#load as tsl</span></span></span>
-<span class="r-in"><span><span class="co">#center and scale with same parameters</span></span></span>
+<span class="r-in"><span><span class="co">#load fagus_dynamics as tsl</span></span></span>
+<span class="r-in"><span><span class="co">#global centering and scaling</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">fagus_dynamics</span>,</span></span>
 <span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>
