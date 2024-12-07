@@ -100,10 +100,8 @@ future::plan(
 #progress bar
 # progressr::handlers(global = TRUE)
 
-#three time series
-#climate and ndvi in Fagus sylvatica stands
-#in Spain, Germany, and Sweden
-#scaled and centered
+#load fagus_dynamics as tsl
+#global centering and scaling
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   name_column = "name",
@@ -146,10 +144,7 @@ df_dtw[, c("x", "y", "psi", "p_value")]
 if(interactive()){
 
   distantia_plot(
-    tsl = tsl_subset(
-      tsl = tsl,
-      names = c("Spain", "Sweden")
-    ),
+    tsl = tsl[c("Spain", "Sweden")],
     distance = "euclidean",
     matrix_type = "cost"
   )

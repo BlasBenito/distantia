@@ -1047,9 +1047,35 @@ rm(
 
 #### Rowwise Transformations
 
-This section focuses on transformations involving full rows. These are proportions, percentages, and the Hellinger transformation.
+This section focuses on transformations involving full rows. 
+
+```{r, fig.height=4}
+tsl <- distantia::tsl_init(
+  x = distantia::eemian_pollen,
+  name = "name",
+  time = "time"
+)
+
+distantia::tsl_plot(tsl = tsl[1:3])
+```
+
+```{r, fig.height=4}
+tsl_hellinger <- distantia::tsl_transform(
+  tsl = tsl,
+  f = distantia::f_hellinger
+)
+
+tsl_plot(tsl = tsl_hellinger[1:3])
+
+tsl_plot(tsl = tsl_hellinger[6])
+```
 
 
+```{r, fig.height=5}
+distantia::distantia_plot(
+  tsl = tsl_hellinger[c(1, 6)]
+)
+```
 
 
 

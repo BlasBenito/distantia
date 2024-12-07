@@ -1,124 +1,189 @@
-#' Check Input Arguments to `distantia()`
+#' Check Input Arguments of `distantia()` and `distantia_importance()`.
 #'
-#' @param tsl (required, list) Time series list. Default: NULL
-#' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
-#' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.
-#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param lock_step (optional, logical vector) If TRUE, time series are compared row wise and no least-cost path is computed. Default: FALSE.
-#' @param repetitions (optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0
-#' @param permutation (optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
-#' \itemize{
-#'   \item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-#'   \item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-#'   \item "restricted": restricted shuffling of rows and columns within blocks.
-#'   \item "restricted_by_row": restricted shuffling of rows within blocks.
-#' }
-#' @param block_size (optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each time series on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.
-#' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
-#' @param robust (required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE
-#'
+#' @inheritParams distantia_importance
+#' @inheritParams distantia
 #' @return list
 #' @export
 #' @autoglobal
 #' @family internal
 utils_check_args_distantia <- function(
     tsl = NULL,
-    distance = "euclidean",
-    diagonal = TRUE,
-    weighted = TRUE,
-    ignore_blocks = FALSE,
-    lock_step = FALSE,
-    repetitions = 0,
-    permutation = "restricted_by_row",
-    block_size = 3,
-    seed = 1,
-    robust = TRUE
-    ){
+    distance = NULL,
+    diagonal = NULL,
+    weighted = NULL,
+    ignore_blocks = NULL,
+    lock_step = NULL,
+    repetitions = NULL,
+    permutation = NULL,
+    block_size = NULL,
+    seed = NULL,
+    robust = NULL
+){
 
-  #check validity
-  tsl <- tsl_diagnose(
+  # tsl ----
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 2
+  )
+
+  ## count and handle NA ----
+  na_count <- tsl_count_NA(
+    tsl = tsl
+  ) |>
+    unlist()
+
+  if(sum(na_count) > 0){
+    message(
+      "distantia::utils_check_args_distantia(): ",
+      sum(na_count),
+      " NA cases were imputed with distantia::tsl_handle_NA() in these time series: '",
+      paste(names(na_count[na_count > 0]), collapse = "', '"),
+      "'."
+    )
+  }
+
+  tsl <- tsl_handle_NA(
+    tsl = tsl
+  )
+
+  ## subset cols -----
+  tsl <- tsl_subset(
+    tsl = tsl,
+    numeric_cols = TRUE,
+    shared_cols = TRUE
+  )
+
+  ## diagnose tsl ----
+  tsl_diagnose(
     tsl = tsl,
     full = FALSE
   )
 
-  distance <- utils_check_distance_args(
-    distance = distance
-  )
+  #distance ----
+  if(!is.null(distance)){
+
+    distance <- utils_check_distance_args(
+      distance = distance
+    )
+
+  }
+
 
   logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
 
-  if(any(is.logical(diagonal) == FALSE)){
-    stop("distantia::utils_check_args(): Argument 'diagonal'", logical_message, ".", call. = FALSE)
-  }
 
-  if(length(diagonal) == 1){
-    if(diagonal == FALSE){
-      weighted <- FALSE
-    } else {
-      ignore_blocks <- FALSE
+  #diagonal ----
+  if(!is.null(diagonal)){
+
+    if(any(is.logical(diagonal) == FALSE)){
+      stop("distantia::utils_check_args_distantia(): argument 'diagonal'", logical_message, ".", call. = FALSE)
     }
+
+    if(length(diagonal) == 1){
+      if(diagonal == FALSE){
+        weighted <- FALSE
+      } else {
+        ignore_blocks <- FALSE
+      }
+    }
+
   }
 
-  if(any(is.logical(weighted) == FALSE)){
-    stop("distantia::utils_check_args(): argument 'weighted' ", logical_message, ".", call. = FALSE)
+
+  #weighted ----
+  if(!is.null(weighted)){
+
+    if(any(is.logical(weighted) == FALSE)){
+      stop("distantia::utils_check_args_distantia(): argument 'weighted' ", logical_message, ".", call. = FALSE)
+    }
+
   }
 
-  if(any(is.logical(ignore_blocks) == FALSE)){
-    stop("distantia::utils_check_args(): Argument 'ignore_blocks'", logical_message, ".", call. = FALSE)
+
+  #ignore_blocks ----
+  if(!is.null(ignore_blocks)){
+
+    if(any(is.logical(ignore_blocks) == FALSE)){
+      stop("distantia::utils_check_args_distantia(): Argument 'ignore_blocks'", logical_message, ".", call. = FALSE)
+    }
+
   }
 
-  if(any(is.logical(lock_step) == FALSE)){
-    stop("distantia::utils_check_args(): Argument 'lock_step'", logical_message)
+
+  #lock_step ----
+  if(!is.null(lock_step)){
+
+    if(any(is.logical(lock_step) == FALSE)){
+      stop("distantia::utils_check_args_distantia(): Argument 'lock_step'", logical_message)
+    }
+
   }
 
-  if(exists("robust")){
+
+  #robust ----
+  if(!is.null(robust)){
+
     if(any(is.logical(robust) == FALSE)){
-      stop("Argument 'robust'", logical_message)
+      stop("distantia::utils_check_args_distantia(): argument 'robust'", logical_message)
     }
     if(length(robust) > 1){
       robust <- robust[1]
-      message("distantia::utils_check_args(): Argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.", call. = FALSE)
+      message("distantia::utils_check_args_distantia(): argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.", call. = FALSE)
     }
-  }
-
-  repetitions <- as.integer(repetitions)
-  if(any(is.integer(repetitions) == FALSE)){
-    stop("distantia::utils_check_args(): argument 'repetitions' must be a integer or a numeric vector.", call. = FALSE)
-  }
-
-  if(repetitions > 0){
-
-    permutation <- match.arg(
-      arg = permutation,
-      choices = c(
-        "free",
-        "free_by_row",
-        "restricted",
-        "restricted_by_row"
-      ),
-      several.ok = TRUE
-    )
-
-    block_size <- as.integer(block_size)
-    if(any(is.integer(block_size) == FALSE)){
-      stop("distantia::utils_check_args(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
-    }
-
-    seed <- as.integer(seed)
-    if(any(is.integer(seed) == FALSE)){
-      stop("distantia::utils_check_args(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
-    }
-
-  } else {
-
-    permutation <- NULL
-    block_size <- NULL
-    seed <- NULL
 
   }
 
-  out <- list(
+
+  #repetitions ----
+  if(!is.null(repetitions)){
+
+    repetitions <- as.integer(repetitions)
+    if(any(is.integer(repetitions) == FALSE)){
+      stop("distantia::utils_check_args_distantia(): argument 'repetitions' must be a integer or a numeric vector.", call. = FALSE)
+    }
+
+
+    ##permutation ----
+    if(repetitions > 0){
+
+      if(is.null(permutation)){
+        permutation <- "restricted_by_row"
+      }
+
+      permutation <- match.arg(
+        arg = permutation,
+        choices = c(
+          "restricted_by_row",
+          "restricted",
+          "free_by_row",
+          "free"
+        ),
+        several.ok = TRUE
+      )
+
+      #block_size ----
+      block_size <- utils_block_size(
+        tsl = tsl,
+        block_size = block_size
+      )
+
+      #seed ----
+      seed <- as.integer(seed)
+      if(any(is.integer(seed) == FALSE)){
+        stop("distantia::utils_check_args_distantia(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
+      }
+
+    } else {
+
+      permutation <- NULL
+      block_size <- NULL
+      seed <- NULL
+
+    }
+
+  }
+
+  list(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
@@ -131,8 +196,6 @@ utils_check_args_distantia <- function(
     seed = seed,
     robust = robust
   )
-
-  out
 
 }
 
@@ -227,7 +290,7 @@ utils_check_args_matrix <- function(
       " must be of the class 'matrix'.", call. = FALSE)
   }
 
- m
+  m
 
 }
 
@@ -275,7 +338,7 @@ utils_check_args_tsl <- function(
   #check min length
   min_length <- abs(as.integer(min_length))
   if(length(tsl) < min_length){
-    stop("distantia::utils_check_args_tsl(): argument 'tsl' must be a list with at least ", min_length, " zoo objects.", call. = FALSE)
+    stop("distantia::utils_check_args_tsl(): argument 'tsl' must be a time series list with at least ", min_length, " zoo objects.", call. = FALSE)
   }
 
 }
@@ -292,11 +355,11 @@ utils_check_args_tsl <- function(
 utils_check_args_zoo <- function(
     x = NULL,
     arg_name = "x"
-    ){
+){
 
-    if(zoo::is.zoo(x) == FALSE){
-      stop("distantia::utils_check_args_zoo(): argument ", arg_name, " must be a time series of class 'zoo'.", call. = FALSE)
-    }
+  if(zoo::is.zoo(x) == FALSE){
+    stop("distantia::utils_check_args_zoo(): argument ", arg_name, " must be a time series of class 'zoo'.", call. = FALSE)
+  }
 
   x
 
@@ -321,7 +384,7 @@ utils_check_args_zoo <- function(
 #' @family internal
 utils_check_distance_args <- function(
     distance = NULL
-    ){
+){
 
   #checking distance values
   distance <- match.arg(

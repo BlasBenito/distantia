@@ -42,7 +42,7 @@ utils_matrix_plot(
 
 \item{path_color}{(optional, character string) color of the least-cost path. Default: "black"}
 
-\item{diagonal_width}{(optional, numeric) width of the diagonal. Default: 0.5}
+\item{diagonal_width}{(optional, numeric) width of the diagonal. Set to 0 to remove the diagonal line. Default: 0.5}
 
 \item{diagonal_color}{(optional, character string) color of the diagonal. Default: "white"}
 

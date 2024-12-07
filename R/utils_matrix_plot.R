@@ -325,8 +325,8 @@ utils_matrix_plot <- function(
 
   #plot diagonal
   graphics::lines(
-    x = 1:ncol(m),
-    y = 1:nrow(m),
+    x = c(0, ncol(m)),
+    y = c(0, nrow(m)),
     lwd = diagonal_width,
     col = diagonal_color
   )

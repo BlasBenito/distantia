@@ -74,10 +74,8 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands
-#' #in Spain, Germany, and Sweden
-#' #scaled and centered
+#'#load fagus_dynamics as tsl
+#'#global centering and scaling
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   name_column = "name",
@@ -120,10 +118,7 @@
 #' if(interactive()){
 #'
 #'   distantia_plot(
-#'     tsl = tsl_subset(
-#'       tsl = tsl,
-#'       names = c("Spain", "Sweden")
-#'     ),
+#'     tsl = tsl[c("Spain", "Sweden")],
 #'     distance = "euclidean",
 #'     matrix_type = "cost"
 #'   )
@@ -165,51 +160,8 @@ distantia <- function(
     seed = 1L
 ){
 
-  #length > 1
-  if(length(tsl) < 2){
-    stop("distantia::distantia(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
-  }
-
-  #subset numeric and shared columns
-  tsl <- tsl_subset(
-    tsl = tsl,
-    numeric_cols = TRUE,
-    shared_cols = TRUE
-  )
-
-  permutation <- match.arg(
-    arg = permutation,
-    choices = c(
-      "restricted_by_row",
-      "restricted",
-      "free_by_row",
-      "free"
-    ),
-    several.ok = TRUE
-  )
-
-  if(
-    repetitions > 0
-    &&
-    permutation %in% c(
-      "restricted_by_row",
-      "restricted"
-      )
-    ){
-
-    block_size <- utils_block_size(
-      tsl = tsl,
-      block_size = block_size
-    )
-
-  } else {
-
-    block_size <- 0
-
-  }
-
   #check input arguments
-  args_test <- utils_check_args_distantia(
+  args <- utils_check_args_distantia(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
@@ -217,9 +169,22 @@ distantia <- function(
     ignore_blocks = ignore_blocks,
     lock_step = lock_step,
     repetitions = repetitions,
+    permutation = permutation,
     block_size = block_size,
     seed = seed
   )
+
+  tsl <- args$tsl
+  distance <- args$distance
+  diagonal <- args$diagonal
+  weighted <- args$weighted
+  ignore_blocks <- args$ignore_blocks
+  lock_step <- args$lock_step
+  repetitions <- args$repetitions
+  permutation <- args$permutation
+  block_size <- args$block_size
+  seed <- args$seed
+
 
   #iterations data
   if(repetitions == 0){

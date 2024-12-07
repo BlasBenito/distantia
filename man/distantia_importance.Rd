@@ -77,7 +77,6 @@ This function allows computing dissimilarity between pairs of time series using 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-
 #parallelization setup (not worth it for this data size)
 future::plan(
  future::multisession,
@@ -87,12 +86,8 @@ future::plan(
 #progress bar
 # progressr::handlers(global = TRUE)
 
-#three time series
-#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-data("fagus_dynamics")
-
-#load as tsl
-#center and scale with same parameters
+#load fagus_dynamics as tsl
+#global centering and scaling
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   name_column = "name",

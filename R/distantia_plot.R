@@ -13,7 +13,7 @@
 #' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
-#' @param diagonal_width (optional, numeric) width of the diagonal. Default: 0.5
+#' @param diagonal_width (optional, numeric) width of the diagonal. Set to 0 to remove the diagonal line. Default: 0.5
 #' @param diagonal_color (optional, character string) color of the diagonal. Default: "white"
 #' @param line_color (optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of `matrix_color`.
 #' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
@@ -110,7 +110,7 @@ distantia_plot <- function(
   #only two elements
   if(length(tsl) > 2){
 
-    warning("distantia::distantia_plot(): Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.", call. = FALSE)
+    message("distantia::distantia_plot(): Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.")
 
     tsl <- tsl_subset(
       tsl = tsl,
@@ -119,6 +119,27 @@ distantia_plot <- function(
 
   }
 
+  #count and handle NA
+  na_count <- tsl_count_NA(
+    tsl = tsl
+  ) |>
+    unlist()
+
+  if(sum(na_count) > 0){
+    message(
+      "distantia::distantia_plot(): ",
+      sum(na_count),
+      " NA cases were imputed with distantia::tsl_handle_NA() in these time series: '",
+      paste(names(na_count[na_count > 0]), collapse = "', '"),
+      "'."
+    )
+  }
+
+  tsl <- tsl_handle_NA(
+    tsl = tsl
+  )
+
+  #subset numeric and shared columns
   tsl <- tsl_subset(
     tsl = tsl,
     numeric_cols = TRUE,
@@ -237,7 +258,7 @@ distantia_plot <- function(
     diagonal_width = diagonal_width,
     diagonal_color = diagonal_color,
     guide = FALSE,
-    subpanel = TRUE,
+    subpanel = TRUE
   )
 
   graphics::mtext(

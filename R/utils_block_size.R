@@ -33,6 +33,10 @@ utils_block_size <- function(
   #check user's input
   block_size <- as.integer(block_size[1])
 
+  if(any(is.integer(block_size) == FALSE)){
+    stop("distantia::utils_block_size(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
+  }
+
   # min block size ----
 
   if(block_size < min_block_size){

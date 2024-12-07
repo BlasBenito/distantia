@@ -75,6 +75,15 @@ tsl_plot <- function(
     min_length = 1
   )
 
+  #set NaN and Inf to NA
+  tsl <- tsl_Inf_to_NA(
+    tsl = tsl
+  )
+
+  tsl <- tsl_NaN_to_NA(
+    tsl = tsl
+  )
+
   axis_title_distance <- 2.2
 
   # Preserve user's config

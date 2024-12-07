@@ -462,6 +462,7 @@ f_hellinger <- function(
   y_data <- zoo::coredata(y)
 
   y_data[is.nan(y_data)] <- 0
+  y_data[is.infinite(y_data)] <- 0
 
   zoo::coredata(y) <- y_data
 

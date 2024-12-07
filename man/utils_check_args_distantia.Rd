@@ -2,56 +2,50 @@
 % Please edit documentation in R/utils_check_args.R
 \name{utils_check_args_distantia}
 \alias{utils_check_args_distantia}
-\title{Check Input Arguments to \code{distantia()}}
+\title{Check Input Arguments of \code{distantia()} and \code{distantia_importance()}.}
 \usage{
 utils_check_args_distantia(
   tsl = NULL,
-  distance = "euclidean",
-  diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = FALSE,
-  lock_step = FALSE,
-  repetitions = 0,
-  permutation = "restricted_by_row",
-  block_size = 3,
-  seed = 1,
-  robust = TRUE
+  distance = NULL,
+  diagonal = NULL,
+  weighted = NULL,
+  ignore_blocks = NULL,
+  lock_step = NULL,
+  repetitions = NULL,
+  permutation = NULL,
+  block_size = NULL,
+  seed = NULL,
+  robust = NULL
 )
 }
 \arguments{
-\item{tsl}{(required, list) Time series list. Default: NULL}
+\item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
-\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \code{distances}. Default: "euclidean".}
+\item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 
-\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the computation of the cost matrix. Default: FALSE.}
+\item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE}
 
-\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
 
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive path coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if \code{diagonal = TRUE}. Default: FALSE.}
 
-\item{lock_step}{(optional, logical vector) If TRUE, time series are compared row wise and no least-cost path is computed. Default: FALSE.}
+\item{lock_step}{(optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
 
-\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value (interpreted as the probability of finding a smaller dissimilarity on permuted versions of the sequences) of the psi distance. If 0, p-values are not computed. Otherwise, the minimum is 2. Default: 0}
+\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0}
 
-\item{permutation}{(optional, character vector) permutation method. Valid values are listed below from higher to lower randomness:
-\itemize{
-\item "free": unrestricted shuffling of rows and columns. Ignores block_size.
-\item "free_by_row": unrestricted shuffling of complete rows. Ignores block size.
-\item "restricted": restricted shuffling of rows and columns within blocks.
-\item "restricted_by_row": restricted shuffling of rows within blocks.
-}}
+\item{permutation}{(optional, character vector) permutation method, only relevant when \code{repetitions} is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".}
 
-\item{block_size}{(optional, integer vector) vector with block sizes in rows for the restricted permutation test. A block of size 3 indicates that a row can only be permuted within a block of 3 adjacent rows. If several values are provided, one is selected at random separately for each time series on each repetition. Only relevant when permutation methods are "restricted" or "restricted_by_row". Default: 3.}
+\item{block_size}{(optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and \code{repetitions} is higher than zero. A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in \code{tsl}. Default: NULL.}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 
-\item{robust}{(required, logical). If TRUE, importance scores are computed using the least cost path used to compute the psi dissimilarity between the two full time series. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. Default: TRUE}
+\item{robust}{(required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when \code{lock_step = TRUE}. Default: TRUE}
 }
 \value{
 list
 }
 \description{
-Check Input Arguments to \code{distantia()}
+Check Input Arguments of \code{distantia()} and \code{distantia_importance()}.
 }
 \seealso{
 Other internal: 

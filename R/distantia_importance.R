@@ -51,7 +51,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#'
 #' #parallelization setup (not worth it for this data size)
 #' future::plan(
 #'  future::multisession,
@@ -61,12 +60,8 @@
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
 #'
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#'
-#' #load as tsl
-#' #center and scale with same parameters
+#' #load fagus_dynamics as tsl
+#' #global centering and scaling
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   name_column = "name",
@@ -156,10 +151,25 @@ distantia_importance <- function(
     robust = TRUE
 ){
 
-  #length > 1
-  if(length(tsl) < 2){
-    stop("distantia::distantia_importance(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
-  }
+  #check input arguments
+  args <- utils_check_args_distantia(
+    tsl = tsl,
+    distance = distance,
+    diagonal = diagonal,
+    weighted = weighted,
+    ignore_blocks = ignore_blocks,
+    lock_step = lock_step,
+    robust = robust
+  )
+
+  tsl <- args$tsl
+  distance <- args$distance
+  diagonal <- args$diagonal
+  weighted <- args$weighted
+  ignore_blocks <- args$ignore_blocks
+  lock_step <- args$lock_step
+  robust <- args$robust
+
 
   #stop if tsl is univariate
   tsl_ncol <- tsl_ncol(tsl = tsl) |>
@@ -169,24 +179,6 @@ distantia_importance <- function(
   if(1 %in% tsl_ncol){
     warning("There are univariate time series in 'tsl', but importance scores only apply to multivariate time series.")
   }
-
-  #subsetting numeric and shared columns
-  tsl <- tsl_subset(
-    tsl = tsl,
-    numeric_cols = TRUE,
-    shared_cols = TRUE
-  )
-
-  #check input arguments
-  args_test <- utils_check_args_distantia(
-    tsl = tsl,
-    distance = distance,
-    diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
-    lock_step = lock_step,
-    robust = robust
-  )
 
   #tsl pairs
   df <- utils_tsl_pairs(
