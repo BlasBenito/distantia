@@ -22,6 +22,7 @@ distance_cosine_cpp(c(0.2, 0.4, 0.5), c(0.1, 0.8, 0.2))
 }
 \seealso{
 Other Rcpp_distance_methods: 
+\code{\link{distance_bray_curtis_cpp}()},
 \code{\link{distance_canberra_cpp}()},
 \code{\link{distance_chebyshev_cpp}()},
 \code{\link{distance_chi_cpp}()},
@@ -30,6 +31,7 @@ Other Rcpp_distance_methods:
 \code{\link{distance_hellinger_cpp}()},
 \code{\link{distance_jaccard_cpp}()},
 \code{\link{distance_manhattan_cpp}()},
-\code{\link{distance_russelrao_cpp}()}
+\code{\link{distance_russelrao_cpp}()},
+\code{\link{distance_sorensen_cpp}()}
 }
 \concept{Rcpp_distance_methods}

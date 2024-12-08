@@ -329,6 +329,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// distance_bray_curtis_cpp
+double distance_bray_curtis_cpp(NumericVector x, NumericVector y);
+RcppExport SEXP _distantia_distance_bray_curtis_cpp(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_bray_curtis_cpp(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// distance_sorensen_cpp
+double distance_sorensen_cpp(NumericVector x, NumericVector y);
+RcppExport SEXP _distantia_distance_sorensen_cpp(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(distance_sorensen_cpp(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // update_path_dist_cpp
 DataFrame update_path_dist_cpp(NumericMatrix x, NumericMatrix y, DataFrame path, const std::string& distance);
 RcppExport SEXP _distantia_update_path_dist_cpp(SEXP xSEXP, SEXP ySEXP, SEXP pathSEXP, SEXP distanceSEXP) {
@@ -571,6 +595,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_distance_russelrao_cpp", (DL_FUNC) &_distantia_distance_russelrao_cpp, 2},
     {"_distantia_distance_cosine_cpp", (DL_FUNC) &_distantia_distance_cosine_cpp, 2},
     {"_distantia_distance_hamming_cpp", (DL_FUNC) &_distantia_distance_hamming_cpp, 2},
+    {"_distantia_distance_bray_curtis_cpp", (DL_FUNC) &_distantia_distance_bray_curtis_cpp, 2},
+    {"_distantia_distance_sorensen_cpp", (DL_FUNC) &_distantia_distance_sorensen_cpp, 2},
     {"_distantia_update_path_dist_cpp", (DL_FUNC) &_distantia_update_path_dist_cpp, 4},
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},

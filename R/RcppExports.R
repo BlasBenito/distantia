@@ -640,6 +640,30 @@ distance_hamming_cpp <- function(x, y) {
     .Call(`_distantia_distance_hamming_cpp`, x, y)
 }
 
+#' (C++) Bray-Curtis Distance Between Two Vectors
+#' @description Computes the Bray-Curtis distance, suitable for species abundance data.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @return numeric
+#' @examples distance_bray_curtis_cpp(x = runif(100), y = runif(100))
+#' @export
+#' @family Rcpp_distance_methods
+distance_bray_curtis_cpp <- function(x, y) {
+    .Call(`_distantia_distance_bray_curtis_cpp`, x, y)
+}
+
+#' (C++) Sørensen Distance Between Two Binary Vectors
+#' @description Computes the Sørensen distance, suitable for presence/absence data.
+#' @param x (required, numeric vector).
+#' @param y (required, numeric vector) of same length as `x`.
+#' @return numeric
+#' @examples distance_sorensen_cpp(x = c(0, 1, 1, 0), y = c(1, 1, 0, 0))
+#' @export
+#' @family Rcpp_distance_methods
+distance_sorensen_cpp <- function(x, y) {
+    .Call(`_distantia_distance_sorensen_cpp`, x, y)
+}
+
 update_path_dist_cpp <- function(x, y, path, distance = "euclidean") {
     .Call(`_distantia_update_path_dist_cpp`, x, y, path, distance)
 }

@@ -282,6 +282,68 @@ double distance_hamming_cpp(NumericVector x, NumericVector y) {
   return dist;
 }
 
+//' (C++) Bray-Curtis Distance Between Two Vectors
+//' @description Computes the Bray-Curtis distance, suitable for species abundance data.
+//' @param x (required, numeric vector).
+//' @param y (required, numeric vector) of same length as `x`.
+//' @return numeric
+//' @examples distance_bray_curtis_cpp(x = runif(100), y = runif(100))
+//' @export
+//' @family Rcpp_distance_methods
+// [[Rcpp::export]]
+double distance_bray_curtis_cpp(NumericVector x, NumericVector y) {
+
+  int length = x.size();
+  double sum_min = 0.0; // Sum of minimum values
+  double sum_x = 0.0;   // Sum of x values
+  double sum_y = 0.0;   // Sum of y values
+
+  for (int i = 0; i < length; i++) {
+    sum_min += std::min(x[i], y[i]);
+    sum_x += x[i];
+    sum_y += y[i];
+  }
+
+  if ((sum_x + sum_y) == 0) {
+   return 0.0;
+  }
+
+  return 1.0 - (2.0 * sum_min) / (sum_x + sum_y);
+}
+
+//' (C++) Sørensen Distance Between Two Binary Vectors
+//' @description Computes the Sørensen distance, suitable for presence/absence data.
+//' @param x (required, numeric vector).
+//' @param y (required, numeric vector) of same length as `x`.
+//' @return numeric
+//' @examples distance_sorensen_cpp(x = c(0, 1, 1, 0), y = c(1, 1, 0, 0))
+//' @export
+//' @family Rcpp_distance_methods
+// [[Rcpp::export]]
+double distance_sorensen_cpp(NumericVector x, NumericVector y) {
+
+  int length = x.size();
+  double A = 0.0; // Shared presences
+  double B = 0.0; // Present in x but not y
+  double C = 0.0; // Present in y but not x
+
+  for (int i = 0; i < length; i++) {
+    if (x[i] == 1 && y[i] == 1) {
+      A += 1;
+    } else if (x[i] == 1 && y[i] == 0) {
+      B += 1;
+    } else if (x[i] == 0 && y[i] == 1) {
+      C += 1;
+    }
+  }
+
+  if ((2 * A + B + C) == 0) {
+    return 0.0; // Avoid division by zero when vectors are all zeros
+  }
+
+  return 1.0 - (2.0 * A) / (2.0 * A + B + C);
+}
+
 //define the type for the distance function
 typedef double (*DistanceFunction)(NumericVector, NumericVector);
 
@@ -307,6 +369,10 @@ DistanceFunction select_distance_function_cpp(const std::string& distance = "euc
     return &distance_hamming_cpp;
   } else if (distance == "chi") {
     return &distance_chi_cpp;
+  } else if (distance == "bray_curtis" || distance.substr(0, 3) == "hel") {
+    return &distance_bray_curtis_cpp;
+  } else if (distance == "sorensen" || distance.substr(0, 3) == "hel") {
+    return &distance_sorensen_cpp;
   } else {
     Rcpp::stop("distantia::select_distance_function_cpp(): invalid distance name or abbreviation.");
   }

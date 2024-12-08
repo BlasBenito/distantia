@@ -4,12 +4,10 @@
 \alias{f_log}
 \title{Data Transformation: Log}
 \usage{
-f_log(x = NULL, pseudozero = 1e-04, ...)
+f_log(x = NULL, ...)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
-
-\item{pseudozero}{(required, numeric) Small number above zero to replace zeroes with.}
 
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
@@ -51,6 +49,7 @@ Other tsl_transformation:
 \code{\link{f_scale_global}()},
 \code{\link{f_scale_local}()},
 \code{\link{f_slope}()},
+\code{\link{f_to_binary}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}

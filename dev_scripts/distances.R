@@ -10,7 +10,9 @@ name <- c(
   "cosine",
   "jaccard",
   "chebyshev",
-  "hamming"
+  "hamming",
+  "bray_curtis",
+  "sorensen"
 )
 
 abbreviation <- c(
@@ -23,7 +25,9 @@ abbreviation <- c(
   "cos",
   "jac",
   "che",
-  "ham"
+  "ham",
+  "bra",
+  "sor"
 )
 
 requires_pseudozeros <- c(
@@ -34,6 +38,8 @@ requires_pseudozeros <- c(
   FALSE,
   FALSE,
   TRUE,
+  FALSE,
+  FALSE,
   FALSE,
   FALSE,
   FALSE
@@ -49,7 +55,9 @@ function_name <- c(
   "distance_cosine_cpp",
   "distance_jaccard_cpp",
   "distance_chebyshev_cpp",
-  "distance_hamming_cpp"
+  "distance_hamming_cpp",
+  "distance_bray_curtis_cpp",
+  "distance_sorensen_cpp"
 )
 
 expression <- c(
@@ -62,7 +70,9 @@ expression <- c(
   "1 - sum(x * y) / (sqrt(sum(x^2)) * sqrt(sum(y^2)))",
   "1 - (sum(x & y) / sum(x | y))",
   "max(abs(x - y))",
-  "sum(x == y)"
+  "sum(x == y)",
+  "1 - (2 * sum(pmin(x, y)) / (sum(x) + sum(y)))",
+  "1 - (2 * sum(x & y) / (2 * sum(x & y) + sum(x & !y) + sum(!x & y)))"
 )
 
 distances <- data.frame(
@@ -73,4 +83,4 @@ distances <- data.frame(
   requires_pseudozeros
 )
 
-usethis::use_data(distances)
+usethis::use_data(distances, overwrite = TRUE)

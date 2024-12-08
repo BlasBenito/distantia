@@ -44,6 +44,7 @@ Other tsl_transformation:
 \code{\link{f_rescale_local}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_scale_local}()},
+\code{\link{f_to_binary}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}
