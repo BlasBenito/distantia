@@ -6,10 +6,10 @@
 \usage{
 zoo_plot(
   x = NULL,
+  line_color = NULL,
+  line_width = 1,
   xlim = NULL,
   ylim = NULL,
-  color = NULL,
-  width = 1,
   title = NULL,
   xlab = NULL,
   ylab = NULL,
@@ -23,13 +23,13 @@ zoo_plot(
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
 
+\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
+
+\item{line_width}{(optional, numeric vector) Width of the time series lines. Default: 1}
+
 \item{xlim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
 
 \item{ylim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
-
-\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
-
-\item{width}{(optional, numeric vector) Width of the time series lines. Default: 1}
 
 \item{title}{(optional, character string) Main title of the plot. If NULL, it's set to the name of the time series. Default: NULL}
 

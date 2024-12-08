@@ -246,7 +246,7 @@ distantia_plot <- function(
 
   utils_matrix_plot(
     m = m,
-    color = matrix_color,
+    matrix_color = matrix_color,
     subtitle = paste0(
       "Psi = ",
       xy_psi
@@ -282,8 +282,8 @@ distantia_plot <- function(
 
   zoo_plot(
     x = tsl[[2]],
-    color = line_color,
-    width = line_width,
+    line_color = line_color,
+    line_width = line_width,
     text_cex = text_cex,
     guide = FALSE,
     vertical = TRUE,
@@ -318,8 +318,8 @@ distantia_plot <- function(
 
   zoo_plot(
     x = tsl[[1]],
-    color = line_color,
-    width = line_width,
+    line_color = line_color,
+    line_width = line_width,
     text_cex = text_cex,
     guide = FALSE,
     vertical = FALSE,
@@ -353,7 +353,7 @@ distantia_plot <- function(
 
   utils_matrix_guide(
     m = m,
-    color = matrix_color,
+    matrix_color = matrix_color,
     text_cex = text_cex
   )
 
@@ -366,9 +366,9 @@ distantia_plot <- function(
   utils_line_guide(
     x = tsl[[2]],
     position = "center",
-    color = line_color,
+    line_color = line_color,
     text_cex = text_cex * 0.7,
-    width = line_width,
+    line_width = line_width,
     subpanel = TRUE
   )
 

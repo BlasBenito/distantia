@@ -13,7 +13,7 @@
 #' In any case, if the argument `df` contains more than one combination of input parameters, then [distantia_aggregate()] is used to summarize dissimilarity scores across groups.
 #'
 #' @param df (required, data frame) output of [distantia()] or [distantia_importance()]. Default: NULL
-#' @param color (optional, character vector) boxplot fill color. Default: NULL
+#' @param fill_color (optional, character vector) boxplot fill color. Default: NULL
 #' @param f (optional, function) function used to arrange the boxes. Can be one of `mean`, `median`, `min`, `max`, or `quantile`. Default: `median`.
 #' @param ... (optional, additional arguments to `f`). If `f` is `quantile`, additional arguments such as `probs = 0.75` can be used. Default: ...
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
@@ -80,7 +80,7 @@
 #' @family dissimilarity_analysis
 distantia_boxplot <- function(
     df = NULL,
-    color = NULL,
+    fill_color = NULL,
     f = median,
     ...,
     text_cex = 1
@@ -144,9 +144,9 @@ distantia_boxplot <- function(
   }
 
 
-  if(is.null(color)){
+  if(is.null(fill_color)){
 
-    color <- grDevices::hcl.colors(
+    fill_color <- grDevices::hcl.colors(
       n = length(unique(variable)),
       palette = "Zissou 1"
     )
@@ -203,7 +203,7 @@ distantia_boxplot <- function(
     ylab = ylab,
     horizontal = TRUE,
     notch = notch,
-    col = color,
+    col = fill_color,
     main = main
   )
 

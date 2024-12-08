@@ -29,6 +29,7 @@ f_slope(x = numeric(0))
 }
 \seealso{
 Other tsl_transformation: 
+\code{\link{f_binary}()},
 \code{\link{f_chi_squared}()},
 \code{\link{f_clr}()},
 \code{\link{f_detrend_difference}()},
@@ -44,7 +45,6 @@ Other tsl_transformation:
 \code{\link{f_rescale_local}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_scale_local}()},
-\code{\link{f_to_binary}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}

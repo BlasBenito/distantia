@@ -8,8 +8,8 @@
 #'   \item "absolute" (default): all time series are plotted using the overall data range. When this option is used, horizontal lines indicating the overall mean, minimum, and maximum are shown as reference.
 #'   \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using `ylim = NULL`.
 #' }
-#' @param color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
-#' @param width (optional, numeric vector) Width of the time series plot. Default: 1
+#' @param line_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
+#' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
 #' @param guide_columns (optional, integer) Columns of the line guide. Default: 1.
@@ -53,7 +53,7 @@
 #'   #changing color
 #'   tsl_plot(
 #'     tsl = tsl,
-#'     color = c("red", "green", "blue"))
+#'     line_color = c("red", "green", "blue"))
 #'
 #' }
 #' @family tsl_visualization
@@ -62,8 +62,8 @@ tsl_plot <- function(
     columns = 1,
     xlim = NULL,
     ylim = "absolute",
-    color = NULL,
-    width = 1,
+    line_color = NULL,
+    line_width = 1,
     text_cex = 1,
     guide = TRUE,
     guide_columns = 1,
@@ -116,9 +116,9 @@ tsl_plot <- function(
   }
 
   #generate colors
-  color <- utils_line_color(
+  line_color <- utils_line_color(
     x = tsl,
-    color = color
+    line_color = line_color
   )
 
   #define new par
@@ -143,10 +143,10 @@ tsl_plot <- function(
 
       zoo_plot(
         x = tsl[[i]],
-        color = color,
+        line_color = line_color,
+        line_width = line_width,
         xlim = xlim,
         ylim = ylim,
-        width = width,
         title = "",
         xlab = NULL,
         ylab = "",
@@ -192,10 +192,10 @@ tsl_plot <- function(
         utils_line_guide(
           x = tsl,
           position = "center",
-          color = color,
-          width = width,
+          line_color = line_color,
+          line_width = line_width,
           text_cex = guide_cex,
-          ncol = guide_columns,
+          guide_columns = guide_columns,
           subpanel = TRUE
         )
       }

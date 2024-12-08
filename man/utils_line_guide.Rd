@@ -7,11 +7,11 @@
 utils_line_guide(
   x,
   position = "topright",
-  color = NULL,
-  width = 1,
+  line_color = NULL,
+  line_width = 1,
   length = 1,
   text_cex = 0.7,
-  ncol = 1,
+  guide_columns = 1,
   subpanel = FALSE
 )
 }
@@ -20,15 +20,15 @@ utils_line_guide(
 
 \item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the \code{x} and \code{y} arguments of the \code{\link[graphics:legend]{graphics::legend()}} function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
-\item{color}{(optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
 
-\item{width}{(optional, numeric vector) Widths of the time series lines. Default: 1}
+\item{line_width}{(optional, numeric vector) Widths of the time series lines. Default: 1}
 
 \item{length}{(optional, numeric) maps to the argument \code{seg.len} of \code{\link[graphics:legend]{graphics::legend()}}. Length of the lines drawn in the legend. Default: 1}
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 0.7}
 
-\item{ncol}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
+\item{guide_columns}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
 
 \item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
 }

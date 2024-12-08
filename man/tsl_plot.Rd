@@ -9,8 +9,8 @@ tsl_plot(
   columns = 1,
   xlim = NULL,
   ylim = "absolute",
-  color = NULL,
-  width = 1,
+  line_color = NULL,
+  line_width = 1,
   text_cex = 1,
   guide = TRUE,
   guide_columns = 1,
@@ -30,9 +30,9 @@ tsl_plot(
 \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using \code{ylim = NULL}.
 }}
 
-\item{color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
 
-\item{width}{(optional, numeric vector) Width of the time series plot. Default: 1}
+\item{line_width}{(optional, numeric vector) Width of the time series plot. Default: 1}
 
 \item{text_cex}{(optional, numeric) Multiplicator of the text size. Default: 1}
 
@@ -83,7 +83,7 @@ if(interactive()){
   #changing color
   tsl_plot(
     tsl = tsl,
-    color = c("red", "green", "blue"))
+    line_color = c("red", "green", "blue"))
 
 }
 }

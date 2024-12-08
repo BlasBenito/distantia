@@ -4,12 +4,12 @@
 \alias{distantia_boxplot}
 \title{Boxplot of Dissimilarity Analysis Data Frames}
 \usage{
-distantia_boxplot(df = NULL, color = NULL, f = median, ..., text_cex = 1)
+distantia_boxplot(df = NULL, fill_color = NULL, f = median, ..., text_cex = 1)
 }
 \arguments{
 \item{df}{(required, data frame) output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
 
-\item{color}{(optional, character vector) boxplot fill color. Default: NULL}
+\item{fill_color}{(optional, character vector) boxplot fill color. Default: NULL}
 
 \item{f}{(optional, function) function used to arrange the boxes. Can be one of \code{mean}, \code{median}, \code{min}, \code{max}, or \code{quantile}. Default: \code{median}.}
 

@@ -5,14 +5,14 @@
 #'
 #'
 #' @param x (required, sequence) zoo object or time series list. Default: NULL
-#' @param color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
+#' @param line_color (optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL
 #'
 #' @return color vector
 #' @export
 #' @family internal_plotting
 utils_line_color <- function(
     x = NULL,
-    color = NULL
+    line_color = NULL
 ){
 
   # get colnames for any length of x
@@ -34,9 +34,9 @@ utils_line_color <- function(
   }
 
   #generate default colors
-  if(is.null(color)){
+  if(is.null(line_color)){
 
-    color <- utils_color_discrete_default(
+    line_color <- utils_color_discrete_default(
       n = length(x_colnames)
     )
 
@@ -44,36 +44,36 @@ utils_line_color <- function(
 
 
   #if more colors than required are provided
-  if(length(color) > length(x_colnames)){
+  if(length(line_color) > length(x_colnames)){
 
     #if no names, subset by length
-    if(is.null(names(color))){
+    if(is.null(names(line_color))){
 
-      color <- color[
+      line_color <- line_color[
         seq(
           from = 1,
-          to = length(color),
+          to = length(line_color),
           length.out = length(x_colnames))
       ]
 
       #if names, subset by name
     } else {
 
-      color <- color[names(color) %in% x_colnames]
+      line_color <- line_color[names(line_color) %in% x_colnames]
 
     }
 
   }
 
   #if fewer colors than required are provided
-  if(length(color) < length(x_colnames)){
+  if(length(line_color) < length(x_colnames)){
 
     stop(
       "distantia::utils_line_color(): There are fewer colors (",
-      length(color),
+      length(line_color),
       ") than unique columns (",
       length(x_colnames),
-      "). Argument 'color' must be a vector with ",
+      "). Argument 'line_color' must be a vector with ",
       length(x_colnames),
       " colors.",
       call. = FALSE
@@ -81,8 +81,8 @@ utils_line_color <- function(
 
   }
 
-  names(color) <- x_colnames
+  names(line_color) <- x_colnames
 
-  color
+  line_color
 
 }

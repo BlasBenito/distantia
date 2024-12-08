@@ -896,7 +896,7 @@ f_rescale_global <- function(
 #'   data_range = c(0, 1)
 #'   )
 #'
-#' y <- f_to_binary(
+#' y <- f_binary(
 #'   x = x,
 #'   threshold = 0.5
 #' )
@@ -906,7 +906,7 @@ f_rescale_global <- function(
 #'   zoo_plot(y)
 #' }
 #' @family tsl_transformation
-f_to_binary <- function(
+f_binary <- function(
     x = NULL,
     threshold = NULL
 ) {

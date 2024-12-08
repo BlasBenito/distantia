@@ -4,12 +4,12 @@
 \alias{utils_line_color}
 \title{Handles Line Colors for Sequence Plots}
 \usage{
-utils_line_color(x = NULL, color = NULL)
+utils_line_color(x = NULL, line_color = NULL)
 }
 \arguments{
 \item{x}{(required, sequence) zoo object or time series list. Default: NULL}
 
-\item{color}{(optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the time series columns. Selected palette depends on the number of columns to plot. Default: NULL}
 }
 \value{
 color vector
