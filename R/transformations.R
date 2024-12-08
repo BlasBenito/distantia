@@ -59,10 +59,7 @@ f_pca <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -123,10 +120,7 @@ f_trend_linear <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -186,10 +180,7 @@ f_detrend_linear <- function(
     order.by = zoo::index(x)
     )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -266,10 +257,7 @@ f_detrend_difference <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -338,10 +326,9 @@ f_slope <- function(
 
 # Rowwise Transformations ----
 
-#' Data Transformation: Convert Values to Proportions by Row
+#' Data Transformation: Rowwise Proportions
 #'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param ... (optional, additional arguments) Ignored in this function.
+#' @inheritParams f_hellinger
 #'
 #' @return zoo object
 #' @export
@@ -376,17 +363,39 @@ f_proportion <- function(
 
   zoo::coredata(y) <- y_data
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
-#' Data Transformation: Convert Values to Percentages by Row
+#' Data Transformation: Rowwise Square Root of Proportions
 #'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param ... (optional, additional arguments) Ignored in this function.
+#' @inheritParams f_hellinger
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_proportion_sqrt(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_proportion_sqrt <- function(
+    x = NULL,
+    ...
+    ) {
+  f_proportion(x)^0.5
+}
+
+#' Data Transformation: Rowwise Percentages
+#'
+#' @inheritParams f_hellinger
 #'
 #' @return zoo object
 #' @export
@@ -412,7 +421,7 @@ f_percentage <- function(
 
 }
 
-#' Data Transformation: Hellinger Transformation by Rows
+#' Data Transformation: Rowwise Hellinger Transformation
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
 #' @param pseudozero (required, numeric) Small number above zero to replace zeroes with.
@@ -445,11 +454,6 @@ f_hellinger <- function(
 
   x.matrix[x.matrix == 0] <- pseudozero
 
-  x.matrix <- zoo::zoo(
-    x = x.matrix,
-    order.by = zoo::index(x)
-  )
-
   y <- sqrt(
     sweep(
       x = x.matrix,
@@ -459,22 +463,172 @@ f_hellinger <- function(
     )
   )
 
-  y_data <- zoo::coredata(y)
+  y[is.nan(y)] <- 0
+  y[is.infinite(y)] <- 0
 
-  y_data[is.nan(y_data)] <- 0
-  y_data[is.infinite(y_data)] <- 0
-
-  zoo::coredata(y) <- y_data
-
-  zoo_name_set(
+  y <- zoo::zoo(
     x = y,
-    name = attributes(x)$name
+    order.by = zoo::index(x)
   )
+
+  y
 
 }
 
 
+#' Data Transformation: Rowwise Centered Log-Ratio
+#'
+#' @description
+#' Centers log-transformed proportions by subtracting the geometric mean of the row.
+#'
+#' @inheritParams f_hellinger
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(
+#'   cols = 5,
+#'   data_range = c(0, 500)
+#'   )
+#'
+#' y <- f_clr(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_clr <- function(
+    x = NULL,
+    pseudozero = 0.0001,
+    ...
+    ) {
 
+  x.matrix <- zoo::coredata(x)
+
+  x.matrix[x.matrix == 0] <- pseudozero
+
+  x.log <- log(x.matrix)
+
+  y <- sweep(
+    x = x.log,
+    MARGIN = 1,
+    STATS = rowMeans(x.log),
+    FUN = "-"
+    )
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+    )
+
+  y
+
+}
+
+# Full Data Transformations ----
+
+#' Data Transformation: Chi Square
+#'
+#' @description
+#' Standardizes values based on their row sums and expected values.
+#'
+#' @inheritParams f_hellinger
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(
+#'   cols = 5,
+#'   data_range = c(0, 500)
+#'   )
+#'
+#' y <- f_chi_squared(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_chi_squared <- function(
+    x = NULL,
+    ...
+    ) {
+
+  row_totals <- rowSums(x)
+
+  col_totals <- colSums(x)
+
+  grand_total <- sum(row_totals)
+
+  expected <- outer(row_totals, col_totals) / grand_total
+
+  y <- (x - expected) / sqrt(expected)
+
+  y[is.nan(y)] <- 0
+
+  y[is.infinite(y)] <- 0
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+    )
+
+  y
+
+}
+
+#' Data Transformation: Log
+#'
+#' @description
+#' Applies logarithmic transformation to data to reduce skewness.
+#'
+#' @inheritParams f_hellinger
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(
+#'   cols = 5,
+#'   data_range = c(0, 500)
+#'   )
+#'
+#' y <- f_log(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_log <- function(
+    x = NULL,
+    pseudozero = 0.0001,
+    ...
+    ){
+
+  x.matrix <- zoo::coredata(x)
+
+  x.matrix[x.matrix == 0] <- pseudozero
+
+  y <- log(x.matrix)
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+    )
+
+  y
+
+}
 
 # Rescaling ----
 
@@ -597,10 +751,7 @@ f_rescale_local <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -679,10 +830,7 @@ f_rescale_global <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 

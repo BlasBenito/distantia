@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_percentage}
 \alias{f_percentage}
-\title{Data Transformation: Convert Values to Percentages by Row}
+\title{Data Transformation: Rowwise Percentages}
 \usage{
 f_percentage(x = NULL, ...)
 }
@@ -15,7 +15,7 @@ f_percentage(x = NULL, ...)
 zoo object
 }
 \description{
-Data Transformation: Convert Values to Percentages by Row
+Data Transformation: Rowwise Percentages
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -31,12 +31,16 @@ if(interactive()){
 }
 \seealso{
 Other tsl_transformation: 
+\code{\link{f_chi_squared}()},
+\code{\link{f_clr}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
 \code{\link{f_hellinger}()},
 \code{\link{f_list}()},
+\code{\link{f_log}()},
 \code{\link{f_pca}()},
 \code{\link{f_proportion}()},
+\code{\link{f_proportion_sqrt}()},
 \code{\link{f_rescale_global}()},
 \code{\link{f_rescale_local}()},
 \code{\link{f_scale_global}()},

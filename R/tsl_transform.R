@@ -204,7 +204,7 @@ tsl_transform <- function(
 
         p()
 
-        f(
+        y <- f(
           x = x,
           center = scaling_params$center,
           scale = scaling_params$scale,
@@ -212,6 +212,13 @@ tsl_transform <- function(
           old_max = scaling_params$old_max#,
           #... = ...
         )
+
+        y <- zoo_name_set(
+          x = x,
+          name = attributes(x)$name
+        )
+
+        y
 
       }
     )
