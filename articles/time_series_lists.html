@@ -1128,10 +1128,12 @@ available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
-<span><span class="co">#&gt;  [4] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
-<span><span class="co">#&gt;  [7] "f_rescale_global"     "f_rescale_local"      "f_scale_global"      </span></span>
-<span><span class="co">#&gt; [10] "f_scale_local"        "f_slope"              "f_trend_linear"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "f_chi_squared"        "f_clr"                "f_detrend_difference"</span></span>
+<span><span class="co">#&gt;  [4] "f_detrend_linear"     "f_hellinger"          "f_log"               </span></span>
+<span><span class="co">#&gt;  [7] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
+<span><span class="co">#&gt; [10] "f_proportion_sqrt"    "f_rescale_global"     "f_rescale_local"     </span></span>
+<span><span class="co">#&gt; [13] "f_scale_global"       "f_scale_local"        "f_slope"             </span></span>
+<span><span class="co">#&gt; [16] "f_trend_linear"</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="scaling">Scaling<a class="anchor" aria-label="anchor" href="#scaling"></a>
 </h4>
@@ -1201,16 +1203,16 @@ variable offsets between locations, while the local one shows an average
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_global_scaling</span></span>
 <span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
-<span><span class="co">#&gt;      name    variable         mean        sd</span></span>
-<span><span class="co">#&gt; 1 Germany         evi  0.274946362 0.8814083</span></span>
-<span><span class="co">#&gt; 2   Spain         evi -0.198553830 0.7030354</span></span>
-<span><span class="co">#&gt; 3  Sweden         evi -0.076392533 1.2715132</span></span>
-<span><span class="co">#&gt; 4 Germany    rainfall -0.322755553 0.7018733</span></span>
-<span><span class="co">#&gt; 5   Spain    rainfall  0.493472218 1.2122159</span></span>
-<span><span class="co">#&gt; 6  Sweden    rainfall -0.170716665 0.8176955</span></span>
-<span><span class="co">#&gt; 7 Germany temperature -0.009510512 1.0589824</span></span>
-<span><span class="co">#&gt; 8   Spain temperature  0.360302107 0.7534701</span></span>
-<span><span class="co">#&gt; 9  Sweden temperature -0.350791594 1.0324738</span></span></code></pre></div>
+<span><span class="co">#&gt;      name    variable       mean         sd</span></span>
+<span><span class="co">#&gt; 1 Germany         evi  0.4475370  0.1467074</span></span>
+<span><span class="co">#&gt; 2   Spain         evi  0.3687245  0.1170178</span></span>
+<span><span class="co">#&gt; 3  Sweden         evi  0.3890579  0.2116391</span></span>
+<span><span class="co">#&gt; 4 Germany    rainfall 58.7157407 27.8993379</span></span>
+<span><span class="co">#&gt; 5   Spain    rainfall 91.1606481 48.1853638</span></span>
+<span><span class="co">#&gt; 6  Sweden    rainfall 64.7592593 32.5032507</span></span>
+<span><span class="co">#&gt; 7 Germany temperature 10.6861111  6.7015369</span></span>
+<span><span class="co">#&gt; 8   Spain temperature 13.0263889  4.7681695</span></span>
+<span><span class="co">#&gt; 9  Sweden temperature  8.5263889  6.5337833</span></span></code></pre></div>
 <p>The functions <code>f_rescale_local</code> and
 <code>f_rescale_global</code> work under the same principle to rescale
 variable ranges. By default, these functions rescale all time series
@@ -1253,16 +1255,16 @@ rescaling.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_global_rescaling</span></span>
 <span><span class="op">)</span><span class="op">[</span>, <span class="va">stats_cols</span><span class="op">]</span></span>
-<span><span class="co">#&gt;      name    variable        min       max</span></span>
-<span><span class="co">#&gt; 1 Germany         evi 0.03304993 0.8519938</span></span>
-<span><span class="co">#&gt; 2   Spain         evi 0.16944079 0.7209915</span></span>
-<span><span class="co">#&gt; 3  Sweden         evi 0.00000000 1.0000000</span></span>
-<span><span class="co">#&gt; 4 Germany    rainfall 0.00000000 0.6596244</span></span>
-<span><span class="co">#&gt; 5   Spain    rainfall 0.03615023 1.0000000</span></span>
-<span><span class="co">#&gt; 6  Sweden    rainfall 0.02206573 0.8732394</span></span>
-<span><span class="co">#&gt; 7 Germany temperature 0.10035842 1.0000000</span></span>
-<span><span class="co">#&gt; 8   Spain temperature 0.32974910 0.9462366</span></span>
-<span><span class="co">#&gt; 9  Sweden temperature 0.00000000 0.8853047</span></span></code></pre></div>
+<span><span class="co">#&gt;      name    variable     min      max</span></span>
+<span><span class="co">#&gt; 1 Germany         evi  0.0689   0.7528</span></span>
+<span><span class="co">#&gt; 2   Spain         evi  0.1828   0.6434</span></span>
+<span><span class="co">#&gt; 3  Sweden         evi  0.0413   0.8764</span></span>
+<span><span class="co">#&gt; 4 Germany    rainfall  3.6000 144.1000</span></span>
+<span><span class="co">#&gt; 5   Spain    rainfall 11.3000 216.6000</span></span>
+<span><span class="co">#&gt; 6  Sweden    rainfall  8.3000 189.6000</span></span>
+<span><span class="co">#&gt; 7 Germany temperature -1.9000  23.2000</span></span>
+<span><span class="co">#&gt; 8   Spain temperature  4.5000  21.7000</span></span>
+<span><span class="co">#&gt; 9  Sweden temperature -4.7000  20.0000</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="detrending">Detrending<a class="anchor" aria-label="anchor" href="#detrending"></a>
