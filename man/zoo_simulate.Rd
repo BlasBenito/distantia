@@ -66,7 +66,7 @@ if(interactive()){
   plot(x)
 
   #plot time series with distantia
-  distantia::zoo_plot(
+  zoo_plot(
     x = x,
     xlab = "Date",
     ylab = "Value",
