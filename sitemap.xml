@@ -27,6 +27,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/covid_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/covid_prevalence.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distance_bray_curtis_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_canberra_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_chebyshev_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_chi_cpp.html</loc></url>
@@ -39,6 +40,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_manhattan_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_matrix_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_russelrao_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distance_sorensen_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distances.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia-package.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia.html</loc></url>
@@ -68,6 +70,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/f_scale_global.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_scale_local.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_slope.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/f_to_binary.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_trend_linear.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_dynamics.html</loc></url>

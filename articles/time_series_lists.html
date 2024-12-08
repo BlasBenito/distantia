@@ -1133,9 +1133,9 @@ available <code>f</code> functions can be listed with
 <span><span class="co">#&gt;  [7] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
 <span><span class="co">#&gt; [10] "f_proportion_sqrt"    "f_rescale_global"     "f_rescale_local"     </span></span>
 <span><span class="co">#&gt; [13] "f_scale_global"       "f_scale_local"        "f_slope"             </span></span>
-<span><span class="co">#&gt; [16] "f_trend_linear"</span></span></code></pre></div>
+<span><span class="co">#&gt; [16] "f_to_binary"          "f_trend_linear"</span></span></code></pre></div>
 <div class="section level4">
-<h4 id="scaling">Scaling<a class="anchor" aria-label="anchor" href="#scaling"></a>
+<h4 id="scale-adjustments">Scale Adjustments<a class="anchor" aria-label="anchor" href="#scale-adjustments"></a>
 </h4>
 <p>Scaling and centering multivariate time series is essential in
 dynamic time warping to ensure all variables contribute equally,
@@ -1267,7 +1267,7 @@ rescaling.</p>
 <span><span class="co">#&gt; 9  Sweden temperature -4.7000  20.0000</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="detrending">Detrending<a class="anchor" aria-label="anchor" href="#detrending"></a>
+<h4 id="trend-adjustments">Trend Adjustments<a class="anchor" aria-label="anchor" href="#trend-adjustments"></a>
 </h4>
 <p>Removing trends in time series before applying dynamic time warping
 may help prevents inflated dissimilarity scores caused by non-stationary
@@ -1382,9 +1382,33 @@ demonstrate that the linear detrending worked as expected.</p>
 <span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="rowwise-transformations">Rowwise Transformations<a class="anchor" aria-label="anchor" href="#rowwise-transformations"></a>
+<h4 id="compositional-transformations">Compositional Transformations<a class="anchor" aria-label="anchor" href="#compositional-transformations"></a>
 </h4>
-<p>This section focuses on transformations involving full rows.</p>
+<ul>
+<li>Percentage (<code>f_percentage</code>): Suitable for count or
+continuous data when values need to be expressed as percentages of the
+total. Commonly used in relative abundance or proportional
+datasets.</li>
+<li>Proportion (<code>f_prooportion</code>): Best for count or
+continuous data where the goal is to normalize values to a unit sum,
+ensuring they represent fractions of the total.</li>
+<li>Square Root of Proportion (<code>f_proportion_sqrt</code>): Ideal
+for proportional or count data to reduce the influence of dominant
+values and emphasize smaller contributions.</li>
+<li>Hellinger (<code>f_hellinger</code>): Typically applied to count
+data (e.g., species abundance) to compute distances that are symmetric
+and non-linear, enhancing interpretability in ecological analyses.</li>
+<li>Centered Log-Ratio (<code>f_clr</code>): Designed for compositional
+data (proportions or relative abundances) to address the unit-sum
+constraint and emphasize relative changes between components.</li>
+<li>Chi-Squared (<code>f_chi_square</code>): Suitable for count data,
+especially when comparing observed and expected frequencies in
+categorical or proportional datasets.</li>
+<li>Log Transformation (<code>f_log</code>): Applicable to count or
+continuous data with positive values, often used to reduce skewness and
+stabilize variance in datasets with exponential growth or wide value
+ranges.</li>
+</ul>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/eemian_pollen.html">eemian_pollen</a></span>,</span>
@@ -1409,7 +1433,8 @@ demonstrate that the linear detrending worked as expected.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; distantia::distantia_plot(): 21 NA cases were imputed with distantia::tsl_handle_NA() in these time series: 'Krumbach_I'.</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-73-1.png" width="750"></p>
 </div>
 </div>
