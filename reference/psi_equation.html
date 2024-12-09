@@ -83,7 +83,6 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <code><a href="psi_auto_sum.html">psi_auto_sum</a>()</code>,
 <code><a href="psi_cost_matrix.html">psi_cost_matrix</a>()</code>,
 <code><a href="psi_cost_path.html">psi_cost_path</a>()</code>,
-<code><a href="psi_cost_path_ignore_blocks.html">psi_cost_path_ignore_blocks</a>()</code>,
 <code><a href="psi_cost_path_sum.html">psi_cost_path_sum</a>()</code>,
 <code><a href="psi_distance_lock_step.html">psi_distance_lock_step</a>()</code>,
 <code><a href="psi_distance_matrix.html">psi_distance_matrix</a>()</code></p></div>
@@ -96,9 +95,6 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#use diagonals in least cost computations</span></span></span>
 <span class="r-in"><span><span class="va">diagonal</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#remove blocks from least cost path</span></span></span>
-<span class="r-in"><span><span class="va">ignore_blocks</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#simulate two irregular time series</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span></span>
@@ -149,12 +145,6 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#remove blocks from least cost path</span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">ignore_blocks</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">cost_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="psi_cost_path_ignore_blocks.html">psi_cost_path_ignore_blocks</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    path <span class="op">=</span> <span class="va">cost_path</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#computation of psi score</span></span></span>
 <span class="r-in"><span></span></span>
@@ -167,7 +157,6 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="psi_auto_sum.html">psi_auto_sum</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">x</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="va">y</span>,</span></span>
-<span class="r-in"><span>  path <span class="op">=</span> <span class="va">cost_path</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">d</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -177,7 +166,7 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span>  b <span class="op">=</span> <span class="va">b</span>,</span></span>
 <span class="r-in"><span>  diagonal <span class="op">=</span> <span class="va">diagonal</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.293322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.403623</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#full computation with distantia()</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
@@ -188,8 +177,7 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span><span class="fu"><a href="distantia.html">distantia</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">d</span>,</span></span>
-<span class="r-in"><span>  diagonal <span class="op">=</span> <span class="va">diagonal</span>,</span></span>
-<span class="r-in"><span>  ignore_blocks <span class="op">=</span> <span class="va">ignore_blocks</span></span></span>
+<span class="r-in"><span>  diagonal <span class="op">=</span> <span class="va">diagonal</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">$</span><span class="va">psi</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.403623</span>
 <span class="r-in"><span></span></span>
@@ -197,8 +185,7 @@ If a is computed with dynamic time warping, and diagonals are used in the comput
 <span class="r-in"><span>  <span class="fu"><a href="distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
 <span class="r-in"><span>    distance <span class="op">=</span> <span class="va">d</span>,</span></span>
-<span class="r-in"><span>    diagonal <span class="op">=</span> <span class="va">diagonal</span>,</span></span>
-<span class="r-in"><span>    ignore_blocks <span class="op">=</span> <span class="va">ignore_blocks</span></span></span>
+<span class="r-in"><span>    diagonal <span class="op">=</span> <span class="va">diagonal</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

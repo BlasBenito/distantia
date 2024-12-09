@@ -58,8 +58,6 @@ The argument lock_step is not available because this plot does not make sense in
 <span>  tsl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
 <span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  weighted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore_blocks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  matrix_type <span class="op">=</span> <span class="st">"cost"</span>,</span>
 <span>  matrix_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  path_width <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -86,14 +84,6 @@ The argument lock_step is not available because this plot does not make sense in
 
 <dt id="arg-diagonal">diagonal<a class="anchor" aria-label="anchor" href="#arg-diagonal"></a></dt>
 <dd><p>(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE</p></dd>
-
-
-<dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
-<dd><p>(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE</p></dd>
-
-
-<dt id="arg-ignore-blocks">ignore_blocks<a class="anchor" aria-label="anchor" href="#arg-ignore-blocks"></a></dt>
-<dd><p>(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if <code>diagonal = TRUE</code>. Default: FALSE.</p></dd>
 
 
 <dt id="arg-matrix-type">matrix_type<a class="anchor" aria-label="anchor" href="#arg-matrix-type"></a></dt>

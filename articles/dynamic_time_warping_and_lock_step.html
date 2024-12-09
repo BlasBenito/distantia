@@ -248,21 +248,16 @@ score <code>psi</code> follow the naming convention
 <p>Step <strong>1b</strong> involves transforming the distance matrix
 into a cost matrix. This transformation requires a dynamic algorithm in
 which each new cell adds its own distance to the distance accumulated by
-its preceding neighbor. There are three implementations of this method
-in <code>distantia</code>:</p>
+its preceding neighbor. There are two implementations of this method in
+<code>distantia</code>:</p>
 <ul>
 <li>
-<strong>orthogonal</strong>: distance addition only happens towards
+<strong>orthogonal only</strong>: distance cost is only computed on
 the <em>x</em> and <em>y</em> axis, ignoring diagonals.</li>
 <li>
-<strong>orthogonal and diagonal</strong>: distance addition also
-happens in diagonals. However, is not recommended unless there is a
-special interest in favoring diagonal paths in step
-<strong>1c</strong>.</li>
-<li>
-<strong>orthogonal and weighted diagonal</strong>: as above, but
-diagonals are weighted by a factor of <code>1.414214</code> to make
-distance accumulation comparable across all three axes of movement.</li>
+<strong>orthogonal and diagonal</strong>: distance cost is also
+computed in diagonals, which are weighted by a factor of
+<code>1.414214</code>.</li>
 </ul>
 <p>These options are wrapped in the function
 <code><a href="../reference/psi_cost_matrix.html">psi_cost_matrix()</a></code>, which by default, like
@@ -270,8 +265,7 @@ distance accumulation comparable across all three axes of movement.</li>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m.cost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/psi_cost_matrix.html">psi_cost_matrix</a></span><span class="op">(</span></span>
 <span>  dist_matrix <span class="op">=</span> <span class="va">m.dist</span>,</span>
-<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#default</span></span>
-<span>  weighted <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
+<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/utils_matrix_plot.html">utils_matrix_plot</a></span><span class="op">(</span></span>

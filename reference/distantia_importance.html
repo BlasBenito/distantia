@@ -100,8 +100,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span>  tsl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
 <span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  weighted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore_blocks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  robust <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -121,14 +119,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 
 <dt id="arg-diagonal">diagonal<a class="anchor" aria-label="anchor" href="#arg-diagonal"></a></dt>
 <dd><p>(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE</p></dd>
-
-
-<dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
-<dd><p>(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE</p></dd>
-
-
-<dt id="arg-ignore-blocks">ignore_blocks<a class="anchor" aria-label="anchor" href="#arg-ignore-blocks"></a></dt>
-<dd><p>(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if <code>diagonal = TRUE</code>. Default: FALSE.</p></dd>
 
 
 <dt id="arg-lock-step">lock_step<a class="anchor" aria-label="anchor" href="#arg-lock-step"></a></dt>
@@ -151,8 +141,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 <li><p><code>psi_difference</code>: difference between <code>psi_only_with</code> and <code>psi_without</code>.</p></li>
 <li><p><code>distance</code>: name of the distance metric.</p></li>
 <li><p><code>diagonal</code>: value of the argument <code>diagonal</code>.</p></li>
-<li><p><code>weighted</code>: value of the argument <code>weighted</code>.</p></li>
-<li><p><code>ignore_blocks</code>: value of the argument <code>ignore_blocks</code>.</p></li>
 <li><p><code>lock_step</code>: value of the argument <code>lock_step</code>.</p></li>
 <li><p><code>robust</code>: value of the argument <code>robust</code>.</p></li>
 </ul></div>

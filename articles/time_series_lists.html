@@ -1408,21 +1408,23 @@ transformations.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" width="750">
+The code below applies <code>f_hellinger</code>, which transforms the
+pollen counts to proportions and the applies the Hellinger
+transformation. This transformation helps mitigate the effects of highly
+abundant taxa, and improves dissimilarity assessments with
+<code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code>.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_hellinger</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_hellinger.html">f_hellinger</a></span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750"></p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; distantia::distantia_plot(): 21 NA cases were imputed with distantia::tsl_handle_NA() in these time series: 'Krumbach_I'.</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-73-1.png" width="750"></p>
 </div>
 </div>
 </div>
