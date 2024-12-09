@@ -1,7 +1,7 @@
 #' Guide for Time Series Plots
 #'
 #' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
-#' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
+#' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "center".
 #' @param line_color (optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param line_width (optional, numeric vector) Widths of the time series lines. Default: 1
 #' @param length (optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1
@@ -28,8 +28,8 @@
 #' @export
 #' @family internal_plotting
 utils_line_guide <- function(
-    x,
-    position = "topright",
+    x = NULL,
+    position = "center",
     line_color = NULL,
     line_width = 1,
     length = 1,
@@ -98,10 +98,10 @@ utils_line_guide <- function(
 
   }
 
-  xcoords <- c(0, cumsum(graphics::strwidth(names(line_color), cex = 0.5))[-length(names(line_color))])
-  secondvector <- (1:length(names(line_color)))-1
-  textwidths <- xcoords/secondvector
-  textwidths[1] <- 0
+  # xcoords <- c(0, cumsum(graphics::strwidth(names(line_color), cex = 0.5))[-length(names(line_color))])
+  # secondvector <- (1:length(names(line_color)))-1
+  # textwidths <- xcoords/secondvector
+  # textwidths[1] <- 0
 
   graphics::legend(
     x = position_x,
@@ -118,7 +118,7 @@ utils_line_guide <- function(
     y.intersp = text_cex,
     x.intersp = text_cex,
     xjust = 0.5,
-    text.width = textwidths,
+    text.width = NA,
     seg.len = length
   )
 

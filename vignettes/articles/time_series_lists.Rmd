@@ -990,8 +990,8 @@ tsl_plot(
   tsl = tsl_trend,
   columns = 2,
   guide = FALSE,
-  color = "red4",
-  width = 1.5
+  line_color = "red4",
+  line_width = 1.5
 )
 ```
 
@@ -1045,7 +1045,7 @@ rm(
 ```
 
 
-#### Compositional Transformations
+#### Compositional Normalization
 
 The `distantia` package offers transformations for ecological and compositional data, including percentage (`f_percentage`), proportion (`f_proportion`), and square root of proportion (`f_proportion_sqrt`) for normalization and reducing dominance. Hellinger (`f_hellinger`) and centered log-ratio (`f_clr`) enhance interpretability in abundance and compositional datasets. Chi-squared (`f_chi_square`) and log transformation (`f_log`) address variance stabilization and frequency comparisons.
 
@@ -1058,7 +1058,7 @@ tsl <- distantia::tsl_init(
   time = "time"
 )
 
-distantia::tsl_plot(
+tsl_plot(
   tsl = tsl[1:3],
   guide_columns = 4
   )
@@ -1071,8 +1071,6 @@ tsl_hellinger <- distantia::tsl_transform(
 )
 
 tsl_plot(tsl = tsl_hellinger[1:3])
-
-tsl_plot(tsl = tsl_hellinger[6])
 ```
 
 
