@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/dynamic_time_warping_and_lock_step: dynamic_time_warping_and_lock_step.html
   articles/time_series_lists: time_series_lists.html
-last_built: 2024-12-09T12:18Z
+last_built: 2024-12-09T12:25Z
 urls:
   reference: https://blasbenito.github.io/distantia/reference
   article: https://blasbenito.github.io/distantia/articles
