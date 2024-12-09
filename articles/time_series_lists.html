@@ -1128,12 +1128,12 @@ available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "f_chi_squared"        "f_clr"                "f_detrend_difference"</span></span>
-<span><span class="co">#&gt;  [4] "f_detrend_linear"     "f_hellinger"          "f_log"               </span></span>
-<span><span class="co">#&gt;  [7] "f_pca"                "f_percentage"         "f_proportion"        </span></span>
-<span><span class="co">#&gt; [10] "f_proportion_sqrt"    "f_rescale_global"     "f_rescale_local"     </span></span>
-<span><span class="co">#&gt; [13] "f_scale_global"       "f_scale_local"        "f_slope"             </span></span>
-<span><span class="co">#&gt; [16] "f_to_binary"          "f_trend_linear"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "f_binary"             "f_chi_squared"        "f_clr"               </span></span>
+<span><span class="co">#&gt;  [4] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
+<span><span class="co">#&gt;  [7] "f_log"                "f_pca"                "f_percentage"        </span></span>
+<span><span class="co">#&gt; [10] "f_proportion"         "f_proportion_sqrt"    "f_rescale_global"    </span></span>
+<span><span class="co">#&gt; [13] "f_rescale_local"      "f_scale_global"       "f_scale_local"       </span></span>
+<span><span class="co">#&gt; [16] "f_slope"              "f_trend_linear"</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="scale-adjustments">Scale Adjustments<a class="anchor" aria-label="anchor" href="#scale-adjustments"></a>
 </h4>
@@ -1298,8 +1298,8 @@ series needs detrending or not.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_trend</span>,</span>
 <span>  columns <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  color <span class="op">=</span> <span class="st">"red4"</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">1.5</span></span>
+<span>  line_color <span class="op">=</span> <span class="st">"red4"</span>,</span>
+<span>  line_width <span class="op">=</span> <span class="fl">1.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-66-1.png" width="750"></p>
 <p>We can now compute the stats of these linear trends to identify the
@@ -1382,43 +1382,32 @@ demonstrate that the linear detrending worked as expected.</p>
 <span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="compositional-transformations">Compositional Transformations<a class="anchor" aria-label="anchor" href="#compositional-transformations"></a>
+<h4 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
 </h4>
-<ul>
-<li>Percentage (<code>f_percentage</code>): Suitable for count or
-continuous data when values need to be expressed as percentages of the
-total. Commonly used in relative abundance or proportional
-datasets.</li>
-<li>Proportion (<code>f_prooportion</code>): Best for count or
-continuous data where the goal is to normalize values to a unit sum,
-ensuring they represent fractions of the total.</li>
-<li>Square Root of Proportion (<code>f_proportion_sqrt</code>): Ideal
-for proportional or count data to reduce the influence of dominant
-values and emphasize smaller contributions.</li>
-<li>Hellinger (<code>f_hellinger</code>): Typically applied to count
-data (e.g., species abundance) to compute distances that are symmetric
-and non-linear, enhancing interpretability in ecological analyses.</li>
-<li>Centered Log-Ratio (<code>f_clr</code>): Designed for compositional
-data (proportions or relative abundances) to address the unit-sum
-constraint and emphasize relative changes between components.</li>
-<li>Chi-Squared (<code>f_chi_square</code>): Suitable for count data,
-especially when comparing observed and expected frequencies in
-categorical or proportional datasets.</li>
-<li>Log Transformation (<code>f_log</code>): Applicable to count or
-continuous data with positive values, often used to reduce skewness and
-stabilize variance in datasets with exponential growth or wide value
-ranges.</li>
-</ul>
+<p>The <code>distantia</code> package offers transformations for
+ecological and compositional data, including percentage
+(<code>f_percentage</code>), proportion (<code>f_proportion</code>), and
+square root of proportion (<code>f_proportion_sqrt</code>) for
+normalization and reducing dominance. Hellinger
+(<code>f_hellinger</code>) and centered log-ratio (<code>f_clr</code>)
+enhance interpretability in abundance and compositional datasets.
+Chi-squared (<code>f_chi_square</code>) and log transformation
+(<code>f_log</code>) address variance stabilization and frequency
+comparisons.</p>
+<p>The example below focuses on the pollen counts dataset
+<code>eemian_pollen</code> to showcase several of these
+transformations.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/eemian_pollen.html">eemian_pollen</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time <span class="op">=</span> <span class="st">"time"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: distantia::utils_prepare_time():  duplicated time indices in 'Krumbach_I':</span></span>
-<span><span class="co">#&gt; - value 6.8 replaced with 6.825</span></span>
 <span></span>
-<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" width="750"></p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_hellinger</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
@@ -1426,10 +1415,8 @@ ranges.</li>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_hellinger.html">f_hellinger</a></span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-72-2.png" width="750"></p>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750"></p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span></span>

@@ -50,10 +50,10 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">zoo_plot</span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  color <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -73,20 +73,20 @@
 <dd><p>(required, zoo object) zoo time series. Default: NULL</p></dd>
 
 
+<dt id="arg-line-color">line_color<a class="anchor" aria-label="anchor" href="#arg-line-color"></a></dt>
+<dd><p>(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with <code><a href="https://rdrr.io/r/grDevices/palette.html" class="external-link">grDevices::palette.colors()</a></code>. Default: NULL</p></dd>
+
+
+<dt id="arg-line-width">line_width<a class="anchor" aria-label="anchor" href="#arg-line-width"></a></dt>
+<dd><p>(optional, numeric vector) Width of the time series lines. Default: 1</p></dd>
+
+
 <dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>
 <dd><p>(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL</p></dd>
 
 
 <dt id="arg-ylim">ylim<a class="anchor" aria-label="anchor" href="#arg-ylim"></a></dt>
 <dd><p>(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL</p></dd>
-
-
-<dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
-<dd><p>(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with <code><a href="https://rdrr.io/r/grDevices/palette.html" class="external-link">grDevices::palette.colors()</a></code>. Default: NULL</p></dd>
-
-
-<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>(optional, numeric vector) Width of the time series lines. Default: 1</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>

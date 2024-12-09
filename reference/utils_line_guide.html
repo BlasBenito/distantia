@@ -51,11 +51,11 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">utils_line_guide</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  position <span class="op">=</span> <span class="st">"topright"</span>,</span>
-<span>  color <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  line_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line_width <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  length <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  text_cex <span class="op">=</span> <span class="fl">0.7</span>,</span>
-<span>  ncol <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  subpanel <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -72,11 +72,11 @@
 <dd><p>(optional, vector of xy coordinates or character string). This is a condensed version of the <code>x</code> and <code>y</code> arguments of the <code><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">graphics::legend()</a></code> function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".</p></dd>
 
 
-<dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
+<dt id="arg-line-color">line_color<a class="anchor" aria-label="anchor" href="#arg-line-color"></a></dt>
 <dd><p>(optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code>. Default: NULL</p></dd>
 
 
-<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
+<dt id="arg-line-width">line_width<a class="anchor" aria-label="anchor" href="#arg-line-width"></a></dt>
 <dd><p>(optional, numeric vector) Widths of the time series lines. Default: 1</p></dd>
 
 
@@ -88,7 +88,7 @@
 <dd><p>(optional, numeric) Multiplier of the text size. Default: 0.7</p></dd>
 
 
-<dt id="arg-ncol">ncol<a class="anchor" aria-label="anchor" href="#arg-ncol"></a></dt>
+<dt id="arg-guide-columns">guide_columns<a class="anchor" aria-label="anchor" href="#arg-guide-columns"></a></dt>
 <dd><p>(optional, integer) Number of columns in which to set the legend items. Default: 1.</p></dd>
 
 
