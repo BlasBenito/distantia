@@ -181,19 +181,17 @@ utils_matrix_plot(
   )
 ```
 
-Step **1b** involves transforming the distance matrix into a cost matrix. This transformation requires a dynamic algorithm in which each new cell adds its own distance to the distance accumulated by its preceding neighbor. There are three implementations of this method in `distantia`:
+Step **1b** involves transforming the distance matrix into a cost matrix. This transformation requires a dynamic algorithm in which each new cell adds its own distance to the distance accumulated by its preceding neighbor. There are two implementations of this method in `distantia`:
 
-  - **orthogonal**: distance addition only happens towards the *x* and *y* axis, ignoring diagonals.
-  - **orthogonal and diagonal**: distance addition also happens in diagonals. However, is not recommended unless there is a special interest in favoring diagonal paths in step **1c**.
-  - **orthogonal and weighted diagonal**: as above, but diagonals are weighted by a factor of `1.414214` to make distance accumulation comparable across all three axes of movement.
+  - **orthogonal only**: distance cost is only computed on the *x* and *y* axis, ignoring diagonals.
+  - **orthogonal and diagonal**: distance cost is also computed in diagonals, which are weighted by a factor of `1.414214`.
 
 These options are wrapped in the function `psi_cost_matrix()`, which by default, like `distantia()` uses weighted diagonals.
 
 ```{r, fig.width=4, fig.height=4}
 m.cost <- psi_cost_matrix(
   dist_matrix = m.dist,
-  diagonal = TRUE, #default
-  weighted = TRUE #default
+  diagonal = TRUE #default
 )
 
 utils_matrix_plot(
