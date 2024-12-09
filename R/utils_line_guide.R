@@ -48,6 +48,8 @@ utils_line_guide <- function(
     line_color = line_color
   )
 
+  #TODO: if subpanel = TRUE and length(line_color) > 10, reduce number of items plotted in the legend in distantia_plot()
+
   #width
   if(length(line_width) == 1){
     line_width <- rep(
