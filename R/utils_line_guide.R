@@ -1,7 +1,7 @@
 #' Guide for Time Series Plots
 #'
 #' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
-#' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "center".
+#' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
 #' @param line_color (optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param line_width (optional, numeric vector) Widths of the time series lines. Default: 1
 #' @param length (optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1
@@ -29,7 +29,7 @@
 #' @family internal_plotting
 utils_line_guide <- function(
     x = NULL,
-    position = "center",
+    position = "topright",
     line_color = NULL,
     line_width = 1,
     length = 1,
@@ -49,6 +49,30 @@ utils_line_guide <- function(
   )
 
   #TODO: if subpanel = TRUE and length(line_color) > 10, reduce number of items plotted in the legend in distantia_plot()
+
+  if(
+    subpanel == TRUE &&
+    length(line_color) > 10
+  ){
+
+    #find time series with larger range
+    x_ranges <- sapply(
+      X = x,
+      FUN = function(x){
+        diff(range(x, na.rm = TRUE))
+      }
+    ) |>
+      sort() |>
+      rev()
+
+    message(
+      "\ndistantia::utils_line_guide(): too many items in legend, subsetting the 10 variables with larger range in time series '",
+      zoo_name_get(x = x), "'."
+    )
+
+    line_color <- line_color[names(x_ranges)[1:10]]
+
+  }
 
   #width
   if(length(line_width) == 1){
@@ -100,10 +124,15 @@ utils_line_guide <- function(
 
   }
 
-  # xcoords <- c(0, cumsum(graphics::strwidth(names(line_color), cex = 0.5))[-length(names(line_color))])
-  # secondvector <- (1:length(names(line_color)))-1
-  # textwidths <- xcoords/secondvector
-  # textwidths[1] <- 0
+  xcoords <- c(0, cumsum(graphics::strwidth(names(line_color), cex = 0.5))[-length(names(line_color))])
+  secondvector <- (1:length(names(line_color)))-1
+  textwidths <- xcoords/secondvector
+  textwidths[1] <- 0
+
+  #when not a subpanel, let the function figure it out by itself
+  if(subpanel == FALSE){
+    textwidths <- NA
+  }
 
   graphics::legend(
     x = position_x,
@@ -120,7 +149,7 @@ utils_line_guide <- function(
     y.intersp = text_cex,
     x.intersp = text_cex,
     xjust = 0.5,
-    text.width = NA,
+    text.width = textwidths,
     seg.len = length
   )
 

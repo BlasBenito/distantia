@@ -5,7 +5,7 @@
 \title{Guide for Time Series Plots}
 \usage{
 utils_line_guide(
-  x,
+  x = NULL,
   position = "topright",
   line_color = NULL,
   line_width = 1,

@@ -276,6 +276,7 @@ distantia <- function(
 
     } else {
 
+      #TODO: disaggregate this step to analyze repeats in the least cost path
       df.i$psi <- psi_dynamic_time_warping_cpp(
         x = x,
         y = y,
