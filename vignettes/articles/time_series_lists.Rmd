@@ -1063,6 +1063,7 @@ tsl_plot(
   guide_columns = 4
   )
 ```
+The code below applies `f_hellinger`, which transforms the pollen counts to proportions and the applies the Hellinger transformation. This transformation helps mitigate the effects of highly abundant taxa, and improves dissimilarity assessments with `distantia()` and `distantia_importance()`.
 
 ```{r, fig.height=4}
 tsl_hellinger <- distantia::tsl_transform(
@@ -1070,16 +1071,12 @@ tsl_hellinger <- distantia::tsl_transform(
   f = distantia::f_hellinger
 )
 
-tsl_plot(tsl = tsl_hellinger[1:3])
+tsl_plot(
+  tsl = tsl_hellinger[1:3], 
+  guide_columns = 4
+  )
 ```
 
-
-```{r, fig.height=6}
-distantia_plot(
-  tsl = tsl_hellinger[c(6, 1)],
-  diagonal = FALSE
-)
-```
 
 
 

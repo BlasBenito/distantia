@@ -48,32 +48,6 @@ utils_line_guide <- function(
     line_color = line_color
   )
 
-  #TODO: if subpanel = TRUE and length(line_color) > 10, reduce number of items plotted in the legend in distantia_plot()
-
-  if(
-    subpanel == TRUE &&
-    length(line_color) > 10
-  ){
-
-    #find time series with larger range
-    x_ranges <- sapply(
-      X = x,
-      FUN = function(x){
-        diff(range(x, na.rm = TRUE))
-      }
-    ) |>
-      sort() |>
-      rev()
-
-    message(
-      "\ndistantia::utils_line_guide(): too many items in legend, subsetting the 10 variables with larger range in time series '",
-      zoo_name_get(x = x), "'."
-    )
-
-    line_color <- line_color[names(x_ranges)[1:10]]
-
-  }
-
   #width
   if(length(line_width) == 1){
     line_width <- rep(
@@ -130,7 +104,7 @@ utils_line_guide <- function(
   textwidths[1] <- 0
 
   #when not a subpanel, let the function figure it out by itself
-  if(subpanel == FALSE){
+  if(subpanel == TRUE){
     textwidths <- NA
   }
 
