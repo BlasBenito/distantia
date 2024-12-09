@@ -1,5 +1,5 @@
 ---
-title: "Comparing Time Series with distantia: DTW vs Lock-Step"
+title: "Dynamic Time Warping vs Lock-Step"
 output: 
   rmarkdown::html_document:
     toc: true
