@@ -8,8 +8,6 @@ distantia_plot(
   tsl = NULL,
   distance = "euclidean",
   diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = FALSE,
   matrix_type = "cost",
   matrix_color = NULL,
   path_width = 1,
@@ -27,10 +25,6 @@ distantia_plot(
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE}
-
-\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
-
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if \code{diagonal = TRUE}. Default: FALSE.}
 
 \item{matrix_type}{(optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".}
 

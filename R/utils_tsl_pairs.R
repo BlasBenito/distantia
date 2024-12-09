@@ -39,17 +39,6 @@ utils_tsl_pairs <- function(
     stringsAsFactors = FALSE
   )
 
-  #remove combinations diagonal = FALSE weighted = TRUE
-  if(all(c("diagonal", "weighted") %in% names(df_args))){
-
-    df_args$weighted <- ifelse(
-      test = df_args$diagonal == FALSE,
-      yes = FALSE,
-      no = df_args$weighted
-    )
-
-  }
-
   df <- merge(
     x = df_tsl,
     y = df_args

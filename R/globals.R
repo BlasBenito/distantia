@@ -5,9 +5,6 @@ utils::globalVariables(c(
   "i", # <distantia>
   "median", # <distantia_boxplot>
   "i", # <distantia_importance>
-  "group_size_y", # <psi_cost_path_ignore_blocks>
-  "cost", # <psi_cost_path_ignore_blocks>
-  "group_size_x", # <psi_cost_path_ignore_blocks>
   "i", # <tsl_simulate>
   "i", # <tsl_stats>
   "na.omit", # <tsl_stats>

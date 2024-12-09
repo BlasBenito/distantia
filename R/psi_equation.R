@@ -18,9 +18,6 @@
 #' #use diagonals in least cost computations
 #' diagonal <- TRUE
 #'
-#' #remove blocks from least cost path
-#' ignore_blocks <- TRUE
-#'
 #' #simulate two irregular time series
 #' x <- zoo_simulate(
 #'   name = "x",
@@ -70,12 +67,6 @@
 #'     )
 #' }
 #'
-#' #remove blocks from least cost path
-#' if(ignore_blocks == TRUE){
-#'   cost_path <- psi_cost_path_ignore_blocks(
-#'     path = cost_path
-#'   )
-#' }
 #'
 #' #computation of psi score
 #'
@@ -88,7 +79,6 @@
 #' b <- psi_auto_sum(
 #'   x = x,
 #'   y = y,
-#'   path = cost_path,
 #'   distance = d
 #' )
 #'
@@ -108,16 +98,14 @@
 #' distantia(
 #'   tsl = tsl,
 #'   distance = d,
-#'   diagonal = diagonal,
-#'   ignore_blocks = ignore_blocks
+#'   diagonal = diagonal
 #' )$psi
 #'
 #' if(interactive()){
 #'   distantia_plot(
 #'     tsl = tsl,
 #'     distance = d,
-#'     diagonal = diagonal,
-#'     ignore_blocks = ignore_blocks
+#'     diagonal = diagonal
 #'   )
 #' }
 #' @autoglobal

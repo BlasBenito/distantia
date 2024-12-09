@@ -37,12 +37,10 @@
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE
-#' @param weighted (optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE
-#' @param ignore_blocks (optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if `diagonal = TRUE`. Default: FALSE.
 #' @param lock_step (optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
-#' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
 #' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in `tsl`. Default: NULL.
+#' @param repetitions (optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0
 #' @param seed (optional, integer) initial random seed to use for replicability when computing p-values. Default: 1
 #'
 #' @return data frame with columns:
@@ -51,8 +49,6 @@
 #'   \item `y`: time series name.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
-#'   \item `weighted`: value of the argument `weighted`.
-#'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
 #'   \item `lock_step`: value of the argument `lock_step`.
 #'   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
@@ -151,22 +147,19 @@ distantia <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
-    weighted = TRUE,
-    ignore_blocks = FALSE,
     lock_step = FALSE,
-    repetitions = 0L,
     permutation = "restricted_by_row",
     block_size = NULL,
+    repetitions = 0L,
     seed = 1L
 ){
+
 
   #check input arguments
   args <- utils_check_args_distantia(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
     lock_step = lock_step,
     repetitions = repetitions,
     permutation = permutation,
@@ -177,8 +170,6 @@ distantia <- function(
   tsl <- args$tsl
   distance <- args$distance
   diagonal <- args$diagonal
-  weighted <- args$weighted
-  ignore_blocks <- args$ignore_blocks
   lock_step <- args$lock_step
   repetitions <- args$repetitions
   permutation <- args$permutation
@@ -194,8 +185,6 @@ distantia <- function(
       args_list = list(
         distance = distance,
         diagonal = diagonal,
-        weighted = weighted,
-        ignore_blocks = ignore_blocks,
         lock_step = lock_step
       )
     )
@@ -207,8 +196,6 @@ distantia <- function(
       args_list = list(
         distance = distance,
         diagonal = diagonal,
-        weighted = weighted,
-        ignore_blocks = ignore_blocks,
         lock_step = lock_step,
         repetitions = repetitions,
         permutation = permutation,
@@ -276,14 +263,11 @@ distantia <- function(
 
     } else {
 
-      #TODO: disaggregate this step to analyze repeats in the least cost path
       df.i$psi <- psi_dynamic_time_warping_cpp(
         x = x,
         y = y,
         distance = df.i$distance,
-        diagonal = df.i$diagonal,
-        weighted = df.i$weighted,
-        ignore_blocks = df.i$ignore_blocks
+        diagonal = df.i$diagonal
       )
 
       if(repetitions > 0){
@@ -293,8 +277,6 @@ distantia <- function(
           y = y,
           distance = df.i$distance,
           diagonal = df.i$diagonal,
-          weighted = df.i$weighted,
-          ignore_blocks = df.i$ignore_blocks,
           repetitions = df.i$repetitions,
           permutation = df.i$permutation,
           block_size = df.i$block_size,

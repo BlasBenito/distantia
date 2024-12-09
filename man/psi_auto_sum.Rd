@@ -4,14 +4,12 @@
 \alias{psi_auto_sum}
 \title{Auto Sum}
 \usage{
-psi_auto_sum(x = NULL, y = NULL, path = NULL, distance = "euclidean")
+psi_auto_sum(x = NULL, y = NULL, distance = "euclidean")
 }
 \arguments{
 \item{x}{(required, zoo object or numeric matrix) univariate or multivariate time series with no NAs. Default: NULL.}
 
 \item{y}{(required, zoo object or numeric matrix) a time series with the same number of columns as \code{x} and no NAs. Default: NULL.}
-
-\item{path}{(required, data frame) least cost path produced by \code{\link[=psi_cost_path]{psi_cost_path()}}. Only required when \code{\link[=psi_cost_path_ignore_blocks]{psi_cost_path_ignore_blocks()}} has been applied to \code{path}. Default: NULL.}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 }
@@ -73,7 +71,6 @@ Other psi_demo:
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_cost_path_sum}()},
 \code{\link{psi_distance_lock_step}()},
 \code{\link{psi_distance_matrix}()},

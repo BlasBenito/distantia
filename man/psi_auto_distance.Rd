@@ -4,12 +4,10 @@
 \alias{psi_auto_distance}
 \title{Cumulative Sum of Distances Between Consecutive Cases in a Time Series}
 \usage{
-psi_auto_distance(x = NULL, path = NULL, distance = "euclidean")
+psi_auto_distance(x = NULL, distance = "euclidean")
 }
 \arguments{
 \item{x}{(required, zoo object or matrix) univariate or multivariate time series with no NAs. Default: NULL}
-
-\item{path}{(optional, data frame) result of \code{\link[=psi_cost_path_ignore_blocks]{psi_cost_path_ignore_blocks()}}, only required if blocks in the least cost path were ignored. Default: NULL}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 }
@@ -44,7 +42,6 @@ Other psi_demo:
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_cost_path_sum}()},
 \code{\link{psi_distance_lock_step}()},
 \code{\link{psi_distance_matrix}()},

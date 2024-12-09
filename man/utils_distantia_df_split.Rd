@@ -13,7 +13,7 @@ utils_distantia_df_split(df = NULL)
 list
 }
 \description{
-Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', 'weighted', 'ignore_blocks', and 'lock_step'.
+Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', and 'lock_step'.
 }
 \examples{
 #three time series

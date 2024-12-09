@@ -28,9 +28,6 @@ d <- "euclidean"
 #use diagonals in least cost computations
 diagonal <- TRUE
 
-#remove blocks from least cost path
-ignore_blocks <- TRUE
-
 #simulate two irregular time series
 x <- zoo_simulate(
   name = "x",
@@ -80,12 +77,6 @@ if(interactive()){
     )
 }
 
-#remove blocks from least cost path
-if(ignore_blocks == TRUE){
-  cost_path <- psi_cost_path_ignore_blocks(
-    path = cost_path
-  )
-}
 
 #computation of psi score
 
@@ -98,7 +89,6 @@ a <- psi_cost_path_sum(
 b <- psi_auto_sum(
   x = x,
   y = y,
-  path = cost_path,
   distance = d
 )
 
@@ -118,16 +108,14 @@ tsl <- list(
 distantia(
   tsl = tsl,
   distance = d,
-  diagonal = diagonal,
-  ignore_blocks = ignore_blocks
+  diagonal = diagonal
 )$psi
 
 if(interactive()){
   distantia_plot(
     tsl = tsl,
     distance = d,
-    diagonal = diagonal,
-    ignore_blocks = ignore_blocks
+    diagonal = diagonal
   )
 }
 }
@@ -139,7 +127,6 @@ Other psi_demo:
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},
 \code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_ignore_blocks}()},
 \code{\link{psi_cost_path_sum}()},
 \code{\link{psi_distance_lock_step}()},
 \code{\link{psi_distance_matrix}()}

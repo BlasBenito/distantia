@@ -8,12 +8,10 @@ distantia(
   tsl = NULL,
   distance = "euclidean",
   diagonal = TRUE,
-  weighted = TRUE,
-  ignore_blocks = FALSE,
   lock_step = FALSE,
-  repetitions = 0L,
   permutation = "restricted_by_row",
   block_size = NULL,
+  repetitions = 0L,
   seed = 1L
 )
 }
@@ -24,17 +22,13 @@ distantia(
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE}
 
-\item{weighted}{(optional, logical vector) If TRUE, diagonal is set to TRUE, and diagonal cost is weighted by a factor of 1.414214. Default: TRUE}
-
-\item{ignore_blocks}{(optional, logical vector). If TRUE, blocks of consecutive least cost path coordinates are trimmed to avoid inflating the psi dissimilarity Irrelevant if \code{diagonal = TRUE}. Default: FALSE.}
-
 \item{lock_step}{(optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
-
-\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0}
 
 \item{permutation}{(optional, character vector) permutation method, only relevant when \code{repetitions} is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".}
 
 \item{block_size}{(optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and \code{repetitions} is higher than zero. A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in \code{tsl}. Default: NULL.}
+
+\item{repetitions}{(optional, integer vector) number of permutations to compute the p-value. If 0, p-values are not computed. Otherwise, the minimum is 2. The resolution of the p-values and the overall computation time depends on the number of permutations. Default: 0}
 
 \item{seed}{(optional, integer) initial random seed to use for replicability when computing p-values. Default: 1}
 }
@@ -45,8 +39,6 @@ data frame with columns:
 \item \code{y}: time series name.
 \item \code{distance}: name of the distance metric.
 \item \code{diagonal}: value of the argument \code{diagonal}.
-\item \code{weighted}: value of the argument \code{weighted}.
-\item \code{ignore_blocks}: value of the argument \code{ignore_blocks}.
 \item \code{lock_step}: value of the argument \code{lock_step}.
 \item \code{repetitions} (only if \code{repetitions > 0}): value of the argument \code{repetitions}.
 \item \code{permutation} (only if \code{repetitions > 0}): name of the permutation method used to compute p-values.

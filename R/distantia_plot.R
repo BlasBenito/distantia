@@ -89,8 +89,6 @@ distantia_plot <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
-    weighted = TRUE,
-    ignore_blocks = FALSE,
     matrix_type = "cost",
     matrix_color = NULL,
     path_width = 1,
@@ -175,9 +173,7 @@ distantia_plot <- function(
   xy_psi <- distantia(
     tsl = tsl,
     distance = distance[1],
-    diagonal = diagonal[1],
-    weighted = weighted[1],
-    ignore_blocks = ignore_blocks[1]
+    diagonal = diagonal[1]
   )$psi
 
   xy_psi <- round(xy_psi, 3)
@@ -191,8 +187,7 @@ distantia_plot <- function(
 
   cost_m <- psi_cost_matrix(
     dist_matrix = dist_m,
-    diagonal = diagonal,
-    weighted = weighted
+    diagonal = diagonal
   )
 
   # Cost path ----
@@ -209,15 +204,6 @@ distantia_plot <- function(
   } else {
     m <- cost_m
     rm(dist_m)
-  }
-
-  #remove blocks and re-compute sum
-  if(ignore_blocks == TRUE){
-
-    path <- psi_cost_path_ignore_blocks(
-      path = path
-    )
-
   }
 
   #path sum
@@ -292,7 +278,6 @@ distantia_plot <- function(
 
   y_sum <- psi_auto_distance(
     x = tsl[[2]],
-    path = path,
     distance = distance
   ) |>
     round(2)
@@ -328,7 +313,6 @@ distantia_plot <- function(
 
   x_sum <- psi_auto_distance(
     x = tsl[[1]],
-    path = path,
     distance = distance
   ) |>
     round(2)

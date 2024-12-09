@@ -43,8 +43,6 @@
 #'   \item `psi_difference`: difference between `psi_only_with` and `psi_without`.
 #'   \item `distance`: name of the distance metric.
 #'   \item `diagonal`: value of the argument `diagonal`.
-#'   \item `weighted`: value of the argument `weighted`.
-#'   \item `ignore_blocks`: value of the argument `ignore_blocks`.
 #'   \item `lock_step`: value of the argument `lock_step`.
 #'   \item `robust`: value of the argument `robust`.
 #' }
@@ -145,8 +143,6 @@ distantia_importance <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
-    weighted = TRUE,
-    ignore_blocks = FALSE,
     lock_step = FALSE,
     robust = TRUE
 ){
@@ -156,8 +152,6 @@ distantia_importance <- function(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
     lock_step = lock_step,
     robust = robust
   )
@@ -165,8 +159,6 @@ distantia_importance <- function(
   tsl <- args$tsl
   distance <- args$distance
   diagonal <- args$diagonal
-  weighted <- args$weighted
-  ignore_blocks <- args$ignore_blocks
   lock_step <- args$lock_step
   robust <- args$robust
 
@@ -186,8 +178,6 @@ distantia_importance <- function(
     args_list = list(
       distance = distance,
       diagonal = diagonal,
-      weighted = weighted,
-      ignore_blocks = ignore_blocks,
       lock_step = lock_step,
       robust = robust
     )
@@ -239,9 +229,7 @@ distantia_importance <- function(
           x = x,
           y = y,
           distance = df.i$distance,
-          diagonal = df.i$diagonal,
-          weighted = df.i$weighted,
-          ignore_blocks = df.i$ignore_blocks
+          diagonal = df.i$diagonal
         )
 
       } else {
@@ -250,9 +238,7 @@ distantia_importance <- function(
           x = x,
           y = y,
           distance = df.i$distance,
-          diagonal = df.i$diagonal,
-          weighted = df.i$weighted,
-          ignore_blocks = df.i$ignore_blocks
+          diagonal = df.i$diagonal
         )
 
       }
@@ -272,7 +258,6 @@ distantia_importance <- function(
   } #end of loop
 
   #interpretation
-  #TODO: add "neutral" effect
   df$effect <- ifelse(
     test = df$importance > 0,
     yes = "decreases similarity",
@@ -292,8 +277,6 @@ distantia_importance <- function(
       "psi_only_with",
       "distance",
       "diagonal",
-      "weighted",
-      "ignore_blocks",
       "lock_step",
       "robust"
     )

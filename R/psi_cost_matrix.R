@@ -56,8 +56,7 @@
 #' @family psi_demo
 psi_cost_matrix <- function(
     dist_matrix = NULL,
-    diagonal = TRUE,
-    weighted = TRUE
+    diagonal = TRUE
     ){
 
   dist_matrix <- utils_check_args_matrix(
@@ -69,26 +68,19 @@ psi_cost_matrix <- function(
     stop("distantia::psi_cost_matrix(): argument 'diagonal' must be logical (TRUE or FALSE).", call. = FALSE)
   }
 
-  if(is.logical(weighted) == FALSE){
-    stop("distantia::psi_cost_matrix(): argument 'weighted' must be logical (TRUE or FALSE).", call. = FALSE)
-  }
-
   #diagonal is TRUE
   if(diagonal == TRUE){
 
-    if(weighted == TRUE){
+      m <- cost_matrix_diagonal_weighted_cpp(
+        dist_matrix = dist_matrix
+        )
 
-      m <- cost_matrix_diagonal_weighted_cpp(dist_matrix = dist_matrix)
-
-    } else {
-
-      m <- cost_matrix_diagonal_cpp(dist_matrix = dist_matrix)
-
-    }
 
   } else {
 
-    m <- cost_matrix_orthogonal_cpp(dist_matrix = dist_matrix)
+    m <- cost_matrix_orthogonal_cpp(
+      dist_matrix = dist_matrix
+      )
 
   }
 

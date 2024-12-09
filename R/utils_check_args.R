@@ -10,8 +10,6 @@ utils_check_args_distantia <- function(
     tsl = NULL,
     distance = NULL,
     diagonal = NULL,
-    weighted = NULL,
-    ignore_blocks = NULL,
     lock_step = NULL,
     repetitions = NULL,
     permutation = NULL,
@@ -79,36 +77,7 @@ utils_check_args_distantia <- function(
       stop("distantia::utils_check_args_distantia(): argument 'diagonal'", logical_message, ".", call. = FALSE)
     }
 
-    if(length(diagonal) == 1){
-      if(diagonal == FALSE){
-        weighted <- FALSE
-      } else {
-        ignore_blocks <- FALSE
-      }
-    }
-
   }
-
-
-  #weighted ----
-  if(!is.null(weighted)){
-
-    if(any(is.logical(weighted) == FALSE)){
-      stop("distantia::utils_check_args_distantia(): argument 'weighted' ", logical_message, ".", call. = FALSE)
-    }
-
-  }
-
-
-  #ignore_blocks ----
-  if(!is.null(ignore_blocks)){
-
-    if(any(is.logical(ignore_blocks) == FALSE)){
-      stop("distantia::utils_check_args_distantia(): Argument 'ignore_blocks'", logical_message, ".", call. = FALSE)
-    }
-
-  }
-
 
   #lock_step ----
   if(!is.null(lock_step)){
@@ -187,8 +156,6 @@ utils_check_args_distantia <- function(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
-    weighted = weighted,
-    ignore_blocks = ignore_blocks,
     lock_step = lock_step,
     repetitions = repetitions,
     permutation = permutation,

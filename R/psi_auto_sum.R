@@ -5,7 +5,6 @@
 #'
 #' @param x (required, zoo object or numeric matrix) univariate or multivariate time series with no NAs. Default: NULL.
 #' @param y (required, zoo object or numeric matrix) a time series with the same number of columns as `x` and no NAs. Default: NULL.
-#' @param path (required, data frame) least cost path produced by [psi_cost_path()]. Only required when [psi_cost_path_ignore_blocks()] has been applied to `path`. Default: NULL.
 #' @inheritParams distantia
 #' @return numeric vector
 #' @examples
@@ -58,39 +57,18 @@
 psi_auto_sum <- function(
     x = NULL,
     y = NULL,
-    path = NULL,
     distance = "euclidean"
-    ){
+){
 
   #managing distance method
   distance <- utils_check_distance_args(
     distance = distance
   )[1]
 
-
-  if(!is.null(path)){
-
-    path <- utils_check_args_path(
-      path = path
-    )
-
-    xy_sum <- auto_sum_path_cpp(
-      x = x,
-      y = y,
-      path = path,
-      distance = distance
-    )
-
-  } else {
-
-    xy_sum <- auto_sum_full_cpp(
-      y = x,
-      x = y,
-      distance = distance
-    )
-
-  }
-
- xy_sum
+  auto_sum_full_cpp(
+    y = x,
+    x = y,
+    distance = distance
+  )
 
 }
