@@ -51,7 +51,7 @@ the least-cost path either moves in the x or the y direction, but never diagonal
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cost_path_orthogonal_itakura_cpp</span><span class="op">(</span><span class="va">dist_matrix</span>, <span class="va">cost_matrix</span>, band_width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cost_path_orthogonal_itakura_cpp</span><span class="op">(</span><span class="va">dist_matrix</span>, <span class="va">cost_matrix</span>, bandwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,7 +68,7 @@ time series.</p></dd>
 <code>dist_matrix</code>.</p></dd>
 
 
-<dt id="arg-band-width">band_width<a class="anchor" aria-label="anchor" href="#arg-band-width"></a></dt>
+<dt id="arg-bandwidth">bandwidth<a class="anchor" aria-label="anchor" href="#arg-bandwidth"></a></dt>
 <dd><p>(required, numeric) Size of the Itakura parallelogram at
 both sides of the diagonal used to constrain the least cost path. Expressed
 as a fraction of the number of matrix rows and columns. Unrestricted by default.
@@ -85,7 +85,6 @@ Default: 1</p></dd>
 <code><a href="cost_path_cpp.html">cost_path_cpp</a>()</code>,
 <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp</a>()</code>,
 <code><a href="cost_path_diagonal_itakura_cpp.html">cost_path_diagonal_itakura_cpp</a>()</code>,
-<code><a href="cost_path_itakura_cpp.html">cost_path_itakura_cpp</a>()</code>,
 <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp</a>()</code>,
 <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp</a>()</code>,
 <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp</a>()</code>,
