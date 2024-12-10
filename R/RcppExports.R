@@ -273,7 +273,50 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_slotting_cpp`, dist_matrix, cost_matrix)
 }
 
-#' (C++) Find Orthogonal Least Cost Path within a Least Cost Matrix
+#' (C++) Orthogonal Least Cost Path
+#' @description
+#' Computes an orthogonal least-cost path within a cost matrix. Each steps within
+#' the least-cost path either moves in the x or the y direction, but never diagonally.
+#' @param dist_matrix (required, numeric matrix). Distance matrix between two
+#' time series.
+#' @param cost_matrix (required, numeric matrix). Cost matrix generated from
+#' `dist_matrix`.
+#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
+#' @return data frame
+#' @examples
+#' #simulate two time series
+#' x <- zoo_simulate(seed = 1)
+#' y <- zoo_simulate(seed = 2)
+#'
+#' #distance matrix
+#' dist_matrix <- distance_matrix_cpp(
+#'   x = x,
+#'   y = y,
+#'   distance = "euclidean"
+#' )
+#'
+#' #least cost matrix
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
+#'   dist_matrix = dist_matrix
+#' )
+#'
+#' #least cost path
+#' cost_path <- cost_path_orthogonal_cpp(
+#'   dist_matrix = dist_matrix,
+#'   cost_matrix = cost_matrix
+#' )
+#'
+#' cost_path
+#' @export
+#' @family Rcpp_cost_path
+cost_path_orthogonal_itakura_cpp <- function(dist_matrix, cost_matrix, band_width = 1) {
+    .Call(`_distantia_cost_path_orthogonal_itakura_cpp`, dist_matrix, cost_matrix, band_width)
+}
+
+#' (C++) Orthogonal Least Cost Path
 #' @description
 #' Computes an orthogonal least-cost path within a cost matrix. Each steps within
 #' the least-cost path either moves in the x or the y direction, but never diagonally.
@@ -312,7 +355,50 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_orthogonal_cpp`, dist_matrix, cost_matrix)
 }
 
-#' (C++) Find Orthogonal And Diagonal Least Cost Path within a Least Cost Matrix
+#' (C++) Orthogonal and Diagonal Least Cost Path Restricted by Itakura Parallelogram
+#' @description Computes the least cost matrix from a distance matrix.
+#' Considers diagonals during computation of least-costs. In case of ties,
+#' diagonals are favored.
+#' @param dist_matrix (required, numeric matrix). Distance matrix between two
+#' time series.
+#' @param cost_matrix (required, numeric matrix). Cost matrix generated from
+#' `dist_matrix`.
+#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
+#' @return data frame
+#' @examples
+#' #simulate two time series
+#' x <- zoo_simulate(seed = 1)
+#' y <- zoo_simulate(seed = 2)
+#'
+#' #distance matrix
+#' dist_matrix <- distance_matrix_cpp(
+#'   x = x,
+#'   y = y,
+#'   distance = "euclidean"
+#' )
+#'
+#' #least cost matrix
+#' cost_matrix <- cost_matrix_orthogonal_cpp(
+#'   dist_matrix = dist_matrix
+#' )
+#'
+#' #least cost path
+#' cost_path <- cost_path_diagonal_cpp(
+#'   dist_matrix = dist_matrix,
+#'   cost_matrix = cost_matrix
+#' )
+#'
+#' cost_path
+#' @export
+#' @family Rcpp_cost_path
+cost_path_diagonal_itakura_cpp <- function(dist_matrix, cost_matrix, band_width = 1) {
+    .Call(`_distantia_cost_path_diagonal_itakura_cpp`, dist_matrix, cost_matrix, band_width)
+}
+
+#' (C++) Orthogonal and Diagonal Least Cost Path
 #' @description Computes the least cost matrix from a distance matrix.
 #' Considers diagonals during computation of least-costs. In case of ties,
 #' diagonals are favored.
@@ -447,6 +533,33 @@ cost_path_sum_cpp <- function(path) {
 #' @family Rcpp_cost_path
 cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
     .Call(`_distantia_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
+}
+
+#' Find Least Cost Path within a Least Cost Matrix
+#' @description Least cost path between two time series \code{x} and \code{y}.
+#' NA values must be removed from \code{x} and \code{y} before using this function.
+#' If the selected distance function is "chi" or "cosine", pairs of zeros should
+#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
+#' @param x (required, numeric matrix) multivariate time series.
+#' @param y (required, numeric matrix) multivariate time series
+#' with the same number of columns as 'x'.
+#' @param distance (optional, character string) distance name from the "names"
+#' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
+#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
+#' computation of the cost matrix. Default: FALSE.
+#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
+#' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
+#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
+#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
+#' @return data frame
+#' @export
+#' @family Rcpp_cost_path
+cost_path_itakura_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, band_width = 1) {
+    .Call(`_distantia_cost_path_itakura_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, band_width)
 }
 
 #' (C++) Distance Matrix of Two Time Series

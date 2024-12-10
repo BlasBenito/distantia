@@ -131,16 +131,9 @@ NumericMatrix cost_matrix_orthogonal_cpp(
 /*** R
 library(distantia)
 
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
+y <- zoo_simulate()
 
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
-
-y[y == 0] <- 0.0001
-x[x == 0] <- 0.0001
+x <- zoo_simulate()
 
 d <- distance_matrix_cpp(x, y)
 

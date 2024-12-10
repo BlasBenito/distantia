@@ -121,6 +121,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cost_path_orthogonal_itakura_cpp
+DataFrame cost_path_orthogonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double band_width);
+RcppExport SEXP _distantia_cost_path_orthogonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP band_widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
+    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, band_width));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cost_path_orthogonal_cpp
 DataFrame cost_path_orthogonal_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix);
 RcppExport SEXP _distantia_cost_path_orthogonal_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP) {
@@ -130,6 +143,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
     rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_cpp(dist_matrix, cost_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_diagonal_itakura_cpp
+DataFrame cost_path_diagonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double band_width);
+RcppExport SEXP _distantia_cost_path_diagonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP band_widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
+    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_diagonal_itakura_cpp(dist_matrix, cost_matrix, band_width));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -180,6 +206,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
     rcpp_result_gen = Rcpp::wrap(cost_path_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cost_path_itakura_cpp
+DataFrame cost_path_itakura_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double band_width);
+RcppExport SEXP _distantia_cost_path_itakura_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP band_widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
+    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
+    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
+    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
+    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_itakura_cpp(x, y, distance, diagonal, weighted, ignore_blocks, band_width));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -578,11 +621,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_matrix_diagonal_weighted_cpp", (DL_FUNC) &_distantia_cost_matrix_diagonal_weighted_cpp, 1},
     {"_distantia_cost_matrix_orthogonal_cpp", (DL_FUNC) &_distantia_cost_matrix_orthogonal_cpp, 1},
     {"_distantia_cost_path_slotting_cpp", (DL_FUNC) &_distantia_cost_path_slotting_cpp, 2},
+    {"_distantia_cost_path_orthogonal_itakura_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_itakura_cpp, 3},
     {"_distantia_cost_path_orthogonal_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_cpp, 2},
+    {"_distantia_cost_path_diagonal_itakura_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_itakura_cpp, 3},
     {"_distantia_cost_path_diagonal_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_cpp, 2},
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
     {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 6},
+    {"_distantia_cost_path_itakura_cpp", (DL_FUNC) &_distantia_cost_path_itakura_cpp, 7},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
     {"_distantia_distance_lock_step_cpp", (DL_FUNC) &_distantia_distance_lock_step_cpp, 3},
     {"_distantia_distance_chebyshev_cpp", (DL_FUNC) &_distantia_distance_chebyshev_cpp, 2},

@@ -114,16 +114,10 @@ double distance_lock_step_cpp(
 /*** R
 library(distantia)
 
-y <- sequenceA |>
-  na.omit() |>
-  as.matrix()
 
-x <- sequenceB |>
-  na.omit() |>
-  as.matrix()
+y <- zoo_simulate()
 
-y[y == 0] <- 0.0001
-x[x == 0] <- 0.0001
+x <- zoo_simulate()
 
 nrow(y)
 nrow(x)

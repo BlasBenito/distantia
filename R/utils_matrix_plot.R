@@ -113,6 +113,15 @@ utils_matrix_plot <- function(
     x_name <- attributes(m)$x_name
     y_name <- attributes(m)$y_name
 
+
+    if(is.null(x_name)){
+      x_name <- "x"
+    }
+
+    if(is.null(y_name)){
+      y_name <- "y"
+    }
+
     if(is.null(title)){
       title <- paste0(
         attributes(m)$y_name,
@@ -337,6 +346,14 @@ utils_matrix_plot <- function(
     path <- utils_check_args_path(
       path = path
     )
+
+    if(is.null(attributes(path)$x_name)){
+      attr(x = path, which = "x_name") <- "x"
+    }
+
+    if(is.null(attributes(path)$y_name)){
+      attr(x = path, which = "y_name") <- "y"
+    }
 
     if(
       attributes(path)$y_name != y_name ||

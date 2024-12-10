@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_orthogonal_cpp}
 \alias{cost_path_orthogonal_cpp}
-\title{(C++) Find Orthogonal Least Cost Path within a Least Cost Matrix}
+\title{(C++) Orthogonal Least Cost Path}
 \usage{
 cost_path_orthogonal_cpp(dist_matrix, cost_matrix)
 }
@@ -49,6 +49,9 @@ cost_path
 Other Rcpp_cost_path: 
 \code{\link{cost_path_cpp}()},
 \code{\link{cost_path_diagonal_cpp}()},
+\code{\link{cost_path_diagonal_itakura_cpp}()},
+\code{\link{cost_path_itakura_cpp}()},
+\code{\link{cost_path_orthogonal_itakura_cpp}()},
 \code{\link{cost_path_slotting_cpp}()},
 \code{\link{cost_path_sum_cpp}()},
 \code{\link{cost_path_trim_cpp}()}
