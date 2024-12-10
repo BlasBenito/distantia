@@ -35,7 +35,8 @@ Rcpp::DataFrame importance_dynamic_time_warping_legacy_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
 );
 
 Rcpp::DataFrame importance_dynamic_time_warping_robust_cpp(
@@ -44,7 +45,8 @@ Rcpp::DataFrame importance_dynamic_time_warping_robust_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
   );
 
 #endif // IMPORTANCE_H

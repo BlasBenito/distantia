@@ -147,7 +147,7 @@ DataFrame cost_path_slotting_cpp(
 //' time series.
 //' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 //' `dist_matrix`.
-//' @param band_width (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -182,13 +182,13 @@ DataFrame cost_path_slotting_cpp(
 DataFrame cost_path_orthogonal_itakura_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix,
-    double band_width = 1 // Default value for band_width
+    double bandwidth = 1 // Default value for bandwidth
 ){
 
-  if (band_width < 0.0) {
-    band_width = 0.0;
-  } else if (band_width > 1.0) {
-    band_width = 1.0;
+  if (bandwidth < 0.0) {
+    bandwidth = 0.0;
+  } else if (bandwidth > 1.0) {
+    bandwidth = 1.0;
   }
 
   int d_rows = dist_matrix.nrow();
@@ -206,11 +206,11 @@ DataFrame cost_path_orthogonal_itakura_cpp(
 
   // Define Itakura parallelogram boundaries for the orthogonal path
   auto y_min = [&](int x) -> int {
-    return std::max(0, static_cast<int>(x * d_rows / d_cols - band_width * d_rows));
+    return std::max(0, static_cast<int>(x * d_rows / d_cols - bandwidth * d_rows));
   };
 
   auto y_max = [&](int x) -> int {
-    return std::min(d_rows - 1, static_cast<int>(x * d_rows / d_cols + band_width * d_rows));
+    return std::min(d_rows - 1, static_cast<int>(x * d_rows / d_cols + bandwidth * d_rows));
   };
 
   // Iterate to find the path
@@ -259,7 +259,7 @@ DataFrame cost_path_orthogonal_itakura_cpp(
     _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost,
-    _["band_width"] = band_width
+    _["bandwidth"] = bandwidth
   );
 }
 
@@ -374,7 +374,7 @@ DataFrame cost_path_orthogonal_cpp(
 //' time series.
 //' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 //' `dist_matrix`.
-//' @param band_width (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -409,13 +409,13 @@ DataFrame cost_path_orthogonal_cpp(
 DataFrame cost_path_diagonal_itakura_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix,
-    double band_width = 1
+    double bandwidth = 1
 ){
 
-  if (band_width < 0.0) {
-    band_width = 0.0;
-  } else if (band_width > 1.0) {
-    band_width = 1.0;
+  if (bandwidth < 0.0) {
+    bandwidth = 0.0;
+  } else if (bandwidth > 1.0) {
+    bandwidth = 1.0;
   }
 
   int d_rows = dist_matrix.nrow();
@@ -433,11 +433,11 @@ DataFrame cost_path_diagonal_itakura_cpp(
 
   // Define Itakura parallelogram boundaries
   auto y_min = [&](int x) -> int {
-    return std::max(0, static_cast<int>(x * d_rows / d_cols - band_width * d_rows));
+    return std::max(0, static_cast<int>(x * d_rows / d_cols - bandwidth * d_rows));
   };
 
   auto y_max = [&](int x) -> int {
-    return std::min(d_rows - 1, static_cast<int>(x * d_rows / d_cols + band_width * d_rows));
+    return std::min(d_rows - 1, static_cast<int>(x * d_rows / d_cols + bandwidth * d_rows));
   };
 
   // Iterate to find the path
@@ -485,7 +485,7 @@ DataFrame cost_path_diagonal_itakura_cpp(
     _["y"] = path_y,
     _["dist"] = path_dist,
     _["cost"] = path_cost,
-    _["band_width"] = band_width
+    _["bandwidth"] = bandwidth
   );
 
 }
@@ -714,7 +714,7 @@ double cost_path_sum_cpp(
 
 }
 
-//' Find Least Cost Path within a Least Cost Matrix
+//' Least Cost Path
 //' @description Least cost path between two time series \code{x} and \code{y}.
 //' NA values must be removed from \code{x} and \code{y} before using this function.
 //' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -730,76 +730,7 @@ double cost_path_sum_cpp(
 //' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @return data frame
-//' @export
-//' @family Rcpp_cost_path
-// [[Rcpp::export]]
-DataFrame cost_path_cpp(
-     NumericMatrix x,
-     NumericMatrix y,
-     const std::string& distance = "euclidean",
-     bool diagonal = true,
-     bool weighted = true,
-     bool ignore_blocks = false
- ){
-
-   if(weighted){diagonal = true;}
-
-   //distance matrix
-   NumericMatrix dist_matrix = distance_matrix_cpp(
-     x,
-     y,
-     distance
-   );
-
-   //compute cost matrix
-   int yn = dist_matrix.nrow();
-   int xn = dist_matrix.ncol();
-   NumericMatrix cost_matrix(yn, xn);
-
-   if (diagonal && weighted) {
-     cost_matrix = cost_matrix_diagonal_weighted_cpp(dist_matrix);
-   } else if (diagonal) {
-     cost_matrix = cost_matrix_diagonal_cpp(dist_matrix);
-   } else {
-     cost_matrix = cost_matrix_orthogonal_cpp(dist_matrix);
-   }
-
-   //compute cost path
-   DataFrame cost_path;
-   if (diagonal) {
-     cost_path = cost_path_diagonal_cpp(dist_matrix, cost_matrix);
-   } else {
-     cost_path = cost_path_orthogonal_cpp(dist_matrix, cost_matrix);
-   }
-
-   //trim cost path
-   if (ignore_blocks){
-     cost_path = cost_path_trim_cpp(cost_path);
-   }
-
-   return cost_path;
-
-}
-
-
-//' Find Least Cost Path within a Least Cost Matrix
-//' @description Least cost path between two time series \code{x} and \code{y}.
-//' NA values must be removed from \code{x} and \code{y} before using this function.
-//' If the selected distance function is "chi" or "cosine", pairs of zeros should
-//' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-//' @param x (required, numeric matrix) multivariate time series.
-//' @param y (required, numeric matrix) multivariate time series
-//' with the same number of columns as 'x'.
-//' @param distance (optional, character string) distance name from the "names"
-//' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
-//' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-//' computation of the cost matrix. Default: FALSE.
-//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
-//' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
-//' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @param band_width (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -807,14 +738,14 @@ DataFrame cost_path_cpp(
 //' @export
 //' @family Rcpp_cost_path
 // [[Rcpp::export]]
-DataFrame cost_path_itakura_cpp(
+DataFrame cost_path_cpp(
    NumericMatrix x,
    NumericMatrix y,
    const std::string& distance = "euclidean",
    bool diagonal = true,
    bool weighted = true,
    bool ignore_blocks = false,
-   double band_width = 1
+   double bandwidth = 1
 ){
 
  if(weighted){diagonal = true;}
@@ -842,11 +773,11 @@ DataFrame cost_path_itakura_cpp(
  //compute cost path
  DataFrame cost_path;
  if (diagonal) {
-   if (band_width < 1.0) {
+   if (bandwidth < 1.0) {
      cost_path = cost_path_diagonal_itakura_cpp(
        dist_matrix,
        cost_matrix,
-       band_width
+       bandwidth
        );
    } else {
      cost_path = cost_path_diagonal_cpp(
@@ -855,11 +786,11 @@ DataFrame cost_path_itakura_cpp(
        );
    }
   } else {
-   if (band_width < 1.0) {
+   if (bandwidth < 1.0) {
      cost_path = cost_path_orthogonal_itakura_cpp(
        dist_matrix,
        cost_matrix,
-       band_width
+       bandwidth
        );
    } else {
      cost_path = cost_path_orthogonal_cpp(

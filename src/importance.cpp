@@ -250,6 +250,10 @@ DataFrame importance_lock_step_cpp(
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' both sides of the diagonal used to constrain the least cost path. Expressed
+//' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+//' Default: 1
 //' @return data frame
 //' @examples
 //' #simulate two regular time series
@@ -284,7 +288,8 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = true,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
 ){
 
   //vectors to store results
@@ -301,7 +306,8 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
     distance,
     diagonal,
     weighted,
-    ignore_blocks
+    ignore_blocks,
+    bandwidth
   );
 
   //iterate over columns
@@ -321,7 +327,8 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
       distance,
       diagonal,
       weighted,
-      ignore_blocks
+      ignore_blocks,
+      bandwidth
     );
 
     //create subsets
@@ -335,7 +342,8 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
       distance,
       diagonal,
       weighted,
-      ignore_blocks
+      ignore_blocks,
+      bandwidth
     );
 
     //difference between only with and without
@@ -389,6 +397,10 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
 //' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' both sides of the diagonal used to constrain the least cost path. Expressed
+//' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+//' Default: 1
 //' @return data frame
 //' @examples
 //' #simulate two regular time series
@@ -423,7 +435,8 @@ DataFrame importance_dynamic_time_warping_robust_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = true,
     bool weighted = true,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
 ){
 
   //vectors to store results
@@ -441,7 +454,8 @@ DataFrame importance_dynamic_time_warping_robust_cpp(
     distance,
     diagonal,
     weighted,
-    ignore_blocks
+    ignore_blocks,
+    bandwidth
   );
 
   double path_sum = cost_path_sum_cpp(path);

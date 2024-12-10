@@ -221,6 +221,9 @@ NumericVector null_psi_lock_step_cpp(
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' both sides of the diagonal used to constrain the least cost path. Expressed
+//' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' @return numeric
 //' @family Rcpp_dissimilarity_analysis
 //' @export
@@ -231,7 +234,8 @@ double psi_dynamic_time_warping_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = true,
     bool weighted = true,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
 ){
 
   DataFrame path = cost_path_cpp(
@@ -240,7 +244,8 @@ double psi_dynamic_time_warping_cpp(
     distance,
     diagonal,
     weighted,
-    ignore_blocks
+    ignore_blocks,
+    bandwidth
   );
 
   double a = cost_path_sum_cpp(path);
@@ -284,6 +289,10 @@ double psi_dynamic_time_warping_cpp(
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. This argument
 //' has nothing to do with block_size!. Default: FALSE.
+//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' both sides of the diagonal used to constrain the least cost path. Expressed
+//' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+//' Default: 1
 //' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 //' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 //' \itemize{
@@ -307,6 +316,7 @@ NumericVector null_psi_dynamic_time_warping_cpp(
     bool diagonal = true,
     bool weighted = true,
     bool ignore_blocks = false,
+    double bandwidth = 1,
     int repetitions = 100,
     const std::string& permutation = "restricted_by_row",
     int block_size = 3,
@@ -383,7 +393,8 @@ NumericVector null_psi_dynamic_time_warping_cpp(
       distance,
       diagonal,
       weighted,
-      ignore_blocks
+      ignore_blocks,
+      bandwidth
     );
 
     double a_permuted = cost_path_sum_cpp(permuted_path);

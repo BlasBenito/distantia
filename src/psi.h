@@ -33,7 +33,8 @@ double psi_dynamic_time_warping_cpp(
     const std::string& distance = "euclidean",
     bool diagonal = false,
     bool weighted = false,
-    bool ignore_blocks = false
+    bool ignore_blocks = false,
+    double bandwidth = 1
 );
 
 Rcpp::NumericVector null_psi_dynamic_time_warping_cpp(
@@ -43,6 +44,7 @@ Rcpp::NumericVector null_psi_dynamic_time_warping_cpp(
     bool diagonal = true,
     bool weighted = true,
     bool ignore_blocks = false,
+    double bandwidth = 1,
     Rcpp::IntegerVector block_size = Rcpp::IntegerVector::create(2, 3, 4),
     int seed = 1,
     bool independent_columns = true,

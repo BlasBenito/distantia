@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{cost_path_cpp}
 \alias{cost_path_cpp}
-\title{Find Least Cost Path within a Least Cost Matrix}
+\title{Least Cost Path}
 \usage{
 cost_path_cpp(
   x,
@@ -10,7 +10,8 @@ cost_path_cpp(
   distance = "euclidean",
   diagonal = TRUE,
   weighted = TRUE,
-  ignore_blocks = FALSE
+  ignore_blocks = FALSE,
+  bandwidth = 1
 )
 }
 \arguments{
@@ -30,6 +31,11 @@ diagonal cost is weighted by y factor of 1.414214. Default: FALSE.}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+
+\item{bandwidth}{(required, numeric) Size of the Itakura parallelogram at
+both sides of the diagonal used to constrain the least cost path. Expressed
+as a fraction of the number of matrix rows and columns. Unrestricted by default.
+Default: 1}
 }
 \value{
 data frame
@@ -44,7 +50,6 @@ be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 Other Rcpp_cost_path: 
 \code{\link{cost_path_diagonal_cpp}()},
 \code{\link{cost_path_diagonal_itakura_cpp}()},
-\code{\link{cost_path_itakura_cpp}()},
 \code{\link{cost_path_orthogonal_cpp}()},
 \code{\link{cost_path_orthogonal_itakura_cpp}()},
 \code{\link{cost_path_slotting_cpp}()},

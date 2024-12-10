@@ -143,6 +143,7 @@ distantia_importance <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
+    bandwidth = 1,
     lock_step = FALSE,
     robust = TRUE
 ){
@@ -152,6 +153,7 @@ distantia_importance <- function(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
+    bandwidth = bandwidth,
     lock_step = lock_step,
     robust = robust
   )
@@ -159,6 +161,7 @@ distantia_importance <- function(
   tsl <- args$tsl
   distance <- args$distance
   diagonal <- args$diagonal
+  bandwidth <- args$bandwidth
   lock_step <- args$lock_step
   robust <- args$robust
 
@@ -178,6 +181,7 @@ distantia_importance <- function(
     args_list = list(
       distance = distance,
       diagonal = diagonal,
+      bandwidth = bandwidth,
       lock_step = lock_step,
       robust = robust
     )
@@ -229,7 +233,8 @@ distantia_importance <- function(
           x = x,
           y = y,
           distance = df.i$distance,
-          diagonal = df.i$diagonal
+          diagonal = df.i$diagonal,
+          bandwidth = df.i$bandwidth
         )
 
       } else {
@@ -277,6 +282,7 @@ distantia_importance <- function(
       "psi_only_with",
       "distance",
       "diagonal",
+      "bandwidth",
       "lock_step",
       "robust"
     )

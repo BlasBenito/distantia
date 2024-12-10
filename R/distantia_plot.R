@@ -22,8 +22,6 @@
 #' @examples
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#'
 #' #convert to time series list
 #' #scale and center to neutralize effect of different scales in temperature, rainfall, and ndvi
 #' tsl <- tsl_initialize(
@@ -89,11 +87,12 @@ distantia_plot <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
+    bandwidth = 1,
     matrix_type = "cost",
     matrix_color = NULL,
     path_width = 1,
     path_color = "black",
-    diagonal_width = 0.5,
+    diagonal_width = 1,
     diagonal_color = "white",
     line_color = NULL,
     line_width = 1,
@@ -173,7 +172,8 @@ distantia_plot <- function(
   xy_psi <- distantia(
     tsl = tsl,
     distance = distance[1],
-    diagonal = diagonal[1]
+    diagonal = diagonal[1],
+    bandwidth = bandwidth[1]
   )$psi
 
   xy_psi <- round(xy_psi, 3)
@@ -194,7 +194,8 @@ distantia_plot <- function(
   path <- psi_cost_path(
     dist_matrix = dist_m,
     cost_matrix = cost_m,
-    diagonal = diagonal
+    diagonal = diagonal,
+    bandwidth = bandwidth
   )
 
   # select matrix to plot
@@ -349,7 +350,7 @@ distantia_plot <- function(
 
   utils_line_guide(
     x = tsl[[2]],
-    position = "center",
+    position = "topright",
     line_color = line_color,
     text_cex = text_cex * 0.7,
     line_width = line_width,

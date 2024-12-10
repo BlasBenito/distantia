@@ -10,7 +10,8 @@ importance_dynamic_time_warping_legacy_cpp(
   distance = "euclidean",
   diagonal = FALSE,
   weighted = TRUE,
-  ignore_blocks = FALSE
+  ignore_blocks = FALSE,
+  bandwidth = 1
 )
 }
 \arguments{
@@ -30,6 +31,11 @@ diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
+
+\item{bandwidth}{(required, numeric) Size of the Itakura parallelogram at
+both sides of the diagonal used to constrain the least cost path. Expressed
+as a fraction of the number of matrix rows and columns. Unrestricted by default.
+Default: 1}
 }
 \value{
 data frame

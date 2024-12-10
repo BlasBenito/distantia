@@ -63,7 +63,7 @@ utils_matrix_plot <- function(
     path = NULL,
     path_width = 1,
     path_color = "black",
-    diagonal_width = 0.5,
+    diagonal_width = 1,
     diagonal_color = "white",
     guide = TRUE,
     subpanel = FALSE
@@ -89,11 +89,15 @@ utils_matrix_plot <- function(
 
   #generic matrix
   if(is.null(m_type)){
-    stop("distantia::utils_matrix_plot(): Plotting for generic matrices is not implemented supported.", call. = FALSE)
-  }
 
-  #distance matrix
-  if(m_type %in% c("distance", "cost")){
+    m_type <- "generic"
+    attr(x = m, which = "x_name") <- "x"
+    attr(x = m, which = "y_name") <- "y"
+    attr(x = m, which = "x_time") <- seq_len(ncol(m))
+    attr(x = m, which = "y_time") <- seq_len(nrow(m))
+    guide_title <- "Legend"
+
+  } else {
 
     if(m_type == "distance"){
       guide_title <- paste0(
@@ -109,64 +113,55 @@ utils_matrix_plot <- function(
       )
     }
 
-
-    x_name <- attributes(m)$x_name
-    y_name <- attributes(m)$y_name
-
-
-    if(is.null(x_name)){
-      x_name <- "x"
-    }
-
-    if(is.null(y_name)){
-      y_name <- "y"
-    }
-
-    if(is.null(title)){
-      title <- paste0(
-        attributes(m)$y_name,
-        " vs. ",
-        attributes(m)$x_name
-      )
-    }
-
-    if(is.null(xlab)){
-      xlab <- x_name
-    }
-
-    if(is.null(ylab)){
-      ylab <- y_name
-    }
-
-    #get axes time
-    axis_x_labels <- attributes(m)$x_time
-    axis_y_labels <- attributes(m)$y_time
-
-    #to pretty
-    axis_x_labels_pretty <- pretty(x = axis_x_labels)
-    axis_y_labels_pretty <- pretty(x = axis_y_labels)
-
-    #axis positions closest to pretty version
-    axis_x_at <- lapply(
-      X = axis_x_labels_pretty,
-      FUN = function(x){
-        which.min(abs(as.numeric(x - axis_x_labels)))
-      }
-    ) |>
-      unlist()
-
-    axis_y_at <- lapply(
-      X = axis_y_labels_pretty,
-      FUN = function(x){
-        which.min(abs(as.numeric(x - axis_y_labels)))
-      }
-    ) |>
-      unlist()
-
-    axis_x_labels <- attributes(axis_x_labels_pretty)$labels
-    axis_y_labels <- attributes(axis_y_labels_pretty)$labels
-
   }
+
+  x_name <- attributes(m)$x_name
+  y_name <- attributes(m)$y_name
+
+
+  if(is.null(title)){
+    title <- paste0(
+      attributes(m)$y_name,
+      " vs. ",
+      attributes(m)$x_name
+    )
+  }
+
+  if(is.null(xlab)){
+    xlab <- x_name
+  }
+
+  if(is.null(ylab)){
+    ylab <- y_name
+  }
+
+  #get axes time
+  axis_x_labels <- attributes(m)$x_time
+  axis_y_labels <- attributes(m)$y_time
+
+  #to pretty
+  axis_x_labels_pretty <- pretty(x = axis_x_labels)
+  axis_y_labels_pretty <- pretty(x = axis_y_labels)
+
+  #axis positions closest to pretty version
+  axis_x_at <- lapply(
+    X = axis_x_labels_pretty,
+    FUN = function(x){
+      which.min(abs(as.numeric(x - axis_x_labels)))
+    }
+  ) |>
+    unlist()
+
+  axis_y_at <- lapply(
+    X = axis_y_labels_pretty,
+    FUN = function(x){
+      which.min(abs(as.numeric(x - axis_y_labels)))
+    }
+  ) |>
+    unlist()
+
+  axis_x_labels <- attributes(axis_x_labels_pretty)$labels
+  axis_y_labels <- attributes(axis_y_labels_pretty)$labels
 
   #psi matrix
   if(m_type == "distantia_matrix"){
@@ -366,6 +361,29 @@ utils_matrix_plot <- function(
     colnames(path)[colnames(path) == "y"] <- y_name
     colnames(path)[colnames(path) == "x"] <- x_name
 
+    #Itakura parallelogram
+    if("bandwidth" %in% colnames(path)){
+
+      bandwidth <- path$bandwidth[1]
+
+      graphics::lines(
+        x = c(ncol(m) * bandwidth, ncol(m)),
+        y = c(0, nrow(m) - (nrow(m) * bandwidth)),
+        lwd = diagonal_width,
+        lty = "dotted",
+        col = diagonal_color
+      )
+
+      graphics::lines(
+        x = c(0, ncol(m) - (ncol(m) * bandwidth)),
+        y = c(nrow(m) * bandwidth, nrow(m)),
+        lwd = diagonal_width,
+        lty = "dotted",
+        col = diagonal_color
+      )
+
+    }
+
     #plot cost path
     graphics::lines(
       x = path[[attributes(m)$x_name]],
@@ -373,7 +391,6 @@ utils_matrix_plot <- function(
       lwd = path_width,
       col = path_color
     )
-
 
   }
 

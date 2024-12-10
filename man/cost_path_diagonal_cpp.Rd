@@ -50,7 +50,6 @@ cost_path
 Other Rcpp_cost_path: 
 \code{\link{cost_path_cpp}()},
 \code{\link{cost_path_diagonal_itakura_cpp}()},
-\code{\link{cost_path_itakura_cpp}()},
 \code{\link{cost_path_orthogonal_cpp}()},
 \code{\link{cost_path_orthogonal_itakura_cpp}()},
 \code{\link{cost_path_slotting_cpp}()},

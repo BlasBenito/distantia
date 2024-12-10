@@ -4,7 +4,7 @@
 \alias{cost_path_orthogonal_itakura_cpp}
 \title{(C++) Orthogonal Least Cost Path}
 \usage{
-cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, band_width = 1)
+cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, bandwidth = 1)
 }
 \arguments{
 \item{dist_matrix}{(required, numeric matrix). Distance matrix between two
@@ -13,7 +13,7 @@ time series.}
 \item{cost_matrix}{(required, numeric matrix). Cost matrix generated from
 \code{dist_matrix}.}
 
-\item{band_width}{(required, numeric) Size of the Itakura parallelogram at
+\item{bandwidth}{(required, numeric) Size of the Itakura parallelogram at
 both sides of the diagonal used to constrain the least cost path. Expressed
 as a fraction of the number of matrix rows and columns. Unrestricted by default.
 Default: 1}
@@ -55,7 +55,6 @@ Other Rcpp_cost_path:
 \code{\link{cost_path_cpp}()},
 \code{\link{cost_path_diagonal_cpp}()},
 \code{\link{cost_path_diagonal_itakura_cpp}()},
-\code{\link{cost_path_itakura_cpp}()},
 \code{\link{cost_path_orthogonal_cpp}()},
 \code{\link{cost_path_slotting_cpp}()},
 \code{\link{cost_path_sum_cpp}()},

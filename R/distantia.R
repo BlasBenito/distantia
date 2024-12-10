@@ -37,6 +37,7 @@
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
 #' @param diagonal (optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE
+#' @param bandwidth (optional, numeric) Proportion of space at each side of the cost matrix diagonal to generate a Itakura parallelogram to constrain the dynamic time warping path. If `1` (default), the warping is unconstrained. If `0`, the warping path follows the matrix diagonal. Ignored if `lock_step = TRUE`. Default: 1.
 #' @param lock_step (optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument `tsl` to be fully aligned, or it will return an error. Default: FALSE.
 #' @param permutation (optional, character vector) permutation method, only relevant when `repetitions` is higher than zero. Valid values are: "restricted_by_row", "restricted", "free_by_row", and "free". Default: "restricted_by_row".
 #' @param block_size (optional, integer) Size of the row blocks for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row" and `repetitions` is higher than zero. A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time series in `tsl`. Default: NULL.
@@ -147,6 +148,7 @@ distantia <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
+    bandwidth = 1,
     lock_step = FALSE,
     permutation = "restricted_by_row",
     block_size = NULL,
@@ -160,6 +162,7 @@ distantia <- function(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
+    bandwidth = bandwidth,
     lock_step = lock_step,
     repetitions = repetitions,
     permutation = permutation,
@@ -170,6 +173,7 @@ distantia <- function(
   tsl <- args$tsl
   distance <- args$distance
   diagonal <- args$diagonal
+  bandwidth <- args$bandwidth
   lock_step <- args$lock_step
   repetitions <- args$repetitions
   permutation <- args$permutation
@@ -185,6 +189,7 @@ distantia <- function(
       args_list = list(
         distance = distance,
         diagonal = diagonal,
+        bandwidth = bandwidth,
         lock_step = lock_step
       )
     )
@@ -196,6 +201,7 @@ distantia <- function(
       args_list = list(
         distance = distance,
         diagonal = diagonal,
+        bandwidth = bandwidth,
         lock_step = lock_step,
         repetitions = repetitions,
         permutation = permutation,
@@ -267,7 +273,8 @@ distantia <- function(
         x = x,
         y = y,
         distance = df.i$distance,
-        diagonal = df.i$diagonal
+        diagonal = df.i$diagonal,
+        bandwidth = df.i$bandwidth
       )
 
       if(repetitions > 0){
@@ -277,6 +284,7 @@ distantia <- function(
           y = y,
           distance = df.i$distance,
           diagonal = df.i$diagonal,
+          bandwidth = df.i$bandwidth,
           repetitions = df.i$repetitions,
           permutation = df.i$permutation,
           block_size = df.i$block_size,

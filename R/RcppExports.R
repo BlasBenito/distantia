@@ -281,7 +281,7 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #' time series.
 #' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 #' `dist_matrix`.
-#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -312,8 +312,8 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #' cost_path
 #' @export
 #' @family Rcpp_cost_path
-cost_path_orthogonal_itakura_cpp <- function(dist_matrix, cost_matrix, band_width = 1) {
-    .Call(`_distantia_cost_path_orthogonal_itakura_cpp`, dist_matrix, cost_matrix, band_width)
+cost_path_orthogonal_itakura_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
+    .Call(`_distantia_cost_path_orthogonal_itakura_cpp`, dist_matrix, cost_matrix, bandwidth)
 }
 
 #' (C++) Orthogonal Least Cost Path
@@ -363,7 +363,7 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #' time series.
 #' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 #' `dist_matrix`.
-#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -394,8 +394,8 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #' cost_path
 #' @export
 #' @family Rcpp_cost_path
-cost_path_diagonal_itakura_cpp <- function(dist_matrix, cost_matrix, band_width = 1) {
-    .Call(`_distantia_cost_path_diagonal_itakura_cpp`, dist_matrix, cost_matrix, band_width)
+cost_path_diagonal_itakura_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
+    .Call(`_distantia_cost_path_diagonal_itakura_cpp`, dist_matrix, cost_matrix, bandwidth)
 }
 
 #' (C++) Orthogonal and Diagonal Least Cost Path
@@ -512,7 +512,7 @@ cost_path_sum_cpp <- function(path) {
     .Call(`_distantia_cost_path_sum_cpp`, path)
 }
 
-#' Find Least Cost Path within a Least Cost Matrix
+#' Least Cost Path
 #' @description Least cost path between two time series \code{x} and \code{y}.
 #' NA values must be removed from \code{x} and \code{y} before using this function.
 #' If the selected distance function is "chi" or "cosine", pairs of zeros should
@@ -528,38 +528,15 @@ cost_path_sum_cpp <- function(path) {
 #' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @return data frame
-#' @export
-#' @family Rcpp_cost_path
-cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
-}
-
-#' Find Least Cost Path within a Least Cost Matrix
-#' @description Least cost path between two time series \code{x} and \code{y}.
-#' NA values must be removed from \code{x} and \code{y} before using this function.
-#' If the selected distance function is "chi" or "cosine", pairs of zeros should
-#' be either removed or replaced with pseudo-zeros (i.e. 0.00001).
-#' @param x (required, numeric matrix) multivariate time series.
-#' @param y (required, numeric matrix) multivariate time series
-#' with the same number of columns as 'x'.
-#' @param distance (optional, character string) distance name from the "names"
-#' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
-#' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-#' computation of the cost matrix. Default: FALSE.
-#' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
-#' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
-#' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param band_width (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
 #' @return data frame
 #' @export
 #' @family Rcpp_cost_path
-cost_path_itakura_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, band_width = 1) {
-    .Call(`_distantia_cost_path_itakura_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, band_width)
+cost_path_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_cost_path_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Distance Matrix of Two Time Series
@@ -871,6 +848,10 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
 #' @return data frame
 #' @examples
 #' #simulate two regular time series
@@ -898,8 +879,8 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' df
 #' @family Rcpp_importance
 #' @export
-importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_dynamic_time_warping_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks)
+importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_importance_dynamic_time_warping_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)
@@ -932,6 +913,10 @@ importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclide
 #' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
 #' @return data frame
 #' @examples
 #' #simulate two regular time series
@@ -959,8 +944,8 @@ importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclide
 #' df
 #' @family Rcpp_importance
 #' @export
-importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_importance_dynamic_time_warping_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
+importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_importance_dynamic_time_warping_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Restricted Permutation of Complete Rows Within Blocks
@@ -1100,11 +1085,14 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' @return numeric
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE) {
-    .Call(`_distantia_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks)
+psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Null Distribution of Dissimilarity Scores of Two Time Series
@@ -1124,6 +1112,10 @@ psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal 
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. This argument
 #' has nothing to do with block_size!. Default: FALSE.
+#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' both sides of the diagonal used to constrain the least cost path. Expressed
+#' as a fraction of the number of matrix rows and columns. Unrestricted by default.
+#' Default: 1
 #' @param repetitions (optional, integer) number of null psi values to generate. Default: 100
 #' @param permutation (optional, character) permutation method. Valid values are listed below from higher to lower randomness:
 #' \itemize{
@@ -1139,7 +1131,7 @@ psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal 
 #' @return numeric vector
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-null_psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
-    .Call(`_distantia_null_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed)
+null_psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+    .Call(`_distantia_null_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth, repetitions, permutation, block_size, seed)
 }
 

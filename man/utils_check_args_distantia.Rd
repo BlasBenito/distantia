@@ -8,6 +8,7 @@ utils_check_args_distantia(
   tsl = NULL,
   distance = NULL,
   diagonal = NULL,
+  bandwidth = NULL,
   lock_step = NULL,
   repetitions = NULL,
   permutation = NULL,
@@ -22,6 +23,8 @@ utils_check_args_distantia(
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 
 \item{diagonal}{(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE}
+
+\item{bandwidth}{(optional, numeric) Proportion of space at each side of the cost matrix diagonal to generate a Itakura parallelogram to constrain the dynamic time warping path. If \code{1} (default), the warping is unconstrained. If \code{0}, the warping path follows the matrix diagonal. Ignored if \code{lock_step = TRUE}. Default: 1.}
 
 \item{lock_step}{(optional, logical vector) If TRUE, time series captured at the same times are compared sample wise (with no dynamic time warping). Requires time series in argument \code{tsl} to be fully aligned, or it will return an error. Default: FALSE.}
 

@@ -10,6 +10,7 @@ utils_check_args_distantia <- function(
     tsl = NULL,
     distance = NULL,
     diagonal = NULL,
+    bandwidth = NULL,
     lock_step = NULL,
     repetitions = NULL,
     permutation = NULL,
@@ -76,6 +77,15 @@ utils_check_args_distantia <- function(
     if(any(is.logical(diagonal) == FALSE)){
       stop("distantia::utils_check_args_distantia(): argument 'diagonal'", logical_message, ".", call. = FALSE)
     }
+
+  }
+
+  #bandwidth
+  if(!is.null(bandwidth)){
+
+    bandwidth[bandwidth > 1] <- 1
+    bandwidth[bandwidth < 0] <- 0
+    bandwidth <- unique(bandwidth)
 
   }
 
@@ -156,6 +166,7 @@ utils_check_args_distantia <- function(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,
+    bandwidth = bandwidth,
     lock_step = lock_step,
     repetitions = repetitions,
     permutation = permutation,

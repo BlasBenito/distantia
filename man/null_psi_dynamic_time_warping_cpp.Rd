@@ -11,6 +11,7 @@ null_psi_dynamic_time_warping_cpp(
   diagonal = TRUE,
   weighted = TRUE,
   ignore_blocks = FALSE,
+  bandwidth = 1,
   repetitions = 100L,
   permutation = "restricted_by_row",
   block_size = 3L,
@@ -34,6 +35,11 @@ diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. This argument
 has nothing to do with block_size!. Default: FALSE.}
+
+\item{bandwidth}{(required, numeric) Size of the Itakura parallelogram at
+both sides of the diagonal used to constrain the least cost path. Expressed
+as a fraction of the number of matrix rows and columns. Unrestricted by default.
+Default: 1}
 
 \item{repetitions}{(optional, integer) number of null psi values to generate. Default: 100}
 

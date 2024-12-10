@@ -15,7 +15,7 @@ utils_matrix_plot(
   path = NULL,
   path_width = 1,
   path_color = "black",
-  diagonal_width = 0.5,
+  diagonal_width = 1,
   diagonal_color = "white",
   guide = TRUE,
   subpanel = FALSE

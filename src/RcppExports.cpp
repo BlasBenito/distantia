@@ -122,15 +122,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // cost_path_orthogonal_itakura_cpp
-DataFrame cost_path_orthogonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double band_width);
-RcppExport SEXP _distantia_cost_path_orthogonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP band_widthSEXP) {
+DataFrame cost_path_orthogonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
+RcppExport SEXP _distantia_cost_path_orthogonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, band_width));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -147,15 +147,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // cost_path_diagonal_itakura_cpp
-DataFrame cost_path_diagonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double band_width);
-RcppExport SEXP _distantia_cost_path_diagonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP band_widthSEXP) {
+DataFrame cost_path_diagonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
+RcppExport SEXP _distantia_cost_path_diagonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_diagonal_itakura_cpp(dist_matrix, cost_matrix, band_width));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_diagonal_itakura_cpp(dist_matrix, cost_matrix, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -194,8 +194,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // cost_path_cpp
-DataFrame cost_path_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_cost_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame cost_path_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double bandwidth);
+RcppExport SEXP _distantia_cost_path_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -205,24 +205,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cost_path_itakura_cpp
-DataFrame cost_path_itakura_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double band_width);
-RcppExport SEXP _distantia_cost_path_itakura_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP band_widthSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type distance(distanceSEXP);
-    Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
-    Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    Rcpp::traits::input_parameter< double >::type band_width(band_widthSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_itakura_cpp(x, y, distance, diagonal, weighted, ignore_blocks, band_width));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(cost_path_cpp(x, y, distance, diagonal, weighted, ignore_blocks, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -448,8 +432,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // importance_dynamic_time_warping_legacy_cpp
-DataFrame importance_dynamic_time_warping_legacy_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_dynamic_time_warping_legacy_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame importance_dynamic_time_warping_legacy_cpp(NumericMatrix y, NumericMatrix x, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double bandwidth);
+RcppExport SEXP _distantia_importance_dynamic_time_warping_legacy_cpp(SEXP ySEXP, SEXP xSEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -459,13 +443,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_legacy_cpp(y, x, distance, diagonal, weighted, ignore_blocks));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_legacy_cpp(y, x, distance, diagonal, weighted, ignore_blocks, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
 // importance_dynamic_time_warping_robust_cpp
-DataFrame importance_dynamic_time_warping_robust_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_importance_dynamic_time_warping_robust_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+DataFrame importance_dynamic_time_warping_robust_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double bandwidth);
+RcppExport SEXP _distantia_importance_dynamic_time_warping_robust_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -475,7 +460,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_robust_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(importance_dynamic_time_warping_robust_cpp(x, y, distance, diagonal, weighted, ignore_blocks, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -575,8 +561,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // psi_dynamic_time_warping_cpp
-double psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks);
-RcppExport SEXP _distantia_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP) {
+double psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double bandwidth);
+RcppExport SEXP _distantia_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -586,13 +572,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
-    rcpp_result_gen = Rcpp::wrap(psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks));
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
+    rcpp_result_gen = Rcpp::wrap(psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
 // null_psi_dynamic_time_warping_cpp
-NumericVector null_psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, int repetitions, const std::string& permutation, int block_size, int seed);
-RcppExport SEXP _distantia_null_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
+NumericVector null_psi_dynamic_time_warping_cpp(NumericMatrix x, NumericMatrix y, const std::string& distance, bool diagonal, bool weighted, bool ignore_blocks, double bandwidth, int repetitions, const std::string& permutation, int block_size, int seed);
+RcppExport SEXP _distantia_null_psi_dynamic_time_warping_cpp(SEXP xSEXP, SEXP ySEXP, SEXP distanceSEXP, SEXP diagonalSEXP, SEXP weightedSEXP, SEXP ignore_blocksSEXP, SEXP bandwidthSEXP, SEXP repetitionsSEXP, SEXP permutationSEXP, SEXP block_sizeSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -602,11 +589,12 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type diagonal(diagonalSEXP);
     Rcpp::traits::input_parameter< bool >::type weighted(weightedSEXP);
     Rcpp::traits::input_parameter< bool >::type ignore_blocks(ignore_blocksSEXP);
+    Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
     Rcpp::traits::input_parameter< int >::type repetitions(repetitionsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type permutation(permutationSEXP);
     Rcpp::traits::input_parameter< int >::type block_size(block_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(null_psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks, repetitions, permutation, block_size, seed));
+    rcpp_result_gen = Rcpp::wrap(null_psi_dynamic_time_warping_cpp(x, y, distance, diagonal, weighted, ignore_blocks, bandwidth, repetitions, permutation, block_size, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -627,8 +615,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_path_diagonal_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_cpp, 2},
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
-    {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 6},
-    {"_distantia_cost_path_itakura_cpp", (DL_FUNC) &_distantia_cost_path_itakura_cpp, 7},
+    {"_distantia_cost_path_cpp", (DL_FUNC) &_distantia_cost_path_cpp, 7},
     {"_distantia_distance_matrix_cpp", (DL_FUNC) &_distantia_distance_matrix_cpp, 3},
     {"_distantia_distance_lock_step_cpp", (DL_FUNC) &_distantia_distance_lock_step_cpp, 3},
     {"_distantia_distance_chebyshev_cpp", (DL_FUNC) &_distantia_distance_chebyshev_cpp, 2},
@@ -647,8 +634,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_select_column_cpp", (DL_FUNC) &_distantia_select_column_cpp, 2},
     {"_distantia_delete_column_cpp", (DL_FUNC) &_distantia_delete_column_cpp, 2},
     {"_distantia_importance_lock_step_cpp", (DL_FUNC) &_distantia_importance_lock_step_cpp, 3},
-    {"_distantia_importance_dynamic_time_warping_legacy_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_legacy_cpp, 6},
-    {"_distantia_importance_dynamic_time_warping_robust_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_robust_cpp, 6},
+    {"_distantia_importance_dynamic_time_warping_legacy_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_legacy_cpp, 7},
+    {"_distantia_importance_dynamic_time_warping_robust_cpp", (DL_FUNC) &_distantia_importance_dynamic_time_warping_robust_cpp, 7},
     {"_distantia_permute_restricted_by_row_cpp", (DL_FUNC) &_distantia_permute_restricted_by_row_cpp, 3},
     {"_distantia_permute_free_by_row_cpp", (DL_FUNC) &_distantia_permute_free_by_row_cpp, 3},
     {"_distantia_permute_restricted_cpp", (DL_FUNC) &_distantia_permute_restricted_cpp, 3},
@@ -656,8 +643,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_psi_equation_cpp", (DL_FUNC) &_distantia_psi_equation_cpp, 3},
     {"_distantia_psi_lock_step_cpp", (DL_FUNC) &_distantia_psi_lock_step_cpp, 3},
     {"_distantia_null_psi_lock_step_cpp", (DL_FUNC) &_distantia_null_psi_lock_step_cpp, 7},
-    {"_distantia_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_psi_dynamic_time_warping_cpp, 6},
-    {"_distantia_null_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_null_psi_dynamic_time_warping_cpp, 10},
+    {"_distantia_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_psi_dynamic_time_warping_cpp, 7},
+    {"_distantia_null_psi_dynamic_time_warping_cpp", (DL_FUNC) &_distantia_null_psi_dynamic_time_warping_cpp, 11},
     {NULL, NULL, 0}
 };
 
