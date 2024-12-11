@@ -45,7 +45,7 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit for mana
 
   - 10 distance metrics: see `distantia::distances`.
   - The normalized dissimilarity metric `psi`.
-  - Three Dynamic Time Warping (DTW) methods for shape-based comparisons.
+  - Free and Restricted Dynamic Time Warping (DTW) for shape-based comparisons.
   - A Lock-Step method for sample-to-sample alignment.
   - Restricted permutation tests for robust inferential support.
   - Variable Importance Analysis: assessment of contribution to dissimilarity of individual variables in multivariate time series.
@@ -59,7 +59,7 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit for mana
 
 #### Time Series Management Tools
 
-  - Introduces **time series lists (`tsl`)**, a versatile format for handling collections of time series stored as lists of `zoo` objects.
+  - Introduces **time series lists** (TSL), a versatile format for handling collections of time series stored as lists of `zoo` objects.
   - Includes a suite of `tsl_...()` functions for generating, resampling, transforming, analyzing, and visualizing both univariate and multivariate time series.
 
 ## Citation
@@ -94,12 +94,14 @@ This section showcases several features of the package `distantia`. Please, chec
 
 ### Setup
 
-All heavy duty functions in `distantia` now support a parallelization backend and progress bars.
+All heavy duty functions in `distantia` support parallelization via the [future](https://future.futureverse.org/) package, and progress bars provided by the [progressr](https://progressr.futureverse.org/) package. Unfortunately, the latter does not work in Rmarkdown documents like this one.
 
 ```{r packages, message = FALSE, warning = FALSE}
 library(distantia)
 library(future)
 library(parallelly)
+# library(progressr)
+
 
 #parallelization setup
 future::plan(
@@ -121,7 +123,7 @@ albatross |>
   head()
 ```
 
-The `albatross` data is converted to *Time Series List* with `tsl_initialize()`, and scaled and centered with `tsl_transform()` and `f_scale_local`, to facilitate shape-based comparisons and variable importance analyses.
+The code below transforms the data to a *Time Series List* with `tsl_initialize()` and applies global scaling and centering with `tsl_transform()` and `f_scale_global` to facilitate time series comparisons.
 
 ```{r, fig.width=5, fig.height=4.5, out.width = "100%"}
 tsl <- tsl_initialize(
@@ -131,7 +133,7 @@ tsl <- tsl_initialize(
   lock_step = TRUE
 ) |> 
   tsl_transform(
-    f = f_scale_local
+    f = f_scale_global
   )
 
 tsl_plot(
@@ -139,12 +141,11 @@ tsl_plot(
   ylim = "relative"
 )
 ```
-
 ### Dissimilarity Analysis
 
 #### Lock-Step Analysis
 
-Lock-step analysis performs direct sample-to-sample comparisons without time distortion. It requires time series of the same length, observed at the same times.
+Lock-step analysis performs direct comparisons between samples observed at the same time without any time distortion. It requires time series of the same length, observed at the same times.
 
 ```{r}
 df_ls <- distantia(
@@ -155,9 +156,9 @@ df_ls <- distantia(
 df_ls[, c("x", "y", "psi")]
 ```
 
-The "psi" column contains normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity (the first row shows the most similar time series).
+The "psi" column contains normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.
 
-The function `distantia_boxplot()` helps quickly identify time series that are either more dissimilar (top) or similar (bottom) to others.
+The function `distantia_boxplot()` enables a quick identification of the time series that are either more dissimilar (top) or similar (bottom) to others.
 
 ```{r, fig.width=4.5, fig.height=3, out.width = "75%"}
 distantia_boxplot(df = df_ls)
@@ -165,7 +166,7 @@ distantia_boxplot(df = df_ls)
 
 #### Dynamic Time Warping
 
-By default, the function `distantia()` calculates the dissimilarity between pairs of time series using dynamic time warping (DTW) with weighted diagonals by default. This approach is useful for time series shifted due to factors such as varying phenology, asynchronous behavior, or non-overlapping sampling periods.
+By default, `distantia()` computes unrestricted dynamic time warping with orthogonal and diagonal least cost paths. 
 
 ```{r}
 df_dtw <- distantia(
@@ -183,13 +184,15 @@ distantia_plot(
 )
 ```
 
-Deviations from the perfect diagonal in the least-cost path reveal adjustments made by DTW to align time series by shape rather than time. Vertical or horizontal segments indicate one sample of a time series is matched with multiple samples of another.
+Deviations from the perfect diagonal in the least-cost path reveal adjustments made by DTW to align time series by shape rather than time.
+
+The article [Dynamic Time Warping vs Lock-Step](https://blasbenito.github.io/distantia/articles/dynamic_time_warping_and_lock_step.html) provides further insights on the advantages and disadvantages of each method in different scenarios.
 
 ### Permutation Test
 
-`distantia` implements restricted permutation tests to assess the significance of dissimilarity scores, supporting various configurations based on data assumptions.
+The function `distantia()` implements restricted permutation tests to assess the significance of dissimilarity scores. It provides several setups to support different assumptions.
 
-For example, the configuration below rearranges complete rows within 7-day blocks, assuming strong dependencies within rows and between observations close in time.
+For example, the configuration below rearranges complete rows within 7-day blocks, assuming strong dependencies within rows and between observations that are close in time.
 
 ```{r}
 df_dtw <- distantia(
@@ -206,7 +209,7 @@ The "p_value" column represents the fraction of permutations yielding a psi scor
 
 ### Variable Importance
 
-When comparing multivariate time series, certain variables contribute more to similarity or dissimilarity. The `distantia_importance()` function uses a leave-one-out algorithm to quantify each variable's contribution.
+When comparing multivariate time series, certain variables contribute more to similarity or dissimilarity. The `distantia_importance()` function uses a leave-one-out algorithm to quantify each variable's contribution to the overal dissimilarity between two time series.
 
 ```{r}
 df_importance <- distantia_importance(
@@ -216,7 +219,7 @@ df_importance <- distantia_importance(
 df_importance[, c("x", "y", "variable", "importance", "effect")]
 ```
 
-Positive "importance" values indicate variables increasing differences between time series, while negative values indicate variables enhancing similarity. The function documentation provides more details on how importance scores are computed.
+Positive "importance" values indicate variables contributing to dissimilarity, while negative values indicate variables contributing to dissimilarity. The function documentation provides more details on how importance scores are computed.
 
 The `distantia_boxplot()` function can provide insights into which variables contribute the most to similarity or dissimilarity.
 
@@ -228,7 +231,7 @@ distantia_boxplot(
 
 ### Clustering
 
-`distantia` provides tools for grouping time series by dissimilarity using hierarchical clustering or k-means. 
+The package `distantia` provides tools to group together time series by dissimilarity using hierarchical or K-means clustering. The example below applies the former to the `albatross` dataset to find out groups of individuals with the most similar movement time series.
 
 ```{r, fig.width=3, fig.height=2.5, out.width = "75%"}
 dtw_hclust <- distantia_cluster_hclust(
@@ -258,7 +261,7 @@ plot(
   horiz = TRUE
 )
 ```
-
+This is just a summary of the features implemented in the package. Please visit the **Articles** section to find out more about `distantia`.
 
 ## Getting help
 

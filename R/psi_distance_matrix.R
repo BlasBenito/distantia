@@ -83,11 +83,21 @@ psi_distance_matrix <- function(
     as.character(x_index)
   )
 
+  x_name <- attributes(x)$name
+  if(is.null(x_name)){
+    x_name <- "x"
+  }
+
+  y_name <- attributes(y)$name
+  if(is.null(y_name)){
+    y_name <- "y"
+  }
+
   #adding attributes
   attr(x = m, which = "x_time") <- x_index
   attr(x = m, which = "y_time") <- y_index
-  attr(x = m, which = "x_name") <- attributes(x)$name
-  attr(x = m, which = "y_name") <- attributes(y)$name
+  attr(x = m, which = "x_name") <- x_name
+  attr(x = m, which = "y_name") <- y_name
   attr(x = m, which = "type") <- "distance"
   attr(x = m, which = "distance") <- distance
 

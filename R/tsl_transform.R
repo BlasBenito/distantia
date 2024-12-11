@@ -193,32 +193,23 @@ tsl_transform <- function(
     #compute global scaling parameters
     scaling_params <- utils_global_scaling_params(
       tsl = tsl,
-      f = f#,
-      #... = ...
+      f = f
     )
 
-    # scaling with scaling params
+    # scaling or rescaling with scaling params
     tsl <- future.apply::future_lapply(
       X = tsl,
       FUN = function(x){
 
         p()
 
-        y <- f(
+        f(
           x = x,
           center = scaling_params$center,
           scale = scaling_params$scale,
           old_min = scaling_params$old_min,
-          old_max = scaling_params$old_max#,
-          #... = ...
+          old_max = scaling_params$old_max,
         )
-
-        y <- zoo_name_set(
-          x = x,
-          name = attributes(x)$name
-        )
-
-        y
 
       }
     )
@@ -236,7 +227,7 @@ tsl_transform <- function(
         f(
           x = x,
           ... = ...
-          )
+        )
 
       },
       ... = ...
@@ -248,10 +239,6 @@ tsl_transform <- function(
 
   #reset names of zoo objects
   tsl <- tsl_names_set(
-    tsl = tsl
-  )
-
-  na.count <- tsl_count_NA(
     tsl = tsl
   )
 

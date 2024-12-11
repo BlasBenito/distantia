@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 
 ## Summary
 
-The R package `distantia` provides tools for comparing time series through two distinct methods: dynamic time warping (DTW) and lock-step (LS). These approaches cater to different analysis needs—DTW for handling temporal shifts and LS for preserving temporal alignment. This article explores the conceptual foundations of both methods, their implementation in `distantia`, and showcases their practical use with illustrative code examples and visualizations.
+The R package `distantia` provides tools for comparing time series through two distinct methods: dynamic time warping (DTW) and lock-step (LS). These approaches cater to different analysis needs: DTW for handling temporal shifts and LS for preserving temporal alignment. This article explores the conceptual foundations of both methods, their implementation in `distantia`, and showcases their practical use with code examples.
 
 ## Setup
 
-The packages required to run the code in this article are `distantia` and `dtw`.
+The packages required to run the code in this article are `distantia` and `dtw`. The latter is not a dependency of `distantia`, but will help put into context key details of how DTW works.
 
 ```{r, include = FALSE}
 if(!requireNamespace(package = "dtw")){
@@ -40,7 +40,7 @@ library(dtw)
 
 ## Example data
 
-The `cities_temperature` dataset contains monthly temperature records for 20 cities. Below, we transform it into a Time Series List (TSL) and select a subset of three cities from 2000 to 2005 for demonstration
+The `cities_temperature` dataset contains monthly temperature records for 20 cities. The code below transforms it into a Time Series List (TSL) and selects a subset of three cities with temperature time series from 2000 to 2005.
 
 ```{r}
 tsl_raw <- tsl_initialize(
@@ -66,9 +66,9 @@ tsl_plot(
 )
 ```
 
-The transformed TSL contains two synchronous time series with similar temperature ranges (London and Paris) and one (Kinshasa) with higher averages and a shifted temporal pattern.
+The transformed TSL contains two synchronous time series in the Northern Hemisphere with similar temperature ranges (London and Paris) and one in the Southern Hemisphere (Kinshasa) with a higher average and a shifted temporal pattern.
 
-To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` and `f_scale` to center and scale the data. 
+To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` and `f_scale` apply local (each time series is scaled separately) centering and scaling to the data. 
 
 ```{r}
 tsl_scaled <- tsl_transform(
@@ -89,7 +89,7 @@ tsl_plot(
 
 In `distantia`, lock-step comparisons are carried out in three steps:
 
-  **1.-** Sum the distances between pairs of samples observed at the same time.
+  **1.-** Sum the distances between pairs of samples observed at the same times.
   
   **2.-** Sum the distances between consecutive samples within each time series.
   
@@ -98,7 +98,7 @@ In `distantia`, lock-step comparisons are carried out in three steps:
 Let's look first at a native R implementation of this idea using euclidean distances to keep it simple.
 
 ```{r}
-#extracting the data to shorter variables
+#extracting the data to shorten variable names
 x <- tsl_scaled$London
 y <- tsl_scaled$Kinshasa
 
@@ -114,18 +114,19 @@ step_2 <- sum(
 ((2 * step_1) / step_2)
 ```
 
-The function `distantia()` performs this task when `lock_step = TRUE` (default is `FALSE`).
+The function `distantia()` performs the same task when `lock_step = TRUE` (default is `FALSE`).
 
-```{r}
+```{r, message = FALSE}
 df <- distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
   lock_step = TRUE,
   distance = "euclidean"
 )
+
 df$psi
 ```
 
-The function `distantia()` can compute LS-based dissimilarity scores for time series in `tsl` at once.
+The function `distantia()` can compute lock-step dissimilarity scores for time series in `tsl` at once.
 
 ```{r}
 df_LS <- distantia(
@@ -166,7 +167,7 @@ y <- tsl_scaled$Kinshasa
 
 The objective of the step **1** is computing the sum of distances between pairs of samples matched together by the time warping algorithm.
 
-It starts with step **1a**, shown below, which computes the distance matrix between all pairs of samples. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
+Step **1a** computes the distance matrix between all pairs of samples in both timme series. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
 
 ```{r, fig.width=4, fig.height=4}
 m.dist <- psi_distance_matrix(
@@ -200,7 +201,7 @@ utils_matrix_plot(
   )
 ```
 
-In step **1c**, the distance and cost matrices are used to find the least-cost path.
+In step **1c**, the distance and cost matrices are used to find the least-cost path, shown as a black line in the plot below.
 
 ```{r, fig.width=4, fig.height=4}
 m.cost.path <- psi_cost_path(
@@ -215,13 +216,13 @@ utils_matrix_plot(
 )
 ```
 
-The time warping is implicit in the coordinates of the least cost path. For example, in the lower left corner of the plot above, the first sample of Kinshasa (column "y") is paired with the samples 1 to 4 of London (column "x"). Please notice that the cost-path data frame has the origin cell in the last row.
+The time warping is implicit in the coordinates of the least cost path. For example, in the lower left corner of the plot above, the first sample of Kinshasa (column "y" in the data frame below) is paired with the samples 1 to 4 of London (column "x").
 
 ```{r}
 tail(m.cost.path)
 ```
 
-The step **1d** finalizes the DTW logic by adding the distances between pair of samples connected by the least-cost path. This istep is just `sum(m.cost.path$dist)`, but it is implemented in `psi_cost_path_sum()`, which also checks that the path file is correct.
+The step **1d** finalizes the DTW logic by adding the distances between pair of samples connected by the least-cost path. This step is just `sum(m.cost.path$dist)`, but it is implemented in `psi_cost_path_sum()`, which also checks that the least cost data frame is correct.
 
 ```{r}
 step_1 <- psi_cost_path_sum(
@@ -231,7 +232,7 @@ step_1 <- psi_cost_path_sum(
 step_1
 ```
 
-Step **2** returns the distances between consecutive samples within each time series, as computed by  `psi_auto_sum()`. 
+Step **2** returns the distances between consecutive samples within each time series, as computed by `psi_auto_sum()`. 
 
 ```{r, eval = FALSE}
 step_2 <- psi_auto_sum(
@@ -243,10 +244,10 @@ step_2 <- psi_auto_sum(
 step_2
 ```
 
-Finally, in the step **3** we compute the normalized dissimilarity score.
+Finally, the step **3** computes the normalized dissimilarity score.
 
 ```{r, eval=FALSE}
-psi <- psi_equation(
+psi_equation(
   a = step_1,
   b = step_2,
   diagonal = TRUE
@@ -258,8 +259,8 @@ All these individual steps can be performed at once with the function `distantia
 ```{r, fig.width=4, fig.height=3.5}
 df <- distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
-  lock_step = FALSE, #default, lock step disabled
-  distance = "euclidean" #default
+  lock_step = FALSE, #default, dtw enabled
+  distance = "euclidean"
 )
 
 df[, c("x", "y", "psi")]
@@ -277,7 +278,7 @@ distantia_plot(
 
 DTW is an ideal method to compare time series with temporal shifts, and is applicable to regular and irregular time series with the same or different numbers of samples. 
 
-However, **DTW is highly sensitive to differences in ata magnitudes**. When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima able to distort the warping. 
+However, **DTW is highly sensitive to differences in data magnitudes**. When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima able to distort the warping. 
 
 The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows two of these local optima, one in the *y* axis (long horizontal line), at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line), at the maximum temperature in London (summer of 2003).
 

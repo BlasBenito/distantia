@@ -8,7 +8,7 @@
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param f (required, function) function [f_scale_global()]. Default: NULL
-#' @param ... (optional, arguments of `f`) Optional arguments for the transformation function. Used only when `f = scale` for arguments `center` and `scale`.
+#' @param ... (optional, arguments of `f`) Optional arguments for the transformation function.
 #'
 #' @return list
 #' @export

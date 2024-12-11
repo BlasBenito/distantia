@@ -35,7 +35,8 @@ to handle a wide range of scenarios, including:
 
 - 10 distance metrics: see `distantia::distances`.
 - The normalized dissimilarity metric `psi`.
-- Three Dynamic Time Warping (DTW) methods for shape-based comparisons.
+- Free and Restricted Dynamic Time Warping (DTW) for shape-based
+  comparisons.
 - A Lock-Step method for sample-to-sample alignment.
 - Restricted permutation tests for robust inferential support.
 - Variable Importance Analysis: assessment of contribution to
@@ -53,7 +54,7 @@ to handle a wide range of scenarios, including:
 
 #### Time Series Management Tools
 
-- Introduces **time series lists (`tsl`)**, a versatile format for
+- Introduces **time series lists** (TSL), a versatile format for
   handling collections of time series stored as lists of `zoo` objects.
 - Includes a suite of `tsl_...()` functions for generating, resampling,
   transforming, analyzing, and visualizing both univariate and
@@ -96,13 +97,18 @@ Please, check the **Articles** section for further details.
 
 ### Setup
 
-All heavy duty functions in `distantia` now support a parallelization
-backend and progress bars.
+All heavy duty functions in `distantia` support parallelization via the
+[future](https://future.futureverse.org/) package, and progress bars
+provided by the [progressr](https://progressr.futureverse.org/) package.
+Unfortunately, the latter does not work in Rmarkdown documents like this
+one.
 
 ``` r
 library(distantia)
 library(future)
 library(parallelly)
+# library(progressr)
+
 
 #parallelization setup
 future::plan(
@@ -128,10 +134,10 @@ are the first 10 rows of this data frame:
     #> 5 X132 2008-06-04 -89.62098 -1.389507 0.2256250    27.68750 114.8931
     #> 6 X132 2008-06-05 -89.62925 -1.425734 1.3706667    25.73333 245.8033
 
-The `albatross` data is converted to *Time Series List* with
-`tsl_initialize()`, and scaled and centered with `tsl_transform()` and
-`f_scale_local`, to facilitate shape-based comparisons and variable
-importance analyses.
+The code below transforms the data to a *Time Series List* with
+`tsl_initialize()` and applies global scaling and centering with
+`tsl_transform()` and `f_scale_global` to facilitate time series
+comparisons.
 
 ``` r
 tsl <- tsl_initialize(
@@ -141,7 +147,7 @@ tsl <- tsl_initialize(
   lock_step = TRUE
 ) |> 
   tsl_transform(
-    f = f_scale_local
+    f = f_scale_global
   )
 
 tsl_plot(
@@ -150,15 +156,14 @@ tsl_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
-
-### Dissimilarity Analysis
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" /> \###
+Dissimilarity Analysis
 
 #### Lock-Step Analysis
 
-Lock-step analysis performs direct sample-to-sample comparisons without
-time distortion. It requires time series of the same length, observed at
-the same times.
+Lock-step analysis performs direct comparisons between samples observed
+at the same time without any time distortion. It requires time series of
+the same length, observed at the same times.
 
 ``` r
 df_ls <- distantia(
@@ -168,20 +173,21 @@ df_ls <- distantia(
 
 df_ls[, c("x", "y", "psi")]
 #>      x    y      psi
-#> 6 X136 X153 1.515698
-#> 5 X134 X153 1.703707
-#> 3 X132 X153 1.726095
-#> 4 X134 X136 1.745060
-#> 1 X132 X134 1.811480
-#> 2 X132 X136 1.837204
+#> 2 X132 X136 1.274212
+#> 4 X134 X136 1.312731
+#> 5 X134 X153 1.318334
+#> 6 X136 X153 1.327778
+#> 1 X132 X134 1.327889
+#> 3 X132 X153 1.413391
 ```
 
 The “psi” column contains normalized dissimilarity values and is used to
-sort the data frame from lowest to highest dissimilarity (the first row
-shows the most similar time series).
+sort the data frame from lowest to highest dissimilarity. Hence, the
+first row shows the most similar pair of time series.
 
-The function `distantia_boxplot()` helps quickly identify time series
-that are either more dissimilar (top) or similar (bottom) to others.
+The function `distantia_boxplot()` enables a quick identification of the
+time series that are either more dissimilar (top) or similar (bottom) to
+others.
 
 ``` r
 distantia_boxplot(df = df_ls)
@@ -191,11 +197,8 @@ distantia_boxplot(df = df_ls)
 
 #### Dynamic Time Warping
 
-By default, the function `distantia()` calculates the dissimilarity
-between pairs of time series using dynamic time warping (DTW) with
-weighted diagonals by default. This approach is useful for time series
-shifted due to factors such as varying phenology, asynchronous behavior,
-or non-overlapping sampling periods.
+By default, `distantia()` computes unrestricted dynamic time warping
+with orthogonal and diagonal least cost paths.
 
 ``` r
 df_dtw <- distantia(
@@ -203,13 +206,13 @@ df_dtw <- distantia(
 )
 
 df_dtw[, c("x", "y", "psi")]
-#>      x    y      psi
-#> 1 X132 X134 1.209322
-#> 4 X134 X136 1.337882
-#> 2 X132 X136 1.440403
-#> 5 X134 X153 1.442791
-#> 6 X136 X153 1.466519
-#> 3 X132 X153 1.790897
+#>      x    y       psi
+#> 1 X132 X134 0.8731638
+#> 2 X132 X136 0.9524070
+#> 4 X134 X136 0.9653659
+#> 5 X134 X153 0.9948698
+#> 3 X132 X153 1.0689766
+#> 6 X136 X153 1.1253780
 ```
 
 The function `distantia_plot()` provides detailed insights into the
@@ -225,18 +228,21 @@ distantia_plot(
 
 Deviations from the perfect diagonal in the least-cost path reveal
 adjustments made by DTW to align time series by shape rather than time.
-Vertical or horizontal segments indicate one sample of a time series is
-matched with multiple samples of another.
+
+The article [Dynamic Time Warping vs
+Lock-Step](https://blasbenito.github.io/distantia/articles/dynamic_time_warping_and_lock_step.html)
+provides further insights on the advantages and disadvantages of each
+method in different scenarios.
 
 ### Permutation Test
 
-`distantia` implements restricted permutation tests to assess the
-significance of dissimilarity scores, supporting various configurations
-based on data assumptions.
+The function `distantia()` implements restricted permutation tests to
+assess the significance of dissimilarity scores. It provides several
+setups to support different assumptions.
 
 For example, the configuration below rearranges complete rows within
 7-day blocks, assuming strong dependencies within rows and between
-observations close in time.
+observations that are close in time.
 
 ``` r
 df_dtw <- distantia(
@@ -247,13 +253,13 @@ df_dtw <- distantia(
 )
 
 df_dtw[, c("x", "y", "psi", "p_value")]
-#>      x    y      psi p_value
-#> 1 X132 X134 1.209322   0.001
-#> 4 X134 X136 1.337882   0.001
-#> 2 X132 X136 1.440403   0.003
-#> 5 X134 X153 1.442791   0.001
-#> 6 X136 X153 1.466519   0.001
-#> 3 X132 X153 1.790897   0.248
+#>      x    y       psi p_value
+#> 1 X132 X134 0.8731638   0.068
+#> 2 X132 X136 0.9524070   0.122
+#> 4 X134 X136 0.9653659   0.207
+#> 5 X134 X153 0.9948698   0.010
+#> 3 X132 X153 1.0689766   0.269
+#> 6 X136 X153 1.1253780   0.126
 ```
 
 The “p_value” column represents the fraction of permutations yielding a
@@ -267,7 +273,7 @@ dissimilar pairs.
 When comparing multivariate time series, certain variables contribute
 more to similarity or dissimilarity. The `distantia_importance()`
 function uses a leave-one-out algorithm to quantify each variable’s
-contribution.
+contribution to the overal dissimilarity between two time series.
 
 ``` r
 df_importance <- distantia_importance(
@@ -275,42 +281,42 @@ df_importance <- distantia_importance(
 )
 
 df_importance[, c("x", "y", "variable", "importance", "effect")]
-#>       x    y    variable  importance               effect
-#> 1  X132 X134           x 151.4845183 decreases similarity
-#> 2  X132 X134           y 137.9871963 decreases similarity
-#> 3  X132 X134       speed  -8.5695768 increases similarity
-#> 4  X132 X134 temperature  12.1560062 decreases similarity
-#> 5  X132 X134     heading -37.5712802 increases similarity
-#> 6  X132 X136           x 134.0615862 decreases similarity
-#> 7  X132 X136           y 171.4272268 decreases similarity
-#> 8  X132 X136       speed -21.8177540 increases similarity
-#> 9  X132 X136 temperature  -0.7049952 increases similarity
-#> 10 X132 X136     heading -27.0675745 increases similarity
-#> 11 X132 X153           x 363.6775843 decreases similarity
-#> 12 X132 X153           y 259.4641204 decreases similarity
-#> 13 X132 X153       speed -40.8790600 increases similarity
-#> 14 X132 X153 temperature -12.2307646 increases similarity
-#> 15 X132 X153     heading -49.5883487 increases similarity
-#> 16 X134 X136           x  79.4974807 decreases similarity
-#> 17 X134 X136           y 131.6027786 decreases similarity
-#> 18 X134 X136       speed   2.6287070 decreases similarity
-#> 19 X134 X136 temperature   3.8804616 decreases similarity
-#> 20 X134 X136     heading -29.4241555 increases similarity
-#> 21 X134 X153           x 369.0825054 decreases similarity
-#> 22 X134 X153           y 158.8073779 decreases similarity
-#> 23 X134 X153       speed -10.3829941 increases similarity
-#> 24 X134 X153 temperature  -4.4291460 increases similarity
-#> 25 X134 X153     heading -49.6994243 increases similarity
-#> 26 X136 X153           x 273.1341218 decreases similarity
-#> 27 X136 X153           y  25.1517493 decreases similarity
-#> 28 X136 X153       speed   5.6063404 decreases similarity
-#> 29 X136 X153 temperature  -4.1899552 increases similarity
-#> 30 X136 X153     heading -34.6100591 increases similarity
+#>       x    y    variable importance               effect
+#> 1  X132 X134           x  348.47127 decreases similarity
+#> 2  X132 X134           y  373.48323 decreases similarity
+#> 3  X132 X134       speed   72.67110 decreases similarity
+#> 4  X132 X134 temperature  176.48904 decreases similarity
+#> 5  X132 X134     heading -209.15482 increases similarity
+#> 6  X132 X136           x  731.30238 decreases similarity
+#> 7  X132 X136           y  784.61678 decreases similarity
+#> 8  X132 X136       speed   91.21082 decreases similarity
+#> 9  X132 X136 temperature 1044.76386 decreases similarity
+#> 10 X132 X136     heading -766.45263 increases similarity
+#> 11 X132 X153           x 1403.19512 decreases similarity
+#> 12 X132 X153           y  578.80725 decreases similarity
+#> 13 X132 X153       speed   92.39763 decreases similarity
+#> 14 X132 X153 temperature  143.71309 decreases similarity
+#> 15 X132 X153     heading -373.90653 increases similarity
+#> 16 X134 X136           x  610.43878 decreases similarity
+#> 17 X134 X136           y  609.24238 decreases similarity
+#> 18 X134 X136       speed   50.45802 decreases similarity
+#> 19 X134 X136 temperature  896.58167 decreases similarity
+#> 20 X134 X136     heading -655.66772 increases similarity
+#> 21 X134 X153           x 2016.59911 decreases similarity
+#> 22 X134 X153           y  501.76614 decreases similarity
+#> 23 X134 X153       speed  103.11216 decreases similarity
+#> 24 X134 X153 temperature  155.33604 decreases similarity
+#> 25 X134 X153     heading -426.79747 increases similarity
+#> 26 X136 X153           x 1905.00545 decreases similarity
+#> 27 X136 X153           y  245.63099 decreases similarity
+#> 28 X136 X153       speed   57.81659 decreases similarity
+#> 29 X136 X153 temperature  873.83817 decreases similarity
+#> 30 X136 X153     heading -741.54451 increases similarity
 ```
 
-Positive “importance” values indicate variables increasing differences
-between time series, while negative values indicate variables enhancing
-similarity. The function documentation provides more details on how
+Positive “importance” values indicate variables contributing to
+dissimilarity, while negative values indicate variables contributing to
+dissimilarity. The function documentation provides more details on how
 importance scores are computed.
 
 The `distantia_boxplot()` function can provide insights into which
@@ -326,8 +332,10 @@ distantia_boxplot(
 
 ### Clustering
 
-`distantia` provides tools for grouping time series by dissimilarity
-using hierarchical clustering or k-means.
+The package `distantia` provides tools to group together time series by
+dissimilarity using hierarchical or K-means clustering. The example
+below applies the former to the `albatross` dataset to find out groups
+of individuals with the most similar movement time series.
 
 ``` r
 dtw_hclust <- distantia_cluster_hclust(
@@ -360,9 +368,9 @@ dtw_hclust$clusters
 #negatives in column "silhouette_width" higlight anomalous cluster assignation
 dtw_hclust$df
 #>   name cluster silhouette_width
-#> 1 X132       1       0.26022412
-#> 2 X134       1       0.11726523
-#> 3 X136       1       0.05276177
+#> 1 X132       1       0.14611279
+#> 2 X134       1       0.07599477
+#> 3 X136       1       0.14794279
 #> 4 X153       2       0.00000000
 ```
 
@@ -379,7 +387,9 @@ plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" /> This
+is just a summary of the features implemented in the package. Please
+visit the **Articles** section to find out more about `distantia`.
 
 ## Getting help
 

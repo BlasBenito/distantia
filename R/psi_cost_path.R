@@ -106,7 +106,7 @@ psi_cost_path <- function(
 
   if(diagonal == FALSE){
 
-    if(bandwidth == 1){
+    if(bandwidth >= 1){
 
       path <- cost_path_orthogonal_cpp(
         dist_matrix = dist_matrix,
@@ -123,11 +123,9 @@ psi_cost_path <- function(
 
     }
 
-
-
   } else {
 
-    if(bandwidth == 1){
+    if(bandwidth >= 1){
 
       path <- cost_path_diagonal_cpp(
         dist_matrix = dist_matrix,
