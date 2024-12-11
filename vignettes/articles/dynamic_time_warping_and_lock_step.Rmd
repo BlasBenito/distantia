@@ -201,7 +201,7 @@ utils_matrix_plot(
   )
 ```
 
-In step **1c**, the distance and cost matrices are used to find the least-cost path, shown as a black line in the plot below.
+In step **1c**, the distance and cost matrices are used to find the least-cost path. 
 
 ```{r, fig.width=4, fig.height=4}
 m.cost.path <- psi_cost_path(
@@ -210,16 +210,17 @@ m.cost.path <- psi_cost_path(
   diagonal = TRUE #default
 )
 
+tail(m.cost.path)
+```
+
+Notice that the cost path data frame is ordered from bottom to top. The columns "x" and "y" represent sample indices of the time series London and Kinshasa. The figure below shows the least cost path on top of the cost matrix.
+
+
+```{r, fig.width=4, fig.height=4}
 utils_matrix_plot(
   m = m.cost,
   path = m.cost.path
 )
-```
-
-The time warping is implicit in the coordinates of the least cost path. For example, in the lower left corner of the plot above, the first sample of Kinshasa (column "y" in the data frame below) is paired with the samples 1 to 4 of London (column "x").
-
-```{r}
-tail(m.cost.path)
 ```
 
 The step **1d** finalizes the DTW logic by adding the distances between pair of samples connected by the least-cost path. This step is just `sum(m.cost.path$dist)`, but it is implemented in `psi_cost_path_sum()`, which also checks that the least cost data frame is correct.
@@ -254,19 +255,19 @@ psi_equation(
 )
 ```
 
-All these individual steps can be performed at once with the function `distantia()`.
+All these individual steps can be performed at once with the function `distantia()` by setting the argument `lock_step` to `FALSE`.
 
 ```{r, fig.width=4, fig.height=3.5}
 df <- distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
-  lock_step = FALSE, #default, dtw enabled
+  lock_step = FALSE,
   distance = "euclidean"
 )
 
 df[, c("x", "y", "psi")]
 ```
 
-Additionally, the function `distantia_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
+The function `distantia_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
 
 ```{r, fig.width=6, fig.height=5.5}
 distantia_plot(
@@ -278,9 +279,9 @@ distantia_plot(
 
 DTW is an ideal method to compare time series with temporal shifts, and is applicable to regular and irregular time series with the same or different numbers of samples. 
 
-However, **DTW is highly sensitive to differences in data magnitudes**. When the data is not scaled and/or centered, the sensitivity to data magnitude of DTW may lead to local optima able to distort the warping. 
+However, **DTW is highly sensitive to differences in data magnitudes**. As result, data that is not properly scaled may distort the warping, leading to . 
 
-The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows two of these local optima, one in the *y* axis (long horizontal line), at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line), at the maximum temperature in London (summer of 2003).
+The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows how DTW gets stuck in two local optima, one in the *y* axis (long horizontal line) at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line) at the maximum temperature in London (summer of 2003). It also shows a distinctively large dissimilarity score.
 
 ```{r, fig.width=6, fig.height=5.5}
 distantia_plot(
@@ -288,7 +289,9 @@ distantia_plot(
 )
 ```
 
-This is not a particular issue of the algorithm implemented in `distantia`, but a general behavior of time warping methods. The code below shows a similar analysis performed with the R package [`dtw`](https://CRAN.R-project.org/package=dtw). The default implementation ignores diagonals when building the cost matrix.
+These long horizontal and vertical lines shown above provide an immediate diagnostic of the issue. 
+
+This is not a particular issue of the DTW algorithm implemented in `distantia`, but a general behavior of time warping methods. The code below shows a similar analysis performed with the R package [`dtw`](https://CRAN.R-project.org/package=dtw). The default implementation ignores diagonals when building the cost matrix.
 
 ```{r, fig.width=5, fig.height=4.5}
 xy_dtw <- dtw::dtw(
@@ -307,6 +310,65 @@ plot(xy_dtw, type = "twoway")
 abline(v=0.13, col="red3", lwd = 2)
 abline(v=0.70, col="black", lwd = 2)
 ```
+There are two strategies that can be combined to control this issue: data scaling, and **constrained DTW**.
+
+## Constrained DTW
+
+The function `distantia()` implements *Itakura parallelograms* to restrict the flexibility of the warping path via the `bandwidth` argument. This argument represents the fraction of space at both sides of the least cost matrix diagonal allowed for warping. The plots below show the effect of decreasing `bandwidth` on the area covered by the Itakura parallelograms (shown as white dashed lines) and how it restricts spread of the alignment between London and Kinshasa on their raw temperature values.
+
+```{r, fig.width=6, fig.height=5.5}
+distantia_plot(
+  tsl = tsl_raw[c("London", "Kinshasa")],
+  bandwidth = 0.2
+)
+```
+
+```{r, fig.width=6, fig.height=5.5}
+distantia_plot(
+  tsl = tsl_raw[c("London", "Kinshasa")],
+  bandwidth = 0.1
+)
+```
+
+```{r, fig.width=6, fig.height=5.5}
+distantia_plot(
+  tsl = tsl_raw[c("London", "Kinshasa")],
+  bandwidth = 0.05
+)
+```
+
+```{r, fig.width=6, fig.height=5.5}
+distantia_plot(
+  tsl = tsl_raw[c("London", "Kinshasa")],
+  bandwidth = 0.025
+)
+```
+
+Itakura parallelograms cannot fix bad alignments (that's what data scaling is for), but can help diagnose them, given a tolerance level.
+
+The code below runs `distantia()` for the raw temperature data with two bandwidths: 1 for unrestricted dynamic time warping, and 0.25 as reference level.
+
+```{r}
+df <- distantia(
+  tsl = tsl_raw,
+  bandwidth = c(1, 0.25)
+)
+
+df[, c("x", "y", "psi", "bandwidth")]
+```
+
+Now, we can compute the psi differences across bandwidths for each pair of time series
+
+```{r}
+df |> 
+  dplyr::group_by(
+    x, y
+  ) |> 
+  dplyr::summarise(
+    psi_diff = diff(psi)
+  )
+```
+All pairs of time series with a `psi_diff` higher than zero show warping paths that go beyond the 0.25 bandwidth.
 
 ## Comparing DTW and LS
 

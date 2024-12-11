@@ -173,12 +173,12 @@ df_ls <- distantia(
 
 df_ls[, c("x", "y", "psi")]
 #>      x    y      psi
-#> 2 X132 X136 1.274212
-#> 4 X134 X136 1.312731
-#> 5 X134 X153 1.318334
-#> 6 X136 X153 1.327778
-#> 1 X132 X134 1.327889
-#> 3 X132 X153 1.413391
+#> 1 X132 X134 1.888451
+#> 3 X132 X153 2.128340
+#> 5 X134 X153 2.187862
+#> 4 X134 X136 2.270977
+#> 2 X132 X136 2.427479
+#> 6 X136 X153 2.666099
 ```
 
 The “psi” column contains normalized dissimilarity values and is used to
@@ -206,13 +206,13 @@ df_dtw <- distantia(
 )
 
 df_dtw[, c("x", "y", "psi")]
-#>      x    y       psi
-#> 1 X132 X134 0.8731638
-#> 2 X132 X136 0.9524070
-#> 4 X134 X136 0.9653659
-#> 5 X134 X153 0.9948698
-#> 3 X132 X153 1.0689766
-#> 6 X136 X153 1.1253780
+#>      x    y      psi
+#> 1 X132 X134 1.299380
+#> 5 X134 X153 2.074241
+#> 3 X132 X153 2.091923
+#> 4 X134 X136 2.358040
+#> 2 X132 X136 2.449381
+#> 6 X136 X153 2.666099
 ```
 
 The function `distantia_plot()` provides detailed insights into the
@@ -253,13 +253,13 @@ df_dtw <- distantia(
 )
 
 df_dtw[, c("x", "y", "psi", "p_value")]
-#>      x    y       psi p_value
-#> 1 X132 X134 0.8731638   0.068
-#> 2 X132 X136 0.9524070   0.122
-#> 4 X134 X136 0.9653659   0.207
-#> 5 X134 X153 0.9948698   0.010
-#> 3 X132 X153 1.0689766   0.269
-#> 6 X136 X153 1.1253780   0.126
+#>      x    y      psi p_value
+#> 1 X132 X134 1.299380   0.001
+#> 5 X134 X153 2.074241   0.001
+#> 3 X132 X153 2.091923   0.001
+#> 4 X134 X136 2.358040   0.184
+#> 2 X132 X136 2.449381   0.499
+#> 6 X136 X153 2.666099   0.007
 ```
 
 The “p_value” column represents the fraction of permutations yielding a
@@ -273,7 +273,7 @@ dissimilar pairs.
 When comparing multivariate time series, certain variables contribute
 more to similarity or dissimilarity. The `distantia_importance()`
 function uses a leave-one-out algorithm to quantify each variable’s
-contribution to the overal dissimilarity between two time series.
+contribution to the overall dissimilarity between two time series.
 
 ``` r
 df_importance <- distantia_importance(
@@ -281,37 +281,37 @@ df_importance <- distantia_importance(
 )
 
 df_importance[, c("x", "y", "variable", "importance", "effect")]
-#>       x    y    variable importance               effect
-#> 1  X132 X134           x  348.47127 decreases similarity
-#> 2  X132 X134           y  373.48323 decreases similarity
-#> 3  X132 X134       speed   72.67110 decreases similarity
-#> 4  X132 X134 temperature  176.48904 decreases similarity
-#> 5  X132 X134     heading -209.15482 increases similarity
-#> 6  X132 X136           x  731.30238 decreases similarity
-#> 7  X132 X136           y  784.61678 decreases similarity
-#> 8  X132 X136       speed   91.21082 decreases similarity
-#> 9  X132 X136 temperature 1044.76386 decreases similarity
-#> 10 X132 X136     heading -766.45263 increases similarity
-#> 11 X132 X153           x 1403.19512 decreases similarity
-#> 12 X132 X153           y  578.80725 decreases similarity
-#> 13 X132 X153       speed   92.39763 decreases similarity
-#> 14 X132 X153 temperature  143.71309 decreases similarity
-#> 15 X132 X153     heading -373.90653 increases similarity
-#> 16 X134 X136           x  610.43878 decreases similarity
-#> 17 X134 X136           y  609.24238 decreases similarity
-#> 18 X134 X136       speed   50.45802 decreases similarity
-#> 19 X134 X136 temperature  896.58167 decreases similarity
-#> 20 X134 X136     heading -655.66772 increases similarity
-#> 21 X134 X153           x 2016.59911 decreases similarity
-#> 22 X134 X153           y  501.76614 decreases similarity
-#> 23 X134 X153       speed  103.11216 decreases similarity
-#> 24 X134 X153 temperature  155.33604 decreases similarity
-#> 25 X134 X153     heading -426.79747 increases similarity
-#> 26 X136 X153           x 1905.00545 decreases similarity
-#> 27 X136 X153           y  245.63099 decreases similarity
-#> 28 X136 X153       speed   57.81659 decreases similarity
-#> 29 X136 X153 temperature  873.83817 decreases similarity
-#> 30 X136 X153     heading -741.54451 increases similarity
+#>       x    y    variable   importance               effect
+#> 1  X132 X134           x   87.6066043 decreases similarity
+#> 2  X132 X134           y   93.9587187 decreases similarity
+#> 3  X132 X134       speed  -21.9171171 increases similarity
+#> 4  X132 X134 temperature   72.8121621 decreases similarity
+#> 5  X132 X134     heading  -38.0165137 increases similarity
+#> 6  X132 X136           x   48.3845903 decreases similarity
+#> 7  X132 X136           y   93.5214543 decreases similarity
+#> 8  X132 X136       speed  -61.1729252 increases similarity
+#> 9  X132 X136 temperature  356.8824838 decreases similarity
+#> 10 X132 X136     heading -102.9830173 increases similarity
+#> 11 X132 X153           x  427.7381576 decreases similarity
+#> 12 X132 X153           y  156.1285451 decreases similarity
+#> 13 X132 X153       speed  -40.9249630 increases similarity
+#> 14 X132 X153 temperature  -14.2831545 increases similarity
+#> 15 X132 X153     heading  -79.3532025 increases similarity
+#> 16 X134 X136           x   61.3361468 decreases similarity
+#> 17 X134 X136           y  108.9650664 decreases similarity
+#> 18 X134 X136       speed  -59.2603918 increases similarity
+#> 19 X134 X136 temperature  310.6812842 decreases similarity
+#> 20 X134 X136     heading  -90.2797292 increases similarity
+#> 21 X134 X153           x  592.0783167 decreases similarity
+#> 22 X134 X153           y  116.4310429 decreases similarity
+#> 23 X134 X153       speed  -52.4149093 increases similarity
+#> 24 X134 X153 temperature    0.9936944 decreases similarity
+#> 25 X134 X153     heading  -85.0271172 increases similarity
+#> 26 X136 X153           x  507.6153648 decreases similarity
+#> 27 X136 X153           y   56.6957442 decreases similarity
+#> 28 X136 X153       speed  -65.4516103 increases similarity
+#> 29 X136 X153 temperature  240.9053814 decreases similarity
+#> 30 X136 X153     heading -116.2461929 increases similarity
 ```
 
 Positive “importance” values indicate variables contributing to
@@ -352,29 +352,20 @@ dtw_hclust$cluster_object
 #> 
 #> Cluster method   : ward.D 
 #> Number of objects: 4
-```
-
-``` r
 
 #number of clusters
 dtw_hclust$clusters
 #> [1] 2
-```
-
-``` r
 
 #clustering data frame
 #group label in column "cluster"
 #negatives in column "silhouette_width" higlight anomalous cluster assignation
 dtw_hclust$df
 #>   name cluster silhouette_width
-#> 1 X132       1       0.14611279
-#> 2 X134       1       0.07599477
-#> 3 X136       1       0.14794279
-#> 4 X153       2       0.00000000
-```
-
-``` r
+#> 1 X132       1        0.3077225
+#> 2 X134       1        0.2846556
+#> 3 X136       2        0.0000000
+#> 4 X153       1        0.2186781
 
 #tree plot
 par(mar=c(3,1,1,3))

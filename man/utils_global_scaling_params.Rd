@@ -11,7 +11,7 @@ utils_global_scaling_params(tsl = NULL, f = NULL, ...)
 
 \item{f}{(required, function) function \code{\link[=f_scale_global]{f_scale_global()}}. Default: NULL}
 
-\item{...}{(optional, arguments of \code{f}) Optional arguments for the transformation function. Used only when \code{f = scale} for arguments \code{center} and \code{scale}.}
+\item{...}{(optional, arguments of \code{f}) Optional arguments for the transformation function.}
 }
 \value{
 list
