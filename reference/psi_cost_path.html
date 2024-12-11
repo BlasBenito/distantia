@@ -48,7 +48,12 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">psi_cost_path</span><span class="op">(</span>dist_matrix <span class="op">=</span> <span class="cn">NULL</span>, cost_matrix <span class="op">=</span> <span class="cn">NULL</span>, diagonal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">psi_cost_path</span><span class="op">(</span></span>
+<span>  dist_matrix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cost_matrix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  bandwidth <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,7 +69,11 @@
 
 
 <dt id="arg-diagonal">diagonal<a class="anchor" aria-label="anchor" href="#arg-diagonal"></a></dt>
-<dd><p>(optional, logical) If TRUE, diagonals are used during the least-cost path search. Default: TRUE</p></dd>
+<dd><p>(optional, logical vector). If TRUE, diagonals are included in the dynamic time warping computation. Default: TRUE</p></dd>
+
+
+<dt id="arg-bandwidth">bandwidth<a class="anchor" aria-label="anchor" href="#arg-bandwidth"></a></dt>
+<dd><p>(optional, numeric) Proportion of space at each side of the cost matrix diagonal (aka <em>Itakura parallelogram</em>) defining a valid region for dynamic time warping, used to control the flexibility of the warping path. This method prevents degenerate alignments due to differences in magnitude between time series when the data is not properly scaled. If <code>1</code> (default), DTW is unconstrained. If <code>0</code>, DTW is fully constrained and the warping path follows the matrix diagonal. Recommended values may vary depending on the nature of the data. Ignored if <code>lock_step = TRUE</code>. Default: 1.</p></dd>
 
 </dl></div>
     <div class="section level2">
