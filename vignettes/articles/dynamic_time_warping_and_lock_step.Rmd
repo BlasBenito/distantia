@@ -29,12 +29,17 @@ The packages required to run the code in this article are `distantia` and `dtw`.
 if(!requireNamespace(package = "dtw")){
   install.packages("dtw")
 }
+
+if(!requireNamespace(package = "dplyr")){
+  install.packages("dplyr")
+}
 ```
 
 
 ```{r, message = FALSE, warning = FALSE, include = FALSE}
 library(distantia)
 library(dtw)
+library(dplyr)
 ```
 
 
