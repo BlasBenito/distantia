@@ -144,7 +144,7 @@ tsl_plot(tsl.stat)
 
 tsl.perc <- tsl_transform(
   tsl = tsl,
-  f = f_percentage
+  f = f_percent
 )
 
 tsl.hellinger <- tsl_transform(

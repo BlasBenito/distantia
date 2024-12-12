@@ -12,7 +12,7 @@ tsl_transform(tsl = NULL, f = NULL, ...)
 \item{f}{(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, \code{\link[=scale]{scale()}}) should work as well:
 \itemize{
 \item f_proportion: proportion computed by row.
-\item f_percentage: percentage computed by row.
+\item f_percent: percentage computed by row.
 \item f_hellinger: Hellinger transformation computed by row
 \item f_scale_local: Local centering and/or scaling based on the variable mean and standard deviation in each time series within \code{tsl}.
 \item f_scale_global: Global centering and/or scaling based on the variable mean and standard deviation across all time series within \code{tsl}.
@@ -132,7 +132,7 @@ if(interactive()){
 #percentages
 tsl_percentage <- tsl_transform(
   tsl = tsl,
-  f = f_percentage
+  f = f_percent
 )
 
 if(interactive()){

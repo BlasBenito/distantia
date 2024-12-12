@@ -17,115 +17,6 @@ f_list <- function(){
 
 }
 
-# Aggregation ----
-
-#' Data Transformation: Slope of Linear Regression with Time
-#'
-#' @description
-#' Designed for usage in [tsl_aggregate()]. Uses linear regression to compute and return the slope of a numeric vector. Returns 0 if the length of the input vector is 1 or the linear regression fails.
-#'
-#' @param x (required, numeric vector) input vector. Default: NULL
-#' @param ... (optional, additional arguments) Ignored in this function.
-#' @return numeric value
-#' @export
-#' @autoglobal
-#'
-#' @examples
-#' # Numeric vector of any length
-#' f_slope(x = cumsum(runif(10)))
-#'
-#' # Numeric vector with length = 1
-#' f_slope(x = 10)
-#'
-#' # Numeric vector with length = 0
-#' f_slope(x = numeric(0))
-#' @family tsl_transformation
-f_slope <- function(
-    x = NULL,
-    ...
-) {
-
-  if(!is.numeric(x)) {
-    stop("distantia::f_slope(): argument 'x' must be a numeric vector.", call. = FALSE)
-  }
-
-  if(length(x) <= 1){
-
-    slope <- 0
-
-  } else {
-
-    slope <- tryCatch(
-      {
-        summary(
-          stats::lm(
-            formula = x ~ seq_along(x)
-          )
-        )$coefficients[2, 1]
-      },
-      error = function(e){
-        return(NA)
-      }
-    ) |>
-      suppressWarnings()
-
-  }
-
-  if(is.na(slope)){
-    slope <- 0
-  }
-
-  slope
-
-}
-
-
-#' Data Transformation: Principal Components of Zoo Time Series
-#'
-#' @description
-#' Uses [stats::prcomp()] to compute the Principal Component Analysis of a time series and return the principal components instead of the original columns. Output columns are named "PC1", "PC2" and so on.
-#'
-#'
-#' @param x (required, zoo object) Zoo time series object to transform.
-#' @param ... (optional, additional arguments) Ignored in this function.
-#'
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate(cols = 2)
-#'
-#' y <- f_pca(
-#'   x = x
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_pca <- function(
-    x = NULL,
-    ...
-) {
-
-  y <- stats::prcomp(
-    x = x,
-    center = FALSE,
-    scale. = FALSE
-  )$x
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-  )
-
-  y
-
-}
-
-
-
 # Trend Adjustments ----
 
 #' Data Transformation: Linear Trend of Zoo Time Series
@@ -180,10 +71,12 @@ f_trend_linear <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
+
+  y
 
 }
 
@@ -243,10 +136,12 @@ f_detrend_linear <- function(
     order.by = zoo::index(x)
     )
 
-  zoo_name_set(
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
+
+  y
 
 }
 
@@ -323,10 +218,12 @@ f_detrend_difference <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
+
+  y
 
 }
 
@@ -365,18 +262,7 @@ f_proportion <- function(
     FUN = "/"
   )
 
-  y[is.nan(y)] <- 0
-  y[is.infinite(y)] <- 0
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-  )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -404,12 +290,7 @@ f_proportion_sqrt <- function(
     ...
     ){
 
-  y <- f_proportion(x)^0.5
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  f_proportion(x)^0.5
 
 }
 
@@ -423,7 +304,7 @@ f_proportion_sqrt <- function(
 #' @examples
 #' x <- zoo_simulate(cols = 2)
 #'
-#' y <- f_percentage(
+#' y <- f_percent(
 #'   x = x
 #' )
 #'
@@ -432,17 +313,12 @@ f_proportion_sqrt <- function(
 #'   zoo_plot(y)
 #' }
 #' @family tsl_transformation
-f_percentage <- function(
+f_percent <- function(
     x = NULL,
     ...
 ){
 
-  y <- f_proportion(x)*100
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  f_proportion(x)*100
 
 }
 
@@ -477,31 +353,18 @@ f_hellinger <- function(
     ...
 ){
 
-  x <- f_proportion(
-    x = x
-  )
+  y <- f_proportion(x = x)
 
   y <- sqrt(
     sweep(
-      x = x,
+      x = y,
       MARGIN = 1,
-      STATS = rowSums(x),
+      STATS = rowSums(y),
       FUN = "/"
     )
   )
 
-  y[is.nan(y)] <- 0
-  y[is.infinite(y)] <- 0
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-  )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
@@ -536,7 +399,7 @@ f_clr <- function(
     ...
     ) {
 
-  x.log <- log(x)
+  x.log <- f_log(x = x)
 
   y <- sweep(
     x = x.log,
@@ -545,75 +408,10 @@ f_clr <- function(
     FUN = "-"
     )
 
-  y[is.nan(y)] <- 0
-  y[is.infinite(y)] <- 0
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-    )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
-#' Data Transformation: Chi Square
-#'
-#' @description
-#' Standardizes values based on their row sums and expected values.
-#'
-#' @inheritParams f_hellinger
-#'
-#' @return zoo object
-#' @export
-#' @autoglobal
-#' @examples
-#' x <- zoo_simulate(
-#'   cols = 5,
-#'   data_range = c(0, 500)
-#'   )
-#'
-#' y <- f_chi_squared(
-#'   x = x
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_chi_squared <- function(
-    x = NULL,
-    ...
-    ) {
-
-  row_totals <- rowSums(x)
-
-  col_totals <- colSums(x)
-
-  grand_total <- sum(row_totals)
-
-  expected <- outer(row_totals, col_totals) / grand_total
-
-  y <- (x - expected) / sqrt(expected)
-
-  y[is.nan(y)] <- 0
-  y[is.infinite(y)] <- 0
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-    )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
-
-}
 
 #' Data Transformation: Log
 #'
@@ -647,7 +445,8 @@ f_log <- function(
 
   y <- log(x)
 
-  y[is.nan(y)] <- 0
+  y <- as.matrix(y)
+
   y[is.infinite(y)] <- 0
 
   y <- zoo::zoo(
@@ -655,12 +454,68 @@ f_log <- function(
     order.by = zoo::index(x)
     )
 
-  zoo_name_set(
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
 
+  y
+
 }
+
+#' Transform Zoo Object to Binary
+#'
+#' @description Converts a zoo object to binary (1 and 0) based on a given threshold.
+#'
+#' @inheritParams f_hellinger
+#' @param threshold (required, numeric) Values greater than this number become 1, others become 0. Set to the mean of the time series by default. Default: NULL
+#' @return zoo object
+#' @autoglobal
+#' @export
+#' @examples
+#' x <- zoo_simulate(
+#'   data_range = c(0, 1)
+#'   )
+#'
+#' y <- f_binary(
+#'   x = x,
+#'   threshold = 0.5
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_binary <- function(
+    x = NULL,
+    threshold = NULL
+){
+
+  if(is.null(threshold)){
+    threshold <- mean(x)
+  }
+
+  y <- ifelse(
+    test = x > threshold,
+    yes = 1,
+    no = 0
+  )
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  )
+
+  y <- zoo_name_set(
+    x = y,
+    name = attributes(x)$name
+  )
+
+  y
+
+}
+
 
 # Scale Adjustments ----
 
@@ -698,15 +553,10 @@ f_scale_global <- function(
     ...
 ){
 
-  y <- scale(
+  y <- f_scale_local(
     x = x,
     center = center,
     scale = scale
-  )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
   )
 
 }
@@ -733,10 +583,21 @@ f_scale_local <- function(
     scale = scale
   )
 
-  zoo_name_set(
+  y <- as.matrix(y)
+
+  y[is.nan(y)] <- 0
+
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  )
+
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
+
+  y
 
 }
 
@@ -793,10 +654,12 @@ f_rescale_local <- function(
     order.by = zoo::index(x)
   )
 
-  zoo_name_set(
+  y <- zoo_name_set(
     x = y,
     name = attributes(x)$name
   )
+
+  y
 
 }
 
@@ -836,102 +699,16 @@ f_rescale_global <- function(
     ...
 ){
 
-  y <- zoo::coredata(x)
-
-  if(!is.null(old_min) && length(old_min) < ncol(y)){
-    stop(
-      "distantia::f_rescale_global(): argument 'old_min' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
-    )
-  }
-
-  if(!is.null(old_max) && length(old_max) < ncol(y)){
-    stop(
-      "distantia::f_rescale_global(): argument 'old_max' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
-    )
-  }
-
-  if(length(new_min) < ncol(y)){
-    new_min <- rep(x = new_min, times = ncol(y))
-  }
-
-  if(length(new_max) < ncol(y)){
-    new_max <- rep(x = new_max, times = ncol(y))
-  }
-
-  for(i in seq_len(ncol(y))){
-
-    y[, i] <- utils_rescale_vector(
-      x =  y[, i],
-      new_min = new_min[i],
-      new_max = new_max[i],
-      old_min = old_min[i],
-      old_max = old_max[i]
-    )
-
-  }
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
+  y <- f_rescale_local(
+    x = x,
+    new_min = new_min,
+    new_max = new_max,
+    old_min = old_min,
+    old_max = old_max
   )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }
 
-#' Transform Zoo Object to Binary
-#'
-#' @description Converts a zoo object to binary (1 and 0) based on a given threshold.
-#'
-#' @inheritParams f_hellinger
-#' @param threshold (required, numeric) Values greater than this number become 1, others become 0. Set to the median of the time series by default. Default: NULL
-#' @return zoo object
-#' @autoglobal
-#' @export
-#' @examples
-#' x <- zoo_simulate(
-#'   data_range = c(0, 1)
-#'   )
-#'
-#' y <- f_binary(
-#'   x = x,
-#'   threshold = 0.5
-#' )
-#'
-#' if(interactive()){
-#'   zoo_plot(x)
-#'   zoo_plot(y)
-#' }
-#' @family tsl_transformation
-f_binary <- function(
-    x = NULL,
-    threshold = NULL
-) {
-
-  x_matrix <- zoo::coredata(x)
-
-  if(is.null(threshold)){
-    threshold <- stats::median(x_matrix)
-  }
-
-  y <- ifelse(
-    test = x_matrix > threshold,
-    yes = 1,
-    no = 0
-    )
-
-  y <- zoo::zoo(
-    x = y,
-    order.by = zoo::index(x)
-    )
-
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
-
-}
 

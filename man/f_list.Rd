@@ -18,21 +18,18 @@ f_list()
 \seealso{
 Other tsl_transformation: 
 \code{\link{f_binary}()},
-\code{\link{f_chi_squared}()},
 \code{\link{f_clr}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
 \code{\link{f_hellinger}()},
 \code{\link{f_log}()},
-\code{\link{f_pca}()},
-\code{\link{f_percentage}()},
+\code{\link{f_percent}()},
 \code{\link{f_proportion}()},
 \code{\link{f_proportion_sqrt}()},
 \code{\link{f_rescale_global}()},
 \code{\link{f_rescale_local}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_scale_local}()},
-\code{\link{f_slope}()},
 \code{\link{f_trend_linear}()}
 }
 \concept{tsl_transformation}
