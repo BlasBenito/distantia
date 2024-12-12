@@ -20,6 +20,7 @@ articles:
   contents:
   - articles/dynamic_time_warping_and_lock_step
   - articles/time_series_lists
+  - articles/mapping_dissimilarity
 
 - title: "Original Paper"
   navbar: "Original Paper"

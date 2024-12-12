@@ -46,6 +46,7 @@ Other example_data:
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},
 \code{\link{covid_coordinates}},
+\code{\link{covid_polygons}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},

@@ -23,7 +23,7 @@ options(scipen = 9999)
 
 ## Summary
 
-The R package `distantia` 2.0 introduces Time Series Lists as working unit for dissimilarity analyses, and provides a complete toolset to manages them.
+The R package `distantia` 2.0 introduces Time Series Lists as obect to organize time series for dissimilarity analyses, and provides a complete toolset to manage them.
 
 This article describes Time Series Lists in detail, and showcases the most common data handling procedures enabled by the new functions included in the package. 
 

@@ -1,0 +1,94 @@
+---
+title: "Mapping Time Series Dissimilarity"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_title: "Content"
+    source: false
+---
+
+#WORK IN PROGRESS
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 150,
+  fig.show = 'hold',
+  fig.width = 5
+)
+
+options(scipen = 9999)
+```
+
+## Summary
+
+Many time series happen at a given space, which can be represented either by a polygon, or by a pair of coordinates. The R package `distantia`, albeit focused on time series comparison, offers limited support to map time series dissimilarity.
+
+This article illustrates this concept with several examples.
+
+## Setup
+
+```{r, echo = FALSE}
+if(requireNamespace(package = "remotes") == FALSE){
+  install.packages("remotes")
+}
+if(requireNamespace(package = "tmap") == FALSE){
+  remotes::install_github("r-tmap/tmap")
+}
+if(requireNamespace(package = "dplyr") == FALSE){
+  install.packages("dplyr")
+}
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(distantia)
+library(dplyr)
+library(tmap)
+library(future)
+library(parallelly)
+
+future::plan(
+  future::multisession,
+  workers = parallelly::availableCores() - 1
+  )
+```
+
+##
+
+```{r, fig.height=4}
+tsl <- distantia::tsl_initialize(
+  x = distantia::covid_prevalence,
+  name_column = "name",
+  time_column = "time"
+)
+
+distantia::tsl_plot(
+  tsl = tsl[1:4]
+)
+```
+
+```{r}
+df <- distantia::distantia(
+  tsl = tsl,
+  lock_step = TRUE
+)
+```
+
+
+```{r, warning = FALSE}
+df_map <- df |> 
+  dplyr::group_by(x) |> 
+  dplyr::summarize(
+    psi_mean = mean(psi),
+    psi_min = min(psi),
+    psi_max = max(psi)
+  ) |> 
+  dplyr::ungroup() |> 
+  dplyr::rename(
+    name = x
+  )
+```
+
+

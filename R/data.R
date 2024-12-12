@@ -58,6 +58,16 @@
 #' @format sf data frame with 4 columns and 36 rows
 "covid_coordinates"
 
+#' County Polygons of the Covid Prevalence Dataset
+#'
+#' @docType data
+#' @keywords datasets
+#' @family example_data
+#' @name covid_polygons
+#' @usage data(covid_polygons)
+#' @format sf data frame with 2 columns and 36 rows
+"covid_polygons"
+
 #' Time Series Data from Three Fagus sylvatica Stands
 #'
 #' A data frame with 648 rows representing enhanced vegetation index, rainfall and temperature in three stands of Fagus sylvatica in Spain, Germany, and Sweden.
