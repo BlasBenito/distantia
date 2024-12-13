@@ -32,6 +32,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -143,9 +144,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  134  Date  days 363.6355   2.734102 2023-12-12 2024-12-10 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  148  Date  days 360.6768   2.453584 2023-12-15 2024-12-09 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  117  Date  days 362.6552   3.126338 2023-12-12 2024-12-08 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  134  Date  days 363.6355   2.734102 2023-12-14 2024-12-12 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  148  Date  days 360.6768   2.453584 2023-12-17 2024-12-11 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  117  Date  days 362.6552   3.126338 2023-12-14 2024-12-10 years, q....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -158,10 +159,10 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-12-12"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-12-14"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-12-10"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-12-12"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6175973</span>

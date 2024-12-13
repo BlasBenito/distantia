@@ -22,6 +22,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -95,6 +96,12 @@
 
         </dt>
         <dd>County Coordinates of the Covid Prevalence Dataset</dd>
+      </dl><dl><dt>
+
+          <code><a href="covid_polygons.html">covid_polygons</a></code>
+
+        </dt>
+        <dd>County Polygons of the Covid Prevalence Dataset</dd>
       </dl><dl><dt>
 
           <code><a href="covid_prevalence.html">covid_prevalence</a></code>
@@ -179,14 +186,14 @@
         <dd>Dissimilarity Analysis of Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="distantia_importance.html">distantia_importance()</a></code>
+          <code><a href="momentum.html">momentum()</a></code>
 
         </dt>
         <dd>Contribution of Individual Variables to Dissimilarity in Time Series Lists</dd>
       </dl></div><div class="section level2">
       <h2 id="support-functions-for-dissimilarity-analysis">Support Functions for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#support-functions-for-dissimilarity-analysis"></a></h2>
 
-      <div class="section-desc"><p>These functions use the output of <code><a href="../reference/distantia.html">distantia()</a></code> or <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code> to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.</p></div>
+      <div class="section-desc"><p>These functions use the output of <code><a href="../reference/distantia.html">distantia()</a></code> or <code><a href="../reference/momentum.html">momentum()</a></code> to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.</p></div>
 
 
     </div><div class="section level2">
@@ -269,7 +276,7 @@
       </dl></div><div class="section level2">
       <h2 id="c-backend-for-dissimilarity-analysis">C++ Backend for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#c-backend-for-dissimilarity-analysis"></a></h2>
 
-      <div class="section-desc"><p>These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code>.</p></div>
+      <div class="section-desc"><p>These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/momentum.html">momentum()</a></code>.</p></div>
 
 
     </div><div class="section level2">
@@ -542,10 +549,10 @@
 
       <dl><dt>
 
-          <code><a href="distance.html">distance()</a></code>
+          <code><a href="d.html">d()</a></code>
 
         </dt>
-        <dd>Distance Between Numeric Vectors</dd>
+        <dd>Distance Between Two Numeric Vectors</dd>
       </dl><dl><dt>
 
           <code><a href="distances.html">distances</a></code>
@@ -820,12 +827,6 @@
         <dd>Transform Zoo Object to Binary</dd>
       </dl><dl><dt>
 
-          <code><a href="f_chi_squared.html">f_chi_squared()</a></code>
-
-        </dt>
-        <dd>Data Transformation: Chi Square</dd>
-      </dl><dl><dt>
-
           <code><a href="f_clr.html">f_clr()</a></code>
 
         </dt>
@@ -862,13 +863,7 @@
         <dd>Data Transformation: Log</dd>
       </dl><dl><dt>
 
-          <code><a href="f_pca.html">f_pca()</a></code>
-
-        </dt>
-        <dd>Data Transformation: Principal Components of Zoo Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="f_percentage.html">f_percentage()</a></code>
+          <code><a href="f_percent.html">f_percent()</a></code>
 
         </dt>
         <dd>Data Transformation: Rowwise Percentages</dd>
@@ -908,12 +903,6 @@
 
         </dt>
         <dd>Data Transformation: Local Centering and Scaling</dd>
-      </dl><dl><dt>
-
-          <code><a href="f_slope.html">f_slope()</a></code>
-
-        </dt>
-        <dd>Data Transformation: Slope of Linear Regression with Time</dd>
       </dl><dl><dt>
 
           <code><a href="f_trend_linear.html">f_trend_linear()</a></code>
@@ -1161,7 +1150,7 @@
           <code><a href="utils_check_args_distantia.html">utils_check_args_distantia()</a></code>
 
         </dt>
-        <dd>Check Input Arguments of <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code>.</dd>
+        <dd>Check Input Arguments of <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/momentum.html">momentum()</a></code>.</dd>
       </dl><dl><dt>
 
           <code><a href="utils_check_args_matrix.html">utils_check_args_matrix()</a></code>

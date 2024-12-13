@@ -39,6 +39,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -76,8 +77,8 @@
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
 <p>The R package <code>distantia</code> 2.0 introduces Time Series Lists
-as working unit for dissimilarity analyses, and provides a complete
-toolset to manages them.</p>
+as obect to organize time series for dissimilarity analyses, and
+provides a complete toolset to manage them.</p>
 <p>This article describes Time Series Lists in detail, and showcases the
 most common data handling procedures enabled by the new functions
 included in the package.</p>
@@ -1128,12 +1129,11 @@ available <code>f</code> functions can be listed with
 <code><a href="../reference/f_list.html">f_list()</a></code>.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/f_list.html">f_list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "f_binary"             "f_chi_squared"        "f_clr"               </span></span>
-<span><span class="co">#&gt;  [4] "f_detrend_difference" "f_detrend_linear"     "f_hellinger"         </span></span>
-<span><span class="co">#&gt;  [7] "f_log"                "f_pca"                "f_percentage"        </span></span>
-<span><span class="co">#&gt; [10] "f_proportion"         "f_proportion_sqrt"    "f_rescale_global"    </span></span>
-<span><span class="co">#&gt; [13] "f_rescale_local"      "f_scale_global"       "f_scale_local"       </span></span>
-<span><span class="co">#&gt; [16] "f_slope"              "f_trend_linear"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "f_binary"             "f_clr"                "f_detrend_difference"</span></span>
+<span><span class="co">#&gt;  [4] "f_detrend_linear"     "f_hellinger"          "f_log"               </span></span>
+<span><span class="co">#&gt;  [7] "f_percent"            "f_proportion"         "f_proportion_sqrt"   </span></span>
+<span><span class="co">#&gt; [10] "f_rescale_global"     "f_rescale_local"      "f_scale_global"      </span></span>
+<span><span class="co">#&gt; [13] "f_scale_local"        "f_trend_linear"</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="scale-adjustments">Scale Adjustments<a class="anchor" aria-label="anchor" href="#scale-adjustments"></a>
 </h4>
@@ -1384,47 +1384,111 @@ demonstrate that the linear detrending worked as expected.</p>
 <div class="section level4">
 <h4 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
 </h4>
-<p>The <code>distantia</code> package offers transformations for
-ecological and compositional data, including percentage
-(<code>f_percentage</code>), proportion (<code>f_proportion</code>), and
-square root of proportion (<code>f_proportion_sqrt</code>) for
-normalization and reducing dominance. Hellinger
-(<code>f_hellinger</code>) and centered log-ratio (<code>f_clr</code>)
-enhance interpretability in abundance and compositional datasets.
-Chi-squared (<code>f_chi_square</code>) and log transformation
-(<code>f_log</code>) address variance stabilization and frequency
-comparisons.</p>
-<p>The example below focuses on the pollen counts dataset
-<code>eemian_pollen</code> to showcase several of these
-transformations.</p>
+<p>The <code>distantia</code> package offers several transformations for
+compositional data:</p>
+<ul>
+<li>
+<code>f_percent</code>: percentages.</li>
+<li>
+<code>f_proportion</code>: proportions.</li>
+<li>
+<code>f_proportion_sqrt</code>: square root of proportions</li>
+<li>
+<code>f_hellinger</code>: transforms to proportion and applies
+Hellinger transformation.</li>
+<li>
+<code>f_clr</code>: centered log-ratio.</li>
+<li>
+<code>f_log</code>: logarithm transformation.</li>
+<li>
+<code>f_binary</code>: transform continuous data into discrete
+events.</li>
+</ul>
+<p>The example below shows the application of several of these
+transformation on the counts dataset <code>eemian_pollen</code>.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">tsl_counts</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_init</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/eemian_pollen.html">eemian_pollen</a></span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time <span class="op">=</span> <span class="st">"time"</span></span>
-<span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<span>    names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" width="750">
-The code below applies <code>f_hellinger</code>, which transforms the
-pollen counts to proportions and the applies the Hellinger
-transformation. This transformation helps mitigate the effects of highly
-abundant taxa, and improves dissimilarity assessments with
-<code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/distantia_importance.html">distantia_importance()</a></code>.</p>
+Transformation to percentages with <code>f_percent</code>.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_percent</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_percent.html">f_percent</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_percent</span>,</span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750">
+The function <code>f_binary</code> helps transform continuous data into
+discrete events. The code below converts the percentages above into
+presence/absence using 5% as threshold. Notice only the variable
+“Carpinus” is shown in the plot to facilitate visualization.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_binary</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_percent</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_binary.html">f_binary</a></span>,</span>
+<span>  threshold <span class="op">=</span> <span class="fl">5</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span>
+<span>    tsl <span class="op">=</span> <span class="va">tsl_binary</span>,</span>
+<span>    colnames <span class="op">=</span> <span class="st">"Carpinus"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-73-1.png" width="750"></p>
+<p>Transformation to square root of proportions with
+<code>f_proportion_sqrt</code>.</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_prop_sqrt</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_proportion_sqrt.html">f_proportion_sqrt</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_prop_sqrt</span>,</span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-74-1.png" width="750"></p>
+<p>The function <code>f_hellinger</code> transforms the taxa counts to
+proportions and the applies the Hellinger transformation.</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_hellinger</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_hellinger.html">f_hellinger</a></span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
-<span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span>, </span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-75-1.png" width="750"></p>
+<p>Centered log-ration computed with <code>f_clr</code>.</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tsl_clr</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
+<span>  f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_clr.html">f_clr</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
+<span>  tsl <span class="op">=</span> <span class="va">tsl_clr</span>, </span>
+<span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-76-1.png" width="750"></p>
 </div>
 </div>
 </div>

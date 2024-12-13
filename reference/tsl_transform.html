@@ -24,6 +24,7 @@ This function supports a parallelization setup via future::plan(), and progress 
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -64,7 +65,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
 <dt id="arg-f">f<a class="anchor" aria-label="anchor" href="#arg-f"></a></dt>
 <dd><p>(required, transformation function) name of a function taking a matrix as input. Currently, the following options are implemented, but any other function taking a matrix as input (for example, <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale()</a></code>) should work as well:</p><ul><li><p>f_proportion: proportion computed by row.</p></li>
-<li><p>f_percentage: percentage computed by row.</p></li>
+<li><p>f_percent: percentage computed by row.</p></li>
 <li><p>f_hellinger: Hellinger transformation computed by row</p></li>
 <li><p>f_scale_local: Local centering and/or scaling based on the variable mean and standard deviation in each time series within <code>tsl</code>.</p></li>
 <li><p>f_scale_global: Global centering and/or scaling based on the variable mean and standard deviation across all time series within <code>tsl</code>.</p></li>
@@ -159,33 +160,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   100    100</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#principal components</span></span></span>
-<span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">#replaces original variables with their principal components</span></span></span>
-<span class="r-in"><span><span class="co">#requires centering and/or scaling</span></span></span>
-<span class="r-in"><span><span class="va">tsl_pca</span> <span class="op">&lt;-</span> <span class="va">tsl</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_scale_global</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    f <span class="op">=</span> <span class="va">f_pca</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_pca</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Spain</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PC1" "PC2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Sweden</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PC1" "PC2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl_pca</span>,</span></span>
-<span class="r-in"><span>    guide_columns <span class="op">=</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#numeric transformations</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------</span></span></span>
@@ -207,7 +181,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="co">#percentages</span></span></span>
 <span class="r-in"><span><span class="va">tsl_percentage</span> <span class="op">&lt;-</span> <span class="fu">tsl_transform</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>
-<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_percentage</span></span></span>
+<span class="r-in"><span>  f <span class="op">=</span> <span class="va">f_percent</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>

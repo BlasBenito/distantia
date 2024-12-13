@@ -42,6 +42,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
     <li><a class="dropdown-item" href="articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="articles/time_series_lists.html">Handling Time Series Lists</a></li>
+    <li><a class="dropdown-item" href="articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -272,9 +273,9 @@
 <div class="section level3">
 <h3 id="variable-importance">Variable Importance<a class="anchor" aria-label="anchor" href="#variable-importance"></a>
 </h3>
-<p>When comparing multivariate time series, certain variables contribute more to similarity or dissimilarity. The <code><a href="reference/distantia_importance.html">distantia_importance()</a></code> function uses a leave-one-out algorithm to quantify each variable’s contribution to the overall dissimilarity between two time series.</p>
+<p>When comparing multivariate time series, certain variables contribute more to similarity or dissimilarity. The <code><a href="reference/momentum.html">momentum()</a></code> function uses a leave-one-out algorithm to quantify each variable’s contribution to the overall dissimilarity between two time series.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia_importance.html">distantia_importance</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">df_importance</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/momentum.html">momentum</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span>
 <span></span>
