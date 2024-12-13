@@ -15,7 +15,7 @@ Data frame with the names, abbreviations, and expressions of the distance metric
 }
 \seealso{
 Other psi_demo: 
-\code{\link{distance}()},
+\code{\link{d}()},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},

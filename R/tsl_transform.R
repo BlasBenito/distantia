@@ -85,27 +85,6 @@
 #' sapply(X = tsl_rescaled, FUN = range)
 #'
 #'
-#' #principal components
-#' #-----------------------------------------
-#' #replaces original variables with their principal components
-#' #requires centering and/or scaling
-#' tsl_pca <- tsl |>
-#'   tsl_transform(
-#'     f = f_scale_global
-#'   ) |>
-#'   tsl_transform(
-#'     f = f_pca
-#'   )
-#'
-#' tsl_colnames_get(tsl = tsl_pca)
-#'
-#' if(interactive()){
-#'   tsl_plot(
-#'     tsl = tsl_pca,
-#'     guide_columns = 3
-#'   )
-#' }
-#'
 #'
 #' #numeric transformations
 #' #-----------------------------------------

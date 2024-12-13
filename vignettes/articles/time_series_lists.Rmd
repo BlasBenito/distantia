@@ -1147,17 +1147,5 @@ tsl_plot(
   )
 ```
 
-Centered log-ration computed with `f_chi_squared`.
 
-```{r, fig.height=2.5}
-tsl_chi_squared <- distantia::tsl_transform(
-  tsl = tsl_counts,
-  f = distantia::f_chi_squared
-)
-
-tsl_plot(
-  tsl = tsl_chi_squared, 
-  guide_columns = 4
-  )
-```
 

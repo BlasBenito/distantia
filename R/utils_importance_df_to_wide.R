@@ -1,7 +1,7 @@
 #' Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format
 #'
 #' @description
-#' Takes as input a data frame returned by [distantia_importance()] to return a data frame with one pair of time series per row, and the following columns:
+#' Takes as input a data frame returned by [momentum()] to return a data frame with one pair of time series per row, and the following columns:
 #' \itemize{
 #'   \item `most_similar`: name of the variable with the highest contribution to similarity (most negative value in the `importance` column) for each pair of time series.
 #'   \item `most_dissimilar`: name of the variable with the highest contribution to dissimilarity (most positive value in the `importance` column) for each pair of time series.
@@ -11,7 +11,7 @@
 #' }
 #'
 #'
-#' @param df (required, data frame) Output of [distantia_importance()]. Default: NULL
+#' @param df (required, data frame) Output of [momentum()]. Default: NULL
 #' @param sep (required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".
 #'
 #' @return data frame
@@ -30,7 +30,7 @@
 #'   )
 #'
 #' #importance data frame
-#' df <- distantia_importance(
+#' df <- momentum(
 #'   tsl = tsl
 #' )
 #' df
@@ -52,11 +52,11 @@ utils_importance_df_to_wide <- function(
 
   if(!(
     df_type %in% c(
-      "distantia_importance_df"
+      "momentum_df"
     )
   )
   ){
-    stop("distantia::utils_importance_df_to_wide(): argument 'df' must be the output of distantia_importance().", call. = FALSE)
+    stop("distantia::utils_importance_df_to_wide(): argument 'df' must be the output of momentum().", call. = FALSE)
   }
 
   #aggregate to keep the important columns only

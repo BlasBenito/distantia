@@ -15,7 +15,7 @@ utils_tsl_pairs(tsl = NULL, args_list = NULL)
 data frame
 }
 \description{
-Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} to generate a data frame with combinations of time series and function arguments.
+Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} to generate a data frame with combinations of time series and function arguments.
 }
 \seealso{
 Other internal: 

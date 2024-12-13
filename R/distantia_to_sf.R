@@ -51,9 +51,9 @@
 #' #   tmap::tm_dots(size = 0.1, col = "gray50")
 #'
 #'
-#' #example using distantia_importance()
+#' #example using momentum()
 #' #--------------------------------------------------
-#' importance_df <- distantia_importance(
+#' importance_df <- momentum(
 #'   tsl = tsl
 #' )
 #'
@@ -118,7 +118,7 @@ distantia_to_sf <- function(
 
   types <- c(
     "distantia_df",
-    "distantia_importance_df"
+    "momentum_df"
   )
 
   if(!(df_type %in% types)){
@@ -148,7 +148,7 @@ distantia_to_sf <- function(
 
   }
 
-  if(df_type == "distantia_importance_df"){
+  if(df_type == "momentum_df"){
     df <- utils_importance_df_to_wide(
       df = df
     )

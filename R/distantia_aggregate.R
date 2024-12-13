@@ -2,17 +2,17 @@
 #'
 #' @description
 #'
-#' The functions [distantia()] and [distantia_importance()] allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+#' The functions [distantia()] and [momentum()] allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
 #'
 #' When `df` is the result of [distantia()], the input data is grouped by pairs of time series, and the function `f` is applied to the column "psi" by group
 #'
-#' When `df` is the result of [distantia_importance()], the input data is grouped by pairs of time series and variables, and the function `f` is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in [distantia_importance()]), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
+#' When `df` is the result of [momentum()], the input data is grouped by pairs of time series and variables, and the function `f` is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in [momentum()]), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
 #'
 #' If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column `psi` to start dissimilarity scores at zero.
 #'
 #' If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_importance()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [momentum()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
@@ -74,11 +74,11 @@ distantia_aggregate <- function(
   if(!(
     df_type %in% c(
       "distantia_df",
-      "distantia_importance_df"
+      "momentum_df"
     )
   )
   ){
-    stop("distantia::distantia_aggregate(): argument 'df' must be the output of distantia() or distantia_importance().", call. = FALSE)
+    stop("distantia::distantia_aggregate(): argument 'df' must be the output of distantia() or momentum().", call. = FALSE)
   }
 
   if(!is.function(f)){
@@ -102,7 +102,7 @@ distantia_aggregate <- function(
 
   }
 
-  if(df_type == "distantia_importance_df"){
+  if(df_type == "momentum_df"){
 
     if("robust" %in% colnames(df)){
 

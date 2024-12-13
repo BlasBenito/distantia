@@ -121,7 +121,7 @@ if(interactive()){
 }
 \seealso{
 Other psi_demo: 
-\code{\link{distance}()},
+\code{\link{d}()},
 \code{\link{distances}},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_auto_sum}()},

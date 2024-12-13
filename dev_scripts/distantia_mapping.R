@@ -9,7 +9,7 @@ tsl <- distantia::tsl_init(
 )
 
 #compute importance
-df <- distantia::distantia_importance(
+df <- distantia::momentum(
   tsl = tsl
 )
 

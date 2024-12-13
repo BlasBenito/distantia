@@ -271,12 +271,12 @@ dissimilar pairs.
 ### Variable Importance
 
 When comparing multivariate time series, certain variables contribute
-more to similarity or dissimilarity. The `distantia_importance()`
-function uses a leave-one-out algorithm to quantify each variable’s
-contribution to the overall dissimilarity between two time series.
+more to similarity or dissimilarity. The `momentum()` function uses a
+leave-one-out algorithm to quantify each variable’s contribution to the
+overall dissimilarity between two time series.
 
 ``` r
-df_importance <- distantia_importance(
+df_importance <- momentum(
   tsl = tsl
 )
 

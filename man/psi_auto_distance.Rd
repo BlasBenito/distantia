@@ -37,7 +37,7 @@ psi_auto_distance(
 }
 \seealso{
 Other psi_demo: 
-\code{\link{distance}()},
+\code{\link{d}()},
 \code{\link{distances}},
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},

@@ -59,9 +59,9 @@ distantia_sf <- distantia::distantia_to_sf(
 #   tmap::tm_dots(size = 0.1, col = "gray50")
 
 
-#example using distantia_importance()
+#example using momentum()
 #--------------------------------------------------
-importance_df <- distantia_importance(
+importance_df <- momentum(
   tsl = tsl
 )
 

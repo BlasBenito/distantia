@@ -170,6 +170,6 @@ future::plan(
 }
 \seealso{
 Other dissimilarity_analysis_main: 
-\code{\link{distantia_importance}()}
+\code{\link{momentum}()}
 }
 \concept{dissimilarity_analysis_main}

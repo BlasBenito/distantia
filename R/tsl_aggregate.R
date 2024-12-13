@@ -25,7 +25,6 @@
 #'   \item `var` or `"var"`: to compute the group variance, see [stats::var()].
 #'   \item `length` or `"length"`: to compute group length.
 #'   \item `sum` or `"sum"`: see [sum()].
-#'   \item `f_slope` or `"f_slope"`: to compute the group slope, see [f_slope()].
 #' }
 #'
 #' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).

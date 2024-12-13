@@ -7,7 +7,7 @@
 utils_importance_df_to_wide(df = NULL, sep = "__")
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}. Default: NULL}
 
 \item{sep}{(required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".}
 }
@@ -15,7 +15,7 @@ utils_importance_df_to_wide(df = NULL, sep = "__")
 data frame
 }
 \description{
-Takes as input a data frame returned by \code{\link[=distantia_importance]{distantia_importance()}} to return a data frame with one pair of time series per row, and the following columns:
+Takes as input a data frame returned by \code{\link[=momentum]{momentum()}} to return a data frame with one pair of time series per row, and the following columns:
 \itemize{
 \item \code{most_similar}: name of the variable with the highest contribution to similarity (most negative value in the \code{importance} column) for each pair of time series.
 \item \code{most_dissimilar}: name of the variable with the highest contribution to dissimilarity (most positive value in the \code{importance} column) for each pair of time series.
@@ -38,7 +38,7 @@ tsl <- tsl_initialize(
   )
 
 #importance data frame
-df <- distantia_importance(
+df <- momentum(
   tsl = tsl
 )
 df

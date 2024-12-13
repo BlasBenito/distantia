@@ -79,7 +79,7 @@
 #'
 #' #importance computed with dynamic time warping
 #' #less sensitive to latitudinal or altitudinal differences
-#' importance_dtw <- distantia_importance(
+#' importance_dtw <- momentum(
 #'   tsl = tsl
 #' )
 #'
@@ -100,7 +100,7 @@
 #'
 #' #importance computed with lock-step method
 #' #more sensitive to latitudinal or altitudinal differences
-#' importance_lock_step <- distantia_importance(
+#' importance_lock_step <- momentum(
 #'   tsl = tsl,
 #'   lock_step = TRUE
 #' )
@@ -119,7 +119,7 @@
 #' #---------------------------------
 #' #most arguments accept vectors, and the results contain all argument combinations
 #'
-#' importance_df <- distantia_importance(
+#' importance_df <- momentum(
 #'   tsl = tsl,
 #'   lock_step = c(TRUE, FALSE)
 #' )
@@ -139,7 +139,7 @@
 #'   future::sequential
 #' )
 #' @family dissimilarity_analysis_main
-distantia_importance <- function(
+momentum <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
@@ -291,7 +291,7 @@ distantia_importance <- function(
   attr(
     x = df,
     which = "type"
-  ) <- "distantia_importance_df"
+  ) <- "momentum_df"
 
   df
 

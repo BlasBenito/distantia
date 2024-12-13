@@ -1,6 +1,6 @@
-#' Check Input Arguments of `distantia()` and `distantia_importance()`.
+#' Check Input Arguments of `distantia()` and `momentum()`.
 #'
-#' @inheritParams distantia_importance
+#' @inheritParams momentum
 #' @inheritParams distantia
 #' @return list
 #' @export

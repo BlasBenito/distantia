@@ -7,7 +7,7 @@
 distantia_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_importance]{distantia_importance()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=momentum]{momentum()}}. Default: NULL}
 
 \item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
@@ -17,11 +17,11 @@ distantia_aggregate(df = NULL, f = mean, ...)
 data frame
 }
 \description{
-The functions \code{\link[=distantia]{distantia()}} and \code{\link[=distantia_importance]{distantia_importance()}} allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+The functions \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
 
 When \code{df} is the result of \code{\link[=distantia]{distantia()}}, the input data is grouped by pairs of time series, and the function \code{f} is applied to the column "psi" by group
 
-When \code{df} is the result of \code{\link[=distantia_importance]{distantia_importance()}}, the input data is grouped by pairs of time series and variables, and the function \code{f} is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in \code{\link[=distantia_importance]{distantia_importance()}}), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
+When \code{df} is the result of \code{\link[=momentum]{momentum()}}, the input data is grouped by pairs of time series and variables, and the function \code{f} is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in \code{\link[=momentum]{momentum()}}), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
 
 If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column \code{psi} to start dissimilarity scores at zero.
 

@@ -1,7 +1,7 @@
 #' Data Frame with Pairs of Time Series in Time Series Lists
 #'
 #' @description
-#' Internal function used in [distantia()] and [distantia_importance()] to generate a data frame with combinations of time series and function arguments.
+#' Internal function used in [distantia()] and [momentum()] to generate a data frame with combinations of time series and function arguments.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL

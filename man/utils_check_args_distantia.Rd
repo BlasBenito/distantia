@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_check_args.R
 \name{utils_check_args_distantia}
 \alias{utils_check_args_distantia}
-\title{Check Input Arguments of \code{distantia()} and \code{distantia_importance()}.}
+\title{Check Input Arguments of \code{distantia()} and \code{momentum()}.}
 \usage{
 utils_check_args_distantia(
   tsl = NULL,
@@ -42,7 +42,7 @@ utils_check_args_distantia(
 list
 }
 \description{
-Check Input Arguments of \code{distantia()} and \code{distantia_importance()}.
+Check Input Arguments of \code{distantia()} and \code{momentum()}.
 }
 \seealso{
 Other internal: 

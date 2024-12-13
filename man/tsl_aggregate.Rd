@@ -48,7 +48,6 @@ Any function returning a single number from a numeric vector can be used to aggr
 \item \code{var} or \code{"var"}: to compute the group variance, see \code{\link[stats:cor]{stats::var()}}.
 \item \code{length} or \code{"length"}: to compute group length.
 \item \code{sum} or \code{"sum"}: see \code{\link[=sum]{sum()}}.
-\item \code{f_slope} or \code{"f_slope"}: to compute the group slope, see \code{\link[=f_slope]{f_slope()}}.
 }
 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.

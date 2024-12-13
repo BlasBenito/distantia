@@ -1,13 +1,13 @@
-#' Distance Between Numeric Vectors
+#' Distance Between Two Numeric Vectors
 #'
-#' @description Computes the distance between two numeric or binary vectors.
+#' @description Computes the distance between two numeric vectors with a distance metric included in the data frame `distantia::distances`.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #' @return numeric value
 #' @examples
 #'
-#' distance(
+#' d(
 #'   x = runif(100),
 #'   y = runif(100),
 #'   distance = "euclidean"
@@ -16,11 +16,15 @@
 #' @autoglobal
 #' @export
 #' @family psi_demo
-distance <- function(
+d <- function(
     x = NULL,
     y = NULL,
     distance = "euclidean"
     ){
+
+  distance <- utils_check_distance_args(
+    distance = distance
+  )[1]
 
   if(is.null(x)){
     stop("distantia::distance(): argument 'x' must not be NULL.", call. = FALSE)
@@ -53,10 +57,6 @@ distance <- function(
     df[df == 0] <- pseudozero
 
   }
-
-  distance <- utils_check_distance_args(
-    distance = distance
-  )[1]
 
   #generate expression
   expression <- paste0(
