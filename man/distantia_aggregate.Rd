@@ -2,9 +2,12 @@
 % Please edit documentation in R/distantia_aggregate.R
 \name{distantia_aggregate}
 \alias{distantia_aggregate}
-\title{Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations}
+\alias{momentum_aggregate}
+\title{Aggregate Dissimilarity Data Frames Across Parameter Combinations}
 \usage{
 distantia_aggregate(df = NULL, f = mean, ...)
+
+momentum_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
 \item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=momentum]{momentum()}}. Default: NULL}
@@ -17,7 +20,9 @@ distantia_aggregate(df = NULL, f = mean, ...)
 data frame
 }
 \description{
-The functions \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+The functions \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} allow dissimilarity assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+
+The functions \code{distantia_aggregate()} and \code{momentum_aggregate()} compute the stats of dissimilarity metrics across combinations of parameters.
 
 When \code{df} is the result of \code{\link[=distantia]{distantia()}}, the input data is grouped by pairs of time series, and the function \code{f} is applied to the column "psi" by group
 
@@ -48,27 +53,55 @@ if(interactive()){
 
 #distantia with multiple parameter combinations
 #-------------------------------------
-df_multiple <- distantia(
+df <- distantia(
   tsl = tsl,
-  distance = "euclidean",
-  lock_step = c(TRUE, FALSE)
+  distance = c("euclidean", "manhattan"),
+  lock_step = TRUE
 )
 
-df_multiple[, c(
+df[, c(
   "x",
   "y",
   "distance",
-  "lock_step",
   "psi"
 )]
 
 #aggregation using means
 df <- distantia_aggregate(
-  df = df_multiple,
+  df = df,
   f = mean
 )
 
 df
+
+#momentum with multiple parameter combinations
+#-------------------------------------
+df <- momentum(
+  tsl = tsl,
+  distance = c("euclidean", "manhattan"),
+  lock_step = TRUE
+)
+
+df[, c(
+  "x",
+  "y",
+  "variable",
+  "distance",
+  "importance"
+)]
+
+#aggregation using means
+df <- momentum_aggregate(
+  df = df,
+  f = mean
+)
+
+df[, c(
+  "x",
+  "y",
+  "variable",
+  "importance"
+)]
 }
 \seealso{
 Other dissimilarity_analysis: 

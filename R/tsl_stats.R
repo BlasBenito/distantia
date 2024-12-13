@@ -107,7 +107,7 @@ tsl_stats <- function(
     zoo.i.name <- zoo_name_get(x = zoo.i)
 
     zoo.i.details <- data.frame(
-      name =zoo.i.name,
+      name = zoo.i.name,
       variable = colnames(zoo.i.data),
       NA_count = apply(
         X = zoo.i.data,

@@ -4,6 +4,8 @@ utils::globalVariables(c(
   "distances", # <d>
   "i", # <distantia>
   "median", # <distantia_boxplot>
+  "sd", # <distantia_stats>
+  "i", # <distantia_stats>
   "i", # <momentum>
   "i", # <tsl_simulate>
   "i", # <tsl_stats>

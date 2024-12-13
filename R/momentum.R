@@ -79,13 +79,13 @@
 #'
 #' #importance computed with dynamic time warping
 #' #less sensitive to latitudinal or altitudinal differences
-#' importance_dtw <- momentum(
+#' df <- momentum(
 #'   tsl = tsl
 #' )
 #'
 #'
 #' #focus on important columns
-#' importance_dtw[, c(
+#' df[, c(
 #'   "x",
 #'   "y",
 #'   "psi",
@@ -100,12 +100,12 @@
 #'
 #' #importance computed with lock-step method
 #' #more sensitive to latitudinal or altitudinal differences
-#' importance_lock_step <- momentum(
+#' df <- momentum(
 #'   tsl = tsl,
 #'   lock_step = TRUE
 #' )
 #'
-#' importance_lock_step[, c(
+#' df[, c(
 #'   "x",
 #'   "y",
 #'   "psi",
@@ -119,12 +119,12 @@
 #' #---------------------------------
 #' #most arguments accept vectors, and the results contain all argument combinations
 #'
-#' importance_df <- momentum(
+#' df <- momentum(
 #'   tsl = tsl,
 #'   lock_step = c(TRUE, FALSE)
 #' )
 #'
-#' importance_df[, c(
+#' df[, c(
 #'   "x",
 #'   "y",
 #'   "psi",
@@ -164,6 +164,28 @@ momentum <- function(
   bandwidth <- args$bandwidth
   lock_step <- args$lock_step
   robust <- args$robust
+
+  #lock-step check
+  if(any(lock_step == TRUE)){
+
+    #count rows in time series
+    row_counts <- tsl |>
+      tsl_nrow() |>
+      unlist() |>
+      unique()
+
+    if(length(row_counts) > 1){
+
+      message(
+        "distantia::momentum(): argument 'lock_step' is TRUE, but time series in 'tsl' do not have the same number of rows. Setting 'lock_step' to FALSE."
+      )
+
+      lock_step <- FALSE
+
+    }
+
+  }
+
 
 
   #stop if tsl is univariate

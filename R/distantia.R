@@ -180,6 +180,27 @@ distantia <- function(
   block_size <- args$block_size
   seed <- args$seed
 
+  #lock-step check
+  if(any(lock_step == TRUE)){
+
+    #count rows in time series
+    row_counts <- tsl |>
+      tsl_nrow() |>
+      unlist() |>
+      unique()
+
+    if(length(row_counts) > 1){
+
+          message(
+            "distantia::distantia(): argument 'lock_step' is TRUE, but time series in 'tsl' do not have the same number of rows. Setting 'lock_step' to FALSE."
+          )
+
+      lock_step <- FALSE
+
+    }
+
+  }
+
 
   #iterations data
   if(repetitions == 0){

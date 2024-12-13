@@ -1,8 +1,10 @@
-#' Aggregate Dissimilarity Analysis Data Frames Across Parameter Combinations
+#' Aggregate Dissimilarity Data Frames Across Parameter Combinations
 #'
 #' @description
 #'
-#' The functions [distantia()] and [momentum()] allow dissimilarity assessments based on different combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+#' The functions [distantia()] and [momentum()] allow dissimilarity assessments based on several combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+#'
+#' The functions `distantia_aggregate()` and `momentum_aggregate()` compute the stats of dissimilarity metrics across combinations of parameters.
 #'
 #' When `df` is the result of [distantia()], the input data is grouped by pairs of time series, and the function `f` is applied to the column "psi" by group
 #'
@@ -40,28 +42,55 @@
 #'
 #' #distantia with multiple parameter combinations
 #' #-------------------------------------
-#' df_multiple <- distantia(
+#' df <- distantia(
 #'   tsl = tsl,
-#'   distance = "euclidean",
-#'   lock_step = c(TRUE, FALSE)
+#'   distance = c("euclidean", "manhattan"),
+#'   lock_step = TRUE
 #' )
 #'
-#' df_multiple[, c(
+#' df[, c(
 #'   "x",
 #'   "y",
 #'   "distance",
-#'   "lock_step",
 #'   "psi"
 #' )]
 #'
 #' #aggregation using means
 #' df <- distantia_aggregate(
-#'   df = df_multiple,
+#'   df = df,
 #'   f = mean
 #' )
 #'
 #' df
-
+#'
+#' #momentum with multiple parameter combinations
+#' #-------------------------------------
+#' df <- momentum(
+#'   tsl = tsl,
+#'   distance = c("euclidean", "manhattan"),
+#'   lock_step = TRUE
+#' )
+#'
+#' df[, c(
+#'   "x",
+#'   "y",
+#'   "variable",
+#'   "distance",
+#'   "importance"
+#' )]
+#'
+#' #aggregation using means
+#' df <- momentum_aggregate(
+#'   df = df,
+#'   f = mean
+#' )
+#'
+#' df[, c(
+#'   "x",
+#'   "y",
+#'   "variable",
+#'   "importance"
+#' )]
 #' @family dissimilarity_analysis
 distantia_aggregate <- function(
     df = NULL,
@@ -162,3 +191,7 @@ distantia_aggregate <- function(
   df
 
 }
+
+#' @rdname distantia_aggregate
+#' @export
+momentum_aggregate <- distantia_aggregate

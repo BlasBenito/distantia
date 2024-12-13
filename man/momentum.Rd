@@ -102,13 +102,13 @@ if(interactive()){
 
 #importance computed with dynamic time warping
 #less sensitive to latitudinal or altitudinal differences
-importance_dtw <- momentum(
+df <- momentum(
   tsl = tsl
 )
 
 
 #focus on important columns
-importance_dtw[, c(
+df[, c(
   "x",
   "y",
   "psi",
@@ -123,12 +123,12 @@ importance_dtw[, c(
 
 #importance computed with lock-step method
 #more sensitive to latitudinal or altitudinal differences
-importance_lock_step <- momentum(
+df <- momentum(
   tsl = tsl,
   lock_step = TRUE
 )
 
-importance_lock_step[, c(
+df[, c(
   "x",
   "y",
   "psi",
@@ -142,12 +142,12 @@ importance_lock_step[, c(
 #---------------------------------
 #most arguments accept vectors, and the results contain all argument combinations
 
-importance_df <- momentum(
+df <- momentum(
   tsl = tsl,
   lock_step = c(TRUE, FALSE)
 )
 
-importance_df[, c(
+df[, c(
   "x",
   "y",
   "psi",
