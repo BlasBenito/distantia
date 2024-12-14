@@ -190,10 +190,10 @@ time series that are either more dissimilar (top) or similar (bottom) to
 others.
 
 ``` r
-distantia_boxplot(df = df_ls)
+distantia_boxplot(df = df_ls, text_cex = 0.8)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="75%" />
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 #### Dynamic Time Warping
 
@@ -315,15 +315,15 @@ df_importance[, c("x", "y", "variable", "importance", "effect")]
 ```
 
 Positive “importance” values indicate variables contributing to
-dissimilarity, while negative values indicate variables contributing to
-dissimilarity. The function documentation provides more details on how
+dissimilarity, while negative values indicate contribution to
+similarity. The function documentation provides more details on how
 importance scores are computed.
 
-The `distantia_boxplot()` function can provide insights into which
+The `momentum_boxplot()` function can provide insights into which
 variables contribute the most to similarity or dissimilarity.
 
 ``` r
-distantia_boxplot(
+momentum_boxplot(
   df = df_importance
 )
 ```
@@ -378,9 +378,11 @@ plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" /> This
-is just a summary of the features implemented in the package. Please
-visit the **Articles** section to find out more about `distantia`.
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" />
+
+This is just a summary of the features implemented in the package.
+Please visit the **Articles** section to find out more about
+`distantia`.
 
 ## Getting help
 

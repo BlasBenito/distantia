@@ -19,6 +19,7 @@ Checks Argument x
 }
 \seealso{
 Other internal: 
+\code{\link{utils_boxplot_common}()},
 \code{\link{utils_check_args_distantia}()},
 \code{\link{utils_check_args_matrix}()},
 \code{\link{utils_check_args_path}()},

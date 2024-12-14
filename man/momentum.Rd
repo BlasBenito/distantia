@@ -2,7 +2,7 @@
 % Please edit documentation in R/momentum.R
 \name{momentum}
 \alias{momentum}
-\title{Contribution of Individual Variables to Dissimilarity in Time Series Lists}
+\title{Contribution of Individual Variables to Time Series Dissimilarity}
 \usage{
 momentum(
   tsl = NULL,
@@ -81,10 +81,8 @@ future::plan(
 #progress bar
 # progressr::handlers(global = TRUE)
 
-#load fagus_dynamics as tsl
-#global centering and scaling
 tsl <- tsl_initialize(
-  x = fagus_dynamics,
+  x = distantia::albatross,
   name_column = "name",
   time_column = "time"
 ) |>
@@ -92,70 +90,19 @@ tsl <- tsl_initialize(
     f = f_scale_global
   )
 
-if(interactive()){
-  tsl_plot(
-    tsl = tsl,
-    guide_columns = 3
-    )
-}
-
-
-#importance computed with dynamic time warping
-#less sensitive to latitudinal or altitudinal differences
 df <- momentum(
-  tsl = tsl
-)
-
+  tsl = tsl,
+  lock_step = TRUE #to speed-up example
+  )
 
 #focus on important columns
 df[, c(
   "x",
   "y",
-  "psi",
   "variable",
   "importance",
   "effect"
   )]
-
-#Interpretation example:
-#variable contributing the most to similarity between Germany and Sweden: temperature
-#variable contributing the most to dissimilarity between Spain and Sweden: temperature
-
-#importance computed with lock-step method
-#more sensitive to latitudinal or altitudinal differences
-df <- momentum(
-  tsl = tsl,
-  lock_step = TRUE
-)
-
-df[, c(
-  "x",
-  "y",
-  "psi",
-  "variable",
-  "importance",
-  "effect"
-  )]
-
-
-#combinations of parameters
-#---------------------------------
-#most arguments accept vectors, and the results contain all argument combinations
-
-df <- momentum(
-  tsl = tsl,
-  lock_step = c(TRUE, FALSE)
-)
-
-df[, c(
-  "x",
-  "y",
-  "psi",
-  "variable",
-  "importance",
-  "effect",
-  "lock_step"
-)]
 
 #disable parallelization
 future::plan(

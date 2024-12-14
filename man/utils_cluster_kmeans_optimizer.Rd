@@ -79,9 +79,9 @@ future::plan(
 }
 \seealso{
 Other internal_dissimilarity_analysis: 
+\code{\link{momentum_to_wide}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_silhouette}()},
-\code{\link{utils_importance_df_to_wide}()}
+\code{\link{utils_cluster_silhouette}()}
 }
 \concept{internal_dissimilarity_analysis}

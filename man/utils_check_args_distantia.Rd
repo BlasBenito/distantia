@@ -46,6 +46,7 @@ Check Input Arguments of \code{distantia()} and \code{momentum()}.
 }
 \seealso{
 Other internal: 
+\code{\link{utils_boxplot_common}()},
 \code{\link{utils_check_args_matrix}()},
 \code{\link{utils_check_args_path}()},
 \code{\link{utils_check_args_tsl}()},

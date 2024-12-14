@@ -19,6 +19,7 @@ Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[
 }
 \seealso{
 Other internal: 
+\code{\link{utils_boxplot_common}()},
 \code{\link{utils_check_args_distantia}()},
 \code{\link{utils_check_args_matrix}()},
 \code{\link{utils_check_args_path}()},

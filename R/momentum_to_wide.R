@@ -1,7 +1,7 @@
-#' Data Frame with Contribution of Individual Variables to Dissimilarity to Wide Format
+#' Momentum Data Frame to Wide Format
 #'
 #' @description
-#' Takes as input a data frame returned by [momentum()] to return a data frame with one pair of time series per row, and the following columns:
+#' Transforms a data frame returned by [momentum()] to wide format with the following columns:
 #' \itemize{
 #'   \item `most_similar`: name of the variable with the highest contribution to similarity (most negative value in the `importance` column) for each pair of time series.
 #'   \item `most_dissimilar`: name of the variable with the highest contribution to dissimilarity (most positive value in the `importance` column) for each pair of time series.
@@ -17,11 +17,9 @@
 #' @return data frame
 #' @export
 #' @examples
-#' #prepare time series
-#' data("fagus_dynamics")
 #'
 #' tsl <- tsl_initialize(
-#'   x = fagus_dynamics,
+#'   x = distantia::albatross,
 #'   name_column = "name",
 #'   time_column = "time"
 #' ) |>
@@ -33,17 +31,19 @@
 #' df <- momentum(
 #'   tsl = tsl
 #' )
+#'
 #' df
 #'
 #' #to wide format
-#' df_wide <- utils_importance_df_to_wide(
+#' df_wide <- momentum_to_wide(
 #'   df = df
 #' )
+#'
 #' df_wide
 #'
 #' @autoglobal
 #' @family internal_dissimilarity_analysis
-utils_importance_df_to_wide <- function(
+momentum_to_wide <- function(
     df = NULL,
     sep = "__"
 ){
@@ -56,11 +56,11 @@ utils_importance_df_to_wide <- function(
     )
   )
   ){
-    stop("distantia::utils_importance_df_to_wide(): argument 'df' must be the output of momentum().", call. = FALSE)
+    stop("distantia::momentum_to_wide(): argument 'df' must be the output of distantia::momentum().", call. = FALSE)
   }
 
   #aggregate to keep the important columns only
-  df <- distantia_aggregate(
+  df <- momentum_aggregate(
     df = df
   )
 
@@ -155,6 +155,8 @@ utils_importance_df_to_wide <- function(
   )
 
   #reorder columns
-  df[, c(id_columns, importance_columns)]
+  df <- df[, c(id_columns, importance_columns)]
+
+  df
 
 }

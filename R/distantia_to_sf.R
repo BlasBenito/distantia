@@ -149,7 +149,7 @@ distantia_to_sf <- function(
   }
 
   if(df_type == "momentum_df"){
-    df <- utils_importance_df_to_wide(
+    df <- momentum_to_wide(
       df = df
     )
   }

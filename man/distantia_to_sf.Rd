@@ -110,6 +110,8 @@ Other dissimilarity_analysis:
 \code{\link{distantia_cluster_hclust}()},
 \code{\link{distantia_cluster_kmeans}()},
 \code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()}
+\code{\link{distantia_plot}()},
+\code{\link{distantia_stats}()},
+\code{\link{momentum_stats}()}
 }
 \concept{dissimilarity_analysis}

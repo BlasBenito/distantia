@@ -160,8 +160,8 @@ The "psi" column contains normalized dissimilarity values and is used to sort th
 
 The function `distantia_boxplot()` enables a quick identification of the time series that are either more dissimilar (top) or similar (bottom) to others.
 
-```{r, fig.width=4.5, fig.height=3, out.width = "75%"}
-distantia_boxplot(df = df_ls)
+```{r, fig.width=3, fig.height=2.5}
+distantia_boxplot(df = df_ls, text_cex = 0.8)
 ```
 
 #### Dynamic Time Warping
@@ -219,12 +219,12 @@ df_importance <- momentum(
 df_importance[, c("x", "y", "variable", "importance", "effect")]
 ```
 
-Positive "importance" values indicate variables contributing to dissimilarity, while negative values indicate variables contributing to dissimilarity. The function documentation provides more details on how importance scores are computed.
+Positive "importance" values indicate variables contributing to dissimilarity, while negative values indicate contribution to similarity. The function documentation provides more details on how importance scores are computed.
 
-The `distantia_boxplot()` function can provide insights into which variables contribute the most to similarity or dissimilarity.
+The `momentum_boxplot()` function can provide insights into which variables contribute the most to similarity or dissimilarity.
 
 ```{r, fig.width=4.5, fig.height=3, out.width = "75%"}
-distantia_boxplot(
+momentum_boxplot(
   df = df_importance
 )
 ```
@@ -261,6 +261,7 @@ plot(
   horiz = TRUE
 )
 ```
+
 This is just a summary of the features implemented in the package. Please visit the **Articles** section to find out more about `distantia`.
 
 ## Getting help

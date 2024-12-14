@@ -22,30 +22,18 @@
 #'
 #' df_stats
 #' @family dissimilarity_analysis
-distantia_stats <- function(
+momentum_stats <- function(
     df = NULL
 ){
 
   df_type <- attributes(df)$type
 
-  if(df_type != "distantia_df"){
-    stop("distantia::distantia_stats(): argument 'df' must be the output of distantia().", call. = FALSE)
+  if(df_type != "momentum_df"){
+    stop("distantia::momentum_stats(): argument 'df' must be the output of distantia::momentum().", call. = FALSE)
   }
 
-  df <- distantia_aggregate(
+  df <- momentum_aggregate(
     df = df
-  )
-
-  #disaggregate pairs
-  df <- rbind(
-    data.frame(
-      name = df[["x"]],
-      psi = df[["psi"]]
-    ),
-    data.frame(
-      name = df[["y"]],
-      psi = df[["psi"]]
-    )
   )
 
   #stats functions
@@ -97,12 +85,12 @@ distantia_stats <- function(
 
     df.i <- stats::aggregate(
       x = df,
-      by = psi ~ name,
+      by = importance ~ variable,
       FUN = f[[i]]
     )
 
     colnames(df.i) <- c(
-      "name", names(f)[i]
+      "variable", names(f)[i]
     )
 
     df.i
@@ -111,7 +99,7 @@ distantia_stats <- function(
 
   df_stats <- Reduce(
     f = function(x, y){
-      merge(x, y, by = "name")
+      merge(x, y, by = "variable")
     },
     x = stats_list
   )
