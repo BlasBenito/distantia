@@ -7,7 +7,7 @@
 #' @return numeric value
 #' @examples
 #'
-#' d(
+#' distance(
 #'   x = runif(100),
 #'   y = runif(100),
 #'   distance = "euclidean"
@@ -15,8 +15,8 @@
 #'
 #' @autoglobal
 #' @export
-#' @family psi_demo
-d <- function(
+#' @family distances
+distance <- function(
     x = NULL,
     y = NULL,
     distance = "euclidean"
@@ -68,7 +68,11 @@ d <- function(
     "(df$x, df$y)"
   )
 
-  eval(parse(text = expression))
+  y <- eval(parse(text = expression))
+
+  attr(x = y, which = "distance") <- distance
+
+  y
 
 }
 

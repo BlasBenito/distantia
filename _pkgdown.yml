@@ -87,6 +87,11 @@ reference:
 - contents:
   - has_concept("psi_demo")
 
+- title: Distance Functions
+  desc:  Functions to compute distances between univariate or multivariate vectors and data frames.
+- contents:
+  - has_concept("distances")
+
 - title: Create Time Series Lists
   desc:  Transform raw time series data into **time series lists** (TSLs hereafter). TSLs are lists of zoo time series objects used within the package for data management and analysis.
 - contents:

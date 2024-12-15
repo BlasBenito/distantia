@@ -111,6 +111,7 @@ future::plan(
 }
 \seealso{
 Other dissimilarity_analysis_main: 
-\code{\link{distantia}()}
+\code{\link{distantia}()},
+\code{\link{distantia_model_frame}()}
 }
 \concept{dissimilarity_analysis_main}

@@ -101,8 +101,6 @@ if(interactive()){
 }
 \seealso{
 Other psi_demo: 
-\code{\link{d}()},
-\code{\link{distances}},
 \code{\link{psi_auto_distance}()},
 \code{\link{psi_auto_sum}()},
 \code{\link{psi_cost_matrix}()},

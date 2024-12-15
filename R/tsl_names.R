@@ -38,7 +38,7 @@
 tsl_names_get <- function(
     tsl = NULL,
     zoo = TRUE
-    ){
+){
 
   utils_check_args_tsl(
     tsl = tsl,
@@ -162,9 +162,11 @@ tsl_names_set <- function(
   #function to deduplicate names
   deduplicate <- function(x = NULL){
 
-    if(!is.null(x)){
+    if(
+      !is.null(x) &&
+      sum(duplicated(x)) > 0
+    ){
 
-      #deduplicates if required
       x <- utils_clean_names(
         x = x
       )

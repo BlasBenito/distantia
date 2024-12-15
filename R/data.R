@@ -5,7 +5,7 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @family psi_demo
+#' @family distances
 #' @name distances
 #' @usage data(distances)
 #' @format data frame with 5 columns and 10 rows
@@ -15,7 +15,7 @@
 #'
 #' Dataset with Covid19 maximum weekly prevalence in California counties between 2020 and 2024, from healthdata.gov.
 #'
-#' County coordinates for this dataset are in [covid_coordinates].
+#' County polygons and additional data for this dataset are in [covid_counties].
 #'
 #' The full dataset at daily resolution can be downloaded from [https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda](https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda) (use the "Download raw file" button).
 #'
@@ -53,20 +53,10 @@
 #' @docType data
 #' @keywords datasets
 #' @family example_data
-#' @name covid_coordinates
-#' @usage data(covid_coordinates)
-#' @format sf data frame with 4 columns and 36 rows
-"covid_coordinates"
-
-#' County Polygons of the Covid Prevalence Dataset
-#'
-#' @docType data
-#' @keywords datasets
-#' @family example_data
-#' @name covid_polygons
-#' @usage data(covid_polygons)
-#' @format sf data frame with 2 columns and 36 rows
-"covid_polygons"
+#' @name covid_counties
+#' @usage data(covid_counties)
+#' @format sf data frame with county polygons and census data from [https://www.counties.org/data-and-research](https://www.counties.org/data-and-research).
+"covid_counties"
 
 #' Time Series Data from Three Fagus sylvatica Stands
 #'

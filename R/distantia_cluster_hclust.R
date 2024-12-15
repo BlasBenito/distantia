@@ -128,26 +128,10 @@ distantia_cluster_hclust <- function(
 ){
 
   #aggregate df if needed
-  df_list <- utils_distantia_df_split(
-    df = df
+  df <- distantia_aggregate(
+    df = df,
+    f = mean
   )
-
-  if(length(df_list) > 1){
-
-    message(
-      "distantia::distantia_cluster_hclust(): there are ",
-      length(df_list),
-      "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
-      )
-
-    df <- distantia_aggregate(
-      df = df,
-      f = mean
-    )
-
-    rm(df_list)
-
-  }
 
   d <- distantia_matrix(
     df = df
@@ -168,7 +152,7 @@ distantia_cluster_hclust <- function(
     clusters <- optimization_df[
       best_index,
       "clusters"
-      ]
+    ]
 
     method <- optimization_df[
       best_index,

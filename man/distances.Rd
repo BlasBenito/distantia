@@ -14,16 +14,9 @@ data(distances)
 Data frame with the names, abbreviations, and expressions of the distance metrics implemented in the package.
 }
 \seealso{
-Other psi_demo: 
-\code{\link{d}()},
-\code{\link{psi_auto_distance}()},
-\code{\link{psi_auto_sum}()},
-\code{\link{psi_cost_matrix}()},
-\code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_sum}()},
-\code{\link{psi_distance_lock_step}()},
-\code{\link{psi_distance_matrix}()},
-\code{\link{psi_equation}()}
+Other distances: 
+\code{\link{distance}()},
+\code{\link{distance_matrix}()}
 }
-\concept{psi_demo}
+\concept{distances}
 \keyword{datasets}

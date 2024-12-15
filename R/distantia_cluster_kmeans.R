@@ -104,24 +104,10 @@ distantia_cluster_kmeans <- function(
     seed = 1
 ){
 
-  df_list <- utils_distantia_df_split(
-    df = df
+  df <- distantia_aggregate(
+    df = df,
+    f = mean
   )
-
-  if(length(df_list) > 1){
-
-    message(
-      "distantia::distantia_cluster_kmeans(): there are ",
-      length(df_list),
-      "  combinations of arguments in 'df'. Applying distantia_aggregate(..., f = mean) to combine them into a single one."
-      )
-
-    df <- distantia_aggregate(
-      df = df,
-      f = mean
-    )
-
-  }
 
   d <- distantia_matrix(
     df = df
@@ -138,7 +124,7 @@ distantia_cluster_kmeans <- function(
     clusters <- optimization_df[
       which.max(optimization_df$silhouette_mean),
       "clusters"
-      ]
+    ]
 
   }
 

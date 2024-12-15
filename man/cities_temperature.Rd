@@ -45,8 +45,7 @@ if(interactive()){
 Other example_data: 
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
-\code{\link{covid_coordinates}},
-\code{\link{covid_polygons}},
+\code{\link{covid_counties}},
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},

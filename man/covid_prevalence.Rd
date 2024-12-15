@@ -14,7 +14,7 @@ data(covid_prevalence)
 Dataset with Covid19 maximum weekly prevalence in California counties between 2020 and 2024, from healthdata.gov.
 }
 \details{
-County coordinates for this dataset are in \link{covid_coordinates}.
+County polygons and additional data for this dataset are in \link{covid_counties}.
 
 The full dataset at daily resolution can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda} (use the "Download raw file" button).
 }
@@ -45,8 +45,7 @@ Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},
-\code{\link{covid_coordinates}},
-\code{\link{covid_polygons}},
+\code{\link{covid_counties}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
 \code{\link{fagus_coordinates}},

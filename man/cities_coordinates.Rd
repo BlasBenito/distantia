@@ -19,8 +19,7 @@ The full dataset with 100 cities can be downloaded from \url{https://github.com/
 Other example_data: 
 \code{\link{albatross}},
 \code{\link{cities_temperature}},
-\code{\link{covid_coordinates}},
-\code{\link{covid_polygons}},
+\code{\link{covid_counties}},
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
@@ -32,8 +31,7 @@ Other example_data:
 Other example_data: 
 \code{\link{albatross}},
 \code{\link{cities_temperature}},
-\code{\link{covid_coordinates}},
-\code{\link{covid_polygons}},
+\code{\link{covid_counties}},
 \code{\link{covid_prevalence}},
 \code{\link{eemian_coordinates}},
 \code{\link{eemian_pollen}},
