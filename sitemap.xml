@@ -27,10 +27,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_path_slotting_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_path_sum_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_path_trim_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/covid_coordinates.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/covid_polygons.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/covid_counties.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/covid_prevalence.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/d.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distance.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_bray_curtis_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_canberra_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_chebyshev_cpp.html</loc></url>
@@ -42,6 +41,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_jaccard_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_manhattan_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distance_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_matrix_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_russelrao_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_sorensen_cpp.html</loc></url>
@@ -53,7 +53,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_cluster_hclust.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_cluster_kmeans.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_matrix.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distantia_model_frame.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_plot.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distantia_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_to_sf.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_pollen.html</loc></url>
@@ -81,6 +83,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_boxplot.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_stats.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_to_wide.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/null_psi_dynamic_time_warping_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/null_psi_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_free_by_row_cpp.html</loc></url>
@@ -130,6 +135,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_transform.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_as_time.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_block_size.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/utils_boxplot_common.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_check_args_distantia.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_check_args_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_check_args_path.html</loc></url>
@@ -150,7 +156,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_distantia_df_to_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_drop_geometry.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_global_scaling_params.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/utils_importance_df_to_wide.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_is_time.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_line_color.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_line_guide.html</loc></url>

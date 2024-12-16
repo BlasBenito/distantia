@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A Toolset for Time Series Dissimilarity Analysis • distantia</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -217,8 +223,8 @@
 <p>The “psi” column contains normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.</p>
 <p>The function <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> enables a quick identification of the time series that are either more dissimilar (top) or similar (bottom) to others.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_ls</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="75%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_ls</span>, text_cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png"><!-- --></p>
 </div>
 <div class="section level4">
 <h4 id="dynamic-time-warping">Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#dynamic-time-warping"></a>
@@ -311,10 +317,10 @@
 <span><span class="co">#&gt; 28 X136 X153       speed  -65.4516103 increases similarity</span></span>
 <span><span class="co">#&gt; 29 X136 X153 temperature  240.9053814 decreases similarity</span></span>
 <span><span class="co">#&gt; 30 X136 X153     heading -116.2461929 increases similarity</span></span></code></pre></div>
-<p>Positive “importance” values indicate variables contributing to dissimilarity, while negative values indicate variables contributing to dissimilarity. The function documentation provides more details on how importance scores are computed.</p>
-<p>The <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> function can provide insights into which variables contribute the most to similarity or dissimilarity.</p>
+<p>Positive “importance” values indicate variables contributing to dissimilarity, while negative values indicate contribution to similarity. The function documentation provides more details on how importance scores are computed.</p>
+<p>The <code><a href="reference/momentum_boxplot.html">momentum_boxplot()</a></code> function can provide insights into which variables contribute the most to similarity or dissimilarity.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/momentum_boxplot.html">momentum_boxplot</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">df_importance</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="75%"></p>
@@ -362,7 +368,8 @@
 <span>    <span class="op">)</span>,</span>
 <span>  horiz <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="75%"> This is just a summary of the features implemented in the package. Please visit the <strong>Articles</strong> section to find out more about <code>distantia</code>.</p>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="75%"></p>
+<p>This is just a summary of the features implemented in the package. Please visit the <strong>Articles</strong> section to find out more about <code>distantia</code>.</p>
 </div>
 </div>
 <div class="section level2">
