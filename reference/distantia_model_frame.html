@@ -92,6 +92,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  predictors_df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  predictors_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predictors_scaled <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -110,6 +111,10 @@ This function supports a parallelization setup via future::plan(), and progress 
 
 <dt id="arg-predictors-list">predictors_list<a class="anchor" aria-label="anchor" href="#arg-predictors-list"></a></dt>
 <dd><p>(optional, list) list defining new predictors as combinations of other predictors in <code>predictors_df</code>. For example, <code>predictors_list = list(a = c("b", "c"))</code> uses the columns <code>"b"</code> and <code>"c"</code> from <code>predictors_df</code> to generate the predictor <code>a</code> in the model frame. Default: NULL</p></dd>
+
+
+<dt id="arg-predictors-scaled">predictors_scaled<a class="anchor" aria-label="anchor" href="#arg-predictors-scaled"></a></dt>
+<dd><p>(optional, logical) if TRUE, all predictors are scaled and centered with <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale()</a></code>. Default: FALSE</p></dd>
 
 
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
@@ -166,31 +171,25 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="va">model_frame</span> <span class="op">&lt;-</span> <span class="fu">distantia_model_frame</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  df <span class="op">=</span> <span class="va">df</span>,</span></span>
 <span class="r-in"><span>  predictors_df <span class="op">=</span> <span class="va">covid_counties</span>,</span></span>
-<span class="r-in"><span>  predictors_list <span class="op">=</span> <span class="va">predictors_list</span></span></span>
+<span class="r-in"><span>  predictors_list <span class="op">=</span> <span class="va">predictors_list</span>,</span></span>
+<span class="r-in"><span>  predictors_scaled <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              x            y      psi  distance   economy area_hectares</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Alameda        Butte 2.962963 158650.80 2.7802798   240683.3223</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Alameda Contra_Costa 1.162055      0.00 0.3641648      408.0386</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        Butte Contra_Costa 2.733068 132046.29 2.8431733   241091.3609</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Alameda    El_Dorado 2.483755  89748.63 1.2752482   268655.5879</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Butte    El_Dorado 2.327273  56927.91 2.1431460    27972.2656</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Contra_Costa    El_Dorado 2.767442  65680.55 1.1381072   269063.6265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   population poverty_percentage median_income domestic_product</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1430602                7.2         45989       40363.9839</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     488541                0.6          1624       15663.7551</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     942061                7.8         47613       24700.2288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    1447188                0.6         21282       40701.1966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      16586                7.8         24707         337.2127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     958647                0.0         22906       25037.4415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   daily_miles_traveled employed_percentage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            0.2383988            6.611775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            2.4454332            2.471545</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            2.2070344            4.140230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            0.2925610            0.869032</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5            0.5309598            5.742743</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6            2.7379942            1.602513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        psi   distance     economy area_hectares  population poverty_percentage</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.962963 -0.3873446  0.54789048    -0.5099580  0.06080193          0.6712709</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1.162055 -1.1308600 -1.19993287    -0.7391627 -0.40057819         -1.2480968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2.733068 -0.5120264  0.59338777    -0.5095688 -0.17846400          0.8457589</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2.483755 -0.7102539 -0.54085294    -0.4832746  0.06892502         -1.2480968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2.327273 -0.8640679  0.08698636    -0.7128685 -0.63172103          0.8457589</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2.767442 -0.8230488 -0.64006109    -0.4828853 -0.17034091         -1.4225848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   median_income domestic_product daily_miles_traveled employed_percentage</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1.05695331     -0.008809640           -1.1239494          -0.1049333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   -1.24937126     -0.466809871           -0.6256303          -0.7943577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    1.14137732     -0.299252434           -0.6794576          -0.5164909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   -0.22744568     -0.002556924           -1.1117203          -1.0612055</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   -0.04939628     -0.750999949           -1.0578930          -0.2496431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   -0.14302167     -0.292999718           -0.5595739          -0.9390675</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of response and predictors</span></span></span>
 <span class="r-in"><span><span class="co">#and an additive formula</span></span></span>
@@ -205,7 +204,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ distance + economy + area_hectares + population + poverty_percentage + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     median_income + domestic_product + daily_miles_traveled + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     employed_percentage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55c1897285e8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5573d0c662f8&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#linear model</span></span></span>
@@ -224,17 +223,17 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> -2.3579 -0.4988  0.1004  0.5309  1.6577 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                        Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           2.805e+00  7.629e-02  36.768  &lt; 2e-16 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> distance              1.002e-06  1.502e-07   6.675  5.5e-11 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> economy               2.840e-01  1.884e-01   1.507   0.1323    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> area_hectares         9.157e-08  2.921e-08   3.134   0.0018 ** </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> population            2.836e-08  1.540e-08   1.841   0.0661 .  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> poverty_percentage   -5.696e-02  3.475e-02  -1.639   0.1017    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> median_income         1.628e-06  4.944e-06   0.329   0.7420    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> domestic_product     -2.998e-06  2.884e-06  -1.040   0.2989    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> daily_miles_traveled -2.253e-03  8.838e-03  -0.255   0.7989    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> employed_percentage   1.916e-02  8.508e-03   2.252   0.0247 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           3.497370   0.029861 117.120  &lt; 2e-16 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> distance              0.213906   0.032047   6.675  5.5e-11 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> economy               0.392631   0.260504   1.507   0.1323    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> area_hectares         0.095988   0.030623   3.134   0.0018 ** </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> population            0.057896   0.031454   1.841   0.0661 .  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> poverty_percentage   -0.195852   0.119502  -1.639   0.1017    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median_income         0.031322   0.095096   0.329   0.7420    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> domestic_product     -0.161710   0.155524  -1.040   0.2989    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> daily_miles_traveled -0.009979   0.039144  -0.255   0.7989    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> employed_percentage   0.115063   0.051094   2.252   0.0247 *  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
