@@ -161,10 +161,12 @@ momentum <- function(
   p <- progressr::progressor(along = iterations)
 
   #to silence loading messages
-  `%iterator%` <- doFuture::`%dofuture%` |>
-    suppressMessages()
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
 
-  df <- foreach::foreach(
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+  #iterate over pairs of time series
+  df <- for_each(
     i = iterations,
     .combine = "rbind",
     .options.future = list(seed = TRUE)

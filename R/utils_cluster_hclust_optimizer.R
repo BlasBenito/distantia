@@ -118,11 +118,12 @@ utils_cluster_hclust_optimizer <- function(
   df$silhouette_mean <- NA
 
   #to silence loading messages
-  `%iterator%` <- doFuture::`%dofuture%` |>
-    suppressMessages()
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
 
   #clustering methods
-  hc_methods <- foreach::foreach(
+  hc_methods <- for_each(
     i = methods_vector
   ) %iterator% {
 

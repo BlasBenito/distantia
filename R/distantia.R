@@ -246,9 +246,13 @@ distantia <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  `%iterator%` <- doFuture::`%dofuture%`
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
 
-  df_distantia <- foreach::foreach(
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+  #iterate over pairs of time series
+  df_distantia <- for_each(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",

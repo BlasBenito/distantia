@@ -147,11 +147,14 @@ zoo_permute <- function(
 
   repetitions <- seq_len(repetitions)
 
-  `%iterator%` <- doFuture::`%dofuture%`
-
   p <- progressr::progressor(along = repetitions)
 
-  permutations <- foreach::foreach(
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+  permutations <- for_each(
     i = repetitions,
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)

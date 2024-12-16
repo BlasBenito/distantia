@@ -95,9 +95,12 @@ utils_cluster_kmeans_optimizer <- function(
 
   p <- progressr::progressor(along = clusters_vector)
 
-  `%iterator%` <- doFuture::`%dofuture%`
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
 
-  sil <- foreach::foreach(
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+  sil <- for_each(
     i = clusters_vector,
     .combine = "c",
     .errorhandling = "pass",

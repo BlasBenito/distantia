@@ -85,10 +85,14 @@ distantia_stats <- function(
 
   #progress bar and iterator
   p <- progressr::progressor(along = f)
-  `%iterator%` <- doFuture::`%dofuture%`
+
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
 
   #computing stats
-  stats_list <- foreach::foreach(
+  stats_list <- for_each(
     i = seq_len(length(f)),
     .errorhandling = "pass"
   ) %iterator% {

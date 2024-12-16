@@ -173,11 +173,13 @@ tsl_simulate <- function(
   #progress bar
   p <- progressr::progressor(along = seq_len(n))
 
-  #parallelization setup
-  `%iterator%` <- doFuture::`%dofuture%`
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
 
   #generate tsl
-  tsl <- foreach::foreach(
+  tsl <- for_each(
     i = seq_len(n),
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)

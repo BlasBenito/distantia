@@ -71,12 +71,17 @@ momentum_stats <- function(
     "sd"
   )
 
-  #progress bar and iterator
+  #progress bar
+
   p <- progressr::progressor(along = f)
-  `%iterator%` <- doFuture::`%dofuture%`
+
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
 
   #computing stats
-  stats_list <- foreach::foreach(
+  stats_list <- for_each(
     i = seq_len(length(f)),
     .errorhandling = "pass"
   ) %iterator% {

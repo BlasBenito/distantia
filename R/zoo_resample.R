@@ -256,9 +256,11 @@ zoo_resample <- function(
   )
 
   #interpolate
-  `%iterator%` <- foreach::`%do%`
+  `%iterator%` <- suppressPackageStartupMessages(foreach::`%do%`)
 
-  y <- foreach::foreach(
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+  y <- for_each(
     i = seq_len(ncol(x)),
     .combine = "cbind",
     .errorhandling = "pass",

@@ -88,10 +88,14 @@ tsl_stats <- function(
 
   #progress bar and iterator
   p <- progressr::progressor(along = tsl)
-  `%iterator%` <- doFuture::`%dofuture%`
+
+  #to silence loading messages
+  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+
+  for_each <- suppressPackageStartupMessages(foreach::foreach)
 
   #computing stats
-  df <- foreach::foreach(
+  df <- for_each(
     i = seq_len(length(tsl)),
     .combine = "rbind",
     .errorhandling = "pass"

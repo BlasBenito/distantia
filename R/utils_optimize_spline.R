@@ -85,9 +85,11 @@ utils_optimize_spline <- function(
 
   } else {
 
-    `%iterator%` <- foreach::`%do%`
+    `%iterator%` <- suppressPackageStartupMessages(foreach::`%do%`)
 
-    rmse <- foreach::foreach(
+    for_each <- suppressPackageStartupMessages(foreach::foreach)
+
+    rmse <- for_each(
       complexity_value = complexity_space,
       .combine = "c",
       .errorhandling = "pass"
