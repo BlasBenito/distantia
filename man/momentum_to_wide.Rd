@@ -51,10 +51,16 @@ df_wide
 
 }
 \seealso{
-Other internal_dissimilarity_analysis: 
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other dissimilarity_analysis: 
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_plot}()},
+\code{\link{distantia_stats}()},
+\code{\link{distantia_to_sf}()},
+\code{\link{momentum_boxplot}()},
+\code{\link{momentum_stats}()}
 }
-\concept{internal_dissimilarity_analysis}
+\concept{dissimilarity_analysis}

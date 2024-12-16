@@ -50,18 +50,8 @@ reference:
         - `utils_...()`: internal functions and helpers.
         - `..._cpp()`: C++ core functions built via [Rcpp](https://CRAN.R-project.org/package=Rcpp) for efficient dissimilarity analysis.
 
-- title: Example Time Series
-  desc:  Time series datasets from different disciplines.
-- contents:
-  - has_concept("example_data")
-
-- title: Time Series Simulation
-  desc:  Functions to generate simulated time series.
-- contents:
-  - has_concept("simulate_time_series")
-
-- title: Core Functions for Time Series Dissimilarity Analysis
-  desc:  Functions to compare time series and assess the partial contribution of individual variables to dissimilarity.
+- title: Core Functions for Dynamic Time Warping and Lock-step Analysis
+  desc:  Functions to assess time series dissimilarity, and the partial contribution of individual variables to dissimilarity.
 - contents:
   - has_concept("dissimilarity_analysis_main")
 
@@ -118,6 +108,16 @@ reference:
   desc:  Functions to Manage, Plot, and Transform Zoo Time Series
 - contents:
   - has_concept("zoo_functions")
+
+- title: Example Time Series
+  desc:  Time series datasets from different disciplines.
+- contents:
+  - has_concept("example_data")
+
+- title: Time Series Simulation
+  desc:  Functions to generate simulated time series.
+- contents:
+  - has_concept("simulate_time_series")
 
 - title: Plotting Helpers
   desc:  Internal functions to help with plotting tasks.

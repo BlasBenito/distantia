@@ -27,6 +27,7 @@
 #' momentum_boxplot(
 #'   df = df
 #'   )
+#' @family dissimilarity_analysis
 momentum_boxplot <- function(
     df = NULL,
     fill_color = NULL,

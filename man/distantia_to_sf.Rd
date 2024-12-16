@@ -112,6 +112,8 @@ Other dissimilarity_analysis:
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_plot}()},
 \code{\link{distantia_stats}()},
-\code{\link{momentum_stats}()}
+\code{\link{momentum_boxplot}()},
+\code{\link{momentum_stats}()},
+\code{\link{momentum_to_wide}()}
 }
 \concept{dissimilarity_analysis}

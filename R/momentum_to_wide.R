@@ -42,7 +42,7 @@
 #' df_wide
 #'
 #' @autoglobal
-#' @family internal_dissimilarity_analysis
+#' @family dissimilarity_analysis
 momentum_to_wide <- function(
     df = NULL,
     sep = "__"

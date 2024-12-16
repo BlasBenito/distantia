@@ -40,3 +40,17 @@ momentum_boxplot(
   df = df
   )
 }
+\seealso{
+Other dissimilarity_analysis: 
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_plot}()},
+\code{\link{distantia_stats}()},
+\code{\link{distantia_to_sf}()},
+\code{\link{momentum_stats}()},
+\code{\link{momentum_to_wide}()}
+}
+\concept{dissimilarity_analysis}
