@@ -7,6 +7,7 @@ utils::globalVariables(c(
   "sd", # <distantia_model_frame>
   "sd", # <distantia_stats>
   "i", # <distantia_stats>
+  "i", # <distantia_time_shift>
   "i", # <momentum>
   "median", # <momentum_boxplot>
   "sd", # <momentum_stats>

@@ -8,6 +8,7 @@ distantia_model_frame(
   df = NULL,
   predictors_df = NULL,
   predictors_list = NULL,
+  predictors_scaled = FALSE,
   distance = "euclidean"
 )
 }
@@ -17,6 +18,8 @@ distantia_model_frame(
 \item{predictors_df}{(required, data frame) data frame with numeric predictors to be added to the model frame. Must have a column with the names in \code{df$x} and \code{df$y}. If \code{sf} data frame, the predictor "distance" is added to the model frame. Default: NULL}
 
 \item{predictors_list}{(optional, list) list defining new predictors as combinations of other predictors in \code{predictors_df}. For example, \code{predictors_list = list(a = c("b", "c"))} uses the columns \code{"b"} and \code{"c"} from \code{predictors_df} to generate the predictor \code{a} in the model frame. Default: NULL}
+
+\item{predictors_scaled}{(optional, logical) if TRUE, all predictors are scaled and centered with \code{\link[=scale]{scale()}}. Default: FALSE}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 }
@@ -82,7 +85,8 @@ predictors_list <- list(
 model_frame <- distantia_model_frame(
   df = df,
   predictors_df = covid_counties,
-  predictors_list = predictors_list
+  predictors_list = predictors_list,
+  predictors_scaled = TRUE
 )
 
 head(model_frame)

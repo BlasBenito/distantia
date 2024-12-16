@@ -26,6 +26,7 @@
 #' @inheritParams distantia_matrix
 #' @param predictors_df (required, data frame) data frame with numeric predictors to be added to the model frame. Must have a column with the names in `df$x` and `df$y`. If `sf` data frame, the predictor "distance" is added to the model frame. Default: NULL
 #' @param predictors_list (optional, list) list defining new predictors as combinations of other predictors in `predictors_df`. For example, `predictors_list = list(a = c("b", "c"))` uses the columns `"b"` and `"c"` from `predictors_df` to generate the predictor `a` in the model frame. Default: NULL
+#' @param predictors_scaled (optional, logical) if TRUE, all predictors are scaled and centered with [scale()]. Default: FALSE
 #' @inheritParams distantia
 #'
 #' @return data frame: with attributes "response", "predictors" and "formula".
@@ -69,7 +70,8 @@
 #' model_frame <- distantia_model_frame(
 #'   df = df,
 #'   predictors_df = covid_counties,
-#'   predictors_list = predictors_list
+#'   predictors_list = predictors_list,
+#'   predictors_scaled = TRUE
 #' )
 #'
 #' head(model_frame)
@@ -99,6 +101,7 @@ distantia_model_frame <- function(
     df = NULL,
     predictors_df = NULL,
     predictors_list = NULL,
+    predictors_scaled = FALSE,
     distance = "euclidean"
 ){
 
@@ -345,6 +348,18 @@ distantia_model_frame <- function(
   )
 
   model_frame$id <- NULL
+
+  #scale
+  if(predictors_scaled == TRUE){
+
+    model_frame <- cbind(
+      psi = model_frame$psi,
+      model_frame[, predictors_names] |>
+        scale() |>
+        as.data.frame()
+    )
+
+  }
 
   attr(
     x = model_frame,
