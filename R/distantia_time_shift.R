@@ -1,9 +1,9 @@
 #' Time Shift Between Time Series
 #'
 #' @description
-#' This function applies dynamic time warping to compute the least cost path between pairs of time series in a TSL and assess their time shift. Thime shift is computed as the absolute time difference between pairs of observations connected by the least cost path.
+#' This function computes an approximation to the time-shift between pairs of time series as the absolute time difference between pairs of observations connected by the time warping path. It returns a data frame with the mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time shift.
 #'
-#' The function returns a data frame with the mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time shift.
+#' This function requires scaled and detrended time series. Still, it might yield non-sensical results.
 #'
 #'
 #' @inheritParams distantia
