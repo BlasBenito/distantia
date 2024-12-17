@@ -220,7 +220,7 @@ distantia_plot <- function(
   plt_x <- c(0.35, 0.8, 0.09, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
   plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
-  plt_line_guide <- c(0.70, 0.95, 0.05, 0.25)
+  plt_line_guide <- c(0.75, 1, 0.05, 0.25)
 
   # Plot matrix ----
   graphics::par(
@@ -350,9 +350,9 @@ distantia_plot <- function(
 
   utils_line_guide(
     x = tsl[[2]],
-    position = "topright",
+    position = "top",
     line_color = line_color,
-    text_cex = text_cex * 0.7,
+    text_cex = text_cex * 0.6,
     line_width = line_width,
     subpanel = TRUE
   )

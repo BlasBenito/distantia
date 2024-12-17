@@ -21,6 +21,7 @@ Other tsl_transformation:
 \code{\link{f_clr}()},
 \code{\link{f_detrend_difference}()},
 \code{\link{f_detrend_linear}()},
+\code{\link{f_detrend_poly}()},
 \code{\link{f_hellinger}()},
 \code{\link{f_log}()},
 \code{\link{f_percent}()},
@@ -30,6 +31,7 @@ Other tsl_transformation:
 \code{\link{f_rescale_local}()},
 \code{\link{f_scale_global}()},
 \code{\link{f_scale_local}()},
-\code{\link{f_trend_linear}()}
+\code{\link{f_trend_linear}()},
+\code{\link{f_trend_poly}()}
 }
 \concept{tsl_transformation}

@@ -62,6 +62,8 @@ zoo_smooth_window <- function(
     # fill = rep(x = "extend", times = window),
     fill = "extend",
     FUN = f,
+    by.column = TRUE,
+    partial = TRUE,
     ... = ...
   )
 

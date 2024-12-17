@@ -49,11 +49,11 @@ zoo_smooth_exponential <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
     )
 
-  zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  y
 
 }

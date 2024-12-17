@@ -29,12 +29,30 @@ tsl <- tsl_init(
   time = "time"
 ) |>
   tsl_subset(
-    names = c("Paris", "London", "Kinshasa"),
+    names = c("London", "Kinshasa"),
     time = c("2000-01-01", "2010-01-01")
   ) |>
   tsl_transform(
     f = f_scale_local
   )
+
+#the data has a polynomial trend
+tsl_trend <- tsl_transform(
+  tsl = tsl,
+  f = f_trend_poly
+)
+
+if(interactive()){
+  tsl_plot(
+    tsl = tsl_trend
+  )
+}
+
+#polynomial detrending
+tsl <- tsl_transform(
+  tsl = tsl,
+  f = f_detrend_poly
+)
 
 if(interactive()){
   tsl_plot(
@@ -46,6 +64,12 @@ if(interactive()){
 df_shift <- distantia_time_shift(
   tsl = tsl,
   distance = "euclidean"
+)
+df_shift
+
+#check alignment
+distantia_plot(
+  tsl = tsl[c("Kinshasa", "London")]
 )
 }
 \seealso{

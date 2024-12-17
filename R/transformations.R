@@ -69,16 +69,81 @@ f_trend_linear <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
-  )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
 
   y
 
 }
+
+#' Data Transformation: Polynomial Linear Trend of Zoo Time Series
+#'
+#' @description
+#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to [f_trend_linear] when the overal. trend of the time series does not follow a straight line.
+#'
+#'
+#' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
+#' @param degree (optional, integer) Degree of the polynomial. Default: 2
+#' @param ... (optional, additional arguments) Ignored in this function.
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_trend_poly(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_trend_poly <- function(
+    x = NULL,
+    degree = 2,
+    center = TRUE,
+    ...
+) {
+
+  x_data <- zoo::coredata(x, drop = FALSE)
+
+  m <- stats::lm(
+    formula = x_data ~ stats::poly(
+      x = zoo::index(x),
+      degree = degree,
+      raw = TRUE
+    )
+  )
+
+  #predict linear trend
+  y <- stats::predict(m)
+
+  if(center == FALSE){
+    y <- y + mean(x_data)
+  }
+
+  y <- as.matrix(y)
+  dimnames(y)[[2]] <- dimnames(x)[[2]]
+
+  # recreate zoo
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
+
+  y
+
+}
+
 
 #' Data Transformation: Linear Detrending of Zoo Time Series
 #'
@@ -134,16 +199,84 @@ f_detrend_linear <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
     )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
 
   y
 
 }
+
+#' Data Transformation: Polynomial Linear Detrending of Zoo Time Series
+#'
+#' @description
+#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, predicts the outcome, and subtracts it from the original data to return a detrended time series. This method is a useful alternative to [f_detrend_linear] when the overall trend of the time series does not follow a straight line.
+#'
+#'
+#' @param x (required, zoo object) Zoo time series object to transform.
+#' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
+#' @param degree (optional, integer) Degree of the polynomial. Default: 2
+#' @param ... (optional, additional arguments) Ignored in this function.
+#'
+#' @return zoo object
+#' @export
+#' @autoglobal
+#' @examples
+#' x <- zoo_simulate(cols = 2)
+#'
+#' y <- f_detrend_poly(
+#'   x = x
+#' )
+#'
+#' if(interactive()){
+#'   zoo_plot(x)
+#'   zoo_plot(y)
+#' }
+#' @family tsl_transformation
+f_detrend_poly <- function(
+    x = NULL,
+    degree = 2,
+    center = TRUE,
+    ...
+) {
+
+  x_data <- zoo::coredata(x, drop = FALSE)
+
+  m <- stats::lm(
+    formula = x_data ~ stats::poly(
+      x = zoo::index(x),
+      degree = degree,
+      raw = TRUE
+      )
+  )
+
+  #predict linear trend
+  x_trend <- stats::predict(m)
+
+  #subtract trend
+  y <- x_data - x_trend
+
+  if(center == FALSE){
+    y <- y + mean(x_data)
+  }
+
+  y <- as.matrix(y)
+  dimnames(y)[[2]] <- dimnames(x)[[2]]
+
+  # recreate zoo
+  y <- zoo::zoo(
+    x = y,
+    order.by = zoo::index(x)
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
+
+  y
+
+}
+
 
 #' Data Transformation: Detrending and Differencing
 #'
@@ -216,12 +349,10 @@ f_detrend_difference <- function(
   y <- zoo::zoo(
     x = as.matrix(y),
     order.by = zoo::index(x)
-  )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
 
   y
 
@@ -288,7 +419,7 @@ f_proportion <- function(
 f_proportion_sqrt <- function(
     x = NULL,
     ...
-    ){
+){
 
   f_proportion(x)^0.5
 
@@ -397,7 +528,7 @@ f_hellinger <- function(
 f_clr <- function(
     x = NULL,
     ...
-    ) {
+) {
 
   x.log <- f_log(x = x)
 
@@ -406,7 +537,7 @@ f_clr <- function(
     MARGIN = 1,
     STATS = rowMeans(x.log),
     FUN = "-"
-    )
+  )
 
   y
 
@@ -441,7 +572,7 @@ f_clr <- function(
 f_log <- function(
     x = NULL,
     ...
-    ){
+){
 
   y <- log(x)
 
@@ -452,12 +583,10 @@ f_log <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
     )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
 
   y
 
@@ -505,12 +634,10 @@ f_binary <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
-  )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
 
   y
 
@@ -590,12 +717,10 @@ f_scale_local <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
-  )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
 
   y
 
@@ -652,13 +777,10 @@ f_rescale_local <- function(
   y <- zoo::zoo(
     x = y,
     order.by = zoo::index(x)
-  )
-
-  y <- zoo_name_set(
-    x = y,
-    name = attributes(x)$name
-  )
-
+  ) |>
+    zoo_name_set(
+      name = attributes(x)$name
+    )
   y
 
 }

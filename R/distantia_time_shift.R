@@ -19,12 +19,30 @@
 #'   time = "time"
 #' ) |>
 #'   tsl_subset(
-#'     names = c("Paris", "London", "Kinshasa"),
+#'     names = c("London", "Kinshasa"),
 #'     time = c("2000-01-01", "2010-01-01")
 #'   ) |>
 #'   tsl_transform(
 #'     f = f_scale_local
 #'   )
+#'
+#' #the data has a polynomial trend
+#' tsl_trend <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_trend_poly
+#' )
+#'
+#' if(interactive()){
+#'   tsl_plot(
+#'     tsl = tsl_trend
+#'   )
+#' }
+#'
+#' #polynomial detrending
+#' tsl <- tsl_transform(
+#'   tsl = tsl,
+#'   f = f_detrend_poly
+#' )
 #'
 #' if(interactive()){
 #'   tsl_plot(
@@ -36,6 +54,12 @@
 #' df_shift <- distantia_time_shift(
 #'   tsl = tsl,
 #'   distance = "euclidean"
+#' )
+#' df_shift
+#'
+#' #check alignment
+#' distantia_plot(
+#'   tsl = tsl[c("Kinshasa", "London")]
 #' )
 #' @family dissimilarity_analysis
 distantia_time_shift <- function(
@@ -82,9 +106,12 @@ distantia_time_shift <- function(
 
     df.i <- df[i, ]
 
+    x <- tsl[[df.i$x]]
+    y <- tsl[[df.i$y]]
+
     cost_path.i <- cost_path_cpp(
-      x = tsl[[df.i$x]],
-      y = tsl[[df.i$y]],
+      x = x,
+      y = y,
       distance = df[i, "distance"],
       diagonal = TRUE,
       weighted = TRUE,
