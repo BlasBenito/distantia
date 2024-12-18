@@ -11,7 +11,7 @@ sf data frame with 5 columns and 100 rows.
 data(cities_coordinates)
 }
 \description{
-City coordinates for the dataset \code{cities_temperature}.
+City coordinates and several environmental variables for the dataset \code{cities_temperature}.
 
 The full dataset with 100 cities can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/cities_coordinates.rda} (use the "Download raw file" button).
 }

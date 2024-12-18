@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 )
 
 options(scipen = 9999)
+options(conflicts.policy = list(warn = FALSE))
 ```
 
 ## Summary
@@ -49,13 +50,17 @@ library(tmap)
 library(future)
 library(parallelly)
 
+#interactive maps 
+tmap_mode("view")
+
+#parallelization setup
 future::plan(
   future::multisession,
   workers = parallelly::availableCores() - 1
   )
 ```
 
-##
+## Covid
 
 ```{r, fig.height=4}
 tsl <- distantia::tsl_initialize(
@@ -70,25 +75,38 @@ distantia::tsl_plot(
 ```
 
 ```{r}
-df <- distantia::distantia(
+df_psi <- distantia::distantia(
   tsl = tsl,
   lock_step = TRUE
 )
 ```
 
 
-```{r, warning = FALSE}
-df_map <- df |> 
-  dplyr::group_by(x) |> 
-  dplyr::summarize(
-    psi_mean = mean(psi),
-    psi_min = min(psi),
-    psi_max = max(psi)
-  ) |> 
-  dplyr::ungroup() |> 
-  dplyr::rename(
-    name = x
-  )
+```{r}
+df_stats <- distantia::distantia_stats(
+  df = df_psi
+)
+
+head(df_stats)
 ```
 
+
+```{r, warning = FALSE}
+df_map <- merge(
+  x = distantia::covid_counties,
+  y = df_stats
+)
+```
+
+Mean average dissimilarity with all other counties.
+
+```{r}
+tmap::tm_shape(df_map) +
+  tmap::tm_polygons(
+    fill = "mean",
+    fill.legend = tmap::tm_legend("Mean Psi"),
+    fill.scale = tmap::tm_scale_continuous(
+      values = viridis::turbo(n = 100))
+    )
+```
 
