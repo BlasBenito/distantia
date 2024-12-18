@@ -31,15 +31,15 @@ This article illustrates this concept with several examples.
 
 ## Setup
 
-```{r, echo = FALSE}
-if(requireNamespace(package = "remotes") == FALSE){
-  install.packages("remotes")
-}
-if(requireNamespace(package = "tmap") == FALSE){
-  remotes::install_github("r-tmap/tmap")
-}
-if(requireNamespace(package = "dplyr") == FALSE){
-  install.packages("dplyr")
+```{r, echo = FALSE, message = FALSE, warning = FALSE, results = "hide"}
+if (!requireNamespace("pak", quietly = TRUE)) {
+  install.packages("pak")
+  pak::pkg_install(c(
+    "dplyr", 
+    "viridis", 
+    "r-tmap/tmap"
+  )
+  )
 }
 ```
 
@@ -47,11 +47,12 @@ if(requireNamespace(package = "dplyr") == FALSE){
 library(distantia)
 library(dplyr)
 library(tmap)
+library(viridis)
 library(future)
 library(parallelly)
 
 #interactive maps 
-tmap_mode("view")
+tmap::tmap_mode("view")
 
 #parallelization setup
 future::plan(
@@ -60,7 +61,13 @@ future::plan(
   )
 ```
 
-## Covid
+## Mapping Dissimilarity Stats
+
+Mapping the dissimilarity stats of each time series  helps identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
+
+The example below illustrates this concept using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`.
+
+The dataset comprises time series of weekly Covid19 prevalence in several California counties.
 
 ```{r, fig.height=4}
 tsl <- distantia::tsl_initialize(
@@ -74,6 +81,8 @@ distantia::tsl_plot(
 )
 ```
 
+In this case, the data does not require scaling because we will be computing lock-step dissimilarity to highlight differences in timing and magnitude between prevalence curves.
+
 ```{r}
 df_psi <- distantia::distantia(
   tsl = tsl,
@@ -81,6 +90,7 @@ df_psi <- distantia::distantia(
 )
 ```
 
+The code below computes the dissimilarity stats of each time series against all others.
 
 ```{r}
 df_stats <- distantia::distantia_stats(
@@ -89,7 +99,7 @@ df_stats <- distantia::distantia_stats(
 
 head(df_stats)
 ```
-
+Finally, to generate the spatial data to plot, we merge the dissimilarity stats with the sf data frame containing the county polygons.
 
 ```{r, warning = FALSE}
 df_map <- merge(
@@ -98,7 +108,7 @@ df_map <- merge(
 )
 ```
 
-Mean average dissimilarity with all other counties.
+The map below uses warm colors for places with a high dissimilarity with all others such as Humboldt county in the north west of the state, and cold colors for places with a higher dissimilarity with all others. 
 
 ```{r}
 tmap::tm_shape(df_map) +
