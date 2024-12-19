@@ -62,14 +62,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #'#load fagus_dynamics as tsl
 #'#global centering and scaling
@@ -139,11 +131,8 @@
 #' mean(psi_null)
 #' df_dtw$null_mean[3]
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family dissimilarity_analysis_main
+#' @importFrom doFuture "%dofuture%"
 distantia <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -246,18 +235,13 @@ distantia <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
-
   #iterate over pairs of time series
-  df_distantia <- for_each(
+  df_distantia <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
-    .options.future = list(seed = FALSE)
-  ) %iterator% {
+    .options.future = list(seed = TRUE)
+  ) %dofuture% {
 
     p()
 
@@ -326,8 +310,7 @@ distantia <- function(
 
     return(df.i)
 
-  } |>
-    suppressWarnings() #to remove future warning about random seed
+  }
 
   df_distantia <- df_distantia[order(df_distantia$psi), ]
 

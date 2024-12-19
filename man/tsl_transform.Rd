@@ -33,13 +33,6 @@ Function for time series transformations without changes in data dimensions. Gen
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
 
 #two time series
 tsl <- tsl_initialize(
@@ -132,10 +125,6 @@ if(interactive()){
   )
 }
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other tsl_processing: 

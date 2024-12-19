@@ -31,13 +31,6 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-# progress bar (does not work in examples)
-# progressr::handlers(global = TRUE)
 
 tsl <- tsl_simulate(n = 2)
 
@@ -64,9 +57,6 @@ if(interactive()){
   tsl_plot(tsl_smooth)
 }
 
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other tsl_processing: 

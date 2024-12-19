@@ -20,14 +20,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization setup
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' # generates a different time series list on each iteration when seed = NULL
 #' tsl <- tsl_simulate(
@@ -81,10 +73,6 @@
 #'   )
 #' }
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family simulate_time_series
 tsl_simulate <- function(
     n = 2,
@@ -173,17 +161,14 @@ tsl_simulate <- function(
   #progress bar
   p <- progressr::progressor(along = seq_len(n))
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
   #generate tsl
-  tsl <- for_each(
+  tsl <- foreach::foreach(
     i = seq_len(n),
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     #call to progress bar
     p()

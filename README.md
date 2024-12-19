@@ -111,10 +111,11 @@ library(parallelly)
 
 
 #parallelization setup
-future::plan(
-  future::multisession,
-  workers = parallelly::availableCores() - 1
-  )
+#only worth it for very large datasets
+# future::plan(
+#   future::multisession,
+#   workers = parallelly::availableCores() - 1
+#   )
 
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)
@@ -256,10 +257,10 @@ df_dtw[, c("x", "y", "psi", "p_value")]
 #>      x    y      psi p_value
 #> 1 X132 X134 1.299380   0.001
 #> 5 X134 X153 2.074241   0.001
-#> 3 X132 X153 2.091923   0.001
-#> 4 X134 X136 2.358040   0.184
-#> 2 X132 X136 2.449381   0.499
-#> 6 X136 X153 2.666099   0.007
+#> 3 X132 X153 2.091923   0.002
+#> 4 X134 X136 2.358040   0.177
+#> 2 X132 X136 2.449381   0.544
+#> 6 X136 X153 2.666099   0.005
 ```
 
 The “p_value” column represents the fraction of permutations yielding a

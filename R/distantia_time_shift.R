@@ -89,18 +89,15 @@ distantia_time_shift <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
   #iterate over pairs of time series
-  df_shift <- for_each(
+  df_shift <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     p()
 

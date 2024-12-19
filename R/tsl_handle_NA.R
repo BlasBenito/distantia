@@ -18,15 +18,6 @@
 #'
 #' @examples
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
-#'
 #' #tsl with NA cases
 #' tsl <- tsl_simulate(
 #'   na_fraction = 0.25
@@ -79,11 +70,6 @@
 #' if(interactive()){
 #'   tsl_plot(tsl = tsl_no_na)
 #' }
-#'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family tsl_management
 tsl_handle_NA <- function(
     tsl = NULL,

@@ -88,15 +88,6 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
-#parallelization setup (not worth it for this data size)
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
-
 #generate irregular time series
 tsl <- tsl_simulate(
   n = 2,
@@ -253,10 +244,6 @@ tsl_time_summary(tsl2_regular)[
   )
 ]
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 \code{\link[=zoo_resample]{zoo_resample()}}

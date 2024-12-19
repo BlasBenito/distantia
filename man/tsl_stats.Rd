@@ -46,14 +46,6 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
-#parallelization setup (not worth it for this data size)
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
 
 #three time series
 #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
@@ -71,10 +63,6 @@ df <- tsl_stats(
   )
 
 df
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other tsl_processing: 

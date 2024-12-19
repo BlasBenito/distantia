@@ -19,13 +19,6 @@
 #' @family tsl_processing
 #' @examples
 #'
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' # progress bar (does not work in examples)
-#' # progressr::handlers(global = TRUE)
 #'
 #' tsl <- tsl_simulate(n = 2)
 #'
@@ -52,9 +45,6 @@
 #'   tsl_plot(tsl_smooth)
 #' }
 #'
-#' future::plan(
-#'   future::sequential
-#' )
 tsl_smooth <- function(
     tsl = NULL,
     window = 3,

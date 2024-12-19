@@ -44,14 +44,6 @@
 #' @export
 #' @seealso [zoo_aggregate()]
 #' @examples
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' # progress bar (does not work in examples)
-#' # progressr::handlers(global = TRUE)
 #'
 #' # yearly aggregation
 #' #----------------------------------
@@ -132,11 +124,6 @@
 #'   new_time = "centuries",
 #'   f = stats::quantile,
 #'   probs = 0.75 #argument of stats::quantile()
-#' )
-#'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
 #' )
 #'
 #' @family tsl_processing

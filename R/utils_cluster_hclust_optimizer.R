@@ -13,15 +13,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization and progress bar
-#' #for large datasets, parallelization accelerates cluster optimization
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' #weekly covid prevalence
 #' #in 10 California counties
@@ -65,10 +56,6 @@
 #' #best solution in first row
 #' head(hclust_optimization)
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family internal_dissimilarity_analysis
 utils_cluster_hclust_optimizer <- function(
     d = NULL,
@@ -117,15 +104,12 @@ utils_cluster_hclust_optimizer <- function(
   )
   df$silhouette_mean <- NA
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
   #clustering methods
-  hc_methods <- for_each(
+  hc_methods <- foreach::foreach(
     i = methods_vector
-  ) %iterator% {
+  ) %dofuture% {
 
     tryCatch({
       stats::hclust(
@@ -155,7 +139,7 @@ utils_cluster_hclust_optimizer <- function(
   df$silhouette_mean <- foreach::foreach(
     i = iterations,
     .combine = "c"
-  ) %iterator% {
+  ) %dofuture% {
 
     # p()
 

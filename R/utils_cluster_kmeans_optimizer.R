@@ -13,15 +13,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization and progress bar
-#' #for large datasets, parallelization accelerates cluster optimization
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' #weekly covid prevalence
 #' #in 10 California counties
@@ -65,10 +56,6 @@
 #' #best solution in first row
 #' head(kmeans_optimization)
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family internal_dissimilarity_analysis
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,
@@ -95,17 +82,14 @@ utils_cluster_kmeans_optimizer <- function(
 
   p <- progressr::progressor(along = clusters_vector)
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
+  
 
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
-
-  sil <- for_each(
+  sil <- foreach::foreach(
     i = clusters_vector,
     .combine = "c",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     p()
 

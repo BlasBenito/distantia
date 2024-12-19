@@ -37,14 +37,6 @@
 #'
 #' @examples
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' #three time series
 #' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
@@ -62,10 +54,6 @@
 #'   )
 #'
 #' df
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @export
 #' @autoglobal
 #' @family tsl_processing
@@ -89,17 +77,14 @@ tsl_stats <- function(
   #progress bar and iterator
   p <- progressr::progressor(along = tsl)
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
   #computing stats
-  df <- for_each(
+  df <- foreach::foreach(
     i = seq_len(length(tsl)),
     .combine = "rbind",
     .errorhandling = "pass"
-  ) %iterator% {
+  ) %dofuture% {
 
     p()
 

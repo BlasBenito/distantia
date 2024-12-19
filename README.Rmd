@@ -104,10 +104,11 @@ library(parallelly)
 
 
 #parallelization setup
-future::plan(
-  future::multisession,
-  workers = parallelly::availableCores() - 1
-  )
+#only worth it for very large datasets
+# future::plan(
+#   future::multisession,
+#   workers = parallelly::availableCores() - 1
+#   )
 
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)

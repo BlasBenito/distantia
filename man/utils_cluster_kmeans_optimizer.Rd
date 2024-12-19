@@ -20,15 +20,6 @@ Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-#parallelization and progress bar
-#for large datasets, parallelization accelerates cluster optimization
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
 
 #weekly covid prevalence
 #in 10 California counties
@@ -72,10 +63,6 @@ kmeans_optimization <- utils_cluster_kmeans_optimizer(
 #best solution in first row
 head(kmeans_optimization)
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other internal_dissimilarity_analysis: 

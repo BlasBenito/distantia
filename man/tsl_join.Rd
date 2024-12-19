@@ -22,12 +22,6 @@ time series list
 Joins an arbitrary of time series lists by name and time. Pairs of zoo objects are joined with \code{\link[zoo:merge.zoo]{zoo::merge.zoo()}}. Names that are not shared across all input TSLs are ignored, and observations with no matching time are filled with NA and then managed via \code{\link[=tsl_handle_NA]{tsl_handle_NA()}} depending on the value of the argument \code{na_action}.
 }
 \examples{
-#parallelization setup (not worth it for this data size)
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
 
 #generate two time series list to join
 tsl_a <- tsl_simulate(
@@ -61,10 +55,6 @@ if(interactive()){
   )
 }
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other tsl_management: 

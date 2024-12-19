@@ -256,16 +256,14 @@ zoo_resample <- function(
   )
 
   #interpolate
-  `%iterator%` <- suppressPackageStartupMessages(foreach::`%do%`)
+  
 
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
-
-  y <- for_each(
+  y <- foreach::foreach(
     i = seq_len(ncol(x)),
     .combine = "cbind",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     x.i <- as.numeric(x[, i])
 

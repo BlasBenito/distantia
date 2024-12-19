@@ -31,15 +31,6 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
-#parallelization setup (not worth it for this data size)
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
-
 #tsl with NA cases
 tsl <- tsl_simulate(
   na_fraction = 0.25
@@ -92,11 +83,6 @@ tsl_nrow(tsl = tsl_no_na)
 if(interactive()){
   tsl_plot(tsl = tsl_no_na)
 }
-
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other tsl_management: 

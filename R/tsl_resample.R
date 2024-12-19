@@ -78,15 +78,6 @@
 #' @seealso [zoo_resample()]
 #' @examples
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
-#'
 #' #generate irregular time series
 #' tsl <- tsl_simulate(
 #'   n = 2,
@@ -243,10 +234,6 @@
 #'   )
 #' ]
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family tsl_processing
 tsl_resample <- function(
     tsl = NULL,

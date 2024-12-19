@@ -34,31 +34,20 @@ This article illustrates this concept with several examples.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, results = "hide"}
 if (!requireNamespace("pak", quietly = TRUE)) {
   install.packages("pak")
-  pak::pkg_install(c(
-    "dplyr", 
-    "viridis", 
+  pak::pkg_install(
+    c(
     "r-tmap/tmap"
-  )
+    )
   )
 }
 ```
 
 ```{r, message=FALSE, warning=FALSE}
 library(distantia)
-library(dplyr)
 library(tmap)
-library(viridis)
-library(future)
-library(parallelly)
 
 #interactive maps 
 tmap::tmap_mode("view")
-
-#parallelization setup
-future::plan(
-  future::multisession,
-  workers = parallelly::availableCores() - 1
-  )
 ```
 
 ## Mapping Dissimilarity Stats
@@ -69,19 +58,21 @@ The example below illustrates this concept using the datasets `covid_prevalence`
 
 The dataset comprises time series of weekly Covid19 prevalence in several California counties.
 
-```{r, fig.height=4}
+```{r, fig.height=4.5}
 tsl <- distantia::tsl_initialize(
   x = distantia::covid_prevalence,
   name_column = "name",
   time_column = "time"
 )
 
-distantia::tsl_plot(
-  tsl = tsl[1:4]
+tsl_plot(
+  tsl = tsl[1:10],
+  columns = 2,
+  guide = FALSE
 )
 ```
 
-In this case, the data does not require scaling because we will be computing lock-step dissimilarity to highlight differences in timing and magnitude between prevalence curves.
+In this case, the data requires no scaling because we will be computing lock-step dissimilarity to highlight differences in synchronicity and magnitude between prevalence curves.
 
 ```{r}
 df_psi <- distantia::distantia(
@@ -99,7 +90,8 @@ df_stats <- distantia::distantia_stats(
 
 head(df_stats)
 ```
-Finally, to generate the spatial data to plot, we merge the dissimilarity stats with the sf data frame containing the county polygons.
+
+Merging the dissimilarity stats with the sf data frame containing the county polygons generates the spatial data required for the map.
 
 ```{r, warning = FALSE}
 df_map <- merge(
@@ -116,7 +108,8 @@ tmap::tm_shape(df_map) +
     fill = "mean",
     fill.legend = tmap::tm_legend("Mean Psi"),
     fill.scale = tmap::tm_scale_continuous(
-      values = viridis::turbo(n = 100))
+      values = distantia::utils_color_continuous_default(n = 5)
     )
+  )
 ```
 

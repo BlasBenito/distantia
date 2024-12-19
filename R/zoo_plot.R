@@ -84,7 +84,7 @@ zoo_plot <- function(
   axis_title_cex <- 0.9 * text_cex
 
   #axis labels
-  axis_labels_cex <- 0.7 * text_cex
+  axis_labels_cex <- 0.6 * text_cex
 
   #title
   main_title_distance <- 1.2
@@ -191,7 +191,7 @@ zoo_plot <- function(
 
   if(guide == TRUE){
     graphics::par(
-      plt = plt_lines
+      plt = graphics::par()$plt
     )
   }
 
@@ -333,7 +333,7 @@ zoo_plot <- function(
   if(guide == TRUE){
 
     graphics::par(
-      plt = plt_guide,
+      plt = graphics::par()$plt,
       new = TRUE,
       mgp = c(0, 0.5, 0),
       bty = "n"

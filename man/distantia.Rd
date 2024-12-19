@@ -86,14 +86,6 @@ This function allows computing dissimilarity between pairs of time series using 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-#parallelization setup (not worth it for this data size)
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
 
 #load fagus_dynamics as tsl
 #global centering and scaling
@@ -163,10 +155,6 @@ psi_null <- null_psi_dynamic_time_warping_cpp(
 mean(psi_null)
 df_dtw$null_mean[3]
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other dissimilarity_analysis_main: 

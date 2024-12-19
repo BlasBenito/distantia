@@ -361,11 +361,11 @@ This section offers a complete overview of these functions and their application
 
 ### Parallelization Setup
 
-The functions to manage TSLs **are a bunch of `lapply` in a trench coat**. Most use `future.apply::future_lapply()`, a parallelized version of `lapply` from the `future.apply` package, and a few combine `foreach::foreach()` with `doFuture::%dofuture%` in shameless parallelized loops.
+The functions to manage TSLs **are a bunch of `lapply` in a trench coat**. Most use `future.apply::future_lapply()`, a parallelized version of `lapply` from the `future.apply` package, and a few combine `foreach::foreach()` with `doFuture::%iterator%` in shameless parallelized loops.
 
-As such, they all support a parallelization backend provided by the `future` package, as shown below.
+As such, they all support a parallelization backend provided by the `future` package, as shown below. However, take in mind that parallelization is only worth it for very large datasets.
 
-```{r}
+```{r, eval = FALSE}
 library(future)
 library(parallelly)
 

@@ -29,7 +29,10 @@ utils_color_discrete_default <- function(
     n <- 36
   }
 
-  if(n <= 9){
+  if(n == 1){
+    return("#C8443F")
+  }
+  if(n <= 9 && n > 1){
     pal <- "Okabe-Ito"
   }
   if(n == 10){

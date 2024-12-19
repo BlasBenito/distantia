@@ -85,15 +85,14 @@ utils_optimize_spline <- function(
 
   } else {
 
-    `%iterator%` <- suppressPackageStartupMessages(foreach::`%do%`)
+    
 
-    for_each <- suppressPackageStartupMessages(foreach::foreach)
-
-    rmse <- for_each(
+    rmse <- foreach::foreach(
       complexity_value = complexity_space,
       .combine = "c",
-      .errorhandling = "pass"
-    ) %iterator% {
+      .errorhandling = "pass",
+      .options.future = list(seed = FALSE)
+    ) %dofuture% {
 
       m <- tryCatch({
         stats::smooth.spline(

@@ -47,15 +47,6 @@ The available permutation methods are:
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-#parallelization and progress bar
-#for large datasets, parallelization accelerates cluster optimization
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
 
 #simulate zoo time series
 x <- zoo_simulate(cols = 2)
@@ -120,10 +111,6 @@ if(interactive()){
   )
 }
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other zoo_functions: 

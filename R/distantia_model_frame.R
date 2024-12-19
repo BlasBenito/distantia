@@ -33,15 +33,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
-#'
 #'
 #' #covid prevalence in California counties
 #' tsl <- tsl_initialize(
@@ -92,10 +83,6 @@
 #'
 #' summary(model)
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family dissimilarity_analysis_main
 distantia_model_frame <- function(
     df = NULL,

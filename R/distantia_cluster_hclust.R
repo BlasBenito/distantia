@@ -25,15 +25,6 @@
 #' @autoglobal
 #' @examples
 #'
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' # progress bar (does not work in examples)
-#' # progressr::handlers(global = TRUE)
-#'
 #' #weekly covid prevalence in California
 #' tsl <- tsl_initialize(
 #'   x = covid_prevalence,
@@ -116,10 +107,6 @@
 #'
 #' }
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family dissimilarity_analysis
 distantia_cluster_hclust <- function(
     df = NULL,

@@ -10,12 +10,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
 #'
 #' #generate two time series list to join
 #' tsl_a <- tsl_simulate(
@@ -49,10 +43,6 @@
 #'   )
 #' }
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family tsl_management
 tsl_join <- function(
     ...,

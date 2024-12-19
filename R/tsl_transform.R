@@ -25,14 +25,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#parallelization setup (not worth it for this data size)
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' #two time series
 #' tsl <- tsl_initialize(
@@ -125,10 +117,6 @@
 #'   )
 #' }
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family tsl_processing
 tsl_transform <- function(
     tsl = NULL,

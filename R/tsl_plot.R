@@ -76,6 +76,7 @@ tsl_plot <- function(
   )
 
   #set NaN and Inf to NA
+  #avoids issues when computing axes limits
   tsl <- tsl_Inf_to_NA(
     tsl = tsl
   )
@@ -84,9 +85,9 @@ tsl_plot <- function(
     tsl = tsl
   )
 
-  axis_title_distance <- 2.2
+  axis_title_distance <- 2.5
 
-  # Preserve user's config
+  # preserve user's config
   old.par <- graphics::par(no.readonly = TRUE)
   on.exit(graphics::par(old.par))
 
@@ -132,7 +133,7 @@ tsl_plot <- function(
 
   graphics::par(
     mfrow = c(rows, columns),
-    oma = c(1.2, 0, 0, 1),
+    oma = c(2, 1, 1, 1),
     mar = c(1, 3.5, 1, 0.5)
   )
 
@@ -189,6 +190,7 @@ tsl_plot <- function(
     } else {
 
       if(guide == TRUE){
+
         utils_line_guide(
           x = tsl,
           position = "center",
@@ -198,6 +200,7 @@ tsl_plot <- function(
           guide_columns = guide_columns,
           subpanel = TRUE
         )
+
       }
 
     }

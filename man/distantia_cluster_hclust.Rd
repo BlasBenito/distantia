@@ -33,15 +33,6 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
-#parallelization setup (not worth it for this data size)
-future::plan(
-  future::multisession,
-  workers = 2 #set to parallelly::availableCores() - 1
-)
-
-# progress bar (does not work in examples)
-# progressr::handlers(global = TRUE)
-
 #weekly covid prevalence in California
 tsl <- tsl_initialize(
   x = covid_prevalence,
@@ -124,10 +115,6 @@ if(interactive()){
 
 }
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other dissimilarity_analysis: 

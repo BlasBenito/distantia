@@ -49,11 +49,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization setup (not worth it for this data size)
-#' future::plan(
-#'  future::multisession,
-#'  workers = 2 #set to parallelly::availableCores() - 1
-#' )
 #'
 #' #progress bar
 #' # progressr::handlers(global = TRUE)
@@ -81,10 +76,6 @@
 #'   "effect"
 #'   )]
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family dissimilarity_analysis_main
 momentum <- function(
     tsl = NULL,
@@ -160,17 +151,14 @@ momentum <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
-
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
   #iterate over pairs of time series
-  df <- for_each(
+  df <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     p()
 

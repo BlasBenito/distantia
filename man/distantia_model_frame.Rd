@@ -48,15 +48,6 @@ Statistical or machine learning analyses based on this data frame may help uncov
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
-#parallelization setup (not worth it for this data size)
-future::plan(
- future::multisession,
- workers = 2 #set to parallelly::availableCores() - 1
-)
-
-#progress bar
-# progressr::handlers(global = TRUE)
-
 
 #covid prevalence in California counties
 tsl <- tsl_initialize(
@@ -107,10 +98,6 @@ model <- lm(
 
 summary(model)
 
-#disable parallelization
-future::plan(
-  future::sequential
-)
 }
 \seealso{
 Other dissimilarity_analysis_main: 

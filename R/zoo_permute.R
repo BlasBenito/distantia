@@ -30,15 +30,6 @@
 #' @export
 #' @autoglobal
 #' @examples
-#' #parallelization and progress bar
-#' #for large datasets, parallelization accelerates cluster optimization
-#' future::plan(
-#'   future::multisession,
-#'   workers = 2 #set to parallelly::availableCores() - 1
-#' )
-#'
-#' #progress bar
-#' # progressr::handlers(global = TRUE)
 #'
 #' #simulate zoo time series
 #' x <- zoo_simulate(cols = 2)
@@ -103,10 +94,6 @@
 #'   )
 #' }
 #'
-#' #disable parallelization
-#' future::plan(
-#'   future::sequential
-#' )
 #' @family zoo_functions
 zoo_permute <- function(
     x = NULL,
@@ -150,15 +137,14 @@ zoo_permute <- function(
   p <- progressr::progressor(along = repetitions)
 
   #to silence loading messages
-  `%iterator%` <- suppressPackageStartupMessages(doFuture::`%dofuture%`)
 
-  for_each <- suppressPackageStartupMessages(foreach::foreach)
+  
 
-  permutations <- for_each(
+  permutations <- foreach::foreach(
     i = repetitions,
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
-  ) %iterator% {
+  ) %dofuture% {
 
     p()
 
