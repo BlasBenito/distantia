@@ -81,16 +81,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#parallelization and progress bar</span></span></span>
-<span class="r-in"><span><span class="co">#for large datasets, parallelization accelerates cluster optimization</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span></span>
-<span class="r-in"><span>  workers <span class="op">=</span> <span class="fl">2</span> <span class="co">#set to parallelly::availableCores() - 1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#progress bar</span></span></span>
-<span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#weekly covid prevalence</span></span></span>
 <span class="r-in"><span><span class="co">#in 10 California counties</span></span></span>
 <span class="r-in"><span><span class="co">#aggregated by month</span></span></span>
@@ -140,10 +131,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5        2       0.2285407</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6        7       0.2103172</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/sequential.html" class="external-link">sequential</a></span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

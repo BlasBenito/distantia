@@ -166,10 +166,11 @@
 <span></span>
 <span></span>
 <span><span class="co">#parallelization setup</span></span>
-<span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
-<span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span>
-<span>  workers <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="co">#only worth it for very large datasets</span></span>
+<span><span class="co"># future::plan(</span></span>
+<span><span class="co">#   future::multisession,</span></span>
+<span><span class="co">#   workers = parallelly::availableCores() - 1</span></span>
+<span><span class="co">#   )</span></span>
 <span></span>
 <span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
 <span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
@@ -270,10 +271,10 @@
 <span><span class="co">#&gt;      x    y      psi p_value</span></span>
 <span><span class="co">#&gt; 1 X132 X134 1.299380   0.001</span></span>
 <span><span class="co">#&gt; 5 X134 X153 2.074241   0.001</span></span>
-<span><span class="co">#&gt; 3 X132 X153 2.091923   0.001</span></span>
-<span><span class="co">#&gt; 4 X134 X136 2.358040   0.184</span></span>
-<span><span class="co">#&gt; 2 X132 X136 2.449381   0.499</span></span>
-<span><span class="co">#&gt; 6 X136 X153 2.666099   0.007</span></span></code></pre></div>
+<span><span class="co">#&gt; 3 X132 X153 2.091923   0.002</span></span>
+<span><span class="co">#&gt; 4 X134 X136 2.358040   0.177</span></span>
+<span><span class="co">#&gt; 2 X132 X136 2.449381   0.544</span></span>
+<span><span class="co">#&gt; 6 X136 X153 2.666099   0.005</span></span></code></pre></div>
 <p>The “p_value” column represents the fraction of permutations yielding a psi score lower than the observed value. It indicates the strength of similarity between two time series. A significance threshold (e.g., 0.05, depending on iterations) helps identify strongly similar or dissimilar pairs.</p>
 </div>
 <div class="section level3">

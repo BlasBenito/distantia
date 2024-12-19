@@ -512,9 +512,10 @@ applications.</p>
 <code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>, a parallelized version of
 <code>lapply</code> from the <code>future.apply</code> package, and a
 few combine <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with
-<code>doFuture::%dofuture%</code> in shameless parallelized loops.</p>
+<code>doFuture::%iterator%</code> in shameless parallelized loops.</p>
 <p>As such, they all support a parallelization backend provided by the
-<code>future</code> package, as shown below.</p>
+<code>future</code> package, as shown below. However, take in mind that
+parallelization is only worth it for very large datasets.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://parallelly.futureverse.org" class="external-link">parallelly</a></span><span class="op">)</span></span>
@@ -548,6 +549,8 @@ nothing to do with such purpose.</p>
 <span>  na_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  irregular <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: foreach</span></span>
+<span><span class="co">#&gt; Loading required package: future</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
@@ -1020,6 +1023,13 @@ replacing “aggregate” with “resample” in the argument
 <span><span class="co">#&gt; max_complexity = max_complexity): The time intervals of 'new_time' and 'x'</span></span>
 <span><span class="co">#&gt; differ in one order of magnitude or more. The output time series might be</span></span>
 <span><span class="co">#&gt; highly distorted.</span></span>
+<span><span class="co">#&gt; Warning: UNRELIABLE VALUE: One of the 'future.apply' iterations</span></span>
+<span><span class="co">#&gt; ('future_lapply-1') unexpectedly generated random numbers without declaring so.</span></span>
+<span><span class="co">#&gt; There is a risk that those random numbers are not statistically sound and the</span></span>
+<span><span class="co">#&gt; overall results might be invalid. To fix this, specify 'future.seed=TRUE'. This</span></span>
+<span><span class="co">#&gt; ensures that proper, parallel-safe random numbers are produced via the</span></span>
+<span><span class="co">#&gt; L'Ecuyer-CMRG method. To disable this check, use 'future.seed = NULL', or set</span></span>
+<span><span class="co">#&gt; option 'future.rng.onMisuse' to "ignore".</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span></span>
 <span>  , </span>

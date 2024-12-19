@@ -134,16 +134,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#parallelization setup (not worth it for this data size)</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span> <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span></span>
-<span class="r-in"><span> workers <span class="op">=</span> <span class="fl">2</span> <span class="co">#set to parallelly::availableCores() - 1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#progress bar</span></span></span>
-<span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#covid prevalence in California counties</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">covid_prevalence</span>,</span></span>
@@ -204,7 +195,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ distance + economy + area_hectares + population + poverty_percentage + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     median_income + domestic_product + daily_miles_traveled + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     employed_percentage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x564044eefd88&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x56163afb3ec0&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#linear model</span></span></span>
@@ -242,10 +233,6 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 16.86 on 9 and 620 DF,  p-value: &lt; 2.2e-16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/sequential.html" class="external-link">sequential</a></span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

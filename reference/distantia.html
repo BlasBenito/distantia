@@ -177,15 +177,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#parallelization setup (not worth it for this data size)</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span>,</span></span>
-<span class="r-in"><span>  workers <span class="op">=</span> <span class="fl">2</span> <span class="co">#set to parallelly::availableCores() - 1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#progress bar</span></span></span>
-<span class="r-in"><span><span class="co"># progressr::handlers(global = TRUE)</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#load fagus_dynamics as tsl</span></span></span>
 <span class="r-in"><span><span class="co">#global centering and scaling</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
@@ -218,6 +210,8 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span>  block_size <span class="op">=</span> <span class="fl">6</span>,</span></span>
 <span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: foreach</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: future</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#focus on the important details</span></span></span>
 <span class="r-in"><span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span></span>
@@ -258,12 +252,8 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">psi_null</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.885628</span>
 <span class="r-in"><span><span class="va">df_dtw</span><span class="op">$</span><span class="va">null_mean</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.885628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.916063</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#disable parallelization</span></span></span>
-<span class="r-in"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/sequential.html" class="external-link">sequential</a></span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
