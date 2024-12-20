@@ -151,7 +151,7 @@ momentum <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  
+
 
   #iterate over pairs of time series
   df <- foreach::foreach(
@@ -246,6 +246,15 @@ momentum <- function(
       "robust"
     )
   ]
+
+  #remove dtw arguments if only lock-step was used
+  if(
+    "lock_step" %in% colnames(df) &&
+    sum(df[["lock_step"]]) == nrow(df)
+    ){
+    df$diagonal <- NULL
+    df$bandwidth <- NULL
+  }
 
   attr(
     x = df,

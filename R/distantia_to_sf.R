@@ -128,25 +128,9 @@ distantia_to_sf <- function(
   df_names <- unique(c(df$x, df$y))
 
   #check if it needs aggregation
-  df_aggregated <- distantia_aggregate(
+  df <- distantia_aggregate(
     df = df
   )
-
-  lost_cols <- setdiff(
-    x = colnames(df),
-    y = colnames(df_aggregated)
-  )
-
-  if(
-    nrow(df_aggregated) < nrow(df) &&
-    ncol(df_aggregated) < ncol(df)
-    ){
-    message(
-      "distantia::distantia_to_sf(): argument 'df' was aggregated via distantia::distantia_aggregate().")
-
-    df <- df_aggregated
-
-  }
 
   if(df_type == "momentum_df"){
     df <- momentum_to_wide(

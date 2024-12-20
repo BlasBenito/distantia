@@ -314,6 +314,15 @@ distantia <- function(
 
   df_distantia <- df_distantia[order(df_distantia$psi), ]
 
+  #remove dtw arguments if only lock-step was used
+  if(
+    "lock_step" %in% colnames(df_distantia) &&
+    sum(df_distantia[["lock_step"]]) == nrow(df_distantia)
+    ){
+    df_distantia$diagonal <- NULL
+    df_distantia$bandwidth <- NULL
+  }
+
   #add type
   attr(
     x = df_distantia,

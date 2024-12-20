@@ -36,18 +36,17 @@ if (!requireNamespace("pak", quietly = TRUE)) {
   install.packages("pak")
   pak::pkg_install(
     c(
-    "r-tmap/tmap"
+    "dplyr",
+    "mapview"
     )
   )
 }
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results="hide"}
 library(distantia)
-library(tmap)
-
-#interactive maps 
-tmap::tmap_mode("view")
+library(dplyr)
+library(mapview)
 ```
 
 ## Mapping Dissimilarity Stats
@@ -94,7 +93,7 @@ head(df_stats)
 Merging the dissimilarity stats with the sf data frame containing the county polygons generates the spatial data required for the map.
 
 ```{r, warning = FALSE}
-df_map <- merge(
+sf_stats <- merge(
   x = distantia::covid_counties,
   y = df_stats
 )
@@ -102,14 +101,42 @@ df_map <- merge(
 
 The map below uses warm colors for places with a high dissimilarity with all others such as Humboldt county in the north west of the state, and cold colors for places with a higher dissimilarity with all others. 
 
-```{r}
-tmap::tm_shape(df_map) +
-  tmap::tm_polygons(
-    fill = "mean",
-    fill.legend = tmap::tm_legend("Mean Psi"),
-    fill.scale = tmap::tm_scale_continuous(
-      values = distantia::utils_color_continuous_default(n = 5)
-    )
-  )
+
+```{r, warning = FALSE}
+mapview::mapview(
+  sf_stats,
+  zcol = "mean",
+  col.regions = distantia::utils_color_continuous_default(),
+  alpha.regions = 1
+)
 ```
 
+
+## Mapping Dissimilarity Networks
+
+NOTE: this section uses the objects generated in the previous one.
+
+
+
+```{r, message = FALSE, warning = FALSE}
+covid_centroids <- distantia::covid_counties |> 
+  sf::st_centroid() |> 
+  sf::st_sf()
+
+sf_network <- distantia_to_sf(
+  df = df_psi,
+  xy = covid_centroids
+)
+
+dplyr::glimpse(sf_network)
+```
+The function `distantia_to_sf()` returns a network plot, as shown below. However, the result has too many edges to generate a meaningful map.
+
+
+```{r, warning = FALSE}
+mapview::mapview(
+  sf_network,
+  zcol = "psi",
+  color = distantia::utils_color_continuous_default()
+)
+```
