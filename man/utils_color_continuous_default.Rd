@@ -4,7 +4,7 @@
 \alias{utils_color_continuous_default}
 \title{Default Continuous Color Palette}
 \usage{
-utils_color_continuous_default(n = NULL, palette = "Zissou 1")
+utils_color_continuous_default(n = 10, palette = "Zissou 1")
 }
 \arguments{
 \item{n}{(required, integer) number of colors to generate. Default = NULL}
