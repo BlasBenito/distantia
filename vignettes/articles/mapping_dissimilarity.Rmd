@@ -49,7 +49,10 @@ library(dplyr)
 library(mapview)
 ```
 
-## Mapping Dissimilarity Stats
+
+
+
+## Dissimilarity Stats
 
 Mapping the dissimilarity stats of each time series  helps identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
 
@@ -101,10 +104,10 @@ sf_stats <- merge(
 
 The map below uses warm colors for places with a high dissimilarity with all others such as Humboldt county in the north west of the state, and cold colors for places with a higher dissimilarity with all others. 
 
-
 ```{r, warning = FALSE}
 mapview::mapview(
   sf_stats,
+  layer.name = "Psi mean",
   zcol = "mean",
   col.regions = distantia::utils_color_continuous_default(),
   alpha.regions = 1
@@ -112,30 +115,75 @@ mapview::mapview(
 ```
 
 
-## Mapping Dissimilarity Networks
+## One To Many
+
+```{r, eval = FALSE}
+county_name <- "San_Francisco"
+
+df_psi_san_francisco <- df_psi |> 
+  dplyr::mutate(
+    name = ifelse(
+      test = x != county_name | y != county_name,
+      yes = x,
+      no = "other"
+    )
+  ) |> 
+  dplyr::filter(
+    name == county_name
+  ) |> 
+  dplyr::left_join(
+    y = distantia::covid_counties,
+    by = "name"
+  ) |> 
+  sf::st_sf()
+
+dplyr::glimpse(df_psi_san_francisco)
+```
+```{r}
+mapview::mapview(
+  df_psi_san_francisco,
+  layer.name = paste0("Psi with ", county_name),
+  zcol = "psi",
+  col.regions = distantia::utils_color_continuous_default(),
+  alpha.regions = 1
+)
+```
+
+
+## Dissimilarity Networks
 
 NOTE: this section uses the objects generated in the previous one.
 
-
+The function `distantia_to_sf()` transforms the result of `distantia()` to a spatial file with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
 
 ```{r, message = FALSE, warning = FALSE}
-covid_centroids <- distantia::covid_counties |> 
-  sf::st_centroid() |> 
-  sf::st_sf()
-
-sf_network <- distantia_to_sf(
+sf_network <- distantia::distantia_to_sf(
   df = df_psi,
-  xy = covid_centroids
+  xy = distantia::covid_counties |> 
+    sf::st_centroid() |> 
+    sf::st_sf()
 )
 
-dplyr::glimpse(sf_network)
-```
-The function `distantia_to_sf()` returns a network plot, as shown below. However, the result has too many edges to generate a meaningful map.
-
-
-```{r, warning = FALSE}
 mapview::mapview(
   sf_network,
+  layer.name = "Psi",
+  zcol = "psi",
+  color = distantia::utils_color_continuous_default()
+)
+```
+
+
+However, in this case there are too many combinations of counties to produce a meaningful map from the resulting sf data frame. This can be solved by focusing on particular aspects of the data at hand.
+
+```{r, warning = FALSE}
+sf_network_subset <- sf_network |> 
+  dplyr::filter(
+    x == "San_Francisco" | y == "San_Francisco"
+  )
+
+mapview::mapview(
+  sf_network_subset,
+  layer.name = "San Francisco - Psi",
   zcol = "psi",
   color = distantia::utils_color_continuous_default()
 )

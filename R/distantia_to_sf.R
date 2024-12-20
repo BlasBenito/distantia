@@ -240,6 +240,11 @@ distantia_to_sf <- function(
   #put name in first column
   df_sf <- df_sf[, c("edge_name", old_colnames)]
 
+  #length
+  df_sf$length <- sf::st_length(
+    x = df_sf
+  )
+
   df_sf
 
 }
