@@ -159,11 +159,6 @@ mapview::mapview(
     color = distantia::utils_color_continuous_default()
   )
 ```
-When the relationship to map is one-to-many, as above, it can also be mapped using polygons directly.
-
-```{r}
-sf_network_subset <- sf::st_dropsf_network_subset
-```
 
 
 ## Mapping Dissimilarity Stats
@@ -195,41 +190,4 @@ mapview::mapview(
   alpha.regions = 1
 )
 ```
-
-
-## One To Many
-
-```{r, eval = FALSE}
-# county_name <- "San_Francisco"
-# 
-# df_psi_san_francisco <- df_psi |> 
-#   dplyr::mutate(
-#     name = ifelse(
-#       test = x != county_name | y != county_name,
-#       yes = x,
-#       no = "other"
-#     )
-#   ) |> 
-#   dplyr::filter(
-#     name == county_name
-#   ) |> 
-#   dplyr::left_join(
-#     y = distantia::covid_counties,
-#     by = "name"
-#   ) |> 
-#   sf::st_sf()
-# 
-# dplyr::glimpse(df_psi_san_francisco)
-```
-
-```{r}
-# mapview::mapview(
-#   df_psi_san_francisco,
-#   layer.name = paste0("Psi with ", county_name),
-#   zcol = "psi",
-#   col.regions = distantia::utils_color_continuous_default(),
-#   alpha.regions = 1
-# )
-```
-
 
