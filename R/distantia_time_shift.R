@@ -89,8 +89,6 @@ distantia_time_shift <- function(
 
   p <- progressr::progressor(along = iterations)
 
-  
-
   #iterate over pairs of time series
   df_shift <- foreach::foreach(
     i = iterations,

@@ -240,8 +240,8 @@ distantia_spatial_network <- function(
   df_sf <- df_sf[order(df_sf$psi), ]
 
   ## remove id columns
-  df_sf$id_x <- NULL
-  df_sf$id_y <- NULL
+  df_sf$id.x <- NULL
+  df_sf$id.y <- NULL
 
   ## create name column
   old_colnames <- colnames(df_sf)
@@ -254,7 +254,8 @@ distantia_spatial_network <- function(
   #length
   df_sf$length <- sf::st_length(
     x = df_sf
-  )
+  ) |>
+    as.numeric()
 
   df_sf
 

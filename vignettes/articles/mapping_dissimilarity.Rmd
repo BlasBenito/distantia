@@ -25,9 +25,9 @@ options(conflicts.policy = list(warn = FALSE))
 
 ## Summary
 
-Many time series happen at a given space, which can be represented either by a polygon, or by a pair of coordinates. The R package `distantia`, albeit focused on time series comparison, offers limited support to map time series dissimilarity.
+This article focuses on the spatial representation of dissimilarity scores.
 
-This article illustrates this concept with several examples.
+TODO
 
 ## Setup
 
@@ -44,19 +44,15 @@ if (!requireNamespace("dplyr", quietly = TRUE)){
 ```
 
 ```{r, message=FALSE, warning=FALSE, results="hide"}
-library(distantia)
-library(dplyr)
-library(mapview)
+library(distantia, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+library(mapview, warn.conflicts = FALSE)
 ```
 
 
-## Dissimilarity Stats
+## Example Data
 
-Mapping the dissimilarity stats of each time series  helps identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
-
-The example below illustrates this concept using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`.
-
-The dataset comprises time series of weekly Covid19 prevalence in several California counties.
+The examples below illustrate how to map dissimilarity scores using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`. The dataset comprises time series of weekly Covid-19 prevalence in several California counties.
 
 ```{r, fig.height=4.5}
 tsl <- distantia::tsl_initialize(
@@ -71,25 +67,108 @@ tsl_plot(
   guide = FALSE
 )
 ```
-
-In this case, the data requires no scaling because we will be computing lock-step dissimilarity to highlight differences in synchronicity and magnitude between prevalence curves.
+The map below displays the relevant county polygons using `mapview()`.
 
 ```{r}
+mapview::mapview(
+  distantia::covid_counties,
+  label = "name"
+)
+```
+
+
+## Dissimilarity Analysis
+
+In this section we prepare several datasets to use in the different mapping examples: a lock-step dissimilarity data frame (`df_psi`), dissimilarity stats per time series (`df_stats`), and a hierarchical clustering based on the dissimilarity scores (`df_cluster`).
+
+```{r}
+#lock-step dissimilarity analysis
 df_psi <- distantia::distantia(
   tsl = tsl,
   lock_step = TRUE
 )
-```
 
-The code below computes the dissimilarity stats of each time series against all others.
-
-```{r}
+#lock-step dissimilarity stats per time series
 df_stats <- distantia::distantia_stats(
   df = df_psi
 )
 
-head(df_stats)
+#hierarchical clustering of lock-step dissimilarity
+df_cluster <- distantia::distantia_cluster_hclust(
+  df = df_psi
+)$df
 ```
+
+## Dissimilarity Networks
+
+The function `distantia_spatial_network()` transforms the result of `distantia()` to an sf data frame with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
+
+```{r, message = FALSE, warning = FALSE}
+sf_network <- distantia::distantia_spatial_network(
+  df = df_psi,
+  sf = distantia::covid_counties |> 
+    dplyr::select(
+      name, geometry
+    )
+)
+
+dplyr::glimpse(sf_network)
+```
+The sf data frame has a field with the edge name, the columns `x`, `y`, and `psi` of the distantia data frame, a linestring geometry column, and the `length` column with the edge length.
+
+This sf data frame can be mapped right away, but in this case there are too many pairs of counties to achieve a meaningful map
+
+```{r, message = FALSE, warning = FALSE}
+mapview::mapview(
+  sf_network,
+  layer.name = "Psi",
+  label = "edge_name",
+  zcol = "psi",
+  color = distantia::utils_color_continuous_default()
+)
+```
+The mess above can be solved by focusing on particular aspects of the data at hand. For example, below we subset `sf_network` to focus on the dissimilarity between San Francisco and its closer counties.
+
+```{r, warning = FALSE}
+#subset edges involving San Francisco
+#with a maximum length of 250km
+sf_network_subset <- sf_network |> 
+  dplyr::filter(
+    grepl(
+      pattern = "San_Francisco",
+      x = edge_name
+    ),
+    length < 250000
+  )
+
+#map country polygons and dissimilarity edges
+mapview::mapview(
+  covid_counties,
+  col.regions = NA,
+  color = "black",
+  label = FALSE,
+  legend = FALSE,
+  map.type = "OpenStreetMap"
+) +
+  mapview::mapview(
+    sf_network_subset,
+    layer.name = "San Francisco - Psi",
+    label = "edge_name",
+    zcol = "psi",
+    lwd = (1/sf_network_subset$psi)*10,
+    color = distantia::utils_color_continuous_default()
+  )
+```
+When the relationship to map is one-to-many, as above, it can also be mapped using polygons directly.
+
+```{r}
+sf_network_subset <- sf::st_dropsf_network_subset
+```
+
+
+## Mapping Dissimilarity Stats
+
+Mapping the dissimilarity stats of each time series may help identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
 
 Merging the dissimilarity stats with the sf data frame containing the county polygons generates the spatial data required for the map.
 
@@ -104,9 +183,14 @@ The map below uses warm colors for places with a high dissimilarity with all oth
 
 ```{r, warning = FALSE}
 mapview::mapview(
-  sf_stats,
+  sf_stats |> 
+    dplyr::select(
+      mean,
+      name
+    ),
   layer.name = "Psi mean",
   zcol = "mean",
+  label = "name",
   col.regions = distantia::utils_color_continuous_default(),
   alpha.regions = 1
 )
@@ -116,73 +200,36 @@ mapview::mapview(
 ## One To Many
 
 ```{r, eval = FALSE}
-county_name <- "San_Francisco"
-
-df_psi_san_francisco <- df_psi |> 
-  dplyr::mutate(
-    name = ifelse(
-      test = x != county_name | y != county_name,
-      yes = x,
-      no = "other"
-    )
-  ) |> 
-  dplyr::filter(
-    name == county_name
-  ) |> 
-  dplyr::left_join(
-    y = distantia::covid_counties,
-    by = "name"
-  ) |> 
-  sf::st_sf()
-
-dplyr::glimpse(df_psi_san_francisco)
+# county_name <- "San_Francisco"
+# 
+# df_psi_san_francisco <- df_psi |> 
+#   dplyr::mutate(
+#     name = ifelse(
+#       test = x != county_name | y != county_name,
+#       yes = x,
+#       no = "other"
+#     )
+#   ) |> 
+#   dplyr::filter(
+#     name == county_name
+#   ) |> 
+#   dplyr::left_join(
+#     y = distantia::covid_counties,
+#     by = "name"
+#   ) |> 
+#   sf::st_sf()
+# 
+# dplyr::glimpse(df_psi_san_francisco)
 ```
+
 ```{r}
-mapview::mapview(
-  df_psi_san_francisco,
-  layer.name = paste0("Psi with ", county_name),
-  zcol = "psi",
-  col.regions = distantia::utils_color_continuous_default(),
-  alpha.regions = 1
-)
+# mapview::mapview(
+#   df_psi_san_francisco,
+#   layer.name = paste0("Psi with ", county_name),
+#   zcol = "psi",
+#   col.regions = distantia::utils_color_continuous_default(),
+#   alpha.regions = 1
+# )
 ```
 
 
-## Dissimilarity Networks
-
-NOTE: this section uses the objects generated in the previous one.
-
-The function `distantia_spatial_network()` transforms the result of `distantia()` to a spatial file with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
-
-```{r, message = FALSE, warning = FALSE}
-sf_network <- distantia::distantia_spatial_network(
-  df = df_psi,
-  sf = distantia::covid_counties |> 
-    sf::st_centroid() |> 
-    sf::st_sf()
-)
-
-mapview::mapview(
-  sf_network,
-  layer.name = "Psi",
-  zcol = "psi",
-  color = distantia::utils_color_continuous_default()
-)
-```
-
-
-However, in this case there are too many combinations of counties to produce a meaningful map from the resulting sf data frame. This can be solved by focusing on particular aspects of the data at hand.
-
-```{r, warning = FALSE}
-sf_network_subset <- sf_network |> 
-  dplyr::filter(
-    x == "San_Francisco" | y == "San_Francisco"
-  )
-
-mapview::mapview(
-  sf_network_subset,
-  layer.name = "San Francisco - Psi",
-  zcol = "psi",
-  color = distantia::utils_color_continuous_default()
-)
-```
