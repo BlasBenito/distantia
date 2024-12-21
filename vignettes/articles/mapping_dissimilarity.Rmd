@@ -32,14 +32,14 @@ This article illustrates this concept with several examples.
 ## Setup
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, results = "hide"}
-if (!requireNamespace("pak", quietly = TRUE)) {
-  install.packages("pak")
-  pak::pkg_install(
-    c(
-    "dplyr",
-    "mapview"
-    )
-  )
+if (!requireNamespace("sf", quietly = TRUE)){
+  install.packages("sf")
+}
+if (!requireNamespace("mapview", quietly = TRUE)){
+  install.packages("mapview")
+}
+if (!requireNamespace("dplyr", quietly = TRUE)){
+  install.packages("dplyr")
 }
 ```
 
@@ -48,8 +48,6 @@ library(distantia)
 library(dplyr)
 library(mapview)
 ```
-
-
 
 
 ## Dissimilarity Stats
