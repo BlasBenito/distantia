@@ -16,9 +16,9 @@ df <- distantia::momentum(
 distantia_boxplot(df)
 
 #transform to sf
-psi_sf <- distantia::distantia_to_sf(
+psi_sf <- distantia::distantia_spatial_network(
   df = psi_importance,
-  xy = distantia::eemian_coordinates
+  sf = distantia::eemian_coordinates
 )
 
 #mapping with tmap

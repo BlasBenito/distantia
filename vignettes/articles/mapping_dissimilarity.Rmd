@@ -154,12 +154,12 @@ mapview::mapview(
 
 NOTE: this section uses the objects generated in the previous one.
 
-The function `distantia_to_sf()` transforms the result of `distantia()` to a spatial file with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
+The function `distantia_spatial_network()` transforms the result of `distantia()` to a spatial file with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
 
 ```{r, message = FALSE, warning = FALSE}
-sf_network <- distantia::distantia_to_sf(
+sf_network <- distantia::distantia_spatial_network(
   df = df_psi,
-  xy = distantia::covid_counties |> 
+  sf = distantia::covid_counties |> 
     sf::st_centroid() |> 
     sf::st_sf()
 )

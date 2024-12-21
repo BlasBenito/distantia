@@ -4,7 +4,7 @@
 #' Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
-#' @param xy (required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL
+#' @param sf (required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL
 #'
 #' @return sf data frame (LINESTRING geometry)
 #' @export
@@ -33,9 +33,9 @@
 #' )
 #'
 #' #transform to sf
-#' distantia_sf <- distantia::distantia_to_sf(
+#' distantia_sf <- distantia::distantia_spatial_network(
 #'   df = distantia_df,
-#'   xy = fagus_coordinates
+#'   sf = fagus_coordinates
 #' )
 #'
 #' #mapping with tmap
@@ -58,9 +58,9 @@
 #' )
 #'
 #' #transform to sf
-#' importance_sf <- distantia::distantia_to_sf(
+#' importance_sf <- distantia::distantia_spatial_network(
 #'   df = importance_df,
-#'   xy = fagus_coordinates
+#'   sf = fagus_coordinates
 #' )
 #'
 #' names(importance_sf)
@@ -96,9 +96,9 @@
 #' #   tmap::tm_dots(size = 0.1, col = "gray50")
 #' @autoglobal
 #' @family dissimilarity_analysis
-distantia_to_sf <- function(
+distantia_spatial_network <- function(
     df = NULL,
-    xy = NULL
+    sf = NULL
 ){
 
   if(
@@ -106,28 +106,28 @@ distantia_to_sf <- function(
       package = "sf",
       quietly = TRUE
     ) == FALSE){
-    stop("distantia::distantia_to_sf(): please install the package 'sf' before running this function.", call. = FALSE)
+    stop("distantia::distantia_spatial_network(): please install the package 'sf' before running this function.", call. = FALSE)
   }
 
   #check df
   if(is.null(df)){
-    stop("distantia::distantia_to_sf(): argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().", call. = FALSE)
+    stop("distantia::distantia_spatial_network(): argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().", call. = FALSE)
   }
 
   df_type <- attributes(df)$type
 
   types <- c(
     "distantia_df",
-    "momentum_df"
+    "momentum_df",
+    "time_shift_df"
   )
 
   if(!(df_type %in% types)){
-    stop("distantia::distantia_to_sf(): argument 'df' must be the output of distantia::distantia().", call. = FALSE)
+    stop("distantia::distantia_spatial_network(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_time_shift(), or distantia::momentum().", call. = FALSE)
   }
 
   df_names <- unique(c(df$x, df$y))
 
-  #check if it needs aggregation
   df <- distantia_aggregate(
     df = df
   )
@@ -138,27 +138,38 @@ distantia_to_sf <- function(
     )
   }
 
-  # xy ----
-  if(is.null(xy)){
-    stop("distantia::distantia_to_sf(): argument 'xy' must be a data frame with time series names and coordinates.", call. = FALSE)
+  # sf ----
+  if(is.null(sf)){
+    stop("distantia::distantia_spatial_network(): argument 'sf' must be an sf data frame.", call. = FALSE)
   }
 
   ## find geometry ----
-  if(inherits(x = xy, what = "sf") == FALSE){
-
-    stop("distantia::distantia_to_sf(): argument 'xy' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.", call. = FALSE)
-
+  if(inherits(x = sf, what = "sf") == FALSE){
+    stop("distantia::distantia_spatial_network(): argument 'sf' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.", call. = FALSE)
   }
 
-  if(inherits(x = sf::st_geometry(xy), what = "sfc_POINT") == FALSE){
+  #check geometry type
+  sf_geometry_type <- sf |>
+    sf::st_geometry_type() |>
+    unique() |>
+    as.character()
 
-    stop("distantia::distantia_to_sf(): The 'geometry' column in 'xy' must be of type 'POINT'.", call. = FALSE)
+  #if polygons, compute centroids
+  if(any(c("POLYGON", "MULTIPOLYGON") %in% sf_geometry_type)){
+
+    sf <- sf::st_set_geometry(
+      sf,
+      sf::st_centroid(
+        x = sf::st_geometry(obj = sf),
+        of_largest_polygon = TRUE
+        )
+      )
 
   }
 
   ## find names column ----
-  xy_names <- apply(
-    X = xy,
+  sf_names <- apply(
+    X = sf,
     MARGIN = 2,
     FUN = function(x){
       if(all(df_names %in% x)){
@@ -169,30 +180,30 @@ distantia_to_sf <- function(
     }
   )
 
-  xy_names <- names(xy_names[xy_names == TRUE])
+  sf_names <- names(sf_names[sf_names == TRUE])
 
-  if(!(xy_names %in% colnames(xy))){
-    stop("distantia::distantia_to_sf(): Argument 'xy' must have a column with the time series names in 'df' (check values in df$x and df$y).")
+  if(!(sf_names %in% colnames(sf))){
+    stop("distantia::distantia_spatial_network(): Argument 'sf' must have a column with the time series names in 'df' (check values in df$x and df$y).")
   }
 
   ## add id column ----
-  xy$id <- seq_len(nrow(xy))
+  sf$id <- seq_len(nrow(sf))
 
   ## map id column in df ----
   df <- merge(
     x = df,
-    y = sf::st_drop_geometry(xy[, c("id", xy_names)]),
+    y = sf::st_drop_geometry(sf[, c("id", sf_names)]),
     by.x = "x",
-    by.y = xy_names
+    by.y = sf_names
   )
 
   colnames(df)[colnames(df) == "name"] <- "id_x"
 
   df <- merge(
     x = df,
-    y = sf::st_drop_geometry(xy[, c("id", xy_names)]),
+    y = sf::st_drop_geometry(sf[, c("id", sf_names)]),
     by.x = "y",
-    by.y = xy_names
+    by.y = sf_names
   )
 
   colnames(df)[colnames(df) == "name"] <- "id_y"
@@ -201,9 +212,9 @@ distantia_to_sf <- function(
   # generate network ----
 
   ## function to create lines
-  points_to_line <- function(id_x, id_y, xy) {
+  points_to_line <- function(id_x, id_y, sf) {
 
-    xy[c(id_x, id_y), ] |>
+    sf[c(id_x, id_y), ] |>
       sf::st_coordinates() |>
       sf::st_linestring() |>
       sf::st_sfc()
@@ -211,18 +222,18 @@ distantia_to_sf <- function(
   }
 
   ## generate lines list ----
-  xy_lines_list <- mapply(
+  sf_lines_list <- mapply(
     FUN = points_to_line,
     df$id.x,
     df$id.y,
-    MoreArgs = list(xy = xy)
+    MoreArgs = list(sf = sf)
   )
 
   ## to sf ----
   df_sf <- df |>
     sf::st_sf(
-    geometry = sf::st_sfc(xy_lines_list),
-    crs = sf::st_crs(xy)
+    geometry = sf::st_sfc(sf_lines_list),
+    crs = sf::st_crs(sf)
   )
 
   ## arrange by psi ----
