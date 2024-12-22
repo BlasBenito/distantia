@@ -2,15 +2,12 @@
 % Please edit documentation in R/distantia_aggregate.R
 \name{distantia_aggregate}
 \alias{distantia_aggregate}
-\alias{momentum_aggregate}
-\title{Aggregate Dissimilarity Data Frames Across Parameter Combinations}
+\title{Aggregate \code{distantia()} Data Frames Across Parameter Combinations}
 \usage{
 distantia_aggregate(df = NULL, f = mean, ...)
-
-momentum_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=momentum]{momentum()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}. Default: NULL}
 
 \item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
@@ -20,13 +17,9 @@ momentum_aggregate(df = NULL, f = mean, ...)
 data frame
 }
 \description{
-The functions \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} allow dissimilarity assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+The function \code{\link[=distantia]{distantia()}} allows dissimilarity assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
 
-The functions \code{distantia_aggregate()} and \code{momentum_aggregate()} compute the stats of dissimilarity metrics across combinations of parameters.
-
-When \code{df} is the result of \code{\link[=distantia]{distantia()}}, the input data is grouped by pairs of time series, and the function \code{f} is applied to the column "psi" by group
-
-When \code{df} is the result of \code{\link[=momentum]{momentum()}}, the input data is grouped by pairs of time series and variables, and the function \code{f} is applied to the columns "importance", "psi_only_with" and "psi_without" by group. However, if the values TRUE and FALSE appear in the column "robust" (which is not allowed by default in \code{\link[=momentum]{momentum()}}), then the aggregation is cancelled with an error, as the results of both methods should not be aggregated together.
+This function computes dissimilarity stats across combinations of parameters.
 
 If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column \code{psi} to start dissimilarity scores at zero.
 
@@ -73,48 +66,20 @@ df <- distantia_aggregate(
 )
 
 df
-
-#momentum with multiple parameter combinations
-#-------------------------------------
-df <- momentum(
-  tsl = tsl,
-  distance = c("euclidean", "manhattan"),
-  lock_step = TRUE
-)
-
-df[, c(
-  "x",
-  "y",
-  "variable",
-  "distance",
-  "importance"
-)]
-
-#aggregation using means
-df <- momentum_aggregate(
-  df = df,
-  f = mean
-)
-
-df[, c(
-  "x",
-  "y",
-  "variable",
-  "importance"
-)]
 }
 \seealso{
-Other dissimilarity_analysis: 
+Other distantia_support: 
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},
 \code{\link{distantia_cluster_kmeans}()},
 \code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
+\code{\link{distantia_model_frame}()},
 \code{\link{distantia_spatial_network}()},
 \code{\link{distantia_stats}()},
 \code{\link{distantia_time_shift}()},
-\code{\link{momentum_boxplot}()},
-\code{\link{momentum_stats}()},
-\code{\link{momentum_to_wide}()}
+\code{\link{utils_block_size}()},
+\code{\link{utils_cluster_hclust_optimizer}()},
+\code{\link{utils_cluster_kmeans_optimizer}()},
+\code{\link{utils_cluster_silhouette}()}
 }
-\concept{dissimilarity_analysis}
+\concept{distantia_support}

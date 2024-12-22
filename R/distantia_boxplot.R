@@ -30,7 +30,7 @@
 #'   df = df,
 #'   text_cex = 1.5
 #'   )
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_boxplot <- function(
     df = NULL,
     fill_color = NULL,

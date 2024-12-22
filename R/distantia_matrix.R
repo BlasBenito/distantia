@@ -77,7 +77,7 @@
 #'   )
 #'
 #' }
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_matrix <- function(
     df = NULL
 ){

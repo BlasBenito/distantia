@@ -38,6 +38,7 @@
 #'   \item `psi`: psi score of `x` and `y`.
 #'   \item `variable`: name of the individual variable.
 #'   \item `importance`: importance score of the variable.
+#'   \item `effect`: interpretation of the "importance" column, with the values "increases similarity" and "decreases similarity".
 #'   \item `psi_only_with`: psi score of the variable.
 #'   \item `psi_without`: psi score without the variable.
 #'   \item `psi_difference`: difference between `psi_only_with` and `psi_without`.
@@ -76,7 +77,7 @@
 #'   "effect"
 #'   )]
 #'
-#' @family dissimilarity_analysis_main
+#' @family momentum
 momentum <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -132,7 +133,10 @@ momentum <- function(
     unique()
 
   if(1 %in% tsl_ncol){
-    warning("There are univariate time series in 'tsl', but importance scores only apply to multivariate time series.")
+    stop(
+      "distantia::momentum(): variable contribution analysis requires multivariate time series, but 'tsl' contains univariate time series.",
+      call. = FALSE
+    )
   }
 
   #tsl pairs

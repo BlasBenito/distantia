@@ -56,7 +56,7 @@
 #' #best solution in first row
 #' head(hclust_optimization)
 #'
-#' @family internal_dissimilarity_analysis
+#' @family distantia_support
 utils_cluster_hclust_optimizer <- function(
     d = NULL,
     method = NULL
@@ -104,7 +104,7 @@ utils_cluster_hclust_optimizer <- function(
   )
   df$silhouette_mean <- NA
 
-  
+
 
   #clustering methods
   hc_methods <- foreach::foreach(

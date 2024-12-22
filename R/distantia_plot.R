@@ -82,7 +82,7 @@
 #' @return A plot.
 #' @autoglobal
 #' @export
-#' @family dissimilarity_analysis
+#' @family distantia
 distantia_plot <- function(
     tsl = NULL,
     distance = "euclidean",

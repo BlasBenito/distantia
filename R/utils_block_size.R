@@ -6,7 +6,7 @@
 #' @return integer
 #' @export
 #' @autoglobal
-#' @family internal_dissimilarity_analysis
+#' @family distantia_support
 utils_block_size <- function(
     tsl = NULL,
     block_size = NULL

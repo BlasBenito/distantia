@@ -43,7 +43,7 @@ The resulting data frame contains the following columns:
 \item (optional) \code{distance}:If the static predictors data frame is an \code{sf} object, then this predictor is created via \code{sf::st_distance()}.
 }
 
-Statistical or machine learning analyses based on this data frame may help uncover drivers of dissimilarity. Model coefficients or importance scores generated from this model frame represent the effect of the distance between predictors on the dissimilarity between time seriess.
+Statistical or machine learning analyses based on this data frame may help uncover drivers of dissimilarity. Model coefficients or importance scores generated from this model frame represent the effect of the distance between predictors on the dissimilarity between time series.
 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
@@ -100,8 +100,18 @@ summary(model)
 
 }
 \seealso{
-Other dissimilarity_analysis_main: 
-\code{\link{distantia}()},
-\code{\link{momentum}()}
+Other distantia_support: 
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_spatial_network}()},
+\code{\link{distantia_stats}()},
+\code{\link{distantia_time_shift}()},
+\code{\link{utils_block_size}()},
+\code{\link{utils_cluster_hclust_optimizer}()},
+\code{\link{utils_cluster_kmeans_optimizer}()},
+\code{\link{utils_cluster_silhouette}()}
 }
-\concept{dissimilarity_analysis_main}
+\concept{distantia_support}

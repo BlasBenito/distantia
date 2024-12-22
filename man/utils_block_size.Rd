@@ -18,9 +18,18 @@ integer
 Default Block Size for Restricted Permutation in Dissimilarity Analyses
 }
 \seealso{
-Other internal_dissimilarity_analysis: 
+Other distantia_support: 
+\code{\link{distantia_aggregate}()},
+\code{\link{distantia_boxplot}()},
+\code{\link{distantia_cluster_hclust}()},
+\code{\link{distantia_cluster_kmeans}()},
+\code{\link{distantia_matrix}()},
+\code{\link{distantia_model_frame}()},
+\code{\link{distantia_spatial_network}()},
+\code{\link{distantia_stats}()},
+\code{\link{distantia_time_shift}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
 \code{\link{utils_cluster_silhouette}()}
 }
-\concept{internal_dissimilarity_analysis}
+\concept{distantia_support}

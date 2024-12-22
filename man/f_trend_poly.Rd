@@ -19,7 +19,7 @@ f_trend_poly(x = NULL, degree = 2, center = TRUE, ...)
 zoo object
 }
 \description{
-Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to \link{f_trend_linear} when the overal. trend of the time series does not follow a straight line.
+Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to \link{f_trend_linear} when the overall. trend of the time series does not follow a straight line.
 }
 \examples{
 x <- zoo_simulate(cols = 2)

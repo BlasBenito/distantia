@@ -7,7 +7,7 @@
 momentum_stats(df = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=momentum]{momentum()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}. Default: NULL}
 }
 \value{
 data frame
@@ -31,17 +31,9 @@ df_stats <- distantia_stats(df = df)
 df_stats
 }
 \seealso{
-Other dissimilarity_analysis: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_plot}()},
-\code{\link{distantia_spatial_network}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_shift}()},
+Other momentum_support: 
+\code{\link{momentum_aggregate}()},
 \code{\link{momentum_boxplot}()},
 \code{\link{momentum_to_wide}()}
 }
-\concept{dissimilarity_analysis}
+\concept{momentum_support}

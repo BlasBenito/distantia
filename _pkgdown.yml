@@ -43,6 +43,7 @@ reference:
       The package follows these naming conventions:
 
         - `distantia()` and `distantia_...()`: functions to assess time series dissimilarity via dynamic time warping or lock-step methods.
+        - `momentum()` and `momentum_...(): functions to assess variable contribution to dissimilarity in multivariate time series.
         - `psi_...()`: step-by-step demonstration of how psi dissimilarity scores are computed.
         - `tsl_...()`: functions to generate, process, and explore time series lists (TSLs).
         - `f_...()`: transformation functions used as input arguments for other functions.
@@ -50,18 +51,27 @@ reference:
         - `utils_...()`: internal functions and helpers.
         - `..._cpp()`: C++ core functions built via [Rcpp](https://CRAN.R-project.org/package=Rcpp) for efficient dissimilarity analysis.
 
-- title: Core Functions for Dynamic Time Warping and Lock-step Analysis
-  desc:  Functions to assess time series dissimilarity, and the partial contribution of individual variables to dissimilarity.
+- title: Dissimilarity Analysis
+  desc:  Tools to compare time series via dynamic time warping or lock-step methods.
 - contents:
-  - has_concept("dissimilarity_analysis_main")
+  - has_concept("distantia")
 
 - title: Support Functions for Dissimilarity Analysis
-  desc:  These functions use the output of `distantia()` or `momentum()` to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.
+  desc:  Functions to enhance dissimilarity analyses with new capabilities, such as modelling, mapping, and clustering, among others.
 - contents:
-  - has_concept("dissimilarity_analysis")
-  - has_concept("internal_dissimilarity_analysis")
+  - has_concept("distantia_support")
 
-- title: C++ Backend for Dissimilarity Analysis
+- title: Variable Importance Analysis
+  desc:  Tools to assess the contribution of individual variables to the dissimilarity between multivariate time series.
+- contents:
+  - has_concept("momentum")
+
+- title: Support Functions for Variable Importance Analysis
+  desc:  Functions to enhance variable importance analyses.
+- contents:
+  - has_concept("momentum_support")
+
+- title: C++ Backend
   desc:  These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in `distantia()` and `momentum()`.
 - contents:
   - has_concept("Rcpp_dissimilarity_analysis")

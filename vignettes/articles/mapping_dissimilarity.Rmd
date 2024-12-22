@@ -81,22 +81,63 @@ mapview::mapview(
 
 In this section we prepare several datasets to use in the different mapping examples: a lock-step dissimilarity data frame (`df_psi`), dissimilarity stats per time series (`df_stats`), and a hierarchical clustering based on the dissimilarity scores (`df_cluster`).
 
+The lock-step dissimilarity analysis includes a permutation test p-values, which will be useful as criteria to select relevant mapping features.
+
 ```{r}
+#parallelization setup
+future::plan(
+  future::multisession,
+  workers = parallelly::availableCores() - 1
+  )
+
 #lock-step dissimilarity analysis
 df_psi <- distantia::distantia(
   tsl = tsl,
-  lock_step = TRUE
+  distance = "euclidean",
+  lock_step = TRUE,
+  repetitions = 1000,
+  permutation = "restricted",
+  block_size = 12 #weeks
 )
 
+#disable parallelization
+future::plan(
+  future::sequential
+  )
+
+#check resulting data frame
+df_psi |> 
+  dplyr::select(
+    x,
+    y,
+    psi,
+    p_value
+  ) |> 
+  dplyr::glimpse()
+```
+The code below aggregates *psi* scores in the data frame `df_psi` across time series.
+
+```{r}
 #lock-step dissimilarity stats per time series
 df_stats <- distantia::distantia_stats(
   df = df_psi
 )
 
+df_stats |> 
+  dplyr::select(
+    name, mean
+  ) |> 
+  dplyr::glimpse()
+```
+Finally, we run a hierarchical clustering using the *psi* scores in `df_psi` as distance criteria.
+
+```{r}
 #hierarchical clustering of lock-step dissimilarity
 df_cluster <- distantia::distantia_cluster_hclust(
   df = df_psi
 )$df
+
+dplyr::glimpse(df_cluster)
 ```
 
 ## Dissimilarity Networks
@@ -127,7 +168,8 @@ mapview::mapview(
   color = distantia::utils_color_continuous_default()
 )
 ```
-The mess above can be solved by focusing on particular aspects of the data at hand. For example, below we subset `sf_network` to focus on the dissimilarity between San Francisco and its closer counties.
+
+The mess above can be solved by focusing on particular aspects of the data at hand. For example, below we subset `sf_network` to focus on San Francisco and its most similar counties in terms of Covid19 prevalence.
 
 ```{r, warning = FALSE}
 #subset edges involving San Francisco
@@ -138,7 +180,7 @@ sf_network_subset <- sf_network |>
       pattern = "San_Francisco",
       x = edge_name
     ),
-    length < 250000
+    p_value <= 0.05
   )
 
 #map country polygons and dissimilarity edges
@@ -146,7 +188,7 @@ mapview::mapview(
   covid_counties,
   col.regions = NA,
   color = "black",
-  label = FALSE,
+  label = "name",
   legend = FALSE,
   map.type = "OpenStreetMap"
 ) +
@@ -156,7 +198,7 @@ mapview::mapview(
     label = "edge_name",
     zcol = "psi",
     lwd = (1/sf_network_subset$psi)*10,
-    color = distantia::utils_color_continuous_default()
+    color = distantia::utils_color_continuous_default(n = nrow(sf_network_subset) - 1)
   )
 ```
 

@@ -21,7 +21,7 @@
 #' df_stats <- distantia_stats(df = df)
 #'
 #' df_stats
-#' @family dissimilarity_analysis
+#' @family momentum_support
 momentum_stats <- function(
     df = NULL
 ){
@@ -75,7 +75,7 @@ momentum_stats <- function(
 
   p <- progressr::progressor(along = f)
 
-  
+
 
   #computing stats
   stats_list <- foreach::foreach(

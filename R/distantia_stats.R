@@ -21,7 +21,8 @@
 #' df_stats <- distantia_stats(df = df)
 #'
 #' df_stats
-#' @family dissimilarity_analysis
+#' @family distantia_support
+#' @importFrom doFuture "%dofuture%"
 distantia_stats <- function(
     df = NULL
 ){
@@ -86,12 +87,11 @@ distantia_stats <- function(
   #progress bar and iterator
   p <- progressr::progressor(along = f)
 
-  
-
   #computing stats
   stats_list <- foreach::foreach(
     i = seq_len(length(f)),
-    .errorhandling = "pass"
+    .errorhandling = "pass",
+    .options.future = list(seed = TRUE)
   ) %dofuture% {
 
     p()

@@ -34,6 +34,7 @@ data frame:
 \item \code{psi}: psi score of \code{x} and \code{y}.
 \item \code{variable}: name of the individual variable.
 \item \code{importance}: importance score of the variable.
+\item \code{effect}: interpretation of the "importance" column, with the values "increases similarity" and "decreases similarity".
 \item \code{psi_only_with}: psi score of the variable.
 \item \code{psi_without}: psi score without the variable.
 \item \code{psi_difference}: difference between \code{psi_only_with} and \code{psi_without}.
@@ -101,8 +102,8 @@ df[, c(
 
 }
 \seealso{
-Other dissimilarity_analysis_main: 
-\code{\link{distantia}()},
-\code{\link{distantia_model_frame}()}
+Other momentum: 
+\code{\link{momentum_lock_step}()},
+\code{\link{momentum_time_warp}()}
 }
-\concept{dissimilarity_analysis_main}
+\concept{momentum}

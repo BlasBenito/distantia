@@ -61,7 +61,7 @@
 #' distantia_plot(
 #'   tsl = tsl[c("Kinshasa", "London")]
 #' )
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_time_shift <- function(
     tsl = NULL,
     distance = "euclidean",

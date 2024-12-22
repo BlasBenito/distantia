@@ -82,7 +82,7 @@
 #' #   data = distantia_kmeans$d,
 #' #   repel = TRUE
 #' # )
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_cluster_kmeans <- function(
     df = NULL,
     clusters = NULL,

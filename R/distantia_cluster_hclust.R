@@ -107,7 +107,7 @@
 #'
 #' }
 #'
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_cluster_hclust <- function(
     df = NULL,
     clusters = NULL,

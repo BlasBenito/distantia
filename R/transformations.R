@@ -81,7 +81,7 @@ f_trend_linear <- function(
 #' Data Transformation: Polynomial Linear Trend of Zoo Time Series
 #'
 #' @description
-#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to [f_trend_linear] when the overal. trend of the time series does not follow a straight line.
+#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to [f_trend_linear] when the overall. trend of the time series does not follow a straight line.
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.

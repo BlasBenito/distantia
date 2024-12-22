@@ -32,7 +32,7 @@
 #'
 #' This function allows computing dissimilarity between pairs of time series using different combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of time series, one based on euclidean distances, and another based on manhattan distances. The same happens for most other parameters.
 #'
-#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
+#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr). However, due to the high performance of the C++ backend, parallelization might only result in efficiency gains when running permutation tests with large number of iterations, or working with very long time series.
 #'
 #' @param tsl (required, time series list) list of zoo time series. Default: NULL
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset [distances]. Default: "euclidean".
@@ -131,7 +131,7 @@
 #' mean(psi_null)
 #' df_dtw$null_mean[3]
 #'
-#' @family dissimilarity_analysis_main
+#' @family distantia
 #' @importFrom doFuture "%dofuture%"
 distantia <- function(
     tsl = NULL,
@@ -226,9 +226,9 @@ distantia <- function(
   df$psi <- NA
 
   if(repetitions > 0){
+    df$p_value <- NA
     df$null_mean <- NA
     df$null_sd <- NA
-    df$p_value <- NA
   }
 
   iterations <- seq_len(nrow(df))

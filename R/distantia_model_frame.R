@@ -18,7 +18,7 @@
 #'   \item (optional) `distance`:If the static predictors data frame is an `sf` object, then this predictor is created via `sf::st_distance()`.
 #' }
 #'
-#' Statistical or machine learning analyses based on this data frame may help uncover drivers of dissimilarity. Model coefficients or importance scores generated from this model frame represent the effect of the distance between predictors on the dissimilarity between time seriess.
+#' Statistical or machine learning analyses based on this data frame may help uncover drivers of dissimilarity. Model coefficients or importance scores generated from this model frame represent the effect of the distance between predictors on the dissimilarity between time series.
 #'
 #' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
@@ -83,7 +83,7 @@
 #'
 #' summary(model)
 #'
-#' @family dissimilarity_analysis_main
+#' @family distantia_support
 distantia_model_frame <- function(
     df = NULL,
     predictors_df = NULL,

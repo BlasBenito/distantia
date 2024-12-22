@@ -56,7 +56,7 @@
 #' #best solution in first row
 #' head(kmeans_optimization)
 #'
-#' @family internal_dissimilarity_analysis
+#' @family distantia_support
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,
     seed = 1
@@ -82,7 +82,7 @@ utils_cluster_kmeans_optimizer <- function(
 
   p <- progressr::progressor(along = clusters_vector)
 
-  
+
 
   sil <- foreach::foreach(
     i = clusters_vector,

@@ -95,7 +95,7 @@
 #' #   tmap::tm_shape(fagus_coordinates) +
 #' #   tmap::tm_dots(size = 0.1, col = "gray50")
 #' @autoglobal
-#' @family dissimilarity_analysis
+#' @family distantia_support
 distantia_spatial_network <- function(
     df = NULL,
     sf = NULL
@@ -128,9 +128,14 @@ distantia_spatial_network <- function(
 
   df_names <- unique(c(df$x, df$y))
 
-  df <- distantia_aggregate(
-    df = df
-  )
+  if(df_type == "momentum_df")
+    df <- momentum_aggregate(
+      df = df
+    ) else {
+      df <- distantia_aggregate(
+        df = df
+      )
+    }
 
   if(df_type == "momentum_df"){
     df <- momentum_to_wide(
@@ -162,8 +167,8 @@ distantia_spatial_network <- function(
       sf::st_centroid(
         x = sf::st_geometry(obj = sf),
         of_largest_polygon = TRUE
-        )
       )
+    )
 
   }
 
@@ -232,9 +237,9 @@ distantia_spatial_network <- function(
   ## to sf ----
   df_sf <- df |>
     sf::st_sf(
-    geometry = sf::st_sfc(sf_lines_list),
-    crs = sf::st_crs(sf)
-  )
+      geometry = sf::st_sfc(sf_lines_list),
+      crs = sf::st_crs(sf)
+    )
 
   ## arrange by psi ----
   df_sf <- df_sf[order(df_sf$psi), ]

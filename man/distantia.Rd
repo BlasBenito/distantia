@@ -83,7 +83,7 @@ Four different permutation methods are available:
 
 This function allows computing dissimilarity between pairs of time series using different combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of time series, one based on euclidean distances, and another based on manhattan distances. The same happens for most other parameters.
 
-This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
+This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}. However, due to the high performance of the C++ backend, parallelization might only result in efficiency gains when running permutation tests with large number of iterations, or working with very long time series.
 }
 \examples{
 
@@ -157,8 +157,9 @@ df_dtw$null_mean[3]
 
 }
 \seealso{
-Other dissimilarity_analysis_main: 
-\code{\link{distantia_model_frame}()},
-\code{\link{momentum}()}
+Other distantia: 
+\code{\link{distantia_lock_step}()},
+\code{\link{distantia_plot}()},
+\code{\link{distantia_time_warp}()}
 }
-\concept{dissimilarity_analysis_main}
+\concept{distantia}
