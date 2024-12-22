@@ -47,6 +47,8 @@
       <div class="section-desc"><p>The package follows these naming conventions:</p><ul><li>
 <code><a href="../reference/distantia.html">distantia()</a></code> and <code>distantia_...()</code>: functions to assess time series dissimilarity via dynamic time warping or lock-step methods.</li>
 <li>
+<code><a href="../reference/momentum.html">momentum()</a></code> and `momentum_…(): functions to assess variable contribution to dissimilarity in multivariate time series.</li>
+<li>
 <code>psi_...()</code>: step-by-step demonstration of how psi dissimilarity scores are computed.</li>
 <li>
 <code>tsl_...()</code>: functions to generate, process, and explore time series lists (TSLs).</li>
@@ -62,9 +64,9 @@
 
 
     </div><div class="section level2">
-      <h2 id="core-functions-for-dynamic-time-warping-and-lock-step-analysis">Core Functions for Dynamic Time Warping and Lock-step Analysis<a class="anchor" aria-label="anchor" href="#core-functions-for-dynamic-time-warping-and-lock-step-analysis"></a></h2>
+      <h2 id="dissimilarity-analysis">Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis"></a></h2>
 
-      <div class="section-desc"><p>Functions to assess time series dissimilarity, and the partial contribution of individual variables to dissimilarity.</p></div>
+      <div class="section-desc"><p>Tools to compare time series via dynamic time warping or lock-step methods.</p></div>
 
 
     </div><div class="section level2">
@@ -80,20 +82,26 @@
         <dd>Dissimilarity Analysis of Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="distantia_model_frame.html">distantia_model_frame()</a></code>
+          <code><a href="distantia_lock_step.html">distantia_lock_step()</a></code>
 
         </dt>
-        <dd>Dissimilarity Model Frame</dd>
+        <dd>Lock-Step Dissimilarity Analysis of Time Series Lists</dd>
       </dl><dl><dt>
 
-          <code><a href="momentum.html">momentum()</a></code>
+          <code><a href="distantia_plot.html">distantia_plot()</a></code>
 
         </dt>
-        <dd>Contribution of Individual Variables to Time Series Dissimilarity</dd>
+        <dd>Two-Way Dissimilarity Plots of Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="distantia_time_warp.html">distantia_time_warp()</a></code>
+
+        </dt>
+        <dd>Dynamic Time Warping Dissimilarity Analysis of Time Series Lists</dd>
       </dl></div><div class="section level2">
       <h2 id="support-functions-for-dissimilarity-analysis">Support Functions for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#support-functions-for-dissimilarity-analysis"></a></h2>
 
-      <div class="section-desc"><p>These functions use the output of <code><a href="../reference/distantia.html">distantia()</a></code> or <code><a href="../reference/momentum.html">momentum()</a></code> to enhance dissimilarity analysis by adding plotting, clustering, and mapping capabilities.</p></div>
+      <div class="section-desc"><p>Functions to enhance dissimilarity analyses with new capabilities, such as modelling, mapping, and clustering, among others.</p></div>
 
 
     </div><div class="section level2">
@@ -103,10 +111,10 @@
 
       <dl><dt>
 
-          <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code> <code><a href="distantia_aggregate.html">momentum_aggregate()</a></code>
+          <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>
 
         </dt>
-        <dd>Aggregate Dissimilarity Data Frames Across Parameter Combinations</dd>
+        <dd>Aggregate <code><a href="../reference/distantia.html">distantia()</a></code> Data Frames Across Parameter Combinations</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_boxplot.html">distantia_boxplot()</a></code>
@@ -133,10 +141,10 @@
         <dd>Convert Dissimilarity Analysis Data Frame to Distance Matrix</dd>
       </dl><dl><dt>
 
-          <code><a href="distantia_plot.html">distantia_plot()</a></code>
+          <code><a href="distantia_model_frame.html">distantia_model_frame()</a></code>
 
         </dt>
-        <dd>Two-Way Dissimilarity Plots of Time Series Lists</dd>
+        <dd>Dissimilarity Model Frame</dd>
       </dl><dl><dt>
 
           <code><a href="distantia_spatial_network.html">distantia_spatial_network()</a></code>
@@ -155,24 +163,6 @@
 
         </dt>
         <dd>Time Shift Between Time Series</dd>
-      </dl><dl><dt>
-
-          <code><a href="momentum_boxplot.html">momentum_boxplot()</a></code>
-
-        </dt>
-        <dd>Momentum Boxplot</dd>
-      </dl><dl><dt>
-
-          <code><a href="momentum_stats.html">momentum_stats()</a></code>
-
-        </dt>
-        <dd>Stats of Dissimilarity Data Frame</dd>
-      </dl><dl><dt>
-
-          <code><a href="momentum_to_wide.html">momentum_to_wide()</a></code>
-
-        </dt>
-        <dd>Momentum Data Frame to Wide Format</dd>
       </dl><dl><dt>
 
           <code><a href="utils_block_size.html">utils_block_size()</a></code>
@@ -198,7 +188,71 @@
         </dt>
         <dd>Compute Silhouette Width of a Clustering Solution</dd>
       </dl></div><div class="section level2">
-      <h2 id="c-backend-for-dissimilarity-analysis">C++ Backend for Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#c-backend-for-dissimilarity-analysis"></a></h2>
+      <h2 id="variable-importance-analysis">Variable Importance Analysis<a class="anchor" aria-label="anchor" href="#variable-importance-analysis"></a></h2>
+
+      <div class="section-desc"><p>Tools to assess the contribution of individual variables to the dissimilarity between multivariate time series.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="momentum.html">momentum()</a></code>
+
+        </dt>
+        <dd>Contribution of Individual Variables to Time Series Dissimilarity</dd>
+      </dl><dl><dt>
+
+          <code><a href="momentum_lock_step.html">momentum_lock_step()</a></code>
+
+        </dt>
+        <dd>Lock-Step Variable Importance Analysis of Multivariate Time Series Lists</dd>
+      </dl><dl><dt>
+
+          <code><a href="momentum_time_warp.html">momentum_time_warp()</a></code>
+
+        </dt>
+        <dd>Dynamic Time Warping Variable Importance Analysis of Multivariate Time Series Lists</dd>
+      </dl></div><div class="section level2">
+      <h2 id="support-functions-for-variable-importance-analysis">Support Functions for Variable Importance Analysis<a class="anchor" aria-label="anchor" href="#support-functions-for-variable-importance-analysis"></a></h2>
+
+      <div class="section-desc"><p>Functions to enhance variable importance analyses.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="momentum_aggregate.html">momentum_aggregate()</a></code>
+
+        </dt>
+        <dd>Aggregate <code><a href="../reference/momentum.html">momentum()</a></code> Data Frames Across Parameter Combinations</dd>
+      </dl><dl><dt>
+
+          <code><a href="momentum_boxplot.html">momentum_boxplot()</a></code>
+
+        </dt>
+        <dd>Momentum Boxplot</dd>
+      </dl><dl><dt>
+
+          <code><a href="momentum_stats.html">momentum_stats()</a></code>
+
+        </dt>
+        <dd>Stats of Dissimilarity Data Frame</dd>
+      </dl><dl><dt>
+
+          <code><a href="momentum_to_wide.html">momentum_to_wide()</a></code>
+
+        </dt>
+        <dd>Momentum Data Frame to Wide Format</dd>
+      </dl></div><div class="section level2">
+      <h2 id="c-backend">C++ Backend<a class="anchor" aria-label="anchor" href="#c-backend"></a></h2>
 
       <div class="section-desc"><p>These functions, designed to boost the computational efficiency of the package, implement all dissimilarity methods available in <code><a href="../reference/distantia.html">distantia()</a></code> and <code><a href="../reference/momentum.html">momentum()</a></code>.</p></div>
 

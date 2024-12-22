@@ -57,7 +57,7 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code> or <code><a href="momentum.html">momentum()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code>. Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -66,16 +66,8 @@
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other dissimilarity_analysis:
-<code><a href="distantia_aggregate.html">distantia_aggregate</a>()</code>,
-<code><a href="distantia_boxplot.html">distantia_boxplot</a>()</code>,
-<code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust</a>()</code>,
-<code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans</a>()</code>,
-<code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
-<code><a href="distantia_plot.html">distantia_plot</a>()</code>,
-<code><a href="distantia_spatial_network.html">distantia_spatial_network</a>()</code>,
-<code><a href="distantia_stats.html">distantia_stats</a>()</code>,
-<code><a href="distantia_time_shift.html">distantia_time_shift</a>()</code>,
+    <div class="dont-index"><p>Other momentum_support:
+<code><a href="momentum_aggregate.html">momentum_aggregate</a>()</code>,
 <code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
 <code><a href="momentum_to_wide.html">momentum_to_wide</a>()</code></p></div>
     </div>
@@ -95,18 +87,12 @@
 <span class="r-in"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_stats.html">distantia_stats</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_stats</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 3.157952 1.385596 2.462905 3.319535 4.014583 4.607144 1.3890870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 3.246655 1.385596 2.434121 3.414387 4.226920 4.772250 1.4880588</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 3.256157 2.783629 2.812413 3.021915 3.465659 4.197169 0.6578884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 4.573732 4.197169 4.504650 4.662754 4.731836 4.772250 0.2602843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 3.950598 3.221823 3.668252 3.931103 4.213449 4.718365 0.6184254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       range</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.2215480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.3866537</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.4135400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.5750804</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1.4965421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd    range</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 3.829072 1.849506 3.263758 4.047014 4.612328 5.372752 1.4822410 3.523246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 3.403955 1.849506 3.009716 3.549949 3.944189 4.666417 1.1690271 2.816911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 3.911346 3.396452 3.650495 3.834365 4.095216 4.580202 0.4980003 1.183749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 4.689542 3.933555 4.483202 4.725930 4.932271 5.372752 0.5910513 1.439197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 4.356986 3.703446 4.195002 4.469528 4.631512 4.785444 0.4692260 1.081998</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

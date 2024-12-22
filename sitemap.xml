@@ -52,12 +52,14 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_boxplot.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_cluster_hclust.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_cluster_kmeans.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distantia_lock_step.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_model_frame.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_plot.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_spatial_network.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distantia_time_shift.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distantia_time_warp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/eemian_pollen.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/f_binary.html</loc></url>
@@ -86,8 +88,11 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/importance_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_aggregate.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_boxplot.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_lock_step.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_stats.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/momentum_time_warp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_to_wide.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/null_psi_dynamic_time_warping_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/null_psi_lock_step_cpp.html</loc></url>

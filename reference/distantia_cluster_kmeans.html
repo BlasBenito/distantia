@@ -85,18 +85,19 @@ This function supports a parallelization setup via future::plan(), and progress 
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other dissimilarity_analysis:
+    <div class="dont-index"><p>Other distantia_support:
 <code><a href="distantia_aggregate.html">distantia_aggregate</a>()</code>,
 <code><a href="distantia_boxplot.html">distantia_boxplot</a>()</code>,
 <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust</a>()</code>,
 <code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
-<code><a href="distantia_plot.html">distantia_plot</a>()</code>,
+<code><a href="distantia_model_frame.html">distantia_model_frame</a>()</code>,
 <code><a href="distantia_spatial_network.html">distantia_spatial_network</a>()</code>,
 <code><a href="distantia_stats.html">distantia_stats</a>()</code>,
 <code><a href="distantia_time_shift.html">distantia_time_shift</a>()</code>,
-<code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
-<code><a href="momentum_stats.html">momentum_stats</a>()</code>,
-<code><a href="momentum_to_wide.html">momentum_to_wide</a>()</code></p></div>
+<code><a href="utils_block_size.html">utils_block_size</a>()</code>,
+<code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer</a>()</code>,
+<code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer</a>()</code>,
+<code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -143,30 +144,30 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#kmeans object</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">cluster_object</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 5 clusters of sizes 2, 2, 2, 3, 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 5 clusters of sizes 1, 2, 3, 2, 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cluster means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Alameda    Butte Contra_Costa El_Dorado   Fresno Humboldt  Imperial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.8752987 4.016253    4.0239241  4.131490 3.082938 3.827484 0.9587912</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2.7233587 1.163636    2.7502548  1.163636 3.879361 3.901249 4.4888025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.5810277 2.848015    0.5810277  2.625598 3.422312 4.170476 4.2236158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 3.6957697 3.380668    3.6431928  4.298177 1.561499 4.491937 3.4930690</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 3.9600000 4.233871    4.3809524  3.568627 4.439863 0.000000 4.1732283</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Kern     Kings Los_Angeles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.449647 0.9587912    3.276627</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.377273 3.6589408    4.261633</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 3.664084 3.6756070    3.922048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1.933922 3.0464057    1.907577</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 4.388889 3.4817391    4.647059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Alameda  Imperial   Fresno    Butte Contra_Costa     Kings     Kern</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.9600000 4.1732283 4.439863 4.233871    4.3809524 3.4817391 4.388889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2.7233587 4.4888025 3.879361 1.163636    2.7502548 3.6589408 3.377273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 3.6957697 3.4930690 1.561499 3.380668    3.6431928 3.0464057 1.933922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.5810277 4.2236158 3.422312 2.848015    0.5810277 3.6756070 3.664084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 3.8752987 0.9587912 3.082938 4.016253    4.0239241 0.9587912 3.449647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Humboldt El_Dorado Los_Angeles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.000000  3.568627    4.647059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.901249  1.163636    4.261633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 4.491937  4.298177    1.907577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 4.170476  2.625598    3.922048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 3.827484  4.131490    3.276627</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Clustering vector:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Alameda        Butte Contra_Costa    El_Dorado       Fresno     Humboldt </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            3            2            3            2            4            5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Imperial         Kern        Kings  Los_Angeles </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            1            4            1            4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Alameda     Imperial       Fresno        Butte Contra_Costa        Kings </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            4            5            3            2            4            5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Kern     Humboldt    El_Dorado  Los_Angeles </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            3            1            2            3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Within cluster sum of squares by cluster:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5.260079  7.154225  1.538902 17.277466  0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.000000  7.154225 17.277466  1.538902  5.260079</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  (between_SS / total_SS =  80.4 %)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available components:</span>
@@ -176,28 +177,28 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#distance matrix used for clustering</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">d</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Alameda    Butte Contra_Costa El_Dorado   Fresno Humboldt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      0.000000 2.962963     1.162055  2.483755 3.456869 3.960000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        2.962963 0.000000     2.733068  2.327273 3.324759 4.233871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 1.162055 2.733068     0.000000  2.767442 3.387755 4.380952</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    2.483755 2.327273     2.767442  0.000000 4.433962 3.568627</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       3.456869 3.324759     3.387755  4.433962 0.000000 4.439863</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     3.960000 4.233871     4.380952  3.568627 4.439863 0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     4.119107 4.408978     4.328125  4.568627 3.184685 4.173228</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         3.658065 2.811688     3.670103  3.942857 2.381766 4.388889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        3.631491 3.623529     3.719723  3.694352 2.981191 3.481739</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  3.972376 4.005556     3.871720  4.517711 2.302730 4.647059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              Imperial     Kern    Kings Los_Angeles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      4.119107 3.658065 3.631491    3.972376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        4.408978 2.811688 3.623529    4.005556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 4.328125 3.670103 3.719723    3.871720</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    4.568627 3.942857 3.694352    4.517711</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       3.184685 2.381766 2.981191    2.302730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     4.173228 4.388889 3.481739    4.647059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     0.000000 3.696145 1.917582    3.598377</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         3.696145 0.000000 3.203150    3.420000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        1.917582 3.203150 0.000000    2.954876</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  3.598377 3.420000 2.954876    0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Alameda Imperial   Fresno    Butte Contra_Costa    Kings     Kern</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      0.000000 4.119107 3.456869 2.962963     1.162055 3.631491 3.658065</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     4.119107 0.000000 3.184685 4.408978     4.328125 1.917582 3.696145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       3.456869 3.184685 0.000000 3.324759     3.387755 2.981191 2.381766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        2.962963 4.408978 3.324759 0.000000     2.733068 3.623529 2.811688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 1.162055 4.328125 3.387755 2.733068     0.000000 3.719723 3.670103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        3.631491 1.917582 2.981191 3.623529     3.719723 0.000000 3.203150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         3.658065 3.696145 2.381766 2.811688     3.670103 3.203150 0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     3.960000 4.173228 4.439863 4.233871     4.380952 3.481739 4.388889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    2.483755 4.568627 4.433962 2.327273     2.767442 3.694352 3.942857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  3.972376 3.598377 2.302730 4.005556     3.871720 2.954876 3.420000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Humboldt El_Dorado Los_Angeles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Alameda      3.960000  2.483755    3.972376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imperial     4.173228  4.568627    3.598377</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fresno       4.439863  4.433962    2.302730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Butte        4.233871  2.327273    4.005556</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Contra_Costa 4.380952  2.767442    3.871720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kings        3.481739  3.694352    2.954876</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kern         4.388889  3.942857    3.420000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Humboldt     0.000000  3.568627    4.647059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> El_Dorado    3.568627  0.000000    4.517711</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los_Angeles  4.647059  4.517711    0.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"distantia_args")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data frame with 0 columns and 0 rows</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
@@ -213,16 +214,16 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="co">#group label in column "cluster"</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name cluster silhouette_width</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       3        0.5733007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         Butte       2        0.1828440</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Contra_Costa       3        0.5774736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     El_Dorado       2        0.1136219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Fresno       4        0.2402546</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Humboldt       5        0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Imperial       1        0.4510322</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8          Kern       4        0.1410575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9         Kings       1        0.3705427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       4        0.1267346</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Alameda       4        0.5733007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Imperial       5        0.4510322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        Fresno       3        0.2402546</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         Butte       2        0.1828440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Contra_Costa       4        0.5774736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         Kings       5        0.3705427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7          Kern       3        0.1410575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      Humboldt       1        0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     El_Dorado       2        0.1136219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Los_Angeles       3        0.1267346</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#mean silhouette width of the clustering solution</span></span></span>
 <span class="r-in"><span><span class="va">distantia_kmeans</span><span class="op">$</span><span class="va">silhouette_width</span></span></span>

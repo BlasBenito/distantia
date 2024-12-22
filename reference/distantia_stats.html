@@ -57,7 +57,7 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code> or <code><a href="momentum.html">momentum()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code>. Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -66,18 +66,19 @@
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other dissimilarity_analysis:
+    <div class="dont-index"><p>Other distantia_support:
 <code><a href="distantia_aggregate.html">distantia_aggregate</a>()</code>,
 <code><a href="distantia_boxplot.html">distantia_boxplot</a>()</code>,
 <code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust</a>()</code>,
 <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans</a>()</code>,
 <code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
-<code><a href="distantia_plot.html">distantia_plot</a>()</code>,
+<code><a href="distantia_model_frame.html">distantia_model_frame</a>()</code>,
 <code><a href="distantia_spatial_network.html">distantia_spatial_network</a>()</code>,
 <code><a href="distantia_time_shift.html">distantia_time_shift</a>()</code>,
-<code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
-<code><a href="momentum_stats.html">momentum_stats</a>()</code>,
-<code><a href="momentum_to_wide.html">momentum_to_wide</a>()</code></p></div>
+<code><a href="utils_block_size.html">utils_block_size</a>()</code>,
+<code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer</a>()</code>,
+<code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer</a>()</code>,
+<code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -95,12 +96,18 @@
 <span class="r-in"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu">distantia_stats</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_stats</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd    range</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 2.822934 1.107088 2.231241 3.054622 3.646315 4.075402 1.2939296 2.968314</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 2.986980 1.107088 2.606637 3.346302 3.726645 4.148229 1.3235986 3.041141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 3.525711 2.605959 2.981355 3.428742 3.973098 4.639400 0.8780187 2.033441</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 4.635603 4.075402 4.130022 4.393814 4.899396 5.679382 0.7395604 1.603980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 4.129946 3.503286 3.565409 3.668557 4.233093 5.679382 1.0380765 2.176096</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 3.855654 1.290974 3.364632 4.420374 4.911397 5.290894 1.7833554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 3.967044 1.290974 3.621312 4.672675 5.018407 5.231855 1.8172982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 4.729107 4.055851 4.138903 4.282339 4.872543 6.295900 1.0542162</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 4.640624 4.166587 4.539461 4.724325 4.825488 4.947258 0.3366926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 5.370600 4.663752 5.089829 5.261374 5.542145 6.295900 0.6785812</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       range</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.9999197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.9408807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2.2400493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7806715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1.6321479</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
