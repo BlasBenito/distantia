@@ -61,13 +61,13 @@ tsl <- distantia::tsl_initialize(
   time_column = "time"
 )
 
-tsl_plot(
+distantia::tsl_plot(
   tsl = tsl[1:10],
   columns = 2,
   guide = FALSE
 )
 ```
-The map below displays the relevant county polygons using `mapview()`.
+The map below displays the polygons in `distantia::covid_counties` using `mapview()`.
 
 ```{r}
 mapview::mapview(
@@ -115,10 +115,10 @@ df_psi |>
   ) |> 
   dplyr::glimpse()
 ```
-The code below aggregates *psi* scores in the data frame `df_psi` across time series.
+
+The code below aggregates *psi* scores in the data frame `df_psi` across time series to summarize the overall dissimilarity of each time series with all others.
 
 ```{r}
-#lock-step dissimilarity stats per time series
 df_stats <- distantia::distantia_stats(
   df = df_psi
 )
@@ -129,7 +129,8 @@ df_stats |>
   ) |> 
   dplyr::glimpse()
 ```
-Finally, we run a hierarchical clustering using the *psi* scores in `df_psi` as distance criteria.
+
+Finally, we run a hierarchical clustering using the *psi* scores in `df_psi` as clustering criteria.
 
 ```{r}
 #hierarchical clustering of lock-step dissimilarity
@@ -155,6 +156,7 @@ sf_network <- distantia::distantia_spatial_network(
 
 dplyr::glimpse(sf_network)
 ```
+
 The sf data frame has a field with the edge name, the columns `x`, `y`, and `psi` of the distantia data frame, a linestring geometry column, and the `length` column with the edge length.
 
 This sf data frame can be mapped right away, but in this case there are too many pairs of counties to achieve a meaningful map

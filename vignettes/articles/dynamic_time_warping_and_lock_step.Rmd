@@ -12,9 +12,13 @@ knitr::opts_chunk$set(
   eval = TRUE,
   collapse = TRUE,
   comment = "#>",
-  dpi = 300,
-  fig.show = 'hold'
+  dpi = 150,
+  fig.show = 'hold',
+  fig.width = 5
 )
+
+options(scipen = 9999)
+options(conflicts.policy = list(warn = FALSE))
 ```
 
 ## Summary
@@ -48,43 +52,40 @@ library(dplyr)
 The `cities_temperature` dataset contains monthly temperature records for 20 cities. The code below transforms it into a Time Series List (TSL) and selects a subset of three cities with temperature time series from 2000 to 2005.
 
 ```{r}
-tsl_raw <- tsl_initialize(
+tsl_raw <- distantia::tsl_initialize(
   x = cities_temperature,
   name_column = "name",
   time_column = "time"
 ) |> 
-  tsl_subset(
-    names = c(
-      "London", 
-      "Paris", 
-      "Kinshasa"
-    ),
-    time = c(
-      "2000-01-01", 
-      "2005-01-01"
-    )
+  distantia::tsl_subset(
+    names = c("London", "Paris", "Kinshasa"),
+    time = c("2000-01-01", "2005-01-01")
   )
 
-tsl_plot(
+distantia::tsl_plot(
   tsl = tsl_raw,
-  ylim = "relative"
+  ylim = "relative",
+  guide = FALSE
 )
 ```
 
 The transformed TSL contains two synchronous time series in the Northern Hemisphere with similar temperature ranges (London and Paris) and one in the Southern Hemisphere (Kinshasa) with a higher average and a shifted temporal pattern.
 
-To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` and `f_scale` apply local (each time series is scaled separately) centering and scaling to the data. 
+To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` with `f_detrend_linear` to remove any long-term trends in the data, and with `f_scale` to scale and center each time series separately.
 
 ```{r}
-tsl_scaled <- tsl_transform(
-  tsl = tsl_raw,
-  f = f_scale_local,
-  center = TRUE,
-  scale = TRUE
-)
-
-tsl_plot(
-  tsl = tsl_scaled
+tsl_scaled <- tsl_raw |> 
+  distantia::tsl_transform(
+    f = distantia::f_detrend_linear
+  ) |> 
+  distantia::tsl_transform(
+    f = distantia::f_scale_local
+  )
+  
+distantia::tsl_plot(
+  tsl = tsl_scaled,
+  ylim = "relative",
+  guide = FALSE
 )
 ```
 
@@ -122,7 +123,7 @@ step_2 <- sum(
 The function `distantia()` performs the same task when `lock_step = TRUE` (default is `FALSE`).
 
 ```{r, message = FALSE}
-df <- distantia(
+df <- distantia::distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
   lock_step = TRUE,
   distance = "euclidean"
@@ -131,21 +132,31 @@ df <- distantia(
 df$psi
 ```
 
-The function `distantia()` can compute lock-step dissimilarity scores for time series in `tsl` at once.
+The same can be done with the function `distantia_ls()`, a simplified version of `distantia()` for lock-step analysis.
+
+```{r, message = FALSE}
+df <- distantia::distantia_ls(
+  tsl = tsl_scaled[c("London", "Kinshasa")]
+)
+
+df$psi
+```
+
+Both functions can compute lock-step dissimilarity scores for all time series in the argument `tsl` at once.
 
 ```{r}
-df_LS <- distantia(
-  tsl = tsl_scaled,
-  lock_step = TRUE
+df <- distantia::distantia_ls(
+  tsl = tsl_scaled
 )
-df_LS[, c("x", "y", "psi")]
+
+df[, c("x", "y", "psi")]
 ```
 
 As expected, London and Paris show the most similar temperature time series, while London and Kinshasa are the most different ones.
 
 ## Dynamic Time Warping
 
-Dynamic Time Warping (DTW) aligns the time axes of two time series to maximize pattern similarity, even when temporal shifts are present. This makes DTW ideal for comparing time series with similar shapes but misaligned time points. However, it is computationally more intensive and less efficient than the lock-step method, particularly for large datasets.
+Dynamic Time Warping (DTW) warps the time axes of two time series to maximize pattern similarity, even when temporal shifts are present. This makes DTW ideal for comparing time series with similar shapes but misaligned time points. However, it is computationally more intensive and less efficient than the lock-step method, particularly for large datasets.
 
 DTW involves three conceptual steps, similar to the lock-step method, but with additional complexity in the first step:
 
@@ -175,13 +186,13 @@ The objective of the step **1** is computing the sum of distances between pairs 
 Step **1a** computes the distance matrix between all pairs of samples in both timme series. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
 
 ```{r, fig.width=4, fig.height=4}
-m.dist <- psi_distance_matrix(
+m.dist <- distantia::psi_distance_matrix(
   x = x,
   y = y,
   distance = "euclidean"
 )
 
-utils_matrix_plot(
+distantia::utils_matrix_plot(
   m = m.dist,
   diagonal_width = 0
   )
@@ -195,12 +206,12 @@ Step **1b** involves transforming the distance matrix into a cost matrix. This t
 These options are wrapped in the function `psi_cost_matrix()`, which by default, like `distantia()` uses weighted diagonals.
 
 ```{r, fig.width=4, fig.height=4}
-m.cost <- psi_cost_matrix(
+m.cost <- distantia::psi_cost_matrix(
   dist_matrix = m.dist,
   diagonal = TRUE #default
 )
 
-utils_matrix_plot(
+distantia::utils_matrix_plot(
   m = m.cost,
   diagonal_width = 0
   )
@@ -209,7 +220,7 @@ utils_matrix_plot(
 In step **1c**, the distance and cost matrices are used to find the least-cost path. 
 
 ```{r, fig.width=4, fig.height=4}
-m.cost.path <- psi_cost_path(
+m.cost.path <- distantia::psi_cost_path(
   dist_matrix = m.dist,
   cost_matrix = m.cost,
   diagonal = TRUE #default
@@ -222,7 +233,7 @@ Notice that the cost path data frame is ordered from bottom to top. The columns 
 
 
 ```{r, fig.width=4, fig.height=4}
-utils_matrix_plot(
+distantia::utils_matrix_plot(
   m = m.cost,
   path = m.cost.path
 )
@@ -231,7 +242,7 @@ utils_matrix_plot(
 The step **1d** finalizes the DTW logic by adding the distances between pair of samples connected by the least-cost path. This step is just `sum(m.cost.path$dist)`, but it is implemented in `psi_cost_path_sum()`, which also checks that the least cost data frame is correct.
 
 ```{r}
-step_1 <- psi_cost_path_sum(
+step_1 <- distantia::psi_cost_path_sum(
   path = m.cost.path
 )
 
@@ -241,7 +252,7 @@ step_1
 Step **2** returns the distances between consecutive samples within each time series, as computed by `psi_auto_sum()`. 
 
 ```{r, eval = FALSE}
-step_2 <- psi_auto_sum(
+step_2 <- distantia::psi_auto_sum(
   x = x,
   y = y,
   distance = "euclidean"
@@ -253,20 +264,38 @@ step_2
 Finally, the step **3** computes the normalized dissimilarity score.
 
 ```{r, eval=FALSE}
-psi_equation(
+distantia::psi_equation(
   a = step_1,
   b = step_2,
   diagonal = TRUE
 )
 ```
 
-All these individual steps can be performed at once with the function `distantia()` by setting the argument `lock_step` to `FALSE`.
+All these individual steps can be performed at once with the function `distantia()` by setting the argument `lock_step` to `FALSE`, or with the function `distantia_dtw()`.
 
-```{r, fig.width=4, fig.height=3.5}
-df <- distantia(
+```{r}
+df <- distantia::distantia(
   tsl = tsl_scaled[c("London", "Kinshasa")],
   lock_step = FALSE,
   distance = "euclidean"
+)
+
+df[, c("x", "y", "psi")]
+```
+
+```{r}
+df <- distantia::distantia_dtw(
+  tsl = tsl_scaled[c("London", "Kinshasa")]
+)
+
+df[, c("x", "y", "psi")]
+```
+
+As before, both functions can compute dynamic time warping dissimilarity for all time series in the argument `tsl` at once.
+
+```{r}
+df <- distantia::distantia_dtw(
+  tsl = tsl_scaled
 )
 
 df[, c("x", "y", "psi")]
@@ -315,6 +344,7 @@ plot(xy_dtw, type = "twoway")
 abline(v=0.13, col="red3", lwd = 2)
 abline(v=0.70, col="black", lwd = 2)
 ```
+
 There are two strategies that can be combined to control this issue: data scaling, and **constrained DTW**.
 
 ## Constrained DTW
