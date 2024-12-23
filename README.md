@@ -171,6 +171,7 @@ df_ls <- distantia(
   tsl = tsl,
   lock_step = TRUE
 )
+#> Loading required package: foreach
 
 df_ls[, c("x", "y", "psi")]
 #>      x    y      psi
