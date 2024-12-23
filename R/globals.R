@@ -4,18 +4,18 @@ utils::globalVariables(c(
   "distances", # <distance>
   "i", # <distantia>
   "median", # <distantia_boxplot>
-  "i", # <distantia_lock_step>
+  "i", # <distantia_dtw>
+  "i", # <distantia_dtw_shift>
+  "i", # <distantia_ls>
   "sd", # <distantia_model_frame>
   "sd", # <distantia_stats>
   "i", # <distantia_stats>
-  "i", # <distantia_time_shift>
-  "i", # <distantia_time_warp>
   "i", # <momentum>
   "median", # <momentum_boxplot>
-  "i", # <momentum_lock_step>
+  "i", # <momentum_dtw>
+  "i", # <momentum_ls>
   "sd", # <momentum_stats>
   "i", # <momentum_stats>
-  "i", # <momentum_time_warp>
   "i", # <tsl_simulate>
   "i", # <tsl_stats>
   "na.omit", # <tsl_stats>

@@ -177,10 +177,10 @@ df_dtw <- distantia(
 df_dtw[, c("x", "y", "psi")]
 ```
 
-The function `distantia_plot()` provides detailed insights into the alignment between a pair of time series resulting from DTW.
+The function `distantia_dtw_plot()` provides detailed insights into the alignment between a pair of time series resulting from DTW.
 
 ```{r, fig.width=6, fig.height=5, out.width = "100%"}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl[c("X132", "X153")]
 )
 ```

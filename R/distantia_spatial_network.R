@@ -123,7 +123,7 @@ distantia_spatial_network <- function(
   )
 
   if(!(df_type %in% types)){
-    stop("distantia::distantia_spatial_network(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_time_shift(), or distantia::momentum().", call. = FALSE)
+    stop("distantia::distantia_spatial_network(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_dtw_shift(), or distantia::momentum().", call. = FALSE)
   }
 
   df_names <- unique(c(df$x, df$y))

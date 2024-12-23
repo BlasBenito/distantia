@@ -106,7 +106,7 @@
 #' #visualize dynamic time warping
 #' if(interactive()){
 #'
-#'   distantia_plot(
+#'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")],
 #'     distance = "euclidean",
 #'     matrix_type = "cost"

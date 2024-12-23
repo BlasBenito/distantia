@@ -1,12 +1,12 @@
-#' Dynamic Time Warping Dissimilarity Analysis of Time Series Lists
+#' Lock-Step Dissimilarity Analysis of Time Series Lists
 #'
 #' @description
 #'
-#' Minimalistic but slightly faster version of [distantia()] to compute dynamic time warping dissimilarity scores using diagonal least cost paths.
+#' Minimalistic but slightly faster version of [distantia()] to compute lock-step dissimilarity scores.
 #'
 #' @inheritParams distantia
 #'
-#' @return data frame with columns:
+#' @return data frame:
 #' \itemize{
 #'   \item `x`: time series name.
 #'   \item `y`: time series name.
@@ -35,31 +35,20 @@
 #'     )
 #' }
 #'
-#' #dynamic time warping dissimilarity analysis
-#' df_dtw <- distantia_time_warp(
+#' #lock-step dissimilarity analysis
+#' df_ls <- distantia_ls(
 #'   tsl = tsl,
 #'   distance = "euclidean"
 #' )
 #'
-#' df_dtw[, c("x", "y", "psi")]
-#'
-#' #visualize dynamic time warping
-#' if(interactive()){
-#'
-#'   distantia_plot(
-#'     tsl = tsl[c("Spain", "Sweden")],
-#'     distance = "euclidean"
-#'   )
-#'
-#' }
-#'
+#' #focus on the important details
+#' df_ls[, c("x", "y", "psi")]
 #'
 #' @family distantia
-distantia_time_warp <- function(
+distantia_ls <- function(
     tsl = NULL,
     distance = "euclidean"
 ){
-
 
   #check input arguments
   args <- utils_check_args_distantia(
@@ -70,12 +59,28 @@ distantia_time_warp <- function(
   tsl <- args$tsl
   distance <- args$distance
 
+
   if(length(distance) > 1){
 
     distance <- distance[1]
 
     message(
-      "distantia::distantia_time_warp(): Using first value of the 'distance' argument."
+      "distantia::distantia_ls(): Using first value of the 'distance' argument."
+      )
+
+  }
+
+  #count rows in time series
+  row_counts <- tsl |>
+    tsl_nrow() |>
+    unlist() |>
+    unique()
+
+  if(length(row_counts) > 1){
+
+    stop(
+      "distantia::distantia_ls(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
+      call. = FALSE
     )
 
   }
@@ -102,12 +107,10 @@ distantia_time_warp <- function(
 
     df.i <- df[i, ]
 
-    df.i$psi <- psi_dynamic_time_warping_cpp(
+    df.i$psi <- psi_lock_step_cpp(
       x = tsl[[df.i[["x"]]]],
       y = tsl[[df.i[["y"]]]],
-      distance = df.i[["distance"]],
-      diagonal = TRUE,
-      bandwidth = 1
+      distance = df.i[["distance"]]
     )
 
     return(df.i)

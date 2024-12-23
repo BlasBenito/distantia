@@ -272,10 +272,10 @@ df <- distantia(
 df[, c("x", "y", "psi")]
 ```
 
-The function `distantia_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
+The function `distantia_dtw_plot()` offers a good graphical representation of the warping result and decomposes the computation of the *psi* dissimilarity score.
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_scaled[c("London", "Kinshasa")]
 )
 ```
@@ -289,7 +289,7 @@ However, **DTW is highly sensitive to differences in data magnitudes**. As resul
 The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows how DTW gets stuck in two local optima, one in the *y* axis (long horizontal line) at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line) at the maximum temperature in London (summer of 2003). It also shows a distinctively large dissimilarity score.
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_raw[c("London", "Kinshasa")]
 )
 ```
@@ -322,28 +322,28 @@ There are two strategies that can be combined to control this issue: data scalin
 The function `distantia()` implements *Itakura parallelograms* to restrict the flexibility of the warping path via the `bandwidth` argument. This argument represents the fraction of space at both sides of the least cost matrix diagonal allowed for warping. The plots below show the effect of decreasing `bandwidth` on the area covered by the Itakura parallelograms (shown as white dashed lines) and how it restricts spread of the alignment between London and Kinshasa on their raw temperature values.
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_raw[c("London", "Kinshasa")],
   bandwidth = 0.2
 )
 ```
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_raw[c("London", "Kinshasa")],
   bandwidth = 0.1
 )
 ```
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_raw[c("London", "Kinshasa")],
   bandwidth = 0.05
 )
 ```
 
 ```{r, fig.width=6, fig.height=5.5}
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl_raw[c("London", "Kinshasa")],
   bandwidth = 0.025
 )

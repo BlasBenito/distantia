@@ -89,7 +89,61 @@ distantia_matrix <- function(
   )
 
   if(!(df_type %in% types)){
-    stop("distantia::distantia_matrix(): argument 'df' must be the output of distantia() or distantia() |> distantia_aggregate().", call. = FALSE)
+    stop("distantia::distantia_matrix(): argument 'df' must be the output of distantia(), distantia_ls() or distantia_time_warping().", call. = FALSE)
+  }
+
+  utils_distantia_df_to_matrix <- function(
+    df = NULL,
+    x = "x",
+    y = "y",
+    value = "psi"
+  ){
+
+    #subset df
+    df <- df_ <- df[, c(x, y, value)]
+
+    #add mirrored pairs
+    df_$x <- df$y
+    df_$y <- df$x
+
+    #merge everything
+    df <- rbind(df, df_)
+
+    #rows and col names
+    xy_names <- unique(c(df[[x]], df[[y]]))
+
+    #empty square matrix
+    m <- matrix(
+      data = NA,
+      nrow = length(xy_names),
+      ncol = length(xy_names)
+    )
+
+    #named vector to map row/column names to indices
+    index_map <- stats::setNames(
+      object = seq_along(xy_names),
+      nm = xy_names
+    )
+
+    #vectorized indexing to fill in the matrix
+    m[
+      cbind(
+        index_map[df[[y]]],
+        index_map[df[[x]]]
+      )
+    ] <- df[[value]]
+
+    #dim names
+    rownames(m) <- xy_names
+    colnames(m) <- xy_names
+
+    #to dist
+    m <- m |>
+      stats::as.dist() |>
+      as.matrix()
+
+    m
+
   }
 
   df_list <- utils_distantia_df_split(

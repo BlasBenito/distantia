@@ -27,7 +27,7 @@
 #'     f = f_scale_global
 #'   )
 #'
-#' df <- momentum_time_warp(
+#' df <- momentum_dtw(
 #'   tsl = tsl,
 #'   distance = "euclidean"
 #'   )
@@ -42,7 +42,7 @@
 #'   )]
 #'
 #' @family momentum
-momentum_time_warp <- function(
+momentum_dtw <- function(
     tsl = NULL,
     distance = "euclidean"
 ){
@@ -61,7 +61,7 @@ momentum_time_warp <- function(
     distance <- distance[1]
 
     message(
-      "distantia::momentum_time_warp(): Using first value of the 'distance' argument."
+      "distantia::momentum_dtw(): Using first value of the 'distance' argument."
     )
 
   }
@@ -75,7 +75,7 @@ momentum_time_warp <- function(
   if(length(row_counts) > 1){
 
     stop(
-      "distantia::momentum_time_warp(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
+      "distantia::momentum_dtw(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
       call. = FALSE
     )
 
@@ -88,7 +88,7 @@ momentum_time_warp <- function(
 
   if(1 %in% tsl_ncol){
     stop(
-      "distantia::momentum_time_warp(): variable contribution analysis requires multivariate time series, but 'tsl' contains univariate time series.",
+      "distantia::momentum_dtw(): variable contribution analysis requires multivariate time series, but 'tsl' contains univariate time series.",
       call. = FALSE
     )
   }

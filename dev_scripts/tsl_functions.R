@@ -285,7 +285,7 @@ plot_sequences(
 )
 
 
-distantia_plot(
+distantia_dtw_plot(
   x = y[[1]],
   y = y[[2]],
   line_scale = TRUE,

@@ -44,18 +44,18 @@
 #' if(interactive()){
 #'
 #'   #plot pair with cost matrix (default)
-#'   distantia_plot(
+#'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")] #only two time series!
 #'   )
 #'
 #'   #plot pair with distance matrix
-#'   distantia_plot(
+#'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")],
 #'     matrix_type = "distance"
 #'   )
 #'
 #'   #plot pair with different distance
-#'   distantia_plot(
+#'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")],
 #'     distance = "manhattan", #sed data(distances)
 #'     matrix_type = "distance"
@@ -63,7 +63,7 @@
 #'
 #'
 #'   #with different colors
-#'   distantia_plot(
+#'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")],
 #'     matrix_type = "distance",
 #'     matrix_color = grDevices::hcl.colors(
@@ -79,11 +79,11 @@
 #'   )
 #'
 #' }
-#' @return A plot.
+#' @return multipanel plot
 #' @autoglobal
 #' @export
 #' @family distantia
-distantia_plot <- function(
+distantia_dtw_plot <- function(
     tsl = NULL,
     distance = "euclidean",
     diagonal = TRUE,
@@ -101,13 +101,13 @@ distantia_plot <- function(
 
   #length > 1
   if(length(tsl) < 2){
-    stop("distantia::distantia_plot(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
+    stop("distantia::distantia_dtw_plot(): argument 'tsl' must be a time series list of length 2 or higher.", call. = FALSE)
   }
 
   #only two elements
   if(length(tsl) > 2){
 
-    message("distantia::distantia_plot(): Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.")
+    message("distantia::distantia_dtw_plot(): Argument 'tsl' has more than two time series. Using ", paste0(names(tsl)[1:2], collapse = " and "), " to build the plot. Please use tsl_subset() or the notation txl[c('a', 'b')] to select a different pair of time series.")
 
     tsl <- tsl_subset(
       tsl = tsl,
@@ -124,7 +124,7 @@ distantia_plot <- function(
 
   if(sum(na_count) > 0){
     message(
-      "distantia::distantia_plot(): ",
+      "distantia::distantia_dtw_plot(): ",
       sum(na_count),
       " NA cases were imputed with distantia::tsl_handle_NA() in these time series: '",
       paste(names(na_count[na_count > 0]), collapse = "', '"),
@@ -217,14 +217,14 @@ distantia_plot <- function(
 
   # Plotting areas ----
   plt_y <- c(0.2, 0.35, 0.25, 0.8)
-  plt_x <- c(0.35, 0.8, 0.09, 0.25)
+  plt_x <- c(0.35, 0.8, 0.12, 0.25)
   plt_m <- c(0.35, 0.8, 0.25, 0.8)
   plt_matrix_guide <- c(0.82, 0.84, 0.25, 0.8)
-  plt_line_guide <- c(0.75, 1, 0.05, 0.25)
+  plt_line_guide <- c(0.78, 1, 0.05, 0.25)
 
   # Plot matrix ----
   graphics::par(
-    oma = c(1, 0, 0, 1)
+    oma = c(1, 1, 1, 1)
   )
 
   graphics::par(
@@ -298,7 +298,7 @@ distantia_plot <- function(
   graphics::par(
     plt = plt_x,
     new = TRUE,
-    mgp = c(3, 0.75, 0),
+    mgp = c(0, 0.5, 0),
     bty = "n"
     )
 
@@ -350,7 +350,7 @@ distantia_plot <- function(
 
   utils_line_guide(
     x = tsl[[2]],
-    position = "top",
+    position = "topleft",
     line_color = line_color,
     text_cex = text_cex * 0.6,
     line_width = line_width,

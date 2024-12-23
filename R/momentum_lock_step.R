@@ -27,7 +27,7 @@
 #'     f = f_scale_global
 #'   )
 #'
-#' df <- momentum_lock_step(
+#' df <- momentum_ls(
 #'   tsl = tsl,
 #'   distance = "euclidean"
 #'   )
@@ -42,7 +42,7 @@
 #'   )]
 #'
 #' @family momentum
-momentum_lock_step <- function(
+momentum_ls <- function(
     tsl = NULL,
     distance = "euclidean"
 ){
@@ -61,7 +61,7 @@ momentum_lock_step <- function(
     distance <- distance[1]
 
     message(
-      "distantia::momentum_lock_step(): Using first value of the 'distance' argument."
+      "distantia::momentum_ls(): Using first value of the 'distance' argument."
     )
 
   }
@@ -75,7 +75,7 @@ momentum_lock_step <- function(
   if(length(row_counts) > 1){
 
     stop(
-      "distantia::momentum_lock_step(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
+      "distantia::momentum_ls(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
       call. = FALSE
     )
 
@@ -88,7 +88,7 @@ momentum_lock_step <- function(
 
   if(1 %in% tsl_ncol){
     stop(
-      "distantia::momentum_lock_step(): variable contribution analysis requires multivariate time series, but 'tsl' contains univariate time series.",
+      "distantia::momentum_ls(): variable contribution analysis requires multivariate time series, but 'tsl' contains univariate time series.",
       call. = FALSE
     )
   }

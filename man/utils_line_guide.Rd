@@ -30,7 +30,7 @@ utils_line_guide(
 
 \item{guide_columns}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
+\item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}}.}
 }
 \value{
 plot

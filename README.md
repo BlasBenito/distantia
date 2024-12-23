@@ -216,11 +216,11 @@ df_dtw[, c("x", "y", "psi")]
 #> 6 X136 X153 2.666099
 ```
 
-The function `distantia_plot()` provides detailed insights into the
+The function `distantia_dtw_plot()` provides detailed insights into the
 alignment between a pair of time series resulting from DTW.
 
 ``` r
-distantia_plot(
+distantia_dtw_plot(
   tsl = tsl[c("X132", "X153")]
 )
 ```

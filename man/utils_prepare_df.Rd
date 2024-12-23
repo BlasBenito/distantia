@@ -32,7 +32,6 @@ Other internal:
 \code{\link{utils_clean_names}()},
 \code{\link{utils_digits}()},
 \code{\link{utils_distantia_df_split}()},
-\code{\link{utils_distantia_df_to_matrix}()},
 \code{\link{utils_prepare_matrix}()},
 \code{\link{utils_prepare_matrix_list}()},
 \code{\link{utils_prepare_time}()},

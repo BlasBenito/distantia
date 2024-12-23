@@ -7,7 +7,7 @@
 #' @param length (optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 0.7
 #' @param guide_columns (optional, integer) Number of columns in which to set the legend items. Default: 1.
-#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [distantia_plot()].
+#' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [distantia_dtw_plot()].
 #'
 #' @return plot
 #' @examples

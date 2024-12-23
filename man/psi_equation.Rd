@@ -112,7 +112,7 @@ distantia(
 )$psi
 
 if(interactive()){
-  distantia_plot(
+  distantia_dtw_plot(
     tsl = tsl,
     distance = d,
     diagonal = diagonal

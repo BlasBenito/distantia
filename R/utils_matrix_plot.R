@@ -12,9 +12,9 @@
 #' @param ylab (optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
 #' @param text_cex (optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1
 #' @param path (optional, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
-#' @inheritParams distantia_plot
+#' @inheritParams distantia_dtw_plot
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].
-#' @param subpanel (optional, logical) internal argument used when generating the multi-panel plot produced by [distantia_plot()].
+#' @param subpanel (optional, logical) internal argument used when generating the multi-panel plot produced by [distantia_dtw_plot()].
 #'
 #' @return plot
 #' @examples
@@ -329,8 +329,8 @@ utils_matrix_plot <- function(
 
   #plot diagonal
   graphics::lines(
-    x = c(0, ncol(m)),
-    y = c(0, nrow(m)),
+    x = c(0, ncol(m) + 0.5),
+    y = c(0, nrow(m) + 0.5),
     lwd = diagonal_width,
     col = diagonal_color
   )

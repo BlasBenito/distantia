@@ -103,7 +103,7 @@ df[, c(
 }
 \seealso{
 Other momentum: 
-\code{\link{momentum_lock_step}()},
-\code{\link{momentum_time_warp}()}
+\code{\link{momentum_dtw}()},
+\code{\link{momentum_ls}()}
 }
 \concept{momentum}

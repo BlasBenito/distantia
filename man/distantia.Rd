@@ -130,7 +130,7 @@ df_dtw[, c("x", "y", "psi", "p_value")]
 #visualize dynamic time warping
 if(interactive()){
 
-  distantia_plot(
+  distantia_dtw_plot(
     tsl = tsl[c("Spain", "Sweden")],
     distance = "euclidean",
     matrix_type = "cost"
@@ -158,8 +158,8 @@ df_dtw$null_mean[3]
 }
 \seealso{
 Other distantia: 
-\code{\link{distantia_lock_step}()},
-\code{\link{distantia_plot}()},
-\code{\link{distantia_time_warp}()}
+\code{\link{distantia_dtw}()},
+\code{\link{distantia_dtw_plot}()},
+\code{\link{distantia_ls}()}
 }
 \concept{distantia}

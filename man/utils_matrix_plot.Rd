@@ -48,7 +48,7 @@ utils_matrix_plot(
 
 \item{guide}{(optional, logical) if TRUE, a color guide for the matrix \code{m} is added by \code{\link[=utils_matrix_guide]{utils_matrix_guide()}}.}
 
-\item{subpanel}{(optional, logical) internal argument used when generating the multi-panel plot produced by \code{\link[=distantia_plot]{distantia_plot()}}.}
+\item{subpanel}{(optional, logical) internal argument used when generating the multi-panel plot produced by \code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}}.}
 }
 \value{
 plot
