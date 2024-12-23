@@ -171,9 +171,9 @@ This function supports a parallelization setup via future::plan(), and progress 
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other distantia:
-<code><a href="distantia_lock_step.html">distantia_lock_step</a>()</code>,
-<code><a href="distantia_plot.html">distantia_plot</a>()</code>,
-<code><a href="distantia_time_warp.html">distantia_time_warp</a>()</code></p></div>
+<code><a href="distantia_dtw.html">distantia_dtw</a>()</code>,
+<code><a href="distantia_dtw_plot.html">distantia_dtw_plot</a>()</code>,
+<code><a href="distantia_ls.html">distantia_ls</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -228,7 +228,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span><span class="co">#visualize dynamic time warping</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="distantia_plot.html">distantia_plot</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"Sweden"</span><span class="op">)</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>    distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span></span>
 <span class="r-in"><span>    matrix_type <span class="op">=</span> <span class="st">"cost"</span></span></span>
