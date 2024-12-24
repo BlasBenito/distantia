@@ -45,7 +45,7 @@ utils_boxplot_common <- function(
 
   if(is.null(fill_color)){
 
-    fill_color <- utils_color_continuous_default(
+    fill_color <- color_continuous(
       n = length(unique(variable))
     )
 

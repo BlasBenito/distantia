@@ -36,7 +36,7 @@ utils_line_color <- function(
   #generate default colors
   if(is.null(line_color)){
 
-    line_color <- utils_color_discrete_default(
+    line_color <- color_discrete(
       n = length(x_colnames)
     )
 

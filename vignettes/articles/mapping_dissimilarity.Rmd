@@ -79,9 +79,13 @@ mapview::mapview(
 
 ## Dissimilarity Analysis
 
-In this section we prepare several datasets to use in the different mapping examples: a lock-step dissimilarity data frame (`df_psi`), dissimilarity stats per time series (`df_stats`), and a hierarchical clustering based on the dissimilarity scores (`df_cluster`).
+The code in this section prepares several datasets to use in the different mapping examples: 
 
-The lock-step dissimilarity analysis includes a permutation test p-values, which will be useful as criteria to select relevant mapping features.
+  - `df_psi`: a lock-step dissimilarity data frame with *psi* scores and p-values.
+  - `df_stats`: dissimilarity stats of each time series against all others.
+  - `df_cluster`: a hierarchical clustering based on the dissimilarity scores in `df_psi`.
+
+The lock-step dissimilarity analysis shown below includes p-values from a restricted permutation test. These p-values will be useful as criteria to select relevant mapping features.
 
 ```{r}
 #parallelization setup
@@ -107,16 +111,11 @@ future::plan(
 
 #check resulting data frame
 df_psi |> 
-  dplyr::select(
-    x,
-    y,
-    psi,
-    p_value
-  ) |> 
+  dplyr::select(x, y, psi, p_value) |> 
   dplyr::glimpse()
 ```
 
-The code below aggregates *psi* scores in the data frame `df_psi` across time series to summarize the overall dissimilarity of each time series with all others.
+The code below aggregates *psi* scores in the data frame `df_psi` to summarize the overall dissimilarity of each time series with all others.
 
 ```{r}
 df_stats <- distantia::distantia_stats(
@@ -130,20 +129,21 @@ df_stats |>
   dplyr::glimpse()
 ```
 
-Finally, we run a hierarchical clustering using the *psi* scores in `df_psi` as clustering criteria.
+The function `distantia_cluster_hclust()` runs a hierarchical clustering using the *psi* scores in `df_psi` as clustering criteria.
 
 ```{r}
-#hierarchical clustering of lock-step dissimilarity
 df_cluster <- distantia::distantia_cluster_hclust(
   df = df_psi
 )$df
 
-dplyr::glimpse(df_cluster)
+df_cluster |> 
+  dplyr::select(name, cluster) |>
+  dplyr::glimpse()
 ```
 
-## Dissimilarity Networks
+## Dissimilarity Network
 
-The function `distantia_spatial_network()` transforms the result of `distantia()` to an sf data frame with edges connecting time series locations. The result can be interpreted as a *dissimilarity network*. 
+The function `distantia_spatial_network()` transforms the result of `distantia()` to an sf data frame with edges connecting time series coordinates or polygons. The result can be interpreted as a *dissimilarity network*. 
 
 ```{r, message = FALSE, warning = FALSE}
 sf_network <- distantia::distantia_spatial_network(
@@ -157,7 +157,7 @@ sf_network <- distantia::distantia_spatial_network(
 dplyr::glimpse(sf_network)
 ```
 
-The sf data frame has a field with the edge name, the columns `x`, `y`, and `psi` of the distantia data frame, a linestring geometry column, and the `length` column with the edge length.
+The resulting sf data frame has a field with the edge name, the columns `x` and `y` with the names of the connected time series, the *psi* scores and p-values of the dissimilarity data frame, a geometry column of type LINESTRING defining the network edges, and the `length` of the edges.
 
 This sf data frame can be mapped right away, but in this case there are too many pairs of counties to achieve a meaningful map
 
@@ -167,11 +167,11 @@ mapview::mapview(
   layer.name = "Psi",
   label = "edge_name",
   zcol = "psi",
-  color = distantia::utils_color_continuous_default()
+  color = distantia::color_continuous()
 )
 ```
 
-The mess above can be solved by focusing on particular aspects of the data at hand. For example, below we subset `sf_network` to focus on San Francisco and its most similar counties in terms of Covid19 prevalence.
+Focusing on particular aspects of the data at hand may help untangle this mess. For example, the code below subsets edges connecting with *San Francisco* and its most similar counties in terms of Covid19 prevalence.
 
 ```{r, warning = FALSE}
 #subset edges involving San Francisco
@@ -199,13 +199,66 @@ mapview::mapview(
     layer.name = "San Francisco - Psi",
     label = "edge_name",
     zcol = "psi",
-    lwd = (1/sf_network_subset$psi)*10,
-    color = distantia::utils_color_continuous_default(n = nrow(sf_network_subset) - 1)
+    lwd = 3,
+    color = distantia::color_continuous(
+      n = 5,
+      rev = TRUE
+      )
+  )
+```
+
+A slightly more involved way to represent a one-to-many network with the data in `sf_network` and the polygons in `distantia::covid_counties` is shown below.
+
+```{r, warning=FALSE}
+sf_network_subset <- sf_network |> 
+  sf::st_drop_geometry() |> 
+  #filter edges not containing San_Francisco
+  dplyr::filter(
+    grepl(
+      pattern = "San_Francisco",
+      x = edge_name
+    )
+  ) |> 
+  #create column "name" for join with covid_counties
+  dplyr::mutate(
+    name = ifelse(
+      test = x != "San_Francisco", 
+      yes = x, 
+      no = y
+    )
+  ) |> 
+  #add row with San Francisco
+  dplyr::select(name, psi, p_value) |> 
+  dplyr::bind_rows(
+    data.frame(
+      name = "San_Francisco",
+      psi = 0,
+      p_value = 0
+    )
+  ) |> 
+  #join with polygons
+  dplyr::inner_join(
+    y = distantia::covid_counties |> 
+      dplyr::select(name, geometry),
+    by = "name"
+  ) |> 
+  #convert to sf data frame
+  sf::st_sf()
+
+#map result
+mapview::mapview(
+    sf_network_subset,
+    layer.name = "Psi",
+    label = "name",
+    zcol = "psi",
+    col.regions = distantia::color_continuous(
+      rev = TRUE
+      )
   )
 ```
 
 
-## Mapping Dissimilarity Stats
+## Dissimilarity Stats
 
 Mapping the dissimilarity stats of each time series may help identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
 
@@ -215,23 +268,57 @@ Merging the dissimilarity stats with the sf data frame containing the county pol
 sf_stats <- merge(
   x = distantia::covid_counties,
   y = df_stats
-)
+) |> 
+  dplyr::select(
+    mean,
+    name
+  )
 ```
 
-The map below uses warm colors for places with a high dissimilarity with all others such as Humboldt county in the north west of the state, and cold colors for places with a higher dissimilarity with all others. 
+The map below uses warm colors to highlight places with a high dissimilarity with all others, such as Humboldt county in the north west of the state. 
 
 ```{r, warning = FALSE}
 mapview::mapview(
-  sf_stats |> 
-    dplyr::select(
-      mean,
-      name
-    ),
+  sf_stats,
   layer.name = "Psi mean",
   zcol = "mean",
   label = "name",
-  col.regions = distantia::utils_color_continuous_default(),
+  col.regions = distantia::color_continuous(),
   alpha.regions = 1
+)
+```
+
+## Dissimilarity Clustering
+
+This section shows how to map the similarity groups resulting from `distantia::distantia_cluster_hclust()` or `distantia::distantia_cluster_kmeans()`.
+
+The first block in the code below joins the county polygons in `distantia::covid_polygons` with the clustering data frame `df_cluster`, while creating a new variable "alpha" based on the column "silhouette_width", which represents the strength of group membership.
+
+The second block generates the map, using the new variable to define transparency. This setup allows to identify each group of similar counties while helping identify these counties that somehow do not fully belong. This is the case of *Butte*, which is in the group 5, but with a very low silhouette score.
+
+```{r}
+sf_cluster <- distantia::covid_counties |> 
+  dplyr::select(name, geometry) |> 
+  dplyr::inner_join(
+    y = df_cluster,
+    by = "name"
+  ) |> 
+  dplyr::mutate(
+    alpha = f_rescale_local(
+      x = silhouette_width,
+      new_min = 0.1
+      )
+  )
+
+mapview::mapview(
+  sf_cluster,
+  layer.name = "Group",
+  zcol = "cluster",
+  label = "name",
+  col.regions = distantia::color_continuous(
+    n = max(sf_cluster$cluster)
+  ),
+  alpha.regions = sf_cluster$alpha
 )
 ```
 

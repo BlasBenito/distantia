@@ -742,16 +742,8 @@ f_rescale_local <- function(
 
   y <- zoo::coredata(x)
 
-  if(!is.null(old_min) && length(old_min) < ncol(y)){
-    stop(
-      "distantia::f_rescale_global(): argument 'old_min' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
-    )
-  }
-
-  if(!is.null(old_max) && length(old_max) < ncol(y)){
-    stop(
-      "distantia::f_rescale_global(): argument 'old_max' must be NULL or a vector of length ", ncol(y), ".", call. = FALSE
-    )
+  if(!is.matrix(y)){
+    y <- as.matrix(y)
   }
 
   if(length(new_min) < ncol(y)){

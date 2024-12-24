@@ -48,9 +48,9 @@ if(interactive()){
 }
 \seealso{
 Other internal_plotting: 
+\code{\link{color_continuous}()},
+\code{\link{color_discrete}()},
 \code{\link{utils_color_breaks}()},
-\code{\link{utils_color_continuous_default}()},
-\code{\link{utils_color_discrete_default}()},
 \code{\link{utils_line_color}()},
 \code{\link{utils_line_guide}()},
 \code{\link{utils_matrix_plot}()}

@@ -158,7 +158,7 @@ distantia_dtw_plot <- function(
 
   if(is.null(matrix_color)){
 
-    matrix_color = utils_color_continuous_default(
+    matrix_color = color_continuous(
       n = 100
     )
 

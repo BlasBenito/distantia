@@ -11,23 +11,19 @@
 #' }
 #'
 #'
-#' @param n (required, integer) number of colors (up to 36) to generate. Default: NULL
+#' @inheritParams color_continuous
 #'
 #' @return color vector
 #' @export
 #' @autoglobal
 #' @examples
 #'
-#' utils_color_discrete_default(n = 9)
+#' color_discrete(n = 9)
 #' @family internal_plotting
-utils_color_discrete_default <- function(
-    n = NULL
+color_discrete <- function(
+    n = NULL,
+    rev = FALSE
     ){
-
-  if(n > 36){
-    warning("Discrete color palettes with more than 36 values are not supported.")
-    n <- 36
-  }
 
   if(n == 1){
     return("#C8443F")
@@ -49,13 +45,22 @@ utils_color_discrete_default <- function(
   }
   if(n > 36){
     return(
-      utils_color_continuous_default(n = n)
+      color_continuous(
+        n = n,
+        rev = rev
+        )
     )
   }
 
-  grDevices::palette.colors(
+  out <- grDevices::palette.colors(
     n = n,
     palette = pal
   )
+
+  if(rev){
+    out <- rev(out)
+  }
+
+  out
 
 }

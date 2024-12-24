@@ -19,9 +19,9 @@ This is an internal function, but can be used to better understand how line colo
 }
 \seealso{
 Other internal_plotting: 
+\code{\link{color_continuous}()},
+\code{\link{color_discrete}()},
 \code{\link{utils_color_breaks}()},
-\code{\link{utils_color_continuous_default}()},
-\code{\link{utils_color_discrete_default}()},
 \code{\link{utils_line_guide}()},
 \code{\link{utils_matrix_guide}()},
 \code{\link{utils_matrix_plot}()}

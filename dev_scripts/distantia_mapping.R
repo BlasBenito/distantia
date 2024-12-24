@@ -29,7 +29,7 @@ tmap::tm_shape(psi_sf) +
   tmap::tm_lines(
     col = "importance__Picea",
     lwd = 3,
-    palette = utils_color_continuous_default(n = 100)
+    palette = color_continuous(n = 100)
   ) +
   tmap::tm_shape(distantia::eemian_coordinates) +
   tmap::tm_dots(size = 0.1, col = "gray50")
