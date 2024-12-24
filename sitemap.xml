@@ -16,6 +16,8 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/auto_sum_path_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cities_coordinates.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cities_temperature.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/color_continuous.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/color_discrete.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_matrix_diagonal_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_matrix_diagonal_weighted_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/cost_matrix_orthogonal_cpp.html</loc></url>
@@ -157,8 +159,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_cluster_silhouette.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_coerce_time_class.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_color_breaks.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/utils_color_continuous_default.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/utils_color_discrete_default.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_digits.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_distantia_df_split.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/utils_drop_geometry.html</loc></url>
