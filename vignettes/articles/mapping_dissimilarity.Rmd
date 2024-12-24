@@ -141,7 +141,7 @@ df_cluster |>
   dplyr::glimpse()
 ```
 
-## Dissimilarity Network
+## Network Map
 
 The function `distantia_spatial_network()` transforms the result of `distantia()` to an sf data frame with edges connecting time series coordinates or polygons. The result can be interpreted as a *dissimilarity network*. 
 
@@ -258,7 +258,7 @@ mapview::mapview(
 ```
 
 
-## Dissimilarity Stats
+## Dissimilarity Stats Map
 
 Mapping the dissimilarity stats of each time series may help identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
 
@@ -288,7 +288,7 @@ mapview::mapview(
 )
 ```
 
-## Dissimilarity Clustering
+## Clustering Map
 
 This section shows how to map the similarity groups resulting from `distantia::distantia_cluster_hclust()` or `distantia::distantia_cluster_kmeans()`.
 
