@@ -9,8 +9,8 @@ plot(dep)
 
 #a single function
 dep <- DependenciesGraphs::funDependencies(
-  'package:distantia',
-  "distance"
+  envir = 'package:distantia',
+  name.function = "momentum"
 )
 plot(dep)
 
