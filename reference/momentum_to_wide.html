@@ -226,27 +226,48 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4         -59.26039             310.6812842      61.33615     108.96507</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5         -52.41491               0.9936944     592.07832     116.43104</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6         -65.45161             240.9053814     507.61536      56.69574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__heading psi_only_with__speed psi_only_with__temperature</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               1.075471             1.119086                   2.190984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               1.204174             1.397388                  10.327628</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               1.373681             1.478797                   1.828918</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4               1.314354             1.426005                   8.954655</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               1.263598             1.321072                   2.115805</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               1.244071             1.385574                   8.429779</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__x psi_only_with__y psi_without__heading psi_without__speed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         2.391807         2.453403             1.569450           1.403873</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         3.610898         4.644631             3.726621           2.895746</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        10.657002         5.103284             3.033689           2.334915</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         3.778736         4.839496             3.443185           2.823389</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        13.797459         4.318944             3.027265           2.408284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        15.896024         4.126917             4.343310           3.130579</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__temperature psi_without__x psi_without__y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.244877       1.253464       1.232522</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.586215       2.425775       2.353934</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.127711       1.709049       1.837195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.628667       2.332406       2.270057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.095194       1.516331       1.903884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 2.007003       2.362495       2.615352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_difference__heading psi_difference__speed psi_difference__temperature</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              -0.4939791            -0.2847867                  0.94610694</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              -2.5224468            -1.4983582                  8.74141303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              -1.6600079            -0.8561187                 -0.29879260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              -2.1288318            -1.3973835                  7.32598781</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              -1.7636669            -1.0872113                  0.02061161</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              -3.0992389            -1.7450049                  6.42277659</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_difference__x psi_difference__y psi_only_with__heading</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          1.138343          1.220881               1.075471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          1.185123          2.290697               1.204174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          8.947953          3.266089               1.373681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          1.446331          2.569439               1.314354</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         12.281128          2.415060               1.263598</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         13.533529          1.511565               1.244071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__speed psi_only_with__temperature psi_only_with__x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             1.119086                   2.190984         2.391807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             1.397388                  10.327628         3.610898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             1.478797                   1.828918        10.657002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4             1.426005                   8.954655         3.778736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5             1.321072                   2.115805        13.797459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             1.385574                   8.429779        15.896024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__y psi_without__heading psi_without__speed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         2.453403             1.569450           1.403873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         4.644631             3.726621           2.895746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         5.103284             3.033689           2.334915</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         4.839496             3.443185           2.823389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         4.318944             3.027265           2.408284</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         4.126917             4.343310           3.130579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__temperature psi_without__x psi_without__y robust__heading</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.244877       1.253464       1.232522            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.586215       2.425775       2.353934            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.127711       1.709049       1.837195            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.628667       2.332406       2.270057            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.095194       1.516331       1.903884            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 2.007003       2.362495       2.615352            TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   robust__speed robust__temperature robust__x robust__y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          TRUE                TRUE      TRUE      TRUE</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
