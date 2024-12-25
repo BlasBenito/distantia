@@ -4,101 +4,80 @@
 #' Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
-#' @param sf (required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. See `[eemian_cooordinaes]` example. Default: NULL
+#' @param sf (required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. Default: NULL
+#' @param one_to_many (optional, logical) If TRUE, the resulting data frame is reorganized to help map one-to-many relationships using the original geometry in `sf` rather than network edges. Default: FALSE
 #'
 #' @return sf data frame (LINESTRING geometry)
 #' @export
 #'
 #' @examples
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-#' data("fagus_dynamics")
-#' data("fagus_coordinates")
-#'
-#' #load as tsl
-#' #center and scale with same parameters
-#' tsl <- tsl_initialize(
-#'   x = fagus_dynamics,
+#' tsl <- distantia::tsl_initialize(
+#'   x = distantia::covid_prevalence,
 #'   name_column = "name",
 #'   time_column = "time"
-#' ) |>
-#'   tsl_transform(
-#'     f = f_scale_global
-#'   )
+#' )
 #'
-#' #example using distantia()
-#' #--------------------------------------------------
-#' distantia_df <- distantia(
+#' df_psi <- distantia::distantia_ls(
 #'   tsl = tsl
 #' )
 #'
-#' #transform to sf
-#' distantia_sf <- distantia::distantia_spatial_network(
-#'   df = distantia_df,
-#'   sf = fagus_coordinates
+#' #network many to many
+#' sf_network <- distantia::distantia_spatial_network(
+#'   df = df_psi,
+#'   sf = distantia::covid_counties
 #' )
 #'
-#' #mapping with tmap
-#' # library(tmap)
-#' # tmap::tmap_mode("view")
-#' #
-#' # tmap::tm_shape(distantia_sf) +
-#' #   tmap::tm_lines(
-#' #     col = "psi",
+#' #subset target counties
+#' counties <- c("Los_Angeles", "San_Francisco", "Fresno", "San_Joaquin")
+#'
+#' sf_network_subset <- sf_network[
+#'   which(sf_network$x %in% counties & sf_network$y %in% counties), ]
+#'
+#' #network map
+#' # mapview::mapview(
+#' #   distantia::covid_counties,
+#' #   col.regions = NA,
+#' #   alpha.regions = 0,
+#' #   color = "black",
+#' #   label = "name",
+#' #   legend = FALSE,
+#' #   map.type = "OpenStreetMap"
+#' # ) +
+#' #   mapview::mapview(
+#' #     sf_network_subset,
+#' #     layer.name = "Psi",
+#' #     label = "edge_name",
+#' #     zcol = "psi",
 #' #     lwd = 3
-#' #   ) +
-#' #   tmap::tm_shape(fagus_coordinates) +
-#' #   tmap::tm_dots(size = 0.1, col = "gray50")
+#' #   ) |>
+#' #   suppressWarnings()
 #'
-#'
-#' #example using momentum()
-#' #--------------------------------------------------
-#' importance_df <- momentum(
-#'   tsl = tsl
+#' #one to many
+#' sf_network <- distantia_spatial_network(
+#'   df = df_psi,
+#'   sf = distantia::covid_counties,
+#'   one_to_many = TRUE
 #' )
 #'
-#' #transform to sf
-#' importance_sf <- distantia::distantia_spatial_network(
-#'   df = importance_df,
-#'   sf = fagus_coordinates
-#' )
+#' #subset one county
+#' sf_network_subset <- sf_network[sf_network$x == "Los_Angeles", ]
 #'
-#' names(importance_sf)
-#'
-#' # #map contribution to dissimilarity of evi
-#' # #negative: contributes to similarity
-#' # #positive: contributes to dissimilarity
-#' # tmap::tm_shape(importance_sf) +
-#' #   tmap::tm_lines(
-#' #     col = "importance__evi",
-#' #     lwd = 3,
-#' #     midpoint = NA
-#' #   ) +
-#' #   tmap::tm_shape(fagus_coordinates) +
-#' #   tmap::tm_dots(size = 0.1, col = "gray50")
-#' #
-#' # #map variables making sites more similar
-#' # tmap::tm_shape(importance_sf) +
-#' #   tmap::tm_lines(
-#' #     col = "most_similar",
-#' #     lwd = 3
-#' #   ) +
-#' #   tmap::tm_shape(fagus_coordinates) +
-#' #   tmap::tm_dots(size = 0.1, col = "gray50")
-#' #
-#' # #map variables making sites less similar
-#' # tmap::tm_shape(importance_sf) +
-#' #   tmap::tm_lines(
-#' #     col = "most_dissimilar",
-#' #     lwd = 3
-#' #   ) +
-#' #   tmap::tm_shape(fagus_coordinates) +
-#' #   tmap::tm_dots(size = 0.1, col = "gray50")
+#' #one to many map
+#' #dissimilarity of all counties with Los Angeles
+#' # mapview::mapview(
+#' #   sf_network_subset,
+#' #   layer.name = "Psi with LA",
+#' #   label = "y",
+#' #   zcol = "psi",
+#' #   alpha.regions = 1
+#' # ) |>
+#' #   suppressWarnings()
 #' @autoglobal
 #' @family distantia_support
 distantia_spatial_network <- function(
     df = NULL,
-    sf = NULL
+    sf = NULL,
+    one_to_many = FALSE
 ){
 
   if(
@@ -148,6 +127,79 @@ distantia_spatial_network <- function(
     stop("distantia::distantia_spatial_network(): argument 'sf' must be an sf data frame.", call. = FALSE)
   }
 
+  ## find names column ----
+  sf_names <- apply(
+    X = sf,
+    MARGIN = 2,
+    FUN = function(x){
+      if(all(df_names %in% x)){
+        return(TRUE)
+      } else {
+        return(FALSE)
+      }
+    }
+  )
+
+  sf_names <- names(sf_names[sf_names == TRUE])
+
+  #apply one_to_many
+  if(one_to_many == TRUE){
+
+    #prepare y vs x mirror
+    df_mirror <- df
+    df_mirror$x <- df$y
+    df_mirror$y <- df$x
+
+    #prepare rows of self x vs y
+    df_self <- data.frame(
+      x = unique(df$x),
+      y = unique(df$x)
+    )
+
+    df_self_cols <- setdiff(
+      x = colnames(df),
+      y = c("x", "y")
+    )
+
+    for(col.i in df_self_cols){
+      df_self[[col.i]] <- ifelse(
+        test = col.i %in% c("psi", "p_value"),
+        yes = 0,
+        no = NA
+      )
+    }
+
+    #join all rows
+    df <- rbind(
+      df,
+      df_mirror,
+      df_self
+    )
+
+    #create join column
+    df[[sf_names]] <- df$y
+
+    #merge sf
+    df_sf <- merge(
+      x = sf,
+      y = df,
+      by = sf_names
+    )
+
+    #remove merge column
+    df_sf[[sf_names]] <- NULL
+
+    #order by names
+    df_sf <- df_sf[order(df_sf$x, df_sf$y), ]
+
+    rownames(df_sf) <- NULL
+
+    return(df_sf)
+
+  }
+
+
+
   ## find geometry ----
   if(inherits(x = sf, what = "sf") == FALSE){
     stop("distantia::distantia_spatial_network(): argument 'sf' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.", call. = FALSE)
@@ -171,21 +223,6 @@ distantia_spatial_network <- function(
     )
 
   }
-
-  ## find names column ----
-  sf_names <- apply(
-    X = sf,
-    MARGIN = 2,
-    FUN = function(x){
-      if(all(df_names %in% x)){
-        return(TRUE)
-      } else {
-        return(FALSE)
-      }
-    }
-  )
-
-  sf_names <- names(sf_names[sf_names == TRUE])
 
   if(!(sf_names %in% colnames(sf))){
     stop("distantia::distantia_spatial_network(): Argument 'sf' must have a column with the time series names in 'df' (check values in df$x and df$y).")
@@ -261,6 +298,8 @@ distantia_spatial_network <- function(
     x = df_sf
   ) |>
     as.numeric()
+
+  rownames(df_sf) <- NULL
 
   df_sf
 

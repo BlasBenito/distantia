@@ -159,7 +159,7 @@ dplyr::glimpse(sf_network)
 
 The resulting sf data frame has a field with the edge name, the columns `x` and `y` with the names of the connected time series, the *psi* scores and p-values of the dissimilarity data frame, a geometry column of type LINESTRING defining the network edges, and the `length` of the edges.
 
-This sf data frame can be mapped right away, but in this case there are too many pairs of counties to achieve a meaningful map
+This sf data frame can be mapped right away, but in this case there are too many pairs of counties to achieve a meaningful map.
 
 ```{r, message = FALSE, warning = FALSE}
 mapview::mapview(
@@ -174,21 +174,27 @@ mapview::mapview(
 Focusing on particular aspects of the data at hand may help untangle this mess. For example, the code below subsets edges connecting with *San Francisco* and its most similar counties in terms of Covid19 prevalence.
 
 ```{r, warning = FALSE}
-#subset edges involving San Francisco
-#with a maximum length of 250km
-sf_network_subset <- sf_network |> 
-  dplyr::filter(
-    grepl(
-      pattern = "San_Francisco",
-      x = edge_name
-    ),
-    p_value <= 0.05
+#select pairs of counties
+counties <- c(
+  "Los_Angeles", 
+  "San_Francisco", 
+  "Fresno", 
+  "San_Joaquin",
+  "Monterey"
   )
+
+sf_network_subset <- sf_network[
+  which(
+    sf_network$x %in% counties & 
+      sf_network$y %in% counties
+    ), 
+  ]
 
 #map country polygons and dissimilarity edges
 mapview::mapview(
   covid_counties,
   col.regions = NA,
+  alpha.regions = 0,
   color = "black",
   label = "name",
   legend = FALSE,
@@ -196,60 +202,43 @@ mapview::mapview(
 ) +
   mapview::mapview(
     sf_network_subset,
-    layer.name = "San Francisco - Psi",
+    layer.name = "Psi",
     label = "edge_name",
     zcol = "psi",
-    lwd = 3,
+    lwd = 5,
     color = distantia::color_continuous(
-      n = 5,
       rev = TRUE
       )
   )
 ```
 
-A slightly more involved way to represent a one-to-many network with the data in `sf_network` and the polygons in `distantia::covid_counties` is shown below.
+The function `distantia_spatial_network()` also has a one-to-many mode designed to help map the dissimilarity of one time series against all others. 
 
-```{r, warning=FALSE}
-sf_network_subset <- sf_network |> 
-  sf::st_drop_geometry() |> 
-  #filter edges not containing San_Francisco
-  dplyr::filter(
-    grepl(
-      pattern = "San_Francisco",
-      x = edge_name
-    )
-  ) |> 
-  #create column "name" for join with covid_counties
-  dplyr::mutate(
-    name = ifelse(
-      test = x != "San_Francisco", 
-      yes = x, 
-      no = y
-    )
-  ) |> 
-  #add row with San Francisco
-  dplyr::select(name, psi, p_value) |> 
-  dplyr::bind_rows(
-    data.frame(
-      name = "San_Francisco",
-      psi = 0,
-      p_value = 0
-    )
-  ) |> 
-  #join with polygons
-  dplyr::inner_join(
-    y = distantia::covid_counties |> 
-      dplyr::select(name, geometry),
-    by = "name"
-  ) |> 
-  #convert to sf data frame
-  sf::st_sf()
+```{r}
+sf_network <- distantia::distantia_spatial_network(
+  df = df_psi,
+  sf = distantia::covid_counties |> 
+    dplyr::select(
+      name, geometry
+    ),
+  one_to_many = TRUE
+)
 
-#map result
+dplyr::glimpse(sf_network)
+```
+This option does not create edges, and instead uses the geometry introduced in the `sf` argument. This sf data frame is mapped as follows: when one site in the "x" column is selected, the result shows the dissimilarity scores of all other sites against the selected one.
+
+```{r, warning = FALSE}
+#subset one county
+sf_network_subset <- sf_network[
+  sf_network$x == "San_Francisco", 
+  ]
+
+#one-to-many visualization
 mapview::mapview(
     sf_network_subset,
     layer.name = "Psi",
-    label = "name",
+    label = "y",
     zcol = "psi",
     col.regions = distantia::color_continuous(
       rev = TRUE
@@ -297,12 +286,14 @@ The first block in the code below joins the county polygons in `distantia::covid
 The second block generates the map, using the new variable to define transparency. This setup allows to identify each group of similar counties while helping identify these counties that somehow do not fully belong. This is the case of *Butte*, which is in the group 5, but with a very low silhouette score.
 
 ```{r}
+#join county polygons with clustering groups
 sf_cluster <- distantia::covid_counties |> 
   dplyr::select(name, geometry) |> 
   dplyr::inner_join(
     y = df_cluster,
     by = "name"
   ) |> 
+  #remap silhouette score to transparency values
   dplyr::mutate(
     alpha = f_rescale_local(
       x = silhouette_width,
@@ -321,4 +312,6 @@ mapview::mapview(
   alpha.regions = sf_cluster$alpha
 )
 ```
+
+
 

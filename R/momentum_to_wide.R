@@ -111,15 +111,22 @@ momentum_to_wide <- function(
     all.x = TRUE
   )
 
+  columns_psi <- c(
+    "x",
+    "y",
+    "psi",
+    "most_similar",
+    "most_dissimilar"
+  )
+
+  columns_variable <- setdiff(
+    x = colnames(df),
+    y = c(columns_psi, "effect", "variable")
+  )
+
   #fixed part of the data frame
   df_wide_psi <- unique(
-    df[, c(
-      "x",
-      "y",
-      "psi",
-      "most_similar",
-      "most_dissimilar"
-    )]
+    df[, columns_psi]
   )
 
   #variable to wide
@@ -128,9 +135,7 @@ momentum_to_wide <- function(
       "x",
       "y",
       "variable",
-      "importance",
-      "psi_only_with",
-      "psi_without"
+      columns_variable
       )],
     timevar = "variable",
     idvar = c("x", "y"),
@@ -156,6 +161,8 @@ momentum_to_wide <- function(
 
   #reorder columns
   df <- df[, c(id_columns, importance_columns)]
+
+  rownames(df) <- NULL
 
   df
 

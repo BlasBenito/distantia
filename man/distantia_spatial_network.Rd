@@ -4,12 +4,14 @@
 \alias{distantia_spatial_network}
 \title{Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks}
 \usage{
-distantia_spatial_network(df = NULL, sf = NULL)
+distantia_spatial_network(df = NULL, sf = NULL, one_to_many = FALSE)
 }
 \arguments{
 \item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
 
-\item{sf}{(required, sf POINT data frame) Sf data frame with the coordinates of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. See \verb{[eemian_cooordinaes]} example. Default: NULL}
+\item{sf}{(required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. Default: NULL}
+
+\item{one_to_many}{(optional, logical) If TRUE, the resulting data frame is reorganized to help map one-to-many relationships using the original geometry in \code{sf} rather than network edges. Default: FALSE}
 }
 \value{
 sf data frame (LINESTRING geometry)
@@ -18,90 +20,66 @@ sf data frame (LINESTRING geometry)
 Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from \code{\link[=distantia]{distantia()}} to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
 }
 \examples{
-#three time series
-#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
-data("fagus_dynamics")
-data("fagus_coordinates")
-
-#load as tsl
-#center and scale with same parameters
-tsl <- tsl_initialize(
-  x = fagus_dynamics,
+tsl <- distantia::tsl_initialize(
+  x = distantia::covid_prevalence,
   name_column = "name",
   time_column = "time"
-) |>
-  tsl_transform(
-    f = f_scale_global
-  )
+)
 
-#example using distantia()
-#--------------------------------------------------
-distantia_df <- distantia(
+df_psi <- distantia::distantia_ls(
   tsl = tsl
 )
 
-#transform to sf
-distantia_sf <- distantia::distantia_spatial_network(
-  df = distantia_df,
-  sf = fagus_coordinates
+#network many to many
+sf_network <- distantia::distantia_spatial_network(
+  df = df_psi,
+  sf = distantia::covid_counties
 )
 
-#mapping with tmap
-# library(tmap)
-# tmap::tmap_mode("view")
-#
-# tmap::tm_shape(distantia_sf) +
-#   tmap::tm_lines(
-#     col = "psi",
+#subset target counties
+counties <- c("Los_Angeles", "San_Francisco", "Fresno", "San_Joaquin")
+
+sf_network_subset <- sf_network[
+  which(sf_network$x \%in\% counties & sf_network$y \%in\% counties), ]
+
+#network map
+# mapview::mapview(
+#   distantia::covid_counties,
+#   col.regions = NA,
+#   color = "black",
+#   label = "name",
+#   legend = FALSE,
+#   map.type = "OpenStreetMap"
+# ) +
+#   mapview::mapview(
+#     sf_network_subset,
+#     layer.name = "Psi",
+#     label = "edge_name",
+#     zcol = "psi",
 #     lwd = 3
-#   ) +
-#   tmap::tm_shape(fagus_coordinates) +
-#   tmap::tm_dots(size = 0.1, col = "gray50")
+#   ) |>
+#   suppressWarnings()
 
-
-#example using momentum()
-#--------------------------------------------------
-importance_df <- momentum(
-  tsl = tsl
+#one to many
+sf_network <- distantia_spatial_network(
+  df = df_psi,
+  sf = distantia::covid_counties,
+  one_to_many = TRUE
 )
 
-#transform to sf
-importance_sf <- distantia::distantia_spatial_network(
-  df = importance_df,
-  sf = fagus_coordinates
-)
+#subset one county
+sf_network_subset <- sf_network[sf_network$x == "Los_Angeles", ]
 
-names(importance_sf)
-
-# #map contribution to dissimilarity of evi
-# #negative: contributes to similarity
-# #positive: contributes to dissimilarity
-# tmap::tm_shape(importance_sf) +
-#   tmap::tm_lines(
-#     col = "importance__evi",
-#     lwd = 3,
-#     midpoint = NA
-#   ) +
-#   tmap::tm_shape(fagus_coordinates) +
-#   tmap::tm_dots(size = 0.1, col = "gray50")
-#
-# #map variables making sites more similar
-# tmap::tm_shape(importance_sf) +
-#   tmap::tm_lines(
-#     col = "most_similar",
-#     lwd = 3
-#   ) +
-#   tmap::tm_shape(fagus_coordinates) +
-#   tmap::tm_dots(size = 0.1, col = "gray50")
-#
-# #map variables making sites less similar
-# tmap::tm_shape(importance_sf) +
-#   tmap::tm_lines(
-#     col = "most_dissimilar",
-#     lwd = 3
-#   ) +
-#   tmap::tm_shape(fagus_coordinates) +
-#   tmap::tm_dots(size = 0.1, col = "gray50")
+#one to many map
+#dissimilarity of all counties with Los Angeles
+# mapview::mapview(
+#   sf_network_subset,
+#   layer.name = "Psi with LA",
+#   label = "y",
+#   zcol = "psi",
+#   alpha.regions = 1
+# ) |>
+#   suppressWarnings()
 }
 \seealso{
 Other distantia_support: 
