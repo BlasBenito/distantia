@@ -93,7 +93,7 @@
 #'     guide = FALSE
 #'   )
 #' }
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family zoo_functions
 zoo_permute <- function(
     x = NULL,

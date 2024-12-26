@@ -21,7 +21,7 @@
 #' df_stats <- distantia_stats(df = df)
 #'
 #' df_stats
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family momentum_support
 momentum_stats <- function(
     df = NULL

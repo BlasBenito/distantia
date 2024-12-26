@@ -72,7 +72,7 @@
 #'     tsl = tsl_seasons
 #'   )
 #' }
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family simulate_time_series
 tsl_simulate <- function(
     n = 2,

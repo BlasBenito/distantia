@@ -90,7 +90,7 @@ distantia_spatial <- function(
       package = "sf",
       quietly = TRUE
     ) == FALSE){
-    stop("distantia::distantia_spatial_network(): please install the package 'sf' before running this function.", call. = FALSE)
+    stop("distantia::distantia/momentum_spatial(): this function requires installing the package 'sf'.", call. = FALSE)
   }
 
   #check df

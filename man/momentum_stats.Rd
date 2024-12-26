@@ -29,6 +29,7 @@ df <- distantia(
 df_stats <- distantia_stats(df = df)
 
 df_stats
+
 }
 \seealso{
 Other momentum_support: 

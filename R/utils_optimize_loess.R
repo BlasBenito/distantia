@@ -45,7 +45,7 @@
 #'     ),
 #'   col = "red4"
 #'   )
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family tsl_processing_internal
 utils_optimize_loess <- function(
     x = NULL,

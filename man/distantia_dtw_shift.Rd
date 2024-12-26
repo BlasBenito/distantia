@@ -60,6 +60,7 @@ df_shift
 distantia_dtw_plot(
   tsl = tsl
 )
+
 }
 \seealso{
 Other distantia_support: 

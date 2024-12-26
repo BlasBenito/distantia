@@ -99,6 +99,7 @@ if(interactive()){
     tsl = tsl_seasons
   )
 }
+
 }
 \seealso{
 Other simulate_time_series: 

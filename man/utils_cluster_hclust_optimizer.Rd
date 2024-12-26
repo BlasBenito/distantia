@@ -62,6 +62,7 @@ hclust_optimization <- utils_cluster_hclust_optimizer(
 
 #best solution in first row
 head(hclust_optimization)
+
 }
 \seealso{
 Other distantia_support: 

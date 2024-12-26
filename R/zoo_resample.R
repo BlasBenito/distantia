@@ -160,7 +160,7 @@
 #'   )
 #'
 #' }
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family zoo_functions
 zoo_resample <- function(
     x = NULL,

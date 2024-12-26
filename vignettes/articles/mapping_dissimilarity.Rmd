@@ -282,9 +282,9 @@ mapview::mapview(
 
 This section shows how to map the similarity groups resulting from `distantia::distantia_cluster_hclust()` or `distantia::distantia_cluster_kmeans()`.
 
-The first block in the code below joins the county polygons in `distantia::covid_polygons` with the clustering data frame `df_cluster`, while creating a new variable "alpha" based on the column "silhouette_width", which represents the strength of group membership.
+The first block in the code below joins the county polygons in `distantia::covid_polygons` with the clustering data frame `df_cluster`. This block also generates the variable "alpha" from the column "silhouette_width", which represents the strength of membership to the assigned clustering group.
 
-The second block generates the map, using the new variable to define transparency. This setup allows to identify each group of similar counties while helping identify these counties that somehow do not fully belong. This is the case of *Butte*, which is in the group 5, but with a very low silhouette score.
+The second block generates the map, using colors for cluster membership, and the variable alpha to code the strenght of membership. This setup allows identifying groups of similar counties while highlighting counties that somehow do not fully belong to their given group. This is the case of *Butte*, which is in the group 5, but with a very low silhouette score.
 
 ```{r}
 #join county polygons with clustering groups

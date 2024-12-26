@@ -48,7 +48,7 @@
 #' distantia_dtw_plot(
 #'   tsl = tsl
 #' )
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family distantia_support
 distantia_dtw_shift <- function(
     tsl = NULL,

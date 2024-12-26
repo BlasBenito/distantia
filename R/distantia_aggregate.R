@@ -59,7 +59,7 @@
 #'
 #' df
 #' @family distantia_support
-#' @importFrom doFuture "%dofuture%"
+#' 
 distantia_aggregate <- function(
     df = NULL,
     f = mean,

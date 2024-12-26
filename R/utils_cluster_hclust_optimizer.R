@@ -55,7 +55,7 @@
 #'
 #' #best solution in first row
 #' head(hclust_optimization)
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family distantia_support
 utils_cluster_hclust_optimizer <- function(
     d = NULL,

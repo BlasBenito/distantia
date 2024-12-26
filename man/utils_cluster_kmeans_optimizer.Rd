@@ -62,6 +62,7 @@ kmeans_optimization <- utils_cluster_kmeans_optimizer(
 
 #best solution in first row
 head(kmeans_optimization)
+
 }
 \seealso{
 Other distantia_support: 

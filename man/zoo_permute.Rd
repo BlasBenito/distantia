@@ -110,6 +110,7 @@ if(interactive()){
     guide = FALSE
   )
 }
+
 }
 \seealso{
 Other zoo_functions: 

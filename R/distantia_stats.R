@@ -22,7 +22,7 @@
 #'
 #' df_stats
 #' @family distantia_support
-#' @importFrom doFuture "%dofuture%"
+#' 
 distantia_stats <- function(
     df = NULL
 ){

@@ -56,7 +56,7 @@
 #' df
 #' @export
 #' @autoglobal
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family tsl_processing
 tsl_stats <- function(
     tsl = NULL,

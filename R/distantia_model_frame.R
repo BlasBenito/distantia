@@ -213,7 +213,7 @@ distantia_model_frame <- function(
   #remove geometry
   predictors_df_no_geom <- utils_drop_geometry(
     df = predictors_df
-    )
+  )
 
   #id df
   df.id <- df[, "id", drop = FALSE]
@@ -233,7 +233,7 @@ distantia_model_frame <- function(
         ,
         unlist(predictors_list[[x]]),
         drop = FALSE
-        ]
+      ]
 
       #decide if scaling is needed
       sd_ratios <- max(sapply(X = df.i, FUN = sd)) /
@@ -280,11 +280,19 @@ distantia_model_frame <- function(
   names(model_frame_list) <- names(predictors_list)
 
   #add geographic distance if predictors_df is an sf data frame
-  if(
-    !is.null(attributes(predictors_df)$sf_column) &&
-    requireNamespace("sf", quietly = TRUE) &&
-    requireNamespace("lwgeom", quietly = TRUE)
-  ){
+  if(!is.null(attributes(predictors_df)$sf_column)){
+
+    if(
+      !any(
+        requireNamespace("sf", quietly = TRUE),
+        requireNamespace("lwgeom", quietly = TRUE)
+      )
+    ){
+      stop(
+        "distantia::distantia_model_frame(): this function requires installing the packages 'sf' and 'lwgeom'.",
+        call. = FALSE
+      )
+    }
 
     m.i <- sf::st_distance(
       x = predictors_df

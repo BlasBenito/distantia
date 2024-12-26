@@ -45,7 +45,7 @@
 #'   )$y,
 #'   col = "red"
 #' )
-#' @importFrom doFuture "%dofuture%"
+#' 
 #' @family tsl_processing_internal
 utils_optimize_spline <- function(
     x = NULL,
