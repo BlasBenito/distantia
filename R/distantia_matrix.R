@@ -4,7 +4,7 @@
 #' Transforms a data frame resulting from [distantia()] into a dissimilarity matrix.
 #'
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
+#' @inheritParams distantia_aggregate
 #'
 #' @return numeric matrix
 #' @export

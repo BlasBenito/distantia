@@ -11,7 +11,7 @@
 #' }
 #'
 #'
-#' @param df (required, data frame) Output of [momentum()]. Default: NULL
+#' @inheritParams momentum_aggregate
 #' @param sep (required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".
 #'
 #' @return data frame
@@ -81,7 +81,7 @@ momentum_to_wide <- function(
     }
   )
 
-  names(most_dissimilar)[3] <- "most_dissimilar"
+  names(most_dissimilar)[3] <- "most_dissimilarity"
 
   most_similar <- stats::aggregate(
     importance ~ x + y,
@@ -95,7 +95,7 @@ momentum_to_wide <- function(
     }
   )
 
-  names(most_similar)[3] <- "most_similar"
+  names(most_similar)[3] <- "most_similarity"
 
   #merge new columns
   new_columns <- merge(
@@ -115,8 +115,8 @@ momentum_to_wide <- function(
     "x",
     "y",
     "psi",
-    "most_similar",
-    "most_dissimilar"
+    "most_similarity",
+    "most_dissimilarity"
   )
 
   columns_variable <- setdiff(

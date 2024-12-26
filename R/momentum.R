@@ -78,6 +78,7 @@
 #'   )]
 #'
 #' @family momentum
+#' @importFrom doFuture "%dofuture%"
 momentum <- function(
     tsl = NULL,
     distance = "euclidean",

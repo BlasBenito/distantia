@@ -23,7 +23,7 @@
 #' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #'
-#' @inheritParams distantia_matrix
+#' @inheritParams distantia_aggregate
 #' @param predictors_df (required, data frame) data frame with numeric predictors to be added to the model frame. Must have a column with the names in `df$x` and `df$y`. If `sf` data frame, the predictor "distance" is added to the model frame. Default: NULL
 #' @param predictors_list (optional, list) list defining new predictors as combinations of other predictors in `predictors_df`. For example, `predictors_list = list(a = c("b", "c"))` uses the columns `"b"` and `"c"` from `predictors_df` to generate the predictor `a` in the model frame. Default: NULL
 #' @param predictors_scaled (optional, logical) if TRUE, all predictors are scaled and centered with [scale()]. Default: FALSE

@@ -128,7 +128,7 @@ Other distantia_support:
 \code{\link{distantia_dtw_shift}()},
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial_network}()},
+\code{\link{distantia_spatial}()},
 \code{\link{distantia_stats}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},

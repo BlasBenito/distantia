@@ -7,7 +7,7 @@
 momentum_stats(df = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 }
 \value{
 data frame
@@ -34,6 +34,7 @@ df_stats
 Other momentum_support: 
 \code{\link{momentum_aggregate}()},
 \code{\link{momentum_boxplot}()},
+\code{\link{momentum_spatial}()},
 \code{\link{momentum_to_wide}()}
 }
 \concept{momentum_support}

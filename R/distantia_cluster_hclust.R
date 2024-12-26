@@ -8,7 +8,7 @@
 #' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #'
-#' @param df (required, data frame) Output of [distantia()]. Default: NULL
+#' @inheritParams distantia_aggregate
 #' @param clusters (required, integer) Number of groups to generate. If NULL (default), [utils_cluster_kmeans_optimizer()] is used to find the number of clusters that maximizes the mean silhouette width of the clustering solution (see [utils_cluster_silhouette()]). Default: NULL
 #' @param method (optional, character string) Argument of [stats::hclust()] defining the agglomerative method. One of: "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). Unambiguous abbreviations are accepted as well. If NULL (default), [utils_cluster_hclust_optimizer()] finds the optimal method. Default: "complete".
 #' @return list:

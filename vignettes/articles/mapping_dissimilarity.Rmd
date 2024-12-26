@@ -143,15 +143,16 @@ df_cluster |>
 
 ## Network Map
 
-The function `distantia_spatial_network()` transforms the result of `distantia()` to an sf data frame with edges connecting time series coordinates or polygons. The result can be interpreted as a *dissimilarity network*. 
+The function `distantia_spatial()` transforms the result of `distantia()` to an sf data frame with edges connecting time series coordinates or polygons. The result can be interpreted as a *dissimilarity network*. 
 
 ```{r, message = FALSE, warning = FALSE}
-sf_network <- distantia::distantia_spatial_network(
+sf_network <- distantia::distantia_spatial(
   df = df_psi,
   sf = distantia::covid_counties |> 
     dplyr::select(
       name, geometry
-    )
+    ),
+  network = TRUE
 )
 
 dplyr::glimpse(sf_network)
@@ -212,16 +213,16 @@ mapview::mapview(
   )
 ```
 
-The function `distantia_spatial_network()` also has a one-to-many mode designed to help map the dissimilarity of one time series against all others. 
+The function `distantia_spatial()` also has a one-to-many mode designed to help map the dissimilarity of one time series against all others. 
 
 ```{r}
-sf_network <- distantia::distantia_spatial_network(
+sf_network <- distantia::distantia_spatial(
   df = df_psi,
   sf = distantia::covid_counties |> 
     dplyr::select(
       name, geometry
     ),
-  one_to_many = TRUE
+  network = FALSE
 )
 
 dplyr::glimpse(sf_network)

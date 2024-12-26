@@ -160,6 +160,7 @@
 #'   )
 #'
 #' }
+#' @importFrom doFuture "%dofuture%"
 #' @family zoo_functions
 zoo_resample <- function(
     x = NULL,
@@ -256,7 +257,7 @@ zoo_resample <- function(
   )
 
   #interpolate
-  
+
 
   y <- foreach::foreach(
     i = seq_len(ncol(x)),

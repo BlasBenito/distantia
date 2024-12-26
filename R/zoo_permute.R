@@ -93,7 +93,7 @@
 #'     guide = FALSE
 #'   )
 #' }
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family zoo_functions
 zoo_permute <- function(
     x = NULL,
@@ -138,7 +138,7 @@ zoo_permute <- function(
 
   #to silence loading messages
 
-  
+
 
   permutations <- foreach::foreach(
     i = repetitions,

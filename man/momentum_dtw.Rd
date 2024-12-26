@@ -49,7 +49,6 @@ df[, c(
   "importance",
   "effect"
   )]
-
 }
 \seealso{
 Other momentum: 

@@ -72,7 +72,7 @@
 #'     tsl = tsl_seasons
 #'   )
 #' }
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family simulate_time_series
 tsl_simulate <- function(
     n = 2,
@@ -161,7 +161,7 @@ tsl_simulate <- function(
   #progress bar
   p <- progressr::progressor(along = seq_len(n))
 
-  
+
 
   #generate tsl
   tsl <- foreach::foreach(

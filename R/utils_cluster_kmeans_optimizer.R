@@ -55,7 +55,7 @@
 #'
 #' #best solution in first row
 #' head(kmeans_optimization)
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family distantia_support
 utils_cluster_kmeans_optimizer <- function(
     d = NULL,

@@ -7,7 +7,7 @@
 distantia_matrix(df = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_dtw_shift]{distantia_dtw_shift()}}. Default: NULL}
 }
 \value{
 numeric matrix
@@ -92,7 +92,7 @@ Other distantia_support:
 \code{\link{distantia_cluster_kmeans}()},
 \code{\link{distantia_dtw_shift}()},
 \code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial_network}()},
+\code{\link{distantia_spatial}()},
 \code{\link{distantia_stats}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},

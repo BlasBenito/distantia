@@ -2,7 +2,7 @@
 #' @description
 #' Takes the output of [distantia()] to return a data frame with one row per time series with the stats of its dissimilarity scores with all other time series.
 #'
-#' @inheritParams distantia_aggregate
+#' @inheritParams momentum_aggregate
 #'
 #' @return data frame
 #' @export
@@ -21,6 +21,7 @@
 #' df_stats <- distantia_stats(df = df)
 #'
 #' df_stats
+#' @importFrom doFuture "%dofuture%"
 #' @family momentum_support
 momentum_stats <- function(
     df = NULL

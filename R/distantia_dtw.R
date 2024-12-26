@@ -53,7 +53,7 @@
 #'
 #' }
 #'
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family distantia
 distantia_dtw <- function(
     tsl = NULL,

@@ -40,7 +40,7 @@
 #'   "importance",
 #'   "effect"
 #'   )]
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family momentum
 momentum_ls <- function(
     tsl = NULL,

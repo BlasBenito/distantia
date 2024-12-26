@@ -56,6 +56,7 @@
 #' df
 #' @export
 #' @autoglobal
+#' @importFrom doFuture "%dofuture%"
 #' @family tsl_processing
 tsl_stats <- function(
     tsl = NULL,
@@ -77,7 +78,7 @@ tsl_stats <- function(
   #progress bar and iterator
   p <- progressr::progressor(along = tsl)
 
-  
+
 
   #computing stats
   df <- foreach::foreach(

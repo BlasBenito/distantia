@@ -8,7 +8,7 @@
 #'
 #' If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
 #'
-#' @param df (required, data frame) Output of [momentum()]. Default: NULL
+#' @param df (required, data frame) Output of [momentum()], [momentum_ls()], or [momentum_dtw()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
@@ -83,6 +83,7 @@ momentum_aggregate <- function(
     df$diagonal <- NULL
     df$bandwidth <- NULL
     df$lock_step <- NULL
+    df$robust <- NULL
     return(df)
   }
 
@@ -93,6 +94,8 @@ momentum_aggregate <- function(
       warning("distantia::momentum_aggregate(): Column 'robust' has the values TRUE and FALSE. The aggregation of importance scores computed with both options is not supported. Cases where 'df$robust == FALSE' will be ignored.", call. = FALSE)
 
       df <- df[df$robust == TRUE, ]
+
+      df$robust <- NULL
 
     }
 

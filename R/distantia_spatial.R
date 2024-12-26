@@ -1,11 +1,15 @@
-#' Convert Dissimilarity Analysis Data Frames to Spatial Dissimilarity Networks
+#' Spatial Representation of `distantia()` Data Frames
 #'
 #' @description
-#' Given an sf data frame with the coordinates of a time series list transforms a data frame resulting from [distantia()] to an sf data frame with lines connecting the time series locations. This can be used to visualize a geographic network of similarity/dissimilarity between locations. See example for further details.
+#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [distantia()], [distantia_ls()], [distantia_dtw()] or [distantia_dtw_shift()] to an sf data frame.
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
+#' If `network = TRUE`, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
+#'
+#' If `network = FALSE`, the sf data frame contains the geometry in the input `sf` argument. This output helps build one-to-many dissimilarity maps.
+#'
+#' @param df (required, data frame) Output of [distantia()] or [distantia_dtw_shift()]. Default: NULL
 #' @param sf (required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. Default: NULL
-#' @param one_to_many (optional, logical) If TRUE, the resulting data frame is reorganized to help map one-to-many relationships using the original geometry in `sf` rather than network edges. Default: FALSE
+#' @param network (optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE
 #'
 #' @return sf data frame (LINESTRING geometry)
 #' @export
@@ -22,16 +26,17 @@
 #' )
 #'
 #' #network many to many
-#' sf_network <- distantia::distantia_spatial_network(
+#' sf_psi <- distantia::distantia_spatial(
 #'   df = df_psi,
-#'   sf = distantia::covid_counties
+#'   sf = distantia::covid_counties,
+#'   network = TRUE
 #' )
 #'
 #' #subset target counties
 #' counties <- c("Los_Angeles", "San_Francisco", "Fresno", "San_Joaquin")
 #'
-#' sf_network_subset <- sf_network[
-#'   which(sf_network$x %in% counties & sf_network$y %in% counties), ]
+#' sf_psi_subset <- sf_psi[
+#'   which(sf_psi$x %in% counties & sf_psi$y %in% counties), ]
 #'
 #' #network map
 #' # mapview::mapview(
@@ -44,7 +49,7 @@
 #' #   map.type = "OpenStreetMap"
 #' # ) +
 #' #   mapview::mapview(
-#' #     sf_network_subset,
+#' #     sf_psi_subset,
 #' #     layer.name = "Psi",
 #' #     label = "edge_name",
 #' #     zcol = "psi",
@@ -53,19 +58,19 @@
 #' #   suppressWarnings()
 #'
 #' #one to many
-#' sf_network <- distantia_spatial_network(
+#' sf_psi <- distantia_spatial(
 #'   df = df_psi,
 #'   sf = distantia::covid_counties,
-#'   one_to_many = TRUE
+#'   network = FALSE
 #' )
 #'
 #' #subset one county
-#' sf_network_subset <- sf_network[sf_network$x == "Los_Angeles", ]
+#' sf_psi_subset <- sf_psi[sf_psi$x == "Los_Angeles", ]
 #'
 #' #one to many map
 #' #dissimilarity of all counties with Los Angeles
 #' # mapview::mapview(
-#' #   sf_network_subset,
+#' #   sf_psi_subset,
 #' #   layer.name = "Psi with LA",
 #' #   label = "y",
 #' #   zcol = "psi",
@@ -74,10 +79,10 @@
 #' #   suppressWarnings()
 #' @autoglobal
 #' @family distantia_support
-distantia_spatial_network <- function(
+distantia_spatial <- function(
     df = NULL,
     sf = NULL,
-    one_to_many = FALSE
+    network = TRUE
 ){
 
   if(
@@ -90,44 +95,59 @@ distantia_spatial_network <- function(
 
   #check df
   if(is.null(df)){
-    stop("distantia::distantia_spatial_network(): argument 'df' must be a data frame resulting from distantia::distantia() or distantia::distantia_aggregate().", call. = FALSE)
+    stop("distantia::distantia/momentum_spatial(): argument 'df' must be a data frame resulting from distantia::distantia() or distantia::momentum().", call. = FALSE)
   }
 
-  df_type <- attributes(df)$type
-
-  types <- c(
+  df_type_distantia <- c(
     "distantia_df",
-    "momentum_df",
     "time_shift_df"
   )
 
-  if(!(df_type %in% types)){
-    stop("distantia::distantia_spatial_network(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_dtw_shift(), or distantia::momentum().", call. = FALSE)
+  df_type_momentum <- "momentum_df"
+
+  df_types <- c(
+    df_type_distantia,
+    df_type_momentum
+  )
+
+  df_type <- attributes(df)$type
+
+  if(!(df_type %in% df_types)){
+    stop("distantia::distantia/momentum_spatial(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_dtw_shift(), or distantia::momentum().", call. = FALSE)
   }
 
-  df_names <- unique(c(df$x, df$y))
+  if(df_type %in% df_type_distantia){
 
-  if(df_type == "momentum_df")
-    df <- momentum_aggregate(
-      df = df
-    ) else {
-      df <- distantia_aggregate(
-        df = df
-      )
-    }
+    f_name <- "distantia::distantia_spatial(): "
 
-  if(df_type == "momentum_df"){
-    df <- momentum_to_wide(
+    df <- distantia_aggregate(
       df = df
     )
   }
 
+  if(df_type == df_type_momentum){
+
+    f_name <- "distantia::momentum_spatial(): "
+
+    df <- df |>
+      momentum_aggregate() |>
+      momentum_to_wide()
+
+  }
+
   # sf ----
   if(is.null(sf)){
-    stop("distantia::distantia_spatial_network(): argument 'sf' must be an sf data frame.", call. = FALSE)
+    stop(f_name, "argument 'sf' must be an sf data frame.", call. = FALSE)
+  }
+
+  ## find geometry ----
+  if(inherits(x = sf, what = "sf") == FALSE){
+    stop(f_name, "argument 'sf' must be an 'sf' data frame.", call. = FALSE)
   }
 
   ## find names column ----
+  df_names <- unique(c(df$x, df$y))
+
   sf_names <- apply(
     X = sf,
     MARGIN = 2,
@@ -142,13 +162,25 @@ distantia_spatial_network <- function(
 
   sf_names <- names(sf_names[sf_names == TRUE])
 
-  #apply one_to_many
-  if(one_to_many == TRUE){
+  if(sf_names %in% colnames(df)){
+    df[[sf_names]] <- NULL
+  }
 
-    #prepare y vs x mirror
-    df_mirror <- df
-    df_mirror$x <- df$y
-    df_mirror$y <- df$x
+  ## remove common columns in sf
+  sf_valid_columns <- setdiff(
+    x = colnames(sf),
+    y = colnames(df)
+  )
+
+  sf <- sf[, sf_valid_columns]
+
+  #prepare y vs x mirror
+  df_mirror <- df
+  df_mirror$x <- df$y
+  df_mirror$y <- df$x
+
+  #prepare and return non-network output
+  if(network == FALSE){
 
     #prepare rows of self x vs y
     df_self <- data.frame(
@@ -162,11 +194,11 @@ distantia_spatial_network <- function(
     )
 
     for(col.i in df_self_cols){
-      df_self[[col.i]] <- ifelse(
-        test = col.i %in% c("psi", "p_value"),
-        yes = 0,
-        no = NA
-      )
+      if(is.numeric(df[[col.i]])){
+        df_self[[col.i]] <- 0
+      } else {
+        df_self[[col.i]] <- NA
+      }
     }
 
     #join all rows
@@ -198,12 +230,7 @@ distantia_spatial_network <- function(
 
   }
 
-
-
-  ## find geometry ----
-  if(inherits(x = sf, what = "sf") == FALSE){
-    stop("distantia::distantia_spatial_network(): argument 'sf' must be an 'sf' data frame with a 'geometry' column of type 'POINT'.", call. = FALSE)
-  }
+  #building network
 
   #check geometry type
   sf_geometry_type <- sf |>
@@ -222,10 +249,6 @@ distantia_spatial_network <- function(
       )
     )
 
-  }
-
-  if(!(sf_names %in% colnames(sf))){
-    stop("distantia::distantia_spatial_network(): Argument 'sf' must have a column with the time series names in 'df' (check values in df$x and df$y).")
   }
 
   ## add id column ----

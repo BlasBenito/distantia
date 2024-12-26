@@ -43,7 +43,7 @@
 #'
 #' #focus on the important details
 #' df_ls[, c("x", "y", "psi")]
-#'
+#' @importFrom doFuture "%dofuture%"
 #' @family distantia
 distantia_ls <- function(
     tsl = NULL,

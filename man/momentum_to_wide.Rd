@@ -7,7 +7,7 @@
 momentum_to_wide(df = NULL, sep = "__")
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 
 \item{sep}{(required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".}
 }
@@ -54,6 +54,7 @@ df_wide
 Other momentum_support: 
 \code{\link{momentum_aggregate}()},
 \code{\link{momentum_boxplot}()},
+\code{\link{momentum_spatial}()},
 \code{\link{momentum_stats}()}
 }
 \concept{momentum_support}

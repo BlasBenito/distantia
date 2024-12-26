@@ -7,11 +7,11 @@
 momentum_boxplot(df = NULL, fill_color = NULL, f = median, text_cex = 1)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 
 \item{fill_color}{(optional, character vector) boxplot fill color. Default: NULL}
 
-\item{f}{(optional, function) function used to aggregate the input data frame and arrange the boxes. One of \code{mean} or \code{median}. Default: \code{median}.}
+\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 1}
 }
@@ -43,6 +43,7 @@ momentum_boxplot(
 \seealso{
 Other momentum_support: 
 \code{\link{momentum_aggregate}()},
+\code{\link{momentum_spatial}()},
 \code{\link{momentum_stats}()},
 \code{\link{momentum_to_wide}()}
 }

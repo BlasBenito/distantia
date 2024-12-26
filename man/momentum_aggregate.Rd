@@ -7,7 +7,7 @@
 momentum_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 
 \item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
@@ -68,6 +68,7 @@ df
 \seealso{
 Other momentum_support: 
 \code{\link{momentum_boxplot}()},
+\code{\link{momentum_spatial}()},
 \code{\link{momentum_stats}()},
 \code{\link{momentum_to_wide}()}
 }

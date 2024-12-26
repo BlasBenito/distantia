@@ -10,7 +10,7 @@
 #'
 #' If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
 #'
-#' @param df (required, data frame) Output of [distantia()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()], [distantia_ls()], [distantia_dtw()], or [distantia_dtw_shift()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'

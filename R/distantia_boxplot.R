@@ -3,7 +3,7 @@
 #' @description
 #' Boxplot of a data frame returned by [distantia()] summarizing the stats of the psi scores of each time series against all others.
 #'
-#' @param df (required, data frame) output of [distantia()]. Default: NULL
+#' @inheritParams distantia_aggregate
 #' @param fill_color (optional, character vector) boxplot fill color. Default: NULL
 #' @param f (optional, function) function used to aggregate the input data frame and arrange the boxes. One of `mean` or `median`. Default: `median`.
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1

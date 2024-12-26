@@ -51,7 +51,6 @@ df_ls <- distantia_ls(
 
 #focus on the important details
 df_ls[, c("x", "y", "psi")]
-
 }
 \seealso{
 Other distantia: 
