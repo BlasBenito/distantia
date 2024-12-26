@@ -63,7 +63,7 @@ If there are no different combinations of arguments in the input data frame, no 
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="momentum.html">momentum()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="momentum.html">momentum()</a></code>, <code><a href="momentum_ls.html">momentum_ls()</a></code>, or <code><a href="momentum_dtw.html">momentum_dtw()</a></code>. Default: NULL</p></dd>
 
 
 <dt id="arg-f">f<a class="anchor" aria-label="anchor" href="#arg-f"></a></dt>
@@ -82,6 +82,7 @@ If there are no different combinations of arguments in the input data frame, no 
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other momentum_support:
 <code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
+<code><a href="momentum_spatial.html">momentum_spatial</a>()</code>,
 <code><a href="momentum_stats.html">momentum_stats</a>()</code>,
 <code><a href="momentum_to_wide.html">momentum_to_wide</a>()</code></p></div>
     </div>
@@ -166,25 +167,25 @@ If there are no different combinations of arguments in the input data frame, no 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16   Spain Sweden 1.4890286         evi -25.080233 increases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17   Spain Sweden 1.4890286    rainfall  10.764640 decreases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18   Spain Sweden 1.4890286 temperature  12.742187 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    psi_difference psi_without psi_only_with robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     0.003158608   1.2848422     1.2880008   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     0.248832026   1.1566276     1.4054596   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    -0.402484076   1.3910532     0.9885691   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     0.244776759   0.7873060     1.0320827   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    -0.041556104   0.8829917     0.8414356   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    -0.214517060   0.9099069     0.6953898   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    -0.337006921   1.5557210     1.2187141   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     0.143144705   1.4286475     1.5717922   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9     0.183884884   1.4493101     1.6331950   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10    0.024139830   1.2638610     1.2880008   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    0.268641921   1.1368177     1.4054596   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   -0.377509869   1.3660790     0.9885691   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13    0.251292009   0.7807907     1.0320827   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   -0.029595727   0.8710313     0.8414356   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   -0.229252821   0.9246426     0.6953898   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   -0.373451830   1.5921659     1.2187141   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17    0.160288560   1.4115037     1.5717922   TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18    0.189734804   1.4434602     1.6331950   TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    psi_difference psi_without psi_only_with</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     0.003158608   1.2848422     1.2880008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     0.248832026   1.1566276     1.4054596</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    -0.402484076   1.3910532     0.9885691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     0.244776759   0.7873060     1.0320827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    -0.041556104   0.8829917     0.8414356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    -0.214517060   0.9099069     0.6953898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    -0.337006921   1.5557210     1.2187141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     0.143144705   1.4286475     1.5717922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     0.183884884   1.4493101     1.6331950</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    0.024139830   1.2638610     1.2880008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    0.268641921   1.1368177     1.4054596</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   -0.377509869   1.3660790     0.9885691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13    0.251292009   0.7807907     1.0320827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   -0.029595727   0.8710313     0.8414356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   -0.229252821   0.9246426     0.6953898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   -0.373451830   1.5921659     1.2187141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17    0.160288560   1.4115037     1.5717922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18    0.189734804   1.4434602     1.6331950</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

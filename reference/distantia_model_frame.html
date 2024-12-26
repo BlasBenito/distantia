@@ -102,7 +102,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code> or <code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code>, <code><a href="distantia_ls.html">distantia_ls()</a></code>, <code><a href="distantia_dtw.html">distantia_dtw()</a></code>, or <code><a href="distantia_dtw_shift.html">distantia_dtw_shift()</a></code>. Default: NULL</p></dd>
 
 
 <dt id="arg-predictors-df">predictors_df<a class="anchor" aria-label="anchor" href="#arg-predictors-df"></a></dt>
@@ -134,7 +134,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans</a>()</code>,
 <code><a href="distantia_dtw_shift.html">distantia_dtw_shift</a>()</code>,
 <code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
-<code><a href="distantia_spatial_network.html">distantia_spatial_network</a>()</code>,
+<code><a href="distantia_spatial.html">distantia_spatial</a>()</code>,
 <code><a href="distantia_stats.html">distantia_stats</a>()</code>,
 <code><a href="utils_block_size.html">utils_block_size</a>()</code>,
 <code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer</a>()</code>,
@@ -205,7 +205,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ distance + economy + area_hectares + population + poverty_percentage + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     median_income + domestic_product + daily_miles_traveled + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     employed_percentage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5600128faa30&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55c0b71ef178&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#linear model</span></span></span>

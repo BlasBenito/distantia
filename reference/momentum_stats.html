@@ -57,7 +57,7 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="distantia.html">distantia()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="momentum.html">momentum()</a></code>, <code><a href="momentum_ls.html">momentum_ls()</a></code>, or <code><a href="momentum_dtw.html">momentum_dtw()</a></code>. Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -69,6 +69,7 @@
     <div class="dont-index"><p>Other momentum_support:
 <code><a href="momentum_aggregate.html">momentum_aggregate</a>()</code>,
 <code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
+<code><a href="momentum_spatial.html">momentum_spatial</a>()</code>,
 <code><a href="momentum_to_wide.html">momentum_to_wide</a>()</code></p></div>
     </div>
 
@@ -87,12 +88,18 @@
 <span class="r-in"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="distantia_stats.html">distantia_stats</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_stats</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd    range</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 2.649203 1.412447 1.750158 2.661265 3.560310 3.861835 1.1938251 2.449388</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 2.658624 1.412447 1.665338 2.617482 3.610768 3.987086 1.2685251 2.574639</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 3.190418 1.749635 1.834455 2.801636 4.157599 5.408765 1.7380369 3.659130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 3.933126 3.459802 3.478947 3.612936 4.067115 5.046829 0.7532111 1.587027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 4.576129 3.861835 3.955773 4.516957 5.137313 5.408765 0.7685549 1.546930</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name     mean      min       q1   median       q3      max        sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A 3.445292 1.433422 2.860488 3.654725 4.239529 5.038297 1.5139307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B 3.297064 1.433422 2.719219 3.397854 3.975700 4.959128 1.4584207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C 3.903081 3.147818 3.289087 3.840013 4.454007 4.784479 0.7880231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    D 4.356656 3.647891 3.891928 4.378876 4.843604 5.020981 0.6515853</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    E 4.840564 4.343850 4.805308 4.990054 5.025310 5.038297 0.3328819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       range</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.6048754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.5257063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.6366608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1.3730902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.6944473</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

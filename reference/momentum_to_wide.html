@@ -75,7 +75,7 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>(required, data frame) Output of <code><a href="momentum.html">momentum()</a></code>. Default: NULL</p></dd>
+<dd><p>(required, data frame) Output of <code><a href="momentum.html">momentum()</a></code>, <code><a href="momentum_ls.html">momentum_ls()</a></code>, or <code><a href="momentum_dtw.html">momentum_dtw()</a></code>. Default: NULL</p></dd>
 
 
 <dt id="arg-sep">sep<a class="anchor" aria-label="anchor" href="#arg-sep"></a></dt>
@@ -91,6 +91,7 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
     <div class="dont-index"><p>Other momentum_support:
 <code><a href="momentum_aggregate.html">momentum_aggregate</a>()</code>,
 <code><a href="momentum_boxplot.html">momentum_boxplot</a>()</code>,
+<code><a href="momentum_spatial.html">momentum_spatial</a>()</code>,
 <code><a href="momentum_stats.html">momentum_stats</a>()</code></p></div>
     </div>
 
@@ -212,13 +213,13 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_wide</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      x    y      psi most_similar most_dissimilar importance__heading</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 X132 X134 1.299380      heading               y           -38.01651</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 X132 X136 2.449381      heading     temperature          -102.98302</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 X132 X153 2.091923      heading               x           -79.35320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 X134 X136 2.358040      heading     temperature           -90.27973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 X134 X153 2.074241      heading               x           -85.02712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 X136 X153 2.666099      heading               x          -116.24619</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      x    y      psi most_similarity most_dissimilarity importance__heading</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 X132 X134 1.299380         heading                  y           -38.01651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 X132 X136 2.449381         heading        temperature          -102.98302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 X132 X153 2.091923         heading                  x           -79.35320</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 X134 X136 2.358040         heading        temperature           -90.27973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 X134 X153 2.074241         heading                  x           -85.02712</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 X136 X153 2.666099         heading                  x          -116.24619</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   importance__speed importance__temperature importance__x importance__y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         -21.91712              72.8121621      87.60660      93.95872</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         -61.17293             356.8824838      48.38459      93.52145</span>
@@ -254,20 +255,13 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4         4.839496             3.443185           2.823389</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5         4.318944             3.027265           2.408284</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6         4.126917             4.343310           3.130579</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__temperature psi_without__x psi_without__y robust__heading</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.244877       1.253464       1.232522            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.586215       2.425775       2.353934            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.127711       1.709049       1.837195            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.628667       2.332406       2.270057            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.095194       1.516331       1.903884            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 2.007003       2.362495       2.615352            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   robust__speed robust__temperature robust__x robust__y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          TRUE                TRUE      TRUE      TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          TRUE                TRUE      TRUE      TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          TRUE                TRUE      TRUE      TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          TRUE                TRUE      TRUE      TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          TRUE                TRUE      TRUE      TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          TRUE                TRUE      TRUE      TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__temperature psi_without__x psi_without__y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.244877       1.253464       1.232522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.586215       2.425775       2.353934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.127711       1.709049       1.837195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.628667       2.332406       2.270057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.095194       1.516331       1.903884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 2.007003       2.362495       2.615352</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
