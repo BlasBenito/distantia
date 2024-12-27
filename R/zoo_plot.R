@@ -189,16 +189,16 @@ zoo_plot <- function(
     x.axis.side <- 3
     y.axis.side <- 2
     xlim <- rev(ylim)
-    # ylim <- NULL
+    ylim <- NULL
     name.x <- NULL
     name.y <- name
 
-    if(!is.null(ylim)){
-      ylim <- utils_coerce_time_class(
-        x = ylim,
-        to = class(zoo::index(x))
-      )
-    }
+    # if(!is.null(ylim)){
+    #   ylim <- utils_coerce_time_class(
+    #     x = ylim,
+    #     to = class(zoo::index(x))
+    #   )
+    # }
 
   }
 

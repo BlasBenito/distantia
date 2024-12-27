@@ -36,8 +36,8 @@ Version 2.0.0 of `distantia` is a full re-write of the original package and **wi
 
 The R package **`distantia`** offers an efficient, feature-rich toolkit for managing, comparing, and analyzing time series data. It is designed to handle a wide range of scenarios, including:
 
-- Multivariate or univariate time series.
-- Regular or irregular sampling. 
+- Multivariate and univariate time series.
+- Regular and irregular sampling. 
 - Time series of different lengths.
 
 ### Key Features
@@ -46,10 +46,10 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit for mana
 
   - 10 distance metrics: see `distantia::distances`.
   - The normalized dissimilarity metric `psi`.
-  - Free and Restricted Dynamic Time Warping (DTW) for shape-based comparisons.
-  - A Lock-Step method for sample-to-sample alignment.
+  - Free and Restricted Dynamic Time Warping (DTW) for shape-based comparison.
+  - A Lock-Step method for sample-to-sample comparison
   - Restricted permutation tests for robust inferential support.
-  - Variable Importance Analysis: assessment of contribution to dissimilarity of individual variables in multivariate time series.
+  - Analysis of contribution to dissimilarity of individual variables in multivariate time series.
   - Hierarchical and K-means clustering of time series based on dissimilarity matrices.
   
 #### Computational Efficiency
@@ -61,7 +61,7 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit for mana
 #### Time Series Management Tools
 
   - Introduces **time series lists** (TSL), a versatile format for handling collections of time series stored as lists of `zoo` objects.
-  - Includes a suite of `tsl_...()` functions for generating, resampling, transforming, analyzing, and visualizing both univariate and multivariate time series.
+  - Includes a suite of `tsl_...()` functions for generating, resampling, transforming, analyzing, and visualizing univariate and multivariate time series.
 
 ## Citation
 
@@ -73,14 +73,14 @@ If you find this package useful, please cite it as:
 
 ## Install
 
-The package `distantia` can be installed from CRAN.
+Version 1.0.2 of `distantia` can be installed from CRAN.
 
 ```{r, eval = FALSE}
 install.packages("distantia")
 ```
 
 
-The development version can be installed from GitHub.
+Version 2.0.0 can be installed from GitHub.
 
 ```{r, eval = FALSE}
 remotes::install_github(
@@ -95,21 +95,17 @@ This section showcases several features of the package `distantia`. Please, chec
 
 ### Setup
 
-All heavy duty functions in `distantia` support parallelization via the [future](https://future.futureverse.org/) package, and progress bars provided by the [progressr](https://progressr.futureverse.org/) package. Unfortunately, the latter does not work in Rmarkdown documents like this one.
+All heavy duty functions in `distantia` support parallelization via the [future](https://future.futureverse.org/) package. However, due to the high efficiency of the C++ backend of `distantia`, parallel execution is only worth it for very large datasets and restricted permutation analyses.
+
+Progress bars provided by the [progressr](https://progressr.futureverse.org/) package are also available. Unfortunately, the latter does not work in Rmarkdown documents like this one.
 
 ```{r packages, message = FALSE, warning = FALSE}
-library(distantia)
+library(distantia, quietly = TRUE)
 library(future)
-library(parallelly)
 # library(progressr)
 
-
 #parallelization setup
-#only worth it for very large datasets
-# future::plan(
-#   future::multisession,
-#   workers = parallelly::availableCores() - 1
-#   )
+# future::plan(future::multisession)
 
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)
@@ -120,7 +116,7 @@ library(parallelly)
 The `albatross` data frame contains daily GPS data of 4 individuals of Waved Albatross in the Pacific captured during the summer of 2008. Below are the first 10 rows of this data frame:
 
 ```{r, echo = FALSE}
-albatross |> 
+distantia::albatross |> 
   distantia::utils_drop_geometry() |> 
   head()
 ```
@@ -129,7 +125,7 @@ The code below transforms the data to a *Time Series List* with `tsl_initialize(
 
 ```{r, fig.width=5, fig.height=4.5, out.width = "100%"}
 tsl <- tsl_initialize(
-  x = albatross,
+  x = distantia::albatross,
   name_column = "name",
   time_column = "time",
   lock_step = TRUE
@@ -143,11 +139,12 @@ tsl_plot(
   ylim = "relative"
 )
 ```
+
 ### Dissimilarity Analysis
 
 #### Lock-Step Analysis
 
-Lock-step analysis performs direct comparisons between samples observed at the same time without any time distortion. It requires time series of the same length, observed at the same times.
+Lock-step analysis performs direct comparisons between samples observed at the same time without any time distortion. It requires time series of the same length preferably observed at the same times.
 
 ```{r}
 df_ls <- distantia(
@@ -158,7 +155,7 @@ df_ls <- distantia(
 df_ls[, c("x", "y", "psi")]
 ```
 
-The "psi" column contains normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.
+The "psi" column shows normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.
 
 The function `distantia_boxplot()` enables a quick identification of the time series that are either more dissimilar (top) or similar (bottom) to others.
 
@@ -197,17 +194,22 @@ The function `distantia()` implements restricted permutation tests to assess the
 For example, the configuration below rearranges complete rows within 7-day blocks, assuming strong dependencies within rows and between observations that are close in time.
 
 ```{r}
+future::plan(future::multisession)
+
 df_dtw <- distantia(
   tsl = tsl,
   repetitions = 1000,
   permutation = "restricted_by_row",
-  block_size = 7
+  block_size = 7 #one week
 )
+
+future::plan(future::sequential)
 
 df_dtw[, c("x", "y", "psi", "p_value")]
 ```
 
-The "p_value" column represents the fraction of permutations yielding a psi score lower than the observed value. It indicates the strength of similarity between two time series. A significance threshold (e.g., 0.05, depending on iterations) helps identify strongly similar or dissimilar pairs. 
+
+The "p_value" column represents the fraction of permutations yielding a psi score lower than the observed value, and indicates the strength of similarity between two time series. A significance threshold (e.g., 0.05, depending on iterations) helps identifying pairs of time series with a robust similarity. 
 
 ### Variable Importance
 
@@ -223,7 +225,7 @@ df_importance[, c("x", "y", "variable", "importance", "effect")]
 
 Positive "importance" values indicate variables contributing to dissimilarity, while negative values indicate contribution to similarity. The function documentation provides more details on how importance scores are computed.
 
-The `momentum_boxplot()` function can provide insights into which variables contribute the most to similarity or dissimilarity.
+The `momentum_boxplot()` function provides a quick insight into which variables contribute the most to similarity or dissimilarity across all pairs of time series.
 
 ```{r, fig.width=4.5, fig.height=3, out.width = "75%"}
 momentum_boxplot(
@@ -235,7 +237,7 @@ momentum_boxplot(
 
 The package `distantia` provides tools to group together time series by dissimilarity using hierarchical or K-means clustering. The example below applies the former to the `albatross` dataset to find out groups of individuals with the most similar movement time series.
 
-```{r, fig.width=3, fig.height=2.5, out.width = "75%"}
+```{r, fig.width=2.5, fig.height=2, out.width = "75%"}
 dtw_hclust <- distantia_cluster_hclust(
   df = df_dtw,
   clusters = NULL, #automatic mode

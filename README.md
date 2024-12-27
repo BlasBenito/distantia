@@ -25,8 +25,8 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit
 for managing, comparing, and analyzing time series data. It is designed
 to handle a wide range of scenarios, including:
 
-- Multivariate or univariate time series.
-- Regular or irregular sampling.
+- Multivariate and univariate time series.
+- Regular and irregular sampling.
 - Time series of different lengths.
 
 ### Key Features
@@ -36,11 +36,11 @@ to handle a wide range of scenarios, including:
 - 10 distance metrics: see `distantia::distances`.
 - The normalized dissimilarity metric `psi`.
 - Free and Restricted Dynamic Time Warping (DTW) for shape-based
-  comparisons.
-- A Lock-Step method for sample-to-sample alignment.
+  comparison.
+- A Lock-Step method for sample-to-sample comparison
 - Restricted permutation tests for robust inferential support.
-- Variable Importance Analysis: assessment of contribution to
-  dissimilarity of individual variables in multivariate time series.
+- Analysis of contribution to dissimilarity of individual variables in
+  multivariate time series.
 - Hierarchical and K-means clustering of time series based on
   dissimilarity matrices.
 
@@ -57,8 +57,8 @@ to handle a wide range of scenarios, including:
 - Introduces **time series lists** (TSL), a versatile format for
   handling collections of time series stored as lists of `zoo` objects.
 - Includes a suite of `tsl_...()` functions for generating, resampling,
-  transforming, analyzing, and visualizing both univariate and
-  multivariate time series.
+  transforming, analyzing, and visualizing univariate and multivariate
+  time series.
 
 ## Citation
 
@@ -75,13 +75,13 @@ Dissimilarity Analysis. R package version 2.0.0. url:
 
 ## Install
 
-The package `distantia` can be installed from CRAN.
+Version 1.0.2 of `distantia` can be installed from CRAN.
 
 ``` r
 install.packages("distantia")
 ```
 
-The development version can be installed from GitHub.
+Version 2.0.0 can be installed from GitHub.
 
 ``` r
 remotes::install_github(
@@ -98,24 +98,23 @@ Please, check the **Articles** section for further details.
 ### Setup
 
 All heavy duty functions in `distantia` support parallelization via the
-[future](https://future.futureverse.org/) package, and progress bars
-provided by the [progressr](https://progressr.futureverse.org/) package.
-Unfortunately, the latter does not work in Rmarkdown documents like this
-one.
+[future](https://future.futureverse.org/) package. However, due to the
+high efficiency of the C++ backend of `distantia`, parallel execution is
+only worth it for very large datasets and restricted permutation
+analyses.
+
+Progress bars provided by the
+[progressr](https://progressr.futureverse.org/) package are also
+available. Unfortunately, the latter does not work in Rmarkdown
+documents like this one.
 
 ``` r
-library(distantia)
+library(distantia, quietly = TRUE)
 library(future)
-library(parallelly)
 # library(progressr)
 
-
 #parallelization setup
-#only worth it for very large datasets
-# future::plan(
-#   future::multisession,
-#   workers = parallelly::availableCores() - 1
-#   )
+# future::plan(future::multisession)
 
 #progress bar (does not work in Rmarkdown)
 #progressr::handlers(global = TRUE)
@@ -142,7 +141,7 @@ comparisons.
 
 ``` r
 tsl <- tsl_initialize(
-  x = albatross,
+  x = distantia::albatross,
   name_column = "name",
   time_column = "time",
   lock_step = TRUE
@@ -157,21 +156,21 @@ tsl_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" /> \###
-Dissimilarity Analysis
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+### Dissimilarity Analysis
 
 #### Lock-Step Analysis
 
 Lock-step analysis performs direct comparisons between samples observed
 at the same time without any time distortion. It requires time series of
-the same length, observed at the same times.
+the same length preferably observed at the same times.
 
 ``` r
 df_ls <- distantia(
   tsl = tsl,
   lock_step = TRUE
 )
-#> Loading required package: foreach
 
 df_ls[, c("x", "y", "psi")]
 #>      x    y      psi
@@ -183,7 +182,7 @@ df_ls[, c("x", "y", "psi")]
 #> 6 X136 X153 2.666099
 ```
 
-The “psi” column contains normalized dissimilarity values and is used to
+The “psi” column shows normalized dissimilarity values and is used to
 sort the data frame from lowest to highest dissimilarity. Hence, the
 first row shows the most similar pair of time series.
 
@@ -247,28 +246,32 @@ For example, the configuration below rearranges complete rows within
 observations that are close in time.
 
 ``` r
+future::plan(future::multisession)
+
 df_dtw <- distantia(
   tsl = tsl,
   repetitions = 1000,
   permutation = "restricted_by_row",
-  block_size = 7
+  block_size = 7 #one week
 )
+
+future::plan(future::sequential)
 
 df_dtw[, c("x", "y", "psi", "p_value")]
 #>      x    y      psi p_value
 #> 1 X132 X134 1.299380   0.001
 #> 5 X134 X153 2.074241   0.001
-#> 3 X132 X153 2.091923   0.002
-#> 4 X134 X136 2.358040   0.177
-#> 2 X132 X136 2.449381   0.544
-#> 6 X136 X153 2.666099   0.005
+#> 3 X132 X153 2.091923   0.001
+#> 4 X134 X136 2.358040   0.184
+#> 2 X132 X136 2.449381   0.499
+#> 6 X136 X153 2.666099   0.007
 ```
 
 The “p_value” column represents the fraction of permutations yielding a
-psi score lower than the observed value. It indicates the strength of
+psi score lower than the observed value, and indicates the strength of
 similarity between two time series. A significance threshold (e.g.,
-0.05, depending on iterations) helps identify strongly similar or
-dissimilar pairs.
+0.05, depending on iterations) helps identifying pairs of time series
+with a robust similarity.
 
 ### Variable Importance
 
@@ -321,8 +324,9 @@ dissimilarity, while negative values indicate contribution to
 similarity. The function documentation provides more details on how
 importance scores are computed.
 
-The `momentum_boxplot()` function can provide insights into which
-variables contribute the most to similarity or dissimilarity.
+The `momentum_boxplot()` function provides a quick insight into which
+variables contribute the most to similarity or dissimilarity across all
+pairs of time series.
 
 ``` r
 momentum_boxplot(
