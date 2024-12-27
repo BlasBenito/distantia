@@ -68,7 +68,9 @@ df_shift <- distantia_dtw_shift(
 )
 
 df_shift
-#positive shift values indicate that the samples in Kinshasa are aligned with older samples in London.
+#positive shift values indicate
+#that the samples in Kinshasa
+#are aligned with older samples in London.
 }
 \seealso{
 Other distantia_support: 
