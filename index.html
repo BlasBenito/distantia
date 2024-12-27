@@ -89,8 +89,8 @@
 </h2>
 <p>The R package <strong><code>distantia</code></strong> offers an efficient, feature-rich toolkit for managing, comparing, and analyzing time series data. It is designed to handle a wide range of scenarios, including:</p>
 <ul>
-<li>Multivariate or univariate time series.</li>
-<li>Regular or irregular sampling.</li>
+<li>Multivariate and univariate time series.</li>
+<li>Regular and irregular sampling.</li>
 <li>Time series of different lengths.</li>
 </ul>
 <div class="section level3">
@@ -102,10 +102,10 @@
 <ul>
 <li>10 distance metrics: see <code><a href="reference/distances.html">distantia::distances</a></code>.</li>
 <li>The normalized dissimilarity metric <code>psi</code>.</li>
-<li>Free and Restricted Dynamic Time Warping (DTW) for shape-based comparisons.</li>
-<li>A Lock-Step method for sample-to-sample alignment.</li>
+<li>Free and Restricted Dynamic Time Warping (DTW) for shape-based comparison.</li>
+<li>A Lock-Step method for sample-to-sample comparison</li>
 <li>Restricted permutation tests for robust inferential support.</li>
-<li>Variable Importance Analysis: assessment of contribution to dissimilarity of individual variables in multivariate time series.</li>
+<li>Analysis of contribution to dissimilarity of individual variables in multivariate time series.</li>
 <li>Hierarchical and K-means clustering of time series based on dissimilarity matrices.</li>
 </ul>
 </div>
@@ -125,7 +125,7 @@
 </h4>
 <ul>
 <li>Introduces <strong>time series lists</strong> (TSL), a versatile format for handling collections of time series stored as lists of <code>zoo</code> objects.</li>
-<li>Includes a suite of <code>tsl_...()</code> functions for generating, resampling, transforming, analyzing, and visualizing both univariate and multivariate time series.</li>
+<li>Includes a suite of <code>tsl_...()</code> functions for generating, resampling, transforming, analyzing, and visualizing univariate and multivariate time series.</li>
 </ul>
 </div>
 </div>
@@ -140,10 +140,10 @@
 <div class="section level2">
 <h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
 </h2>
-<p>The package <code>distantia</code> can be installed from CRAN.</p>
+<p>Version 1.0.2 of <code>distantia</code> can be installed from CRAN.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"distantia"</span><span class="op">)</span></span></code></pre></div>
-<p>The development version can be installed from GitHub.</p>
+<p>Version 2.0.0 can be installed from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span></span>
 <span>  repo <span class="op">=</span> <span class="st">"blasbenito/distantia"</span>, </span>
@@ -157,20 +157,15 @@
 <div class="section level3">
 <h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h3>
-<p>All heavy duty functions in <code>distantia</code> support parallelization via the <a href="https://future.futureverse.org/" class="external-link">future</a> package, and progress bars provided by the <a href="https://progressr.futureverse.org/" class="external-link">progressr</a> package. Unfortunately, the latter does not work in Rmarkdown documents like this one.</p>
+<p>All heavy duty functions in <code>distantia</code> support parallelization via the <a href="https://future.futureverse.org/" class="external-link">future</a> package. However, due to the high efficiency of the C++ backend of <code>distantia</code>, parallel execution is only worth it for very large datasets and restricted permutation analyses.</p>
+<p>Progress bars provided by the <a href="https://progressr.futureverse.org/" class="external-link">progressr</a> package are also available. Unfortunately, the latter does not work in Rmarkdown documents like this one.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/">distantia</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/">distantia</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://parallelly.futureverse.org" class="external-link">parallelly</a></span><span class="op">)</span></span>
 <span><span class="co"># library(progressr)</span></span>
 <span></span>
-<span></span>
 <span><span class="co">#parallelization setup</span></span>
-<span><span class="co">#only worth it for very large datasets</span></span>
-<span><span class="co"># future::plan(</span></span>
-<span><span class="co">#   future::multisession,</span></span>
-<span><span class="co">#   workers = parallelly::availableCores() - 1</span></span>
-<span><span class="co">#   )</span></span>
+<span><span class="co"># future::plan(future::multisession)</span></span>
 <span></span>
 <span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
 <span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
@@ -189,7 +184,7 @@
 <p>The code below transforms the data to a <em>Time Series List</em> with <code><a href="reference/tsl_initialize.html">tsl_initialize()</a></code> and applies global scaling and centering with <code><a href="reference/tsl_transform.html">tsl_transform()</a></code> and <code>f_scale_global</code> to facilitate time series comparisons.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">albatross</span>,</span>
+<span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="reference/albatross.html">albatross</a></span>,</span>
 <span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="st">"time"</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -202,17 +197,20 @@
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"> ### Dissimilarity Analysis</p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="dissimilarity-analysis">Dissimilarity Analysis<a class="anchor" aria-label="anchor" href="#dissimilarity-analysis"></a>
+</h3>
 <div class="section level4">
 <h4 id="lock-step-analysis">Lock-Step Analysis<a class="anchor" aria-label="anchor" href="#lock-step-analysis"></a>
 </h4>
-<p>Lock-step analysis performs direct comparisons between samples observed at the same time without any time distortion. It requires time series of the same length, observed at the same times.</p>
+<p>Lock-step analysis performs direct comparisons between samples observed at the same time without any time distortion. It requires time series of the same length preferably observed at the same times.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_ls</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: foreach</span></span>
 <span></span>
 <span><span class="va">df_ls</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      x    y      psi</span></span>
@@ -222,7 +220,7 @@
 <span><span class="co">#&gt; 4 X134 X136 2.270977</span></span>
 <span><span class="co">#&gt; 2 X132 X136 2.427479</span></span>
 <span><span class="co">#&gt; 6 X136 X153 2.666099</span></span></code></pre></div>
-<p>The “psi” column contains normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.</p>
+<p>The “psi” column shows normalized dissimilarity values and is used to sort the data frame from lowest to highest dissimilarity. Hence, the first row shows the most similar pair of time series.</p>
 <p>The function <code><a href="reference/distantia_boxplot.html">distantia_boxplot()</a></code> enables a quick identification of the time series that are either more dissimilar (top) or similar (bottom) to others.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/distantia_boxplot.html">distantia_boxplot</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_ls</span>, text_cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
@@ -261,22 +259,26 @@
 <p>The function <code><a href="reference/distantia.html">distantia()</a></code> implements restricted permutation tests to assess the significance of dissimilarity scores. It provides several setups to support different assumptions.</p>
 <p>For example, the configuration below rearranges complete rows within 7-day blocks, assuming strong dependencies within rows and between observations that are close in time.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html" class="external-link">multisession</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  repetitions <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  permutation <span class="op">=</span> <span class="st">"restricted_by_row"</span>,</span>
-<span>  block_size <span class="op">=</span> <span class="fl">7</span></span>
+<span>  block_size <span class="op">=</span> <span class="fl">7</span> <span class="co">#one week</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/sequential.html" class="external-link">sequential</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_dtw</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"p_value"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;      x    y      psi p_value</span></span>
 <span><span class="co">#&gt; 1 X132 X134 1.299380   0.001</span></span>
 <span><span class="co">#&gt; 5 X134 X153 2.074241   0.001</span></span>
-<span><span class="co">#&gt; 3 X132 X153 2.091923   0.002</span></span>
-<span><span class="co">#&gt; 4 X134 X136 2.358040   0.177</span></span>
-<span><span class="co">#&gt; 2 X132 X136 2.449381   0.544</span></span>
-<span><span class="co">#&gt; 6 X136 X153 2.666099   0.005</span></span></code></pre></div>
-<p>The “p_value” column represents the fraction of permutations yielding a psi score lower than the observed value. It indicates the strength of similarity between two time series. A significance threshold (e.g., 0.05, depending on iterations) helps identify strongly similar or dissimilar pairs.</p>
+<span><span class="co">#&gt; 3 X132 X153 2.091923   0.001</span></span>
+<span><span class="co">#&gt; 4 X134 X136 2.358040   0.184</span></span>
+<span><span class="co">#&gt; 2 X132 X136 2.449381   0.499</span></span>
+<span><span class="co">#&gt; 6 X136 X153 2.666099   0.007</span></span></code></pre></div>
+<p>The “p_value” column represents the fraction of permutations yielding a psi score lower than the observed value, and indicates the strength of similarity between two time series. A significance threshold (e.g., 0.05, depending on iterations) helps identifying pairs of time series with a robust similarity.</p>
 </div>
 <div class="section level3">
 <h3 id="variable-importance">Variable Importance<a class="anchor" aria-label="anchor" href="#variable-importance"></a>
@@ -320,7 +322,7 @@
 <span><span class="co">#&gt; 29 X136 X153 temperature  240.9053814 decreases similarity</span></span>
 <span><span class="co">#&gt; 30 X136 X153     heading -116.2461929 increases similarity</span></span></code></pre></div>
 <p>Positive “importance” values indicate variables contributing to dissimilarity, while negative values indicate contribution to similarity. The function documentation provides more details on how importance scores are computed.</p>
-<p>The <code><a href="reference/momentum_boxplot.html">momentum_boxplot()</a></code> function can provide insights into which variables contribute the most to similarity or dissimilarity.</p>
+<p>The <code><a href="reference/momentum_boxplot.html">momentum_boxplot()</a></code> function provides a quick insight into which variables contribute the most to similarity or dissimilarity across all pairs of time series.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/momentum_boxplot.html">momentum_boxplot</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">df_importance</span></span>
