@@ -41,7 +41,7 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_hamming_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_hellinger_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_jaccard_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/distance_lock_step_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/distance_ls_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_manhattan_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_matrix.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/distance_matrix_cpp.html</loc></url>
@@ -85,9 +85,9 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/fagus_dynamics.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/honeycomb_climate.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/honeycomb_polygons.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_legacy_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/importance_dynamic_time_warping_robust_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/importance_lock_step_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/importance_dtw_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/importance_dtw_legacy_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/importance_ls_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/index.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_aggregate.html</loc></url>
@@ -97,8 +97,6 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_spatial.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_stats.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/momentum_to_wide.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/null_psi_dynamic_time_warping_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/null_psi_lock_step_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_free_by_row_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_free_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/permute_restricted_by_row_cpp.html</loc></url>
@@ -110,10 +108,12 @@
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_cost_path_sum.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_distance_lock_step.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_distance_matrix.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/psi_dynamic_time_warping_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_dtw_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_equation.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/psi_equation_cpp.html</loc></url>
-<url><loc>https://blasbenito.github.io/distantia/reference/psi_lock_step_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_ls_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_null_dtw_cpp.html</loc></url>
+<url><loc>https://blasbenito.github.io/distantia/reference/psi_null_ls_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/subset_matrix_by_rows_cpp.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_aggregate.html</loc></url>
 <url><loc>https://blasbenito.github.io/distantia/reference/tsl_burst.html</loc></url>
