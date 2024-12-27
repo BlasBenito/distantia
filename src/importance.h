@@ -23,13 +23,13 @@ Rcpp::NumericMatrix delete_column_cpp(
     int column_index
     );
 
-Rcpp::DataFrame importance_lock_step_cpp(
+Rcpp::DataFrame importance_ls_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean"
 );
 
-Rcpp::DataFrame importance_dynamic_time_warping_legacy_cpp(
+Rcpp::DataFrame importance_dtw_legacy_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",
@@ -39,7 +39,7 @@ Rcpp::DataFrame importance_dynamic_time_warping_legacy_cpp(
     double bandwidth = 1
 );
 
-Rcpp::DataFrame importance_dynamic_time_warping_robust_cpp(
+Rcpp::DataFrame importance_dtw_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

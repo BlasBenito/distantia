@@ -63,8 +63,19 @@
 #' @autoglobal
 #' @examples
 #'
-#'#load fagus_dynamics as tsl
-#'#global centering and scaling
+#' #parallelization setup
+#' #not worth it for this data size
+#' # future::plan(
+#' #   strategy = future::multisession,
+#' #   workers = 2
+#' # )
+#'
+#' #progress bar (does not work in R examples)
+#' # progressr::handlers(global = TRUE)
+#'
+#'
+#' #load fagus_dynamics as tsl
+#' #global centering and scaling
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   name_column = "name",
@@ -83,47 +94,43 @@
 #'
 #' #dynamic time warping dissimilarity analysis
 #' #-------------------------------------------
-#' #permutation restricted by row because
-#' #ndvi depends on temperature and rainfall
-#' #block size is 6 because data is monthly
-#' #to keep permutation restricted to 6 months periods
+#' #permutation restricted by row to preserve dependency of ndvi on temperature and rainfall
+#' #block size is 3 months to permute within same season
 #' df_dtw <- distantia(
 #'   tsl = tsl,
 #'   distance = "euclidean",
-#'   repetitions = 10, #increase to 100 or more
 #'   permutation = "restricted_by_row",
-#'   block_size = 6,
+#'   block_size = 3, #months
+#'   repetitions = 10, #increase to 100 or more
 #'   seed = 1
 #' )
 #'
 #' #focus on the important details
-#' df_dtw[, c("x", "y", "psi", "p_value")]
-#' #smaller psi values indicate higher similarity
-#' #with small `repetitions` they all look the same though
-#' #p-values indicate chance of
-#' #finding a psi smaller than the observed
+#' df_dtw[, c("x", "y", "psi", "p_value", "null_mean", "null_sd")]
+#' #higher psi values indicate higher dissimilarity
+#' #p-values indicate chance of finding a random permutation with a psi smaller than the observed
 #'
 #' #visualize dynamic time warping
 #' if(interactive()){
 #'
 #'   distantia_dtw_plot(
 #'     tsl = tsl[c("Spain", "Sweden")],
-#'     distance = "euclidean",
-#'     matrix_type = "cost"
+#'     distance = "euclidean"
 #'   )
 #'
 #' }
 #'
 #' #recreating the null distribution
 #' #direct call to C++ function
-#' #use same args as in distantia() call
-#' psi_null <- null_psi_dynamic_time_warping_cpp(
+#' #use same args as distantia() call
+#' psi_null <- psi_null_dtw_cpp(
 #'   x = tsl[["Spain"]],
 #'   y = tsl[["Sweden"]],
-#'   repetitions = 10, #increase to 100 or more
 #'   distance = "euclidean",
+#'   repetitions = 10, #increase to 100 or more
+#'
 #'   permutation = "restricted_by_row",
-#'   block_size = 6,
+#'   block_size = 3,
 #'   seed = 1
 #' )
 #'
@@ -141,8 +148,8 @@ distantia <- function(
     lock_step = FALSE,
     permutation = "restricted_by_row",
     block_size = NULL,
-    repetitions = 0L,
-    seed = 1L
+    repetitions = 0,
+    seed = 1
 ){
 
 
@@ -239,20 +246,19 @@ distantia <- function(
   df_distantia <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
-    .errorhandling = "pass",
-    .options.future = list(seed = TRUE)
+    .errorhandling = "pass"
   ) %dofuture% {
 
-    p()
+    # p()
 
     df.i <- df[i, ]
 
     x <- tsl[[df.i$x]]
     y <- tsl[[df.i$y]]
 
-    if(df$lock_step[i] == TRUE){
+    if(df.i$lock_step == TRUE){
 
-      df.i$psi <- psi_lock_step_cpp(
+      df.i$psi <- psi_ls_cpp(
         x = x,
         y = y,
         distance = df.i$distance
@@ -260,7 +266,7 @@ distantia <- function(
 
       if(repetitions > 0){
 
-        psi_null <- null_psi_lock_step_cpp(
+        psi_null <- psi_null_ls_cpp(
           x = x,
           y = y,
           distance = df.i$distance,
@@ -278,21 +284,25 @@ distantia <- function(
 
     } else {
 
-      df.i$psi <- psi_dynamic_time_warping_cpp(
+      df.i$psi <- psi_dtw_cpp(
         x = x,
         y = y,
         distance = df.i$distance,
         diagonal = df.i$diagonal,
+        weighted = TRUE,
+        ignore_blocks = FALSE,
         bandwidth = df.i$bandwidth
       )
 
       if(repetitions > 0){
 
-        psi_null <- null_psi_dynamic_time_warping_cpp(
+        psi_null <- psi_null_dtw_cpp(
           x = x,
           y = y,
           distance = df.i$distance,
           diagonal = df.i$diagonal,
+          weighted = TRUE,
+          ignore_blocks = FALSE,
           bandwidth = df.i$bandwidth,
           repetitions = df.i$repetitions,
           permutation = df.i$permutation,
@@ -310,7 +320,8 @@ distantia <- function(
 
     return(df.i)
 
-  }
+  } |>
+    suppressWarnings()
 
   df_distantia <- df_distantia[order(df_distantia$psi), ]
 

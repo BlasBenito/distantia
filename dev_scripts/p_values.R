@@ -63,7 +63,7 @@
 #'
 
 
-null_psi_dynamic_time_warping_cpp(
+psi_null_dtw_cpp(
   x = tsl[[2]],
   y = tsl[[3]],
   repetitions = 100,

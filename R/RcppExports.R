@@ -591,15 +591,15 @@ distance_matrix_cpp <- function(x, y, distance = "euclidean") {
 #'   )
 #'
 #' #distance matrix
-#' dist_matrix <- distance_lock_step_cpp(
+#' dist_matrix <- distance_ls_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
 #' )
 #' @export
 #' @family Rcpp_matrix
-distance_lock_step_cpp <- function(x, y, distance = "euclidean") {
-    .Call(`_distantia_distance_lock_step_cpp`, x, y, distance)
+distance_ls_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_distance_ls_cpp`, x, y, distance)
 }
 
 #' (C++) Chebyshev Distance Between Two Vectors
@@ -804,7 +804,7 @@ delete_column_cpp <- function(x, column_index) {
 #' nrow(x) == nrow(y)
 #'
 #' #compute importance
-#' df <- importance_lock_step_cpp(
+#' df <- importance_ls_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
@@ -813,8 +813,8 @@ delete_column_cpp <- function(x, column_index) {
 #' df
 #' @family Rcpp_importance
 #' @export
-importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
-    .Call(`_distantia_importance_lock_step_cpp`, x, y, distance)
+importance_ls_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_importance_ls_cpp`, x, y, distance)
 }
 
 #' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Legacy Version)
@@ -870,7 +870,7 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' nrow(x) == nrow(y)
 #'
 #' #compute importance
-#' df <- importance_dynamic_time_warping_legacy_cpp(
+#' df <- importance_dtw_legacy_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
@@ -879,8 +879,8 @@ importance_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' df
 #' @family Rcpp_importance
 #' @export
-importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
-    .Call(`_distantia_importance_dynamic_time_warping_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks, bandwidth)
+importance_dtw_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = FALSE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_importance_dtw_legacy_cpp`, y, x, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Contribution of Individual Variables to the Dissimilarity Between Two Time Series (Robust Version)
@@ -935,7 +935,7 @@ importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclide
 #' nrow(x) == nrow(y)
 #'
 #' #compute importance
-#' df <- importance_dynamic_time_warping_robust_cpp(
+#' df <- importance_dtw_cpp(
 #'   x = x,
 #'   y = y,
 #'   distance = "euclidean"
@@ -944,8 +944,8 @@ importance_dynamic_time_warping_legacy_cpp <- function(y, x, distance = "euclide
 #' df
 #' @family Rcpp_importance
 #' @export
-importance_dynamic_time_warping_robust_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
-    .Call(`_distantia_importance_dynamic_time_warping_robust_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
+importance_dtw_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_importance_dtw_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Restricted Permutation of Complete Rows Within Blocks
@@ -1036,8 +1036,8 @@ psi_equation_cpp <- function(a, b, diagonal = TRUE) {
 #' @return numeric
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-psi_lock_step_cpp <- function(x, y, distance = "euclidean") {
-    .Call(`_distantia_psi_lock_step_cpp`, x, y, distance)
+psi_ls_cpp <- function(x, y, distance = "euclidean") {
+    .Call(`_distantia_psi_ls_cpp`, x, y, distance)
 }
 
 #' (C++) Null Distribution of the Dissimilarity Scores of Two Aligned Time Series
@@ -1065,8 +1065,8 @@ psi_lock_step_cpp <- function(x, y, distance = "euclidean") {
 #' @return numeric vector
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
-    .Call(`_distantia_null_psi_lock_step_cpp`, x, y, distance, repetitions, permutation, block_size, seed)
+psi_null_ls_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+    .Call(`_distantia_psi_null_ls_cpp`, x, y, distance, repetitions, permutation, block_size, seed)
 }
 
 #' (C++) Psi Dissimilarity Score of Two Time-Series
@@ -1091,8 +1091,8 @@ null_psi_lock_step_cpp <- function(x, y, distance = "euclidean", repetitions = 1
 #' @return numeric
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
-    .Call(`_distantia_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
+psi_dtw_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1) {
+    .Call(`_distantia_psi_dtw_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth)
 }
 
 #' (C++) Null Distribution of Dissimilarity Scores of Two Time Series
@@ -1131,7 +1131,7 @@ psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal 
 #' @return numeric vector
 #' @family Rcpp_dissimilarity_analysis
 #' @export
-null_psi_dynamic_time_warping_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
-    .Call(`_distantia_null_psi_dynamic_time_warping_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth, repetitions, permutation, block_size, seed)
+psi_null_dtw_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted = TRUE, ignore_blocks = FALSE, bandwidth = 1, repetitions = 100L, permutation = "restricted_by_row", block_size = 3L, seed = 1L) {
+    .Call(`_distantia_psi_null_dtw_cpp`, x, y, distance, diagonal, weighted, ignore_blocks, bandwidth, repetitions, permutation, block_size, seed)
 }
 

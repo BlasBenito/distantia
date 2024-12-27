@@ -20,7 +20,7 @@ Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
 Other Rcpp_matrix: 
 \code{\link{cost_matrix_diagonal_cpp}()},
 \code{\link{cost_matrix_orthogonal_cpp}()},
-\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_ls_cpp}()},
 \code{\link{distance_matrix_cpp}()}
 }
 \concept{Rcpp_matrix}

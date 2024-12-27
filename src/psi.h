@@ -11,13 +11,13 @@ double psi_equation_cpp(
     bool diagonal = false
 );
 
-double psi_lock_step_cpp(
+double psi_ls_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean"
 );
 
-Rcpp::NumericVector null_psi_lock_step_cpp(
+Rcpp::NumericVector psi_null_ls_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",
@@ -27,7 +27,7 @@ Rcpp::NumericVector null_psi_lock_step_cpp(
     int repetitions = 100
 );
 
-double psi_dynamic_time_warping_cpp(
+double psi_dtw_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",
@@ -37,7 +37,7 @@ double psi_dynamic_time_warping_cpp(
     double bandwidth = 1
 );
 
-Rcpp::NumericVector null_psi_dynamic_time_warping_cpp(
+Rcpp::NumericVector psi_null_dtw_cpp(
     Rcpp::NumericMatrix a,
     Rcpp::NumericMatrix b,
     const std::string& distance = "euclidean",

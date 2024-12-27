@@ -20,7 +20,7 @@ Considers diagonals during computation of least-costs.
 Other Rcpp_matrix: 
 \code{\link{cost_matrix_diagonal_weighted_cpp}()},
 \code{\link{cost_matrix_orthogonal_cpp}()},
-\code{\link{distance_lock_step_cpp}()},
+\code{\link{distance_ls_cpp}()},
 \code{\link{distance_matrix_cpp}()}
 }
 \concept{Rcpp_matrix}

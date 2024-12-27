@@ -54,7 +54,7 @@ psi_distance_lock_step <- function(
     distance = distance
   )[1]
 
-  d <- distance_lock_step_cpp(
+  d <- distance_ls_cpp(
     x,
     y,
     distance

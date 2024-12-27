@@ -112,7 +112,7 @@ momentum_ls <- function(
 
     df.i <- df[i, ]
 
-    importance.i <- importance_lock_step_cpp(
+    importance.i <- importance_ls_cpp(
       x = tsl[[df.i[["x"]]]],
       y = tsl[[df.i[["y"]]]],
       distance = df.i[["distance"]]

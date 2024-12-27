@@ -74,7 +74,7 @@ NumericMatrix distance_matrix_cpp(
 //'   )
 //'
 //' #distance matrix
-//' dist_matrix <- distance_lock_step_cpp(
+//' dist_matrix <- distance_ls_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -82,7 +82,7 @@ NumericMatrix distance_matrix_cpp(
 //' @export
 //' @family Rcpp_matrix
 // [[Rcpp::export]]
-double distance_lock_step_cpp(
+double distance_ls_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
@@ -93,7 +93,7 @@ double distance_lock_step_cpp(
   int yn = y.nrow();
 
   if (yn != x.nrow()) {
-    Rcpp::stop("distantia::distance_lock_step_cpp(): number of rows in 'y' and 'x' must be the same.");
+    Rcpp::stop("distantia::distance_ls_cpp(): number of rows in 'y' and 'x' must be the same.");
   }
 
   NumericVector D(yn);
@@ -163,25 +163,25 @@ dim(d)
 d[1:5, 1:5]
 
 
-message("distance_lock_step_cpp")
+message("distance_ls_cpp")
 
 y <- y[1:nrow(x), ]
 
-distance_lock_step_cpp(x, y, distance = "euclidean")
+distance_ls_cpp(x, y, distance = "euclidean")
 
-distance_lock_step_cpp(x, y, distance = "manhattan")
+distance_ls_cpp(x, y, distance = "manhattan")
 
-distance_lock_step_cpp(x, y, distance = "jaccard")
+distance_ls_cpp(x, y, distance = "jaccard")
 
-distance_lock_step_cpp(x, y, distance = "hellinger")
+distance_ls_cpp(x, y, distance = "hellinger")
 
-distance_lock_step_cpp(x, y, distance = "chi")
+distance_ls_cpp(x, y, distance = "chi")
 
-distance_lock_step_cpp(x, y, distance = "canberra")
+distance_ls_cpp(x, y, distance = "canberra")
 
-distance_lock_step_cpp(x, y, distance = "chebyshev")
+distance_ls_cpp(x, y, distance = "chebyshev")
 
-distance_lock_step_cpp(x, y, distance = "russelrao")
+distance_ls_cpp(x, y, distance = "russelrao")
 
-distance_lock_step_cpp(x, y, distance = "cosine")
+distance_ls_cpp(x, y, distance = "cosine")
 */

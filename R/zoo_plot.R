@@ -174,6 +174,14 @@ zoo_plot <- function(
     name.x <- name
     name.y <- NULL
 
+    if(!is.null(xlim)){
+      xlim <- utils_coerce_time_class(
+        x = xlim,
+        to = class(zoo::index(x))
+      )
+    }
+
+
   } else {
 
     plot.x <- df[, names(line_color)[1]]
@@ -181,9 +189,16 @@ zoo_plot <- function(
     x.axis.side <- 3
     y.axis.side <- 2
     xlim <- rev(ylim)
-    ylim <- NULL
+    # ylim <- NULL
     name.x <- NULL
     name.y <- name
+
+    if(!is.null(ylim)){
+      ylim <- utils_coerce_time_class(
+        x = ylim,
+        to = class(zoo::index(x))
+      )
+    }
 
   }
 

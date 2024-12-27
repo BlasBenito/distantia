@@ -135,7 +135,7 @@ NumericMatrix delete_column_cpp(
 //' nrow(x) == nrow(y)
 //'
 //' #compute importance
-//' df <- importance_lock_step_cpp(
+//' df <- importance_ls_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -145,7 +145,7 @@ NumericMatrix delete_column_cpp(
 //' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_lock_step_cpp(
+DataFrame importance_ls_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
@@ -153,7 +153,7 @@ DataFrame importance_lock_step_cpp(
 
   // Check dimensions of y and x
   if (y.nrow() != x.nrow() || y.ncol() != x.ncol()) {
-    Rcpp::stop("distantia::importance_lock_step_cpp(): matrices 'y' and 'x' must have the same dimensions.");
+    Rcpp::stop("distantia::importance_ls_cpp(): matrices 'y' and 'x' must have the same dimensions.");
   }
 
   //vectors to store results
@@ -164,7 +164,7 @@ DataFrame importance_lock_step_cpp(
   NumericVector importance(y.ncol());
 
   //compute psi with all variables
-  double psi_all_variables = psi_lock_step_cpp(
+  double psi_all_variables = psi_ls_cpp(
     x,
     y,
     distance
@@ -181,7 +181,7 @@ DataFrame importance_lock_step_cpp(
     NumericMatrix x_only_with = select_column_cpp(x, i);
 
     //compute psi for the column i
-    psi_only_with[i] = psi_lock_step_cpp(
+    psi_only_with[i] = psi_ls_cpp(
       y_only_with,
       x_only_with,
       distance
@@ -192,7 +192,7 @@ DataFrame importance_lock_step_cpp(
     NumericMatrix x_without = delete_column_cpp(x, i);
 
     //compute psi without the column i
-    psi_without[i] = psi_lock_step_cpp(
+    psi_without[i] = psi_ls_cpp(
       y_without,
       x_without,
       distance
@@ -272,7 +272,7 @@ DataFrame importance_lock_step_cpp(
 //' nrow(x) == nrow(y)
 //'
 //' #compute importance
-//' df <- importance_dynamic_time_warping_legacy_cpp(
+//' df <- importance_dtw_legacy_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -282,7 +282,7 @@ DataFrame importance_lock_step_cpp(
 //' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_dynamic_time_warping_legacy_cpp(
+DataFrame importance_dtw_legacy_cpp(
     NumericMatrix y,
     NumericMatrix x,
     const std::string& distance = "euclidean",
@@ -300,7 +300,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
   NumericVector importance(y.ncol());
 
   //compute psi with all variables
-  double psi_all_variables = psi_dynamic_time_warping_cpp(
+  double psi_all_variables = psi_dtw_cpp(
     x,
     y,
     distance,
@@ -321,7 +321,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
     NumericMatrix y_only_with = select_column_cpp(y, i);
 
     //compute psi only with the column i
-    psi_only_with[i] = psi_dynamic_time_warping_cpp(
+    psi_only_with[i] = psi_dtw_cpp(
       x_only_with,
       y_only_with,
       distance,
@@ -336,7 +336,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
     NumericMatrix y_without = delete_column_cpp(y, i);
 
     //compute psi without the column i
-    psi_without[i] = psi_dynamic_time_warping_cpp(
+    psi_without[i] = psi_dtw_cpp(
       x_without,
       y_without,
       distance,
@@ -419,7 +419,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
 //' nrow(x) == nrow(y)
 //'
 //' #compute importance
-//' df <- importance_dynamic_time_warping_robust_cpp(
+//' df <- importance_dtw_cpp(
 //'   x = x,
 //'   y = y,
 //'   distance = "euclidean"
@@ -429,7 +429,7 @@ DataFrame importance_dynamic_time_warping_legacy_cpp(
 //' @family Rcpp_importance
 //' @export
 // [[Rcpp::export]]
-DataFrame importance_dynamic_time_warping_robust_cpp(
+DataFrame importance_dtw_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -569,7 +569,7 @@ library(distantia)
 x <- zoo_simulate()
 y <- zoo_simulate()
 
-df <- importance_dynamic_time_warping_robust_cpp(
+df <- importance_dtw_cpp(
   x = x,
   y = y,
   distance = "manhattan"
@@ -596,10 +596,10 @@ path_update = update_path_dist_cpp(
 
 
 #overall psi value
-psi_dynamic_time_warping_cpp(x, y)
+psi_dtw_cpp(x, y)
 
 #old importance
-importance_vintage <- importance_dynamic_time_warping_legacy_cpp(
+importance_vintage <- importance_dtw_legacy_cpp(
   x,
   y
 )
@@ -607,7 +607,7 @@ importance_vintage <- importance_dynamic_time_warping_legacy_cpp(
 importance_vintage
 
 #new importance
-importance_robust <- importance_dynamic_time_warping_robust_cpp(
+importance_robust <- importance_dtw_cpp(
   x,
   y
 )
@@ -615,7 +615,7 @@ importance_robust <- importance_dynamic_time_warping_robust_cpp(
 importance_robust
 
 #lock step
-importance_lock_step <- importance_lock_step_cpp(
+importance_lock_step <- importance_ls_cpp(
   x,
   y
 )

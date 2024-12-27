@@ -12,8 +12,8 @@ distantia(
   lock_step = FALSE,
   permutation = "restricted_by_row",
   block_size = NULL,
-  repetitions = 0L,
-  seed = 1L
+  repetitions = 0,
+  seed = 1
 )
 }
 \arguments{
@@ -87,6 +87,17 @@ This function supports a parallelization setup via \code{\link[future:plan]{futu
 }
 \examples{
 
+#parallelization setup
+#not worth it for this data size
+# future::plan(
+#   strategy = future::multisession,
+#   workers = 2
+# )
+
+#progress bar (does not work in R examples)
+# progressr::handlers(global = TRUE)
+
+
 #load fagus_dynamics as tsl
 #global centering and scaling
 tsl <- tsl_initialize(
@@ -107,47 +118,43 @@ if(interactive()){
 
 #dynamic time warping dissimilarity analysis
 #-------------------------------------------
-#permutation restricted by row because
-#ndvi depends on temperature and rainfall
-#block size is 6 because data is monthly
-#to keep permutation restricted to 6 months periods
+#permutation restricted by row to preserve dependency of ndvi on temperature and rainfall
+#block size is 3 months to permute within same season
 df_dtw <- distantia(
   tsl = tsl,
   distance = "euclidean",
-  repetitions = 10, #increase to 100 or more
   permutation = "restricted_by_row",
-  block_size = 6,
+  block_size = 3, #months
+  repetitions = 10, #increase to 100 or more
   seed = 1
 )
 
 #focus on the important details
-df_dtw[, c("x", "y", "psi", "p_value")]
-#smaller psi values indicate higher similarity
-#with small `repetitions` they all look the same though
-#p-values indicate chance of
-#finding a psi smaller than the observed
+df_dtw[, c("x", "y", "psi", "p_value", "null_mean", "null_sd")]
+#higher psi values indicate higher dissimilarity
+#p-values indicate chance of finding a random permutation with a psi smaller than the observed
 
 #visualize dynamic time warping
 if(interactive()){
 
   distantia_dtw_plot(
     tsl = tsl[c("Spain", "Sweden")],
-    distance = "euclidean",
-    matrix_type = "cost"
+    distance = "euclidean"
   )
 
 }
 
 #recreating the null distribution
 #direct call to C++ function
-#use same args as in distantia() call
-psi_null <- null_psi_dynamic_time_warping_cpp(
+#use same args as distantia() call
+psi_null <- psi_null_dtw_cpp(
   x = tsl[["Spain"]],
   y = tsl[["Sweden"]],
-  repetitions = 10, #increase to 100 or more
   distance = "euclidean",
+  repetitions = 10, #increase to 100 or more
+
   permutation = "restricted_by_row",
-  block_size = 6,
+  block_size = 3,
   seed = 1
 )
 

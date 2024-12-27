@@ -4,7 +4,12 @@
 \alias{distantia_dtw_shift}
 \title{Time Shift Between Time Series}
 \usage{
-distantia_dtw_shift(tsl = NULL, distance = "euclidean", bandwidth = 1)
+distantia_dtw_shift(
+  tsl = NULL,
+  distance = "euclidean",
+  bandwidth = 1,
+  two_way = FALSE
+)
 }
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
@@ -12,12 +17,18 @@ distantia_dtw_shift(tsl = NULL, distance = "euclidean", bandwidth = 1)
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
 
 \item{bandwidth}{(optional, numeric) Proportion of space at each side of the cost matrix diagonal (aka \emph{Itakura parallelogram}) defining a valid region for dynamic time warping, used to control the flexibility of the warping path. This method prevents degenerate alignments due to differences in magnitude between time series when the data is not properly scaled. If \code{1} (default), DTW is unconstrained. If \code{0}, DTW is fully constrained and the warping path follows the matrix diagonal. Recommended values may vary depending on the nature of the data. Ignored if \code{lock_step = TRUE}. Default: 1.}
+
+\item{two_way}{(optional, logical) If TRUE, the time shift between the time series pairs \emph{y} and \emph{x} is added to the results}
 }
 \value{
 data frame
 }
 \description{
-This function computes an approximation to the time-shift between pairs of time series as the absolute time difference between pairs of observations connected by the time warping path. It returns a data frame with the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time shift. The modal and the median are the most generally accurate time-shift descriptors.
+This function computes an approximation to the time-shift between pairs of time series as the absolute time difference between pairs of observations in the time series \emph{x} and \emph{y} connected by the dynamic time warping path.
+
+If the time series are long enough, the extremes of the warping path are trimmed (5\% of the total path length each) to avoid artifacts due to early misalignments.
+
+It returns a data frame with the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation. The modal and the median are the most generally accurate time-shift descriptors.
 
 This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
 
@@ -28,39 +39,36 @@ This function requires scaled and detrended time series. Still, it might yield n
 #local scaling to focus in shape rather than values
 #polynomial detrending to make them stationary
 tsl <- tsl_init(
-  x = cities_temperature,
+  x = cities_temperature[
+    cities_temperature$name \%in\% c("London", "Kinshasa"),
+    ],
   name = "name",
   time = "time"
 ) |>
-  tsl_subset(
-    names = c("London", "Kinshasa")
-  ) |>
   tsl_transform(
     f = f_scale_local
   ) |>
   tsl_transform(
-    f = f_detrend_poly
+    f = f_detrend_poly,
+    degree = 35 #data years
   )
 
 
 if(interactive()){
   tsl_plot(
-    tsl = tsl
+    tsl = tsl,
+    guide = FALSE
   )
 }
 
 #compute shifts
 df_shift <- distantia_dtw_shift(
   tsl = tsl,
-  distance = "euclidean"
+  two_way = TRUE
 )
+
 df_shift
-
-#check alignment
-distantia_dtw_plot(
-  tsl = tsl
-)
-
+#positive shift values indicate that the samples in Kinshasa are aligned with older samples in London.
 }
 \seealso{
 Other distantia_support: 

@@ -102,7 +102,7 @@ distantia_dtw <- function(
 
     df.i <- df[i, ]
 
-    df.i$psi <- psi_dynamic_time_warping_cpp(
+    df.i$psi <- psi_dtw_cpp(
       x = tsl[[df.i[["x"]]]],
       y = tsl[[df.i[["y"]]]],
       distance = df.i[["distance"]],

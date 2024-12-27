@@ -29,9 +29,9 @@ computation of the least cost path, then one is added to the result of the equat
 }
 \seealso{
 Other Rcpp_dissimilarity_analysis: 
-\code{\link{null_psi_dynamic_time_warping_cpp}()},
-\code{\link{null_psi_lock_step_cpp}()},
-\code{\link{psi_dynamic_time_warping_cpp}()},
-\code{\link{psi_lock_step_cpp}()}
+\code{\link{psi_dtw_cpp}()},
+\code{\link{psi_ls_cpp}()},
+\code{\link{psi_null_dtw_cpp}()},
+\code{\link{psi_null_ls_cpp}()}
 }
 \concept{Rcpp_dissimilarity_analysis}

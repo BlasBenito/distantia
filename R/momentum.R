@@ -176,7 +176,7 @@ momentum <- function(
 
       df.i$robust <- TRUE
 
-      importance.i <- importance_lock_step_cpp(
+      importance.i <- importance_ls_cpp(
         x = x,
         y = y,
         distance = df.i$distance
@@ -193,7 +193,7 @@ momentum <- function(
 
       if(df.i$robust == TRUE){
 
-        importance.i <- importance_dynamic_time_warping_robust_cpp(
+        importance.i <- importance_dtw_cpp(
           x = x,
           y = y,
           distance = df.i$distance,
@@ -203,7 +203,7 @@ momentum <- function(
 
       } else {
 
-        importance.i <- importance_dynamic_time_warping_legacy_cpp(
+        importance.i <- importance_dtw_legacy_cpp(
           x = x,
           y = y,
           distance = df.i$distance,

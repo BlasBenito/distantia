@@ -59,14 +59,14 @@ double psi_equation_cpp(
 //' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
-double psi_lock_step_cpp(
+double psi_ls_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean"
 ){
 
     //pairwise distances
-    double a = distance_lock_step_cpp(
+    double a = distance_ls_cpp(
       x,
       y,
       distance
@@ -116,7 +116,7 @@ double psi_lock_step_cpp(
 //' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
-NumericVector null_psi_lock_step_cpp(
+NumericVector psi_null_ls_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -141,7 +141,7 @@ NumericVector null_psi_lock_step_cpp(
   NumericVector psi_null(repetitions);
 
   //pairwise distances
-  double a = distance_lock_step_cpp(
+  double a = distance_ls_cpp(
     x,
     y,
     distance
@@ -184,7 +184,7 @@ NumericVector null_psi_lock_step_cpp(
     );
 
     //pairwise distances
-    double a_permuted = distance_lock_step_cpp(
+    double a_permuted = distance_ls_cpp(
       permuted_y,
       permuted_x,
       distance
@@ -228,7 +228,7 @@ NumericVector null_psi_lock_step_cpp(
 //' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
-double psi_dynamic_time_warping_cpp(
+double psi_dtw_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -309,7 +309,7 @@ double psi_dynamic_time_warping_cpp(
 //' @family Rcpp_dissimilarity_analysis
 //' @export
 // [[Rcpp::export]]
-NumericVector null_psi_dynamic_time_warping_cpp(
+NumericVector psi_null_dtw_cpp(
     NumericMatrix x,
     NumericMatrix y,
     const std::string& distance = "euclidean",
@@ -420,35 +420,35 @@ library(distantia)
 x <- zoo_simulate()
 y <- zoo_simulate()
 
-psi_dynamic_time_warping_cpp(
+psi_dtw_cpp(
   x, y
 )
 
-null_values <- null_psi_dynamic_time_warping_cpp(
+null_values <- psi_null_dtw_cpp(
   x, y, permutation = "free", seed = 100
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_dynamic_time_warping_cpp(
+null_values <- psi_null_dtw_cpp(
   x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_dynamic_time_warping_cpp(
+null_values <- psi_null_dtw_cpp(
   x, y, permutation = "free_by_row"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_dynamic_time_warping_cpp(
+null_values <- psi_null_dtw_cpp(
   x, y, permutation = "restricted"
 )
 range(null_values)
 mean(null_values)
 
-null_values <- null_psi_dynamic_time_warping_cpp(
+null_values <- psi_null_dtw_cpp(
   x, y, permutation = "restricted_by_row"
 )
 range(null_values)

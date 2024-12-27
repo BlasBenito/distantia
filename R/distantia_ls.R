@@ -107,7 +107,7 @@ distantia_ls <- function(
 
     df.i <- df[i, ]
 
-    df.i$psi <- psi_lock_step_cpp(
+    df.i$psi <- psi_ls_cpp(
       x = tsl[[df.i[["x"]]]],
       y = tsl[[df.i[["y"]]]],
       distance = df.i[["distance"]]

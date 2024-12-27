@@ -112,7 +112,7 @@ momentum_dtw <- function(
 
     df.i <- df[i, ]
 
-    importance.i <- importance_dynamic_time_warping_robust_cpp(
+    importance.i <- importance_dtw_cpp(
       x = tsl[[df.i[["x"]]]],
       y = tsl[[df.i[["y"]]]],
       distance = df.i[["distance"]],
