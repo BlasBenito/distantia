@@ -82,46 +82,191 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#compute distance matrix</span></span></span>
-<span class="r-in"><span><span class="co">#on data frame with latlong coordinates</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">distance_matrix</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  df <span class="op">=</span> <span class="va">fagus_coordinates</span>,</span></span>
+<span class="r-in"><span>  df <span class="op">=</span> <span class="va">cities_coordinates</span>,</span></span>
 <span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="st">"euclidean"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#get data used to compute the matrix</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">$</span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           x        y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -2.857322 43.17743</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  7.517013 49.32505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 12.995025 56.40471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          x      y elevation distance_to_ocean solar_radiation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    99.91  13.66         8          28.89156        19388.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   -74.73   4.02       453         229.38473        16430.87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    31.38  29.74        93          97.69922        24238.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    90.00  23.31         6          50.50440        20321.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   107.18  10.45         0           0.00000        18590.33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    29.82  40.99       343          15.83333        19065.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   106.55  -5.63         0           0.00000        18513.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    67.39  24.92        98          14.19116        23848.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    15.27  -4.02       396         334.34846        19496.57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    3.23   5.63         0           0.00000        20366.58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  -77.26 -12.05         0           0.00000        24928.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12    0.00  52.24        43          63.00904        12345.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 -118.70  34.56       793          52.55949        23064.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  120.83  15.27        13          48.76958        19034.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   36.85  55.45       220         798.31944        12855.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16    2.45  49.03        91         141.24938        14119.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  -42.82 -23.31         0           0.00000        21689.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  -46.31 -23.31       715          55.59027        20473.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  120.63  31.35         5          58.69530        19710.53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  139.23  36.17        77          74.83779        17437.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    annual_cloud_cover aridity_index annual_ndvi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            44.04416    0.86442246   0.5217820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            65.11307    1.98769951   0.5221947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            10.83446    0.01118099   0.1825605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4            35.16821    1.48587675   0.4885728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5            48.15423    1.40259164   0.4978680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            34.39246    0.92583137   0.5228935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            52.73448    2.03510977   0.4667296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8            15.60892    0.12892254   0.1500496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9            49.44775    1.17530376   0.5165942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10           42.05610    1.48304883   0.3410932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11           45.10634    0.35973152   0.1481188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           44.91607    1.01168651   0.5389599</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           19.56887    0.29251825   0.3184072</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14           45.95042    2.22648105   0.5662389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15           51.60477    1.14668544   0.4313264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16           44.17474    0.96665528   0.5089241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17           39.13979    1.29409965   0.5865306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18           43.11042    1.43206262   0.6121682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           44.30517    1.28002703   0.3668733</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           44.64218    1.89125024   0.4997027</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#check matrix</span></span></span>
 <span class="r-in"><span><span class="va">m</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Spain   Germany    Sweden</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Spain    0.00000 12.059027 20.646017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Germany 12.05903  0.000000  8.951548</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sweden  20.64602  8.951548  0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    Bangkok   Bogotá      Cairo     Dhaka Ho Chi Minh City</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bangkok             0.0000 3002.803  4851.3593  933.6445        798.77820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bogotá           3002.8031    0.000  7817.4868 3924.1721       2225.87723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cairo            4851.3593 7817.487     0.0000 3918.0249       5649.94247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dhaka             933.6445 3924.172  3918.0249    0.0000       1732.34079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ho Chi Minh City  798.7782 2225.877  5649.9425 1732.3408          0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Istanbul          471.8721 2647.772  5179.5407 1302.9147        592.04304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jakarta           875.8025 2151.336  5726.8546 1809.3624         78.64539</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Karachi          4460.8082 7430.443   400.4047 3527.9193       5259.02128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kinshasa          512.8675 3069.396  4757.2967  959.2283       1048.10648</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lagos             983.3426 3969.165  3874.0706  111.7412       1779.30507</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lima             5542.6784 8512.530   713.6514 4609.9206       6340.59418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> London           7044.1747 4110.465 11892.9601 7977.0999       6246.55188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los Angeles      3765.1973 6644.806  1375.6334 2860.8727       4549.71451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Manila            354.8898 2654.350  5204.9225 1287.3749        447.59407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moscow           6582.4207 3630.359 11405.2691 7507.3434       5795.32530</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Paris            5271.9463 2343.079 10118.7859 6204.2464       4475.46015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rio De Janeiro   2305.8325 5283.231  2553.9423 1375.8370       3102.90314</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> São Paulo        1304.2781 4055.366  3816.7948  739.3494       2021.48531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Shanghai          324.5763 3320.454  4529.4882  612.1505       1122.03524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tokyo            1953.5768 1106.891  6801.7925 2885.9786       1158.84860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Istanbul    Jakarta    Karachi  Kinshasa     Lagos       Lima</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bangkok           471.8721  875.80246  4460.8082  512.8675  983.3426  5542.6784</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bogotá           2647.7722 2151.33580  7430.4429 3069.3958 3969.1651  8512.5305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cairo            5179.5407 5726.85463   400.4047 4757.2967 3874.0706   713.6514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dhaka            1302.9147 1809.36238  3527.9193  959.2283  111.7412  4609.9206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ho Chi Minh City  592.0430   78.64539  5259.0213 1048.1065 1779.3051  6340.5942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Istanbul            0.0000  656.27191  4789.4227  541.1059 1346.6568  5874.2644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jakarta           656.2719    0.00000  5335.9396 1115.0759 1856.0344  6417.3536</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Karachi          4789.4227 5335.93960     0.0000 4374.0447 3483.7215  1095.2076</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kinshasa          541.1059 1115.07590  4374.0447    0.0000 1012.8279  5457.0964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lagos            1346.6568 1856.03444  3483.7215 1012.8279    0.0000  4562.3668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lima             5874.2644 6417.35359  1095.2076 5457.0964 4562.3668     0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> London           6726.8453 6169.85163 11503.3456 7165.3470 8021.7741 12583.5287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los Angeles      4027.2112 4625.40951  1064.7754 3603.5594 2815.1725  2027.4373</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Manila            346.3919  524.43244  4814.5973  673.0344 1337.9269  5896.9808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moscow           6260.4836 5719.43065 11021.8169 6660.2999 7557.2510 12102.2138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Paris            4953.8830 4398.85935  9729.8486 5389.5288 6249.5696 10810.5529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rio De Janeiro   2648.3514 3179.50974  2164.4833 2254.1108 1323.9503  3239.0002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> São Paulo        1460.8330 2093.03889  3432.9009 1067.0558  727.3920  4511.9081</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Shanghai          735.5049 1199.17939  4139.3434  535.7489  669.5615  5221.9289</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tokyo            1654.3068 1082.95723  6411.7430 2104.0634 2934.6553  7495.0482</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      London Los Angeles    Manila     Moscow     Paris</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bangkok           7044.1747    3765.197  354.8898  6582.4207  5271.946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bogotá            4110.4645    6644.806 2654.3495  3630.3590  2343.079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cairo            11892.9601    1375.633 5204.9225 11405.2691 10118.786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dhaka             7977.0999    2860.873 1287.3749  7507.3434  6204.246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ho Chi Minh City  6246.5519    4549.715  447.5941  5795.3253  4475.460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Istanbul          6726.8453    4027.211  346.3919  6260.4836  4953.883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jakarta           6169.8516    4625.410  524.4324  5719.4307  4398.859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Karachi          11503.3456    1064.775 4814.5973 11021.8169  9729.849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kinshasa          7165.3470    3603.559  673.0344  6660.2999  5389.529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lagos             8021.7741    2815.173 1337.9269  7557.2510  6249.570</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lima             12583.5287    2027.437 5896.9808 12102.2138 10810.553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> London               0.0000   10745.847 6690.7990   912.8495  1776.493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los Angeles      10745.8473       0.000 4111.3290 10253.6384  8973.626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Manila            6690.7990    4111.329    0.0000  6229.1779  4918.437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moscow             912.8495   10253.638 6229.1779     0.0000  1431.160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Paris             1776.4932    8973.626 4918.4374  1431.1597     0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rio De Janeiro    9344.8208    1590.995 2660.3881  8873.7696  7572.336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> São Paulo         8156.6858    2593.405 1610.2336  7671.6606  6386.090</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Shanghai          7366.3480    3453.435  676.0224  6899.1448  5593.663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tokyo             5093.9558    5678.366 1599.3600  4642.2671  3321.321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  Rio De Janeiro São Paulo  Shanghai    Tokyo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bangkok                2305.832 1304.2781  324.5763 1953.577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bogotá                 5283.231 4055.3659 3320.4538 1106.891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cairo                  2553.942 3816.7948 4529.4882 6801.793</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dhaka                  1375.837  739.3494  612.1505 2885.979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ho Chi Minh City       3102.903 2021.4853 1122.0352 1158.849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Istanbul               2648.351 1460.8330  735.5049 1654.307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jakarta                3179.510 2093.0389 1199.1794 1082.957</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Karachi                2164.483 3432.9009 4139.3434 6411.743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kinshasa               2254.111 1067.0558  535.7489 2104.063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lagos                  1323.950  727.3920  669.5615 2934.655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lima                   3239.000 4511.9081 5221.9289 7495.048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> London                 9344.821 8156.6858 7366.3480 5093.956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Los Angeles            1590.995 2593.4048 3453.4354 5678.366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Manila                 2660.388 1610.2336  676.0224 1599.360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moscow                 8873.770 7671.6606 6899.1448 4642.267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Paris                  7572.336 6386.0903 5593.6630 3321.321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rio De Janeiro            0.000 1411.4209 1987.2439 4257.873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> São Paulo              1411.421    0.0000 1057.1195 3109.042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Shanghai               1987.244 1057.1195    0.0000 2274.610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tokyo                  4257.873 3109.0415 2274.6097    0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "distance"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"distance")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "euclidean"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"df")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           x        y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -2.857322 43.17743</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  7.517013 49.32505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 12.995025 56.40471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          x      y elevation distance_to_ocean solar_radiation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    99.91  13.66         8          28.89156        19388.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   -74.73   4.02       453         229.38473        16430.87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    31.38  29.74        93          97.69922        24238.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    90.00  23.31         6          50.50440        20321.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   107.18  10.45         0           0.00000        18590.33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    29.82  40.99       343          15.83333        19065.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   106.55  -5.63         0           0.00000        18513.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    67.39  24.92        98          14.19116        23848.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    15.27  -4.02       396         334.34846        19496.57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    3.23   5.63         0           0.00000        20366.58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  -77.26 -12.05         0           0.00000        24928.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12    0.00  52.24        43          63.00904        12345.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 -118.70  34.56       793          52.55949        23064.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  120.83  15.27        13          48.76958        19034.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   36.85  55.45       220         798.31944        12855.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16    2.45  49.03        91         141.24938        14119.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  -42.82 -23.31         0           0.00000        21689.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  -46.31 -23.31       715          55.59027        20473.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  120.63  31.35         5          58.69530        19710.53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  139.23  36.17        77          74.83779        17437.20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    annual_cloud_cover aridity_index annual_ndvi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            44.04416    0.86442246   0.5217820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            65.11307    1.98769951   0.5221947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            10.83446    0.01118099   0.1825605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4            35.16821    1.48587675   0.4885728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5            48.15423    1.40259164   0.4978680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            34.39246    0.92583137   0.5228935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            52.73448    2.03510977   0.4667296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8            15.60892    0.12892254   0.1500496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9            49.44775    1.17530376   0.5165942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10           42.05610    1.48304883   0.3410932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11           45.10634    0.35973152   0.1481188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           44.91607    1.01168651   0.5389599</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           19.56887    0.29251825   0.3184072</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14           45.95042    2.22648105   0.5662389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15           51.60477    1.14668544   0.4313264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16           44.17474    0.96665528   0.5089241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17           39.13979    1.29409965   0.5865306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18           43.11042    1.43206262   0.6121682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           44.30517    1.28002703   0.3668733</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           44.64218    1.89125024   0.4997027</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#compare with sf</span></span></span>
-<span class="r-in"><span><span class="co"># library(sf)</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># #remove crs to get results in degrees</span></span></span>
-<span class="r-in"><span><span class="co"># sf::st_crs(fagus_coordinates) &lt;- NA</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># #distance matrix in degrees</span></span></span>
-<span class="r-in"><span><span class="co"># sf::st_distance(</span></span></span>
-<span class="r-in"><span><span class="co">#   x = fagus_coordinates</span></span></span>
-<span class="r-in"><span><span class="co">#   )</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
