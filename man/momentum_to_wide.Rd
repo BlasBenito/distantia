@@ -54,6 +54,7 @@ df_wide
 Other momentum_support: 
 \code{\link{momentum_aggregate}()},
 \code{\link{momentum_boxplot}()},
+\code{\link{momentum_model_frame}()},
 \code{\link{momentum_spatial}()},
 \code{\link{momentum_stats}()}
 }

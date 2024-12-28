@@ -7,7 +7,7 @@
 distantia_aggregate(df = NULL, f = mean, ...)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_dtw_shift]{distantia_dtw_shift()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_time_shift]{distantia_time_shift()}}. Default: NULL}
 
 \item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
@@ -72,11 +72,11 @@ Other distantia_support:
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},
 \code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_dtw_shift}()},
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_model_frame}()},
 \code{\link{distantia_spatial}()},
 \code{\link{distantia_stats}()},
+\code{\link{distantia_time_shift}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},

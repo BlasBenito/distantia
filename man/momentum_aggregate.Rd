@@ -68,6 +68,7 @@ df
 \seealso{
 Other momentum_support: 
 \code{\link{momentum_boxplot}()},
+\code{\link{momentum_model_frame}()},
 \code{\link{momentum_spatial}()},
 \code{\link{momentum_stats}()},
 \code{\link{momentum_to_wide}()}

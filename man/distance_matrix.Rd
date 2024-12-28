@@ -21,9 +21,8 @@ Data Frame to Distance Matrix
 }
 \examples{
 #compute distance matrix
-#on data frame with latlong coordinates
 m <- distance_matrix(
-  df = fagus_coordinates,
+  df = cities_coordinates,
   name_column = "name",
   distance = "euclidean"
 )
@@ -34,16 +33,6 @@ attributes(m)$df
 #check matrix
 m
 
-#compare with sf
-# library(sf)
-#
-# #remove crs to get results in degrees
-# sf::st_crs(fagus_coordinates) <- NA
-#
-# #distance matrix in degrees
-# sf::st_distance(
-#   x = fagus_coordinates
-#   )
 }
 \seealso{
 Other distances: 

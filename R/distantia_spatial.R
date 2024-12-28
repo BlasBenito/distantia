@@ -1,13 +1,13 @@
 #' Spatial Representation of `distantia()` Data Frames
 #'
 #' @description
-#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [distantia()], [distantia_ls()], [distantia_dtw()] or [distantia_dtw_shift()] to an sf data frame.
+#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [distantia()], [distantia_ls()], [distantia_dtw()] or [distantia_time_shift()] to an sf data frame.
 #'
 #' If `network = TRUE`, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
 #'
 #' If `network = FALSE`, the sf data frame contains the geometry in the input `sf` argument. This output helps build one-to-many dissimilarity maps.
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_dtw_shift()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [distantia_time_shift()]. Default: NULL
 #' @param sf (required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. Default: NULL
 #' @param network (optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE
 #'
@@ -112,17 +112,24 @@ distantia_spatial <- function(
 
   df_type <- attributes(df)$type
 
-  if(!(df_type %in% df_types)){
-    stop("distantia::distantia/momentum_spatial(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_dtw_shift(), or distantia::momentum().", call. = FALSE)
+  if(
+    is.null(df_type) ||
+    !(df_type %in% df_types)
+    ){
+    stop("distantia::distantia/momentum_spatial(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_time_shift(), or distantia::momentum().", call. = FALSE)
   }
 
   if(df_type %in% df_type_distantia){
 
     f_name <- "distantia::distantia_spatial(): "
 
-    df <- distantia_aggregate(
-      df = df
-    )
+    if(df_type == "distantia_df"){
+
+      df <- distantia_aggregate(
+        df = df
+      )
+
+    }
   }
 
   if(df_type == df_type_momentum){
@@ -207,6 +214,11 @@ distantia_spatial <- function(
       df_mirror,
       df_self
     )
+
+    #remove duplicates
+    df$xy <- paste(df$x, df$y)
+    df <- df[!duplicated(df$xy), ]
+    df$xy <- NULL
 
     #create join column
     df[[sf_names]] <- df$y
@@ -300,9 +312,6 @@ distantia_spatial <- function(
       geometry = sf::st_sfc(sf_lines_list),
       crs = sf::st_crs(sf)
     )
-
-  ## arrange by psi ----
-  df_sf <- df_sf[order(df_sf$psi), ]
 
   ## remove id columns
   df_sf$id.x <- NULL

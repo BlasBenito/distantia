@@ -3,15 +3,13 @@
 #' @param df (required, data frame) Data frame with numeric columns to transform into a distance matrix. Default: NULL
 #' @inheritParams tsl_initialize
 #' @inheritParams distantia
-#'
 #' @return square matrix
 #' @export
 #' @autoglobal
 #' @examples
 #' #compute distance matrix
-#' #on data frame with latlong coordinates
 #' m <- distance_matrix(
-#'   df = fagus_coordinates,
+#'   df = cities_coordinates,
 #'   name_column = "name",
 #'   distance = "euclidean"
 #' )
@@ -22,16 +20,6 @@
 #' #check matrix
 #' m
 #'
-#' #compare with sf
-#' # library(sf)
-#' #
-#' # #remove crs to get results in degrees
-#' # sf::st_crs(fagus_coordinates) <- NA
-#' #
-#' # #distance matrix in degrees
-#' # sf::st_distance(
-#' #   x = fagus_coordinates
-#' #   )
 #' @family distances
 distance_matrix <- function(
     df = NULL,

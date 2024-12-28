@@ -7,7 +7,7 @@
 distantia_cluster_kmeans(df = NULL, clusters = NULL, seed = 1)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_dtw_shift]{distantia_dtw_shift()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_time_shift]{distantia_time_shift()}}. Default: NULL}
 
 \item{clusters}{(required, integer) Number of groups to generate. If NULL (default), \code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}} is used to find the number of clusters that maximizes the mean silhouette width of the clustering solution (see \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}). Default: NULL}
 
@@ -98,11 +98,11 @@ Other distantia_support:
 \code{\link{distantia_aggregate}()},
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_dtw_shift}()},
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_model_frame}()},
 \code{\link{distantia_spatial}()},
 \code{\link{distantia_stats}()},
+\code{\link{distantia_time_shift}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},

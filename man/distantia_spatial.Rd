@@ -7,7 +7,7 @@
 distantia_spatial(df = NULL, sf = NULL, network = TRUE)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_dtw_shift]{distantia_dtw_shift()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_time_shift]{distantia_time_shift()}}. Default: NULL}
 
 \item{sf}{(required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. Default: NULL}
 
@@ -17,7 +17,7 @@ distantia_spatial(df = NULL, sf = NULL, network = TRUE)
 sf data frame (LINESTRING geometry)
 }
 \description{
-Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}} or \code{\link[=distantia_dtw_shift]{distantia_dtw_shift()}} to an sf data frame.
+Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}} or \code{\link[=distantia_time_shift]{distantia_time_shift()}} to an sf data frame.
 
 If \code{network = TRUE}, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
 
@@ -93,10 +93,10 @@ Other distantia_support:
 \code{\link{distantia_boxplot}()},
 \code{\link{distantia_cluster_hclust}()},
 \code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_dtw_shift}()},
 \code{\link{distantia_matrix}()},
 \code{\link{distantia_model_frame}()},
 \code{\link{distantia_stats}()},
+\code{\link{distantia_time_shift}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()},
