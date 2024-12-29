@@ -40,7 +40,7 @@
 #'   "importance",
 #'   "effect"
 #'   )]
-#' 
+#'
 #' @family momentum
 momentum_dtw <- function(
     tsl = NULL,
@@ -62,21 +62,6 @@ momentum_dtw <- function(
 
     message(
       "distantia::momentum_dtw(): Using first value of the 'distance' argument."
-    )
-
-  }
-
-  #count rows in time series
-  row_counts <- tsl |>
-    tsl_nrow() |>
-    unlist() |>
-    unique()
-
-  if(length(row_counts) > 1){
-
-    stop(
-      "distantia::momentum_dtw(): time series in 'tsl' do not have the same number of rows, cannot perform a lock-step analysis.",
-      call. = FALSE
     )
 
   }

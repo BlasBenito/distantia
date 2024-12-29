@@ -49,10 +49,13 @@ library(dplyr, warn.conflicts = FALSE)
 library(mapview, warn.conflicts = FALSE)
 ```
 
+# Mapping Results of `distantia()` Functions
+
+The functions with the prefix `distantia` quantify time series dissimilarity and provide results that can be represented as maps.
 
 ## Example Data
 
-The examples below illustrate how to map dissimilarity scores using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`. The dataset comprises time series of weekly Covid-19 prevalence in several California counties.
+The examples in this article illustrate how to map dissimilarity scores using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`. The dataset comprises time series of weekly Covid-19 prevalence in several California counties.
 
 ```{r, fig.height=4.5}
 tsl <- distantia::tsl_initialize(
@@ -81,7 +84,7 @@ mapview::mapview(
 
 The code in this section prepares several datasets to use in the different mapping examples: 
 
-  - `df_psi`: a lock-step dissimilarity data frame with *psi* scores and p-values.
+  - `df_psi`: a lock-step dissimilarity data frame with *psi* scores and p-values from restricted permutation tests.
   - `df_stats`: dissimilarity stats of each time series against all others.
   - `df_cluster`: a hierarchical clustering based on the dissimilarity scores in `df_psi`.
 
@@ -273,7 +276,9 @@ mapview::mapview(
   layer.name = "Psi mean",
   zcol = "mean",
   label = "name",
-  col.regions = distantia::color_continuous(),
+  col.regions = distantia::color_continuous(
+    rev = TRUE
+  ),
   alpha.regions = 1
 )
 ```
@@ -313,6 +318,132 @@ mapview::mapview(
   alpha.regions = sf_cluster$alpha
 )
 ```
+# Mapping Results of `momentum()`
+
+The `momentum` functions quantify the contribution to dissimilarity of individual variables in multivariate time series. The results of `momentum` functions are slightly harder to map due to a high cardinality (number of time series times number of variables), but `distantia` provides some tools to face this challenge.
+
+## Example Data
+
+This example uses the data `eemian_pollen` and `eemian_coordinates`, which comprises nine irregular time series of pollen counts in Central Uurope from the Last Interglacial (Eemian period). This data requires a Hellinger transformation to facilitate dissimilarity analyses.
+
+```{r, warning = FALSE, fig.height=9}
+tsl <- distantia::tsl_initialize(
+  x = distantia::eemian_pollen,
+  name_column = "name",
+  time_column = "time"
+) |> 
+  distantia::tsl_transform(
+    f = distantia::f_hellinger
+  )
+
+distantia::tsl_plot(
+  tsl = tsl,
+  guide_columns = 4
+)
+```
+
+## Importance Analysis
+
+The function `momentum_dtw()` computes variable importance using a jackknife approach. The column "importance" represents contribution to similarity and dissimilarity with negative and positive values, respectively.
+
+```{r, warning = FALSE, message=FALSE}
+df_importance <- momentum_dtw(
+  tsl = tsl
+)
+
+head(df_importance, n = 20)
+```
 
 
+## Network Map
 
+The function `momentum_spatial()`, just like `distantia_spatial()`, transforms the results of `momentum` functions to an sf data frame with edges.
+
+```{r, message = FALSE, warning = FALSE}
+sf_network <- distantia::momentum_spatial(
+  df = df_importance,
+  sf = distantia::eemian_coordinates |> 
+    dplyr::select(
+      name, geometry
+    ),
+  network = TRUE
+)
+
+dplyr::glimpse(sf_network)
+```
+
+Notice that it separates the importance of each variable to a separate column, and also has two character columns named "most_similarity" and "most_dissimilarity" with the names of the variables with the highest and lowest importance scores.
+
+The map below shows the pairs of most similar time series connected with edges coded after the name of the variable that contributes the most to their similarity.
+
+```{r, message = FALSE, warning = FALSE}
+mapview::mapview(
+  distantia::eemian_coordinates,
+  layer.name = "Eemian sites - m.a.s.l",
+  label = "name",
+  zcol = "elevation",
+  col.regions = distantia::color_continuous()
+) +
+mapview::mapview(
+  sf_network |> 
+    dplyr::filter(
+      psi < mean(psi)
+    ),
+  layer.name = "Contributes to Similarity",
+  label = "most_similarity",
+  zcol = "most_similarity",
+  color = distantia::color_discrete(
+    n = length(unique(sf_network$most_similarity))
+  )
+)
+```
+
+Filtering the input even further allows to focus on specific features of the dataset at hand. For example, the map below highlights pairs of time series with high similarity driven mostly by the taxa "Frangula".
+
+```{r, warning = FALSE}
+mapview::mapview(
+  distantia::eemian_coordinates,
+  layer.name = "Eemian sites - m.a.s.l",
+  label = "name",
+  zcol = "elevation",
+  col.regions = distantia::color_continuous()
+) +
+mapview::mapview(
+  sf_network |> 
+    dplyr::filter(
+      psi < mean(psi),
+      most_similarity == "Frangula"
+    ),
+  layer.name = "Contributes to Similarity",
+  label = "most_similarity",
+  zcol = "most_similarity",
+  color = distantia::color_discrete(
+    n = 1
+  )
+)
+```
+
+Conversely, we can also map what variable makes these sites more different.
+
+```{r, warning = FALSE}
+mapview::mapview(
+  distantia::eemian_coordinates,
+  layer.name = "Eemian sites - m.a.s.l",
+  label = "name",
+  zcol = "elevation",
+  col.regions = distantia::color_continuous()
+) +
+mapview::mapview(
+  sf_network |> 
+    dplyr::filter(
+      psi < mean(psi),
+      most_similarity == "Frangula"
+    ),
+  layer.name = "Contributes to Dissimilarity",
+  label = "most_dissimilarity",
+  zcol = "most_dissimilarity",
+  color = distantia::color_discrete(
+    n = length(unique(sf_network$most_dissimilarity))
+  )
+)
+```
