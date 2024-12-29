@@ -346,7 +346,7 @@ distantia::tsl_plot(
 
 The function `momentum_dtw()` computes variable importance using a jackknife approach. The column "importance" represents contribution to similarity and dissimilarity with negative and positive values, respectively.
 
-```{r, warning = FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE}
 df_importance <- momentum_dtw(
   tsl = tsl
 )
