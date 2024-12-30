@@ -43,7 +43,7 @@
 #'
 #' #focus on the important details
 #' df_ls[, c("x", "y", "psi")]
-#' 
+#'
 #' @family distantia
 distantia_ls <- function(
     tsl = NULL,
@@ -86,13 +86,9 @@ distantia_ls <- function(
   }
 
   df <- utils_tsl_pairs(
-    tsl = tsl,
-    args_list = list(
-      distance = distance
-    )
+    tsl = tsl
   )
 
-  #add additional columns
   df$psi <- NA
 
   iterations <- seq_len(nrow(df))

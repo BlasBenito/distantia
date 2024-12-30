@@ -54,6 +54,7 @@ Other internal:
 \code{\link{utils_boxplot_common}()},
 \code{\link{utils_check_args_distantia}()},
 \code{\link{utils_check_args_matrix}()},
+\code{\link{utils_check_args_momentum}()},
 \code{\link{utils_check_args_path}()},
 \code{\link{utils_check_args_tsl}()},
 \code{\link{utils_check_args_zoo}()},

@@ -1,6 +1,125 @@
-#' Check Input Arguments of `distantia()` and `momentum()`.
+#' Check Input Arguments of `momentum()`
 #'
 #' @inheritParams momentum
+#' @return list
+#' @export
+#' @autoglobal
+#' @family internal
+utils_check_args_momentum <- function(
+    tsl = NULL,
+    distance = NULL,
+    diagonal = NULL,
+    bandwidth = NULL,
+    lock_step = NULL,
+    robust = NULL
+){
+
+  # tsl ----
+  utils_check_args_tsl(
+    tsl = tsl,
+    min_length = 2
+  )
+
+  ## count and handle NA ----
+  na_count <- tsl_count_NA(
+    tsl = tsl
+  ) |>
+    unlist()
+
+  if(sum(na_count) > 0){
+    message(
+      "distantia::utils_check_args_momentum(): ",
+      sum(na_count),
+      " NA cases were imputed with distantia::tsl_handle_NA() in these time series: '",
+      paste(names(na_count[na_count > 0]), collapse = "', '"),
+      "'."
+    )
+  }
+
+  tsl <- tsl_handle_NA(
+    tsl = tsl
+  )
+
+  ## subset cols -----
+  tsl <- tsl_subset(
+    tsl = tsl,
+    numeric_cols = TRUE,
+    shared_cols = TRUE
+  )
+
+  ## diagnose tsl ----
+  tsl_diagnose(
+    tsl = tsl,
+    full = FALSE
+  )
+
+  #distance ----
+  if(!is.null(distance)){
+
+    distance <- utils_check_distance_args(
+      distance = distance
+    )
+
+  }
+
+
+  logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
+
+
+  #diagonal ----
+  if(!is.null(diagonal)){
+
+    if(any(is.logical(diagonal) == FALSE)){
+      stop("distantia::utils_check_args_momentum(): argument 'diagonal'", logical_message, ".", call. = FALSE)
+    }
+
+  }
+
+  #bandwidth
+  if(!is.null(bandwidth)){
+
+    bandwidth[bandwidth > 1] <- 1
+    bandwidth[bandwidth < 0] <- 0
+    bandwidth <- unique(bandwidth)
+
+  }
+
+  #lock_step ----
+  if(!is.null(lock_step)){
+
+    if(any(is.logical(lock_step) == FALSE)){
+      stop("distantia::utils_check_args_momentum(): Argument 'lock_step'", logical_message)
+    }
+
+  }
+
+
+  #robust ----
+  if(!is.null(robust)){
+
+    if(any(is.logical(robust) == FALSE)){
+      stop("distantia::utils_check_args_momentum(): argument 'robust'", logical_message)
+    }
+    if(length(robust) > 1){
+      robust <- robust[1]
+      message("distantia::utils_check_args_momentum(): argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.")
+    }
+
+  }
+
+  list(
+    tsl = tsl,
+    distance = distance,
+    diagonal = diagonal,
+    bandwidth = bandwidth,
+    lock_step = lock_step,
+    robust = robust
+  )
+
+}
+
+#' Check Input Arguments of `distantia()`
+#'
 #' @inheritParams distantia
 #' @return list
 #' @export
@@ -15,8 +134,7 @@ utils_check_args_distantia <- function(
     repetitions = NULL,
     permutation = NULL,
     block_size = NULL,
-    seed = NULL,
-    robust = NULL
+    seed = NULL
 ){
 
   # tsl ----
@@ -97,21 +215,6 @@ utils_check_args_distantia <- function(
     }
 
   }
-
-
-  #robust ----
-  if(!is.null(robust)){
-
-    if(any(is.logical(robust) == FALSE)){
-      stop("distantia::utils_check_args_distantia(): argument 'robust'", logical_message)
-    }
-    if(length(robust) > 1){
-      robust <- robust[1]
-      message("distantia::utils_check_args_distantia(): argument 'robust' may either be TRUE or FALSE. Using the first option available in the input vector: '", robust, "'.", call. = FALSE)
-    }
-
-  }
-
 
   #repetitions ----
   if(!is.null(repetitions)){

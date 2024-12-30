@@ -48,7 +48,7 @@ momentum_dtw <- function(
 ){
 
   #check input arguments
-  args <- utils_check_args_distantia(
+  args <- utils_check_args_momentum(
     tsl = tsl,
     distance = distance
   )

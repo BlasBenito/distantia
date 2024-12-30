@@ -23,6 +23,7 @@ utils::globalVariables(c(
   "i", # <tsl_stats>
   "na.omit", # <tsl_stats>
   "median", # <utils_boxplot_common>
+  "robust", # <utils_check_args_distantia>
   "distances", # <utils_check_distance_args>
   "i", # <utils_cluster_hclust_optimizer>
   "i", # <utils_cluster_kmeans_optimizer>

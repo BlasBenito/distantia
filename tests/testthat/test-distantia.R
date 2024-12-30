@@ -69,8 +69,6 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
     all(df[df$x == "Germany" & df$y == "Sweden", "psi"] < df[df$x == "Spain" & df$y == "Sweden", "psi"])
   )
 
-
-
   #reproduce p-values
   psi_null <- psi_null_dtw_cpp(
     x = tsl[["Spain"]],
@@ -98,9 +96,56 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
       ]
     )
 
- #TODO: compare distantia with distantia_ls and distantia_dtw
+ #compare with distantia ls
+  df_ls <- distantia_ls(
+    tsl = tsl
+  )
 
+  df_ls <- df_ls[, c("x", "y", "psi")]
 
+  rownames(df_ls) <- NULL
 
+  df_test <- df[df$lock_step == TRUE & df$permutation == "free" & df$seed == 1 & df$distance == "euclidean", c("x", "y", "psi")]
+
+  rownames(df_test) <- NULL
+
+  expect_true(all.equal(df_ls, df_test))
+
+  #compare with distantia_dtw
+  df_dtw <- distantia_dtw(
+    tsl = tsl
+  )
+
+  df_dtw <- df_dtw[, c("x", "y", "psi")]
+
+  rownames(df_dtw) <- NULL
+
+  df_test <- df[df$lock_step == FALSE & df$diagonal == TRUE & df$bandwidth == 1 & df$permutation == "free" & df$seed == 1 & df$distance == "euclidean", c("x", "y", "psi")]
+
+  rownames(df_test) <- NULL
+
+  expect_true(all.equal(df_dtw, df_test))
+
+  #test distantia aggregate
+  df_agg <- distantia_aggregate(
+    df = df
+  )
+
+  expect_true(
+    nrow(df_agg) == 3
+  )
+
+  expect_true(all(c("x", "y", "psi") %in% colnames(df_agg)))
+
+  #test distantia stats
+  df_stats <- distantia_stats(
+    df = df
+  )
+
+  expect_true(
+    nrow(df_stats) == 3
+  )
+
+  expect_true(all(c("name", "mean", "min", "q1", "median", "q3", "max", "sd", "range") %in% colnames(df_stats)))
 
 })

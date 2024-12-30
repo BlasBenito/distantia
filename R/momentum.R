@@ -78,7 +78,7 @@
 #'   )]
 #'
 #' @family momentum
-#' 
+#'
 momentum <- function(
     tsl = NULL,
     distance = "euclidean",
@@ -89,7 +89,7 @@ momentum <- function(
 ){
 
   #check input arguments
-  args <- utils_check_args_distantia(
+  args <- utils_check_args_momentum(
     tsl = tsl,
     distance = distance,
     diagonal = diagonal,

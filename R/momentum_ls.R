@@ -40,7 +40,7 @@
 #'   "importance",
 #'   "effect"
 #'   )]
-#' 
+#'
 #' @family momentum
 momentum_ls <- function(
     tsl = NULL,
@@ -48,7 +48,7 @@ momentum_ls <- function(
 ){
 
   #check input arguments
-  args <- utils_check_args_distantia(
+  args <- utils_check_args_momentum(
     tsl = tsl,
     distance = distance
   )
