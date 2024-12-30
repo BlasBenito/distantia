@@ -1,7 +1,7 @@
 #' Default Block Size for Restricted Permutation in Dissimilarity Analyses
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param block_size (optional, integer) Row block sizes for the restricted permutation test. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the rounded one tenth of the shortest time_series in `tsl`. Default: NULL.
+#' @param block_size (optional, integer vector) Row block sizes for restricted permutation tests. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the 20% rows of the shortest time series in `tsl`. Minimum value is 2, and maximum value is 50% rows of the shortest time series in `tsl`. Default: NULL.
 #'
 #' @return integer
 #' @export
@@ -12,60 +12,30 @@ utils_block_size <- function(
     block_size = NULL
 ){
 
-  min_tsl_row <- sapply(
-    X = tsl,
-    FUN = nrow
-  ) |>
+  block_size <- as.integer(block_size)
+
+  min_tsl_row <- tsl |>
+    tsl_nrow() |>
+    unlist() |>
     min()
 
-  min_block_size <- 2
-  default_block_size <- max(floor(min_tsl_row / 10), min_block_size)
+  #default value
+  default_block_size <- floor(min_tsl_row / 5)
 
-  # default
-  if(is.null(block_size)){
-
-    message("distantia::utils_block_size(): argument 'block_size' set to ", default_block_size, ".")
+  if(
+    is.null(block_size) ||
+    any(is.integer(block_size) == FALSE)
+  ){
 
     return(default_block_size)
 
   }
 
-  #check user's input
-  block_size <- as.integer(block_size[1])
-
-  if(any(is.integer(block_size) == FALSE)){
-    stop("distantia::utils_block_size(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
-  }
-
-  # min block size ----
-
-  if(block_size < min_block_size){
-
-    warning(
-      "Argument 'block_size' is too small, setting it to ",
-      min_block_size,
-      "."
-      )
-
-    return(min_block_size)
-
-  }
-
-  # max block size ----
-  max_block_size <- floor(min_tsl_row / 2)
-
-  if(block_size > max_block_size){
-
-    warning(
-      "Argument 'block_size' is too high. Setting it to ",
-      max_block_size,
-      " (half the length of the shortest time series in 'tsl')."
-      )
-
-    return(max_block_size)
-
-  }
-
+  #remove extremes
+  block_size <- block_size[
+    block_size >= 2 &
+      block_size <= floor(min_tsl_row / 2)
+    ]
 
   block_size
 

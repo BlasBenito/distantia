@@ -44,6 +44,40 @@ utils_tsl_pairs <- function(
     y = df_args
   )
 
+  #remove invalid combinations
+
+  #remove invalid commbinations of permutation x block_size
+  free <- c("free", "free_by_row")
+
+  if(
+    all(c("permutation", "block_size") %in% colnames(df)) &&
+    any(free %in% df$permutation)
+  ){
+
+    df[df$permutation %in% free, "block_size"] <- NA
+
+  }
+
+  #remove invalid combinations of lock_step and bandwidth
+  if(
+    all(c("lock_step", "bandwidth") %in% colnames(df)) &&
+    any(df$lock_step == TRUE)
+  ){
+
+    df[df$lock_step ==TRUE, "bandwidth"] <- NA
+
+  }
+
+  #remove invalid combinations of lock_step and diagonal
+  if(
+    all(c("lock_step", "diagonal") %in% colnames(df)) &&
+    any(df$lock_step == TRUE)
+  ){
+
+    df[df$lock_step == TRUE, "diagonal"] <- NA
+
+  }
+
   df <- unique(df)
 
   df

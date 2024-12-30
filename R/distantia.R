@@ -211,6 +211,8 @@ distantia <- function(
       )
     )
 
+    df$psi <- NA
+
   } else {
 
     df <- utils_tsl_pairs(
@@ -227,15 +229,11 @@ distantia <- function(
       )
     )
 
-  }
-
-  #add additional columns
-  df$psi <- NA
-
-  if(repetitions > 0){
+    df$psi <- NA
     df$p_value <- NA
     df$null_mean <- NA
     df$null_sd <- NA
+
   }
 
   iterations <- seq_len(nrow(df))
