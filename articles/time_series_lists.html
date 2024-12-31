@@ -46,6 +46,7 @@
     <li><a class="dropdown-item" href="../articles/dynamic_time_warping_and_lock_step.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">Dynamic Time Warping vs Lock-Step</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -100,9 +101,9 @@ of dissimilarity analyses.</p>
 <p>TSL is not a class by choice, as the idea is keeping them as simple
 as possible to grant users the autonomy to create or modify them as
 needed.</p>
-<div class="section level3">
-<h3 id="zoo-time-series">Zoo Time Series<a class="anchor" aria-label="anchor" href="#zoo-time-series"></a>
-</h3>
+<div class="section level4">
+<h4 id="zoo-time-series">Zoo Time Series<a class="anchor" aria-label="anchor" href="#zoo-time-series"></a>
+</h4>
 <p>The R package <code>zoo</code> provides an S3 class of the same name
 designed to handle observations ordered by an index. It supports various
 index classes, such as Date, POSIXct, or even custom numeric or
@@ -237,9 +238,9 @@ different time, or from irregular to regular time.</li>
 internal functions to facilitate handling zoo objects within TSLs.</li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="time-series-lists-tsl">Time Series Lists (TSL)<a class="anchor" aria-label="anchor" href="#time-series-lists-tsl"></a>
-</h3>
+<div class="section level4">
+<h4 id="time-series-lists-tsl">Time Series Lists (TSL)<a class="anchor" aria-label="anchor" href="#time-series-lists-tsl"></a>
+</h4>
 <p>TSLs are <em>named</em> lists of zoo time series. The example below
 shows how to build a TSL from scratch with zoo objects. But this is not
 the most common or comfortable case, so please, visit the section
@@ -344,9 +345,9 @@ everything is ok.</p>
 <p>The function <code><a href="../reference/tsl_initialize.html">tsl_initialize()</a></code> (with the alias
 <code><a href="../reference/tsl_initialize.html">tsl_init()</a></code>) is designed to help transform several data
 structures to Time Series List.</p>
-<div class="section level3">
-<h3 id="long-data-frame-to-tsl">Long Data Frame to TSL<a class="anchor" aria-label="anchor" href="#long-data-frame-to-tsl"></a>
-</h3>
+<div class="section level4">
+<h4 id="long-data-frame-to-tsl">Long Data Frame to TSL<a class="anchor" aria-label="anchor" href="#long-data-frame-to-tsl"></a>
+</h4>
 <p>Long and tidy data frames are convenient structures to store
 multivariate time series of a reasonable size. For example, the data
 frame <code>fagus_dynamics</code> shown below has the column “name”
@@ -393,9 +394,9 @@ frame with <code><a href="../reference/tsl_to_df.html">tsl_to_df()</a></code>.</
 <span><span class="co">#&gt; 5 Germany 2001-05-01 0.6880     32.7        15.9</span></span>
 <span><span class="co">#&gt; 6 Germany 2001-06-01 0.6837     70.8        16.0</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="wide-data-frame-to-tsl">Wide Data Frame to TSL<a class="anchor" aria-label="anchor" href="#wide-data-frame-to-tsl"></a>
-</h3>
+<div class="section level4">
+<h4 id="wide-data-frame-to-tsl">Wide Data Frame to TSL<a class="anchor" aria-label="anchor" href="#wide-data-frame-to-tsl"></a>
+</h4>
 <p>A wide data frame is a useful structure to store univariate time
 series observed in different places at the same times.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -463,9 +464,9 @@ a long data frame.</p>
 <span><span class="co">#&gt; 5 evi_Spain 2001-05-01 0.4445</span></span>
 <span><span class="co">#&gt; 6 evi_Spain 2001-06-01 0.6434</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="vectors-and-matrices-to-tsl">Vectors and Matrices to TSL<a class="anchor" aria-label="anchor" href="#vectors-and-matrices-to-tsl"></a>
-</h3>
+<div class="section level4">
+<h4 id="vectors-and-matrices-to-tsl">Vectors and Matrices to TSL<a class="anchor" aria-label="anchor" href="#vectors-and-matrices-to-tsl"></a>
+</h4>
 <p>A list of numeric vectors can also be converted to TSL. In this case,
 the zoo index is a sequence of integers.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -507,9 +508,9 @@ designed to manipulate and transform them to facilitate dissimilarity
 analyses.</p>
 <p>This section offers a complete overview of these functions and their
 applications.</p>
-<div class="section level3">
-<h3 id="parallelization-setup">Parallelization Setup<a class="anchor" aria-label="anchor" href="#parallelization-setup"></a>
-</h3>
+<div class="section level4">
+<h4 id="parallelization-setup">Parallelization Setup<a class="anchor" aria-label="anchor" href="#parallelization-setup"></a>
+</h4>
 <p>The functions to manage TSLs <strong>are a bunch of
 <code>lapply</code> in a trench coat</strong>. Most use
 <code><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future.apply::future_lapply()</a></code>, a parallelized version of
@@ -534,9 +535,9 @@ work in Rmarkdown.</p>
 <code class="sourceCode R"><span><span class="co">#progress bar (does not work in Rmarkdown)</span></span>
 <span><span class="co">#progressr::handlers(global = TRUE)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="explore-tsls">Explore TSLs<a class="anchor" aria-label="anchor" href="#explore-tsls"></a>
-</h3>
+<div class="section level4">
+<h4 id="explore-tsls">Explore TSLs<a class="anchor" aria-label="anchor" href="#explore-tsls"></a>
+</h4>
 <p>This section showcases all tools available in <code>distantia</code>
 to better understand our Time Series Lists. Logically, the section
 starts with <code><a href="../reference/tsl_simulate.html">distantia::tsl_simulate()</a></code>, a function that has
@@ -668,9 +669,9 @@ stats by time series and variable to summarize the TSL values.</p>
 <span><span class="co">#&gt; 19 0.4924585 0.12809646 0.5556929 0.19879847  0.138175689 -1.0669619 0.9964616</span></span>
 <span><span class="co">#&gt; 20 0.4213054 0.15606866 0.6577968 0.25250251  0.064335980 -1.0802679 0.9962414</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="handle-na-cases">Handle NA Cases<a class="anchor" aria-label="anchor" href="#handle-na-cases"></a>
-</h3>
+<div class="section level4">
+<h4 id="handle-na-cases">Handle NA Cases<a class="anchor" aria-label="anchor" href="#handle-na-cases"></a>
+</h4>
 <p>The dissimilarity analyses implemented in version 2.0 of
 <code>distantia</code> <strong>do not support NA cases</strong> in time
 series lists. There are two alternate workflows to handle NA cases in
@@ -736,9 +737,9 @@ general because it addresses other potential issues at once.</p>
 <span><span class="co">#re-diagnose to check result</span></span>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_diagnose.html">tsl_diagnose</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
-</h3>
+<div class="section level4">
+<h4 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
+</h4>
 <p>The function <code><a href="../reference/tsl_subset.html">tsl_subset()</a></code> helps focus on particular
 <em>regions</em> of a time series list. Additionally, by default this
 function returns the numeric columns that are shared across all time
@@ -799,9 +800,9 @@ analysis between individual variables in multivariate time series.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-40-1.png" width="750"></p>
 </div>
-<div class="section level3">
-<h3 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
-</h3>
+<div class="section level4">
+<h4 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
+</h4>
 <p>Aggregation reduces time series frequency (a.k.a
 <strong>downsampling</strong>) by summarizing multiple data points into
 a single value over a specified time interval. It results in a reduction
@@ -944,9 +945,9 @@ adds a suffix to each new aggregated column.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-47-1.png" width="750"></p>
 </div>
-<div class="section level3">
-<h3 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
-</h3>
+<div class="section level4">
+<h4 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
+</h4>
 <p>Resampling is a model-based method to change the frequency of a time
 series via interpolation. It is useful to align time series that are
 irregular or have different resolutions. It is important to take in mind
@@ -1046,9 +1047,9 @@ replacing “aggregate” with “resample” in the argument
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-53-1.png" width="750"></p>
 </div>
-<div class="section level3">
-<h3 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
-</h3>
+<div class="section level4">
+<h4 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
+</h4>
 <p>Time series smoothing is used to mitigate noise in high-frequency
 time series, or to highlight general trends rather than fine-grain
 details.</p>
@@ -1067,9 +1068,9 @@ TSL.</p>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-55-1.png" width="750"></p>
-<div class="section level4">
-<h4 id="rolling-window-smoothing">Rolling-Window Smoothing<a class="anchor" aria-label="anchor" href="#rolling-window-smoothing"></a>
-</h4>
+<div class="section level5">
+<h5 id="rolling-window-smoothing">Rolling-Window Smoothing<a class="anchor" aria-label="anchor" href="#rolling-window-smoothing"></a>
+</h5>
 <p>This method computes a statistic over a fixed-width window of
 consecutive cases and replaces each central value with the computed
 statistic. It should not be applied to highly irregular time series, as
@@ -1104,9 +1105,9 @@ sizes.</p>
 The window size determines the smoothing scale, and with that, the type
 of trend highlighted in the smoothing results.</p>
 </div>
-<div class="section level4">
-<h4 id="exponential-smoothing">Exponential Smoothing<a class="anchor" aria-label="anchor" href="#exponential-smoothing"></a>
-</h4>
+<div class="section level5">
+<h5 id="exponential-smoothing">Exponential Smoothing<a class="anchor" aria-label="anchor" href="#exponential-smoothing"></a>
+</h5>
 <p>This method generates each new value as the weighted average of the
 current value and past smoothed values. This weight is defined by the
 argument <code>alpha</code> in <code><a href="../reference/tsl_smooth.html">tsl_smooth()</a></code>.</p>
@@ -1137,9 +1138,9 @@ Alpha values closer to zero produce smoother results, as the plots above
 show.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="transformations">Transformations<a class="anchor" aria-label="anchor" href="#transformations"></a>
-</h3>
+<div class="section level4">
+<h4 id="transformations">Transformations<a class="anchor" aria-label="anchor" href="#transformations"></a>
+</h4>
 <p>The function <code><a href="../reference/tsl_transform.html">tsl_transform()</a></code> applies a function
 <code>f</code> to transform the values of a TSL. The names of the
 available <code>f</code> functions can be listed with
@@ -1152,9 +1153,9 @@ available <code>f</code> functions can be listed with
 <span><span class="co">#&gt; [10] "f_proportion_sqrt"    "f_rescale_global"     "f_rescale_local"     </span></span>
 <span><span class="co">#&gt; [13] "f_scale_global"       "f_scale_local"        "f_trend_linear"      </span></span>
 <span><span class="co">#&gt; [16] "f_trend_poly"</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="scale-adjustments">Scale Adjustments<a class="anchor" aria-label="anchor" href="#scale-adjustments"></a>
-</h4>
+<div class="section level5">
+<h5 id="scale-adjustments">Scale Adjustments<a class="anchor" aria-label="anchor" href="#scale-adjustments"></a>
+</h5>
 <p>Scaling and centering multivariate time series is essential in
 dynamic time warping to ensure all variables contribute equally,
 regardless of their range or units.</p>
@@ -1284,9 +1285,9 @@ rescaling.</p>
 <span><span class="co">#&gt; 8   Spain temperature 0.32974910 0.9462366</span></span>
 <span><span class="co">#&gt; 9  Sweden temperature 0.00000000 0.8853047</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="trend-adjustments">Trend Adjustments<a class="anchor" aria-label="anchor" href="#trend-adjustments"></a>
-</h4>
+<div class="section level5">
+<h5 id="trend-adjustments">Trend Adjustments<a class="anchor" aria-label="anchor" href="#trend-adjustments"></a>
+</h5>
 <p>Removing trends in time series before applying dynamic time warping
 may help prevents inflated dissimilarity scores caused by non-stationary
 components. Detrending also ensures that the alignment generated by
@@ -1399,9 +1400,9 @@ demonstrate that the linear detrending worked as expected.</p>
 <span><span class="co">#&gt; 19         Shanghai 0.000000000000000087755817</span></span>
 <span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
-</h4>
+<div class="section level5">
+<h5 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
+</h5>
 <p>The <code>distantia</code> package offers several transformations for
 compositional data:</p>
 <ul>

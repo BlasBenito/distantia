@@ -2,10 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  articles/distantia_in_the_wild: distantia_in_the_wild.html
   articles/dynamic_time_warping_and_lock_step: dynamic_time_warping_and_lock_step.html
   articles/mapping_dissimilarity: mapping_dissimilarity.html
   articles/time_series_lists: time_series_lists.html
-last_built: 2024-12-31T09:04Z
+last_built: 2024-12-31T11:06Z
 urls:
   reference: https://blasbenito.github.io/distantia/reference
   article: https://blasbenito.github.io/distantia/articles
