@@ -96,6 +96,22 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
       ]
     )
 
+ #compare with distantia with no repetitions
+ df_distantia <- distantia(
+   tsl = tsl,
+   repetitions = 0
+ )
+
+ df_distantia <- df_distantia[, c("x", "y", "psi")]
+
+ rownames(df_distantia) <- NULL
+
+ df_test <- df[df$lock_step == FALSE & df$diagonal == TRUE & df$bandwidth == 1 & df$permutation == "free" & df$seed == 1 & df$distance == "euclidean", c("x", "y", "psi")]
+
+ rownames(df_test) <- NULL
+
+ expect_true(all.equal(df_distantia, df_test))
+
  #compare with distantia ls
   df_ls <- distantia_ls(
     tsl = tsl

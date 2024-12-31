@@ -274,8 +274,7 @@ utils_check_args_distantia <- function(
     repetitions = repetitions,
     permutation = permutation,
     block_size = block_size,
-    seed = seed,
-    robust = robust
+    seed = seed
   )
 
 }

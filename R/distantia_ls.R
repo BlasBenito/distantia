@@ -17,8 +17,9 @@
 #' @autoglobal
 #' @examples
 #'
-#'#load fagus_dynamics as tsl
-#'#global centering and scaling
+#'
+#' #load fagus_dynamics as tsl
+#' #global centering and scaling
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   name_column = "name",
@@ -41,8 +42,7 @@
 #'   distance = "euclidean"
 #' )
 #'
-#' #focus on the important details
-#' df_ls[, c("x", "y", "psi")]
+#' df_ls
 #'
 #' @family distantia
 distantia_ls <- function(
@@ -57,18 +57,7 @@ distantia_ls <- function(
   )
 
   tsl <- args$tsl
-  distance <- args$distance
-
-
-  if(length(distance) > 1){
-
-    distance <- distance[1]
-
-    message(
-      "distantia::distantia_ls(): Using first value of the 'distance' argument."
-      )
-
-  }
+  distance <- args$distance[1]
 
   #count rows in time series
   row_counts <- tsl |>
@@ -89,38 +78,30 @@ distantia_ls <- function(
     tsl = tsl
   )
 
-  df$psi <- NA
-
-  iterations <- seq_len(nrow(df))
-
   #iterate over pairs of time series
-  df_distantia <- foreach::foreach(
-    i = iterations,
-    .combine = "rbind",
+  df$psi <- foreach::foreach(
+    i = seq_len(nrow(df)),
+    .combine = "c",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
   ) %dofuture% {
 
-    df.i <- df[i, ]
-
-    df.i$psi <- psi_ls_cpp(
-      x = tsl[[df.i[["x"]]]],
-      y = tsl[[df.i[["y"]]]],
-      distance = df.i[["distance"]]
+    psi_ls_cpp(
+      x = tsl[[df[i, "x"]]],
+      y = tsl[[df[i, "y"]]],
+      distance = distance
     )
-
-    return(df.i)
 
   }
 
-  df_distantia <- df_distantia[order(df_distantia$psi), ]
+  df <- df[order(df$psi), ]
 
   #add type
   attr(
-    x = df_distantia,
+    x = df,
     which = "type"
   ) <- "distantia_df"
 
-  df_distantia
+  df
 
 }

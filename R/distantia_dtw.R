@@ -53,7 +53,7 @@
 #'
 #' }
 #'
-#' 
+#'
 #' @family distantia
 distantia_dtw <- function(
     tsl = NULL,
@@ -68,60 +68,38 @@ distantia_dtw <- function(
   )
 
   tsl <- args$tsl
-  distance <- args$distance
-
-  if(length(distance) > 1){
-
-    distance <- distance[1]
-
-    message(
-      "distantia::distantia_dtw(): Using first value of the 'distance' argument."
-    )
-
-  }
+  distance <- args$distance[1]
 
   df <- utils_tsl_pairs(
-    tsl = tsl,
-    args_list = list(
-      distance = distance
-    )
+    tsl = tsl
   )
 
-  #add additional columns
-  df$psi <- NA
-
-  iterations <- seq_len(nrow(df))
-
   #iterate over pairs of time series
-  df_distantia <- foreach::foreach(
-    i = iterations,
-    .combine = "rbind",
+  df$psi <- foreach::foreach(
+    i = seq_len(nrow(df)),
+    .combine = "c",
     .errorhandling = "pass",
     .options.future = list(seed = TRUE)
   ) %dofuture% {
 
-    df.i <- df[i, ]
-
-    df.i$psi <- psi_dtw_cpp(
-      x = tsl[[df.i[["x"]]]],
-      y = tsl[[df.i[["y"]]]],
-      distance = df.i[["distance"]],
+   psi_dtw_cpp(
+     x = tsl[[df[i, "x"]]],
+     y = tsl[[df[i, "y"]]],
+      distance = distance,
       diagonal = TRUE,
       bandwidth = 1
     )
 
-    return(df.i)
-
   }
 
-  df_distantia <- df_distantia[order(df_distantia$psi), ]
+  df <- df[order(df$psi), ]
 
   #add type
   attr(
-    x = df_distantia,
+    x = df,
     which = "type"
   ) <- "distantia_df"
 
-  df_distantia
+  df
 
 }

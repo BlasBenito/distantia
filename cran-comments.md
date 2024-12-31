@@ -1,18 +1,43 @@
-This is a new release version (v1.0.2)
+# `distantia` version 2.0.0
 
--------
+Full re-write of most computationally demanding functions with Rcpp.
+
+```r
+❯ checking installed package size ... NOTE
+    installed size is 11.2Mb
+    sub-directories of 1Mb or more:
+      libs   9.5Mb
+```
+
+It seems that on LINUX architectures (not under Windows or OSX), the CHECK returns one NOTE because the libs subdirectory is then above the 1MB threshold. 
+
+My understanding is that this inflation of the libs subdirectory is due to the use of Rcpp. Indeed, some functions of the `distantia` package have been written in C++ using Rcpp. They are needed to perform dynamic time warping and other critical operations efficiently. 
 
 
-## Test environments
-* Local: Ubuntu 18.04.2 LTS, R 3.6.0
-* Rhub
-  * macOS 10.11 El Capitan, R-release
-  * Ubuntu Linux 16.04 LTS, R-devel
-  * Ubuntu Linux 16.04 LTS, R-release
-  * Windows Server 2008 R2 SP1, R-release, 32/64 bit
-  * Windows Server 2008 R2 SP1, R-oldrel, 32/64 bit
-  * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-* win-builder (devel, release, oldrelease)
+  + Local check and tests performed in Ubuntu 20.04.6 LTS (Focal) on R 4.4.1: 0 errors, warnings, and notes.
+  + Platform checks performed with rhub::rhub_check() for all available setups:
+    + "linux"
+    + "macos"
+    + "macos-arm64"
+    + "windows"
+    + "atlas"
+    + "c23"
+    + "clang-asan"
+    + "clang16"
+    + "clang17"
+    + "clang18"
+    + "clang19"
+    + "gcc13"
+    + "gcc14"
+    + "intel"
+    + "mkl"
+    + "nold"
+    + "nosuggests"
+    + "ubuntu-clang"
+    + "ubuntu-gcc12"
+    + "ubuntu-next"
+    + "ubuntu-release"
+    + "valgrind"
 
 
 ## R CMD check results
