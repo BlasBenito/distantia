@@ -21,13 +21,13 @@ options(scipen = 9999)
 ```
 
 
-## Summary
+# Summary
 
 The R package `distantia` 2.0 introduces Time Series Lists as obect to organize time series for dissimilarity analyses, and provides a complete toolset to manage them.
 
 This article describes Time Series Lists in detail, and showcases the most common data handling procedures enabled by the new functions included in the package. 
 
-## Introduction to Time Series Lists
+# Introduction to Time Series Lists
 
 In this new version of `distantia`, groups of time series are organized as named lists of [zoo](https://cran.r-project.org/web/packages/zoo/index.html) objects. These lists are named **Time Series Lists** (TSL) within the package, and are designed to facilitate the parallelization of dissimilarity analyses. 
 
@@ -205,7 +205,7 @@ rm(my_tsl)
 ```
 
 
-## Creating TSLs
+# Creating TSLs
 
 The function `tsl_initialize()` (with the alias `tsl_init()`) is designed to help transform several data structures to Time Series List.
 
@@ -353,7 +353,7 @@ rm(tsl)
 ```
 
 
-## The TSL Toolset
+# The TSL Toolset
 
 The functions in `distantia` to handle TSLs are named after the pattern `tsl_...()`. Some of these functions are designed to explore and better understand your TSLs, while others are designed to manipulate and transform them to facilitate dissimilarity analyses.
 

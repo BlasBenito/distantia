@@ -7,8 +7,6 @@ output:
     source: false
 ---
 
-#WORK IN PROGRESS
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   eval = TRUE,
@@ -23,13 +21,11 @@ options(scipen = 9999)
 options(conflicts.policy = list(warn = FALSE))
 ```
 
-## Summary
+# Summary
 
-This article focuses on the spatial representation of dissimilarity scores.
+This article showcases different spatial representations of the outputs of `distantia()` and `momentum()`.
 
-TODO
-
-## Setup
+# Setup
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, results = "hide"}
 if (!requireNamespace("sf", quietly = TRUE)){
@@ -53,7 +49,7 @@ library(mapview, warn.conflicts = FALSE)
 
 The functions with the prefix `distantia` quantify time series dissimilarity and provide results that can be represented as maps.
 
-## Example Data
+### Example Data
 
 The examples in this article illustrate how to map dissimilarity scores using the datasets `covid_prevalence` and `covid_polygons` included with `distantia`. The dataset comprises time series of weekly Covid-19 prevalence in several California counties.
 
@@ -80,7 +76,7 @@ mapview::mapview(
 ```
 
 
-## Dissimilarity Analysis
+### Dissimilarity Analysis
 
 The code in this section prepares several datasets to use in the different mapping examples: 
 
@@ -144,7 +140,7 @@ df_cluster |>
   dplyr::glimpse()
 ```
 
-## Network Map
+### Network Map
 
 The function `distantia_spatial()` transforms the result of `distantia()` to an sf data frame with edges connecting time series coordinates or polygons. The result can be interpreted as a *dissimilarity network*. 
 
@@ -251,7 +247,7 @@ mapview::mapview(
 ```
 
 
-## Dissimilarity Stats Map
+### Dissimilarity Stats Map
 
 Mapping the dissimilarity stats of each time series may help identify places that are somewhat *special* because they show a high dissimilarity with all others, or places that are *average* and have no distinctive features.
 
@@ -283,7 +279,7 @@ mapview::mapview(
 )
 ```
 
-## Clustering Map
+### Clustering Map
 
 This section shows how to map the similarity groups resulting from `distantia::distantia_cluster_hclust()` or `distantia::distantia_cluster_kmeans()`.
 
@@ -318,11 +314,12 @@ mapview::mapview(
   alpha.regions = sf_cluster$alpha
 )
 ```
+
 # Mapping Results of `momentum()`
 
 The `momentum` functions quantify the contribution to dissimilarity of individual variables in multivariate time series. The results of `momentum` functions are slightly harder to map due to a high cardinality (number of time series times number of variables), but `distantia` provides some tools to face this challenge.
 
-## Example Data
+### Example Data
 
 This example uses the data `eemian_pollen` and `eemian_coordinates`, which comprises nine irregular time series of pollen counts in Central Uurope from the Last Interglacial (Eemian period). This data requires a Hellinger transformation to facilitate dissimilarity analyses.
 
@@ -342,7 +339,7 @@ distantia::tsl_plot(
 )
 ```
 
-## Importance Analysis
+### Importance Analysis
 
 The function `momentum_dtw()` computes variable importance using a jackknife approach. The column "importance" represents contribution to similarity and dissimilarity with negative and positive values, respectively.
 
@@ -355,7 +352,7 @@ head(df_importance, n = 20)
 ```
 
 
-## Network Map
+### Network Map
 
 The function `momentum_spatial()`, just like `distantia_spatial()`, transforms the results of `momentum` functions to an sf data frame with edges.
 

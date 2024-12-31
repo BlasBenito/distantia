@@ -220,18 +220,28 @@ test_that("`tsl_transform()` works", {
     )
   )
 
-
-  #TODO
-  #f_clr ----
-  tsl_test <- tsl_transform(
-    tsl = tsl,
-    f = f_clr
-  )
-
   #f_detrend_difference ----
   tsl_test <- tsl_transform(
     tsl = tsl,
     f = f_detrend_difference
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
   )
 
   #f_detrend_linear ----
@@ -240,10 +250,133 @@ test_that("`tsl_transform()` works", {
     f = f_detrend_linear
   )
 
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
   #f_detrend_poly ----
   tsl_test <- tsl_transform(
     tsl = tsl,
     f = f_detrend_poly
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
+  #f_trend_linear ----
+  tsl_test <- tsl_transform(
+    tsl = tsl,
+    f = f_trend_linear
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
+  #f_trend_poly ----
+  tsl_test <- tsl_transform(
+    tsl = tsl,
+    f = f_trend_poly
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
+  # Warning message:
+  #   distantia::utils_prepare_time():  duplicated time indices in 'Krumbach_I':
+  #   - value 6.8 replaced with 6.825
+  testthat::expect_warning(
+    tsl <- tsl_initialize(
+      x = eemian_pollen,
+      name_column = "name",
+      time_column = "time"
+    ) |>
+      tsl_subset(
+        names = 1:3
+      )
+  )
+
+
+  #f_clr ----
+  tsl_test <- tsl_transform(
+    tsl = tsl,
+    f = f_clr
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
   )
 
   #f_hellinger ----
@@ -252,10 +385,46 @@ test_that("`tsl_transform()` works", {
     f = f_hellinger
   )
 
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
   #f_log ----
   tsl_test <- tsl_transform(
     tsl = tsl,
     f = f_log
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
   )
 
   #f_percent ----
@@ -264,10 +433,46 @@ test_that("`tsl_transform()` works", {
     f = f_percent
   )
 
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
+  )
+
   #f_proportion ----
   tsl_test <- tsl_transform(
     tsl = tsl,
     f = f_proportion
+  )
+
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
+  )
+
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
   )
 
   #f_proportion_sqrt ----
@@ -276,18 +481,22 @@ test_that("`tsl_transform()` works", {
     f = f_proportion_sqrt
   )
 
-
-
-  #f_trend_linear ----
-  tsl_test <- tsl_transform(
-    tsl = tsl,
-    f = f_trend_linear
+  #output has same dimensions
+  expect_equal(
+    lapply(tsl_test, dim) |>
+      unlist() |>
+      unique(),
+    lapply(tsl, dim) |>
+      unlist() |>
+      unique()
   )
 
-  #f_trend_poly ----
-  tsl_test <- tsl_transform(
-    tsl = tsl,
-    f = f_trend_poly
+  #output has no NA
+  expect_equal(
+    tsl_count_NA(tsl = tsl_test) |>
+      unlist() |>
+      unique(),
+    0
   )
 
 })

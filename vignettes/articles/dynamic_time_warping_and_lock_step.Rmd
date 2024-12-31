@@ -21,11 +21,11 @@ options(scipen = 9999)
 options(conflicts.policy = list(warn = FALSE))
 ```
 
-## Summary
+# Summary
 
 The R package `distantia` provides tools for comparing time series through two distinct methods: dynamic time warping (DTW) and lock-step (LS). These approaches cater to different analysis needs: DTW for handling temporal shifts and LS for preserving temporal alignment. This article explores the conceptual foundations of both methods, their implementation in `distantia`, and showcases their practical use with code examples.
 
-## Setup
+# Setup
 
 The packages required to run the code in this article are `distantia` and `dtw`. The latter is not a dependency of `distantia`, but will help put into context key details of how DTW works.
 
@@ -47,7 +47,7 @@ library(dplyr)
 ```
 
 
-## Example data
+# Example data
 
 The `cities_temperature` dataset contains monthly temperature records for 20 cities. The code below transforms it into a Time Series List (TSL) and selects a subset of three cities with temperature time series from 2000 to 2005.
 
@@ -89,7 +89,7 @@ distantia::tsl_plot(
 )
 ```
 
-## Lock-Step (LS)
+# Lock-Step (LS)
 
 **Lock-step** methods compare values at corresponding time points, requiring time series of the same length sampled at identical times. This approach is well-suited for cases where maintaining the temporal alignment of the compared time series is crucial. The method is straightforward and computationally efficient.
 
@@ -154,7 +154,7 @@ df[, c("x", "y", "psi")]
 
 As expected, London and Paris show the most similar temperature time series, while London and Kinshasa are the most different ones.
 
-## Dynamic Time Warping
+# Dynamic Time Warping
 
 Dynamic Time Warping (DTW) warps the time axes of two time series to maximize pattern similarity, even when temporal shifts are present. This makes DTW ideal for comparing time series with similar shapes but misaligned time points. However, it is computationally more intensive and less efficient than the lock-step method, particularly for large datasets.
 
@@ -405,7 +405,7 @@ df |>
 ```
 All pairs of time series with a `psi_diff` higher than zero show warping paths that go beyond the 0.25 bandwidth.
 
-## Comparing DTW and LS
+# Comparing DTW and LS
 
 Dynamic Time Warping (DTW) and Lock-Step (LS) methods differ in scope and application.
 
@@ -459,7 +459,7 @@ df_stats <- tsl_stats(
 df_stats[, c("name", "mean")]
 ```
 
-##  Closing Thoughts
+#  Closing Thoughts
 
 The `distantia` package strikes a balance between flexibility and simplicity, enabling a more nuanced exploration of time series data. With support for both dynamic time warping and lock-step methods, it provides users with the tools needed to uncover insights while respecting the unique constraints of their data. Whether you're working on sequence alignment or strict temporal comparisons, `distantia` is designed to adapt to your analytical needs. 
 
