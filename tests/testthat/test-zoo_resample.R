@@ -3,9 +3,9 @@ test_that("`zoo_resample()` works", {
   x <- zoo_simulate(cols = 2, rows = 50, time_range = c(
     "2010-01-01",
     "2020-01-01"
-  ), irregular = TRUE
+  ), irregular = TRUE,
+  seed = 1
   )
-
 
   x_intervals <- diff(zoo::index(x))
 
