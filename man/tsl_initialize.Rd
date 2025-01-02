@@ -9,17 +9,10 @@ tsl_initialize(
   x = NULL,
   name_column = NULL,
   time_column = NULL,
-  lock_step = FALSE,
-  quiet = FALSE
+  lock_step = FALSE
 )
 
-tsl_init(
-  x = NULL,
-  name_column = NULL,
-  time_column = NULL,
-  lock_step = FALSE,
-  quiet = FALSE
-)
+tsl_init(x = NULL, name_column = NULL, time_column = NULL, lock_step = FALSE)
 }
 \arguments{
 \item{x}{(required, list or data frame) Matrix or data frame in long format, list of vectors, list of matrices, or list of zoo objects. Default: NULL.}
@@ -29,8 +22,6 @@ tsl_init(
 \item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.}
 
 \item{lock_step}{(optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in \code{time_column}.}
-
-\item{quiet}{(optional, logical) If TRUE, all messages are suppressed. Default: FALSE}
 }
 \value{
 list of matrices

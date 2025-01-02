@@ -25,7 +25,6 @@
 #' @param name_column (optional, column name) Column naming individual time series. Numeric names are converted to character with the prefix "X". Default: NULL
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
-#' @param quiet (optional, logical) If TRUE, all messages are suppressed. Default: FALSE
 #' @return list of matrices
 #' @examples
 #' #long data frame
@@ -216,8 +215,7 @@ tsl_initialize <- function(
     x = NULL,
     name_column = NULL,
     time_column = NULL,
-    lock_step = FALSE,
-    quiet = FALSE
+    lock_step = FALSE
 ){
 
   if(is.null(x)){
@@ -250,8 +248,7 @@ tsl_initialize <- function(
 
   tsl <- utils_prepare_zoo_list(
     x = x,
-    time_column = time_column,
-    lock_step = lock_step
+    time_column = time_column
   )
 
   tsl <- tsl_names_set(

@@ -106,7 +106,6 @@ tsl_diagnose <- function(
     zoo_no_colnames = "  - missing column names in zoo time series: use distantia::tsl_colnames_set() to rename columns as needed.",
     zoo_duplicated_colnames = "  - zoo time series have duplicated column names: use distantia::tsl_colnames_clean() or distantia::tsl_colnames_set() to deduplicate.",
     zoo_no_shared_columns = "  - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.",
-    #TODO: update message zoo_time_class with new function call
     zoo_time_class = "  - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.",
     zoo_non_numeric_columns = "  - columns shared across all time series must be numeric: the function distantia::tsl_subset() may help fix this issue.",
     zoo_NA_cases = "  - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().",

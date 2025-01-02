@@ -55,7 +55,6 @@ Other tsl_management:
 \code{\link{tsl_nrow}()},
 \code{\link{tsl_repair}()},
 \code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_time_class_set}()}
+\code{\link{tsl_time}()}
 }
 \concept{tsl_management}

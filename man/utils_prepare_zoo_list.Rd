@@ -4,14 +4,12 @@
 \alias{utils_prepare_zoo_list}
 \title{Convert List of Data Frames to List of Zoo Objects}
 \usage{
-utils_prepare_zoo_list(x = NULL, time_column = NULL, lock_step = FALSE)
+utils_prepare_zoo_list(x = NULL, time_column = NULL)
 }
 \arguments{
 \item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
 
-\item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, column name) Name of the column representing time, if any. Default: NULL.}
-
-\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the \code{time_column}.}
+\item{time_column}{(required, column name) Name of the column representing time, if any. Default: NULL.}
 }
 \value{
 A named list of data frames, matrices, or vectors.
@@ -20,10 +18,12 @@ A named list of data frames, matrices, or vectors.
 Convert List of Data Frames to List of Zoo Objects
 }
 \examples{
-data(mis)
-x <- tsl_initialize(
-  x = eemian_pollen,
-  name_column = "name"
+x <- utils_prepare_zoo_list(
+  x = list(
+    spain = fagus_dynamics[fagus_dynamics$name == "Spain", ],
+    sweden = fagus_dynamics[fagus_dynamics$name == "Sweden", ]
+  ),
+  time_column = "time"
 )
 }
 \seealso{

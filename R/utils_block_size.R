@@ -12,8 +12,6 @@ utils_block_size <- function(
     block_size = NULL
 ){
 
-  block_size <- as.integer(block_size)
-
   min_tsl_row <- tsl |>
     tsl_nrow() |>
     unlist() |>
@@ -22,10 +20,15 @@ utils_block_size <- function(
   #default value
   default_block_size <- floor(min_tsl_row / 5)
 
-  if(
-    is.null(block_size) ||
-    any(is.integer(block_size) == FALSE)
-  ){
+  if(is.null(block_size)){
+
+    return(default_block_size)
+
+  }
+
+  block_size <- as.integer(block_size)
+
+  if(any(!is.integer(block_size))){
 
     return(default_block_size)
 

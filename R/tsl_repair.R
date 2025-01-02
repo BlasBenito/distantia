@@ -263,27 +263,6 @@ tsl_repair <- function(
 
   }
 
-
-  #zoo time class
-  zoo.time.classes <- tsl_time(
-    tsl = tsl
-  )$class |>
-    table() |>
-    sort(decreasing = TRUE)
-
-  if(length(zoo.time.classes) != 1){
-
-    issues_structure <- c(
-      issues_structure,
-      all_issues[["zoo_time_class"]]
-    )
-
-    majority.class <- names(zoo.time.classes)[1]
-
-    #TODO add new tsl_time_class() function here
-
-  }
-
   #full repair
   if(full == TRUE){
 
@@ -371,6 +350,8 @@ tsl_repair <- function(
     )
 
   }
+
+  message("\n\n")
 
   tsl_diagnose(
     tsl = tsl,

@@ -52,7 +52,11 @@ tsl <- tsl_initialize(
   x = covid_prevalence,
   name_column = "name",
   time_column = "time"
-)
+) |>
+  #subset to shorten example runtime
+  tsl_subset(
+    names = 1:10
+  )
 
 #dissimilarity analysis
 df <- distantia_ls(tsl = tsl)
@@ -86,14 +90,13 @@ attributes(model_frame)$predictors
 attributes(model_frame)$response
 attributes(model_frame)$formula
 
-
-#linear model
-model <- lm(
-  formula = attributes(model_frame)$formula,
-  data = model_frame
-)
-
-summary(model)
+#example of linear model
+# model <- lm(
+#   formula = attributes(model_frame)$formula,
+#   data = model_frame
+# )
+#
+# summary(model)
 
 }
 \seealso{

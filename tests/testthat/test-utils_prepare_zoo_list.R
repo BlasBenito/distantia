@@ -1,4 +1,12 @@
 test_that("`utils_prepare_zoo_list()` works", {
-  expect_equal(data(mis), )
-  x <- tsl_initialize(x = eemian_pollen, name_column = "name")
+  x <- utils_prepare_zoo_list(
+    x = list(
+      spain = fagus_dynamics[fagus_dynamics$name == "Spain", ],
+      sweden = fagus_dynamics[fagus_dynamics$name == "Sweden", ]
+    ),
+    time_column = "time"
+  )
+
+  expect_equal(class(x), "list")
+  expect_equal(names(x), c("spain", "sweden"))
 })

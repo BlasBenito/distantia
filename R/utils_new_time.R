@@ -307,7 +307,7 @@ utils_new_time_type <- function(
 
   # ERROR: too many time classes ----
   if(length(time_summary$class) > 1){
-    #TODO: implement function to homogenize time class of tsl
+
     stop(
       "distantia::utils_new_time_type(): the time class of all zoo objects in 'tsl' must be the same, but they are: '",
       paste(time_summary$class, collapse = "', '"),

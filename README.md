@@ -50,7 +50,7 @@ to handle a wide range of scenarios, including:
 - **Parallel processing** managed through the
   [future](https://future.futureverse.org/) package.
 - **Efficient data handling** via
-  [zoo](https://cran.r-project.org/web/packages/zoo/index.html).
+  [zoo](https://CRAN.R-project.org/package=zoo).
 
 #### Time Series Management Tools
 

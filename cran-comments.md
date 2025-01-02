@@ -2,16 +2,27 @@
 
 Full re-write of most computationally demanding functions with Rcpp.
 
+## `devtools::check(document = FALSE)`
+
+The check returns one NOTE because the libs subdirectory is then above the 1MB threshold. 
+
 ```r
+── R CMD check results ───────────────────────────────────────── distantia 2.0.0 ────
+Duration: 3m 5.4s
+
 ❯ checking installed package size ... NOTE
     installed size is 11.2Mb
     sub-directories of 1Mb or more:
       libs   9.5Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+R CMD check succeeded
 ```
 
-It seems that on LINUX architectures (not under Windows or OSX), the CHECK returns one NOTE because the libs subdirectory is then above the 1MB threshold. 
-
 My understanding is that this inflation of the libs subdirectory is due to the use of Rcpp. Indeed, some functions of the `distantia` package have been written in C++ using Rcpp. They are needed to perform dynamic time warping and other critical operations efficiently. 
+
+
 
 
   + Local check and tests performed in Ubuntu 20.04.6 LTS (Focal) on R 4.4.1: 0 errors, warnings, and notes.

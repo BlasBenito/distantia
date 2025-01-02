@@ -56,7 +56,7 @@ The R package **`distantia`** offers an efficient, feature-rich toolkit for mana
 
   - A **C++ back-end** powered by [Rcpp](https://www.rcpp.org/).
   - **Parallel processing** managed through the [future](https://future.futureverse.org/) package.
-  - **Efficient data handling** via [zoo](https://cran.r-project.org/web/packages/zoo/index.html).
+  - **Efficient data handling** via [zoo](https://CRAN.R-project.org/package=zoo).
 
 #### Time Series Management Tools
 

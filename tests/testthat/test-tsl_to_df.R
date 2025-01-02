@@ -4,7 +4,8 @@ test_that("`tsl_to_df()` works", {
     "2020-01-01"
   ), irregular = FALSE)
   df <- tsl_to_df(tsl = tsl)
-  expect_equal(names(df), )
-  expect_equal(nrow(df), )
-  expect_equal(head(df), )
+  expect_equal(class(df), "data.frame")
+  expect_true(all(unique(unlist(tsl_colnames_get(tsl))) %in% colnames(df)))
+  expect_equal(nrow(df), sum(unlist(tsl_nrow(tsl = tsl))))
+
 })

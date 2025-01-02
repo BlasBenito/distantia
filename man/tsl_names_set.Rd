@@ -103,7 +103,6 @@ Other tsl_management:
 \code{\link{tsl_repair}()},
 \code{\link{tsl_subset}()},
 \code{\link{tsl_time}()},
-\code{\link{tsl_time_class_set}()},
 \code{\link{tsl_to_df}()}
 }
 \concept{tsl_management}

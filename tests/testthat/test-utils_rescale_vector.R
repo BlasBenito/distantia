@@ -3,5 +3,5 @@ test_that("`utils_rescale_vector()` works", {
     x = stats::rnorm(100), new_min = 0,
     new_max = 100,
   )
-  expect_equal(out, )
+  expect_equal(range(out), c(0, 100))
 })

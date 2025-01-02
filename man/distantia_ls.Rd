@@ -25,6 +25,7 @@ Minimalistic but slightly faster version of \code{\link[=distantia]{distantia()}
 }
 \examples{
 
+
 #load fagus_dynamics as tsl
 #global centering and scaling
 tsl <- tsl_initialize(
@@ -49,8 +50,7 @@ df_ls <- distantia_ls(
   distance = "euclidean"
 )
 
-#focus on the important details
-df_ls[, c("x", "y", "psi")]
+df_ls
 
 }
 \seealso{

@@ -36,7 +36,11 @@
 #'   x = covid_prevalence,
 #'   name_column = "name",
 #'   time_column = "time"
-#' )
+#' ) |>
+#'   #subset to shorten example runtime
+#'   tsl_subset(
+#'     names = 1:10
+#'   )
 #'
 #' #dissimilarity analysis
 #' df <- distantia_ls(tsl = tsl)
@@ -70,14 +74,13 @@
 #' attributes(model_frame)$response
 #' attributes(model_frame)$formula
 #'
-#'
-#' #linear model
-#' model <- lm(
-#'   formula = attributes(model_frame)$formula,
-#'   data = model_frame
-#' )
-#'
-#' summary(model)
+#' #example of linear model
+#' # model <- lm(
+#' #   formula = attributes(model_frame)$formula,
+#' #   data = model_frame
+#' # )
+#' #
+#' # summary(model)
 #'
 #' @family distantia_support
 distantia_model_frame <- function(
@@ -87,6 +90,10 @@ distantia_model_frame <- function(
     scale = TRUE,
     distance = "euclidean"
 ){
+
+  distance <- utils_check_distance_args(
+    distance = distance
+  )
 
   #df ----
   if(is.null(response_df)){
@@ -198,115 +205,115 @@ distantia_model_frame <- function(
   if(
     length(predictors_numeric_columns) == 0 &&
     is.null(attributes(predictors_df)$sf_column)
-    ){
+  ){
 
     stop(
       f_name, "argument 'predictors_df' must have at least one numeric column.",
       call. = FALSE
     )
 
+  }
+
+  #compute distances between predictors
+
+  #default predictors list
+  composite_predictors_default <- as.list(
+    predictors_numeric_columns
+  )
+
+  names(composite_predictors_default) <- predictors_numeric_columns
+
+  #predictors list
+  if(is.null(composite_predictors)){
+
+    composite_predictors <- composite_predictors_default
+
   } else {
-    #compute distances between predictors
 
-
-    #default predictors list
-    composite_predictors_default <- as.list(
-      predictors_numeric_columns
-    )
-
-    names(composite_predictors_default) <- predictors_numeric_columns
-
-    #predictors list
-    if(is.null(composite_predictors)){
-
-      composite_predictors <- composite_predictors_default
-
-    } else {
-
-      #add names if not named
-      if(is.null(names(composite_predictors))){
-        names(composite_predictors) <- sapply(
-          X = composite_predictors,
-          FUN = function(x){
-            paste(x, collapse = "_")
-          }
-        )
-      }
-
-      composite_predictors_default <- composite_predictors_default[!(names(composite_predictors_default) %in% names(composite_predictors))]
-
-      composite_predictors <- c(
-        composite_predictors,
-        composite_predictors_default
+    #add names if not named
+    if(is.null(names(composite_predictors))){
+      names(composite_predictors) <- sapply(
+        X = composite_predictors,
+        FUN = function(x){
+          paste(x, collapse = "_")
+        }
       )
-
     }
 
-    #remove geometry
-    predictors_df_no_geom <- utils_drop_geometry(
-      df = predictors_df
+    composite_predictors_default <- composite_predictors_default[!(names(composite_predictors_default) %in% names(composite_predictors))]
+
+    composite_predictors <- c(
+      composite_predictors,
+      composite_predictors_default
     )
-
-    #id df
-    response_df.id <- response_df[, "id", drop = FALSE]
-
-    #compute distance matrices
-    model_frame_list <- future.apply::future_lapply(
-      X = seq_len(length(composite_predictors)),
-      FUN = function(x){
-
-        #extract predictors columns
-        df.i <- predictors_df_no_geom[
-          ,
-          unlist(composite_predictors[[x]]),
-          drop = FALSE
-        ]
-
-        #decide if scaling is needed
-        sd_ratios <- max(sapply(X = df.i, FUN = sd)) /
-          min(sapply(X = df.i, FUN = sd))
-
-        if(sd_ratios > 10){
-
-          df.i <- df.i |>
-            scale() |>
-            as.data.frame()
-
-        }
-
-        #add name column
-        df.i[[predictors_name_column]] <- predictors_df[[predictors_name_column]]
-
-        #compute distance matrix
-        m.i <- distantia::distance_matrix(
-          df = df.i,
-          name_column = predictors_name_column,
-          distance = distance
-        )
-
-        #prepare df
-        out.df.i <- response_df.id
-
-        #extract matrix as vector
-        variable.i <- mapply(
-          FUN = function(a, b) m.i[a, b],
-          df$x,
-          df$y
-        )
-
-        names(variable.i) <- NULL
-
-        out.df.i[[names(composite_predictors)[x]]] <- variable.i
-
-        out.df.i
-
-      },
-      future.seed = NULL
-    )
-
-    names(model_frame_list) <- names(composite_predictors)
 
   }
+
+  #remove geometry
+  predictors_df_no_geom <- utils_drop_geometry(
+    df = predictors_df
+  )
+
+  #id df
+  response_df.id <- response_df[, "id", drop = FALSE]
+
+  #compute distance matrices
+  model_frame_list <- future.apply::future_lapply(
+    X = seq_len(length(composite_predictors)),
+    FUN = function(x){
+
+      #extract predictors columns
+      df.i <- predictors_df_no_geom[
+        ,
+        unlist(composite_predictors[[x]]),
+        drop = FALSE
+      ]
+
+      #decide if scaling is needed
+      sd_ratios <- max(sapply(X = df.i, FUN = sd)) /
+        min(sapply(X = df.i, FUN = sd))
+
+      if(sd_ratios > 10){
+
+        df.i <- df.i |>
+          scale() |>
+          as.data.frame()
+
+      }
+
+      #add name column
+      df.i[[predictors_name_column]] <- predictors_df[[predictors_name_column]]
+
+      #compute distance matrix
+      m.i <- distantia::distance_matrix(
+        df = df.i,
+        name_column = predictors_name_column,
+        distance = distance
+      )
+
+      #prepare df
+      out.df.i <- response_df.id
+
+      #extract matrix as vector
+      variable.i <- mapply(
+        FUN = function(a, b) m.i[a, b],
+        response_df$x,
+        response_df$y
+      )
+
+      names(variable.i) <- NULL
+
+      out.df.i[[names(composite_predictors)[x]]] <- variable.i
+
+      out.df.i
+
+    },
+    future.seed = NULL
+  )
+
+  names(model_frame_list) <- names(composite_predictors)
+
+
 
   #add geographic distance if predictors_df is an sf data frame
   if(!is.null(attributes(predictors_df)$sf_column)){

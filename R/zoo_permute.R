@@ -93,7 +93,7 @@
 #'     guide = FALSE
 #'   )
 #' }
-#' 
+#'
 #' @family zoo_functions
 zoo_permute <- function(
     x = NULL,
@@ -135,10 +135,6 @@ zoo_permute <- function(
   repetitions <- seq_len(repetitions)
 
   p <- progressr::progressor(along = repetitions)
-
-  #to silence loading messages
-
-
 
   permutations <- foreach::foreach(
     i = repetitions,

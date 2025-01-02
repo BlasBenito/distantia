@@ -55,7 +55,7 @@ utils_prepare_time <- function(
     unique()
 
   #check if it can be coerced to numeric
-  if(all(x.time.numeric) == FALSE){
+  if(all(x.time.numeric == FALSE)){
 
     x.time.numeric <- lapply(
       X = x,
@@ -65,6 +65,7 @@ utils_prepare_time <- function(
       }
     ) |>
       unlist()
+
   }
 
   #names of elements with no time

@@ -225,8 +225,6 @@ tsl_subset <- function(
       unique() |>
       stats::na.omit()
 
-    #TODO: remove zoo objects with no shared columns, and return a warning like the one used in numeric_cols == TRUE
-
     if(length(shared_cols) == 0){
 
       warning("distantia::tsl_subset(): zoo objects within 'tsl' have no shared columns. Ignoring subsetting of shared columns.", call. = FALSE)
