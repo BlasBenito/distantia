@@ -36,7 +36,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">In The Wild</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -123,7 +123,6 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <code><a href="tsl_nrow.html">tsl_nrow</a>()</code>,
 <code><a href="tsl_repair.html">tsl_repair</a>()</code>,
 <code><a href="tsl_subset.html">tsl_subset</a>()</code>,
-<code><a href="tsl_time_class_set.html">tsl_time_class_set</a>()</code>,
 <code><a href="tsl_to_df.html">tsl_to_df</a>()</code></p></div>
     </div>
 
@@ -145,9 +144,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  134  Date  days 363.6355   2.734102 2024-01-01 2024-12-30 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  148  Date  days 360.6768   2.453584 2024-01-04 2024-12-29 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  117  Date  days 362.6552   3.126338 2024-01-01 2024-12-28 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  132  Date  days 360.1518   2.749250 2024-01-06 2024-12-31 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  132  Date  days 364.3074   2.780973 2024-01-03 2025-01-01 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  133  Date  days 359.5009   2.723492 2024-01-06 2024-12-30 quarters....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -160,19 +159,19 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-01-01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-01-03"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-12-30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2025-01-01"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6175973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6873823</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_min</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14.85011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15.92979</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "years"    "quarters" "months"   "weeks"    "days"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "quarters" "months"   "weeks"    "days"     "years"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $units_df</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   factor base_units    units threshold keyword</span>

@@ -58,7 +58,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">In The Wild</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -96,17 +96,10 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  name_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  time_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tsl_init</span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  name_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  time_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">tsl_init</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, name_column <span class="op">=</span> <span class="cn">NULL</span>, time_column <span class="op">=</span> <span class="cn">NULL</span>, lock_step <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -127,10 +120,6 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 
 <dt id="arg-lock-step">lock_step<a class="anchor" aria-label="anchor" href="#arg-lock-step"></a></dt>
 <dd><p>(optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in <code>time_column</code>.</p></dd>
-
-
-<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>(optional, logical) If TRUE, all messages are suppressed. Default: FALSE</p></dd>
 
 </dl></div>
     <div class="section level2">
