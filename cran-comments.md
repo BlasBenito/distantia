@@ -2,6 +2,15 @@
 
 Full re-write of most computationally demanding functions with Rcpp.
 
+## Local check
+
+```bash
+export VALGRIND_OPTS="--leak-check=full --track-origins=yes"
+R CMD check --as-cran --use-valgrind distantia_2.0.0.tar.gz
+
+
+```
+
 ## `devtools::check(document = FALSE)`
 
 The check returns one NOTE because the libs subdirectory is then above the 1MB threshold. 

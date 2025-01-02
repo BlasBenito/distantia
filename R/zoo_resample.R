@@ -160,7 +160,7 @@
 #'   )
 #'
 #' }
-#' 
+#'
 #' @family zoo_functions
 zoo_resample <- function(
     x = NULL,
@@ -223,7 +223,7 @@ zoo_resample <- function(
     time_interval <= (old_time_interval/10) ||
     time_interval >= (old_time_interval*10)
   ){
-    warning("The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.")
+    warning("distantia::zoo_resample(): The time intervals of 'new_time' and 'x' differ in one order of magnitude or more. The output time series might be highly distorted.", call. = FALSE)
   }
 
   #default method
