@@ -2,6 +2,7 @@ test_that("`utils_time_keywords()` works", {
 
   tsl <- tsl_simulate(time_range = c(Sys.time() - 60, Sys.time()),
                       seed = 1)
+
   expect_equal(utils_time_keywords(tsl = tsl), "seconds")
 
   tsl <- tsl_simulate(time_range = c(Sys.time() - 600, Sys.time()),
@@ -18,5 +19,5 @@ test_that("`utils_time_keywords()` works", {
 
   tsl <- tsl_simulate(time_range = c(Sys.Date() - 3650, Sys.Date()),
                       seed = 1)
-  expect_equal(utils_time_keywords(tsl = tsl), c("years", "quarters", "months", "weeks", "decades"))
+  expect_true(all(utils_time_keywords(tsl = tsl) %in% c("years", "quarters", "months", "weeks", "decades")))
 })

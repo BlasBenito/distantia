@@ -16,8 +16,6 @@ test_that("`zoo_resample()` works", {
     by = floor(min(x_intervals))
   )
 
-  print(new_time)
-
   x_linear <- zoo_resample(x = x, new_time = new_time, method = "linear")
 
   expect_equal(
