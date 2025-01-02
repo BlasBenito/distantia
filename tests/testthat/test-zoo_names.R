@@ -1,6 +1,6 @@
 test_that("`zoo_name_clean()` works", {
 
-  x <- zoo_simulate()
+  x <- zoo_simulate(seed = 1)
   expect_equal(zoo_name_get(x = x), "A")
 
   x <- zoo_name_set(x = x, name = "My.New.name")

@@ -1,5 +1,5 @@
 test_that("`zoo_to_tsl()` works", {
-  x <- zoo_simulate()
+  x <- zoo_simulate(seed = 1)
 
   tsl <- zoo_to_tsl(x = x)
   expect_equal(class(tsl), "list")

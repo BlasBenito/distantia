@@ -1,6 +1,7 @@
 test_that("`tsl_handle_NA()` works", {
 
-  tsl <- tsl_simulate(na_fraction = 0.25)
+  tsl <- tsl_simulate(na_fraction = 0.25,
+                      seed = 1)
 
   tsl_nrow <- tsl_nrow(tsl = tsl) |>
     unlist() |>

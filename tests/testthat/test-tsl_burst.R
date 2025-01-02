@@ -6,7 +6,8 @@ test_that("`tsl_burst()` works", {
   tsl <- tsl_simulate(
     n = n,
     time_range = c("2010-01-01", "2024-12-31"),
-    cols = cols
+    cols = cols,
+    seed = 1
   )
 
 

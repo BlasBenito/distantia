@@ -19,8 +19,8 @@ test_that("`tsl_initialize()` works", {
   #from zoo objects
   tsl <- tsl_initialize(
     x = list(
-      x = zoo_simulate(),
-      y = zoo_simulate()
+      x = zoo_simulate(seed = 1),
+      y = zoo_simulate(seed = 2)
       )
     )
 

@@ -1,6 +1,6 @@
 test_that("`zoo_permute()` works", {
 
-  x <- zoo_simulate(cols = 2)
+  x <- zoo_simulate(cols = 2, seed = 1)
 
   x_free <- zoo_permute(x = x, permutation = "free", repetitions = 2)
 

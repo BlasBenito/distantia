@@ -1,6 +1,7 @@
 test_that("`tsl_smooth()` works", {
 
-  tsl <- tsl_simulate(n = 2)
+  tsl <- tsl_simulate(n = 2,
+                      seed = 1)
 
   tsl_sd <- tsl_stats(tsl = tsl)$sd
 

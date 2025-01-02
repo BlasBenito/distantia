@@ -1,5 +1,6 @@
 test_that("`utils_optimize_spline()` works", {
-  xy <- zoo_simulate(cols = 1, rows = 30)
+
+  xy <- zoo_simulate(cols = 1, rows = 30, seed = 1)
 
   m <- utils_optimize_spline(
     x = as.numeric(zoo::index(xy)),

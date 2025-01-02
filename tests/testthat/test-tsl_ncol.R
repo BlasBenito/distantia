@@ -4,7 +4,8 @@ test_that("`tsl_ncol()` and `tsl_nrow()` works", {
     n = 2,
     cols = 6,
     irregular = FALSE,
-    rows = 100
+    rows = 100,
+    seed = 1
     )
 
   expect_equal(tsl_ncol(tsl = tsl)$A, 6)

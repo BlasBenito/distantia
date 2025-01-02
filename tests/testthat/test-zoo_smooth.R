@@ -1,6 +1,6 @@
 test_that("`zoo_smooth()` works", {
 
-  x <- zoo_simulate(cols = 1)
+  x <- zoo_simulate(cols = 1, seed = 1)
 
   x_smooth <- zoo_smooth_exponential(x = x, alpha = 0.2)
 

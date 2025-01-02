@@ -1,6 +1,7 @@
 test_that("`tsl_colnames_clean()` works", {
 
-  tsl <- tsl_simulate(cols = 3)
+  tsl <- tsl_simulate(cols = 3,
+                      seed = 1)
 
   # tsl_colnames_set ----
   tsl <- tsl_colnames_set(
