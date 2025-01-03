@@ -19,7 +19,15 @@
 #'   x = distantia::covid_prevalence,
 #'   name_column = "name",
 #'   time_column = "time"
-#' )
+#' ) |>
+#' distantia::tsl_subset(
+#'   names = c(
+#'     "Los_Angeles",
+#'     "San_Francisco",
+#'     "Fresno",
+#'     "San_Joaquin"
+#'     )
+#'  )
 #'
 #' df_psi <- distantia::distantia_ls(
 #'   tsl = tsl
@@ -31,12 +39,6 @@
 #'   sf = distantia::covid_counties,
 #'   network = TRUE
 #' )
-#'
-#' #subset target counties
-#' counties <- c("Los_Angeles", "San_Francisco", "Fresno", "San_Joaquin")
-#'
-#' sf_psi_subset <- sf_psi[
-#'   which(sf_psi$x %in% counties & sf_psi$y %in% counties), ]
 #'
 #' #network map
 #' # mapview::mapview(
@@ -57,26 +59,6 @@
 #' #   ) |>
 #' #   suppressWarnings()
 #'
-#' #one to many
-#' sf_psi <- distantia_spatial(
-#'   df = df_psi,
-#'   sf = distantia::covid_counties,
-#'   network = FALSE
-#' )
-#'
-#' #subset one county
-#' sf_psi_subset <- sf_psi[sf_psi$x == "Los_Angeles", ]
-#'
-#' #one to many map
-#' #dissimilarity of all counties with Los Angeles
-#' # mapview::mapview(
-#' #   sf_psi_subset,
-#' #   layer.name = "Psi with LA",
-#' #   label = "y",
-#' #   zcol = "psi",
-#' #   alpha.regions = 1
-#' # ) |>
-#' #   suppressWarnings()
 #' @autoglobal
 #' @family distantia_support
 distantia_spatial <- function(

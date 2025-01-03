@@ -145,7 +145,7 @@ utils_prepare_time <- function(
         na.rm = FALSE
         )
 
-      warning(
+      message(
         "distantia::utils_prepare_time():  duplicated time indices in '",
         x.i.name,
         "':\n",
@@ -156,7 +156,7 @@ utils_prepare_time <- function(
           x.i.time.new[x.i.time.dupes],
           collapse = "\n"
         ),
-        call. = FALSE
+        "."
       )
 
       x.i[[time_column]] <- x.i.time.new

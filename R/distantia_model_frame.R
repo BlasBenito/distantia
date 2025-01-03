@@ -39,7 +39,7 @@
 #' ) |>
 #'   #subset to shorten example runtime
 #'   tsl_subset(
-#'     names = 1:10
+#'     names = 1:5
 #'   )
 #'
 #' #dissimilarity analysis

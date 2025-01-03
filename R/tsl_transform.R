@@ -82,7 +82,7 @@
 #' #-----------------------------------------
 #' #eemian pollen counts
 #' tsl <- tsl_initialize(
-#'   x = eemian_pollen,
+#'   x = distantia::eemian_pollen,
 #'   name_column = "name",
 #'   time_column = "time"
 #' )

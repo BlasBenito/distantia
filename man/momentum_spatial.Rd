@@ -28,7 +28,11 @@ tsl <- distantia::tsl_initialize(
   x = distantia::eemian_pollen,
   name_column = "name",
   time_column = "time"
-)
+) |>
+#reduce size to speed-up example runtime
+distantia::tsl_subset(
+  names = 1:3
+  )
 
 df_momentum <- distantia::momentum(
   tsl = tsl
@@ -48,27 +52,6 @@ sf_momentum <- distantia::momentum_spatial(
 #   label = "edge_name",
 #   zcol = "importance__Abies",
 #   lwd = 3
-# ) |>
-#   suppressWarnings()
-
-#one to many
-sf_momentum <- distantia::momentum_spatial(
-  df = df_momentum,
-  sf = distantia::eemian_coordinates,
-  network = FALSE
-)
-
-#subset one county
-sf_momentum_subset <- sf_momentum[sf_momentum$x == "Jammertal", ]
-
-#one to many map
-#variable inducing most similarity with Jammertal
-# mapview::mapview(
-#   sf_momentum_subset,
-#   layer.name = "Importance - Abies",
-#   label = "y",
-#   zcol = "most_similarity",
-#   alpha.regions = 1
 # ) |>
 #   suppressWarnings()
 

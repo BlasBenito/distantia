@@ -343,7 +343,6 @@ test_that("`tsl_transform()` works", {
   # Warning message:
   #   distantia::utils_prepare_time():  duplicated time indices in 'Krumbach_I':
   #   - value 6.8 replaced with 6.825
-  testthat::expect_warning(
     tsl <- tsl_initialize(
       x = eemian_pollen,
       name_column = "name",
@@ -352,7 +351,6 @@ test_that("`tsl_transform()` works", {
       tsl_subset(
         names = 1:3
       )
-  )
 
 
   #f_clr ----
