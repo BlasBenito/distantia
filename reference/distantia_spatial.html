@@ -102,7 +102,15 @@ If network = FALSE, the sf data frame contains the geometry in the input sf argu
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="covid_prevalence.html">covid_prevalence</a></span>,</span></span>
 <span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>
 <span class="r-in"><span>  time_column <span class="op">=</span> <span class="st">"time"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Los_Angeles"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"San_Francisco"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Fresno"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"San_Joaquin"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_psi</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="distantia_ls.html">distantia_ls</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
@@ -114,12 +122,6 @@ If network = FALSE, the sf data frame contains the geometry in the input sf argu
 <span class="r-in"><span>  sf <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="covid_counties.html">covid_counties</a></span>,</span></span>
 <span class="r-in"><span>  network <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#subset target counties</span></span></span>
-<span class="r-in"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Los_Angeles"</span>, <span class="st">"San_Francisco"</span>, <span class="st">"Fresno"</span>, <span class="st">"San_Joaquin"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sf_psi_subset</span> <span class="op">&lt;-</span> <span class="va">sf_psi</span><span class="op">[</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">sf_psi</span><span class="op">$</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">counties</span> <span class="op">&amp;</span> <span class="va">sf_psi</span><span class="op">$</span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">counties</span><span class="op">)</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#network map</span></span></span>
 <span class="r-in"><span><span class="co"># mapview::mapview(</span></span></span>
@@ -140,26 +142,6 @@ If network = FALSE, the sf data frame contains the geometry in the input sf argu
 <span class="r-in"><span><span class="co">#   ) |&gt;</span></span></span>
 <span class="r-in"><span><span class="co">#   suppressWarnings()</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#one to many</span></span></span>
-<span class="r-in"><span><span class="va">sf_psi</span> <span class="op">&lt;-</span> <span class="fu">distantia_spatial</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  df <span class="op">=</span> <span class="va">df_psi</span>,</span></span>
-<span class="r-in"><span>  sf <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="covid_counties.html">covid_counties</a></span>,</span></span>
-<span class="r-in"><span>  network <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#subset one county</span></span></span>
-<span class="r-in"><span><span class="va">sf_psi_subset</span> <span class="op">&lt;-</span> <span class="va">sf_psi</span><span class="op">[</span><span class="va">sf_psi</span><span class="op">$</span><span class="va">x</span> <span class="op">==</span> <span class="st">"Los_Angeles"</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#one to many map</span></span></span>
-<span class="r-in"><span><span class="co">#dissimilarity of all counties with Los Angeles</span></span></span>
-<span class="r-in"><span><span class="co"># mapview::mapview(</span></span></span>
-<span class="r-in"><span><span class="co">#   sf_psi_subset,</span></span></span>
-<span class="r-in"><span><span class="co">#   layer.name = "Psi with LA",</span></span></span>
-<span class="r-in"><span><span class="co">#   label = "y",</span></span></span>
-<span class="r-in"><span><span class="co">#   zcol = "psi",</span></span></span>
-<span class="r-in"><span><span class="co">#   alpha.regions = 1</span></span></span>
-<span class="r-in"><span><span class="co"># ) |&gt;</span></span></span>
-<span class="r-in"><span><span class="co">#   suppressWarnings()</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

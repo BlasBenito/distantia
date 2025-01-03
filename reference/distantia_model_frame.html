@@ -151,7 +151,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="co">#subset to shorten example runtime</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
+<span class="r-in"><span>    names <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#dissimilarity analysis</span></span></span>
@@ -176,27 +176,27 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          x            y      psi   economy area_hectares population</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Alameda Contra_Costa 1.162055 0.3641648    -1.3999457 -0.5305198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Imperial        Kings 1.917582 0.4655315     0.1353817 -0.6627479</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Fresno  Los_Angeles 2.302730 1.5497761    -0.4535633  1.8437454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Butte    El_Dorado 2.327273 2.1431460    -1.3476171 -0.6661600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Fresno         Kern 2.381766 0.3891697    -0.3481969 -0.6410305</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Alameda    El_Dorado 2.483755 1.2752482    -0.8906986 -0.2550041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              x            y      psi   economy area_hectares population</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Alameda Contra_Costa 1.162055 0.3641648    -1.0643659 -0.5863664</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Butte    El_Dorado 2.327273 2.1431460    -1.0153959 -1.5791633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Alameda    El_Dorado 2.483755 1.2752482    -0.5878037  1.4302278</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Butte Contra_Costa 2.733068 2.8431733    -0.6367737  0.3676509</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Contra_Costa    El_Dorado 2.767442 1.1381072    -0.5870788  0.4025409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Alameda        Butte 2.962963 2.7802798    -0.6374986  1.3953378</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   poverty_percentage median_income domestic_product daily_miles_traveled</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        -1.19073795   -1.23135301       -0.1121080          -0.73967745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        -1.24442853   -0.79673501       -0.7773396          -0.05342426</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         0.07099089   -0.56524908        1.0626418          -0.80644612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         0.74212325   -0.01028591       -1.2431000          -1.18409911</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        -1.11020206   -1.04144568       -0.4541122           0.10631216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        -1.19073795   -0.19146491        1.7354806          -1.23944048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         -1.1950603    -1.4638414       -0.3502863            1.1013250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          0.4596386    -0.1929442       -1.3164373           -0.5591417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         -1.1950603    -0.3815169        1.2280181           -0.7659104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          0.4596386     1.0682077        0.2193528            0.8945563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         -1.3329518    -0.2921032        0.2406099            1.3550699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          0.3217470     0.9787940        1.2067609           -0.8128866</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   employed_percentage geographic_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         -0.87975784          -1.2630296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         -0.75997160           0.4666332</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         -0.06476818          -0.5206199</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         -0.15503445          -1.0235666</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         -1.01278672          -1.1908816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         -1.23478934          -0.8855086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          -0.5448841          -1.5815924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           0.8453162          -0.7903724</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          -1.2259232          -0.3342092</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           0.1642772           0.2536703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          -0.9142071          -0.6687226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           1.2146392           0.6234367</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of response and predictors</span></span></span>
 <span class="r-in"><span><span class="co">#and an additive formula</span></span></span>
@@ -213,7 +213,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ area_hectares + population + poverty_percentage + median_income + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     domestic_product + daily_miles_traveled + employed_percentage + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     geographic_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x559b024ccbd0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x556ee1071dc8&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example of linear model</span></span></span>
 <span class="r-in"><span><span class="co"># model &lt;- lm(</span></span></span>
