@@ -1,6 +1,6 @@
 Package: distantia
 Type: Package
-Title: A Toolset for Time Series Dissimilarity Analysis
+Title: Advanced Toolset for Efficient Time Series Dissimilarity Analysis
 Version: 2.0.0
 Authors@R: 
     person(given = "Blas M.", 
