@@ -104,7 +104,7 @@ coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.</p>
 
 
 <dt id="arg-bandwidth">bandwidth<a class="anchor" aria-label="anchor" href="#arg-bandwidth"></a></dt>
-<dd><p>(required, numeric) Size of the Itakura parallelogram at
+<dd><p>(required, numeric) Size of the Sakoe-Chiba band at
 both sides of the diagonal used to constrain the least cost path. Expressed
 as a fraction of the number of matrix rows and columns. Unrestricted by default.
 Default: 1</p></dd>
@@ -117,10 +117,10 @@ Default: 1</p></dd>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Rcpp_cost_path:
+<code><a href="cost_path_diagonal_bandwidth_cpp.html">cost_path_diagonal_bandwidth_cpp</a>()</code>,
 <code><a href="cost_path_diagonal_cpp.html">cost_path_diagonal_cpp</a>()</code>,
-<code><a href="cost_path_diagonal_itakura_cpp.html">cost_path_diagonal_itakura_cpp</a>()</code>,
+<code><a href="cost_path_orthogonal_bandwidth_cpp.html">cost_path_orthogonal_bandwidth_cpp</a>()</code>,
 <code><a href="cost_path_orthogonal_cpp.html">cost_path_orthogonal_cpp</a>()</code>,
-<code><a href="cost_path_orthogonal_itakura_cpp.html">cost_path_orthogonal_itakura_cpp</a>()</code>,
 <code><a href="cost_path_slotting_cpp.html">cost_path_slotting_cpp</a>()</code>,
 <code><a href="cost_path_sum_cpp.html">cost_path_sum_cpp</a>()</code>,
 <code><a href="cost_path_trim_cpp.html">cost_path_trim_cpp</a>()</code></p></div>

@@ -413,7 +413,9 @@ of 2003). It also shows a distinctively large dissimilarity score.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-22-1.png" width="900"></p>
 <p>These long horizontal and vertical lines shown above provide an
-immediate diagnostic of the issue.</p>
+immediate diagnostic of a <strong>pathological warping</strong>, which
+happens when a relatively short segment of one time series maps to a
+much longer segment of another.</p>
 <p>This is not a particular issue of the DTW algorithm implemented in
 <code>distantia</code>, but a general behavior of time warping methods.
 The code below shows a similar analysis performed with the R package <a href="https://CRAN.R-project.org/package=dtw" class="external-link"><code>dtw</code></a>. The
@@ -442,12 +444,12 @@ data scaling, and <strong>constrained DTW</strong>.</p>
 <div class="section level3">
 <h3 id="constrained-dtw">Constrained DTW<a class="anchor" aria-label="anchor" href="#constrained-dtw"></a>
 </h3>
-<p>The function <code><a href="../reference/distantia.html">distantia()</a></code> implements <em>Itakura
-parallelograms</em> to restrict the flexibility of the warping path via
-the <code>bandwidth</code> argument. This argument represents the
-fraction of space at both sides of the least cost matrix diagonal
-allowed for warping. The plots below show the effect of decreasing
-<code>bandwidth</code> on the area covered by the Itakura parallelograms
+<p>The function <code><a href="../reference/distantia.html">distantia()</a></code> implements <em>Sakoe-Chiba
+bands</em> to restrict the flexibility of the warping path via the
+<code>bandwidth</code> argument. This argument represents the fraction
+of space at both sides of the least cost matrix diagonal allowed for
+warping. The plots below show the effect of decreasing
+<code>bandwidth</code> on the area covered by the Sakoe-Chiba bands
 (shown as white dashed lines) and how it restricts spread of the
 alignment between London and Kinshasa on their raw temperature
 values.</p>
@@ -475,9 +477,8 @@ values.</p>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.025</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-28-1.png" width="900"></p>
-<p>Itakura parallelograms cannot fix bad alignments (that’s what data
-scaling is for), but can help diagnose them, given a tolerance
-level.</p>
+<p>Sakoe-Chiba bands cannot fix bad alignments (that’s what data scaling
+is for), but can help diagnose them, given a tolerance level.</p>
 <p>The code below runs <code><a href="../reference/distantia.html">distantia()</a></code> for the raw temperature
 data with two bandwidths: 1 for unrestricted dynamic time warping, and
 0.25 as reference level.</p>
