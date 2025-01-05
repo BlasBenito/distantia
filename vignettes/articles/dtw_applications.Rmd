@@ -1,0 +1,46 @@
+---
+title: "In The Wild"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_title: "Content"
+    source: false
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 150,
+  fig.show = 'hold',
+  fig.width = 5
+)
+
+options(scipen = 9999)
+options(conflicts.policy = list(warn = FALSE))
+```
+
+# Summary
+
+This article lists interesting applications of dynamic time warping.
+
+## Sports Analytics
+
+[**Classifying ball trajectories in invasion sports using dynamic time warping: A basketball case study**](https://doi.org/10.1371/journal.pone.0272848)
+
+## Healthcare
+
+[**A Dynamic Time Warping Based Algorithm to Evaluate Kinect-Enabled Home-Based Physical Rehabilitation Exercises for Older People**](https://doi.org/10.3390/s19132882)
+
+[**Integrating Dynamic Time Warping and K-means clustering for enhanced cardiovascular fitness assessment**](https://doi.org/10.1016/j.bspc.2024.106677)
+
+[**A Unified Framework for Quality Indexing and Classification of Seismocardiogram Signals**](https://doi.org/10.1109/JBHI.2019.2931348)
+
+## Data Fusion
+
+[**Using dynamic time warping for online temporal fusion in multisensor**](https://doi.org/10.1016/j.inffus.2006.08.002)
+
+## Astronomy
+
+[**Dynamic Time Warping as a Means of Assessing Solar Wind Time Series**](https://iopscience.iop.org/article/10.3847/1538-4357/ac4af6)

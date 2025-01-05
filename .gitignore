@@ -50,3 +50,4 @@ rsconnect/
 .Rproj.user
 docs
 data_full/cru_time_series.R
+bibliography/*
