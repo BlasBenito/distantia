@@ -9,7 +9,7 @@ utils::globalVariables(c(
   "sd", # <distantia_model_frame>
   "sd", # <distantia_stats>
   "i", # <distantia_stats>
-  "i", # <distantia_time_shift>
+  "i", # <distantia_time_delay>
   "i", # <momentum>
   "median", # <momentum_boxplot>
   "i", # <momentum_dtw>

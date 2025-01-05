@@ -129,7 +129,7 @@ Other distantia_support:
 \code{\link{distantia_model_frame}()},
 \code{\link{distantia_spatial}()},
 \code{\link{distantia_stats}()},
-\code{\link{distantia_time_shift}()},
+\code{\link{distantia_time_delay}()},
 \code{\link{utils_block_size}()},
 \code{\link{utils_cluster_hclust_optimizer}()},
 \code{\link{utils_cluster_kmeans_optimizer}()}

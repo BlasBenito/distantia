@@ -1,13 +1,13 @@
 #' Spatial Representation of `distantia()` Data Frames
 #'
 #' @description
-#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [distantia()], [distantia_ls()], [distantia_dtw()] or [distantia_time_shift()] to an sf data frame.
+#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [distantia()], [distantia_ls()], [distantia_dtw()] or [distantia_time_delay()] to an sf data frame.
 #'
 #' If `network = TRUE`, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
 #'
 #' If `network = FALSE`, the sf data frame contains the geometry in the input `sf` argument. This output helps build one-to-many dissimilarity maps.
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_time_shift()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [distantia_time_delay()]. Default: NULL
 #' @param sf (required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. Default: NULL
 #' @param network (optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE
 #'
@@ -82,7 +82,7 @@ distantia_spatial <- function(
 
   df_type_distantia <- c(
     "distantia_df",
-    "time_shift_df"
+    "time_delay_df"
   )
 
   df_type_momentum <- "momentum_df"
@@ -98,7 +98,7 @@ distantia_spatial <- function(
     is.null(df_type) ||
     !(df_type %in% df_types)
     ){
-    stop("distantia::distantia/momentum_spatial(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_time_shift(), or distantia::momentum().", call. = FALSE)
+    stop("distantia::distantia/momentum_spatial(): argument 'df' must be the output of distantia::distantia(), distantia::distantia_time_delay(), or distantia::momentum().", call. = FALSE)
   }
 
   if(df_type %in% df_type_distantia){

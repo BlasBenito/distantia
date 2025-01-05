@@ -44,7 +44,7 @@
 #' }
 #'
 #' #compute shifts
-#' df_shift <- distantia_time_shift(
+#' df_shift <- distantia_time_delay(
 #'   tsl = tsl,
 #'   two_way = TRUE
 #' )
@@ -54,7 +54,7 @@
 #' #that the samples in Kinshasa
 #' #are aligned with older samples in London.
 #' @family distantia_support
-distantia_time_shift <- function(
+distantia_time_delay <- function(
     tsl = NULL,
     distance = "euclidean",
     bandwidth = 1,
@@ -141,7 +141,7 @@ distantia_time_shift <- function(
     if(shift.time.i.units.x != shift.time.i.units.y){
 
       warning(
-        "distantia::distantia_time_shift(): time series '",
+        "distantia::distantia_time_delay(): time series '",
         df[["x"]], "' and '", df[["y"]], "' have different time units (",
         shift.time.i.units.x,
         " vs ",
@@ -247,7 +247,7 @@ distantia_time_shift <- function(
   attr(
     x = df_shift,
     which = "type"
-  ) <- "time_shift_df"
+  ) <- "time_delay_df"
 
   df_shift
 

@@ -19,3 +19,4 @@ data_full/*
 dev_scripts/*
 vignettes/*
 man/figures/*
+bibliography/*

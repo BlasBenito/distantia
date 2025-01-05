@@ -1,4 +1,4 @@
-test_that("`distantia_time_shift()` works", {
+test_that("`distantia_time_delay()` works", {
 
   tsl <- tsl_transform(
     tsl_transform(
@@ -10,14 +10,14 @@ test_that("`distantia_time_shift()` works", {
   degree = 35
   )
 
-  df_shift <- distantia_time_shift(
+  df_shift <- distantia_time_delay(
     tsl = tsl,
     two_way = TRUE
     )
 
   expect_equal(nrow(df_shift), 2)
 
-  df_shift <- distantia_time_shift(
+  df_shift <- distantia_time_delay(
     tsl = tsl,
     two_way = FALSE
   )

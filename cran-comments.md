@@ -90,7 +90,7 @@ rhub::rhub_check(
 ✔ |          5 | distantia_cluster_kmeans [1.3s]   
 ✔ |          5 | distantia_model_frame [4.8s]      
 ✔ |          2 | distantia_spatial [3.9s]          
-✔ |          3 | distantia_time_shift [1.2s]       
+✔ |          3 | distantia_time_delay [1.2s]       
 ✔ |         14 | distantia [4.8s]                  
 ✔ |         13 | momentum [2.0s]                   
 ✔ |         15 | psi_equation                      
