@@ -13,13 +13,13 @@ Rcpp::DataFrame cost_path_diagonal_cpp(
     Rcpp::NumericMatrix cost_matrix
 );
 
-Rcpp::DataFrame cost_path_orthogonal_itakura_cpp(
+Rcpp::DataFrame cost_path_orthogonal_bandwidth_cpp(
         Rcpp::NumericMatrix dist_matrix,
         Rcpp::NumericMatrix cost_matrix,
         double bandwidth = 0.25
 );
 
-Rcpp::DataFrame cost_path_diagonal_itakura_cpp(
+Rcpp::DataFrame cost_path_diagonal_bandwidth_cpp(
         Rcpp::NumericMatrix dist_matrix,
         Rcpp::NumericMatrix cost_matrix,
         double bandwidth = 0.25

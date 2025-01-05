@@ -361,7 +361,7 @@ utils_matrix_plot <- function(
     colnames(path)[colnames(path) == "y"] <- y_name
     colnames(path)[colnames(path) == "x"] <- x_name
 
-    #Itakura parallelogram
+    #Sakoe-Chiba band
     if("bandwidth" %in% colnames(path)){
 
       bandwidth <- path$bandwidth[1]

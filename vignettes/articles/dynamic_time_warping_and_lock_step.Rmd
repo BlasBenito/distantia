@@ -323,7 +323,8 @@ distantia_dtw_plot(
 )
 ```
 
-These long horizontal and vertical lines shown above provide an immediate diagnostic of the issue. 
+These long horizontal and vertical lines shown above provide an immediate diagnostic of a **pathological warping**, which happens when a relatively short segment of one time series maps to a much longer segment of
+another.
 
 This is not a particular issue of the DTW algorithm implemented in `distantia`, but a general behavior of time warping methods. The code below shows a similar analysis performed with the R package [`dtw`](https://CRAN.R-project.org/package=dtw). The default implementation ignores diagonals when building the cost matrix.
 
@@ -349,7 +350,7 @@ There are two strategies that can be combined to control this issue: data scalin
 
 ## Constrained DTW
 
-The function `distantia()` implements *Itakura parallelograms* to restrict the flexibility of the warping path via the `bandwidth` argument. This argument represents the fraction of space at both sides of the least cost matrix diagonal allowed for warping. The plots below show the effect of decreasing `bandwidth` on the area covered by the Itakura parallelograms (shown as white dashed lines) and how it restricts spread of the alignment between London and Kinshasa on their raw temperature values.
+The function `distantia()` implements *Sakoe-Chiba bands* to restrict the flexibility of the warping path via the `bandwidth` argument. This argument represents the fraction of space at both sides of the least cost matrix diagonal allowed for warping. The plots below show the effect of decreasing `bandwidth` on the area covered by the Sakoe-Chiba bands (shown as white dashed lines) and how it restricts spread of the alignment between London and Kinshasa on their raw temperature values.
 
 ```{r, fig.width=6, fig.height=5.5}
 distantia_dtw_plot(
@@ -379,7 +380,7 @@ distantia_dtw_plot(
 )
 ```
 
-Itakura parallelograms cannot fix bad alignments (that's what data scaling is for), but can help diagnose them, given a tolerance level.
+Sakoe-Chiba bands cannot fix bad alignments (that's what data scaling is for), but can help diagnose them, given a tolerance level.
 
 The code below runs `distantia()` for the raw temperature data with two bandwidths: 1 for unrestricted dynamic time warping, and 0.25 as reference level.
 

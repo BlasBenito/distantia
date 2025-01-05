@@ -32,7 +32,7 @@ diagonal cost is weighted by a factor of 1.414214. Default: TRUE.}
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.}
 
-\item{bandwidth}{(required, numeric) Size of the Itakura parallelogram at
+\item{bandwidth}{(required, numeric) Size of the Sakoe-Chiba band at
 both sides of the diagonal used to constrain the least cost path. Expressed
 as a fraction of the number of matrix rows and columns. Unrestricted by default.
 Default: 1}

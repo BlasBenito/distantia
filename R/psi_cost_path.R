@@ -115,7 +115,7 @@ psi_cost_path <- function(
 
     } else {
 
-      path <- cost_path_orthogonal_itakura_cpp(
+      path <- cost_path_orthogonal_bandwidth_cpp(
         dist_matrix = dist_matrix,
         cost_matrix = cost_matrix,
         bandwidth = bandwidth
@@ -134,7 +134,7 @@ psi_cost_path <- function(
 
     } else {
 
-      path <- cost_path_diagonal_itakura_cpp(
+      path <- cost_path_diagonal_bandwidth_cpp(
         dist_matrix = dist_matrix,
         cost_matrix = cost_matrix,
         bandwidth = bandwidth

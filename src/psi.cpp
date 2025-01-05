@@ -221,7 +221,7 @@ NumericVector psi_null_ls_cpp(
 //' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' @return numeric
@@ -289,7 +289,7 @@ double psi_dtw_cpp(
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. This argument
 //' has nothing to do with block_size!. Default: FALSE.
-//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1

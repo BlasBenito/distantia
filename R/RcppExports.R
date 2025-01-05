@@ -281,7 +281,7 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #' time series.
 #' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 #' `dist_matrix`.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -312,8 +312,8 @@ cost_path_slotting_cpp <- function(dist_matrix, cost_matrix) {
 #' cost_path
 #' @export
 #' @family Rcpp_cost_path
-cost_path_orthogonal_itakura_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
-    .Call(`_distantia_cost_path_orthogonal_itakura_cpp`, dist_matrix, cost_matrix, bandwidth)
+cost_path_orthogonal_bandwidth_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
+    .Call(`_distantia_cost_path_orthogonal_bandwidth_cpp`, dist_matrix, cost_matrix, bandwidth)
 }
 
 #' (C++) Orthogonal Least Cost Path
@@ -355,7 +355,7 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
     .Call(`_distantia_cost_path_orthogonal_cpp`, dist_matrix, cost_matrix)
 }
 
-#' (C++) Orthogonal and Diagonal Least Cost Path Restricted by Itakura Parallelogram
+#' (C++) Orthogonal and Diagonal Least Cost Path Restricted by Sakoe-Chiba band
 #' @description Computes the least cost matrix from a distance matrix.
 #' Considers diagonals during computation of least-costs. In case of ties,
 #' diagonals are favored.
@@ -363,7 +363,7 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #' time series.
 #' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 #' `dist_matrix`.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -394,8 +394,8 @@ cost_path_orthogonal_cpp <- function(dist_matrix, cost_matrix) {
 #' cost_path
 #' @export
 #' @family Rcpp_cost_path
-cost_path_diagonal_itakura_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
-    .Call(`_distantia_cost_path_diagonal_itakura_cpp`, dist_matrix, cost_matrix, bandwidth)
+cost_path_diagonal_bandwidth_cpp <- function(dist_matrix, cost_matrix, bandwidth = 1) {
+    .Call(`_distantia_cost_path_diagonal_bandwidth_cpp`, dist_matrix, cost_matrix, bandwidth)
 }
 
 #' (C++) Orthogonal and Diagonal Least Cost Path
@@ -528,7 +528,7 @@ cost_path_sum_cpp <- function(path) {
 #' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -848,7 +848,7 @@ importance_ls_cpp <- function(x, y, distance = "euclidean") {
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -913,7 +913,7 @@ importance_dtw_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = F
 #' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1
@@ -1085,7 +1085,7 @@ psi_null_ls_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, pe
 #' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' @return numeric
@@ -1112,7 +1112,7 @@ psi_dtw_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted 
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. This argument
 #' has nothing to do with block_size!. Default: FALSE.
-#' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+#' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 #' both sides of the diagonal used to constrain the least cost path. Expressed
 #' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 #' Default: 1

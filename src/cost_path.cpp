@@ -147,7 +147,7 @@ DataFrame cost_path_slotting_cpp(
 //' time series.
 //' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 //' `dist_matrix`.
-//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -179,7 +179,7 @@ DataFrame cost_path_slotting_cpp(
 //' @export
 //' @family Rcpp_cost_path
 // [[Rcpp::export]]
-DataFrame cost_path_orthogonal_itakura_cpp(
+DataFrame cost_path_orthogonal_bandwidth_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix,
     double bandwidth = 1 // Default value for bandwidth
@@ -204,7 +204,7 @@ DataFrame cost_path_orthogonal_itakura_cpp(
   int x = d_cols - 1;
   int y = d_rows - 1;
 
-  // Define Itakura parallelogram boundaries for the orthogonal path
+  // Define Sakoe-Chiba band boundaries for the orthogonal path
   auto y_min = [&](int x) -> int {
     return std::max(0, static_cast<int>(x * d_rows / d_cols - bandwidth * d_rows));
   };
@@ -226,13 +226,13 @@ DataFrame cost_path_orthogonal_itakura_cpp(
     std::vector<int> neighbor_x = {x, x - 1};
     std::vector<int> neighbor_y = {y - 1, y};
 
-    // Find neighbor with minimum cost within Itakura constraints
+    // Find neighbor with minimum cost within the Sakoe-Chiba band
     int min_cost_neighbor = -1;
     double min_cost = std::numeric_limits<double>::max();
 
     for (int j = 0; j < 2; ++j) {
       if (neighbor_y[j] >= 0 && neighbor_x[j] >= 0) {
-        // check if the neighbor is within the Itakura parallelogram
+        // check if the neighbor is within the Sakoe-Chiba band
         if (neighbor_y[j] >= y_min(neighbor_x[j]) && neighbor_y[j] <= y_max(neighbor_x[j])) {
           if (cost_matrix(neighbor_y[j], neighbor_x[j]) < min_cost) {
             min_cost = cost_matrix(neighbor_y[j], neighbor_x[j]);
@@ -366,7 +366,7 @@ DataFrame cost_path_orthogonal_cpp(
 
 }
 
-//' (C++) Orthogonal and Diagonal Least Cost Path Restricted by Itakura Parallelogram
+//' (C++) Orthogonal and Diagonal Least Cost Path Restricted by Sakoe-Chiba band
 //' @description Computes the least cost matrix from a distance matrix.
 //' Considers diagonals during computation of least-costs. In case of ties,
 //' diagonals are favored.
@@ -374,7 +374,7 @@ DataFrame cost_path_orthogonal_cpp(
 //' time series.
 //' @param cost_matrix (required, numeric matrix). Cost matrix generated from
 //' `dist_matrix`.
-//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -406,7 +406,7 @@ DataFrame cost_path_orthogonal_cpp(
 //' @export
 //' @family Rcpp_cost_path
 // [[Rcpp::export]]
-DataFrame cost_path_diagonal_itakura_cpp(
+DataFrame cost_path_diagonal_bandwidth_cpp(
     NumericMatrix dist_matrix,
     NumericMatrix cost_matrix,
     double bandwidth = 1
@@ -431,7 +431,7 @@ DataFrame cost_path_diagonal_itakura_cpp(
   int x = d_cols - 1;
   int y = d_rows - 1;
 
-  // Define Itakura parallelogram boundaries
+  // Define Sakoe-Chiba band boundaries
   auto y_min = [&](int x) -> int {
     return std::max(0, static_cast<int>(x * d_rows / d_cols - bandwidth * d_rows));
   };
@@ -453,13 +453,13 @@ DataFrame cost_path_diagonal_itakura_cpp(
     std::vector<int> neighbor_x = {x - 1, x, x - 1};
     std::vector<int> neighbor_y = {y - 1, y - 1, y};
 
-    // Find neighbor with minimum cost within Itakura constraints
+    // Find neighbor with minimum cost within the Sakoe-Chiba band
     int min_cost_neighbor = -1;
     double min_cost = std::numeric_limits<double>::max();
 
     for (int i = 0; i < 3; ++i) {
       if (neighbor_x[i] >= 0 && neighbor_y[i] >= 0) {
-        // check if the neighbor is within the Itakura parallelogram
+        // check if the neighbor is within the Sakoe-Chiba band
         if (neighbor_y[i] >= y_min(neighbor_x[i]) && neighbor_y[i] <= y_max(neighbor_x[i])) {
           if (cost_matrix(neighbor_y[i], neighbor_x[i]) < min_cost) {
             min_cost = cost_matrix(neighbor_y[i], neighbor_x[i]);
@@ -730,7 +730,7 @@ double cost_path_sum_cpp(
 //' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
-//' @param bandwidth (required, numeric) Size of the Itakura parallelogram at
+//' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
 //' both sides of the diagonal used to constrain the least cost path. Expressed
 //' as a fraction of the number of matrix rows and columns. Unrestricted by default.
 //' Default: 1
@@ -774,7 +774,7 @@ DataFrame cost_path_cpp(
  DataFrame cost_path;
  if (diagonal) {
    if (bandwidth < 1.0) {
-     cost_path = cost_path_diagonal_itakura_cpp(
+     cost_path = cost_path_diagonal_bandwidth_cpp(
        dist_matrix,
        cost_matrix,
        bandwidth
@@ -787,7 +787,7 @@ DataFrame cost_path_cpp(
    }
   } else {
    if (bandwidth < 1.0) {
-     cost_path = cost_path_orthogonal_itakura_cpp(
+     cost_path = cost_path_orthogonal_bandwidth_cpp(
        dist_matrix,
        cost_matrix,
        bandwidth

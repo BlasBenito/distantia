@@ -121,16 +121,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cost_path_orthogonal_itakura_cpp
-DataFrame cost_path_orthogonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
-RcppExport SEXP _distantia_cost_path_orthogonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
+// cost_path_orthogonal_bandwidth_cpp
+DataFrame cost_path_orthogonal_bandwidth_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
+RcppExport SEXP _distantia_cost_path_orthogonal_bandwidth_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
     Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_itakura_cpp(dist_matrix, cost_matrix, bandwidth));
+    rcpp_result_gen = Rcpp::wrap(cost_path_orthogonal_bandwidth_cpp(dist_matrix, cost_matrix, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -146,16 +146,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cost_path_diagonal_itakura_cpp
-DataFrame cost_path_diagonal_itakura_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
-RcppExport SEXP _distantia_cost_path_diagonal_itakura_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
+// cost_path_diagonal_bandwidth_cpp
+DataFrame cost_path_diagonal_bandwidth_cpp(NumericMatrix dist_matrix, NumericMatrix cost_matrix, double bandwidth);
+RcppExport SEXP _distantia_cost_path_diagonal_bandwidth_cpp(SEXP dist_matrixSEXP, SEXP cost_matrixSEXP, SEXP bandwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dist_matrix(dist_matrixSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix(cost_matrixSEXP);
     Rcpp::traits::input_parameter< double >::type bandwidth(bandwidthSEXP);
-    rcpp_result_gen = Rcpp::wrap(cost_path_diagonal_itakura_cpp(dist_matrix, cost_matrix, bandwidth));
+    rcpp_result_gen = Rcpp::wrap(cost_path_diagonal_bandwidth_cpp(dist_matrix, cost_matrix, bandwidth));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -609,9 +609,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distantia_cost_matrix_diagonal_weighted_cpp", (DL_FUNC) &_distantia_cost_matrix_diagonal_weighted_cpp, 1},
     {"_distantia_cost_matrix_orthogonal_cpp", (DL_FUNC) &_distantia_cost_matrix_orthogonal_cpp, 1},
     {"_distantia_cost_path_slotting_cpp", (DL_FUNC) &_distantia_cost_path_slotting_cpp, 2},
-    {"_distantia_cost_path_orthogonal_itakura_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_itakura_cpp, 3},
+    {"_distantia_cost_path_orthogonal_bandwidth_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_bandwidth_cpp, 3},
     {"_distantia_cost_path_orthogonal_cpp", (DL_FUNC) &_distantia_cost_path_orthogonal_cpp, 2},
-    {"_distantia_cost_path_diagonal_itakura_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_itakura_cpp, 3},
+    {"_distantia_cost_path_diagonal_bandwidth_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_bandwidth_cpp, 3},
     {"_distantia_cost_path_diagonal_cpp", (DL_FUNC) &_distantia_cost_path_diagonal_cpp, 2},
     {"_distantia_cost_path_trim_cpp", (DL_FUNC) &_distantia_cost_path_trim_cpp, 1},
     {"_distantia_cost_path_sum_cpp", (DL_FUNC) &_distantia_cost_path_sum_cpp, 1},
