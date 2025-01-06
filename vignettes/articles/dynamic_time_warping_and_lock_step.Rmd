@@ -183,7 +183,7 @@ y <- tsl_scaled$Kinshasa
 
 The objective of the step **1** is computing the sum of distances between pairs of samples matched together by the time warping algorithm.
 
-Step **1a** computes the distance matrix between all pairs of samples in both timme series. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
+Step **1a** computes the distance matrix between all pairs of samples in both time series. Notice that all functions to demonstrate the computation of the normalized dissimilarity score `psi` follow the naming convention `psi...()`.
 
 ```{r, fig.width=4, fig.height=4}
 m.dist <- distantia::psi_distance_matrix(
