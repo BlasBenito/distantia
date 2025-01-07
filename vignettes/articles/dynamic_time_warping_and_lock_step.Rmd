@@ -201,7 +201,7 @@ distantia::utils_matrix_plot(
 Step **1b** involves transforming the distance matrix into a cost matrix. This transformation requires a dynamic algorithm in which each new cell adds its own distance to the distance accumulated by its preceding neighbor. There are two implementations of this method in `distantia`:
 
   - **orthogonal only**: distance cost is only computed on the *x* and *y* axis, ignoring diagonals.
-  - **orthogonal and diagonal**: distance cost is also computed in diagonals, which are weighted by a factor of `1.414214`.
+  - **orthogonal and diagonal**: distance cost is also computed in diagonals, which are weighted by a factor of `1.414214 (square root of 2)`.
 
 These options are wrapped in the function `psi_cost_matrix()`, which by default, like `distantia()` uses weighted diagonals.
 

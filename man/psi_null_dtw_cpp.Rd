@@ -30,7 +30,7 @@ column of the dataset \code{distances} (see \code{distances$name}). Default: "eu
 computation of the cost matrix. Default: FALSE.}
 
 \item{weighted}{(optional, logical). If TRUE, diagonal is set to TRUE, and
-diagonal cost is weighted by a factor of 1.414214. Default: FALSE.}
+diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: FALSE.}
 
 \item{ignore_blocks}{(optional, logical). If TRUE, blocks of consecutive path
 coordinates are trimmed to avoid inflating the psi distance. This argument

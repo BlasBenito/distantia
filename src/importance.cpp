@@ -247,7 +247,7 @@ DataFrame importance_ls_cpp(
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: FALSE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+//' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: FALSE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -394,7 +394,7 @@ DataFrame importance_dtw_legacy_cpp(
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 //' computation of the cost matrix. Default: TRUE.
 //' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
+//' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: TRUE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at

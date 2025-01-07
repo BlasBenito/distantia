@@ -212,7 +212,7 @@ cost_matrix_diagonal_cpp <- function(dist_matrix) {
 
 #' (C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix
 #' @description Computes the least cost matrix from a distance matrix.
-#' Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
+#' Weights diagonals by a factor of 1.414214 (square root of 2) with respect to orthogonal paths.
 #' @param dist_matrix (required, distance matrix). Distance matrix.
 #' @return Least cost matrix.
 #' @export
@@ -525,7 +525,7 @@ cost_path_sum_cpp <- function(path) {
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by y factor of 1.414214. Default: FALSE.
+#' diagonal cost is weighted by y factor of 1.414214 (square root of 2). Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -845,7 +845,7 @@ importance_ls_cpp <- function(x, y, distance = "euclidean") {
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -910,7 +910,7 @@ importance_dtw_legacy_cpp <- function(y, x, distance = "euclidean", diagonal = F
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: TRUE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: TRUE.
+#' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: TRUE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -1082,7 +1082,7 @@ psi_null_ls_cpp <- function(x, y, distance = "euclidean", repetitions = 100L, pe
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 #' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -1108,7 +1108,7 @@ psi_dtw_cpp <- function(x, y, distance = "euclidean", diagonal = TRUE, weighted 
 #' @param diagonal (optional, logical). If TRUE, diagonals are included in the
 #' computation of the cost matrix. Default: FALSE.
 #' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-#' diagonal cost is weighted by a factor of 1.414214. Default: FALSE.
+#' diagonal cost is weighted by a factor of 1.414214 (square root of 2). Default: FALSE.
 #' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 #' coordinates are trimmed to avoid inflating the psi distance. This argument
 #' has nothing to do with block_size!. Default: FALSE.

@@ -41,7 +41,7 @@ NumericMatrix cost_matrix_diagonal_cpp(
 
 //' (C++) Compute Orthogonal and Weighted Diagonal Least Cost Matrix from a Distance Matrix
 //' @description Computes the least cost matrix from a distance matrix.
-//' Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
+//' Weights diagonals by a factor of 1.414214 (square root of 2) with respect to orthogonal paths.
 //' @param dist_matrix (required, distance matrix). Distance matrix.
 //' @return Least cost matrix.
 //' @export
@@ -55,7 +55,7 @@ NumericMatrix cost_matrix_diagonal_weighted_cpp(
   int xn = dist_matrix.ncol();
   NumericMatrix m(yn, xn);
 
-  // Define the diagonal weight
+  // Define the diagonal weight as square root of 2
   double diagonal_weight = 1.414214;
 
   m(0, 0) = dist_matrix(0, 0);

@@ -14,7 +14,7 @@ Least cost matrix.
 }
 \description{
 Computes the least cost matrix from a distance matrix.
-Weights diagonals by a factor of 1.414214 with respect to orthogonal paths.
+Weights diagonals by a factor of 1.414214 (square root of 2) with respect to orthogonal paths.
 }
 \seealso{
 Other Rcpp_matrix: 
