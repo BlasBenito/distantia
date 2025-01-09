@@ -86,7 +86,7 @@ ALT: Multipanel diagram showing a dynamic time warping solution between two time
 
 ## 4
 
-Variable importance analysis is one of the exclusive features of {distantia}. Implemented in the function momentum(), it applies a leave-one-out approach to compute the partial contribution of each variable to similarity/dissimilarity.
+One of the exclusive features of {distantia} if the variable importance analysis. Implemented in the function momentum(), it applies a leave-one-out approach to compute the partial contribution of each variable to similarity/dissimilarity.
 
 ```{r}
 df <- momentum(tsl = tsl)
@@ -104,3 +104,7 @@ momentum_boxplot(df = df, text_cex = 1.3)
 ALT: Boxplot showing the stats of the importance scores of five variables (latitude, longitude, temperature, heading, and speed) in determining the dissimilarity between the flight paths of four individuals of Albatross. The boxplot shows that that latitude and longitude are the variables with a higher contribution to dissimilarity, while temperature, heading, and speed are the ones contributing the most to similarity.
 
 ## 5
+
+The package includes a complete toolset to manage time series, described here: <https://blasbenito.github.io/distantia/articles/time_series_lists.html>, and even some tools to help map dissimilarity between time series, as shown here: <https://blasbenito.github.io/distantia/articles/mapping_dissimilarity.html>.
+
+That's all about {distantia} for now, I hope you like it!
