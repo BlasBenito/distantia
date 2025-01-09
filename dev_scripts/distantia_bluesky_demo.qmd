@@ -1,0 +1,60 @@
+---
+title: "distantia mini-demo"
+author: "Blas M. Benito"
+format: html
+editor: visual
+---
+
+## Summary
+
+This is a demo of the R package `distantia` to announce the release of the version 2.0 in Bluesky and Fosstodon.
+
+### 1
+
+Well, that took a while (one year of intermittent development), but the version 2.0 of the #Rstats package {distantia} (URL: <https://blasbenito.github.io/distantia/>) is finally on CRAN.
+
+```{r}
+install.packages(
+  pkgs = "distantia",
+  dependencies = TRUE,
+  quiet = TRUE
+  )
+
+utils::packageVersion(pkg = "distantia")
+```
+
+## 2
+
+{distantia} provides tools to load, transform, and compare time series of any kind (uni or multivariate, regular or irregular, sync or async), with a focus on
+
+### 3
+
+{distantia 2.0} provides:
+
+-   C++ implementations of the time series comparison methods dynamic time warping and lock-step.
+
+-   Restricted permutation tests and variable importance assessment.
+
+3
+
+```{r, fig.width=5, fig.height=4.1}
+library(distantia, quietly = TRUE)
+tsl <- tsl_initialize(
+  x = distantia::albatross,
+  name_column = "name",
+  time_column = "time"
+) |> 
+  tsl_transform(
+    f = f_scale_local
+  ) |> 
+  tsl_colnames_set(
+    names = c("longitude", "latitude", "speed", "temperature", "heading")
+  ) |> 
+  tsl_names_set(
+    names = c("Bird_1", "Bird_2", "Bird_3", "Bird_4")
+  )
+
+distantia_dtw_plot(
+  tsl = tsl[1:2]
+)
+```
