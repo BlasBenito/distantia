@@ -11,7 +11,7 @@ This is a demo of the R package `distantia` to announce the release of the versi
 
 ### 1
 
-Well, that took a while (one year of intermittent development), but the version 2.0 of the #Rstats package {distantia} (URL: <https://blasbenito.github.io/distantia/>) is finally on CRAN.
+Well, that took up to one year of intermittent development, but the version 2.0 of the #Rstats package {distantia} (URL: <https://blasbenito.github.io/distantia/>) is finally on CRAN!
 
 ```{r}
 install.packages(
@@ -23,19 +23,42 @@ install.packages(
 utils::packageVersion(pkg = "distantia")
 ```
 
+This is a FULL REWRITE of the original package, which now has a fast and efficient C++ core plus additional tools and a much more intuitive API.
+
+ALT: Snapshot of R code showing the install of the R package distantia via the command install.packages(), and the version of the newly installed package as printed by the command packageVersion().
+
 ## 2
 
-{distantia} provides tools to load, transform, and compare time series of any kind (uni or multivariate, regular or irregular, sync or async), with a focus on
+{distantia 2.0} provides tools to load, transform, and compare any kind of time series (uni or multivariate, regular or irregular, sync or async), with a strong focus on inference (restricted permutation tests, variable importance scores), and functions to plot, cluster, map, and model the results of dissimilarity analysis.
+
+```{r, message=FALSE}
+library(distantia, quietly = TRUE)
+library(DT)
+
+tsl <- tsl_initialize(
+  x = albatross,
+  name_column = "name",
+  time_column = "time"
+) |> 
+  tsl_aggregate(new_time = "weeks") |> 
+  tsl_transform(f = f_scale_local)
+
+df <- distantia(
+  tsl = tsl,
+  permutation = "restricted_by_row",
+  block_size = 4, #one month
+  repetitions = 1000
+)
+
+DT::datatable(df[, c("x", "y", "psi", "p_value")]) |> 
+  formatRound(columns = c("psi", "p_value"), digits = 3)
+```
+
+ALT: snapshot of R code showing the following code blocks: 1: the loading of the R packages distantia and DT; 2: the initialization, aggregation, and scaling of a time series object with flight paths of albatrosses in the Pacific using the functions tsl_initialize, tsl_aggregate, and tsl_transform; 3: dissimilarity analysis with dynamic time warping and restricted permutation tests performed with the function distantia; 3: usage of the function DT::datatable to show the resulting data frame, which contains the columns x and y with the names of the compared time series, the column psi with their respective dissimilarity scores, and the column p_value with score of the restricted permutation test.
 
 ### 3
 
-{distantia 2.0} provides:
-
--   C++ implementations of the time series comparison methods dynamic time warping and lock-step.
-
--   Restricted permutation tests and variable importance assessment.
-
-3
+The C++ heart of {distantia 2.0} provides an efficient implementation of 'dynamic time warping' (DTW), a flexible shape-based comparison method for time series of any kind. DTW 'warps' the time axis of the time series to maximize their similarity, and ensures a fair comparison even between time-delayed datasets.
 
 ```{r, fig.width=5, fig.height=4.1}
 library(distantia, quietly = TRUE)
@@ -58,3 +81,26 @@ distantia_dtw_plot(
   tsl = tsl[1:2]
 )
 ```
+
+ALT: Multipanel diagram showing a dynamic time warping solution between two time series representing the flight paths of two albatrosses in the pacific over a period of five months. The time series have the variables longitude, latitude, speed, heading, and temperature. The time warping runs close to the diagonal, meaning that the two time series have relatively similar shapes.
+
+## 4
+
+Variable importance analysis is one of the exclusive features of {distantia}. Implemented in the function momentum(), it applies a leave-one-out approach to compute the partial contribution of each variable to similarity/dissimilarity.
+
+```{r}
+df <- momentum(tsl = tsl)
+
+DT::datatable(df[, c("x", "y", "variable", "importance", "effect")]) |> 
+  formatRound(columns = c("importance"), digits = 3)
+```
+
+ALT: Code snapshot of a variable importance analysis that explains the contribution of individual variables to the dissimilarity between pairs of time series. It is performed with the function momentum(), which produces a data frame with the columns x and y with the names of the compared time series, a column variable with the name of each variable, a column importance with the importance scores, which are negative when the variable contributes to similarity, and positive when the variable contributes to dissimilarity.
+
+```{r, fig.width=5, fig.height=4}
+momentum_boxplot(df = df, text_cex = 1.3)
+```
+
+ALT: Boxplot showing the stats of the importance scores of five variables (latitude, longitude, temperature, heading, and speed) in determining the dissimilarity between the flight paths of four individuals of Albatross. The boxplot shows that that latitude and longitude are the variables with a higher contribution to dissimilarity, while temperature, heading, and speed are the ones contributing the most to similarity.
+
+## 5
