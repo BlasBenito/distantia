@@ -1,5 +1,5 @@
 ---
-title: "In The Wild"
+title: "Applications of Dynamic Time Warping"
 output: 
   rmarkdown::html_document:
     toc: true
@@ -23,7 +23,7 @@ options(conflicts.policy = list(warn = FALSE))
 
 # Summary
 
-This article lists interesting applications of dynamic time warping.
+This article lists interesting applications of dynamic time warping I have found in the literature, patents, and other resources. It is supposed to be a living document, so it will be updated from time to time with new findings.
 
 ## Sports Analytics
 
