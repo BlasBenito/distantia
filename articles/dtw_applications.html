@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Applications of Dynamic Time Warping • distantia</title>
+<title>Implementations and Applications of Dynamic Time Warping • distantia</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Applications of Dynamic Time Warping">
+<meta property="og:title" content="Implementations and Applications of Dynamic Time Warping">
 <link rel="stylesheet" href="extra.css">
 </head>
 <body>
@@ -50,7 +50,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -72,7 +72,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Applications of Dynamic Time Warping</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Implementations and Applications of Dynamic Time Warping</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/dtw_applications.Rmd" class="external-link"><code>vignettes/articles/dtw_applications.Rmd</code></a></small>
@@ -84,48 +84,87 @@
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>This article lists interesting applications of dynamic time warping I
-have found in the literature, patents, and other resources. It is
-supposed to be a living document, so it will be updated from time to
-time with new findings.</p>
+<p>This article lists open source implementations and interesting
+applications of dynamic time warping I have found in the literature,
+patents, and other resources. It is supposed to be a living document, so
+it will be updated from time to time with new findings.</p>
+</div>
+<div class="section level2">
+<h2 id="open-source-implementations">Open Source Implementations<a class="anchor" aria-label="anchor" href="#open-source-implementations"></a>
+</h2>
+<p>This section lists several open source implementations of DTW in R
+and Python, in case you want to play with DTW.</p>
+<div class="section level3">
+<h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
+</h3>
+<ul>
+<li>
+<a href="https://dynamictimewarping.github.io/" class="external-link">dtw</a>, by Toni
+Giorgino: most complete DTW suite in R, with a companion paper <a href="https://www.jstatsoft.org/article/view/v031i07" class="external-link">here</a>. It also
+has a Python implementation linked below.</li>
+<li>
+<a href="https://cran.r-project.org/package=dtwclust" class="external-link">dtwclust</a>,
+by Alexis Sarda-Espinosa: focused on applying DTW for time series
+clustering. It has a very comprehensive technical vignette <a href="https://cran.r-project.org/web/packages/dtwclust/vignettes/dtwclust.pdf" class="external-link">here</a>.</li>
+<li>
+<a href="https://cran.r-project.org/package=IncDTW" class="external-link">IncDTW</a>, by
+Maximilian Leodolter: efficient implementation with a <a href="https://www.jstatsoft.org/article/view/v099i09" class="external-link">companion
+paper</a>, focused on fast DTW computations for real-time
+applications.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
+</h3>
+<ul>
+<li>
+<a href="https://pypi.org/project/dtw-python/" class="external-link">dtw-python</a>:
+Python implementation of <a href="https://dynamictimewarping.github.io/" class="external-link">dtw</a>.</li>
+<li>
+<a href="https://github.com/wannesm/dtaidistance" class="external-link">dtaidistance</a>:
+fast C implementation of DTW, with a great documentation page <a href="https://dtaidistance.readthedocs.io/en/latest/" class="external-link">here</a>.</li>
+<li>
+<a href="https://tslearn.readthedocs.io/en/stable/" class="external-link">tslearn</a>, by
+Romain Tavenard: focused on time series clustering via DTW for machine
+learning modeling.</li>
+<li>
+<a href="https://github.com/slaypni/fastdtw?tab=readme-ov-file" class="external-link">fastdtw</a>,
+by Stan Salvador and Philip Chan: python implementation of FastDTW, a
+fast approximation to DTW described in <a href="https://cs.fit.edu/~pkc/papers/tdm04.pdf" class="external-link">this paper</a>.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="other-languages">Other Languages<a class="anchor" aria-label="anchor" href="#other-languages"></a>
+</h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Dynamic_time_warping" class="external-link">Wikipedia page
+on Dynamic Time Warping</a> lists implementations in other languages in
+the section <em>Open Source Software</em>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
+</h2>
 <div class="section level3">
 <h3 id="industry">Industry<a class="anchor" aria-label="anchor" href="#industry"></a>
 </h3>
-<div class="section level4">
-<h4 id="wearables">Wearables<a class="anchor" aria-label="anchor" href="#wearables"></a>
-</h4>
 <p><a href="https://genkiinstruments.com/products/wave" class="external-link"><strong>Wave
 ring</strong></a> a MIDI controller to create music <a href="https://patents.google.com/patent/US20220085841A1/en" class="external-link">patented by
 Genki</a>.</p>
-</div>
-<div class="section level4">
-<h4 id="manufacturing">Manufacturing<a class="anchor" aria-label="anchor" href="#manufacturing"></a>
-</h4>
 <p><a href="https://www.global.toshiba/ww/technology/corporate/rdc/rd/topics/20/2006-01.html" class="external-link"><strong>LAMTSS</strong></a>,
 by Toshiba, for prediction and detection of operational failures in
 heavy machinery.</p>
-</div>
-<div class="section level4">
-<h4 id="software">Software<a class="anchor" aria-label="anchor" href="#software"></a>
-</h4>
 <p><a href="https://wiki.has-motion.com/doku.php?id=sift:sift_overview" class="external-link"><strong>Sift</strong></a>
 software, by <a href="https://www.has-motion.ca/" class="external-link">HAS Motion</a>, <a href="https://wiki.has-motion.com/doku.php?id=sift:dynamic_time_warping:dynamic_time_warping" class="external-link">uses
-DTW</a> to find anomalies in large biomechanics datasets</p>
-</div>
+DTW</a> to find anomalies in large biomechanics datasets.</p>
+<p><strong>Netflix</strong> uses Dynamic Time Warping to <a href="https://netflixtechblog.com/detecting-scene-changes-in-audiovisual-content-77a61d3eaad6" class="external-link">align
+soundtracks and close captions</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="academia">Academia<a class="anchor" aria-label="anchor" href="#academia"></a>
 </h3>
-<div class="section level4">
-<h4 id="sports-analytics">Sports Analytics<a class="anchor" aria-label="anchor" href="#sports-analytics"></a>
-</h4>
 <p><a href="https://doi.org/10.1371/journal.pone.0272848" class="external-link"><strong>Classifying
 ball trajectories in invasion sports using dynamic time warping: A
 basketball case study</strong></a></p>
-</div>
-<div class="section level4">
-<h4 id="healthcare">Healthcare<a class="anchor" aria-label="anchor" href="#healthcare"></a>
-</h4>
 <p><a href="https://doi.org/10.3390/s19132882" class="external-link"><strong>A Dynamic Time
 Warping Based Algorithm to Evaluate Kinect-Enabled Home-Based Physical
 Rehabilitation Exercises for Older People</strong></a></p>
@@ -135,21 +174,12 @@ fitness assessment</strong></a></p>
 <p><a href="https://doi.org/10.1109/JBHI.2019.2931348" class="external-link"><strong>A Unified
 Framework for Quality Indexing and Classification of Seismocardiogram
 Signals</strong></a></p>
-</div>
-<div class="section level4">
-<h4 id="data-fusion">Data Fusion<a class="anchor" aria-label="anchor" href="#data-fusion"></a>
-</h4>
 <p><a href="https://doi.org/10.1016/j.inffus.2006.08.002" class="external-link"><strong>Using
 dynamic time warping for online temporal fusion in
 multisensor</strong></a></p>
-</div>
-<div class="section level4">
-<h4 id="astronomy">Astronomy<a class="anchor" aria-label="anchor" href="#astronomy"></a>
-</h4>
 <p><a href="https://iopscience.iop.org/article/10.3847/1538-4357/ac4af6" class="external-link"><strong>Dynamic
 Time Warping as a Means of Assessing Solar Wind Time
 Series</strong></a></p>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
