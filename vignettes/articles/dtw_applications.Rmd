@@ -1,5 +1,5 @@
 ---
-title: "Applications of Dynamic Time Warping"
+title: "Implementations and Applications of Dynamic Time Warping"
 output: 
   rmarkdown::html_document:
     toc: true
@@ -23,29 +23,46 @@ options(conflicts.policy = list(warn = FALSE))
 
 # Summary
 
-This article lists interesting applications of dynamic time warping I have found in the literature, patents, and other resources. It is supposed to be a living document, so it will be updated from time to time with new findings.
+This article lists open source implementations and interesting applications of dynamic time warping I have found in the literature, patents, and other resources. It is supposed to be a living document, so it will be updated from time to time with new findings.
+
+# Open Source Implementations
+
+This section lists several open source implementations of DTW in R and Python, in case you want to play with DTW.
+
+## R 
+
+  - [dtw](https://dynamictimewarping.github.io/), by Toni Giorgino: most complete DTW suite in R, with a companion paper [here](https://www.jstatsoft.org/article/view/v031i07). It also has a Python implementation linked below.
+  - [dtwclust](https://cran.r-project.org/package=dtwclust), by Alexis Sarda-Espinosa: focused on applying DTW for time series clustering. It has a very comprehensive technical vignette [here](https://cran.r-project.org/web/packages/dtwclust/vignettes/dtwclust.pdf).
+  - [IncDTW](https://cran.r-project.org/package=IncDTW), by Maximilian Leodolter: efficient implementation with a [companion paper](https://www.jstatsoft.org/article/view/v099i09), focused on fast DTW computations for real-time applications.
+
+## Python
+
+  - [dtw-python](https://pypi.org/project/dtw-python/): Python implementation of [dtw](https://dynamictimewarping.github.io/).
+  - [dtaidistance](https://github.com/wannesm/dtaidistance): fast C implementation of DTW, with a great documentation page [here](https://dtaidistance.readthedocs.io/en/latest/).
+  - [tslearn](https://tslearn.readthedocs.io/en/stable/), by Romain Tavenard: focused on time series clustering via DTW for machine learning modeling.
+  - [fastdtw](https://github.com/slaypni/fastdtw?tab=readme-ov-file), by Stan Salvador and Philip Chan: python implementation of FastDTW, a fast approximation to DTW described in [this paper](https://cs.fit.edu/~pkc/papers/tdm04.pdf).
+  
+## Other Languages
+
+The [Wikipedia page on Dynamic Time Warping](https://en.wikipedia.org/wiki/Dynamic_time_warping) lists implementations in other languages in the section *Open Source Software*.
+
+# Applications
 
 ## Industry
 
-### Wearables
-
 [**Wave ring**](https://genkiinstruments.com/products/wave) a MIDI controller to create music [patented by Genki](https://patents.google.com/patent/US20220085841A1/en).
-
-### Manufacturing
 
 [**LAMTSS**](https://www.global.toshiba/ww/technology/corporate/rdc/rd/topics/20/2006-01.html), by Toshiba, for prediction and detection of operational failures in heavy machinery.
 
-### Software
+[**Sift**](https://wiki.has-motion.com/doku.php?id=sift:sift_overview) software, by [HAS Motion](https://www.has-motion.ca/), [uses DTW](https://wiki.has-motion.com/doku.php?id=sift:dynamic_time_warping:dynamic_time_warping) to find anomalies in large biomechanics datasets.
 
-[**Sift**](https://wiki.has-motion.com/doku.php?id=sift:sift_overview) software, by [HAS Motion](https://www.has-motion.ca/), [uses DTW](https://wiki.has-motion.com/doku.php?id=sift:dynamic_time_warping:dynamic_time_warping) to find anomalies in large biomechanics datasets
+**Netflix** uses Dynamic Time Warping to [align soundtracks and close captions](https://netflixtechblog.com/detecting-scene-changes-in-audiovisual-content-77a61d3eaad6).
+
 
 ## Academia
 
-### Sports Analytics
 
 [**Classifying ball trajectories in invasion sports using dynamic time warping: A basketball case study**](https://doi.org/10.1371/journal.pone.0272848)
-
-### Healthcare
 
 [**A Dynamic Time Warping Based Algorithm to Evaluate Kinect-Enabled Home-Based Physical Rehabilitation Exercises for Older People**](https://doi.org/10.3390/s19132882)
 
@@ -53,10 +70,6 @@ This article lists interesting applications of dynamic time warping I have found
 
 [**A Unified Framework for Quality Indexing and Classification of Seismocardiogram Signals**](https://doi.org/10.1109/JBHI.2019.2931348)
 
-### Data Fusion
-
 [**Using dynamic time warping for online temporal fusion in multisensor**](https://doi.org/10.1016/j.inffus.2006.08.002)
-
-### Astronomy
 
 [**Dynamic Time Warping as a Means of Assessing Solar Wind Time Series**](https://iopscience.iop.org/article/10.3847/1538-4357/ac4af6)
