@@ -25,11 +25,27 @@ options(conflicts.policy = list(warn = FALSE))
 
 This article lists interesting applications of dynamic time warping I have found in the literature, patents, and other resources. It is supposed to be a living document, so it will be updated from time to time with new findings.
 
-## Sports Analytics
+## Industry
+
+### Wearables
+
+[**Wave ring**](https://genkiinstruments.com/products/wave) a MIDI controller to create music [patented by Genki](https://patents.google.com/patent/US20220085841A1/en).
+
+### Manufacturing
+
+[**LAMTSS**](https://www.global.toshiba/ww/technology/corporate/rdc/rd/topics/20/2006-01.html), by Toshiba, for prediction and detection of operational failures in heavy machinery.
+
+### Software
+
+[**Sift**](https://wiki.has-motion.com/doku.php?id=sift:sift_overview) software, by [HAS Motion](https://www.has-motion.ca/), [uses DTW](https://wiki.has-motion.com/doku.php?id=sift:dynamic_time_warping:dynamic_time_warping) to find anomalies in large biomechanics datasets
+
+## Academia
+
+### Sports Analytics
 
 [**Classifying ball trajectories in invasion sports using dynamic time warping: A basketball case study**](https://doi.org/10.1371/journal.pone.0272848)
 
-## Healthcare
+### Healthcare
 
 [**A Dynamic Time Warping Based Algorithm to Evaluate Kinect-Enabled Home-Based Physical Rehabilitation Exercises for Older People**](https://doi.org/10.3390/s19132882)
 
@@ -37,10 +53,10 @@ This article lists interesting applications of dynamic time warping I have found
 
 [**A Unified Framework for Quality Indexing and Classification of Seismocardiogram Signals**](https://doi.org/10.1109/JBHI.2019.2931348)
 
-## Data Fusion
+### Data Fusion
 
 [**Using dynamic time warping for online temporal fusion in multisensor**](https://doi.org/10.1016/j.inffus.2006.08.002)
 
-## Astronomy
+### Astronomy
 
 [**Dynamic Time Warping as a Means of Assessing Solar Wind Time Series**](https://iopscience.iop.org/article/10.3847/1538-4357/ac4af6)

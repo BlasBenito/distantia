@@ -1,5 +1,5 @@
 ---
-title: "In The Wild"
+title: "distantia In The Wild"
 output: 
   rmarkdown::html_document:
     toc: true
