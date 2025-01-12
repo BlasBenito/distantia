@@ -75,18 +75,16 @@ Dissimilarity Analysis. R package version 2.0.0. url:
 
 ## Install
 
-Version 1.0.2 of `distantia` can be installed from CRAN.
+Version 2.0.0 of `distantia` can be installed from CRAN and GitHub.
 
 ``` r
+#CRAN
 install.packages("distantia")
-```
 
-Version 2.0.0 can be installed from GitHub.
-
-``` r
+#GitHub
 remotes::install_github(
   repo = "blasbenito/distantia", 
-  ref = "development"
+  ref = "main"
   )
 ```
 
@@ -156,7 +154,7 @@ tsl_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ### Dissimilarity Analysis
 
@@ -194,7 +192,7 @@ others.
 distantia_boxplot(df = df_ls, text_cex = 0.8)
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 #### Dynamic Time Warping
 
@@ -225,7 +223,7 @@ distantia_dtw_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 Deviations from the perfect diagonal in the least-cost path reveal
 adjustments made by DTW to align time series by shape rather than time.
@@ -334,7 +332,7 @@ momentum_boxplot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="75%" />
 
 ### Clustering
 
@@ -384,7 +382,7 @@ plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="75%" />
 
 This is just a summary of the features implemented in the package.
 Please visit the **Articles** section to find out more about

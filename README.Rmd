@@ -73,19 +73,16 @@ If you find this package useful, please cite it as:
 
 ## Install
 
-Version 1.0.2 of `distantia` can be installed from CRAN.
+Version 2.0.0 of `distantia` can be installed from CRAN and GitHub.
 
 ```{r, eval = FALSE}
+#CRAN
 install.packages("distantia")
-```
 
-
-Version 2.0.0 can be installed from GitHub.
-
-```{r, eval = FALSE}
+#GitHub
 remotes::install_github(
   repo = "blasbenito/distantia", 
-  ref = "development"
+  ref = "main"
   )
 ```
 
