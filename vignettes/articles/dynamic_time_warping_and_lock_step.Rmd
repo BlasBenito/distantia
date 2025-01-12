@@ -51,7 +51,7 @@ library(dplyr)
 
 The `cities_temperature` dataset contains monthly temperature records for 20 cities. The code below transforms it into a Time Series List (TSL) and selects a subset of three cities with temperature time series from 2000 to 2005.
 
-```{r}
+```{r, fig.height=3}
 tsl_raw <- distantia::tsl_initialize(
   x = cities_temperature,
   name_column = "name",
@@ -73,7 +73,7 @@ The transformed TSL contains two synchronous time series in the Northern Hemisph
 
 To facilitate the comparison of DTW and LS, the code below applies the functions `tsl_transform()` with `f_detrend_linear` to remove any long-term trends in the data, and with `f_scale` to scale and center each time series separately.
 
-```{r}
+```{r, fig.height=3}
 tsl_scaled <- tsl_raw |> 
   distantia::tsl_transform(
     f = distantia::f_detrend_linear
