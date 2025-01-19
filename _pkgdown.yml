@@ -22,13 +22,16 @@ articles:
   - articles/time_series_lists
   - articles/mapping_dissimilarity
 
+- title: "Articles"
+  navbar: "Articles"
+  - distantia_gentle_intro
+  - articles/dtw_applications
+  - articles/distantia_in_the_wild
+
 - title: "Original Paper"
   navbar: "Original Paper"
   contents:
   - distantia_paper
-  - articles/distantia_in_the_wild
-  - articles/dtw_applications
-
 
 
 external-articles:
@@ -37,6 +40,11 @@ external-articles:
     title: "Benito & Birks 2020 (Ecography)"
     description: "This paper introduces 'distantia', an R package to assess dissimilarity between regular or irregular, univariate or multivariate time-series"
     href: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895
+
+  - name: distantia_gentle_intro
+    title: "A Gentle Intro to Dynamic Time Warping"
+    description: "Blog post offering a gentle conceptual introduction to DTW and listing many of its real-world applications."
+    href: https://www.blasbenito.com/post/dynamic-time-warping/
 
 reference:
 
