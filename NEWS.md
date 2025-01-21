@@ -1,3 +1,7 @@
+## Version 2.0.1
+
+- Fixed bug in function `cost_matrix_diagonal_weighted_cpp()` where the additional weight of the diagonal movement was not being correctly applied.
+
 ## Version 2.0.0
 
 - This new version involves a massive rewrite that will break any previous code based on this package. To install the previous version (1.0.2):

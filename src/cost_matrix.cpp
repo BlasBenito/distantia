@@ -70,14 +70,18 @@ NumericMatrix cost_matrix_diagonal_weighted_cpp(
 
   for (int i = 1; i < yn; ++i) {
     for (int j = 1; j < xn; ++j) {
+
+      // Store the current distance value in a variable
+      double current_dist = dist_matrix(i, j);
+
       // Apply the weight factor for diagonal movements
-      if (i == j) {
-        m(i, j) = std::min({m(i - 1, j), m(i, j - 1), m(i - 1, j - 1)}) + dist_matrix(i, j) * diagonal_weight;
-      } else {
-        m(i, j) = std::min({m(i - 1, j), m(i, j - 1)}) + dist_matrix(i, j);
+      m(i, j) = std::min(
+      {m(i - 1, j) + current_dist,                // Vertical movement
+       m(i, j - 1) + current_dist,                // Horizontal movement (horizontal)
+       m(i - 1, j - 1) + (current_dist * diagonal_weight)}  // Diagonal movement
+      );
       }
     }
-  }
 
   // Adjusting the last cell to include the return cost to the starting point
   m(yn - 1, xn - 1) += m(0, 0);
