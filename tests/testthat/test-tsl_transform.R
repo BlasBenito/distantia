@@ -350,7 +350,8 @@ test_that("`tsl_transform()` works", {
     ) |>
       tsl_subset(
         names = 1:3
-      )
+      ) |>
+      suppressMessages()
 
 
   #f_clr ----
