@@ -54,7 +54,7 @@ double distance_jaccard_cpp(NumericVector x, NumericVector y) {
     }
   }
 
-  if (union_count == 0) {
+  if (union_count == 0.0) {
     return 0.0; // In case both vectors are all zeros, Jaccard distance is 0.
   }
 
@@ -304,7 +304,7 @@ double distance_bray_curtis_cpp(NumericVector x, NumericVector y) {
     sum_y += y[i];
   }
 
-  if ((sum_x + sum_y) == 0) {
+  if ((sum_x + sum_y) == 0.0) {
    return 0.0;
   }
 
@@ -337,7 +337,7 @@ double distance_sorensen_cpp(NumericVector x, NumericVector y) {
     }
   }
 
-  if ((2 * A + B + C) == 0) {
+  if ((2.0 * A + B + C) == 0.0) {
     return 0.0; // Avoid division by zero when vectors are all zeros
   }
 

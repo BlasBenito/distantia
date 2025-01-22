@@ -61,6 +61,8 @@ psi_cost_path_sum <- function(path = NULL){
     path = path
   )
 
-  sum(path$dist)
+  cost_path_sum_cpp(
+    path = path
+  )
 
 }

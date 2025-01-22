@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include <cmath>
 #include "distance_methods.h"
 using namespace Rcpp;
 
@@ -36,7 +37,9 @@ double auto_distance_cpp(
     dist += f(x.row(i), x.row(i + 1));
   }
 
-  return dist;
+  // rounding to 8 decimal places
+  double factor = std::pow(10.0, 8);
+  return std::round(dist * factor) / factor;
 
 }
 
@@ -135,7 +138,11 @@ double auto_sum_full_cpp(
     distance
   );
 
-  return x_distance + y_distance;
+  double dist = x_distance + y_distance;
+
+  // rounding to 8 decimal places
+  double factor = std::pow(10.0, 8);
+  return std::round(dist * factor) / factor;
 
 }
 
@@ -212,7 +219,6 @@ double auto_sum_path_cpp(
     distance
   );
 
-
   NumericMatrix y_subset = subset_matrix_by_rows_cpp(
     y,
     path["y"]
@@ -223,8 +229,11 @@ double auto_sum_path_cpp(
     distance
   );
 
+  double dist = x_distance + y_distance;
 
-  return x_distance + y_distance;
+  // rounding to 8 decimal places
+  double factor = std::pow(10.0, 8);
+  return std::round(dist * factor) / factor;
 
 }
 
@@ -291,7 +300,7 @@ double auto_sum_cpp(
  bool ignore_blocks = false
 ){
 
-double xy_sum = 0;
+double xy_sum = 0.0;
 
 //trim cost path
 if (ignore_blocks){

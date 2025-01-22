@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include <cmath>
 #include "distance_methods.h"
 #include "distance_matrix.h"
 #include "cost_matrix.h"
@@ -708,9 +709,13 @@ double cost_path_sum_cpp(
     DataFrame path
 ){
 
-  NumericVector dist = path["dist"];
+  NumericVector path_dist = path["dist"];
 
-  return(sum(dist));
+  double dist = sum(path_dist);
+
+  // rounding to 8 decimal places
+  double factor = std::pow(10.0, 8);
+  return std::round(dist * factor) / factor;
 
 }
 
@@ -725,9 +730,9 @@ double cost_path_sum_cpp(
 //' @param distance (optional, character string) distance name from the "names"
 //' column of the dataset `distances` (see `distances$name`). Default: "euclidean".
 //' @param diagonal (optional, logical). If TRUE, diagonals are included in the
-//' computation of the cost matrix. Default: FALSE.
-//' @param weighted (optional, logical). If TRUE, diagonal is set to TRUE, and
-//' diagonal cost is weighted by y factor of 1.414214 (square root of 2). Default: FALSE.
+//' computation of the cost matrix. Default: TRUE.
+//' @param weighted (optional, logical). Only relevant when diagonal is TRUE. When TRUE,
+//' diagonal cost is weighted by y factor of 1.414214 (square root of 2). Default: TRUE.
 //' @param ignore_blocks (optional, logical). If TRUE, blocks of consecutive path
 //' coordinates are trimmed to avoid inflating the psi distance. Default: FALSE.
 //' @param bandwidth (required, numeric) Size of the Sakoe-Chiba band at
@@ -748,7 +753,7 @@ DataFrame cost_path_cpp(
    double bandwidth = 1
 ){
 
- if(weighted){diagonal = true;}
+ if(!diagonal){weighted = false;}
 
  //distance matrix
  NumericMatrix dist_matrix = distance_matrix_cpp(

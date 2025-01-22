@@ -2,6 +2,10 @@
 
 - Fixed bug in function `cost_matrix_diagonal_weighted_cpp()` where the additional weight of the diagonal movement was not being correctly applied. This change will result in slightly different `psi` values in `distantia()`, `distantia_dtw()`, and `distantia_dtw_plot()` when `diagonal = TRUE` (default).
 
+- Fixed bug in function `cost_path_cpp`, which still produced diagonal cost matrices when `diagonal = FALSE` because `weighted = TRUE` turned `diagonal` to `TRUE`. Now `weighted` is set to `FALSE` when `diagonal = FALSE`. This resulted in negative scores for orthogonal least-cost paths.
+
+- All C++ functions returning values of type double to R functions now round their output to the 8th decimal. This should mitigate discrepancies between R and C++ functions due to differences in how these systems round floating point numbers.
+
 ## Version 2.0.0
 
 - This new version involves a massive rewrite that will break any previous code based on this package. To install the previous version (1.0.2):
