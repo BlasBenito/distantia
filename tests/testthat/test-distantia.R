@@ -164,4 +164,20 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
 
   expect_true(all(c("name", "mean", "min", "q1", "median", "q3", "max", "sd", "range") %in% colnames(df_stats)))
 
+  #testing self-comparison
+  tsl <- tsl_init(
+    x = list(
+      x = tsl[[1]],
+      y = tsl[[1]]
+    )
+  )
+
+  out <- distantia_ls(tsl = tsl)$psi
+
+  testthat::expect_equal(out, 0)
+
+  out <- distantia_dtw(tsl = tsl)$psi
+
+  testthat::expect_equal(out, 0)
+
 })
