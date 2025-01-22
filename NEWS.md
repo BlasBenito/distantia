@@ -1,6 +1,6 @@
 ## Version 2.0.1
 
-- Fixed bug in function `cost_matrix_diagonal_weighted_cpp()` where the additional weight of the diagonal movement was not being correctly applied.
+- Fixed bug in function `cost_matrix_diagonal_weighted_cpp()` where the additional weight of the diagonal movement was not being correctly applied. This change will result in slightly different `psi` values in `distantia()`, `distantia_dtw()`, and `distantia_dtw_plot()` when `diagonal = TRUE` (default).
 
 ## Version 2.0.0
 
