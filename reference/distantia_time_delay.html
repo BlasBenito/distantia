@@ -15,7 +15,7 @@ This function requires scaled and detrended time series. Still, it might yield n
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,10 +32,13 @@ This function requires scaled and detrended time series. Still, it might yield n
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -147,12 +150,12 @@ This function requires scaled and detrended time series. Still, it might yield n
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_shift</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          x        y  distance units  min   q1 median     mean modal   q3  max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Kinshasa   London euclidean  days  150  181    212  203.607   212  215  304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   London Kinshasa euclidean  days -150 -181   -212 -203.607  -212 -215 -304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 34.49699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 34.49699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          x        y  distance units  min     q1 median      mean modal   q3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Kinshasa   London euclidean  days -243 -89.75    184  115.7031   212  215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   London Kinshasa euclidean  days  243  89.75   -184 -115.7031  -212 -215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    max       sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  304 168.4741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -304 168.4741</span>
 <span class="r-in"><span><span class="co">#positive shift values indicate</span></span></span>
 <span class="r-in"><span><span class="co">#that the samples in Kinshasa</span></span></span>
 <span class="r-in"><span><span class="co">#are aligned with older samples in London.</span></span></span>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +24,13 @@
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -107,37 +110,37 @@
 <span class="r-in"><span>  <span class="st">"importance"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"effect"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       x    y    variable   importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  X132 X134           x   87.6066043 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  X132 X134           y   93.9587187 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  X132 X134       speed  -21.9171171 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  X132 X134 temperature   72.8121621 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  X132 X134     heading  -38.0165137 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  X132 X136           x   48.3845903 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  X132 X136           y   93.5214543 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  X132 X136       speed  -61.1729252 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  X132 X136 temperature  356.8824838 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 X132 X136     heading -102.9830173 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 X132 X153           x  427.7381576 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 X132 X153           y  156.1285451 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 X132 X153       speed  -40.9249630 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 X132 X153 temperature  -14.2831545 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 X132 X153     heading  -79.3532025 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 X134 X136           x   61.3361468 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 X134 X136           y  108.9650664 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 X134 X136       speed  -59.2603918 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 X134 X136 temperature  310.6812842 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 X134 X136     heading  -90.2797292 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 X134 X153           x  592.0783167 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 X134 X153           y  116.4310429 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 X134 X153       speed  -52.4149093 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 X134 X153 temperature    0.9936944 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 X134 X153     heading  -85.0271172 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 X136 X153           x  507.6153648 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27 X136 X153           y   56.6957442 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28 X136 X153       speed  -65.4516103 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29 X136 X153 temperature  240.9053814 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30 X136 X153     heading -116.2461929 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x    y    variable  importance               effect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  X132 X134           x   89.721187 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  X132 X134           y  101.305396 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  X132 X134       speed  -28.286386 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  X132 X134 temperature   78.130508 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  X132 X134     heading  -43.644053 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  X132 X136           x   15.687570 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  X132 X136           y   82.867368 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  X132 X136       speed  -67.196851 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  X132 X136 temperature  382.039900 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 X132 X136     heading -104.245839 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 X132 X153           x  467.261463 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 X132 X153           y  159.727491 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 X132 X153       speed  -44.549191 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 X132 X153 temperature   -4.016121 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 X132 X153     heading  -88.852346 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 X134 X136           x   36.205194 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 X134 X136           y   90.757712 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 X134 X136       speed  -61.923595 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 X134 X136 temperature  348.244258 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 X134 X136     heading  -96.737145 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 X134 X153           x  761.132445 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 X134 X153           y   26.329542 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 X134 X153       speed  -62.801312 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 X134 X153 temperature  -23.264433 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 X134 X153     heading  -76.874072 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 X136 X153           x  530.402462 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 X136 X153           y   24.217594 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 X136 X153       speed  -67.659029 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 X136 X153 temperature  255.711643 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 X136 X153     heading -119.877355 increases similarity</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -21,7 +21,7 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +38,13 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -116,68 +119,68 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       x    y      psi    variable   importance               effect</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  X132 X134 1.299380           x   87.6066043 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  X132 X134 1.299380           y   93.9587187 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  X132 X134 1.299380       speed  -21.9171171 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  X132 X134 1.299380 temperature   72.8121621 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  X132 X134 1.299380     heading  -38.0165137 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  X132 X136 2.449381           x   48.3845903 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  X132 X136 2.449381           y   93.5214543 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  X132 X136 2.449381       speed  -61.1729252 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  X132 X136 2.449381 temperature  356.8824838 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 X132 X136 2.449381     heading -102.9830173 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 X132 X153 2.091923           x  427.7381576 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 X132 X153 2.091923           y  156.1285451 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 X132 X153 2.091923       speed  -40.9249630 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 X132 X153 2.091923 temperature  -14.2831545 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 X132 X153 2.091923     heading  -79.3532025 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 X134 X136 2.358040           x   61.3361468 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 X134 X136 2.358040           y  108.9650664 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 X134 X136 2.358040       speed  -59.2603918 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 X134 X136 2.358040 temperature  310.6812842 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 X134 X136 2.358040     heading  -90.2797292 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 X134 X153 2.074241           x  592.0783167 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 X134 X153 2.074241           y  116.4310429 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 X134 X153 2.074241       speed  -52.4149093 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 X134 X153 2.074241 temperature    0.9936944 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 X134 X153 2.074241     heading  -85.0271172 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 X136 X153 2.666099           x  507.6153648 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27 X136 X153 2.666099           y   56.6957442 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28 X136 X153 2.666099       speed  -65.4516103 increases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29 X136 X153 2.666099 temperature  240.9053814 decreases similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30 X136 X153 2.666099     heading -116.2461929 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x    y      psi    variable  importance               effect</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  X132 X134 1.163499           x   89.721187 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  X132 X134 1.163499           y  101.305396 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  X132 X134 1.163499       speed  -28.286386 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  X132 X134 1.163499 temperature   78.130508 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  X132 X134 1.163499     heading  -43.644053 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  X132 X136 2.307844           x   15.687570 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  X132 X136 2.307844           y   82.867368 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  X132 X136 2.307844       speed  -67.196851 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  X132 X136 2.307844 temperature  382.039900 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 X132 X136 2.307844     heading -104.245839 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 X132 X153 2.306471           x  467.261463 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 X132 X153 2.306471           y  159.727491 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 X132 X153 2.306471       speed  -44.549191 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 X132 X153 2.306471 temperature   -4.016121 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 X132 X153 2.306471     heading  -88.852346 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 X134 X136 2.206298           x   36.205194 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 X134 X136 2.206298           y   90.757712 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 X134 X136 2.206298       speed  -61.923595 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 X134 X136 2.206298 temperature  348.244258 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 X134 X136 2.206298     heading  -96.737145 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 X134 X153 2.115504           x  761.132445 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 X134 X153 2.115504           y   26.329542 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 X134 X153 2.115504       speed  -62.801312 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 X134 X153 2.115504 temperature  -23.264433 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 X134 X153 2.115504     heading  -76.874072 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 X136 X153 2.686551           x  530.402462 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 X136 X153 2.686551           y   24.217594 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 X136 X153 2.686551       speed  -67.659029 increases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 X136 X153 2.686551 temperature  255.711643 decreases similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 X136 X153 2.686551     heading -119.877355 increases similarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    psi_difference psi_without psi_only_with  distance diagonal bandwidth</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1.13834302    1.253464      2.391807 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      1.22088115    1.232522      2.453403 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     -0.28478672    1.403873      1.119086 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      0.94610694    1.244877      2.190984 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     -0.49397912    1.569450      1.075471 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      1.18512314    2.425775      3.610898 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      2.29069707    2.353934      4.644631 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     -1.49835823    2.895746      1.397388 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      8.74141303    1.586215     10.327628 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10    -2.52244683    3.726621      1.204174 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11     8.94795300    1.709049     10.657002 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12     3.26608898    1.837195      5.103284 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13    -0.85611872    2.334915      1.478797 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14    -0.29879260    2.127711      1.828918 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15    -1.66000791    3.033689      1.373681 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16     1.44633065    2.332406      3.778736 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17     2.56943945    2.270057      4.839496 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18    -1.39738352    2.823389      1.426005 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19     7.32598781    1.628667      8.954655 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20    -2.12883179    3.443185      1.314354 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21    12.28112833    1.516331     13.797459 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22     2.41505987    1.903884      4.318944 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23    -1.08721129    2.408284      1.321072 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24     0.02061161    2.095194      2.115805 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25    -1.76366692    3.027265      1.263598 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26    13.53352947    2.362495     15.896024 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27     1.51156482    2.615352      4.126917 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28    -1.74500490    3.130579      1.385574 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29     6.42277659    2.007003      8.429779 euclidean     TRUE         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30    -3.09923889    4.343310      1.244071 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1.04390518    1.111188     2.1550935 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      1.17868735    1.092833     2.2715204 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     -0.32911184    1.284514     0.9554020 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      0.90904774    1.099009     2.0080565 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     -0.50779815    1.437155     0.9293573 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      0.36204459    2.311210     2.6732545 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      1.91244927    2.224086     4.1365352 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     -1.55079824    2.760115     1.2093171 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      8.81688350    1.406874    10.2237578 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    -2.40583096    3.521415     1.1155843 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    10.77725027    1.804499    12.5817493 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12     3.68406831    2.009827     5.6938953 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13    -1.02751418    2.625354     1.5978393 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14    -0.09263067    2.327298     2.2346670 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15    -2.04935361    3.405979     1.3566257 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16     0.79879461    2.207099     3.0058938 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17     2.00238595    2.142738     4.1451235 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18    -1.36621929    2.664565     1.2983462 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19     7.68330753    1.397224     9.0805312 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20    -2.13431009    3.282323     1.1480127 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21    16.10178922    1.392314    17.4941037 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22     0.55700259    2.064727     2.6217298 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23    -1.32856443    2.504608     1.1760437 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24    -0.49216006    2.155119     1.6629588 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25    -1.62627425    3.037239     1.4109647 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26    14.24953216    2.359901    16.6094327 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27     0.65061800    2.672038     3.3226560 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28    -1.81769426    3.166674     1.3489801 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29     6.86982348    1.968105     8.8379282 euclidean     TRUE         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30    -3.22056616    4.409902     1.1893363 euclidean     TRUE         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    lock_step robust</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      FALSE   TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      FALSE   TRUE</span>
@@ -217,54 +220,54 @@ psi_without__variable_name: dissimilarity of the two time series when removing t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df_wide</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x    y      psi most_similarity most_dissimilarity importance__heading</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 X132 X134 1.299380         heading                  y           -38.01651</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 X132 X136 2.449381         heading        temperature          -102.98302</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 X132 X153 2.091923         heading                  x           -79.35320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 X134 X136 2.358040         heading        temperature           -90.27973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 X134 X153 2.074241         heading                  x           -85.02712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 X136 X153 2.666099         heading                  x          -116.24619</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 X132 X134 1.163499         heading                  y           -43.64405</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 X132 X136 2.307844         heading        temperature          -104.24584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 X132 X153 2.306471         heading                  x           -88.85235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 X134 X136 2.206298         heading        temperature           -96.73714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 X134 X153 2.115504         heading                  x           -76.87407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 X136 X153 2.686551         heading                  x          -119.87735</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   importance__speed importance__temperature importance__x importance__y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         -21.91712              72.8121621      87.60660      93.95872</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         -61.17293             356.8824838      48.38459      93.52145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         -40.92496             -14.2831545     427.73816     156.12855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         -59.26039             310.6812842      61.33615     108.96507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         -52.41491               0.9936944     592.07832     116.43104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         -65.45161             240.9053814     507.61536      56.69574</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         -28.28639               78.130508      89.72119     101.30540</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         -67.19685              382.039900      15.68757      82.86737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         -44.54919               -4.016121     467.26146     159.72749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         -61.92359              348.244258      36.20519      90.75771</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         -62.80131              -23.264433     761.13244      26.32954</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         -67.65903              255.711643     530.40246      24.21759</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_difference__heading psi_difference__speed psi_difference__temperature</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              -0.4939791            -0.2847867                  0.94610694</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              -2.5224468            -1.4983582                  8.74141303</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              -1.6600079            -0.8561187                 -0.29879260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              -2.1288318            -1.3973835                  7.32598781</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              -1.7636669            -1.0872113                  0.02061161</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              -3.0992389            -1.7450049                  6.42277659</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              -0.5077982            -0.3291118                  0.90904774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              -2.4058310            -1.5507982                  8.81688350</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              -2.0493536            -1.0275142                 -0.09263067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              -2.1343101            -1.3662193                  7.68330753</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              -1.6262742            -1.3285644                 -0.49216006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              -3.2205662            -1.8176943                  6.86982348</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_difference__x psi_difference__y psi_only_with__heading</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          1.138343          1.220881               1.075471</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          1.185123          2.290697               1.204174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          8.947953          3.266089               1.373681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          1.446331          2.569439               1.314354</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         12.281128          2.415060               1.263598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         13.533529          1.511565               1.244071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1.0439052         1.1786874              0.9293573</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.3620446         1.9124493              1.1155843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        10.7772503         3.6840683              1.3566257</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         0.7987946         2.0023859              1.1480127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        16.1017892         0.5570026              1.4109647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        14.2495322         0.6506180              1.1893363</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__speed psi_only_with__temperature psi_only_with__x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             1.119086                   2.190984         2.391807</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             1.397388                  10.327628         3.610898</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             1.478797                   1.828918        10.657002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             1.426005                   8.954655         3.778736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             1.321072                   2.115805        13.797459</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             1.385574                   8.429779        15.896024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             0.955402                   2.008057         2.155094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             1.209317                  10.223758         2.673254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             1.597839                   2.234667        12.581749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4             1.298346                   9.080531         3.005894</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5             1.176044                   1.662959        17.494104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             1.348980                   8.837928        16.609433</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_only_with__y psi_without__heading psi_without__speed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         2.453403             1.569450           1.403873</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         4.644631             3.726621           2.895746</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         5.103284             3.033689           2.334915</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         4.839496             3.443185           2.823389</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         4.318944             3.027265           2.408284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         4.126917             4.343310           3.130579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         2.271520             1.437155           1.284514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         4.136535             3.521415           2.760115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         5.693895             3.405979           2.625354</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         4.145123             3.282323           2.664565</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         2.621730             3.037239           2.504608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         3.322656             4.409902           3.166674</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   psi_without__temperature psi_without__x psi_without__y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.244877       1.253464       1.232522</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.586215       2.425775       2.353934</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.127711       1.709049       1.837195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.628667       2.332406       2.270057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.095194       1.516331       1.903884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 2.007003       2.362495       2.615352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 1.099009       1.111188       1.092833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1.406874       2.311210       2.224086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 2.327298       1.804499       2.009827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 1.397224       2.207099       2.142738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                 2.155119       1.392314       2.064727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                 1.968105       2.359901       2.672038</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

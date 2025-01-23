@@ -35,7 +35,7 @@ while negative scores represent contribution to similarity.
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,10 +52,13 @@ while negative scores represent contribution to similarity.
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -148,10 +151,10 @@ column of the dataset <code>distances</code> (see <code>distances$name</code>). 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   variable      psi psi_only_with psi_without psi_difference  importance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        a 5.216396      4.140726    5.328400     -1.1876738 -22.7680903</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        b 5.216396      5.036421    5.048808     -0.0123872  -0.2374667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        c 5.216396      6.763852    4.961907      1.8019444  34.5438542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        d 5.216396      7.782788    4.922800      2.8599885  54.8269006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        a 5.216396      4.140726    5.328400     -1.1876738 -22.7680904</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        b 5.216396      5.036421    5.048808     -0.0123872  -0.2374666</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        c 5.216396      6.763852    4.961907      1.8019444  34.5438541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        d 5.216396      7.782788    4.922800      2.8599885  54.8269008</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5        e 5.216396      3.673350    5.914521     -2.2411717 -42.9639841</span>
 </code></pre></div>
     </div>

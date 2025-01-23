@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,10 +47,13 @@
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -303,12 +306,12 @@ to find the least-cost path.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">m.cost.path</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    x y       dist     cost</span></span>
-<span><span class="co">#&gt; 71 6 3 0.09082845 5.397220</span></span>
-<span><span class="co">#&gt; 72 5 2 0.19227643 4.524156</span></span>
-<span><span class="co">#&gt; 73 4 1 0.71503492 4.178789</span></span>
-<span><span class="co">#&gt; 74 3 1 0.88127572 3.463754</span></span>
-<span><span class="co">#&gt; 75 2 1 1.14678108 2.582479</span></span>
-<span><span class="co">#&gt; 76 1 1 1.43569743 1.435697</span></span></code></pre></div>
+<span><span class="co">#&gt; 76 6 3 0.09082845 4.579160</span></span>
+<span><span class="co">#&gt; 77 5 2 0.19227643 4.450709</span></span>
+<span><span class="co">#&gt; 78 4 1 0.71503492 4.178789</span></span>
+<span><span class="co">#&gt; 79 3 1 0.88127572 3.463754</span></span>
+<span><span class="co">#&gt; 80 2 1 1.14678108 2.582479</span></span>
+<span><span class="co">#&gt; 81 1 1 1.43569743 1.435697</span></span></code></pre></div>
 <p>Notice that the cost path data frame is ordered from bottom to top.
 The columns “x” and “y” represent sample indices of the time series
 London and Kinshasa. The figure below shows the least cost path on top
@@ -330,7 +333,7 @@ cost data frame is correct.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">step_1</span></span>
-<span><span class="co">#&gt; [1] 41.48562</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 36.18196</span></span></code></pre></div>
 <p>Step <strong>2</strong> returns the distances between consecutive
 samples within each time series, as computed by
 <code><a href="../reference/psi_auto_sum.html">psi_auto_sum()</a></code>.</p>
@@ -363,7 +366,7 @@ to <code>FALSE</code>, or with the function
 <span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y      psi</span></span>
-<span><span class="co">#&gt; 1 London Kinshasa 1.206093</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 London Kinshasa 1.051902</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_dtw.html">distantia_dtw</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
@@ -371,7 +374,7 @@ to <code>FALSE</code>, or with the function
 <span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y      psi</span></span>
-<span><span class="co">#&gt; 1 London Kinshasa 1.206093</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 London Kinshasa 1.051902</span></span></code></pre></div>
 <p>As before, both functions can compute dynamic time warping
 dissimilarity for all time series in the argument <code>tsl</code> at
 once.</p>
@@ -382,9 +385,9 @@ once.</p>
 <span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y       psi</span></span>
-<span><span class="co">#&gt; 1 London    Paris 0.2298458</span></span>
-<span><span class="co">#&gt; 2 London Kinshasa 1.2060927</span></span>
-<span><span class="co">#&gt; 3  Paris Kinshasa 1.2384104</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 London    Paris 0.2177902</span></span>
+<span><span class="co">#&gt; 2 London Kinshasa 1.0519019</span></span>
+<span><span class="co">#&gt; 3  Paris Kinshasa 1.1054414</span></span></code></pre></div>
 <p>The function <code><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot()</a></code> offers a good
 graphical representation of the warping result and decomposes the
 computation of the <em>psi</em> dissimilarity score.</p>
@@ -491,12 +494,12 @@ data with two bandwidths: 1 for unrestricted dynamic time warping, and
 <span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span>, <span class="st">"bandwidth"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y        psi bandwidth</span></span>
-<span><span class="co">#&gt; 1 London    Paris  0.4422241      1.00</span></span>
-<span><span class="co">#&gt; 4 London    Paris  0.4422241      0.25</span></span>
-<span><span class="co">#&gt; 3  Paris Kinshasa  7.2974857      1.00</span></span>
-<span><span class="co">#&gt; 6  Paris Kinshasa  7.6164475      0.25</span></span>
-<span><span class="co">#&gt; 5 London Kinshasa 10.2968144      0.25</span></span>
-<span><span class="co">#&gt; 2 London Kinshasa 10.7168885      1.00</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 London    Paris  0.4241914      1.00</span></span>
+<span><span class="co">#&gt; 4 London    Paris  0.4241914      0.25</span></span>
+<span><span class="co">#&gt; 3  Paris Kinshasa  7.3672711      1.00</span></span>
+<span><span class="co">#&gt; 6  Paris Kinshasa  7.6432712      0.25</span></span>
+<span><span class="co">#&gt; 5 London Kinshasa 10.2494423      0.25</span></span>
+<span><span class="co">#&gt; 2 London Kinshasa 10.7561509      1.00</span></span></code></pre></div>
 <p>Now, we can compute the psi differences across bandwidths for each
 pair of time series</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -513,9 +516,9 @@ pair of time series</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   x [2]</span></span></span>
 <span><span class="co">#&gt;   x      y        psi_diff</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> London Kinshasa    0.420</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> London Kinshasa    0.507</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> London Paris       0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Paris  Kinshasa    0.319</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Paris  Kinshasa    0.276</span></span></code></pre></div>
 <p>All pairs of time series with a <code>psi_diff</code> higher than
 zero show warping paths that go beyond the 0.25 bandwidth.</p>
 </div>
@@ -559,9 +562,9 @@ data frame.</p>
 <span>  psi_ls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">df_ls</span><span class="op">$</span><span class="va">psi</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;        x        y psi_dtw psi_ls</span></span>
-<span><span class="co">#&gt; 1 London    Paris   0.230  0.230</span></span>
-<span><span class="co">#&gt; 2 London Kinshasa   1.206  2.705</span></span>
-<span><span class="co">#&gt; 3  Paris Kinshasa   1.238  2.791</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 London    Paris   0.218  0.230</span></span>
+<span><span class="co">#&gt; 2 London Kinshasa   1.052  2.705</span></span>
+<span><span class="co">#&gt; 3  Paris Kinshasa   1.105  2.791</span></span></code></pre></div>
 <p>For London and Paris, both DTW and LS show very similar values,
 because the time series are very similar and DTW cannot do much else to
 adjust them even more. On the other hand, DTW shows much lower values
