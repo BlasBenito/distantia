@@ -26,6 +26,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -48,7 +49,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.0.1" id="version-201">Version 2.0.1<a class="anchor" aria-label="anchor" href="#version-201"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.0.1" id="version-201">Version 2.0.1<a class="anchor" aria-label="anchor" href="#version-201"></a></h2><p class="text-muted">CRAN release: 2025-01-23</p>
 <ul><li><p>Fixed bug in function <code><a href="../reference/cost_matrix_diagonal_weighted_cpp.html">cost_matrix_diagonal_weighted_cpp()</a></code> where the additional weight of the diagonal movement was not being correctly applied. This change will result in slightly different <code>psi</code> values in <code><a href="../reference/distantia.html">distantia()</a></code>, <code><a href="../reference/distantia_dtw.html">distantia_dtw()</a></code>, and <code><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot()</a></code> when <code>diagonal = TRUE</code> (default).</p></li>
 <li><p>Fixed bug in function <code>cost_path_cpp</code>, which still produced diagonal cost matrices when <code>diagonal = FALSE</code> because <code>weighted = TRUE</code> turned <code>diagonal</code> to <code>TRUE</code>. Now <code>weighted</code> is set to <code>FALSE</code> when <code>diagonal = FALSE</code>. This resulted in negative scores for orthogonal least-cost paths.</p></li>
 <li><p>All C++ functions returning values of type double to R functions now round their output to the 8th decimal. This should mitigate discrepancies between R and C++ functions due to differences in how these systems round floating point numbers.</p></li>
