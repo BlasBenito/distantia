@@ -13,7 +13,7 @@
 
 ## Warning
 
-Version 2.0.0 of `distantia` is a full re-write of the original package
+Version 2.0 of `distantia` is a full re-write of the original package
 and **will break existing workflows** before **making them better**.
 Please refer to the
 [Changelog](https://blasbenito.github.io/distantia/news/index.html) for
@@ -206,12 +206,12 @@ df_dtw <- distantia(
 
 df_dtw[, c("x", "y", "psi")]
 #>      x    y      psi
-#> 1 X132 X134 1.299380
-#> 5 X134 X153 2.074241
-#> 3 X132 X153 2.091923
-#> 4 X134 X136 2.358040
-#> 2 X132 X136 2.449381
-#> 6 X136 X153 2.666099
+#> 1 X132 X134 1.163499
+#> 5 X134 X153 2.115504
+#> 4 X134 X136 2.206298
+#> 3 X132 X153 2.306471
+#> 2 X132 X136 2.307844
+#> 6 X136 X153 2.686551
 ```
 
 The function `distantia_dtw_plot()` provides detailed insights into the
@@ -257,12 +257,12 @@ future::plan(future::sequential)
 
 df_dtw[, c("x", "y", "psi", "p_value")]
 #>      x    y      psi p_value
-#> 1 X132 X134 1.299380   0.001
-#> 5 X134 X153 2.074241   0.001
-#> 3 X132 X153 2.091923   0.001
-#> 4 X134 X136 2.358040   0.184
-#> 2 X132 X136 2.449381   0.499
-#> 6 X136 X153 2.666099   0.007
+#> 1 X132 X134 1.163499   0.001
+#> 5 X134 X153 2.115504   0.380
+#> 4 X134 X136 2.206298   0.134
+#> 3 X132 X153 2.306471   0.376
+#> 2 X132 X136 2.307844   0.002
+#> 6 X136 X153 2.686551   0.005
 ```
 
 The “p_value” column represents the fraction of permutations yielding a
@@ -284,37 +284,37 @@ df_importance <- momentum(
 )
 
 df_importance[, c("x", "y", "variable", "importance", "effect")]
-#>       x    y    variable   importance               effect
-#> 1  X132 X134           x   87.6066043 decreases similarity
-#> 2  X132 X134           y   93.9587187 decreases similarity
-#> 3  X132 X134       speed  -21.9171171 increases similarity
-#> 4  X132 X134 temperature   72.8121621 decreases similarity
-#> 5  X132 X134     heading  -38.0165137 increases similarity
-#> 6  X132 X136           x   48.3845903 decreases similarity
-#> 7  X132 X136           y   93.5214543 decreases similarity
-#> 8  X132 X136       speed  -61.1729252 increases similarity
-#> 9  X132 X136 temperature  356.8824838 decreases similarity
-#> 10 X132 X136     heading -102.9830173 increases similarity
-#> 11 X132 X153           x  427.7381576 decreases similarity
-#> 12 X132 X153           y  156.1285451 decreases similarity
-#> 13 X132 X153       speed  -40.9249630 increases similarity
-#> 14 X132 X153 temperature  -14.2831545 increases similarity
-#> 15 X132 X153     heading  -79.3532025 increases similarity
-#> 16 X134 X136           x   61.3361468 decreases similarity
-#> 17 X134 X136           y  108.9650664 decreases similarity
-#> 18 X134 X136       speed  -59.2603918 increases similarity
-#> 19 X134 X136 temperature  310.6812842 decreases similarity
-#> 20 X134 X136     heading  -90.2797292 increases similarity
-#> 21 X134 X153           x  592.0783167 decreases similarity
-#> 22 X134 X153           y  116.4310429 decreases similarity
-#> 23 X134 X153       speed  -52.4149093 increases similarity
-#> 24 X134 X153 temperature    0.9936944 decreases similarity
-#> 25 X134 X153     heading  -85.0271172 increases similarity
-#> 26 X136 X153           x  507.6153648 decreases similarity
-#> 27 X136 X153           y   56.6957442 decreases similarity
-#> 28 X136 X153       speed  -65.4516103 increases similarity
-#> 29 X136 X153 temperature  240.9053814 decreases similarity
-#> 30 X136 X153     heading -116.2461929 increases similarity
+#>       x    y    variable  importance               effect
+#> 1  X132 X134           x   89.721187 decreases similarity
+#> 2  X132 X134           y  101.305396 decreases similarity
+#> 3  X132 X134       speed  -28.286386 increases similarity
+#> 4  X132 X134 temperature   78.130508 decreases similarity
+#> 5  X132 X134     heading  -43.644053 increases similarity
+#> 6  X132 X136           x   15.687570 decreases similarity
+#> 7  X132 X136           y   82.867368 decreases similarity
+#> 8  X132 X136       speed  -67.196851 increases similarity
+#> 9  X132 X136 temperature  382.039900 decreases similarity
+#> 10 X132 X136     heading -104.245839 increases similarity
+#> 11 X132 X153           x  467.261463 decreases similarity
+#> 12 X132 X153           y  159.727491 decreases similarity
+#> 13 X132 X153       speed  -44.549191 increases similarity
+#> 14 X132 X153 temperature   -4.016121 increases similarity
+#> 15 X132 X153     heading  -88.852346 increases similarity
+#> 16 X134 X136           x   36.205194 decreases similarity
+#> 17 X134 X136           y   90.757712 decreases similarity
+#> 18 X134 X136       speed  -61.923595 increases similarity
+#> 19 X134 X136 temperature  348.244258 decreases similarity
+#> 20 X134 X136     heading  -96.737145 increases similarity
+#> 21 X134 X153           x  761.132445 decreases similarity
+#> 22 X134 X153           y   26.329542 decreases similarity
+#> 23 X134 X153       speed  -62.801312 increases similarity
+#> 24 X134 X153 temperature  -23.264433 increases similarity
+#> 25 X134 X153     heading  -76.874072 increases similarity
+#> 26 X136 X153           x  530.402462 decreases similarity
+#> 27 X136 X153           y   24.217594 decreases similarity
+#> 28 X136 X153       speed  -67.659029 increases similarity
+#> 29 X136 X153 temperature  255.711643 decreases similarity
+#> 30 X136 X153     heading -119.877355 increases similarity
 ```
 
 Positive “importance” values indicate variables contributing to
@@ -359,17 +359,17 @@ dtw_hclust$cluster_object
 
 #number of clusters
 dtw_hclust$clusters
-#> [1] 2
+#> [1] 3
 
 #clustering data frame
 #group label in column "cluster"
 #negatives in column "silhouette_width" higlight anomalous cluster assignation
 dtw_hclust$df
 #>   name cluster silhouette_width
-#> 1 X132       1        0.3077225
-#> 2 X134       1        0.2846556
+#> 1 X132       1        0.4955501
+#> 2 X134       1        0.4500134
 #> 3 X136       2        0.0000000
-#> 4 X153       1        0.2186781
+#> 4 X153       3        0.0000000
 
 #tree plot
 par(mar=c(3,1,1,3))

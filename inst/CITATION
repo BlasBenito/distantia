@@ -22,6 +22,6 @@ bibentry(
   title = "distantia: A Toolset for Time Series Dissimilarity Analysis",
   author = person(given = "Blas M.", family = "Benito"),
   year = "2024",
-  note = "R package version 2.0.0",
+  note = "R package version 2.0",
   url = "https://blasbenito.github.io/distantia/",
 )

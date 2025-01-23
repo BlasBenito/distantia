@@ -24,6 +24,7 @@ articles:
 
 - title: "Articles"
   navbar: "Articles"
+  contents:
   - distantia_gentle_intro
   - articles/dtw_applications
   - articles/distantia_in_the_wild
