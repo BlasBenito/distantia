@@ -1,8 +1,19 @@
 # `distantia` version 2.0.1
 
-Critical Hotfix!
+## Resubmission
+
+I removed the URL causing the note
+
+Found the following (possibly) invalid URLs:
+     URL: https://www.counties.org/data-and-research
+       From: man/covid_counties.Rd
+       Status: 404
+       Message: Not Found
+
 
 ## Changelog Summary
+
+- Removed URL 'https://www.counties.org/data-and-research' from `man/covid_counties.Rd`, as it returns error 404.
 
 - Fixed bug in function `cost_matrix_diagonal_weighted_cpp()`, where diagonal movements were not correctly weighted. This change will result in slightly different `psi` values in `distantia()`, `distantia_dtw()`, and `distantia_dtw_plot()` when `diagonal = TRUE` (default).
 

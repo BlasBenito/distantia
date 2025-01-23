@@ -55,7 +55,7 @@
 #' @family example_data
 #' @name covid_counties
 #' @usage data(covid_counties)
-#' @format sf data frame with county polygons and census data from [https://www.counties.org/data-and-research](https://www.counties.org/data-and-research).
+#' @format sf data frame with county polygons and census data.
 "covid_counties"
 
 #' Time Series Data from Three Fagus sylvatica Stands
