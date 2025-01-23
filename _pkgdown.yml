@@ -26,6 +26,7 @@ articles:
   navbar: "Articles"
   contents:
   - distantia_gentle_intro
+  - dtw_from_scratch
   - articles/dtw_applications
   - articles/distantia_in_the_wild
 
@@ -46,6 +47,11 @@ external-articles:
     title: "A Gentle Intro to Dynamic Time Warping"
     description: "Blog post offering a gentle conceptual introduction to DTW and listing many of its real-world applications."
     href: https://www.blasbenito.com/post/dynamic-time-warping/
+
+  - name: dtw_from_scratch
+    title: "Coding a Minimalistic DTW Library"
+    description: "Tutorial on how to write a small dynamic time warping library in R."
+    href: https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/
 
 reference:
 
