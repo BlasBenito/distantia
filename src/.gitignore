@@ -1,10 +1,2 @@
-RcppExports.o
-auto_sum.o
-cost_matrix.o
-cost_path.o
-distance_matrix.o
-distance_methods.o
-distantia.so
-importance.o
-permute.o
-psi.o
+*.o
+*.so
