@@ -1,3 +1,9 @@
+## Version 2.0.2
+
+- Fixed error (r-devel only) in test file `tests/testthat/test-utils_new_time.R`
+
+- Function `zoo_plot()` now has the argument `guide_position` to modify the legend position.
+
 ## Version 2.0.1
 
 - Fixed bug in function `cost_matrix_diagonal_weighted_cpp()` where the additional weight of the diagonal movement was not being correctly applied. This change will result in slightly different `psi` values in `distantia()`, `distantia_dtw()`, and `distantia_dtw_plot()` when `diagonal = TRUE` (default).

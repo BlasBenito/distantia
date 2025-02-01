@@ -15,6 +15,7 @@ zoo_plot(
   ylab = NULL,
   text_cex = 1,
   guide = TRUE,
+  guide_position = "topright",
   guide_cex = 0.8,
   vertical = FALSE,
   subpanel = FALSE
@@ -40,6 +41,8 @@ zoo_plot(
 \item{text_cex}{(optional, numeric) Multiplicator of the text size. Default: 1}
 
 \item{guide}{(optional, logical) If TRUE, plots a legend. Default: TRUE}
+
+\item{guide_position}{(optional, vector of xy coordinates or character string). This is a condensed version of the \code{x} and \code{y} arguments of the \code{\link[graphics:legend]{graphics::legend()}} function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
 \item{guide_cex}{(optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.}
 

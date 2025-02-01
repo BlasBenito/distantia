@@ -1,23 +1,43 @@
-# `distantia` version 2.0.1
+# `distantia` version 2.0.2
 
-## Resubmission
+This submission was requested by The CRAN Team with via email with the message:
 
-I removed the URL causing the note
+"Dear maintainer,
 
-Found the following (possibly) invalid URLs:
-     URL: https://www.counties.org/data-and-research
-       From: man/covid_counties.Rd
-       Status: 404
-       Message: Not Found
+Please see the problems shown on
+<https://cran.r-project.org/web/checks/check_results_distantia.html>.
+
+The ERRORs with r-devel are from
+
+  r87667 | maechler | 2025-01-29 12:36:14 +0100 (Wed, 29 Jan 2025) | 1 line
+  unique(<difftime>) now works, too
+
+Typically they indicate that code assumes that unique(<difftime>)
+returns a simple numeric, which got changed by the above.  One could of course use as.numeric(unique( <difftime> )) to "fix", but likely using unique( as.numeric(<difftime>) ) would be better ...
+
+Please correct before 2025-02-22 to safely retain your package on CRAN.
+
+Best wishes,
+The CRAN Team"
+
+The offending code was in the last line of the the test file `tests/testthat/test-utils_new_time.R`, where
+
+```r
+  expect_equal(unique(diff(new_time)), c(90, 91, 92))
+```
+
+is now
+
+```r
+  expect_equal(unique(as.numeric(diff(new_time))), c(90, 91, 92))
+```
 
 
 ## Changelog Summary
 
-- Removed URL 'https://www.counties.org/data-and-research' from `man/covid_counties.Rd`, as it returns error 404.
+- Fixed error (r-devel only) in test file `tests/testthat/test-utils_new_time.R`
 
-- Fixed bug in function `cost_matrix_diagonal_weighted_cpp()`, where diagonal movements were not correctly weighted. This change will result in slightly different `psi` values in `distantia()`, `distantia_dtw()`, and `distantia_dtw_plot()` when `diagonal = TRUE` (default).
-
-- Fixed bug in function `cost_path_cpp`, which still produced diagonal cost matrices when `diagonal = FALSE` because `weighted = TRUE` forced `diagonal` to `TRUE`. Now `weighted` is set to `FALSE` when `diagonal = FALSE`. This resulted in negative scores for orthogonal DTW alignments.
+- Function `zoo_plot()` now has the argument `guide_position` to modify the legend position.
 
 ## Checks Summary
 
@@ -36,117 +56,15 @@ Checks return one NOTE because the `libs` subdirectory is then above the 1MB thr
 - R version: 4.4.1
 
 ```r
-── R CMD check results ─────────────────────────────────────────────────────────── distantia 2.0.1 ────
-Duration: 1m 9.4s
+── R CMD check results ─────────────────────────────────────────────────────────── distantia 2.0.2 ────
+Duration: 3m 10.9s
 
 ❯ checking installed package size ... NOTE
     installed size is  7.7Mb
     sub-directories of 1Mb or more:
-      libs   6.0Mb
+      libs   9.5Mb
 
 0 errors ✔ | 0 warnings ✔ | 1 note ✖
 
 R CMD check succeeded
-```
-
-### Rhub Checks
-
-Results of Rhub checks for the platforms below are [here](https://github.com/BlasBenito/distantia/actions/runs/12913964438):
-
-```r
-rhub::rhub_check(
-  platforms = c(
-    "linux",
-    "macos",
-    "macos-arm64",
-    "windows",
-    "atlas",
-    "c23",
-    "clang-asan",
-    "clang16",
-    "clang17",
-    "clang18",
-    "clang19",
-    "gcc13",
-    "gcc14",
-    "intel",
-    "mkl",
-    "nold",
-    "ubuntu-clang",
-    "ubuntu-gcc12",
-    "ubuntu-next",
-    "ubuntu-release"
-  )
-)
-```
-
-## Unit Testing
-
-252 unit tests passed.
-
-```r
-==> devtools::test()
-
-ℹ Testing distantia
-✔ | F W  S  OK | Context
-✔ |          3 | distance_matrix                                                                       
-✔ |          2 | distance                                                                              
-✔ |          5 | distantia_cluster_hclust                                                              
-✔ |          5 | distantia_cluster_kmeans                                                              
-✔ |          5 | distantia_model_frame [1.4s]                                                          
-✔ |          2 | distantia_spatial                                                                     
-✔ |          3 | distantia_time_shift                                                                  
-✔ |         16 | distantia [1.5s]                                                                      
-✔ |         13 | momentum                                                                              
-✔ |         15 | psi_equation                                                                          
-✔ |          2 | tsl_aggregate                                                                         
-✔ |          2 | tsl_burst                                                                             
-✔ |         11 | tsl_colnames                                                                          
-✔ |          3 | tsl_count_NA                                                                          
-✔ |          1 | tsl_diagnose                                                                          
-✔ |          4 | tsl_handle_NA                                                                         
-✔ |          8 | tsl_initialize                                                                        
-✔ |          3 | tsl_join                                                                              
-✔ |          2 | tsl_names                                                                             
-✔ |          4 | tsl_ncol                                                                              
-✔ |          2 | tsl_repair                                                                            
-✔ |          3 | tsl_resample                                                                          
-✔ |          1 | tsl_smooth                                                                            
-✔ |          4 | tsl_stats                                                                             
-✔ |          5 | tsl_subset                                                                            
-✔ |          3 | tsl_time                                                                              
-✔ |          3 | tsl_to_df                                                                             
-✔ |         49 | tsl_transform                                                                         
-✔ |          5 | utils_as_time                                                                         
-✔ |          2 | utils_clean_names                                                                     
-✔ |          6 | utils_cluster                                                                         
-✔ |          3 | utils_coerce_time_class                                                               
-✔ |          4 | utils_digits                                                                          
-✔ |          1 | utils_distantia_df_split                                                              
-✔ |          2 | utils_is_time                                                                         
-✔ |          3 | utils_new_time                                                                        
-✔ |          1 | utils_optimize_loess                                                                  
-✔ |          1 | utils_optimize_spline                                                                 
-✔ |          2 | utils_prepare_zoo_list                                                                
-✔ |          1 | utils_rescale_vector                                                                  
-✔ |          2 | utils_time_keywords_dictionary                                                        
-✔ |          9 | utils_time_keywords_translate                                                         
-✔ |          5 | utils_time_keywords                                                                   
-✔ |          2 | utils_time_units                                                                      
-✔ |          2 | zoo_aggregate                                                                         
-✔ |          3 | zoo_names                                                                             
-✔ |          2 | zoo_permute                                                                           
-✔ |          4 | zoo_resample                                                                          
-✔ |          3 | zoo_simulate                                                                          
-✔ |          2 | zoo_smooth                                                                            
-✔ |          2 | zoo_time                                                                              
-✔ |          4 | zoo_to_tsl                                                                            
-✔ |          2 | zoo_vector_to_matrix                                                                  
-
-══ Results ════════════════════════════════════════════════════════════════════════════════════════════
-Duration: 9.8 s
-
-[ FAIL 0 | WARN 0 | SKIP 0 | PASS 252 ]
-
-🥳
 ```

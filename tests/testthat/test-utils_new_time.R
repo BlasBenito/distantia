@@ -11,6 +11,13 @@ test_that("`utils_new_time()` works", {
     new_time <- utils_new_time(tsl = tsl, new_time = NULL, keywords = "aggregate")
   )
 
-  expect_equal(unique(diff(new_time)), c(90, 91, 92))
+  expect_equal(
+    unique(
+      as.numeric(
+        diff(new_time)
+        )
+      ),
+    c(90, 91, 92)
+    )
 
 })

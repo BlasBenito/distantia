@@ -10,6 +10,7 @@
 #' @param ylab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
+#' @param guide_position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
 #' @param guide_cex (optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.
 #' @param vertical (optional, logical) For internal use within the package in multipanel plots. Switches the plot axes. Disabled if `subpanel = FALSE`. Default: FALSE
 #' @param subpanel (optional, logical) For internal use within the package in multipanel plots. Strips down the plot for a sub-panel. Default: FALSE
@@ -45,6 +46,7 @@ zoo_plot <- function(
     ylab = NULL,
     text_cex = 1,
     guide = TRUE,
+    guide_position = "topright",
     guide_cex = 0.8,
     vertical = FALSE,
     subpanel = FALSE
@@ -193,16 +195,7 @@ zoo_plot <- function(
     name.x <- NULL
     name.y <- name
 
-    # if(!is.null(ylim)){
-    #   ylim <- utils_coerce_time_class(
-    #     x = ylim,
-    #     to = class(zoo::index(x))
-    #   )
-    # }
-
   }
-
-  # par(bty = "n")
 
   if(guide == TRUE){
     graphics::par(
@@ -356,7 +349,7 @@ zoo_plot <- function(
 
     utils_line_guide(
       x = x,
-      position = "left",
+      position = guide_position,
       line_color = line_color,
       line_width = line_width,
       text_cex = guide_cex,
