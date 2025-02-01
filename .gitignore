@@ -45,6 +45,7 @@ docs/
 # translation temp files
 po/*~
 src/*.o
+src/distantia.so
 # RStudio Connect folder
 rsconnect/
 .Rproj.user
