@@ -144,14 +144,12 @@ zoo_permute <- function(
 
     p()
 
-    seed <- seed + i
-
     x_name <- attributes(x)$name
 
     x_permuted <- f(
       x = as.matrix(x),
       block_size = block_size,
-      seed = seed
+      seed = seed + i
     )
 
     x_permuted <- zoo::zoo(
