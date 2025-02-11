@@ -2,6 +2,8 @@
 
 - Fixed ambiguous usage of argument `seed` in `zoo_permute()` as global/local variable within a %dofuture% loop. Thanks to `@henrikbengtsson@mastodon.social` for this patch!
 
+- Fixed issue in `distantia_model_frame()`, wehre `scale = TRUE` was not applied to `composite_predictors` or `geographic_distance`.
+
 ## Version 2.0.2
 
 - Fixed error (r-devel only) in test file `tests/testthat/test-utils_new_time.R`
