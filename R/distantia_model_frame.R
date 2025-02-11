@@ -313,7 +313,10 @@ distantia_model_frame <- function(
 
   names(model_frame_list) <- names(composite_predictors)
 
-
+  predictors_numeric_columns <- c(
+    predictors_numeric_columns,
+    names(composite_predictors)
+    )
 
   #add geographic distance if predictors_df is an sf data frame
   if(!is.null(attributes(predictors_df)$sf_column)){
@@ -388,11 +391,24 @@ distantia_model_frame <- function(
   #scale
   if(scale == TRUE){
 
+    predictors_numeric_columns <- unique(predictors_numeric_columns)
+
+    #join response with scaled predictors
     model_frame <- cbind(
-      model_frame[, setdiff(colnames(model_frame), predictors_numeric_columns)],
+
+      #response data frame
+      model_frame[,
+                  setdiff(
+                    x = colnames(model_frame),
+                    y = predictors_numeric_columns
+                    )
+                  ],
+
+      #predictors data frame
       model_frame[, predictors_numeric_columns, drop = FALSE] |>
         base::scale() |>
         as.data.frame()
+
     )
 
   }
