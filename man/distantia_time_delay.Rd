@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_time_delay.R
 \name{distantia_time_delay}
 \alias{distantia_time_delay}
-\title{Time Shift Between Time Series}
+\title{Time Delay Between Time Series}
 \usage{
 distantia_time_delay(
   tsl = NULL,
@@ -24,11 +24,13 @@ distantia_time_delay(
 data frame
 }
 \description{
-This function computes an approximation to the time-shift between pairs of time series as the absolute time difference between pairs of observations in the time series \emph{x} and \emph{y} connected by the dynamic time warping path.
+This function computes an approximation to the time-delay (also time-lag) between pairs of time series as the absolute time difference between pairs of observations in the time series \emph{x} and \emph{y} connected by the dynamic time warping path.
 
-If the time series are long enough, the extremes of the warping path are trimmed (5\% of the total path length each) to avoid artifacts due to early misalignments.
+If the time series have more than 30 observations, a 5\% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
 
-It returns a data frame with the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation. The modal and the median are the most generally accurate time-shift descriptors.
+The function returns a data frame with the names of the time series in the columns \emph{x} and \emph{y}, and the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time delay. The modal and the median are the most generally accurate time-shift descriptors.
+
+If events in \emph{x} happen before their counterparts in \emph{y}, then the time delay is positive, and negative otherwise.
 
 This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
 

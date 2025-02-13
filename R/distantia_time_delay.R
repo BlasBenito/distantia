@@ -1,11 +1,14 @@
-#' Time Shift Between Time Series
+#' Time Delay Between Time Series
 #'
 #' @description
-#' This function computes an approximation to the time-shift between pairs of time series as the absolute time difference between pairs of observations in the time series *x* and *y* connected by the dynamic time warping path.
+#' This function computes an approximation to the time-delay (also time-lag) between pairs of time series as the absolute time difference between pairs of observations in the time series *x* and *y* connected by the dynamic time warping path.
 #'
-#' If the time series are long enough, the extremes of the warping path are trimmed (5% of the total path length each) to avoid artifacts due to early misalignments.
 #'
-#' It returns a data frame with the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation. The modal and the median are the most generally accurate time-shift descriptors.
+#' If the time series have more than 30 observations, a 5% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
+#'
+#' The function returns a data frame with the names of the time series in the columns *x* and *y*, and the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time delay. The modal and the median are the most generally accurate time-shift descriptors.
+#'
+#' If events in *x* happen before their counterparts in *y*, then the time delay is positive, and negative otherwise.
 #'
 #' This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
 #'
@@ -79,7 +82,7 @@ distantia_time_delay <- function(
   )
 
   #function to compute modal of differences
-  shift_modal <- function(x) {
+  delay_modal <- function(x) {
     ux <- unique(na.omit(x))
     y <- ux[which.max(tabulate(match(x, ux)))][1]
     class(y) <- class(x)
@@ -92,7 +95,7 @@ distantia_time_delay <- function(
   p <- progressr::progressor(along = iterations)
 
   #iterate over pairs of time series
-  df_shift <- foreach::foreach(
+  df_delay <- foreach::foreach(
     i = iterations,
     .combine = "rbind",
     .errorhandling = "pass",
@@ -127,6 +130,7 @@ distantia_time_delay <- function(
     #compute n to assess if we apply padding
     n <- nrow(cost_path.i) - (padding * 2)
 
+    #apply padding when 30 or more cases
     if(n >= 30){
 
       cost_path.i <- cost_path.i[padding:(nrow(cost_path.i)-padding),]
@@ -134,29 +138,29 @@ distantia_time_delay <- function(
     }
 
     #check time series units
-    shift.time.i.units.x <- zoo_time(x = tsl[[df.i[["x"]]]])$units
+    delay.time.i.units.x <- zoo_time(x = tsl[[df.i[["x"]]]])$units
 
-    shift.time.i.units.y <- zoo_time(x = tsl[[df.i[["y"]]]])$units
+    delay.time.i.units.y <- zoo_time(x = tsl[[df.i[["y"]]]])$units
 
-    if(shift.time.i.units.x != shift.time.i.units.y){
+    if(delay.time.i.units.x != delay.time.i.units.y){
 
       warning(
         "distantia::distantia_time_delay(): time series '",
         df[["x"]], "' and '", df[["y"]], "' have different time units (",
-        shift.time.i.units.x,
+        delay.time.i.units.x,
         " vs ",
-        shift.time.i.units.y,
-        ". Computing time shift with units 'samples'."
+        delay.time.i.units.y,
+        ". Computing time delay with units 'samples'."
       )
 
-      shift.time.i.units <- "samples"
+      delay.time.i.units <- "samples"
 
       #time difference
-      shift.time.i <- cost_path.i[["x"]] - cost_path.i[["y"]]
+      delay.time.i <- cost_path.i[["y"]] - cost_path.i[["x"]]
 
     } else {
 
-      shift.time.i.units <- shift.time.i.units.x
+      delay.time.i.units <- delay.time.i.units.x
 
       #add time
       cost_path.i[["x_time"]] <- zoo::index(
@@ -168,51 +172,51 @@ distantia_time_delay <- function(
       )[cost_path.i[["y"]]]
 
       #time difference
-      shift.time.i <- cost_path.i[["x_time"]] - cost_path.i[["y_time"]]
+      delay.time.i <- cost_path.i[["y_time"]] - cost_path.i[["x_time"]]
 
     }
 
     #convert to numeric to remove units
-    shift.time.i <- as.numeric(shift.time.i)
+    delay.time.i <- as.numeric(delay.time.i)
 
-    df.i[["units"]] <- shift.time.i.units
+    df.i[["units"]] <- delay.time.i.units
 
     df.i[["min"]] <- min(
-      x = shift.time.i,
+      x = delay.time.i,
       na.rm = TRUE
     )
 
     df.i[["q1"]] <- stats::quantile(
-      x = shift.time.i,
+      x = delay.time.i,
       probs = 0.25,
       na.rm = TRUE
     )
 
     df.i[["median"]] <- stats::median(
-      x = shift.time.i,
+      x = delay.time.i,
       na.rm = TRUE
     )
 
     df.i[["mean"]] <- mean(
-      x = shift.time.i,
+      x = delay.time.i,
       na.rm = TRUE
     )
 
-    df.i[["modal"]] <- shift_modal(x = shift.time.i)
+    df.i[["modal"]] <- delay_modal(x = delay.time.i)
 
     df.i[["q3"]] <- stats::quantile(
-      x = shift.time.i,
+      x = delay.time.i,
       probs = 0.75,
       na.rm = TRUE
     )
 
     df.i[["max"]] <- max(
-      x = shift.time.i,
+      x = delay.time.i,
       na.rm = TRUE
     )
 
     df.i[["sd"]] <- stats::sd(
-      x = shift.time.i,
+      x = delay.time.i,
       na.rm = TRUE
     )
 
@@ -245,10 +249,10 @@ distantia_time_delay <- function(
 
   #add type
   attr(
-    x = df_shift,
+    x = df_delay,
     which = "type"
   ) <- "time_delay_df"
 
-  df_shift
+  df_delay
 
 }
