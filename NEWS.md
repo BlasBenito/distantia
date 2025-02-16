@@ -1,10 +1,12 @@
+## Version 2.0.3
+
+- Renamed argument `two_way` in `distantia_time_delay()` to `directional` and improved the documentation.
+
 ## Version 2.0.2
 
 - Fixed error (r-devel only) in test file `tests/testthat/test-utils_new_time.R`
 
 - Function `zoo_plot()` now has the argument `guide_position` to modify the legend position.
-
-- Fixed direction of the time-delay computation in `distantia_time_delay()`. Output is now positive when events in x happen before than in y, and negative otherwise.
 
 ## Version 2.0.1
 

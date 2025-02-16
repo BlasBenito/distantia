@@ -12,14 +12,14 @@ test_that("`distantia_time_delay()` works", {
 
   df_shift <- distantia_time_delay(
     tsl = tsl,
-    two_way = TRUE
+    directional = TRUE
     )
 
   expect_equal(nrow(df_shift), 2)
 
   df_shift <- distantia_time_delay(
     tsl = tsl,
-    two_way = FALSE
+    directional = FALSE
   )
 
   expect_equal(nrow(df_shift), 1)

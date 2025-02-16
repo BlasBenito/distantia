@@ -8,7 +8,7 @@ distantia_time_delay(
   tsl = NULL,
   distance = "euclidean",
   bandwidth = 1,
-  two_way = FALSE
+  directional = FALSE
 )
 }
 \arguments{
@@ -18,19 +18,17 @@ distantia_time_delay(
 
 \item{bandwidth}{(optional, numeric) Proportion of space at each side of the cost matrix diagonal (aka \emph{Sakoe-Chiba band}) defining a valid region for dynamic time warping, used to control the flexibility of the warping path. This method prevents degenerate alignments due to differences in magnitude between time series when the data is not properly scaled. If \code{1} (default), DTW is unconstrained. If \code{0}, DTW is fully constrained and the warping path follows the matrix diagonal. Recommended values may vary depending on the nature of the data. Ignored if \code{lock_step = TRUE}. Default: 1.}
 
-\item{two_way}{(optional, logical) If TRUE, the time shift between the time series pairs \emph{y} and \emph{x} is added to the results}
+\item{directional}{(optional, logical) If TRUE, a directional time delay is computed as \verb{x to y} and \verb{y to x}, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of de delay between \code{x} and \code{y} is returned a a single row per pair. Default: TRUE}
 }
 \value{
 data frame
 }
 \description{
-This function computes an approximation to the time-delay (also time-lag) between pairs of time series as the absolute time difference between pairs of observations in the time series \emph{x} and \emph{y} connected by the dynamic time warping path.
+This function computes an approximation to the time-delay between pairs of time series as the difference between observations connected by the dynamic time warping path.
 
 If the time series have more than 30 observations, a 5\% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
 
-The function returns a data frame with the names of the time series in the columns \emph{x} and \emph{y}, and the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time delay. The modal and the median are the most generally accurate time-shift descriptors.
-
-If events in \emph{x} happen before their counterparts in \emph{y}, then the time delay is positive, and negative otherwise.
+The function returns a data frame with the names of the time series in the columns \emph{x} and \emph{y}, and the modal, mean, and median of the time delay. The modal and the median are the most generally accurate time-delay metrics
 
 This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
 
@@ -66,7 +64,7 @@ if(interactive()){
 #compute shifts
 df_shift <- distantia_time_delay(
   tsl = tsl,
-  two_way = TRUE
+  directional = TRUE
 )
 
 df_shift

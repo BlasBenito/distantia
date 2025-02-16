@@ -1,20 +1,23 @@
 #' Time Delay Between Time Series
 #'
 #' @description
-#' This function computes an approximation to the time-delay (also time-lag) between pairs of time series as the absolute time difference between pairs of observations in the time series *x* and *y* connected by the dynamic time warping path.
+#' This function computes an approximation to the time-delay between pairs of time series as the difference between observations connected by the dynamic time warping path.
 #'
+#' Given a pair of time series `x` and `y`, and the time of their samples in the dynamic time warping `time(x)` and `time(y)`, when the argument `directional` is `TRUE`, the time delay is computed as follows:
+#'\itemize{
+#' \item Time delay from `x` to `y`: `time(y) - time(x)`.
+#' \item Time delay from `y` to `x`: `time(x) - time(y)`
+#'}
+#' In such case, two rows per pair of time series are returend. Otherwise, the time delay is computed as `abs(time(y) - time(x))`, and only one row per pair of time series is returned.
 #'
 #' If the time series have more than 30 observations, a 5% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
 #'
-#' The function returns a data frame with the names of the time series in the columns *x* and *y*, and the modal, mean, median, minimum, maximum, quantiles 0.25 and 0.75, and standard deviation of the time delay. The modal and the median are the most generally accurate time-shift descriptors.
-#'
-#' If events in *x* happen before their counterparts in *y*, then the time delay is positive, and negative otherwise.
+#' The function returns a data frame with the names of the time series in the columns *x* and *y*, and the stats of the time-delay. The modal and the median are the most generally accurate time-delay metrics
 #'
 #' This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
 #'
-#'
 #' @inheritParams distantia
-#' @param two_way (optional, logical) If TRUE, the time shift between the time series pairs *y* and *x* is added to the results
+#' @param directional (optional, logical) If TRUE, a directional time-delay is computed as `x to y` and `y to x`, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of de delay between `x` and `y` is returned a a single row per pair. Default: TRUE
 #'
 #' @return data frame
 #' @export
@@ -49,19 +52,16 @@
 #' #compute shifts
 #' df_shift <- distantia_time_delay(
 #'   tsl = tsl,
-#'   two_way = TRUE
+#'   directional = TRUE
 #' )
 #'
 #' df_shift
-#' #positive shift values indicate
-#' #that the samples in Kinshasa
-#' #are aligned with older samples in London.
 #' @family distantia_support
 distantia_time_delay <- function(
     tsl = NULL,
     distance = "euclidean",
     bandwidth = 1,
-    two_way = FALSE
+    directional = FALSE
 ){
 
   #check input arguments
@@ -133,36 +133,36 @@ distantia_time_delay <- function(
     #apply padding when 30 or more cases
     if(n >= 30){
 
-      cost_path.i <- cost_path.i[padding:(nrow(cost_path.i)-padding),]
+      cost_path.i <- cost_path.i[padding:(nrow(cost_path.i) - padding),]
 
     }
 
     #check time series units
-    delay.time.i.units.x <- zoo_time(x = tsl[[df.i[["x"]]]])$units
+    delay.units.x <- zoo_time(x = tsl[[df.i[["x"]]]])$units
+    delay.units.y <- zoo_time(x = tsl[[df.i[["y"]]]])$units
 
-    delay.time.i.units.y <- zoo_time(x = tsl[[df.i[["y"]]]])$units
-
-    if(delay.time.i.units.x != delay.time.i.units.y){
+    #compare by sample if units do not match
+    if(delay.units.x != delay.units.y){
 
       warning(
         "distantia::distantia_time_delay(): time series '",
         df[["x"]], "' and '", df[["y"]], "' have different time units (",
-        delay.time.i.units.x,
+        delay.units.x,
         " vs ",
-        delay.time.i.units.y,
+        delay.units.y,
         ". Computing time delay with units 'samples'."
       )
 
-      delay.time.i.units <- "samples"
+      #change default units
+      delay.units <- "samples"
 
-      #time difference
-      delay.time.i <- cost_path.i[["y"]] - cost_path.i[["x"]]
+      #sample columns
+      colname_x <- "x"
+      colname_y <- "y"
 
     } else {
 
-      delay.time.i.units <- delay.time.i.units.x
-
-      #add time
+      #create time columns
       cost_path.i[["x_time"]] <- zoo::index(
         x = tsl[[df.i[["x"]]]]
       )[cost_path.i[["x"]]]
@@ -171,70 +171,108 @@ distantia_time_delay <- function(
         x = tsl[[df.i[["y"]]]]
       )[cost_path.i[["y"]]]
 
-      #time difference
-      delay.time.i <- cost_path.i[["y_time"]] - cost_path.i[["x_time"]]
+      #default delay units
+      delay.units <- delay.units.x
+
+      #default time column names
+      colname_x <- "x_time"
+      colname_y <- "y_time"
 
     }
 
-    #convert to numeric to remove units
-    delay.time.i <- as.numeric(delay.time.i)
+    #time difference from x to y
+    if(directional == FALSE){
 
-    df.i[["units"]] <- delay.time.i.units
+      delay.x_to_y <- abs(as.numeric(cost_path.i[[colname_x]] - cost_path.i[[colname_y]]))
+
+    } else {
+
+      delay.x_to_y <- as.numeric(cost_path.i[[colname_y]] - cost_path.i[[colname_x]])
+
+      delay.y_to_x <- as.numeric(cost_path.i[[colname_x]] - cost_path.i[[colname_y]])
+
+    }
+
+    #add units
+    df.i[["units"]] <- delay.units
 
     df.i[["min"]] <- min(
-      x = delay.time.i,
+      x = delay.x_to_y,
       na.rm = TRUE
     )
 
     df.i[["q1"]] <- stats::quantile(
-      x = delay.time.i,
-      probs = 0.25,
+      x = delay.x_to_y,
+      na.rm = TRUE,
+      probs = 0.25
+    )
+
+    #compute stats x to y
+    df.i[["median"]] <- stats::median(
+      x = delay.x_to_y,
       na.rm = TRUE
     )
 
-    df.i[["median"]] <- stats::median(
-      x = delay.time.i,
-      na.rm = TRUE
-    )
+    df.i[["modal"]] <- delay_modal(x = delay.x_to_y)
 
     df.i[["mean"]] <- mean(
-      x = delay.time.i,
+      x = delay.x_to_y,
       na.rm = TRUE
     )
 
-    df.i[["modal"]] <- delay_modal(x = delay.time.i)
-
-    df.i[["q3"]] <- stats::quantile(
-      x = delay.time.i,
-      probs = 0.75,
-      na.rm = TRUE
+    df.i[["q3"]][1] <- stats::quantile(
+      x = delay.x_to_y,
+      na.rm = TRUE,
+      probs = 0.75
     )
 
     df.i[["max"]] <- max(
-      x = delay.time.i,
+      x = delay.x_to_y,
       na.rm = TRUE
     )
 
-    df.i[["sd"]] <- stats::sd(
-      x = delay.time.i,
-      na.rm = TRUE
-    )
-
-    #add tow way df
-    if(two_way == TRUE){
+    #compute stats y to x
+    if(directional == TRUE){
 
       df.j <- df.i
+      df.j$x <- df.i$y
+      df.j$y <- df.i$x
 
-      df.j[["x"]] <- df.i[["y"]]
-      df.j[["y"]] <- df.i[["x"]]
 
-      df.j[["min"]] <- - df.i[["min"]]
-      df.j[["q1"]] <- - df.i[["q1"]]
-      df.j[["median"]] <- - df.i[["median"]]
-      df.j[["mean"]] <- - df.i[["mean"]]
-      df.j[["modal"]] <- - df.i[["modal"]]
-      df.j[["q3"]] <- - df.i[["q3"]]
-      df.j[["max"]] <- - df.i[["max"]]
+      df.j[["min"]] <- min(
+        x = delay.y_to_x,
+        na.rm = TRUE
+      )
+
+      df.j[["q1"]] <- stats::quantile(
+        x = delay.y_to_x,
+        na.rm = TRUE,
+        probs = 0.25
+      )
+
+      df.j[["median"]] <- stats::median(
+        x = delay.y_to_x,
+        na.rm = TRUE
+      )
+
+      df.j[["modal"]] <- delay_modal(x = delay.y_to_x)
+
+
+      df.j[["mean"]] <- mean(
+        x = delay.y_to_x,
+        na.rm = TRUE
+      )
+
+      df.j[["q3"]] <- stats::quantile(
+        x = delay.y_to_x,
+        na.rm = TRUE,
+        probs = 0.75
+      )
+
+      df.j[["max"]] <- max(
+        x = delay.y_to_x,
+        na.rm = TRUE
+      )
 
       df.i <- rbind(
         df.i,
@@ -246,6 +284,8 @@ distantia_time_delay <- function(
     df.i
 
   }
+
+  rownames(df_delay) <- NULL
 
   #add type
   attr(
