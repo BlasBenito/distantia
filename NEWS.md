@@ -4,6 +4,9 @@
 
 - Fixed issue in `distantia_model_frame()`, wehre `scale = TRUE` was not applied to `composite_predictors` or `geographic_distance`.
 
+- Renamed argument `two_way` in `distantia_time_delay()` to `directional` and improved the documentation.
+
+
 ## Version 2.0.2
 
 - Fixed error (r-devel only) in test file `tests/testthat/test-utils_new_time.R`
