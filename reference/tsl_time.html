@@ -36,6 +36,7 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
@@ -149,9 +150,9 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="va">tsl</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name rows class units   length resolution      begin        end     keywords</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  132  Date  days 360.1518   2.749250 2024-02-20 2025-02-14 quarters....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  132  Date  days 364.3074   2.780973 2024-02-17 2025-02-15 years, q....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  133  Date  days 359.5009   2.723492 2024-02-20 2025-02-13 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  132  Date  days 360.1518   2.749250 2024-02-23 2025-02-17 quarters....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B  132  Date  days 364.3074   2.780973 2024-02-20 2025-02-18 years, q....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C  133  Date  days 359.5009   2.723492 2024-02-23 2025-02-16 quarters....</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#time summary</span></span></span>
 <span class="r-in"><span><span class="fu">tsl_time_summary</span><span class="op">(</span></span></span>
@@ -164,10 +165,10 @@ Both functions return keywords useful for the functions tsl_aggregate() and tsl_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "days"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $begin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-02-17"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-02-20"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2025-02-15"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2025-02-18"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resolution_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6873823</span>
