@@ -30,6 +30,7 @@ articles:
   - dtw_from_scratch
   - articles/dtw_applications
   - articles/distantia_in_the_wild
+  - articles/download_history
 
 - title: "Original Paper"
   navbar: "Original Paper"
@@ -169,3 +170,8 @@ reference:
   desc:  Internal functions to check arguments and other miscellany tasks.
 - contents:
   - has_concept("internal")
+
+build:
+  extra_packages:
+    - ggplot2
+    - cranlogs

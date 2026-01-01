@@ -25,11 +25,10 @@ options(conflicts.policy = list(warn = FALSE))
 
 This article lists known applications of the R package `distantia` found in the literature.
 
-# Version 2.0
 
-None (yet?)
+## 2025
 
-# Version 1.0
+Bloom, E.H., Atallah, S.S. & Casteel, C.L. Sustainable soil management practices are associated with increases in crop defense through soil microbiome changes. npj Sustain. Agric. 3, 67 (2025). https://doi.org/10.1038/s44264-025-00109-6
 
 ## 2024
 
