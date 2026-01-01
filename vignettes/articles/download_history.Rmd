@@ -7,10 +7,14 @@ output:
     source: false
 ---
 
+```{r, include=FALSE, echo = FALSE}
+install.packages("cranlogs")
+```
+
+
 ```{r, echo = FALSE}
 # Install packages if needed
 # install.packages(c("cranlogs", "ggplot2"))
-
 library(cranlogs)
 library(ggplot2)
 
@@ -75,7 +79,7 @@ ggplot(monthly_downloads, aes(x = date, y = count)) +
   ) +
   theme_minimal() +
   labs(
-    title = "distantia Package Download History (Monthly)",
+    title = "Monthly Downloads",
     subtitle = paste0("Total downloads (", Sys.Date(), "): ", format(sum(monthly_downloads$count), big.mark = ",")),
     x = "Month",
     y = "Monthly Downloads",
