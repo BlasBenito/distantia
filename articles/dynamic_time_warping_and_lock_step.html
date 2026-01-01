@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -127,7 +128,7 @@ temperature time series from 2000 to 2005.</p>
 <span>  ylim <span class="op">=</span> <span class="st">"relative"</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-4-1.png" width="750"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="750"></p>
 <p>The transformed TSL contains two synchronous time series in the
 Northern Hemisphere with similar temperature ranges (London and Paris)
 and one in the Southern Hemisphere (Kinshasa) with a higher average and
@@ -151,7 +152,7 @@ separately.</p>
 <span>  ylim <span class="op">=</span> <span class="st">"relative"</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-5-1.png" width="750"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level2">
 <h2 id="lock-step-ls">Lock-Step (LS)<a class="anchor" aria-label="anchor" href="#lock-step-ls"></a>
@@ -267,7 +268,7 @@ demonstrate the computation of the normalized dissimilarity score
 <span>  m <span class="op">=</span> <span class="va">m.dist</span>,</span>
 <span>  diagonal_width <span class="op">=</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-11-1.png" width="600"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="600"></p>
 <p>Step <strong>1b</strong> involves transforming the distance matrix
 into a cost matrix. This transformation requires a dynamic algorithm in
 which each new cell adds its own distance to the distance accumulated by
@@ -295,7 +296,7 @@ computed in diagonals, which are weighted by a factor of
 <span>  m <span class="op">=</span> <span class="va">m.cost</span>,</span>
 <span>  diagonal_width <span class="op">=</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-12-1.png" width="600"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="600"></p>
 <p>In step <strong>1c</strong>, the distance and cost matrices are used
 to find the least-cost path.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -322,7 +323,7 @@ of the cost matrix.</p>
 <span>  m <span class="op">=</span> <span class="va">m.cost</span>,</span>
 <span>  path <span class="op">=</span> <span class="va">m.cost.path</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-14-1.png" width="600"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="600"></p>
 <p>The step <strong>1d</strong> finalizes the DTW logic by adding the
 distances between pair of samples connected by the least-cost path. This
 step is just <code>sum(m.cost.path$dist)</code>, but it is implemented
@@ -396,7 +397,7 @@ computation of the <em>psi</em> dissimilarity score.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-21-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="900"></p>
 <div class="section level4">
 <h4 id="pitfalls">Pitfalls<a class="anchor" aria-label="anchor" href="#pitfalls"></a>
 </h4>
@@ -416,7 +417,7 @@ of 2003). It also shows a distinctively large dissimilarity score.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-22-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="900"></p>
 <p>These long horizontal and vertical lines shown above provide an
 immediate diagnostic of a <strong>pathological warping</strong>, which
 happens when a relatively short segment of one time series maps to a
@@ -434,7 +435,7 @@ matrix.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy_dtw</span>, type <span class="op">=</span> <span class="st">"threeway"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-23-1.png" width="750"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="750"></p>
 <p>The “twoway” plot provided by <code>dtw</code> shows the alingment as
 a line bar, with the sample matches represented as dotted lines, and two
 vertical lines highlighting the local optima</p>
@@ -442,7 +443,7 @@ vertical lines highlighting the local optima</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy_dtw</span>, type <span class="op">=</span> <span class="st">"twoway"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0.13</span>, col<span class="op">=</span><span class="st">"red3"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0.70</span>, col<span class="op">=</span><span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-24-1.png" width="750"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="750"></p>
 <p>There are two strategies that can be combined to control this issue:
 data scaling, and <strong>constrained DTW</strong>.</p>
 </div>
@@ -463,25 +464,25 @@ values.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-25-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="900"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-26-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="900"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-27-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="900"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.025</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-28-1.png" width="900"></p>
+<p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="900"></p>
 <p>Sakoe-Chiba bands cannot fix bad alignments (that’s what data scaling
 is for), but can help diagnose them, given a tolerance level.</p>
 <p>The code below runs <code><a href="../reference/distantia.html">distantia()</a></code> for the raw temperature
@@ -626,7 +627,7 @@ workflows.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

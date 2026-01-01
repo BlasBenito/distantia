@@ -35,7 +35,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,6 +58,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -132,18 +133,18 @@ This function supports a parallelization setup via future::plan().'><meta proper
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other distantia_support:
-<code><a href="distantia_aggregate.html">distantia_aggregate</a>()</code>,
-<code><a href="distantia_boxplot.html">distantia_boxplot</a>()</code>,
-<code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust</a>()</code>,
-<code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans</a>()</code>,
-<code><a href="distantia_matrix.html">distantia_matrix</a>()</code>,
-<code><a href="distantia_spatial.html">distantia_spatial</a>()</code>,
-<code><a href="distantia_stats.html">distantia_stats</a>()</code>,
-<code><a href="distantia_time_delay.html">distantia_time_delay</a>()</code>,
-<code><a href="utils_block_size.html">utils_block_size</a>()</code>,
-<code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer</a>()</code>,
-<code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer</a>()</code>,
-<code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette</a>()</code></p></div>
+<code><a href="distantia_aggregate.html">distantia_aggregate()</a></code>,
+<code><a href="distantia_boxplot.html">distantia_boxplot()</a></code>,
+<code><a href="distantia_cluster_hclust.html">distantia_cluster_hclust()</a></code>,
+<code><a href="distantia_cluster_kmeans.html">distantia_cluster_kmeans()</a></code>,
+<code><a href="distantia_matrix.html">distantia_matrix()</a></code>,
+<code><a href="distantia_spatial.html">distantia_spatial()</a></code>,
+<code><a href="distantia_stats.html">distantia_stats()</a></code>,
+<code><a href="distantia_time_delay.html">distantia_time_delay()</a></code>,
+<code><a href="utils_block_size.html">utils_block_size()</a></code>,
+<code><a href="utils_cluster_hclust_optimizer.html">utils_cluster_hclust_optimizer()</a></code>,
+<code><a href="utils_cluster_kmeans_optimizer.html">utils_cluster_kmeans_optimizer()</a></code>,
+<code><a href="utils_cluster_silhouette.html">utils_cluster_silhouette()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -182,13 +183,13 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              x            y      psi   economy area_hectares population</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Alameda Contra_Costa 1.162055 0.3641648    -1.0643659 -0.5863664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Butte    El_Dorado 2.327273 2.1431460    -1.0153959 -1.5791633</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Alameda    El_Dorado 2.483755 1.2752482    -0.5878037  1.4302278</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Butte Contra_Costa 2.733068 2.8431733    -0.6367737  0.3676509</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Contra_Costa    El_Dorado 2.767442 1.1381072    -0.5870788  0.4025409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Alameda        Butte 2.962963 2.7802798    -0.6374986  1.3953378</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              x            y      psi area_hectares population</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      Alameda Contra_Costa 1.162055    -1.0643659 -0.5863664</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Butte    El_Dorado 2.327273    -1.0153959 -1.5791633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Alameda    El_Dorado 2.483755    -0.5878037  1.4302278</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Butte Contra_Costa 2.733068    -0.6367737  0.3676509</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Contra_Costa    El_Dorado 2.767442    -0.5870788  0.4025409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Alameda        Butte 2.962963    -0.6374986  1.3953378</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   poverty_percentage median_income domestic_product daily_miles_traveled</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         -1.1950603    -1.4638414       -0.3502863            1.1013250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          0.4596386    -0.1929442       -1.3164373           -0.5591417</span>
@@ -196,13 +197,13 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4          0.4596386     1.0682077        0.2193528            0.8945563</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5         -1.3329518    -0.2921032        0.2406099            1.3550699</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6          0.3217470     0.9787940        1.2067609           -0.8128866</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   employed_percentage geographic_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          -0.5448841          -1.5815924</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           0.8453162          -0.7903724</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          -1.2259232          -0.3342092</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           0.1642772           0.2536703</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          -0.9142071          -0.6687226</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           1.2146392           0.6234367</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   employed_percentage     economy geographic_distance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          -0.5448841 -1.53828950          -1.5815924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           0.8453162  0.08935891          -0.7903724</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          -1.2259232 -0.70470929          -0.3342092</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           0.1642772  0.72983691           0.2536703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          -0.9142071 -0.83018413          -0.6687226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           1.2146392  0.67229360           0.6234367</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#names of response and predictors</span></span></span>
 <span class="r-in"><span><span class="co">#and an additive formula</span></span></span>
@@ -210,7 +211,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span><span class="op">$</span><span class="va">predictors</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "area_hectares"        "population"           "poverty_percentage"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "median_income"        "domestic_product"     "daily_miles_traveled"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7] "employed_percentage"  "geographic_distance" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7] "employed_percentage"  "economy"              "geographic_distance" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#if response_df is output of distantia():</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span><span class="op">$</span><span class="va">response</span></span></span>
@@ -218,8 +219,8 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">model_frame</span><span class="op">)</span><span class="op">$</span><span class="va">formula</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ area_hectares + population + poverty_percentage + median_income + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     domestic_product + daily_miles_traveled + employed_percentage + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     geographic_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x555b1ed623f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     economy + geographic_distance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b5449ee0a8&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example of linear model</span></span></span>
 <span class="r-in"><span><span class="co"># model &lt;- lm(</span></span></span>
@@ -240,7 +241,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

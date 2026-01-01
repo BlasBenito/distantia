@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">distantia</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
     <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -138,7 +139,7 @@ subsetting.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/zoo_plot.html">zoo_plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">z</span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-2-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="750"></p>
 <p>Zoo objects have two main components, a data matrix with the time
 series observations, and an index representing time or sample order.</p>
 <p>The data matrix is extracted with <code><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">zoo::coredata()</a></code>.</p>
@@ -342,7 +343,7 @@ everything is ok.</p>
 <span>  tsl <span class="op">=</span> <span class="va">my_tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-15-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 </div>
 <div class="section level2">
@@ -386,7 +387,7 @@ dates, and three numeric columns with environmental observations.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl  <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-18-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="750"></p>
 <p>Once manipulated and/or analyzed, a TSL can be converted back to data
 frame with <code><a href="../reference/tsl_to_df.html">tsl_to_df()</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -427,7 +428,7 @@ time series.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-23-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="750"></p>
 <p>In this case, the column names of the univariate zoo objects will
 “x”.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -487,7 +488,7 @@ the zoo index is a sequence of integers.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-28-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="750"></p>
 <p>The same thing can be done with matrices as well.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
@@ -501,7 +502,7 @@ the zoo index is a sequence of integers.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-29-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 </div>
 <div class="section level2">
@@ -564,7 +565,7 @@ nothing to do with such purpose.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-33-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="750"></p>
 <p>The simpler tools to explore TSLs are focused on simpler things, like
 extracting TSL names and dimensions.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
@@ -764,7 +765,7 @@ series in a TSL.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_new</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-39-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-39-1.png" class="r-plt" alt="" width="750"></p>
 <p>The function <code><a href="../reference/tsl_burst.html">tsl_burst()</a></code> transforms a multivariate TSL
 into a univariate TSL by creating a new zoo object from each column of
 the original zoo objects. This function helps apply dissimilarity
@@ -805,7 +806,7 @@ analysis between individual variables in multivariate time series.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_univariate</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-40-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-40-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level4">
 <h4 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
@@ -844,7 +845,7 @@ in the dataset <code>honeycomb_climate</code>.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-42-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-42-1.png" class="r-plt" alt="" width="750"></p>
 <p>The easiest way to define aggregation intervals in
 <code>distantia</code> is to use a keyword. The function
 <code><a href="../reference/tsl_time.html">tsl_time()</a></code> returns the supported keywords for a given
@@ -950,7 +951,7 @@ adds a suffix to each new aggregated column.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_climate_stats</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="st">"relative"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-47-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-47-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level4">
 <h4 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
@@ -975,7 +976,7 @@ number of rows.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-49-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-49-1.png" class="r-plt" alt="" width="750"></p>
 <p>The time features of this TSL show clear differences in frequency
 between these time series.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
@@ -1007,7 +1008,7 @@ its time ranges.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_resampled</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-51-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-51-1.png" class="r-plt" alt="" width="750"></p>
 <p>Otherwise, a keyword can be used to define the resampling frequency.
 Again, we can find valid keywords using <code><a href="../reference/tsl_time.html">tsl_time()</a></code>, but
 replacing “aggregate” with “resample” in the argument
@@ -1051,7 +1052,7 @@ replacing “aggregate” with “resample” in the argument
 <span>  tsl <span class="op">=</span> <span class="va">tsl_resampled</span>, </span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-53-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-53-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 <div class="section level4">
 <h4 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
@@ -1073,7 +1074,7 @@ TSL.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-55-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-55-1.png" class="r-plt" alt="" width="750"></p>
 <div class="section level5">
 <h5 id="rolling-window-smoothing">Rolling-Window Smoothing<a class="anchor" aria-label="anchor" href="#rolling-window-smoothing"></a>
 </h5>
@@ -1107,7 +1108,7 @@ sizes.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_smooth_10</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-56-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-56-2.png" width="750">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-56-1.png" class="r-plt" alt="" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-56-2.png" class="r-plt" alt="" width="750">
 The window size determines the smoothing scale, and with that, the type
 of trend highlighted in the smoothing results.</p>
 </div>
@@ -1139,7 +1140,7 @@ argument <code>alpha</code> in <code><a href="../reference/tsl_smooth.html">tsl_
 <span>  tsl <span class="op">=</span> <span class="va">tsl_smooth_exp_0.8</span>,</span>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-57-1.png" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-57-2.png" width="750">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-57-1.png" class="r-plt" alt="" width="750"><img src="time_series_lists_files/figure-html/unnamed-chunk-57-2.png" class="r-plt" alt="" width="750">
 Alpha values closer to zero produce smoother results, as the plots above
 show.</p>
 </div>
@@ -1177,7 +1178,7 @@ different units.</p>
 <span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-60-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-60-1.png" class="r-plt" alt="" width="750"></p>
 <p>Due to the differences in magnitude between variables, a dynamic time
 warping analysis will focus on <code>rainfall</code> disproportionately,
 biasing the results.</p>
@@ -1326,7 +1327,7 @@ series needs detrending or not.</p>
 <span>  line_color <span class="op">=</span> <span class="st">"red4"</span>,</span>
 <span>  line_width <span class="op">=</span> <span class="fl">1.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-66-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-66-1.png" class="r-plt" alt="" width="750"></p>
 <p>We can now compute the stats of these linear trends to identify the
 cities with a steeper long-term temperature change.</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
@@ -1386,25 +1387,25 @@ demonstrate that the linear detrending worked as expected.</p>
 <span><span class="va">df_stats</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"range"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;                name                      range</span></span>
 <span><span class="co">#&gt; 1           Bangkok 0.000000000000000328592658</span></span>
-<span><span class="co">#&gt; 2            Bogotá 0.000000000000000484878289</span></span>
-<span><span class="co">#&gt; 3             Cairo 0.000000000000000943646582</span></span>
-<span><span class="co">#&gt; 4             Dhaka 0.000000000000000329773971</span></span>
-<span><span class="co">#&gt; 5  Ho Chi Minh City 0.000000000000000890841633</span></span>
-<span><span class="co">#&gt; 6          Istanbul 0.000000000000000808987093</span></span>
-<span><span class="co">#&gt; 7           Jakarta 0.000000000000001206220863</span></span>
-<span><span class="co">#&gt; 8           Karachi 0.000000000000000581163990</span></span>
-<span><span class="co">#&gt; 9          Kinshasa 0.000000000000002226721698</span></span>
-<span><span class="co">#&gt; 10            Lagos 0.000000000000001024499755</span></span>
-<span><span class="co">#&gt; 11             Lima 0.000000000000000709047629</span></span>
-<span><span class="co">#&gt; 12           London 0.000000000000000614810456</span></span>
-<span><span class="co">#&gt; 13      Los Angeles 0.000000000000000469843877</span></span>
+<span><span class="co">#&gt; 2            Bogotá 0.000000000000000469733136</span></span>
+<span><span class="co">#&gt; 3             Cairo 0.000000000000000459001688</span></span>
+<span><span class="co">#&gt; 4             Dhaka 0.000000000000002763544954</span></span>
+<span><span class="co">#&gt; 5  Ho Chi Minh City 0.000000000000000870648096</span></span>
+<span><span class="co">#&gt; 6          Istanbul 0.000000000000000138892635</span></span>
+<span><span class="co">#&gt; 7           Jakarta 0.000000000000001186027325</span></span>
+<span><span class="co">#&gt; 8           Karachi 0.000000000000002015559408</span></span>
+<span><span class="co">#&gt; 9          Kinshasa 0.000000000000000414558593</span></span>
+<span><span class="co">#&gt; 10            Lagos 0.000000000000001005264880</span></span>
+<span><span class="co">#&gt; 11             Lima 0.000000000000000346991624</span></span>
+<span><span class="co">#&gt; 12           London 0.000000000000001099455349</span></span>
+<span><span class="co">#&gt; 13      Los Angeles 0.000000000000000308295579</span></span>
 <span><span class="co">#&gt; 14           Manila 0.000000000000000006671831</span></span>
-<span><span class="co">#&gt; 15           Moscow 0.000000000000000851634434</span></span>
-<span><span class="co">#&gt; 16            Paris 0.000000000000000317550377</span></span>
-<span><span class="co">#&gt; 17   Rio De Janeiro 0.000000000000000841054716</span></span>
-<span><span class="co">#&gt; 18        São Paulo 0.000000000000000464026082</span></span>
-<span><span class="co">#&gt; 19         Shanghai 0.000000000000000087755817</span></span>
-<span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
+<span><span class="co">#&gt; 15           Moscow 0.000000000000000528537838</span></span>
+<span><span class="co">#&gt; 16            Paris 0.000000000000000640646973</span></span>
+<span><span class="co">#&gt; 17   Rio De Janeiro 0.000000000000001170126628</span></span>
+<span><span class="co">#&gt; 18        São Paulo 0.000000000000000960621609</span></span>
+<span><span class="co">#&gt; 19         Shanghai 0.000000000000001204630566</span></span>
+<span><span class="co">#&gt; 20            Tokyo 0.000000000000000446215307</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
@@ -1447,7 +1448,7 @@ transformation on the counts dataset <code>eemian_pollen</code>.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" width="750">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-71-1.png" class="r-plt" alt="" width="750">
 Transformation to percentages with <code>f_percent</code>.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_percent</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
@@ -1459,7 +1460,7 @@ Transformation to percentages with <code>f_percent</code>.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_percent</span>,</span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" width="750">
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-72-1.png" class="r-plt" alt="" width="750">
 The function <code>f_binary</code> helps transform continuous data into
 discrete events. The code below converts the percentages above into
 presence/absence using 5% as threshold. Notice only the variable
@@ -1477,7 +1478,7 @@ presence/absence using 5% as threshold. Notice only the variable
 <span>    colnames <span class="op">=</span> <span class="st">"Carpinus"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-73-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-73-1.png" class="r-plt" alt="" width="750"></p>
 <p>Transformation to square root of proportions with
 <code>f_proportion_sqrt</code>.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
@@ -1490,7 +1491,7 @@ presence/absence using 5% as threshold. Notice only the variable
 <span>  tsl <span class="op">=</span> <span class="va">tsl_prop_sqrt</span>,</span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-74-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-74-1.png" class="r-plt" alt="" width="750"></p>
 <p>The function <code>f_hellinger</code> transforms the taxa counts to
 proportions and the applies the Hellinger transformation.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
@@ -1503,7 +1504,7 @@ proportions and the applies the Hellinger transformation.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_hellinger</span>, </span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-75-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-75-1.png" class="r-plt" alt="" width="750"></p>
 <p>Centered log-ration computed with <code>f_clr</code>.</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_clr</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
@@ -1515,7 +1516,7 @@ proportions and the applies the Hellinger transformation.</p>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_clr</span>, </span>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="time_series_lists_files/figure-html/unnamed-chunk-76-1.png" width="750"></p>
+<p><img src="time_series_lists_files/figure-html/unnamed-chunk-76-1.png" class="r-plt" alt="" width="750"></p>
 </div>
 </div>
 </div>
@@ -1530,7 +1531,7 @@ proportions and the applies the Hellinger transformation.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
