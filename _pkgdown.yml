@@ -26,9 +26,11 @@ articles:
   navbar: "Articles"
   contents:
   - distantia_gentle_intro
+  - distantia_epidemiology
   - dtw_from_scratch
   - articles/dtw_applications
   - articles/distantia_in_the_wild
+  - articles/download_history
 
 - title: "Original Paper"
   navbar: "Original Paper"
@@ -52,6 +54,14 @@ external-articles:
     title: "Coding a Minimalistic DTW Library"
     description: "Tutorial on how to write a small dynamic time warping library in R."
     href: https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/
+
+  - name: distantia_epidemiology
+    title: "Analyzing Epidemiological Time Series With The R Package {distantia}"
+    description: "Tutorial on the applications of the R package {distantia} to the analysis of epidemiological time series.."
+    href: https://www.blasbenito.com/post/distantia-showcase-covid/
+
+
+
 
 reference:
 
@@ -160,3 +170,8 @@ reference:
   desc:  Internal functions to check arguments and other miscellany tasks.
 - contents:
   - has_concept("internal")
+
+build:
+  extra_packages:
+    - ggplot2
+    - cranlogs

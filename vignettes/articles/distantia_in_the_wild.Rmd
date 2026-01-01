@@ -25,11 +25,10 @@ options(conflicts.policy = list(warn = FALSE))
 
 This article lists known applications of the R package `distantia` found in the literature.
 
-# Version 2.0
 
-None (yet?)
+## 2025
 
-# Version 1.0
+Bloom, E.H., Atallah, S.S. & Casteel, C.L. Sustainable soil management practices are associated with increases in crop defense through soil microbiome changes. npj Sustain. Agric. 3, 67 (2025). https://doi.org/10.1038/s44264-025-00109-6
 
 ## 2024
 
@@ -39,6 +38,8 @@ Di Chiara, A., Hounslow, M. W., Maher, B. A., Karloukovski, V., Van Daele, M., B
 ## 2023
 
 Bourinet, F., Anneville, O., Drouineau, H., Goulon, C., Guillard, J., & Richard, A. (2023). Synchrony in whitefish stock dynamics: Disentangling the effects of local drivers and climate. Journal of Limnology, 82(1). https://doi.org/10.4081/jlimnol.2023.2134
+
+Bloom, E. H., Illán, J. G., Brousil, M. R., Reganold, J. P., Northfield, T. D., & Crowder, D. W. (2023). Long-term organic farming and floral diversity promotes stability of bee communities in agroecosystems. Functional Ecology, 37, 2809–2825. https://doi.org/10.1111/1365-2435.14428 
 
 ## 2022
 
