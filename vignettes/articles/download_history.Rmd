@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r, include=FALSE, echo = FALSE}
-install.packages("cranlogs")
+install.packages(c("cranlogs", "ggplot2"))
 ```
 
 
