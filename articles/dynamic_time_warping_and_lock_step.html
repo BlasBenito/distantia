@@ -86,6 +86,14 @@
 
     
     
+<div class="section level3">
+<h3 id="source-code">Source Code<a class="anchor" aria-label="anchor" href="#source-code"></a>
+</h3>
+<p>You can download the Rmarkdown notebook used to render this article
+<a href="https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/dynamic_time_warping_and_lock_step.Rmd" class="external-link">here</a>.
+To download the file, use the button <em>Download raw file</em> on the
+upper-right hand of the <code>Code</code> panel.</p>
+</div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
@@ -96,23 +104,26 @@ for handling temporal shifts and LS for preserving temporal alignment.
 This article explores the conceptual foundations of both methods, their
 implementation in <code>distantia</code>, and showcases their practical
 use with code examples.</p>
-</div>
-<div class="section level2">
-<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h2>
+<div class="section level3">
+<h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h3>
 <p>The packages required to run the code in this article are
 <code>distantia</code> and <code>dtw</code>. The latter is not a
 dependency of <code>distantia</code>, but will help put into context key
 details of how DTW works.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://blasbenito.github.io/distantia/">distantia</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dynamictimewarping.github.io/" class="external-link">dtw</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
+</h3>
 <p>The <code>cities_temperature</code> dataset contains monthly
 temperature records for 20 cities. The code below transforms it into a
 Time Series List (TSL) and selects a subset of three cities with
 temperature time series from 2000 to 2005.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_raw</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">cities_temperature</span>,</span>
 <span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span>
@@ -138,7 +149,7 @@ the functions <code><a href="../reference/tsl_transform.html">tsl_transform()</a
 <code>f_detrend_linear</code> to remove any long-term trends in the
 data, and with <code>f_scale</code> to scale and center each time series
 separately.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_scaled</span> <span class="op">&lt;-</span> <span class="va">tsl_raw</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>    f <span class="op">=</span> <span class="fu">distantia</span><span class="fu">::</span><span class="va"><a href="../reference/f_detrend_linear.html">f_detrend_linear</a></span></span>
@@ -154,9 +165,9 @@ separately.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="750"></p>
 </div>
-<div class="section level2">
-<h2 id="lock-step-ls">Lock-Step (LS)<a class="anchor" aria-label="anchor" href="#lock-step-ls"></a>
-</h2>
+<div class="section level3">
+<h3 id="lock-step-ls">Lock-Step (LS)<a class="anchor" aria-label="anchor" href="#lock-step-ls"></a>
+</h3>
 <p><strong>Lock-step</strong> methods compare values at corresponding
 time points, requiring time series of the same length sampled at
 identical times. This approach is well-suited for cases where
@@ -173,7 +184,7 @@ within each time series.</p>
 <em>psi</em>.</p>
 <p>Let’s look first at a native R implementation of this idea using
 euclidean distances to keep it simple.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#extracting the data to shorten variable names</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">tsl_scaled</span><span class="op">$</span><span class="va">London</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">tsl_scaled</span><span class="op">$</span><span class="va">Kinshasa</span></span>
@@ -191,7 +202,7 @@ euclidean distances to keep it simple.</p>
 <span><span class="co">#&gt; [1] 2.791279</span></span></code></pre></div>
 <p>The function <code><a href="../reference/distantia.html">distantia()</a></code> performs the same task when
 <code>lock_step = TRUE</code> (default is <code>FALSE</code>).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -203,7 +214,7 @@ euclidean distances to keep it simple.</p>
 <p>The same can be done with the function <code><a href="../reference/distantia_ls.html">distantia_ls()</a></code>, a
 simplified version of <code><a href="../reference/distantia.html">distantia()</a></code> for lock-step
 analysis.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_ls.html">distantia_ls</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span>
@@ -212,7 +223,7 @@ analysis.</p>
 <span><span class="co">#&gt; [1] 2.791279</span></span></code></pre></div>
 <p>Both functions can compute lock-step dissimilarity scores for all
 time series in the argument <code>tsl</code> at once.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_ls.html">distantia_ls</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span></span>
 <span><span class="op">)</span></span>
@@ -225,9 +236,9 @@ time series in the argument <code>tsl</code> at once.</p>
 <p>As expected, London and Paris show the most similar temperature time
 series, while London and Kinshasa are the most different ones.</p>
 </div>
-<div class="section level2">
-<h2 id="dynamic-time-warping">Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#dynamic-time-warping"></a>
-</h2>
+<div class="section level3">
+<h3 id="dynamic-time-warping">Dynamic Time Warping<a class="anchor" aria-label="anchor" href="#dynamic-time-warping"></a>
+</h3>
 <p>Dynamic Time Warping (DTW) warps the time axes of two time series to
 maximize pattern similarity, even when temporal shifts are present. This
 makes DTW ideal for comparing time series with similar shapes but
@@ -257,7 +268,7 @@ algorithm.</p>
 pairs of samples in both time series. Notice that all functions to
 demonstrate the computation of the normalized dissimilarity score
 <code>psi</code> follow the naming convention <code>psi...()</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m.dist</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_distance_matrix.html">psi_distance_matrix</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">y</span>,</span>
@@ -286,7 +297,7 @@ computed in diagonals, which are weighted by a factor of
 <p>These options are wrapped in the function
 <code><a href="../reference/psi_cost_matrix.html">psi_cost_matrix()</a></code>, which by default, like
 <code><a href="../reference/distantia.html">distantia()</a></code> uses weighted diagonals.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m.cost</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_cost_matrix.html">psi_cost_matrix</a></span><span class="op">(</span></span>
 <span>  dist_matrix <span class="op">=</span> <span class="va">m.dist</span>,</span>
 <span>  diagonal <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#default</span></span>
@@ -299,7 +310,7 @@ computed in diagonals, which are weighted by a factor of
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="600"></p>
 <p>In step <strong>1c</strong>, the distance and cost matrices are used
 to find the least-cost path.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m.cost.path</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_cost_path.html">psi_cost_path</a></span><span class="op">(</span></span>
 <span>  dist_matrix <span class="op">=</span> <span class="va">m.dist</span>,</span>
 <span>  cost_matrix <span class="op">=</span> <span class="va">m.cost</span>,</span>
@@ -318,7 +329,7 @@ to find the least-cost path.</p>
 The columns “x” and “y” represent sample indices of the time series
 London and Kinshasa. The figure below shows the least cost path on top
 of the cost matrix.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/utils_matrix_plot.html">utils_matrix_plot</a></span><span class="op">(</span></span>
 <span>  m <span class="op">=</span> <span class="va">m.cost</span>,</span>
 <span>  path <span class="op">=</span> <span class="va">m.cost.path</span></span>
@@ -329,7 +340,7 @@ distances between pair of samples connected by the least-cost path. This
 step is just <code>sum(m.cost.path$dist)</code>, but it is implemented
 in <code><a href="../reference/psi_cost_path_sum.html">psi_cost_path_sum()</a></code>, which also checks that the least
 cost data frame is correct.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">step_1</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_cost_path_sum.html">psi_cost_path_sum</a></span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="va">m.cost.path</span></span>
 <span><span class="op">)</span></span>
@@ -339,7 +350,7 @@ cost data frame is correct.</p>
 <p>Step <strong>2</strong> returns the distances between consecutive
 samples within each time series, as computed by
 <code><a href="../reference/psi_auto_sum.html">psi_auto_sum()</a></code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">step_2</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_auto_sum.html">psi_auto_sum</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">y</span>,</span>
@@ -349,7 +360,7 @@ samples within each time series, as computed by
 <span><span class="va">step_2</span></span></code></pre></div>
 <p>Finally, the step <strong>3</strong> computes the normalized
 dissimilarity score.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/psi_equation.html">psi_equation</a></span><span class="op">(</span></span>
 <span>  a <span class="op">=</span> <span class="va">step_1</span>,</span>
 <span>  b <span class="op">=</span> <span class="va">step_2</span>,</span>
@@ -359,7 +370,7 @@ dissimilarity score.</p>
 <code><a href="../reference/distantia.html">distantia()</a></code> by setting the argument <code>lock_step</code>
 to <code>FALSE</code>, or with the function
 <code><a href="../reference/distantia_dtw.html">distantia_dtw()</a></code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -369,7 +380,7 @@ to <code>FALSE</code>, or with the function
 <span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"psi"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;        x        y      psi</span></span>
 <span><span class="co">#&gt; 1 London Kinshasa 1.051902</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_dtw.html">distantia_dtw</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span>
@@ -380,7 +391,7 @@ to <code>FALSE</code>, or with the function
 <p>As before, both functions can compute dynamic time warping
 dissimilarity for all time series in the argument <code>tsl</code> at
 once.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/distantia_dtw.html">distantia_dtw</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span></span>
 <span><span class="op">)</span></span>
@@ -393,7 +404,7 @@ once.</p>
 <p>The function <code><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot()</a></code> offers a good
 graphical representation of the warping result and decomposes the
 computation of the <em>psi</em> dissimilarity score.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -413,7 +424,7 @@ optima, one in the <em>y</em> axis (long horizontal line) at the minimum
 temperature in Kinshasa (winter of 2001), and another in the <em>x</em>
 axis (long vertical line) at the maximum temperature in London (summer
 of 2003). It also shows a distinctively large dissimilarity score.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -427,7 +438,7 @@ much longer segment of another.</p>
 The code below shows a similar analysis performed with the R package <a href="https://CRAN.R-project.org/package=dtw" class="external-link"><code>dtw</code></a>. The
 default implementation ignores diagonals when building the cost
 matrix.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xy_dtw</span> <span class="op">&lt;-</span> <span class="fu">dtw</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">$</span><span class="va">London</span><span class="op">$</span><span class="va">temperature</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">$</span><span class="va">Kinshasa</span><span class="op">$</span><span class="va">temperature</span>,</span>
@@ -439,13 +450,14 @@ matrix.</p>
 <p>The “twoway” plot provided by <code>dtw</code> shows the alingment as
 a line bar, with the sample matches represented as dotted lines, and two
 vertical lines highlighting the local optima</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy_dtw</span>, type <span class="op">=</span> <span class="st">"twoway"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0.13</span>, col<span class="op">=</span><span class="st">"red3"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0.70</span>, col<span class="op">=</span><span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="750"></p>
 <p>There are two strategies that can be combined to control this issue:
 data scaling, and <strong>constrained DTW</strong>.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="constrained-dtw">Constrained DTW<a class="anchor" aria-label="anchor" href="#constrained-dtw"></a>
@@ -459,25 +471,25 @@ warping. The plots below show the effect of decreasing
 (shown as white dashed lines) and how it restricts spread of the
 alignment between London and Kinshasa on their raw temperature
 values.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="900"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="900"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="900"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/distantia_dtw_plot.html">distantia_dtw_plot</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"London"</span>, <span class="st">"Kinshasa"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">0.025</span></span>
@@ -488,7 +500,7 @@ is for), but can help diagnose them, given a tolerance level.</p>
 <p>The code below runs <code><a href="../reference/distantia.html">distantia()</a></code> for the raw temperature
 data with two bandwidths: 1 for unrestricted dynamic time warping, and
 0.25 as reference level.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.25</span><span class="op">)</span></span>
@@ -504,7 +516,7 @@ data with two bandwidths: 1 for unrestricted dynamic time warping, and
 <span><span class="co">#&gt; 2 London Kinshasa 10.7561509      1.00</span></span></code></pre></div>
 <p>Now, we can compute the psi differences across bandwidths for each
 pair of time series</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span></span>
 <span>    <span class="va">x</span>, <span class="va">y</span></span>
@@ -528,10 +540,9 @@ pair of time series</p>
 <p>All pairs of time series with a <code>psi_diff</code> higher than
 zero show warping paths that go beyond the 0.25 bandwidth.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="comparing-dtw-and-ls">Comparing DTW and LS<a class="anchor" aria-label="anchor" href="#comparing-dtw-and-ls"></a>
-</h2>
+<div class="section level3">
+<h3 id="comparing-dtw-and-ls">Comparing DTW and LS<a class="anchor" aria-label="anchor" href="#comparing-dtw-and-ls"></a>
+</h3>
 <p>Dynamic Time Warping (DTW) and Lock-Step (LS) methods differ in scope
 and application.</p>
 <p>DTW is ideal for comparing data that may be shifted in time due to
@@ -551,7 +562,7 @@ series?”</p>
 <p>The code below computes the dissimilarity score of the temperatures
 in Paris, London, and Kinshasa using DTW and LS and compares them in a
 data frame.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_dtw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_scaled</span></span>
 <span><span class="op">)</span></span>
@@ -580,7 +591,7 @@ image of the raw differences between these time series.</p>
 <p>As a clear advantage, LS does not require data normalization for
 univariate time series, and therefore can provide a dissimilarity score
 in the same units of the variable at hand.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_ls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distantia.html">distantia</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span>,</span>
 <span>  lock_step <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -594,7 +605,7 @@ in the same units of the variable at hand.</p>
 <p>Comparing the dissimilarity scores above with the mean temperatures
 of the three cities below can give a sense of how approximate LS scores
 are to what we could expect.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tsl_stats.html">tsl_stats</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_raw</span>,</span>
 <span>  lags <span class="op">=</span> <span class="fl">0</span></span>
@@ -606,9 +617,9 @@ are to what we could expect.</p>
 <span><span class="co">#&gt; 2    Paris 11.53803</span></span>
 <span><span class="co">#&gt; 3 Kinshasa 24.48500</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="closing-thoughts">Closing Thoughts<a class="anchor" aria-label="anchor" href="#closing-thoughts"></a>
-</h2>
+<div class="section level3">
+<h3 id="closing-thoughts">Closing Thoughts<a class="anchor" aria-label="anchor" href="#closing-thoughts"></a>
+</h3>
 <p>The <code>distantia</code> package strikes a balance between
 flexibility and simplicity, enabling a more nuanced exploration of time
 series data. With support for both dynamic time warping and lock-step
@@ -619,6 +630,7 @@ working on sequence alignment or strict temporal comparisons,
 needs.</p>
 <p>I encourage you to give it a try and see how it fits into your
 workflows.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
