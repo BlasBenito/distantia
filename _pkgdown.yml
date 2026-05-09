@@ -1,7 +1,13 @@
+title: distantia
+home:
+  title: "distantia: Advanced Toolset for Efficient Time Series Dissimilarity Analysis"
 url: https://blasbenito.github.io/distantia
+
+llm-docs: false
 
 template:
   bootstrap: 5
+  bootswatch: lumen
   fonts:
     heading: Montserrat
     body: Montserrat
@@ -175,3 +181,11 @@ build:
   extra_packages:
     - ggplot2
     - cranlogs
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [published]
