@@ -20,14 +20,40 @@ knitr::opts_chunk$set(
 options(scipen = 9999)
 ```
 
+## Source Code
 
-# Summary
+You can download the Rmarkdown notebook used to render this article [here](https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/time_series_lists.Rmd). To download the file, use the button *Download raw file* on the upper-right hand of the `Code` panel.
+
+## Summary
 
 The R package `distantia` 2.0 introduces Time Series Lists as obect to organize time series for dissimilarity analyses, and provides a complete toolset to manage them.
 
 This article describes Time Series Lists in detail, and showcases the most common data handling procedures enabled by the new functions included in the package. 
 
-# Introduction to Time Series Lists
+## Setup
+
+```{r, include = FALSE}
+if (!requireNamespace("pak", quietly = TRUE)) {
+  install.packages("pak")
+}
+library(pak)
+pak::pkg_install(
+  c(
+    "distantia"
+  ),
+  ask = FALSE
+)
+```
+
+Only `zoo`  and `distantia` are required for this tutorial.
+
+```{r}
+library(zoo)
+library(distantia)
+```
+
+
+## Introduction to Time Series Lists
 
 In this new version of `distantia`, groups of time series are organized as named lists of [zoo](https://cran.r-project.org/web/packages/zoo/index.html) objects. These lists are named **Time Series Lists** (TSL) within the package, and are designed to facilitate the parallelization of dissimilarity analyses. 
 
@@ -42,8 +68,6 @@ Other advantages of using zoo objects include a seamless intergration with base 
 Let's take a look at a little zoo object.
 
 ```{r, fig.height=2.5}
-library(distantia)
-
 z <- distantia::zoo_simulate(
   name = "my_zoo",
   cols = 3,
