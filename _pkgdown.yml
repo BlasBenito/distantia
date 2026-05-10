@@ -7,10 +7,12 @@ llm-docs: false
 
 template:
   bootstrap: 5
-  bootswatch: lumen
+  bootswatch: journal
   fonts:
     heading: Montserrat
     body: Montserrat
+navbar:
+  bg: primary
 authors:
   Blas M. Benito:
     href: https://blasbenito.com
