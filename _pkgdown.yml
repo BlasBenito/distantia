@@ -8,6 +8,7 @@ llm-docs: false
 template:
   bootstrap: 5
   bootswatch: lumen
+  theme: atom-one-light
   fonts:
     heading: Montserrat
     body: Montserrat
