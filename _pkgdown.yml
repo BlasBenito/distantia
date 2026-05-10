@@ -11,10 +11,6 @@ template:
   fonts:
     heading: Montserrat
     body: Montserrat
-  includes:
-    in_header: |
-      <link rel="stylesheet" href="extra.css">
-
 authors:
   Blas M. Benito:
     href: https://blasbenito.com
@@ -177,15 +173,3 @@ reference:
 - contents:
   - has_concept("internal")
 
-build:
-  extra_packages:
-    - ggplot2
-    - cranlogs
-
-on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  release:
-    types: [published]
