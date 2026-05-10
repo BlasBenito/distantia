@@ -7,7 +7,7 @@ llm-docs: false
 
 template:
   bootstrap: 5
-  bootswatch: journal
+  bootswatch: lumen
   fonts:
     heading: Montserrat
     body: Montserrat
