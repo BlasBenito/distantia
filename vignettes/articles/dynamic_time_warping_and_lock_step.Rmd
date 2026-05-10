@@ -21,9 +21,6 @@ options(scipen = 9999)
 options(conflicts.policy = list(warn = FALSE))
 ```
 
-## Source Code
-
-You can download the Rmarkdown notebook used to render this article [here](https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/dynamic_time_warping_and_lock_step.Rmd). To download the file, use the button *Download raw file* on the upper-right hand of the `Code` panel.
 
 # Summary
 

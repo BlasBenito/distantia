@@ -20,9 +20,6 @@ knitr::opts_chunk$set(
 options(scipen = 9999)
 ```
 
-## Source Code
-
-You can download the Rmarkdown notebook used to render this article [here](https://github.com/BlasBenito/distantia/blob/main/vignettes/articles/time_series_lists.Rmd). To download the file, use the button *Download raw file* on the upper-right hand of the `Code` panel.
 
 ## Summary
 

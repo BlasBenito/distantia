@@ -8,13 +8,21 @@ output:
 ---
 
 ```{r, include=FALSE, echo = FALSE}
-install.packages(c("cranlogs", "ggplot2"))
+if (!requireNamespace("pak", quietly = TRUE)) {
+  install.packages("pak")
+}
+library(pak)
+pak::pkg_install(
+  c(
+    "cranlogs",
+    "ggplot2"
+  ),
+  ask = FALSE
+)
 ```
 
 
 ```{r, echo = FALSE}
-# Install packages if needed
-# install.packages(c("cranlogs", "ggplot2"))
 library(cranlogs)
 library(ggplot2)
 
