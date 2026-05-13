@@ -24,13 +24,15 @@
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -74,11 +76,11 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>(required, character vector) Names to be cleaned. Default: NULL</p></dd>
+<dd><p>(required, character vector) Names to be cleaned. Default: NULL.</p></dd>
 
 
 <dt id="arg-lowercase">lowercase<a class="anchor" aria-label="anchor" href="#arg-lowercase"></a></dt>
-<dd><p>(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE</p></dd>
+<dd><p>(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE.</p></dd>
 
 
 <dt id="arg-separator">separator<a class="anchor" aria-label="anchor" href="#arg-separator"></a></dt>
@@ -86,11 +88,11 @@
 
 
 <dt id="arg-capitalize-first">capitalize_first<a class="anchor" aria-label="anchor" href="#arg-capitalize-first"></a></dt>
-<dd><p>(optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.</p></dd>
+<dd><p>(optional, logical) Capitalize the first letter of each name. Default: FALSE.</p></dd>
 
 
 <dt id="arg-capitalize-all">capitalize_all<a class="anchor" aria-label="anchor" href="#arg-capitalize-all"></a></dt>
-<dd><p>(optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.</p></dd>
+<dd><p>(optional, logical) Capitalize all letters of each name. Default: FALSE.</p></dd>
 
 
 <dt id="arg-length">length<a class="anchor" aria-label="anchor" href="#arg-length"></a></dt>
@@ -102,19 +104,19 @@
 
 
 <dt id="arg-prefix">prefix<a class="anchor" aria-label="anchor" href="#arg-prefix"></a></dt>
-<dd><p>(optional, character string)  String to prepend to the cleaned names. Default: NULL.</p></dd>
+<dd><p>(optional, character string) String to prepend to the cleaned names. Default: NULL.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>character vector</p>
+    <p>A character vector.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The cleanup operations are applied in the following order:</p><ul><li><p>Remove leading and trailing whitespaces.</p></li>
-<li><p>Generates syntactically valid names with <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">base::make.names()</a></code>.</p></li>
-<li><p>Replaces dots and spaces with the <code>separator</code>.</p></li>
-<li><p>Coerces names to lowercase.</p></li>
+<li><p>Generate syntactically valid names with <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">base::make.names()</a></code>.</p></li>
+<li><p>Replace dots and spaces with the <code>separator</code>.</p></li>
+<li><p>Coerce names to lowercase.</p></li>
 <li><p>If argument <code>length</code> is provided, <code><a href="https://rdrr.io/r/base/abbreviate.html" class="external-link">base::abbreviate()</a></code> is used to abbreviate the new column names.</p></li>
 <li><p>If <code>suffix</code> is provided, it is added at the end of the column name using the separator.</p></li>
 <li><p>If <code>prefix</code> is provided, it is added at the beginning of the column name using the separator.</p></li>

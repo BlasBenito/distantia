@@ -52,13 +52,15 @@ This function supports a parallelization setup via future::plan().'><meta proper
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -111,7 +113,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 
 
 <dt id="arg-predictors-df">predictors_df<a class="anchor" aria-label="anchor" href="#arg-predictors-df"></a></dt>
-<dd><p>(required, data frame or sf data frame) data frame with numeric predictors for the the model frame. Must have a column with the time series names in <code>response_df$x</code> and <code>response_df$y</code>. If <code>sf</code> data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL</p></dd>
+<dd><p>(required, data frame or sf data frame) Data frame with numeric predictors for the model frame. Must have a column with the time series names in <code>response_df$x</code> and <code>response_df$y</code>. If <code>sf</code> data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL</p></dd>
 
 
 <dt id="arg-composite-predictors">composite_predictors<a class="anchor" aria-label="anchor" href="#arg-composite-predictors"></a></dt>
@@ -220,7 +222,7 @@ This function supports a parallelization setup via future::plan().'><meta proper
 <span class="r-out co"><span class="r-pr">#&gt;</span> psi ~ area_hectares + population + poverty_percentage + median_income + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     domestic_product + daily_miles_traveled + employed_percentage + </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     economy + geographic_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b8b6631470&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557f6990cc10&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#example of linear model</span></span></span>
 <span class="r-in"><span><span class="co"># model &lt;- lm(</span></span></span>

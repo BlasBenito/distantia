@@ -26,13 +26,15 @@ Site coordinates for this dataset are in eemian_coordinates."><meta property="og
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -65,7 +67,7 @@ Site coordinates for this dataset are in eemian_coordinates."><meta property="og
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>data frame with 24 columns and 376 rows.</p>
+    <p>A data frame with 24 columns and 376 rows.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -86,7 +88,7 @@ Site coordinates for this dataset are in eemian_coordinates."><meta property="og
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"eemian_pollen"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#to time series list</span></span></span>
+<span class="r-in"><span><span class="co">#Convert to time series list</span></span></span>
 <span class="r-in"><span><span class="va">tsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">eemian_pollen</span>,</span></span>
 <span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>

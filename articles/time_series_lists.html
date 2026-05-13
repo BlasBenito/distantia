@@ -45,13 +45,15 @@
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -89,7 +91,7 @@
 <h3 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h3>
 <p>The R package <code>distantia</code> 2.0 introduces Time Series Lists
-as obect to organize time series for dissimilarity analyses, and
+as an object to organize time series for dissimilarity analyses, and
 provides a complete toolset to manage them.</p>
 <p>This article describes Time Series Lists in detail, and showcases the
 most common data handling procedures enabled by the new functions
@@ -131,7 +133,7 @@ designed to handle observations ordered by an index. It supports various
 index classes, such as Date, POSIXct, or even custom numeric or
 character indices, and handles regular and irregular time series equally
 well.</p>
-<p>Other advantages of using zoo objects include a seamless intergration
+<p>Other advantages of using zoo objects include seamless integration
 with base R methods, and built-in tools for alignment, merging, and
 subsetting.</p>
 <p>Let’s take a look at a little zoo object.</p>
@@ -440,7 +442,7 @@ time series.</p>
 <span>  guide <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="750"></p>
-<p>In this case, the column names of the univariate zoo objects will
+<p>In this case, the column names of the univariate zoo objects will be
 “x”.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_colnames_get.html">tsl_colnames_get</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl</span><span class="op">)</span></span>
@@ -536,7 +538,7 @@ applications.</p>
 few combine <code><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach::foreach()</a></code> with
 <code>doFuture::%iterator%</code> in shameless parallelized loops.</p>
 <p>As such, they all support a parallelization backend provided by the
-<code>future</code> package, as shown below. However, take in mind that
+<code>future</code> package, as shown below. However, keep in mind that
 parallelization is only worth it for very large datasets.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
@@ -733,7 +735,7 @@ omits or imputes NA cases via <code><a href="https://rdrr.io/pkg/zoo/man/na.appr
 <span><span class="co">#&gt; $D</span></span>
 <span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 <p>The second workflow involves the functions
-<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>, is more
+<code><a href="../reference/tsl_diagnose.html">tsl_diagnose()</a></code> and <code><a href="../reference/tsl_repair.html">tsl_repair()</a></code>, and is more
 general because it addresses other potential issues at once.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#diagnose issues with NA values</span></span>
@@ -1050,8 +1052,8 @@ replacing “aggregate” with “resample” in the argument
 <span><span class="co">#&gt; ensures that proper, parallel-safe random numbers are produced via a parallel</span></span>
 <span><span class="co">#&gt; RNG method. To disable this check, use 'future.seed = NULL', or set option</span></span>
 <span><span class="co">#&gt; 'future.rng.onMisuse' to "ignore". [future 'future_lapply-1'</span></span>
-<span><span class="co">#&gt; (c8a66eb94be4c282168db38f7f25ff56-158); on</span></span>
-<span><span class="co">#&gt; c8a66eb94be4c282168db38f7f25ff56@runnervmeorf1&lt;17015&gt;]</span></span>
+<span><span class="co">#&gt; (0e6a600c48d9de74b7c16f27573b1560-158); on</span></span>
+<span><span class="co">#&gt; 0e6a600c48d9de74b7c16f27573b1560@runnervmeorf1&lt;17312&gt;]</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tsl_time.html">tsl_time</a></span><span class="op">(</span>tsl <span class="op">=</span> <span class="va">tsl_resampled</span><span class="op">)</span><span class="op">[</span></span>
 <span>  , </span>
@@ -1202,7 +1204,7 @@ two flavors of scaling and/or centering:</p>
 <strong>Local</strong>: each variable is scaled and/or centered
 independently by time series.</li>
 <li>
-<strong>Global</strong>: each variable is scaled and/or centering
+<strong>Global</strong>: each variable is scaled and/or centered
 using its mean and standard deviation across all time series.</li>
 </ul>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
@@ -1309,7 +1311,7 @@ rescaling.</p>
 <h5 id="trend-adjustments">Trend Adjustments<a class="anchor" aria-label="anchor" href="#trend-adjustments"></a>
 </h5>
 <p>Removing trends in time series before applying dynamic time warping
-may help prevents inflated dissimilarity scores caused by non-stationary
+may help prevent inflated dissimilarity scores caused by non-stationary
 components. Detrending also ensures that the alignment generated by
 dynamic time warping focuses on meaningful shape features rather than
 being distorted by long-term trends.</p>
@@ -1400,25 +1402,25 @@ demonstrate that the linear detrending worked as expected.</p>
 <span><span class="va">df_stats</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"range"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;                name                      range</span></span>
 <span><span class="co">#&gt; 1           Bangkok 0.000000000000000328592658</span></span>
-<span><span class="co">#&gt; 2            Bogotá 0.000000000000000469733136</span></span>
-<span><span class="co">#&gt; 3             Cairo 0.000000000000000459001688</span></span>
-<span><span class="co">#&gt; 4             Dhaka 0.000000000000002763544954</span></span>
-<span><span class="co">#&gt; 5  Ho Chi Minh City 0.000000000000000870648096</span></span>
-<span><span class="co">#&gt; 6          Istanbul 0.000000000000000138892635</span></span>
-<span><span class="co">#&gt; 7           Jakarta 0.000000000000001186027325</span></span>
-<span><span class="co">#&gt; 8           Karachi 0.000000000000002015559408</span></span>
-<span><span class="co">#&gt; 9          Kinshasa 0.000000000000000414558593</span></span>
-<span><span class="co">#&gt; 10            Lagos 0.000000000000001005264880</span></span>
-<span><span class="co">#&gt; 11             Lima 0.000000000000000346991624</span></span>
-<span><span class="co">#&gt; 12           London 0.000000000000001099455349</span></span>
-<span><span class="co">#&gt; 13      Los Angeles 0.000000000000000308295579</span></span>
+<span><span class="co">#&gt; 2            Bogotá 0.000000000000000484878289</span></span>
+<span><span class="co">#&gt; 3             Cairo 0.000000000000000943646582</span></span>
+<span><span class="co">#&gt; 4             Dhaka 0.000000000000000329773971</span></span>
+<span><span class="co">#&gt; 5  Ho Chi Minh City 0.000000000000000890841633</span></span>
+<span><span class="co">#&gt; 6          Istanbul 0.000000000000000808987093</span></span>
+<span><span class="co">#&gt; 7           Jakarta 0.000000000000001206220863</span></span>
+<span><span class="co">#&gt; 8           Karachi 0.000000000000000581163990</span></span>
+<span><span class="co">#&gt; 9          Kinshasa 0.000000000000002226721698</span></span>
+<span><span class="co">#&gt; 10            Lagos 0.000000000000001024499755</span></span>
+<span><span class="co">#&gt; 11             Lima 0.000000000000000709047629</span></span>
+<span><span class="co">#&gt; 12           London 0.000000000000000614810456</span></span>
+<span><span class="co">#&gt; 13      Los Angeles 0.000000000000000469843877</span></span>
 <span><span class="co">#&gt; 14           Manila 0.000000000000000006671831</span></span>
-<span><span class="co">#&gt; 15           Moscow 0.000000000000000528537838</span></span>
-<span><span class="co">#&gt; 16            Paris 0.000000000000000640646973</span></span>
-<span><span class="co">#&gt; 17   Rio De Janeiro 0.000000000000001170126628</span></span>
-<span><span class="co">#&gt; 18        São Paulo 0.000000000000000960621609</span></span>
-<span><span class="co">#&gt; 19         Shanghai 0.000000000000001204630566</span></span>
-<span><span class="co">#&gt; 20            Tokyo 0.000000000000000446215307</span></span></code></pre></div>
+<span><span class="co">#&gt; 15           Moscow 0.000000000000000851634434</span></span>
+<span><span class="co">#&gt; 16            Paris 0.000000000000000317550377</span></span>
+<span><span class="co">#&gt; 17   Rio De Janeiro 0.000000000000000841054716</span></span>
+<span><span class="co">#&gt; 18        São Paulo 0.000000000000000464026082</span></span>
+<span><span class="co">#&gt; 19         Shanghai 0.000000000000000087755817</span></span>
+<span><span class="co">#&gt; 20            Tokyo 0.000000000000001516265533</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="compositional-normalization">Compositional Normalization<a class="anchor" aria-label="anchor" href="#compositional-normalization"></a>
@@ -1518,7 +1520,7 @@ proportions and the applies the Hellinger transformation.</p>
 <span>  guide_columns <span class="op">=</span> <span class="fl">4</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="time_series_lists_files/figure-html/unnamed-chunk-77-1.png" class="r-plt" alt="" width="750"></p>
-<p>Centered log-ration computed with <code>f_clr</code>.</p>
+<p>Centered log-ratio computed with <code>f_clr</code>.</p>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsl_clr</span> <span class="op">&lt;-</span> <span class="fu">distantia</span><span class="fu">::</span><span class="fu"><a href="../reference/tsl_transform.html">tsl_transform</a></span><span class="op">(</span></span>
 <span>  tsl <span class="op">=</span> <span class="va">tsl_counts</span>,</span>

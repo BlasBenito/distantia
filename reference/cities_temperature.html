@@ -28,13 +28,15 @@ The full dataset with 100 cities can be downloaded from https://github.com/BlasB
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -68,7 +70,7 @@ The full dataset with 100 cities can be downloaded from https://github.com/BlasB
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>data frame with 3 columns and 52100 rows.</p>
+    <p>A data frame with 3 columns and 52,100 rows.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -89,7 +91,7 @@ The full dataset with 100 cities can be downloaded from https://github.com/BlasB
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cities_temperature"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#to time series list</span></span></span>
+<span class="r-in"><span><span class="co">#Convert to time series list</span></span></span>
 <span class="r-in"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_initialize.html">tsl_initialize</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">cities_temperature</span>,</span></span>
 <span class="r-in"><span>  name_column <span class="op">=</span> <span class="st">"name"</span>,</span></span>
@@ -99,7 +101,7 @@ The full dataset with 100 cities can be downloaded from https://github.com/BlasB
 <span class="r-in"><span><span class="co">#time series plot</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="co">#only four cities are shown</span></span></span>
+<span class="r-in"><span> <span class="co">#Only four cities are shown</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  tsl <span class="op">=</span> <span class="fu"><a href="tsl_subset.html">tsl_subset</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tsl <span class="op">=</span> <span class="va">tsl</span>,</span></span>

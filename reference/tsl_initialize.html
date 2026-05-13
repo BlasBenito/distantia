@@ -13,7 +13,7 @@ Long data frame: with an ID column to separate time series, and a time column th
 Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 List of vectors: an object like list(a = runif(10), b = runif(10)) is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 List of matrices: a list containing matrices, such as list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3)).
-List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b = zoo_simulate())
+List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b = zoo_simulate()).
 
 '><meta property="og:description" content='Most functions in this package take a time series list (or tsl for short) as main input. A tsl is a list of zoo time series objects (see zoo::zoo()). There is not a formal class for tsl objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see tsl_diagnose()). These requirements are:
 There are no NA, Inf, -Inf, or NaN cases in the zoo objects (see tsl_count_NA() and tsl_handle_NA()).
@@ -29,7 +29,7 @@ Long data frame: with an ID column to separate time series, and a time column th
 Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 List of vectors: an object like list(a = runif(10), b = runif(10)) is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 List of matrices: a list containing matrices, such as list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3)).
-List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b = zoo_simulate())
+List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b = zoo_simulate()).
 
 '><meta property="og:image" content="https://blasbenito.github.io/distantia/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,13 +56,15 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -94,7 +96,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 <li><p>Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.</p></li>
 <li><p>List of vectors: an object like <code>list(a = runif(10), b = runif(10))</code> is converted to a time series list with as many zoo objects as vectors are defined in the original list.</p></li>
 <li><p>List of matrices: a list containing matrices, such as <code>list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))</code>.</p></li>
-<li><p>List of zoo objects: a list with zoo objects, such as <code>list(a = zoo_simulate(), b = zoo_simulate())</code></p></li>
+<li><p>List of zoo objects: a list with zoo objects, such as <code>list(a = zoo_simulate(), b = zoo_simulate())</code>.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -131,7 +133,7 @@ List of zoo objects: a list with zoo objects, such as list(a = zoo_simulate(), b
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>list of matrices</p>
+    <p>list of zoo objects (a time series list)</p>
     </div>
 
     <div class="section level2">

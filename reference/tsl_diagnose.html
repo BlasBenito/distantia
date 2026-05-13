@@ -13,7 +13,7 @@ All time series have at least one shared numeric column.
 There are no NA, Inf, or NaN values in the time series.
 
 
-This function analyzes a tsl without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.'><meta property="og:description" content='A Time Series List (tsl for short) is a named list of zoo time series. This type of object, not defined as a class, is used throughout the distantia package to contain time series data ready for processing and analysis.
+This function analyzes a tsl without modifying it and returns messages describing what conditions are not met, and provides hints on how to fix most issues.'><meta property="og:description" content='A Time Series List (tsl for short) is a named list of zoo time series. This type of object, not defined as a class, is used throughout the distantia package to contain time series data ready for processing and analysis.
 The structure and values of a tsl must fulfill several general conditions:
 Structure:
 List names match the attributes "name" of the zoo time series.
@@ -27,7 +27,7 @@ All time series have at least one shared numeric column.
 There are no NA, Inf, or NaN values in the time series.
 
 
-This function analyzes a tsl without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.'><meta property="og:image" content="https://blasbenito.github.io/distantia/logo.png"></head><body>
+This function analyzes a tsl without modifying it and returns messages describing what conditions are not met, and provides hints on how to fix most issues.'><meta property="og:image" content="https://blasbenito.github.io/distantia/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -52,13 +52,15 @@ This function analyzes a tsl without modifying it to returns messages describing
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -88,7 +90,7 @@ This function analyzes a tsl without modifying it to returns messages describing
 <li><p>The "core data" (as extracted by <code><a href="https://rdrr.io/pkg/zoo/man/coredata.html" class="external-link">zoo::coredata()</a></code>) of univariate zoo time series must be of class "matrix".</p></li>
 </ul><p>Values (optional, when <code>full = TRUE</code>):</p><ul><li><p>All time series have at least one shared numeric column.</p></li>
 <li><p>There are no NA, Inf, or NaN values in the time series.</p></li>
-</ul><p>This function analyzes a <code>tsl</code> without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.</p>
+</ul><p>This function analyzes a <code>tsl</code> without modifying it and returns messages describing what conditions are not met, and provides hints on how to fix most issues.</p>
     </div>
 
     <div class="section level2">
@@ -148,7 +150,7 @@ This function analyzes a tsl without modifying it to returns messages describing
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#with different number of columns</span></span></span>
-<span class="r-in"><span><span class="co">#wit repeated name</span></span></span>
+<span class="r-in"><span><span class="co">#with repeated name</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="zoo_simulate.html">zoo_simulate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  name <span class="op">=</span> <span class="st">"x"</span>,</span></span>
 <span class="r-in"><span>  cols <span class="op">=</span> <span class="fl">2</span></span></span>
@@ -194,7 +196,7 @@ This function analyzes a tsl without modifying it to returns messages describing
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - missing column names in zoo time series: use distantia::tsl_colnames_set() to rename columns as needed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::tsl_colnames_set() to identify and rename columns as needed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>

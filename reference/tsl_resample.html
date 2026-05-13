@@ -7,7 +7,7 @@ Increase (upsampling) or decrease (downsampling) the temporal resolution of a ti
 
 
 Time series resampling should not be used to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
-Warning: This function resamples time series lists with overlapping times. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from df &amp;lt;- tsl_time(tsl = tsl). Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of tsl one by one either using tsl_subset() or the syntax tsl = my_tsl[[i]].
+Warning: This function resamples time series lists with overlapping times. Please check such overlap by assessing the columns "begin" and "end" of the data frame resulting from df &amp;lt;- tsl_time(tsl = tsl). Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of tsl one by one either using tsl_subset() or the syntax tsl = my_tsl[[i]].
 Methods
 This function offers three methods for time series interpolation:
 
@@ -25,7 +25,7 @@ NULL: the target time series (x) is resampled to a regular time within its origi
 zoo object: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 time series list: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.
 time vector: a time vector of a class compatible with the time in x.
-keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords..
+keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords.
 numeric: a single number representing the desired interval between consecutive samples in the units of x (relevant units can be obtained via zoo_time(x)$units).
 
 
@@ -34,7 +34,7 @@ The steps to resample a time series list are:
 
 The time interpolation range is computed from the intersection of all times in tsl. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 If new_time is provided, any values of new_time outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If new_time is not provided, a regular time within the interpolation time range with the length of the shortest time series in tsl is generated.
-For each univariate time time series, a model y ~ x, where y is the time series and x is its own time coerced to numeric is fitted.
+For each univariate time series, a model y ~ x, where y is the time series and x is its own time coerced to numeric is fitted.
 If max_complexity == FALSE, the model with the complexity that minimizes the root mean squared error between the observed and predicted y is returned.
 If max_complexity == TRUE and method = "spline" or method = "loess", the first valid model closest to a maximum complexity is returned.
 
@@ -51,7 +51,7 @@ Increase (upsampling) or decrease (downsampling) the temporal resolution of a ti
 
 
 Time series resampling should not be used to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
-Warning: This function resamples time series lists with overlapping times. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from df &amp;lt;- tsl_time(tsl = tsl). Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of tsl one by one either using tsl_subset() or the syntax tsl = my_tsl[[i]].
+Warning: This function resamples time series lists with overlapping times. Please check such overlap by assessing the columns "begin" and "end" of the data frame resulting from df &amp;lt;- tsl_time(tsl = tsl). Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of tsl one by one either using tsl_subset() or the syntax tsl = my_tsl[[i]].
 Methods
 This function offers three methods for time series interpolation:
 
@@ -69,7 +69,7 @@ NULL: the target time series (x) is resampled to a regular time within its origi
 zoo object: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 time series list: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.
 time vector: a time vector of a class compatible with the time in x.
-keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords..
+keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords.
 numeric: a single number representing the desired interval between consecutive samples in the units of x (relevant units can be obtained via zoo_time(x)$units).
 
 
@@ -78,7 +78,7 @@ The steps to resample a time series list are:
 
 The time interpolation range is computed from the intersection of all times in tsl. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 If new_time is provided, any values of new_time outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If new_time is not provided, a regular time within the interpolation time range with the length of the shortest time series in tsl is generated.
-For each univariate time time series, a model y ~ x, where y is the time series and x is its own time coerced to numeric is fitted.
+For each univariate time series, a model y ~ x, where y is the time series and x is its own time coerced to numeric is fitted.
 If max_complexity == FALSE, the model with the complexity that minimizes the root mean squared error between the observed and predicted y is returned.
 If max_complexity == TRUE and method = "spline" or method = "loess", the first valid model closest to a maximum complexity is returned.
 
@@ -112,13 +112,15 @@ This function supports a parallelization setup via future::plan(), and progress 
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -145,7 +147,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <li><p>Align time series with different temporal resolutions.</p></li>
 <li><p>Increase (upsampling) or decrease (downsampling) the temporal resolution of a time series.</p></li>
 </ul><p>Time series resampling <strong>should not be used</strong> to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.</p>
-<p><strong>Warning</strong>: This function resamples time series lists <strong>with overlapping times</strong>. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from <code>df &lt;- tsl_time(tsl = tsl)</code>. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of <code>tsl</code> one by one either using <code><a href="tsl_subset.html">tsl_subset()</a></code> or the syntax <code>tsl = my_tsl[[i]]</code>.</p>
+<p><strong>Warning</strong>: This function resamples time series lists <strong>with overlapping times</strong>. Please check such overlap by assessing the columns "begin" and "end" of the data frame resulting from <code>df &lt;- tsl_time(tsl = tsl)</code>. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of <code>tsl</code> one by one either using <code><a href="tsl_subset.html">tsl_subset()</a></code> or the syntax <code>tsl = my_tsl[[i]]</code>.</p>
 <p><strong>Methods</strong></p>
 <p>This function offers three methods for time series interpolation:</p>
 <ul><li><p>"linear" (default): interpolation via piecewise linear regression as implemented in <code><a href="https://rdrr.io/pkg/zoo/man/na.approx.html" class="external-link">zoo::na.approx()</a></code>.</p></li>
@@ -159,13 +161,13 @@ This function supports a parallelization setup via future::plan(), and progress 
 <li><p><code>zoo object</code>: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.</p></li>
 <li><p><code>time series list</code>: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.</p></li>
 <li><p><code>time vector</code>: a time vector of a class compatible with the time in <code>x</code>.</p></li>
-<li><p><code>keyword</code>: character string defining a resampling keyword, obtained via <code>zoo_time(x, keywords = "resample")$keywords</code>..</p></li>
+<li><p><code>keyword</code>: character string defining a resampling keyword, obtained via <code>zoo_time(x, keywords = "resample")$keywords</code>.</p></li>
 <li><p><code>numeric</code>: a single number representing the desired interval between consecutive samples in the units of <code>x</code> (relevant units can be obtained via <code>zoo_time(x)$units</code>).</p></li>
 </ul><p><strong>Step by Step</strong></p>
 <p>The steps to resample a time series list are:</p>
 <ol><li><p>The time interpolation range is computed from the intersection of all times in <code>tsl</code>. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.</p></li>
 <li><p>If <code>new_time</code> is provided, any values of <code>new_time</code> outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If <code>new_time</code> is not provided, a regular time within the interpolation time range with the length of the shortest time series in <code>tsl</code> is generated.</p></li>
-<li><p>For each univariate time time series, a model <code>y ~ x</code>, where <code>y</code> is the time series and <code>x</code> is its own time coerced to numeric is fitted.</p><ul><li><p>If <code>max_complexity == FALSE</code>, the model with the complexity that minimizes the root mean squared error between the observed and predicted <code>y</code> is returned.</p></li>
+<li><p>For each univariate time series, a model <code>y ~ x</code>, where <code>y</code> is the time series and <code>x</code> is its own time coerced to numeric is fitted.</p><ul><li><p>If <code>max_complexity == FALSE</code>, the model with the complexity that minimizes the root mean squared error between the observed and predicted <code>y</code> is returned.</p></li>
 <li><p>If <code>max_complexity == TRUE</code> and <code>method = "spline"</code> or <code>method = "loess"</code>, the first valid model closest to a maximum complexity is returned.</p></li>
 </ul></li>
 <li><p>The fitted model is predicted over <code>new_time</code> to generate the resampled time series.</p></li>
@@ -341,7 +343,7 @@ This function supports a parallelization setup via future::plan(), and progress 
 <span class="r-in"><span>  <span class="fu"><a href="tsl_plot.html">tsl_plot</a></span><span class="op">(</span><span class="va">tsl_15_days</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#aligning two time series listsç</span></span></span>
+<span class="r-in"><span><span class="co">#Aligning two time series lists</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#two time series lists with different time ranges</span></span></span>
 <span class="r-in"><span><span class="va">tsl1</span> <span class="op">&lt;-</span> <span class="fu"><a href="tsl_simulate.html">tsl_simulate</a></span><span class="op">(</span></span></span>

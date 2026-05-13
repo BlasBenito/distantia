@@ -28,13 +28,15 @@ The argument lock_step is not available because this plot does not make sense in
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -105,7 +107,7 @@ The argument lock_step is not available because this plot does not make sense in
 
 
 <dt id="arg-matrix-color">matrix_color<a class="anchor" aria-label="anchor" href="#arg-matrix-color"></a></dt>
-<dd><p>(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code>. Default: NULL</p></dd>
+<dd><p>(optional, character vector) Vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code>. Default: NULL</p></dd>
 
 
 <dt id="arg-path-width">path_width<a class="anchor" aria-label="anchor" href="#arg-path-width"></a></dt>
@@ -125,7 +127,7 @@ The argument lock_step is not available because this plot does not make sense in
 
 
 <dt id="arg-line-color">line_color<a class="anchor" aria-label="anchor" href="#arg-line-color"></a></dt>
-<dd><p>(optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of <code>matrix_color</code>.</p></dd>
+<dd><p>(optional, character vector) Vector of colors for the time series plot. If NULL, defaults to a subset of <code>matrix_color</code>.</p></dd>
 
 
 <dt id="arg-line-width">line_width<a class="anchor" aria-label="anchor" href="#arg-line-width"></a></dt>

@@ -45,13 +45,15 @@
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -407,8 +409,8 @@ computation of the <em>psi</em> dissimilarity score.</p>
 and is applicable to regular and irregular time series with the same or
 different numbers of samples.</p>
 <p>However, <strong>DTW is highly sensitive to differences in data
-magnitudes</strong>. As result, data that is not properly scaled may
-distort the warping, leading to .</p>
+magnitudes</strong>. As a result, data that is not properly scaled may
+distort the warping path, leading to spurious alignments.</p>
 <p>The plot below represents the DTW alignment of London and Kinshasa on
 the raw temperature data. It shows how DTW gets stuck in two local
 optima, one in the <em>y</em> axis (long horizontal line) at the minimum
@@ -438,9 +440,9 @@ matrix.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy_dtw</span>, type <span class="op">=</span> <span class="st">"threeway"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="dynamic_time_warping_and_lock_step_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="750"></p>
-<p>The “twoway” plot provided by <code>dtw</code> shows the alingment as
-a line bar, with the sample matches represented as dotted lines, and two
-vertical lines highlighting the local optima</p>
+<p>The “twoway” plot provided by <code>dtw</code> shows the alignment as
+a line graph, with sample matches represented as dotted lines and two
+vertical lines marking the local optima.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy_dtw</span>, type <span class="op">=</span> <span class="st">"twoway"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="fl">0.13</span>, col<span class="op">=</span><span class="st">"red3"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>

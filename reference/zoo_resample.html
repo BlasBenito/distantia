@@ -23,7 +23,7 @@ The argument new_time offers several alternatives to help define the new time of
 NULL: the target time series (x) is resampled to a regular time within its original time range and number of observations.
 zoo object: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 time vector: a time vector of a class compatible with the time in x.
-keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords..
+keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords.
 numeric: a single number representing the desired interval between consecutive samples in the units of x (relevant units can be obtained via zoo_time(x)$units).
 
 
@@ -64,7 +64,7 @@ The argument new_time offers several alternatives to help define the new time of
 NULL: the target time series (x) is resampled to a regular time within its original time range and number of observations.
 zoo object: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 time vector: a time vector of a class compatible with the time in x.
-keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords..
+keyword: character string defining a resampling keyword, obtained via zoo_time(x, keywords = "resample")$keywords.
 numeric: a single number representing the desired interval between consecutive samples in the units of x (relevant units can be obtained via zoo_time(x)$units).
 
 
@@ -106,13 +106,15 @@ Please use this operation with care, as there are limits to the amount of resamp
     <li><a class="dropdown-item" href="../articles/time_series_lists.html">Handling Time Series Lists</a></li>
     <li><a class="dropdown-item" href="../articles/mapping_dissimilarity.html">Mapping Time Series Dissimilarity</a></li>
     <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Impact</h6></li>
+    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
+    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
+    <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Articles</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping/">A Gentle Intro to Dynamic Time Warping</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/distantia-showcase-covid/">Analyzing Epidemiological Time Series With The R Package {distantia}</a></li>
     <li><a class="external-link dropdown-item" href="https://www.blasbenito.com/post/dynamic-time-warping-from-scratch/">Coding a Minimalistic DTW Library</a></li>
     <li><a class="dropdown-item" href="../articles/dtw_applications.html">Implementations and Applications of Dynamic Time Warping</a></li>
-    <li><a class="dropdown-item" href="../articles/distantia_in_the_wild.html">distantia In The Wild</a></li>
-    <li><a class="dropdown-item" href="../articles/download_history.html">Download history</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Original Paper</h6></li>
     <li><a class="external-link dropdown-item" href="https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.04895">Benito &amp; Birks 2020 (Ecography)</a></li>
@@ -151,7 +153,7 @@ This function offers three methods for time series interpolation:</p>
 <ul><li><p><code>NULL</code>: the target time series (<code>x</code>) is resampled to a regular time within its original time range and number of observations.</p></li>
 <li><p><code>zoo object</code>: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.</p></li>
 <li><p><code>time vector</code>: a time vector of a class compatible with the time in <code>x</code>.</p></li>
-<li><p><code>keyword</code>: character string defining a resampling keyword, obtained via <code>zoo_time(x, keywords = "resample")$keywords</code>..</p></li>
+<li><p><code>keyword</code>: character string defining a resampling keyword, obtained via <code>zoo_time(x, keywords = "resample")$keywords</code>.</p></li>
 <li><p><code>numeric</code>: a single number representing the desired interval between consecutive samples in the units of <code>x</code> (relevant units can be obtained via <code>zoo_time(x)$units</code>).</p></li>
 </ul><p><strong>Step by Step</strong></p>
 <p>The steps to resample a time series list are:</p>
