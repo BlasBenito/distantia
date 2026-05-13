@@ -1,3 +1,17 @@
+test_that("psi_equation returns NA when b is zero", {
+  expect_true(is.na(psi_equation(a = 0, b = 0, diagonal = TRUE)))
+  expect_true(is.na(psi_equation(a = 1, b = 0, diagonal = TRUE)))
+})
+
+test_that("`psi_distance_lock_step()` errors on unequal-length series", {
+  x <- zoo_simulate(name = "x", rows = 10, seed = 1)
+  y <- zoo_simulate(name = "y", rows = 20, seed = 2)
+  expect_error(
+    psi_distance_lock_step(x = x, y = y, distance = "euclidean"),
+    "same number of rows"
+  )
+})
+
 test_that("`psi_...()` works", {
 
   d <- "euclidean"

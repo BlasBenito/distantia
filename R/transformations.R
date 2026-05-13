@@ -81,7 +81,7 @@ f_trend_linear <- function(
 #' Data Transformation: Polynomial Linear Trend of Zoo Time Series
 #'
 #' @description
-#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to [f_trend_linear] when the overall. trend of the time series does not follow a straight line.
+#' Fits a polynomial linear model on each column of a zoo object using time as a predictor, and predicts the outcome to return the polynomial trend of the time series. This method is a useful alternative to [f_trend_linear] when the overall trend of the time series does not follow a straight line.
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
@@ -148,7 +148,7 @@ f_trend_poly <- function(
 #' Data Transformation: Linear Detrending of Zoo Time Series
 #'
 #' @description
-#' Fits a linear model on each column of a zoo object using time as a predictor, predicts the outcome, and subtracts it from the original data to return a detrended time series. This method might not be suitable if the input data is not seasonal and has a clear trend, so please be mindful of the limitations of this function when applied blindly.
+#' Fits a linear model on each column of a zoo object using time as a predictor, predicts the outcome, and subtracts it from the original data to return a detrended time series. This method may not be suitable if the input data is seasonal or has a complex trend, so be mindful of its limitations when applied.
 #'
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
@@ -284,7 +284,7 @@ f_detrend_poly <- function(
 #' Performs differencing to remove trends from a zoo time series, isolating short-term fluctuations by subtracting values at specified lags. The function preserves the original index and metadata, with an option to center the output around the mean of the original series. Suitable for preprocessing time series data to focus on random fluctuations unrelated to overall trends.
 #'
 #' @param x (required, zoo object) Zoo time series object to transform.
-#' @param lag (optional, integer)
+#' @param lag (optional, integer) Lag value for differencing. Default: 1
 #' @param center (required, logical) If TRUE, the output is centered at zero. If FALSE, it is centered at the data mean. Default: TRUE
 #' @param ... (optional, additional arguments) Ignored in this function.
 #'
@@ -592,15 +592,15 @@ f_log <- function(
 
 }
 
-#' Transform Zoo Object to Binary
+#' Data Transformation: Convert Zoo Object to Binary
 #'
 #' @description Converts a zoo object to binary (1 and 0) based on a given threshold.
 #'
 #' @inheritParams f_hellinger
-#' @param threshold (required, numeric) Values greater than this number become 1, others become 0. Set to the mean of the time series by default. Default: NULL
+#' @param threshold (required, numeric) Values greater than this number become 1, others become 0. Default: NULL (set to the mean of the time series)
 #' @return zoo object
-#' @autoglobal
 #' @export
+#' @autoglobal
 #' @examples
 #' x <- zoo_simulate(
 #'   data_range = c(0, 1)
@@ -726,7 +726,7 @@ f_scale_local <- function(
 
 }
 
-#' @title Data Transformation: Local Rescaling of to a New Range
+#' @title Data Transformation: Local Rescaling to a New Range
 #' @inherit f_rescale_global
 #' @export
 #' @autoglobal
@@ -778,12 +778,12 @@ f_rescale_local <- function(
 }
 
 
-#' @title Data Transformation: Global Rescaling of to a New Range
-#' @param x (required, zoo object) Time Series. Default: `NULL`
+#' @title Data Transformation: Global Rescaling to a New Range
+#' @param x (required, zoo object) Zoo time series object to transform.
 #' @param new_min (optional, numeric) New minimum value. Default: `0`
-#' @param new_max (optional_numeric) New maximum value. Default: `1`
+#' @param new_max (optional, numeric) New maximum value. Default: `1`
 #' @param old_min (optional, numeric) Old minimum value. Default: `NULL`
-#' @param old_max (optional_numeric) Old maximum value. Default: `NULL`
+#' @param old_max (optional, numeric) Old maximum value. Default: `NULL`
 #' @param .global (optional, logical) Used to trigger global scaling within [tsl_transform()].
 #' @param ... (optional, additional arguments) Ignored in this function.
 #' @return zoo object

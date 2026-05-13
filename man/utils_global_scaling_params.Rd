@@ -19,13 +19,13 @@ list
 \description{
 Internal function to compute global scaling parameters (mean and standard deviation) for time series lists. Used within \code{\link[=tsl_transform]{tsl_transform()}} when the scaling function \code{\link[=f_scale_global]{f_scale_global()}} is used as input for the argument \code{f}.
 
-Warning: this function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
+This function removes exclusive columns from the data. See function \code{\link[=tsl_subset]{tsl_subset()}}.
 }
 \seealso{
-Other tsl_processing_internal: 
-\code{\link{utils_drop_geometry}()},
-\code{\link{utils_optimize_loess}()},
-\code{\link{utils_optimize_spline}()},
-\code{\link{utils_rescale_vector}()}
+Other tsl_processing_internal:
+\code{\link[=utils_drop_geometry]{utils_drop_geometry()}},
+\code{\link[=utils_optimize_loess]{utils_optimize_loess()}},
+\code{\link[=utils_optimize_spline]{utils_optimize_spline()}},
+\code{\link[=utils_rescale_vector]{utils_rescale_vector()}}
 }
 \concept{tsl_processing_internal}

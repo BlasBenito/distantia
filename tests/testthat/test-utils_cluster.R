@@ -1,3 +1,19 @@
+test_that("`utils_cluster_silhouette()` handles k = 1 (single cluster)", {
+  m <- matrix(
+    c(0, 1, 2, 1, 0, 1, 2, 1, 0),
+    nrow = 3,
+    dimnames = list(c("a", "b", "c"), c("a", "b", "c"))
+  )
+  labels <- c(a = 1L, b = 1L, c = 1L)
+
+  out_df <- utils_cluster_silhouette(labels = labels, d = m, mean = FALSE)
+  expect_equal(colnames(out_df), c("name", "cluster", "silhouette_width"))
+  expect_true(all(is.na(out_df$silhouette_width)))
+
+  out_mean <- utils_cluster_silhouette(labels = labels, d = m, mean = TRUE)
+  expect_true(is.na(out_mean))
+})
+
 test_that("`utils_cluster_silhouette()`, `utils_cluster_hclust_optimizer()` and `utils_cluster_kmeans_optimizer()` works", {
 
   tsl <- tsl_aggregate(

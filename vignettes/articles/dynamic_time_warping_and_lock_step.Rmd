@@ -318,7 +318,7 @@ distantia_dtw_plot(
 
 DTW is an ideal method to compare time series with temporal shifts, and is applicable to regular and irregular time series with the same or different numbers of samples. 
 
-However, **DTW is highly sensitive to differences in data magnitudes**. As result, data that is not properly scaled may distort the warping, leading to . 
+However, **DTW is highly sensitive to differences in data magnitudes**. As a result, data that is not properly scaled may distort the warping path, leading to spurious alignments.
 
 The plot below represents the DTW alignment of London and Kinshasa on the raw temperature data. It shows how DTW gets stuck in two local optima, one in the *y* axis (long horizontal line) at the minimum temperature in Kinshasa (winter of 2001), and another in the *x* axis (long vertical line) at the maximum temperature in London (summer of 2003). It also shows a distinctively large dissimilarity score.
 
@@ -343,7 +343,7 @@ xy_dtw <- dtw::dtw(
 plot(xy_dtw, type = "threeway")
 ```
 
-The "twoway" plot provided by `dtw` shows the alingment as a line bar, with the sample matches represented as dotted lines, and two vertical lines highlighting the local optima
+The "twoway" plot provided by `dtw` shows the alignment as a line graph, with sample matches represented as dotted lines and two vertical lines marking the local optima.
 
 ```{r}
 plot(xy_dtw, type = "twoway")

@@ -76,7 +76,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other simulate_time_series: 
-\code{\link{tsl_simulate}()}
+Other simulate_time_series:
+\code{\link[=tsl_simulate]{tsl_simulate()}}
 }
 \concept{simulate_time_series}

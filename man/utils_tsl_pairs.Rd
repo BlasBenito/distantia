@@ -7,35 +7,35 @@
 utils_tsl_pairs(tsl = NULL, args_list = NULL)
 }
 \arguments{
-\item{tsl}{(required, list) Time series list. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL.}
 
-\item{args_list}{(required, list) arguments to combine with the pairs of time series. Default: NULL}
+\item{args_list}{(required, list) List of arguments to combine with the pairs of time series. Default: NULL.}
 }
 \value{
-data frame
+A data frame.
 }
 \description{
 Internal function used in \code{\link[=distantia]{distantia()}} and \code{\link[=momentum]{momentum()}} to generate a data frame with combinations of time series and function arguments.
 }
 \seealso{
-Other internal: 
-\code{\link{utils_boxplot_common}()},
-\code{\link{utils_check_args_distantia}()},
-\code{\link{utils_check_args_matrix}()},
-\code{\link{utils_check_args_momentum}()},
-\code{\link{utils_check_args_path}()},
-\code{\link{utils_check_args_tsl}()},
-\code{\link{utils_check_args_zoo}()},
-\code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_clean_names}()},
-\code{\link{utils_digits}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()}
+Other internal:
+\code{\link[=utils_boxplot_common]{utils_boxplot_common()}},
+\code{\link[=utils_check_args_distantia]{utils_check_args_distantia()}},
+\code{\link[=utils_check_args_matrix]{utils_check_args_matrix()}},
+\code{\link[=utils_check_args_momentum]{utils_check_args_momentum()}},
+\code{\link[=utils_check_args_path]{utils_check_args_path()}},
+\code{\link[=utils_check_args_tsl]{utils_check_args_tsl()}},
+\code{\link[=utils_check_args_zoo]{utils_check_args_zoo()}},
+\code{\link[=utils_check_distance_args]{utils_check_distance_args()}},
+\code{\link[=utils_check_list_class]{utils_check_list_class()}},
+\code{\link[=utils_clean_names]{utils_clean_names()}},
+\code{\link[=utils_digits]{utils_digits()}},
+\code{\link[=utils_distantia_df_split]{utils_distantia_df_split()}},
+\code{\link[=utils_prepare_df]{utils_prepare_df()}},
+\code{\link[=utils_prepare_matrix]{utils_prepare_matrix()}},
+\code{\link[=utils_prepare_matrix_list]{utils_prepare_matrix_list()}},
+\code{\link[=utils_prepare_time]{utils_prepare_time()}},
+\code{\link[=utils_prepare_vector_list]{utils_prepare_vector_list()}},
+\code{\link[=utils_prepare_zoo_list]{utils_prepare_zoo_list()}}
 }
 \concept{internal}

@@ -28,10 +28,10 @@ If \code{a} is computed with dynamic time warping, and diagonals are used in the
 computation of the least cost path, then one is added to the result of the equation above.
 }
 \seealso{
-Other Rcpp_dissimilarity_analysis: 
-\code{\link{psi_dtw_cpp}()},
-\code{\link{psi_ls_cpp}()},
-\code{\link{psi_null_dtw_cpp}()},
-\code{\link{psi_null_ls_cpp}()}
+Other Rcpp_dissimilarity_analysis:
+\code{\link[=psi_dtw_cpp]{psi_dtw_cpp()}},
+\code{\link[=psi_ls_cpp]{psi_ls_cpp()}},
+\code{\link[=psi_null_dtw_cpp]{psi_null_dtw_cpp()}},
+\code{\link[=psi_null_ls_cpp]{psi_null_ls_cpp()}}
 }
 \concept{Rcpp_dissimilarity_analysis}

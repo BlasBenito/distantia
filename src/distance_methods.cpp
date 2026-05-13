@@ -369,9 +369,9 @@ DistanceFunction select_distance_function_cpp(const std::string& distance = "euc
     return &distance_hamming_cpp;
   } else if (distance == "chi") {
     return &distance_chi_cpp;
-  } else if (distance == "bray_curtis" || distance.substr(0, 3) == "hel") {
+  } else if (distance == "bray_curtis" || distance.substr(0, 3) == "bra") {
     return &distance_bray_curtis_cpp;
-  } else if (distance == "sorensen" || distance.substr(0, 3) == "hel") {
+  } else if (distance == "sorensen" || distance.substr(0, 3) == "sor") {
     return &distance_sorensen_cpp;
   } else {
     Rcpp::stop("distantia::select_distance_function_cpp(): invalid distance name or abbreviation.");

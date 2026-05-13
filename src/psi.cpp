@@ -32,6 +32,10 @@ double psi_equation_cpp(
     bool diagonal = true
 ){
 
+  if(b == 0.0){
+    return R_NaReal;
+  }
+
   //compute psi
   double psi = ((2.0 * a) / b) - 1.0;
 
@@ -346,7 +350,8 @@ NumericVector psi_null_dtw_cpp(
     distance,
     diagonal,
     weighted,
-    ignore_blocks
+    ignore_blocks,
+    bandwidth
   );
 
   double a = cost_path_sum_cpp(path);

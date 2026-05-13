@@ -3,11 +3,10 @@
 #' @description
 #' Internal function used in [distantia()] and [momentum()] to generate a data frame with combinations of time series and function arguments.
 #'
+#' @param tsl (required, list) Time series list. Default: NULL.
+#' @param args_list (required, list) List of arguments to combine with the pairs of time series. Default: NULL.
 #'
-#' @param tsl (required, list) Time series list. Default: NULL
-#' @param args_list (required, list) arguments to combine with the pairs of time series. Default: NULL
-#'
-#' @return data frame
+#' @return A data frame.
 #' @export
 #' @autoglobal
 #' @family internal

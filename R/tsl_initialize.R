@@ -18,14 +18,14 @@
 #'   \item Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 #'   \item List of vectors: an object like `list(a = runif(10), b = runif(10))` is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 #'   \item List of matrices: a list containing matrices, such as `list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))`.
-#'   \item List of zoo objects: a list with zoo objects, such as `list(a = zoo_simulate(), b = zoo_simulate())`
+#'   \item List of zoo objects: a list with zoo objects, such as `list(a = zoo_simulate(), b = zoo_simulate())`.
 #' }
 #'
 #' @param x (required, list or data frame) Matrix or data frame in long format, list of vectors, list of matrices, or list of zoo objects. Default: NULL.
 #' @param name_column (optional, column name) Column naming individual time series. Numeric names are converted to character with the prefix "X". Default: NULL
 #' @param time_column (optional if `lock_step = FALSE`, and required otherwise, character string) Name of the column representing time, if any. Default: NULL.
 #' @param lock_step (optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in `time_column`.
-#' @return list of matrices
+#' @return list of zoo objects (a time series list)
 #' @examples
 #' #long data frame
 #' #---------------------
@@ -220,6 +220,13 @@ tsl_initialize <- function(
 
   if(is.null(x)){
     stop("distantia::tsl_initialize(): argument 'x' must not be NULL")
+  }
+
+  if(is.list(x) && !is.data.frame(x) && length(x) < 2){
+    stop(
+      "distantia::tsl_initialize(): argument 'x' must have at least 2 time series.",
+      call. = FALSE
+    )
   }
 
   x <- utils_prepare_matrix(

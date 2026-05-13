@@ -35,8 +35,8 @@ m
 
 }
 \seealso{
-Other distances: 
-\code{\link{distance}()},
+Other distances:
+\code{\link[=distance]{distance()}},
 \code{\link{distances}}
 }
 \concept{distances}

@@ -15,7 +15,7 @@ utils_time_units(all_columns = FALSE, class = NULL)
 data frame
 }
 \description{
-Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the threshold used to identify what time units can be used when aggregating a time series.
+Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and the threshold used to identify which time units can be used when aggregating a time series.
 }
 \examples{
 
@@ -23,13 +23,13 @@ df <- utils_time_units()
 head(df)
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_as_time}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_keywords_translate}()}
+Other internal_time_handling:
+\code{\link[=utils_as_time]{utils_as_time()}},
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_new_time]{utils_new_time()}},
+\code{\link[=utils_time_keywords]{utils_time_keywords()}},
+\code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}},
+\code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}}
 }
 \concept{internal_time_handling}

@@ -22,15 +22,15 @@ tsl_colnames_clean(
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots. Also used to separate \code{suffix} and \code{prefix} from the main word. Default: "_".}
 
-\item{capitalize_first}{(optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.}
+\item{capitalize_first}{(optional, logical) Indicates whether to capitalize the first letter of each name. Default: FALSE.}
 
-\item{capitalize_all}{(optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.}
+\item{capitalize_all}{(optional, logical) Indicates whether to capitalize all letters of each name. Default: FALSE.}
 
 \item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via \code{\link[=abbreviate]{abbreviate()}}. Default: NULL.}
 
 \item{suffix}{(optional, character string) String to append to the column names. Default: NULL.}
 
-\item{prefix}{(optional, character string)  String to prepend to the column names. Default: NULL.}
+\item{prefix}{(optional, character string) String to prepend to the column names. Default: NULL.}
 }
 \value{
 time series list
@@ -41,7 +41,7 @@ Uses the function \code{\link[=utils_clean_names]{utils_clean_names()}} to simpl
 The cleanup operations are applied in the following order:
 \itemize{
 \item Remove leading and trailing whitespaces.
-\item Generates syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
+\item Generate syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
 \item Replaces dots and spaces with the \code{separator}.
 \item Coerces names to lowercase.
 \item If \code{capitalize_first = TRUE}, the first letter is capitalized.
@@ -98,25 +98,25 @@ tsl_colnames_get(
 )
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

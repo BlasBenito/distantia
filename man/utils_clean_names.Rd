@@ -16,24 +16,24 @@ utils_clean_names(
 )
 }
 \arguments{
-\item{x}{(required, character vector) Names to be cleaned. Default: NULL}
+\item{x}{(required, character vector) Names to be cleaned. Default: NULL.}
 
-\item{lowercase}{(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE}
+\item{lowercase}{(optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE.}
 
 \item{separator}{(optional, character string) Separator when replacing spaces and dots and appending \code{suffix} and \code{prefix} to the main word. Default: "_".}
 
-\item{capitalize_first}{(optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.}
+\item{capitalize_first}{(optional, logical) Capitalize the first letter of each name. Default: FALSE.}
 
-\item{capitalize_all}{(optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.}
+\item{capitalize_all}{(optional, logical) Capitalize all letters of each name. Default: FALSE.}
 
 \item{length}{(optional, integer) Minimum length of abbreviated names. Names are abbreviated via \code{\link[=abbreviate]{abbreviate()}}. Default: NULL.}
 
 \item{suffix}{(optional, character string) String to append to the cleaned names. Default: NULL.}
 
-\item{prefix}{(optional, character string)  String to prepend to the cleaned names. Default: NULL.}
+\item{prefix}{(optional, character string) String to prepend to the cleaned names. Default: NULL.}
 }
 \value{
-character vector
+A character vector.
 }
 \description{
 Clean and format character vectors for use as column names or variable names.
@@ -42,9 +42,9 @@ Clean and format character vectors for use as column names or variable names.
 The cleanup operations are applied in the following order:
 \itemize{
 \item Remove leading and trailing whitespaces.
-\item Generates syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
-\item Replaces dots and spaces with the \code{separator}.
-\item Coerces names to lowercase.
+\item Generate syntactically valid names with \code{\link[base:make.names]{base::make.names()}}.
+\item Replace dots and spaces with the \code{separator}.
+\item Coerce names to lowercase.
 \item If argument \code{length} is provided, \code{\link[base:abbreviate]{base::abbreviate()}} is used to abbreviate the new column names.
 \item If \code{suffix} is provided, it is added at the end of the column name using the separator.
 \item If \code{prefix} is provided, it is added at the beginning of the column name using the separator.
@@ -79,24 +79,24 @@ utils_clean_names(
 )
 }
 \seealso{
-Other internal: 
-\code{\link{utils_boxplot_common}()},
-\code{\link{utils_check_args_distantia}()},
-\code{\link{utils_check_args_matrix}()},
-\code{\link{utils_check_args_momentum}()},
-\code{\link{utils_check_args_path}()},
-\code{\link{utils_check_args_tsl}()},
-\code{\link{utils_check_args_zoo}()},
-\code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_digits}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()},
-\code{\link{utils_tsl_pairs}()}
+Other internal:
+\code{\link[=utils_boxplot_common]{utils_boxplot_common()}},
+\code{\link[=utils_check_args_distantia]{utils_check_args_distantia()}},
+\code{\link[=utils_check_args_matrix]{utils_check_args_matrix()}},
+\code{\link[=utils_check_args_momentum]{utils_check_args_momentum()}},
+\code{\link[=utils_check_args_path]{utils_check_args_path()}},
+\code{\link[=utils_check_args_tsl]{utils_check_args_tsl()}},
+\code{\link[=utils_check_args_zoo]{utils_check_args_zoo()}},
+\code{\link[=utils_check_distance_args]{utils_check_distance_args()}},
+\code{\link[=utils_check_list_class]{utils_check_list_class()}},
+\code{\link[=utils_digits]{utils_digits()}},
+\code{\link[=utils_distantia_df_split]{utils_distantia_df_split()}},
+\code{\link[=utils_prepare_df]{utils_prepare_df()}},
+\code{\link[=utils_prepare_matrix]{utils_prepare_matrix()}},
+\code{\link[=utils_prepare_matrix_list]{utils_prepare_matrix_list()}},
+\code{\link[=utils_prepare_time]{utils_prepare_time()}},
+\code{\link[=utils_prepare_vector_list]{utils_prepare_vector_list()}},
+\code{\link[=utils_prepare_zoo_list]{utils_prepare_zoo_list()}},
+\code{\link[=utils_tsl_pairs]{utils_tsl_pairs()}}
 }
 \concept{internal}

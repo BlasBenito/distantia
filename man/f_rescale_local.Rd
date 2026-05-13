@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformations.R
 \name{f_rescale_local}
 \alias{f_rescale_local}
-\title{Data Transformation: Local Rescaling of to a New Range}
+\title{Data Transformation: Local Rescaling to a New Range}
 \usage{
 f_rescale_local(
   x = NULL,
@@ -14,15 +14,15 @@ f_rescale_local(
 )
 }
 \arguments{
-\item{x}{(required, zoo object) Time Series. Default: \code{NULL}}
+\item{x}{(required, zoo object) Zoo time series object to transform.}
 
 \item{new_min}{(optional, numeric) New minimum value. Default: \code{0}}
 
-\item{new_max}{(optional_numeric) New maximum value. Default: \code{1}}
+\item{new_max}{(optional, numeric) New maximum value. Default: \code{1}}
 
 \item{old_min}{(optional, numeric) Old minimum value. Default: \code{NULL}}
 
-\item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
+\item{old_max}{(optional, numeric) Old maximum value. Default: \code{NULL}}
 
 \item{...}{(optional, additional arguments) Ignored in this function.}
 }
@@ -30,7 +30,7 @@ f_rescale_local(
 zoo object
 }
 \description{
-Data Transformation: Local Rescaling of to a New Range
+Data Transformation: Local Rescaling to a New Range
 }
 \examples{
 x <- zoo_simulate(cols = 2)
@@ -47,22 +47,22 @@ if(interactive()){
 }
 }
 \seealso{
-Other tsl_transformation: 
-\code{\link{f_binary}()},
-\code{\link{f_clr}()},
-\code{\link{f_detrend_difference}()},
-\code{\link{f_detrend_linear}()},
-\code{\link{f_detrend_poly}()},
-\code{\link{f_hellinger}()},
-\code{\link{f_list}()},
-\code{\link{f_log}()},
-\code{\link{f_percent}()},
-\code{\link{f_proportion}()},
-\code{\link{f_proportion_sqrt}()},
-\code{\link{f_rescale_global}()},
-\code{\link{f_scale_global}()},
-\code{\link{f_scale_local}()},
-\code{\link{f_trend_linear}()},
-\code{\link{f_trend_poly}()}
+Other tsl_transformation:
+\code{\link[=f_binary]{f_binary()}},
+\code{\link[=f_clr]{f_clr()}},
+\code{\link[=f_detrend_difference]{f_detrend_difference()}},
+\code{\link[=f_detrend_linear]{f_detrend_linear()}},
+\code{\link[=f_detrend_poly]{f_detrend_poly()}},
+\code{\link[=f_hellinger]{f_hellinger()}},
+\code{\link[=f_list]{f_list()}},
+\code{\link[=f_log]{f_log()}},
+\code{\link[=f_percent]{f_percent()}},
+\code{\link[=f_proportion]{f_proportion()}},
+\code{\link[=f_proportion_sqrt]{f_proportion_sqrt()}},
+\code{\link[=f_rescale_global]{f_rescale_global()}},
+\code{\link[=f_scale_global]{f_scale_global()}},
+\code{\link[=f_scale_local]{f_scale_local()}},
+\code{\link[=f_trend_linear]{f_trend_linear()}},
+\code{\link[=f_trend_poly]{f_trend_poly()}}
 }
 \concept{tsl_transformation}

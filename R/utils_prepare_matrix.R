@@ -1,8 +1,8 @@
 #' Convert Matrix to Data Frame
 #'
-#' @param x (required, matrix) Default: NULL
+#' @param x (required, matrix). Default: NULL.
 #'
-#' @return A data frame
+#' @return A data frame.
 #' @export
 #' @autoglobal
 #' @family internal

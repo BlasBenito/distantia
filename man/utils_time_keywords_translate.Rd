@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_time_keywords_translate.R
 \name{utils_time_keywords_translate}
 \alias{utils_time_keywords_translate}
-\title{Translates The User's Time Keywords Into Valid Ones}
+\title{Translate User Time Keywords Into Valid Ones}
 \usage{
 utils_time_keywords_translate(keyword = NULL)
 }
@@ -10,7 +10,7 @@ utils_time_keywords_translate(keyword = NULL)
 \item{keyword}{(optional, character string) A time keyword such as "day". Default: NULL}
 }
 \value{
-Time keyword.
+A valid time keyword.
 }
 \description{
 Internal function to translate misnamed or abbreviated keywords into valid ones. Uses \code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}} as reference dictionary.
@@ -57,13 +57,13 @@ utils_time_keywords_translate(
 )
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_as_time}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_units}()}
+Other internal_time_handling:
+\code{\link[=utils_as_time]{utils_as_time()}},
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_new_time]{utils_new_time()}},
+\code{\link[=utils_time_keywords]{utils_time_keywords()}},
+\code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}},
+\code{\link[=utils_time_units]{utils_time_units()}}
 }
 \concept{internal_time_handling}

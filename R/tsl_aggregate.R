@@ -72,7 +72,7 @@
 #'   f = mean
 #' )
 #'
-#' #' #check time features
+#' #check time features
 #' tsl_time(tsl_year)[, c("name", "resolution", "units")]
 #'
 #' if(interactive()){

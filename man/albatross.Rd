@@ -3,23 +3,23 @@
 \docType{data}
 \name{albatross}
 \alias{albatross}
-\title{Flight Path Time Series of Albatrosses in The Pacific}
+\title{Flight Path Time Series of Albatrosses in the Pacific}
 \format{
-data frame
+A data frame.
 }
 \usage{
 data(albatross)
 }
 \description{
-Daily mean flight path data of 4 individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. Sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
+Daily mean flight path data of four individuals of Waved Albatross (Phoebastria irrorata) captured via GPS during the summer of 2008. An sf data frame with columns name, time, latitude, longitude, ground speed, heading, and (uncalibrated) temperature.
 
 The full dataset at hourly resolution can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/albatross.rda} (use the "Download raw file" button).
 }
 \examples{
-#load as tsl
-#scale al variables
-#aggregate to daily resolution
-#align all time series to same temporal span
+#Load as TSL
+#Scale all variables
+#Aggregate to daily resolution
+#Align all time series to same temporal span
 tsl <- tsl_initialize(
   x = albatross,
   name_column = "name",
@@ -43,7 +43,7 @@ if(interactive()){
 \doi{10.5441/001/1.3hp3s250}
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},
 \code{\link{covid_counties}},

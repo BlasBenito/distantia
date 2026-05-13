@@ -8,7 +8,7 @@
 #' @param n (optional, integer) Number of time series to simulate. Default: 2.
 #' @param cols (optional, integer) Number of columns of each time series. Default: 5
 #' @param rows (optional, integer) Length of each time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100
-#' @param time_range (optional character or numeric vector) Time interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between `time_range` and `rows` (for example, the number of days in `time_range` is smaller than `rows`), the upper value in `time_range` is adapted to `rows`. Default: c("2010-01-01", "2020-01-01")
+#' @param time_range (optional character or numeric vector) Time interval of the time series. Either a character vector with dates in format YYYY-MM-DD or a numeric vector. If there is a mismatch between `time_range` and `rows` (for example, the number of days in `time_range` is smaller than `rows`), the upper value in `time_range` is adapted to `rows`. Default: c("2010-01-01", "2020-01-01")
 #' @param data_range (optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)
 #' @param seasons (optional, integer) Number of seasons in the resulting time series. The maximum number of seasons is computed as `floor(rows/3)`. Default: 0
 #' @param na_fraction (optional, numeric) Value between 0 and 0.5 indicating the approximate fraction of NA data in the simulated time series. Default: 0.

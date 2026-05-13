@@ -4,10 +4,10 @@
 #' @param line_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with [grDevices::palette.colors()]. Default: NULL
 #' @param line_width (optional, numeric vector) Width of the time series lines. Default: 1
 #' @param xlim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
-#' @param ylim (optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL
+#' @param ylim (optional, numeric vector) Numeric vector with the limits of the y axis. Default: NULL
 #' @param title (optional, character string) Main title of the plot. If NULL, it's set to the name of the time series. Default: NULL
 #' @param xlab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, the word "Time" is used. Default: NULL
-#' @param ylab (optional, character string) Title of the x axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
+#' @param ylab (optional, character string) Title of the y axis. Disabled if `subpanel` or `vertical` are TRUE. If NULL, it is left empty. Default: NULL
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
 #' @param guide_position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".

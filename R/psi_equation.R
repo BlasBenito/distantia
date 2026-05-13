@@ -2,13 +2,18 @@
 #'
 #' @description
 #'
-#' Demonstration function to computes the `psi` dissimilarity score (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1}, where \eqn{a} is the sum of distances between the relevant samples of two time series, and \eqn{b} is the cumulative sum of distances between consecutive samples in the two time series.
+#' Demonstration function to compute the `psi` dissimilarity score (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1}, where \eqn{a} is the sum of distances between the relevant samples of two time series, and \eqn{b} is the cumulative sum of distances between consecutive samples in the two time series.
 #'
-#' If `a` is computed with dynamic time warping, and diagonals are used in the computation of the least cost path, then one is added to the result of the equation above.
+#' When `diagonal = TRUE`, one is added to the result of the equation above.
 #'
 #' @param a (required, numeric) Result of [psi_cost_path_sum()], the sum of distances of the least cost path between two time series. Default: NULL
 #' @param b (required, numeric) Result of [psi_auto_sum()], the cumulative sum of the consecutive cases of two time series. Default: NULL
 #' @param diagonal (optional, logical) Used to correct `psi` when diagonals are used during the computation of the least cost path. If the cost matrix and least cost path were computed using `diagonal = TRUE`, this argument should be `TRUE` as well. Default: TRUE
+#'
+#' @details
+#' When `b` is zero (both series are perfectly flat with no variation between
+#' consecutive samples), the function returns `NA` because the normalisation
+#' denominator is undefined.
 #'
 #' @return numeric value
 #' @examples

@@ -2,7 +2,7 @@
 % Please edit documentation in R/momentum_stats.R
 \name{momentum_stats}
 \alias{momentum_stats}
-\title{Stats of Dissimilarity Data Frame}
+\title{Summary Statistics of Importance Data Frame}
 \usage{
 momentum_stats(df = NULL)
 }
@@ -13,7 +13,7 @@ momentum_stats(df = NULL)
 data frame
 }
 \description{
-Takes the output of \code{\link[=distantia]{distantia()}} to return a data frame with one row per time series with the stats of its dissimilarity scores with all other time series.
+Computes summary statistics from the output of \code{\link[=momentum]{momentum()}}, returning a data frame with one row per variable and summary statistics of its importance scores across all time series pairs.
 }
 \examples{
 tsl <- tsl_simulate(
@@ -32,11 +32,11 @@ df_stats
 
 }
 \seealso{
-Other momentum_support: 
-\code{\link{momentum_aggregate}()},
-\code{\link{momentum_boxplot}()},
-\code{\link{momentum_model_frame}()},
-\code{\link{momentum_spatial}()},
-\code{\link{momentum_to_wide}()}
+Other momentum_support:
+\code{\link[=momentum_aggregate]{momentum_aggregate()}},
+\code{\link[=momentum_boxplot]{momentum_boxplot()}},
+\code{\link[=momentum_model_frame]{momentum_model_frame()}},
+\code{\link[=momentum_spatial]{momentum_spatial()}},
+\code{\link[=momentum_to_wide]{momentum_to_wide()}}
 }
 \concept{momentum_support}

@@ -17,13 +17,13 @@ distantia_aggregate(df = NULL, f = mean, ...)
 data frame
 }
 \description{
-The function \code{\link[=distantia]{distantia()}} allows dissimilarity assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+The function \code{\link[=distantia]{distantia()}} allows dissimilarity assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "Manhattan")}, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on Euclidean distances, and another based on Manhattan distances.
 
 This function computes dissimilarity stats across combinations of parameters.
 
-If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column \code{psi} to start dissimilarity scores at zero.
+If psi scores smaller than zero occur in the aggregated output, then the smaller psi value is added to the column \code{psi} to start dissimilarity scores at zero.
 
-If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
+If there is only one combination of arguments in the input data frame, no aggregation occurs and all parameter columns are removed.
 }
 \examples{
 #three time series
@@ -68,18 +68,18 @@ df <- distantia_aggregate(
 df
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

@@ -45,7 +45,7 @@ Any function returning a single number from a numeric vector can be used to aggr
 \item \code{min} or \code{"min"}: see \code{\link[=min]{min()}}.
 \item \code{max} or \code{"max"}: see \code{\link[=max]{max()}}.
 \item \code{sd} or \code{"sd"}: to compute standard deviation, see \code{\link[stats:sd]{stats::sd()}}.
-\item \code{var} or \code{"var"}: to compute the group variance, see \code{\link[stats:cor]{stats::var()}}.
+\item \code{var} or \code{"var"}: to compute the group variance, see \code{\link[stats:var]{stats::var()}}.
 \item \code{length} or \code{"length"}: to compute group length.
 \item \code{sum} or \code{"sum"}: see \code{\link[=sum]{sum()}}.
 }
@@ -81,7 +81,7 @@ tsl_year <- tsl_aggregate(
   f = mean
 )
 
-#' #check time features
+#check time features
 tsl_time(tsl_year)[, c("name", "resolution", "units")]
 
 if(interactive()){
@@ -139,10 +139,10 @@ tsl_centuries <- tsl_aggregate(
 \seealso{
 \code{\link[=zoo_aggregate]{zoo_aggregate()}}
 
-Other tsl_processing: 
-\code{\link{tsl_resample}()},
-\code{\link{tsl_smooth}()},
-\code{\link{tsl_stats}()},
-\code{\link{tsl_transform}()}
+Other tsl_processing:
+\code{\link[=tsl_resample]{tsl_resample()}},
+\code{\link[=tsl_smooth]{tsl_smooth()}},
+\code{\link[=tsl_stats]{tsl_stats()}},
+\code{\link[=tsl_transform]{tsl_transform()}}
 }
 \concept{tsl_processing}

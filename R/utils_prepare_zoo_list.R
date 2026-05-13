@@ -1,9 +1,9 @@
 #' Convert List of Data Frames to List of Zoo Objects
 #'
 #'
-#' @param x (required, list of data frames) A named list with data frames. Default: NULL.
+#' @param x (required, list of data frames). Default: NULL.
 #' @param time_column (required, column name) Name of the column representing time, if any. Default: NULL.
-#' @return A named list of data frames, matrices, or vectors.
+#' @return A named list of zoo objects.
 #' @examples
 #' x <- utils_prepare_zoo_list(
 #'   x = list(
@@ -45,7 +45,7 @@ utils_prepare_zoo_list <- function(
 
   #at least 2 elements
   if(length(x) == 1){
-    stop("distantia::utils_prepare_zoo_list(): argument 'x' must be a list with a least two elements.", call. = FALSE)
+    stop("distantia::utils_prepare_zoo_list(): argument 'x' must be a list with at least two elements.", call. = FALSE)
   }
 
   #elements must be named

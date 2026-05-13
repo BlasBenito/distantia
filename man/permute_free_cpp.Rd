@@ -20,9 +20,9 @@ numeric matrix
 Unrestricted shuffling of cases within the whole sequence.
 }
 \seealso{
-Other Rcpp_permutation: 
-\code{\link{permute_free_by_row_cpp}()},
-\code{\link{permute_restricted_by_row_cpp}()},
-\code{\link{permute_restricted_cpp}()}
+Other Rcpp_permutation:
+\code{\link[=permute_free_by_row_cpp]{permute_free_by_row_cpp()}},
+\code{\link[=permute_restricted_by_row_cpp]{permute_restricted_by_row_cpp()}},
+\code{\link[=permute_restricted_cpp]{permute_restricted_cpp()}}
 }
 \concept{Rcpp_permutation}

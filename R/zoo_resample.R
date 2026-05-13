@@ -34,7 +34,7 @@
 #'   \item `NULL`: the target time series (`x`) is resampled to a regular time within its original time range and number of observations.
 #'   \item `zoo object`: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 #'   \item `time vector`: a time vector of a class compatible with the time in `x`.
-#'   \item `keyword`: character string defining a resampling keyword, obtained via `zoo_time(x, keywords = "resample")$keywords`..
+#'   \item `keyword`: character string defining a resampling keyword, obtained via `zoo_time(x, keywords = "resample")$keywords`.
 #'   \item `numeric`: a single number representing the desired interval between consecutive samples in the units of `x` (relevant units can be obtained via `zoo_time(x)$units`).
 #' }
 #'

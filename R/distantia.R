@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' This function combines *dynamic time warping* or *lock-step comparison* with the *psi dissimilarity score* and *permutation methods* to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
+#' This function combines *dynamic time warping* or *lock-step comparison* with the *psi dissimilarity score* and *permutation methods* to assess dissimilarity between pairs of time series or any other sort of data composed of events ordered across a relevant dimension.
 #'
 #' **Dynamic Time Warping** (DTW) finds the optimal alignment between two time series by minimizing the cumulative distance between their samples. It applies dynamic programming to identify the least-cost path through a distance matrix between all pairs of samples. The resulting sum of distances along the least cost path is a metric of time series similarity. DTW disregards the exact timing of samples and focuses on their order and pattern similarity between time series, making it suitable for comparing both *regular and irregular time series of the same or different lengths*, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths. Additionally, `distantia()` implements constrained DTW via Sakoe-Chiba bands with the `bandwidth` argument, which defines a region around the distance matrix diagonal to restrict the spread of the least cost path.
 #'
@@ -18,7 +18,7 @@
 #'
 #' In both equations, a psi score of zero indicates maximum similarity.
 #'
-#' **Permutation methods** are provided here to help assess the robustness of observed psi scores by direct comparison with a null distribution of psi scores resulting from randomized versions of the compared time series. The fraction of null scores smaller than the observed score is returned as a *p_value* in the function output and interpreted as "the probability of finding a higher similarity (lower psi score) by chance".
+#' **Permutation methods** are provided here to help assess the robustness of observed psi scores by direct comparison with a null distribution of psi scores resulting from randomized versions of the compared time series. The fraction of null scores smaller than the observed score is returned as a *p_value* in the function output and interpreted as "the probability of finding a lower psi score (higher similarity) by chance".
 #'
 #'  In essence, restricted permutation is useful to answer the question "how robust is the similarity between two time series?"
 #'
@@ -53,7 +53,7 @@
 #'   \item `lock_step`: value of the argument `lock_step`.
 #'   \item `repetitions` (only if `repetitions > 0`): value of the argument `repetitions`.
 #'   \item `permutation` (only if `repetitions > 0`): name of the permutation method used to compute p-values.
-#'   \item `seed` (only if `repetitions > 0`): random seed used to in the permutations.
+#'   \item `seed` (only if `repetitions > 0`): random seed used in the permutations.
 #'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
 #'   \item `null_mean` (only if `repetitions > 0`): mean of the null distribution of psi scores.
 #'   \item `null_sd` (only if `repetitions > 0`): standard deviation of the null distribution of psi values.

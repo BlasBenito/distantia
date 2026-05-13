@@ -63,7 +63,7 @@ The argument \code{new_time} offers several alternatives to help define the new 
 \item \code{NULL}: the target time series (\code{x}) is resampled to a regular time within its original time range and number of observations.
 \item \verb{zoo object}: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 \item \verb{time vector}: a time vector of a class compatible with the time in \code{x}.
-\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}..
+\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}.
 \item \code{numeric}: a single number representing the desired interval between consecutive samples in the units of \code{x} (relevant units can be obtained via \code{zoo_time(x)$units}).
 }
 
@@ -176,17 +176,17 @@ if(interactive()){
 
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_smooth_exponential}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_name_set]{zoo_name_set()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_plot]{zoo_plot()}},
+\code{\link[=zoo_smooth_exponential]{zoo_smooth_exponential()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_time]{zoo_time()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}},
+\code{\link[=zoo_vector_to_matrix]{zoo_vector_to_matrix()}}
 }
 \concept{zoo_functions}

@@ -17,9 +17,14 @@ psi_equation(a = NULL, b = NULL, diagonal = TRUE)
 numeric value
 }
 \description{
-Demonstration function to computes the \code{psi} dissimilarity score (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1}, where \eqn{a} is the sum of distances between the relevant samples of two time series, and \eqn{b} is the cumulative sum of distances between consecutive samples in the two time series.
+Demonstration function to compute the \code{psi} dissimilarity score (Birks and Gordon 1985). Psi is computed as \eqn{\psi = (2a / b) - 1}, where \eqn{a} is the sum of distances between the relevant samples of two time series, and \eqn{b} is the cumulative sum of distances between consecutive samples in the two time series.
 
-If \code{a} is computed with dynamic time warping, and diagonals are used in the computation of the least cost path, then one is added to the result of the equation above.
+When \code{diagonal = TRUE}, one is added to the result of the equation above.
+}
+\details{
+When \code{b} is zero (both series are perfectly flat with no variation between
+consecutive samples), the function returns \code{NA} because the normalisation
+denominator is undefined.
 }
 \examples{
 #distance metric
@@ -120,13 +125,13 @@ if(interactive()){
 }
 }
 \seealso{
-Other psi_demo: 
-\code{\link{psi_auto_distance}()},
-\code{\link{psi_auto_sum}()},
-\code{\link{psi_cost_matrix}()},
-\code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_sum}()},
-\code{\link{psi_distance_lock_step}()},
-\code{\link{psi_distance_matrix}()}
+Other psi_demo:
+\code{\link[=psi_auto_distance]{psi_auto_distance()}},
+\code{\link[=psi_auto_sum]{psi_auto_sum()}},
+\code{\link[=psi_cost_matrix]{psi_cost_matrix()}},
+\code{\link[=psi_cost_path]{psi_cost_path()}},
+\code{\link[=psi_cost_path_sum]{psi_cost_path_sum()}},
+\code{\link[=psi_distance_lock_step]{psi_distance_lock_step()}},
+\code{\link[=psi_distance_matrix]{psi_distance_matrix()}}
 }
 \concept{psi_demo}

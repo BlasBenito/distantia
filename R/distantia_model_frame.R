@@ -21,7 +21,7 @@
 #' This function supports a parallelization setup via [future::plan()].
 #'
 #' @param response_df (required, data frame) output of [distantia()], [distantia_ls()], [distantia_dtw()], or [distantia_time_delay()]. Default: NULL
-#' @param predictors_df (required, data frame or sf data frame) data frame with numeric predictors for the the model frame. Must have a column with the time series names in `response_df$x` and `response_df$y`. If `sf` data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL
+#' @param predictors_df (required, data frame or sf data frame) Data frame with numeric predictors for the model frame. Must have a column with the time series names in `response_df$x` and `response_df$y`. If `sf` data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL
 #' @param composite_predictors (optional, list) list defining composite predictors. For example, `composite_predictors = list(a = c("b", "c"))` uses the columns `"b"` and `"c"` from `predictors_df` to generate the predictor `a` as the multivariate distance between `"b"` and `"c"` for each pair of time series in `response_df`. Default: NULL
 #' @param scale (optional, logical) if TRUE, all predictors are scaled and centered with [scale()]. Default: TRUE
 #' @param distance (optional, string) Method to compute the distance between predictor values for all pairs of time series in `response_df`. Default: "euclidean".

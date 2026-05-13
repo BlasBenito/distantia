@@ -24,7 +24,7 @@ tsl_simulate(
 
 \item{rows}{(optional, integer) Length of each time series. Minimum is 10, but maximum is not limited. Very large numbers might crash the R session. Default: 100}
 
-\item{time_range}{(optional character or numeric vector) Time interval of the time series. Either a character vector with dates in format YYYY-MM-DD or or a numeric vector. If there is a mismatch between \code{time_range} and \code{rows} (for example, the number of days in \code{time_range} is smaller than \code{rows}), the upper value in \code{time_range} is adapted to \code{rows}. Default: c("2010-01-01", "2020-01-01")}
+\item{time_range}{(optional character or numeric vector) Time interval of the time series. Either a character vector with dates in format YYYY-MM-DD or a numeric vector. If there is a mismatch between \code{time_range} and \code{rows} (for example, the number of days in \code{time_range} is smaller than \code{rows}), the upper value in \code{time_range} is adapted to \code{rows}. Default: c("2010-01-01", "2020-01-01")}
 
 \item{data_range}{(optional, numeric vector of length 2) Extremes of the time series values. Default: c(0, 1)}
 
@@ -102,7 +102,7 @@ if(interactive()){
 
 }
 \seealso{
-Other simulate_time_series: 
-\code{\link{zoo_simulate}()}
+Other simulate_time_series:
+\code{\link[=zoo_simulate]{zoo_simulate()}}
 }
 \concept{simulate_time_series}

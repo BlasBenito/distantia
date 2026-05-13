@@ -16,6 +16,8 @@ utils_color_breaks <- function(
 
   m.range <- range(m, na.rm = TRUE)
 
+  if(n == 1L) return(c(m.range[1] - 0.5, m.range[2] + 0.5))
+
   a <- seq(
     from = m.range[1],
     to = m.range[2],

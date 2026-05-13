@@ -1,10 +1,10 @@
-#' Removes Geometry Column from SF Data Frames
+#' Remove Geometry Column from SF Data Frames
 #'
-#' Replicates the functionality of  `sf::st_drop_geometry()` without depending on the `sf` package.
+#' Replicates the functionality of `sf::st_drop_geometry()` without depending on the `sf` package.
 #'
-#'@param df (required, data frame) Input data frame. Default: NULL.
+#' @param df (required, data frame) Input data frame. Default: NULL.
 #'
-#' @return data frame
+#' @return A data frame.
 #' @autoglobal
 #' @export
 #' @family tsl_processing_internal

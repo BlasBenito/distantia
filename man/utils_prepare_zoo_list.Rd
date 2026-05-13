@@ -7,12 +7,12 @@
 utils_prepare_zoo_list(x = NULL, time_column = NULL)
 }
 \arguments{
-\item{x}{(required, list of data frames) A named list with data frames. Default: NULL.}
+\item{x}{(required, list of data frames). Default: NULL.}
 
 \item{time_column}{(required, column name) Name of the column representing time, if any. Default: NULL.}
 }
 \value{
-A named list of data frames, matrices, or vectors.
+A named list of zoo objects.
 }
 \description{
 Convert List of Data Frames to List of Zoo Objects
@@ -27,24 +27,24 @@ x <- utils_prepare_zoo_list(
 )
 }
 \seealso{
-Other internal: 
-\code{\link{utils_boxplot_common}()},
-\code{\link{utils_check_args_distantia}()},
-\code{\link{utils_check_args_matrix}()},
-\code{\link{utils_check_args_momentum}()},
-\code{\link{utils_check_args_path}()},
-\code{\link{utils_check_args_tsl}()},
-\code{\link{utils_check_args_zoo}()},
-\code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_clean_names}()},
-\code{\link{utils_digits}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_tsl_pairs}()}
+Other internal:
+\code{\link[=utils_boxplot_common]{utils_boxplot_common()}},
+\code{\link[=utils_check_args_distantia]{utils_check_args_distantia()}},
+\code{\link[=utils_check_args_matrix]{utils_check_args_matrix()}},
+\code{\link[=utils_check_args_momentum]{utils_check_args_momentum()}},
+\code{\link[=utils_check_args_path]{utils_check_args_path()}},
+\code{\link[=utils_check_args_tsl]{utils_check_args_tsl()}},
+\code{\link[=utils_check_args_zoo]{utils_check_args_zoo()}},
+\code{\link[=utils_check_distance_args]{utils_check_distance_args()}},
+\code{\link[=utils_check_list_class]{utils_check_list_class()}},
+\code{\link[=utils_clean_names]{utils_clean_names()}},
+\code{\link[=utils_digits]{utils_digits()}},
+\code{\link[=utils_distantia_df_split]{utils_distantia_df_split()}},
+\code{\link[=utils_prepare_df]{utils_prepare_df()}},
+\code{\link[=utils_prepare_matrix]{utils_prepare_matrix()}},
+\code{\link[=utils_prepare_matrix_list]{utils_prepare_matrix_list()}},
+\code{\link[=utils_prepare_time]{utils_prepare_time()}},
+\code{\link[=utils_prepare_vector_list]{utils_prepare_vector_list()}},
+\code{\link[=utils_tsl_pairs]{utils_tsl_pairs()}}
 }
 \concept{internal}

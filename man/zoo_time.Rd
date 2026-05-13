@@ -45,17 +45,17 @@ zoo_time(
 )
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_smooth_exponential}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_name_set]{zoo_name_set()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_plot]{zoo_plot()}},
+\code{\link[=zoo_resample]{zoo_resample()}},
+\code{\link[=zoo_smooth_exponential]{zoo_smooth_exponential()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}},
+\code{\link[=zoo_vector_to_matrix]{zoo_vector_to_matrix()}}
 }
 \concept{zoo_functions}

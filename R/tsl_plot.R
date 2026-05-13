@@ -12,7 +12,7 @@
 #' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplicator of the text size. Default: 1
 #' @param guide (optional, logical) If TRUE, plots a legend. Default: TRUE
-#' @param guide_columns (optional, integer) Columns of the line guide. Default: 1.
+#' @param guide_columns (optional, integer) Columns of the line guide. Default: 1
 #' @param guide_cex (optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.
 #'
 #' @return plot

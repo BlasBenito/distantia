@@ -5,7 +5,7 @@
 \alias{eemian_pollen}
 \title{Pollen Counts of Nine Interglacial Sites in Central Europe}
 \format{
-data frame with 24 columns and 376 rows.
+A data frame with 24 columns and 376 rows.
 }
 \usage{
 data(eemian_pollen)
@@ -18,7 +18,7 @@ Site coordinates for this dataset are in \link{eemian_coordinates}.
 \examples{
 data("eemian_pollen")
 
-#to time series list
+#Convert to time series list
 tsl <- tsl_initialize(
   x = eemian_pollen,
   name_column = "name",
@@ -41,7 +41,7 @@ if(interactive()){
 
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

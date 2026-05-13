@@ -2,14 +2,14 @@
 % Please edit documentation in R/transformations.R
 \name{f_binary}
 \alias{f_binary}
-\title{Transform Zoo Object to Binary}
+\title{Data Transformation: Convert Zoo Object to Binary}
 \usage{
 f_binary(x = NULL, threshold = NULL)
 }
 \arguments{
 \item{x}{(required, zoo object) Zoo time series object to transform.}
 
-\item{threshold}{(required, numeric) Values greater than this number become 1, others become 0. Set to the mean of the time series by default. Default: NULL}
+\item{threshold}{(required, numeric) Values greater than this number become 1, others become 0. Default: NULL (set to the mean of the time series)}
 }
 \value{
 zoo object
@@ -33,22 +33,22 @@ if(interactive()){
 }
 }
 \seealso{
-Other tsl_transformation: 
-\code{\link{f_clr}()},
-\code{\link{f_detrend_difference}()},
-\code{\link{f_detrend_linear}()},
-\code{\link{f_detrend_poly}()},
-\code{\link{f_hellinger}()},
-\code{\link{f_list}()},
-\code{\link{f_log}()},
-\code{\link{f_percent}()},
-\code{\link{f_proportion}()},
-\code{\link{f_proportion_sqrt}()},
-\code{\link{f_rescale_global}()},
-\code{\link{f_rescale_local}()},
-\code{\link{f_scale_global}()},
-\code{\link{f_scale_local}()},
-\code{\link{f_trend_linear}()},
-\code{\link{f_trend_poly}()}
+Other tsl_transformation:
+\code{\link[=f_clr]{f_clr()}},
+\code{\link[=f_detrend_difference]{f_detrend_difference()}},
+\code{\link[=f_detrend_linear]{f_detrend_linear()}},
+\code{\link[=f_detrend_poly]{f_detrend_poly()}},
+\code{\link[=f_hellinger]{f_hellinger()}},
+\code{\link[=f_list]{f_list()}},
+\code{\link[=f_log]{f_log()}},
+\code{\link[=f_percent]{f_percent()}},
+\code{\link[=f_proportion]{f_proportion()}},
+\code{\link[=f_proportion_sqrt]{f_proportion_sqrt()}},
+\code{\link[=f_rescale_global]{f_rescale_global()}},
+\code{\link[=f_rescale_local]{f_rescale_local()}},
+\code{\link[=f_scale_global]{f_scale_global()}},
+\code{\link[=f_scale_local]{f_scale_local()}},
+\code{\link[=f_trend_linear]{f_trend_linear()}},
+\code{\link[=f_trend_poly]{f_trend_poly()}}
 }
 \concept{tsl_transformation}

@@ -1,7 +1,7 @@
 #' Join Time Series Lists
 #'
 #' @description
-#' Joins an arbitrary of time series lists by name and time. Pairs of zoo objects are joined with [zoo::merge.zoo()]. Names that are not shared across all input TSLs are ignored, and observations with no matching time are filled with NA and then managed via [tsl_handle_NA()] depending on the value of the argument `na_action`.
+#' Joins an arbitrary number of time series lists by name and time. Pairs of zoo objects are joined with [zoo::merge.zoo()]. Names that are not shared across all input TSLs are ignored, and observations with no matching time are filled with NA and then managed via [tsl_handle_NA()] depending on the value of the argument `na_action`.
 #'
 #' @param ... (required, time series lists) names of the time series lists to merge.
 #' @inheritParams tsl_handle_NA

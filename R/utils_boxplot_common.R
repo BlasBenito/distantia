@@ -1,7 +1,7 @@
 #' Common Boxplot Component of `distantia_boxplot()` and `momentum_boxplot()`
 #'
-#' @param variable (required, character vector) vector with variable or time series names. Default: NULL
-#' @param value (required, numeric vector) vector of numeric values to compute the boxplot for. Must have the same length as `variable`. Default: NULL
+#' @param variable (required, character vector) vector of variable or time series names. Default: NULL
+#' @param value (required, numeric vector) numeric values to compute the boxplot. Must have the same length as `variable`. Default: NULL
 #' @inheritParams distantia_boxplot
 #' @param main (optional, string) boxplot title. Default: NULL
 #' @param xlab (optional, string) x axis label. Default: NULL

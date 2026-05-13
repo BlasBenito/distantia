@@ -1,6 +1,6 @@
-#' Stats of Dissimilarity Data Frame
+#' Summary Statistics of Dissimilarity Data Frame
 #' @description
-#' Takes the output of [distantia()] to return a data frame with one row per time series with the stats of its dissimilarity scores with all other time series.
+#' Computes summary statistics from the output of [distantia()], returning a data frame with one row per time series and summary statistics of its dissimilarity scores with all other time series.
 #'
 #' @inheritParams distantia_aggregate
 #'
@@ -49,18 +49,32 @@ distantia_stats <- function(
     )
   )
 
+  #warn and drop NA psi before computing stats
+  df_has_na <- is.na(df[["psi"]])
+  if(any(df_has_na)){
+    warning(
+      "distantia::distantia_stats(): ",
+      sum(df_has_na),
+      " NA psi value(s) excluded from summary statistics.",
+      call. = FALSE
+    )
+    df <- df[!df_has_na, ]
+  }
+
   #stats functions
   q1 <- function(x = NULL){
     stats::quantile(
       x = x,
-      probs = 0.25
+      probs = 0.25,
+      na.rm = TRUE
     )
   }
 
   q3 <- function(x = NULL){
     stats::quantile(
       x = x,
-      probs = 0.75
+      probs = 0.75,
+      na.rm = TRUE
     )
   }
 
@@ -97,8 +111,8 @@ distantia_stats <- function(
     p()
 
     df.i <- stats::aggregate(
-      x = df,
-      by = psi ~ name,
+      psi ~ name,
+      data = df,
       FUN = f[[i]]
     )
 

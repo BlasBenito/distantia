@@ -10,7 +10,6 @@
 #' \itemize{
 #'   \item "impute" (default): NA cases are interpolated from neighbors as a function of time (see [zoo::na.approx()] and [zoo::na.spline()]).
 #'   \item "omit": rows with NA cases are removed.
-
 #' }
 #'
 #' @return time series list

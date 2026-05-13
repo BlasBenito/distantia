@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' Minimalistic but slightly faster version of [distantia()] to compute lock-step dissimilarity scores.
+#' A minimalistic but slightly faster version of [distantia()] that computes lock-step dissimilarity scores.
 #'
 #' @inheritParams distantia
 #'
@@ -11,6 +11,7 @@
 #'   \item `x`: time series name.
 #'   \item `y`: time series name.
 #'   \item `distance`: name of the distance metric.
+#'   \item `lock_step`: always `TRUE`; flags this result as lock-step.
 #'   \item `psi`: psi dissimilarity of the sequences `x` and `y`.
 #' }
 #' @export
@@ -93,6 +94,10 @@ distantia_ls <- function(
     )
 
   }
+
+  df$distance <- distance
+  df$lock_step <- TRUE
+  df <- df[, c("x", "y", "distance", "lock_step", "psi")]
 
   df <- df[order(df$psi), ]
 

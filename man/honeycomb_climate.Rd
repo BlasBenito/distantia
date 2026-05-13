@@ -14,7 +14,7 @@ data(honeycomb_climate)
 Monthly temperature and rainfall between 2009 and 2019 in 72 hexagonal cells covering The Americas.
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

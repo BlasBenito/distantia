@@ -74,3 +74,15 @@ test_that("`tsl_initialize()` works", {
   )
 
 })
+
+test_that("`tsl_initialize()` errors informatively on single-element list", {
+
+  expect_error(
+    tsl_initialize(
+      x = list(a = zoo_simulate(seed = 1))
+    ),
+    regexp = "at least 2 time series",
+    fixed = FALSE
+  )
+
+})

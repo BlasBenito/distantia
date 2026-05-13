@@ -5,7 +5,7 @@
 \alias{eemian_coordinates}
 \title{Site Coordinates of Nine Interglacial Sites in Central Europe}
 \format{
-sf data frame with 4 columns and 9 rows.
+An sf data frame with 4 columns and 9 rows.
 }
 \usage{
 data(eemian_coordinates)
@@ -14,19 +14,7 @@ data(eemian_coordinates)
 Site Coordinates of Nine Interglacial Sites in Central Europe
 }
 \seealso{
-Other example_data: 
-\code{\link{albatross}},
-\code{\link{cities_coordinates}},
-\code{\link{cities_temperature}},
-\code{\link{covid_counties}},
-\code{\link{covid_prevalence}},
-\code{\link{eemian_pollen}},
-\code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
-\code{\link{honeycomb_climate}},
-\code{\link{honeycomb_polygons}}
-
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

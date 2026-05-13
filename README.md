@@ -2,22 +2,15 @@
 # `distantia` Time Series Dissimilarity <a href="https://github.com/BlasBenito/distantia"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
-[![DOI](https://zenodo.org/badge/187805264.svg)](https://zenodo.org/badge/latestdoi/187805264)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3269235.svg)](https://doi.org/10.5281/zenodo.3269235)
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version/distantia)](https://CRAN.R-project.org/package=distantia)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/distantia)](https://CRAN.R-project.org/package=distantia)
 [![R-CMD-check](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BlasBenito/distantia/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
-
-## Warning
-
-Version 2.0 of `distantia` is a full re-write of the original package
-and **will break existing workflows** before **making them better**.
-Please refer to the
-[Changelog](https://blasbenito.github.io/distantia/news/index.html) for
-details before updating.
 
 ## Summary
 
@@ -37,7 +30,7 @@ to handle a wide range of scenarios, including:
 - The normalized dissimilarity metric `psi`.
 - Free and Restricted Dynamic Time Warping (DTW) for shape-based
   comparison.
-- A Lock-Step method for sample-to-sample comparison
+- A Lock-Step method for sample-to-sample comparison.
 - Restricted permutation tests for robust inferential support.
 - Analysis of contribution to dissimilarity of individual variables in
   multivariate time series.
@@ -70,7 +63,7 @@ time-series. Ecography, 43(5), 660-667. doi:
 [10.1111/ecog.04895](https://nsojournals.onlinelibrary.wiley.com/doi/10.1111/ecog.04895).*
 
 *Blas M. Benito (2024). distantia: A Toolset for Time Series
-Dissimilarity Analysis. R package version 2.0.0. url:
+Dissimilarity Analysis. R package version 2.0. url:
 <https://blasbenito.github.io/distantia/>.*
 
 ## Install
@@ -91,11 +84,11 @@ remotes::install_github(
 ## Getting Started
 
 This section showcases several features of the package `distantia`.
-Please, check the **Articles** section for further details.
+Please check the **Articles** section for further details.
 
 ### Setup
 
-All heavy duty functions in `distantia` support parallelization via the
+All heavy-duty functions in `distantia` support parallelization via the
 [future](https://future.futureverse.org/) package. However, due to the
 high efficiency of the C++ backend of `distantia`, parallel execution is
 only worth it for very large datasets and restricted permutation
@@ -103,7 +96,7 @@ analyses.
 
 Progress bars provided by the
 [progressr](https://progressr.futureverse.org/) package are also
-available. Unfortunately, the latter does not work in Rmarkdown
+available. Unfortunately, the latter does not work in R Markdown
 documents like this one.
 
 ``` r
@@ -122,7 +115,7 @@ library(future)
 
 The `albatross` data frame contains daily GPS data of 4 individuals of
 Waved Albatross in the Pacific captured during the summer of 2008. Below
-are the first 10 rows of this data frame:
+are the first 6 rows of this data frame:
 
     #>   name       time         x         y     speed temperature  heading
     #> 1 X132 2008-05-31 -89.62097 -1.389512 0.1473333    29.06667 212.0307
@@ -154,7 +147,7 @@ tsl_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" alt="" width="100%" />
 
 ### Dissimilarity Analysis
 
@@ -162,7 +155,7 @@ tsl_plot(
 
 Lock-step analysis performs direct comparisons between samples observed
 at the same time without any time distortion. It requires time series of
-the same length preferably observed at the same times.
+the same length, preferably observed at the same times.
 
 ``` r
 df_ls <- distantia(
@@ -197,7 +190,7 @@ distantia_boxplot(df = df_ls, text_cex = 0.8)
 #### Dynamic Time Warping
 
 By default, `distantia()` computes unrestricted dynamic time warping
-with orthogonal and diagonal least cost paths.
+with orthogonal and diagonal least-cost paths.
 
 ``` r
 df_dtw <- distantia(
@@ -223,14 +216,14 @@ distantia_dtw_plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" alt="" width="100%" />
 
 Deviations from the perfect diagonal in the least-cost path reveal
 adjustments made by DTW to align time series by shape rather than time.
 
 The article [Dynamic Time Warping vs
 Lock-Step](https://blasbenito.github.io/distantia/articles/dynamic_time_warping_and_lock_step.html)
-provides further insights on the advantages and disadvantages of each
+provides further insights into the advantages and disadvantages of each
 method in different scenarios.
 
 ### Permutation Test
@@ -268,8 +261,8 @@ df_dtw[, c("x", "y", "psi", "p_value")]
 The “p_value” column represents the fraction of permutations yielding a
 psi score lower than the observed value, and indicates the strength of
 similarity between two time series. A significance threshold (e.g.,
-0.05, depending on iterations) helps identifying pairs of time series
-with a robust similarity.
+0.05, depending on the number of repetitions) helps identify pairs of
+time series with a robust similarity.
 
 ### Variable Importance
 
@@ -318,7 +311,7 @@ df_importance[, c("x", "y", "variable", "importance", "effect")]
 ```
 
 Positive “importance” values indicate variables contributing to
-dissimilarity, while negative values indicate contribution to
+dissimilarity, while negative values indicate contributions to
 similarity. The function documentation provides more details on how
 importance scores are computed.
 
@@ -332,13 +325,13 @@ momentum_boxplot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" alt="" width="75%" />
 
 ### Clustering
 
-The package `distantia` provides tools to group together time series by
+The package `distantia` provides tools to group time series by
 dissimilarity using hierarchical or K-means clustering. The example
-below applies the former to the `albatross` dataset to find out groups
+below applies the former to the `albatross` dataset to identify groups
 of individuals with the most similar movement time series.
 
 ``` r
@@ -363,7 +356,7 @@ dtw_hclust$clusters
 
 #clustering data frame
 #group label in column "cluster"
-#negatives in column "silhouette_width" higlight anomalous cluster assignation
+# negatives in column "silhouette_width" highlight anomalous cluster assignments
 dtw_hclust$df
 #>   name cluster silhouette_width
 #> 1 X132       1        0.4955501
@@ -382,7 +375,7 @@ plot(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="75%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" alt="" width="75%" />
 
 This is just a summary of the features implemented in the package.
 Please visit the **Articles** section to find out more about
@@ -390,5 +383,5 @@ Please visit the **Articles** section to find out more about
 
 ## Getting help
 
-If you encounter bugs or issues with the documentation, please [file a
+If you encounter bugs or issues with the documentation, please [file an
 issue on GitHub](https://github.com/BlasBenito/distantia/issues).

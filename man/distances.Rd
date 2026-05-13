@@ -5,18 +5,18 @@
 \alias{distances}
 \title{Distance Methods}
 \format{
-data frame with 5 columns and 10 rows
+A data frame with 5 columns and 10 rows.
 }
 \usage{
 data(distances)
 }
 \description{
-Data frame with the names, abbreviations, and expressions of the distance metrics implemented in the package.
+A data frame with the names, abbreviations, and expressions of the distance metrics implemented in the package.
 }
 \seealso{
-Other distances: 
-\code{\link{distance}()},
-\code{\link{distance_matrix}()}
+Other distances:
+\code{\link[=distance]{distance()}},
+\code{\link[=distance_matrix]{distance_matrix()}}
 }
 \concept{distances}
 \keyword{datasets}

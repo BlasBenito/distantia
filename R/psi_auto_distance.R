@@ -1,7 +1,7 @@
 #' Cumulative Sum of Distances Between Consecutive Cases in a Time Series
 #'
 #' @description
-#' Demonstration function to compute the sum of distances between consecutive cases in a time series.
+#' Demonstration function to compute the sum of distances between consecutive cases in a time series
 #'
 #' @param x (required, zoo object or matrix) univariate or multivariate time series with no NAs. Default: NULL
 #' @inheritParams distantia

@@ -19,7 +19,7 @@
 #'   \item There are no NA, Inf, or NaN values in the time series.
 #' }
 #'
-#' This function analyzes a `tsl` without modifying it to returns messages describing what conditions are not met, and provides hints on how to fix most issues.
+#' This function analyzes a `tsl` without modifying it and returns messages describing what conditions are not met, and provides hints on how to fix most issues.
 #'
 #' @param tsl (required, list of zoo time series) Time series list to diagnose. Default: NULL
 #' @param full (optional, logical) If TRUE, a full diagnostic is triggered. Otherwise, only the data structure is tested. Default: TRUE
@@ -38,7 +38,7 @@
 #'   )
 #'
 #' #with different number of columns
-#' #wit repeated name
+#' #with repeated name
 #' y <- zoo_simulate(
 #'   name = "x",
 #'   cols = 2
@@ -83,7 +83,7 @@ tsl_diagnose <- function(
 
   utils_check_args_tsl(
     tsl = tsl,
-    min_length = 1
+    min_length = 2
   )
 
   if(!is.logical(full)){
@@ -105,7 +105,7 @@ tsl_diagnose <- function(
     tsl_names_issues =  "  - list and time series names must match and be unique: reset names with distantia::tsl_names_set().",
     zoo_no_colnames = "  - missing column names in zoo time series: use distantia::tsl_colnames_set() to rename columns as needed.",
     zoo_duplicated_colnames = "  - zoo time series have duplicated column names: use distantia::tsl_colnames_clean() or distantia::tsl_colnames_set() to deduplicate.",
-    zoo_no_shared_columns = "  - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::ts_colnames_set() to identify and rename columns as needed.",
+    zoo_no_shared_columns = "  - no shared column names across time series: use distantia::tsl_colnames_get() and distantia::tsl_colnames_set() to identify and rename columns as needed.",
     zoo_time_class = "  - time in all time series must be of the same class: use lapply(tsl, function(x) class(zoo::index(x))) to identify and remove or modify the objects with a mismatching class.",
     zoo_non_numeric_columns = "  - columns shared across all time series must be numeric: the function distantia::tsl_subset() may help fix this issue.",
     zoo_NA_cases = "  - there are NA, Inf, -Inf, or NaN cases in the time series: interpolate or remove them with distantia::tsl_handle_NA().",

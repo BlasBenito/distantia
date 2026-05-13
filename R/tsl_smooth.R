@@ -3,7 +3,7 @@
 #' @description
 #' Rolling-window and exponential smoothing of Time Series Lists.
 #'
-#' Rolling-window smoothing This computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series.
+#' Rolling-window smoothing computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series.
 #'
 #' Exponential smoothing computes each value as the weighted average of the current value and past smoothed values. This method is useful for reducing noise in time series data while preserving the overall trend.
 #'

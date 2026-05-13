@@ -23,7 +23,7 @@ data frame:
 }
 }
 \description{
-Minimalistic but slightly faster version of \code{\link[=momentum]{momentum()}} to compute dynamic time warping importance analysis with the "robust" setup in multivariate time series lists.
+A minimalistic but slightly faster version of \code{\link[=momentum]{momentum()}} that computes dynamic time warping importance analysis with the "robust" setup in multivariate time series lists.
 }
 \examples{
 
@@ -52,8 +52,8 @@ df[, c(
 
 }
 \seealso{
-Other momentum: 
-\code{\link{momentum}()},
-\code{\link{momentum_ls}()}
+Other momentum:
+\code{\link[=momentum]{momentum()}},
+\code{\link[=momentum_ls]{momentum_ls()}}
 }
 \concept{momentum}

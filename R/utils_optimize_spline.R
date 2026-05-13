@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' Internal function used in [zoo_resample()]. It finds optimal `df` parameter of a smoothing spline model `y ~ x` fitted with [stats::smooth.spline()]  that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such `df`.
+#' Internal function used in [zoo_resample()]. It finds the optimal `df` parameter of a smoothing spline model `y ~ x` fitted with [stats::smooth.spline()] that minimizes the root mean squared error (RMSE) between observations and predictions, and returns a model fitted with such `df`.
 #'
 #' @param x (required, numeric vector) predictor, a time vector coerced to numeric. Default: NULL
 #' @param y (required, numeric vector) response, a column of a zoo object. Default: NULL
@@ -19,7 +19,7 @@
 #'   rows = 30
 #' )
 #'
-#' #optimize splines model
+#' #optimize spline model
 #' m <- utils_optimize_spline(
 #'   x = as.numeric(zoo::index(xy)), #predictor
 #'   y = xy[, 1] #response

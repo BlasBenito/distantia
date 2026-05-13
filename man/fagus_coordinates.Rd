@@ -5,7 +5,7 @@
 \alias{fagus_coordinates}
 \title{Site Coordinates of Fagus sylvatica Stands}
 \format{
-sf data frame with 3 rows and 4 columns
+An sf data frame with 3 rows and 4 columns.
 }
 \usage{
 data(fagus_coordinates)
@@ -14,7 +14,7 @@ data(fagus_coordinates)
 Site Coordinates of Fagus sylvatica Stands
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

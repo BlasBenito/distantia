@@ -1,9 +1,9 @@
 #' Checks Classes of List Elements Against Expectation
 #'
-#' @param x (required, list) Default: NULL
-#' @param expected_class (required, class name). One of "data.frame", "matrix", or "vector". Default: "data.frame".
+#' @param x (required, list). Default: NULL.
+#' @param expected_class (required, class name) One of "data.frame", "matrix", or "vector". Default: "data.frame".
 #'
-#' @return side effects
+#' @return Logical value indicating whether the elements match the expected class.
 #' @autoglobal
 #' @export
 #' @family internal

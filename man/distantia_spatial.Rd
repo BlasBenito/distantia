@@ -11,7 +11,7 @@ distantia_spatial(df = NULL, sf = NULL, network = TRUE)
 
 \item{sf}{(required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. Default: NULL}
 
-\item{network}{(optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE}
+\item{network}{(optional, logical) If TRUE, the resulting sf data frame is of type LINESTRING and represents network edges. Default: TRUE}
 }
 \value{
 sf data frame (LINESTRING geometry)
@@ -70,18 +70,18 @@ sf_psi <- distantia::distantia_spatial(
 
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

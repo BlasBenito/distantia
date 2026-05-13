@@ -17,7 +17,7 @@ utils_optimize_spline(x = NULL, y = NULL, max_complexity = FALSE)
 Object of class "smooth.spline".
 }
 \description{
-Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds optimal \code{df} parameter of a smoothing spline model \code{y ~ x} fitted with \code{\link[stats:smooth.spline]{stats::smooth.spline()}}  that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such \code{df}.
+Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds the optimal \code{df} parameter of a smoothing spline model \code{y ~ x} fitted with \code{\link[stats:smooth.spline]{stats::smooth.spline()}} that minimizes the root mean squared error (RMSE) between observations and predictions, and returns a model fitted with such \code{df}.
 }
 \examples{
 
@@ -27,7 +27,7 @@ xy <- zoo_simulate(
   rows = 30
 )
 
-#optimize splines model
+#optimize spline model
 m <- utils_optimize_spline(
   x = as.numeric(zoo::index(xy)), #predictor
   y = xy[, 1] #response
@@ -56,10 +56,10 @@ points(
 
 }
 \seealso{
-Other tsl_processing_internal: 
-\code{\link{utils_drop_geometry}()},
-\code{\link{utils_global_scaling_params}()},
-\code{\link{utils_optimize_loess}()},
-\code{\link{utils_rescale_vector}()}
+Other tsl_processing_internal:
+\code{\link[=utils_drop_geometry]{utils_drop_geometry()}},
+\code{\link[=utils_global_scaling_params]{utils_global_scaling_params()}},
+\code{\link[=utils_optimize_loess]{utils_optimize_loess()}},
+\code{\link[=utils_rescale_vector]{utils_rescale_vector()}}
 }
 \concept{tsl_processing_internal}

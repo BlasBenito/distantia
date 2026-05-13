@@ -6,7 +6,7 @@
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #'
-#' @return Character string, aggregation keyword, or "none".
+#' @return Character string representing a valid aggregation keyword, or "none".
 #' @export
 #' @autoglobal
 #' @examples

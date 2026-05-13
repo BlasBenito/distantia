@@ -1,7 +1,7 @@
 #' Data Frame with Supported Time Units
 #'
 #' @description
-#' Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and a the threshold used to identify what time units can be used when aggregating a time series.
+#' Returns a data frame with the names of the supported time units, the classes that can handle each time unit, and the threshold used to identify which time units can be used when aggregating a time series.
 #'
 #' @param all_columns (optional, logical) If TRUE, all columns are returned. Default: FALSE
 #' @param class (optional, class name). Used to filter rows and columns. Accepted values are "numeric", "Date", and "POSIXct". Default: NULL

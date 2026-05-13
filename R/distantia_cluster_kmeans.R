@@ -12,7 +12,7 @@
 #' @param seed (optional, integer) Random seed to be used during the K-means computation. Default: 1
 #' @return list:
 #' \itemize{
-#'   \item `cluster_object`: kmeans object object for further analyses and custom plotting.
+#'   \item `cluster_object`: kmeans object for further analyses and custom plotting.
 #'   \item `clusters`: integer, number of clusters.
 #'   \item `silhouette_width`: mean silhouette width of the clustering solution.
 #'   \item `df`: data frame with time series names, their cluster label, and their individual silhouette width scores.

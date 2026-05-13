@@ -35,7 +35,7 @@ Time series resampling interpolates new values for time steps not available in t
 
 Time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 
-\strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one either using \code{\link[=tsl_subset]{tsl_subset()}} or the syntax \code{tsl = my_tsl[[i]]}.
+\strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end" of the data frame resulting from \code{df <- tsl_time(tsl = tsl)}. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of \code{tsl} one by one either using \code{\link[=tsl_subset]{tsl_subset()}} or the syntax \code{tsl = my_tsl[[i]]}.
 
 \strong{Methods}
 
@@ -60,7 +60,7 @@ The argument \code{new_time} offers several alternatives to help define the new 
 \item \verb{zoo object}: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 \item \verb{time series list}: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.
 \item \verb{time vector}: a time vector of a class compatible with the time in \code{x}.
-\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}..
+\item \code{keyword}: character string defining a resampling keyword, obtained via \code{zoo_time(x, keywords = "resample")$keywords}.
 \item \code{numeric}: a single number representing the desired interval between consecutive samples in the units of \code{x} (relevant units can be obtained via \code{zoo_time(x)$units}).
 }
 
@@ -71,7 +71,7 @@ The steps to resample a time series list are:
 \enumerate{
 \item The time interpolation range is computed from the intersection of all times in \code{tsl}. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 \item If \code{new_time} is provided, any values of \code{new_time} outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If \code{new_time} is not provided, a regular time within the interpolation time range with the length of the shortest time series in \code{tsl} is generated.
-\item For each univariate time time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
+\item For each univariate time series, a model \code{y ~ x}, where \code{y} is the time series and \code{x} is its own time coerced to numeric is fitted.
 \itemize{
 \item If \code{max_complexity == FALSE}, the model with the complexity that minimizes the root mean squared error between the observed and predicted \code{y} is returned.
 \item If \code{max_complexity == TRUE} and \code{method = "spline"} or \code{method = "loess"}, the first valid model closest to a maximum complexity is returned.
@@ -178,7 +178,7 @@ if(interactive()){
   tsl_plot(tsl_15_days)
 }
 
-#aligning two time series listsç
+#Aligning two time series lists
 
 #two time series lists with different time ranges
 tsl1 <- tsl_simulate(
@@ -248,10 +248,10 @@ tsl_time_summary(tsl2_regular)[
 \seealso{
 \code{\link[=zoo_resample]{zoo_resample()}}
 
-Other tsl_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_smooth}()},
-\code{\link{tsl_stats}()},
-\code{\link{tsl_transform}()}
+Other tsl_processing:
+\code{\link[=tsl_aggregate]{tsl_aggregate()}},
+\code{\link[=tsl_smooth]{tsl_smooth()}},
+\code{\link[=tsl_stats]{tsl_stats()}},
+\code{\link[=tsl_transform]{tsl_transform()}}
 }
 \concept{tsl_processing}

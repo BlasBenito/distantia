@@ -49,10 +49,10 @@ If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 }
 \seealso{
-Other Rcpp_dissimilarity_analysis: 
-\code{\link{psi_dtw_cpp}()},
-\code{\link{psi_equation_cpp}()},
-\code{\link{psi_ls_cpp}()},
-\code{\link{psi_null_dtw_cpp}()}
+Other Rcpp_dissimilarity_analysis:
+\code{\link[=psi_dtw_cpp]{psi_dtw_cpp()}},
+\code{\link[=psi_equation_cpp]{psi_equation_cpp()}},
+\code{\link[=psi_ls_cpp]{psi_ls_cpp()}},
+\code{\link[=psi_null_dtw_cpp]{psi_null_dtw_cpp()}}
 }
 \concept{Rcpp_dissimilarity_analysis}

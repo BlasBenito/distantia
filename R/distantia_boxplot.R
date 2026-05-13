@@ -1,7 +1,7 @@
 #' Distantia Boxplot
 #'
 #' @description
-#' Boxplot of a data frame returned by [distantia()] summarizing the stats of the psi scores of each time series against all others.
+#' Boxplot of a data frame returned by [distantia()] showing the summary statistics of psi scores for each time series against all others.
 #'
 #' @inheritParams distantia_aggregate
 #' @param fill_color (optional, character vector) boxplot fill color. Default: NULL

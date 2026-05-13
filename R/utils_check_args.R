@@ -1,7 +1,7 @@
 #' Check Input Arguments of `momentum()`
 #'
 #' @inheritParams momentum
-#' @return list
+#' @return list.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -63,7 +63,7 @@ utils_check_args_momentum <- function(
   }
 
 
-  logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
+  logical_message <- "must be logical. Accepted values are: TRUE, FALSE, c(TRUE, FALSE)."
 
 
   #diagonal ----
@@ -121,7 +121,7 @@ utils_check_args_momentum <- function(
 #' Check Input Arguments of `distantia()`
 #'
 #' @inheritParams distantia
-#' @return list
+#' @return list.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -186,7 +186,7 @@ utils_check_args_distantia <- function(
   }
 
 
-  logical_message <- "must be logical. Accepted values are; TRUE, FALSE, c(TRUE, FALSE)."
+  logical_message <- "must be logical. Accepted values are: TRUE, FALSE, c(TRUE, FALSE)."
 
 
   #diagonal ----
@@ -217,6 +217,7 @@ utils_check_args_distantia <- function(
   }
 
   #repetitions ----
+  if(is.null(repetitions)) repetitions <- 0L
   if(!is.null(repetitions)){
 
     repetitions <- as.integer(repetitions)
@@ -252,7 +253,7 @@ utils_check_args_distantia <- function(
       #seed ----
       seed <- as.integer(seed)
       if(any(is.integer(seed) == FALSE)){
-        stop("distantia::utils_check_args_distantia(): argument 'block_size' must be a integer or a numeric vector.", call. = FALSE)
+        stop("distantia::utils_check_args_distantia(): argument 'seed' must be a integer or a numeric vector.", call. = FALSE)
       }
 
     } else {
@@ -281,10 +282,10 @@ utils_check_args_distantia <- function(
 
 #' Checks Least Cost Path
 #'
-#' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same time series used to compute the matrix `m`. Default: NULL.
-#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
+#' @param path (required, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path"`, and must have been computed from the same time series used to compute the matrix `m`. Default: NULL.
+#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL.
 #'
-#' @return data frame
+#' @return data frame.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -328,10 +329,10 @@ utils_check_args_path <- function(
 
 #' Checks Input Matrix
 #'
-#' @param m (required, matrix) distance or cost matrix resulting from [psi_distance_matrix()] or [psi_cost_matrix()]. Default: NULL
-#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
+#' @param m (required, matrix) distance or cost matrix resulting from [psi_distance_matrix()] or [psi_cost_matrix()]. Default: NULL.
+#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL.
 #'
-#' @return matrix
+#' @return matrix.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -382,10 +383,10 @@ utils_check_args_matrix <- function(
 #' Internal function to check that a time series list is a list of zoo objects and has a minimum number of objects. For a more comprehensive test, use [tsl_diagnose()].
 #'
 #'
-#' @param tsl (required, list) list of zoo objects. Default: NULL
-#' @param min_length (required, positive integer) minimum number of zoo objects in `tsl`. Default: 2
+#' @param tsl (required, list) list of zoo objects. Default: NULL.
+#' @param min_length (required, positive integer) minimum number of zoo objects in `tsl`. Default: 2.
 #'
-#' @return error messages (if any)
+#' @return Error messages, if any.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -425,10 +426,10 @@ utils_check_args_tsl <- function(
 
 #' Checks Argument x
 #'
-#' @param x (required, zoo object) zoo time series. Default: NULL
-#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL
+#' @param x (required, zoo object) zoo time series. Default: NULL.
+#' @param arg_name (optional, character string) name of the argument being checked. Default: NULL.
 #'
-#' @return zoo object
+#' @return zoo object.
 #' @export
 #' @autoglobal
 #' @family internal
@@ -450,7 +451,7 @@ utils_check_args_zoo <- function(
 #'
 #' @param distance (optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".
 #'
-#' @return character vector
+#' @return character vector.
 #' @export
 #' @autoglobal
 #' @examples

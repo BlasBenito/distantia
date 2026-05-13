@@ -10,7 +10,7 @@ utils_time_keywords(tsl = NULL)
 \item{tsl}{(required, list) Time series list. Default: NULL}
 }
 \value{
-Character string, aggregation keyword, or "none".
+Character string representing a valid aggregation keyword, or "none".
 }
 \description{
 Internal function to obtain valid aggregation keywords from a zoo object or a time series list.
@@ -83,13 +83,13 @@ utils_time_keywords(
 )
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_as_time}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_keywords_translate}()},
-\code{\link{utils_time_units}()}
+Other internal_time_handling:
+\code{\link[=utils_as_time]{utils_as_time()}},
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_new_time]{utils_new_time()}},
+\code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}},
+\code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}},
+\code{\link[=utils_time_units]{utils_time_units()}}
 }
 \concept{internal_time_handling}

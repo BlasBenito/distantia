@@ -18,12 +18,12 @@ numeric vector
 Auto Breaks for Matrix Plotting Functions
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_continuous}()},
-\code{\link{color_discrete}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()}
+Other internal_plotting:
+\code{\link[=color_continuous]{color_continuous()}},
+\code{\link[=color_discrete]{color_discrete()}},
+\code{\link[=utils_line_color]{utils_line_color()}},
+\code{\link[=utils_line_guide]{utils_line_guide()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}},
+\code{\link[=utils_matrix_plot]{utils_matrix_plot()}}
 }
 \concept{internal_plotting}

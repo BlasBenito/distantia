@@ -5,7 +5,7 @@
 \alias{cities_temperature}
 \title{Long Term Monthly Temperature in 20 Major Cities}
 \format{
-data frame with 3 columns and 52100 rows.
+A data frame with 3 columns and 52,100 rows.
 }
 \usage{
 data(cities_temperature)
@@ -20,7 +20,7 @@ The full dataset with 100 cities can be downloaded from \url{https://github.com/
 \examples{
 data("cities_temperature")
 
-#to time series list
+#Convert to time series list
 cities <- tsl_initialize(
   x = cities_temperature,
   name_column = "name",
@@ -30,7 +30,7 @@ cities <- tsl_initialize(
 #time series plot
 if(interactive()){
 
- #only four cities are shown
+ #Only four cities are shown
  tsl_plot(
   tsl = tsl_subset(
     tsl = tsl,
@@ -42,7 +42,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{covid_counties}},

@@ -9,7 +9,7 @@
 #'
 #' @param df (required, data frame) Output of [distantia()] or [distantia_time_delay()]. Default: NULL
 #' @param sf (required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in `df$x` and `df$y`. Default: NULL
-#' @param network (optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE
+#' @param network (optional, logical) If TRUE, the resulting sf data frame is of type LINESTRING and represents network edges. Default: TRUE
 #'
 #' @return sf data frame (LINESTRING geometry)
 #' @export
@@ -151,6 +151,17 @@ distantia_spatial <- function(
 
   sf_names <- names(sf_names[sf_names == TRUE])
 
+  if(length(sf_names) == 0){
+    stop(
+      f_name,
+      "no column in 'sf' contains all time series names from 'df'. ",
+      "Ensure 'sf' has a column with all time series names.",
+      call. = FALSE
+    )
+  }
+
+  sf_names <- sf_names[1]
+
   if(sf_names %in% colnames(df)){
     df[[sf_names]] <- NULL
   }
@@ -256,7 +267,7 @@ distantia_spatial <- function(
     by.y = sf_names
   )
 
-  colnames(df)[colnames(df) == "name"] <- "id_x"
+  colnames(df)[colnames(df) == "id"] <- "id_x"
 
   df <- merge(
     x = df,
@@ -265,7 +276,7 @@ distantia_spatial <- function(
     by.y = sf_names
   )
 
-  colnames(df)[colnames(df) == "name"] <- "id_y"
+  colnames(df)[colnames(df) == "id"] <- "id_y"
 
 
   # generate network ----
@@ -283,8 +294,8 @@ distantia_spatial <- function(
   ## generate lines list ----
   sf_lines_list <- mapply(
     FUN = points_to_line,
-    df$id.x,
-    df$id.y,
+    df$id_x,
+    df$id_y,
     MoreArgs = list(sf = sf)
   )
 
@@ -295,9 +306,20 @@ distantia_spatial <- function(
       crs = sf::st_crs(sf)
     )
 
+  ## warn about zero-length linestrings (identical coordinates)
+  zero_length <- !sf::st_is_valid(df_sf)
+  if(any(zero_length)){
+    bad_pairs <- paste(df$x[zero_length], "-", df$y[zero_length], collapse = ", ")
+    warning(
+      "distantia_spatial(): identical spatial coordinates produced degenerate (zero-length) linestrings for pair(s): ",
+      bad_pairs, ". Check the 'sf' input.",
+      call. = FALSE
+    )
+  }
+
   ## remove id columns
-  df_sf$id.x <- NULL
-  df_sf$id.y <- NULL
+  df_sf$id_x <- NULL
+  df_sf$id_y <- NULL
 
   ## create name column
   old_colnames <- colnames(df_sf)

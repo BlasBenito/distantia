@@ -5,7 +5,7 @@
 \alias{covid_counties}
 \title{County Coordinates of the Covid Prevalence Dataset}
 \format{
-sf data frame with county polygons and census data.
+An sf data frame with county polygons and census data.
 }
 \usage{
 data(covid_counties)
@@ -14,7 +14,7 @@ data(covid_counties)
 County Coordinates of the Covid Prevalence Dataset
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

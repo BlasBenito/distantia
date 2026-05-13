@@ -2,7 +2,7 @@
 % Please edit documentation in R/distantia_stats.R
 \name{distantia_stats}
 \alias{distantia_stats}
-\title{Stats of Dissimilarity Data Frame}
+\title{Summary Statistics of Dissimilarity Data Frame}
 \usage{
 distantia_stats(df = NULL)
 }
@@ -13,7 +13,7 @@ distantia_stats(df = NULL)
 data frame
 }
 \description{
-Takes the output of \code{\link[=distantia]{distantia()}} to return a data frame with one row per time series with the stats of its dissimilarity scores with all other time series.
+Computes summary statistics from the output of \code{\link[=distantia]{distantia()}}, returning a data frame with one row per time series and summary statistics of its dissimilarity scores with all other time series.
 }
 \examples{
 tsl <- tsl_simulate(
@@ -31,18 +31,18 @@ df_stats <- distantia_stats(df = df)
 df_stats
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

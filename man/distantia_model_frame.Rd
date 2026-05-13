@@ -15,7 +15,7 @@ distantia_model_frame(
 \arguments{
 \item{response_df}{(required, data frame) output of \code{\link[=distantia]{distantia()}}, \code{\link[=distantia_ls]{distantia_ls()}}, \code{\link[=distantia_dtw]{distantia_dtw()}}, or \code{\link[=distantia_time_delay]{distantia_time_delay()}}. Default: NULL}
 
-\item{predictors_df}{(required, data frame or sf data frame) data frame with numeric predictors for the the model frame. Must have a column with the time series names in \code{response_df$x} and \code{response_df$y}. If \code{sf} data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL}
+\item{predictors_df}{(required, data frame or sf data frame) Data frame with numeric predictors for the model frame. Must have a column with the time series names in \code{response_df$x} and \code{response_df$y}. If \code{sf} data frame, the column "geographic_distance" with distances between pairs of time series is added to the model frame. Default: NULL}
 
 \item{composite_predictors}{(optional, list) list defining composite predictors. For example, \code{composite_predictors = list(a = c("b", "c"))} uses the columns \code{"b"} and \code{"c"} from \code{predictors_df} to generate the predictor \code{a} as the multivariate distance between \code{"b"} and \code{"c"} for each pair of time series in \code{response_df}. Default: NULL}
 
@@ -40,7 +40,7 @@ The resulting data frame contains the following columns:
 \item \code{x} and \code{y}: names of the pair of time series represented in the row.
 \item response columns in \code{response_df}.
 \item predictors columns: representing the distance between the values of the given static predictor between \code{x} and \code{y}.
-\item (optional) \code{geographic_distance}: If \code{predictors_df} is an sf \code{sf} data frame, then geographic distances are computed via \code{\link[sf:geos_measures]{sf::st_distance()}}.
+\item (optional) \code{geographic_distance}: If \code{predictors_df} is an sf \code{sf} data frame, then geographic distances are computed via \code{\link[sf:st_distance]{sf::st_distance()}}.
 }
 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}.
@@ -100,18 +100,18 @@ attributes(model_frame)$formula
 
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

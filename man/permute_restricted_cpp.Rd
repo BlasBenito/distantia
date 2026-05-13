@@ -24,9 +24,9 @@ used if the sequence has dependent columns.
 Larger block sizes increasingly disrupt the data structure over time.
 }
 \seealso{
-Other Rcpp_permutation: 
-\code{\link{permute_free_by_row_cpp}()},
-\code{\link{permute_free_cpp}()},
-\code{\link{permute_restricted_by_row_cpp}()}
+Other Rcpp_permutation:
+\code{\link[=permute_free_by_row_cpp]{permute_free_by_row_cpp()}},
+\code{\link[=permute_free_cpp]{permute_free_cpp()}},
+\code{\link[=permute_restricted_by_row_cpp]{permute_restricted_by_row_cpp()}}
 }
 \concept{Rcpp_permutation}

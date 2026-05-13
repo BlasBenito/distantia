@@ -5,12 +5,12 @@
 #' @return list
 #' @export
 #' @examples
-#' #simulate zoo time series
+#' #Simulate zoo time series
 #' tsl <- tsl_simulate(
 #'   rows = 150
 #'   )
 #'
-#' #count rows
+#' #Count rows
 #' tsl_nrow(
 #'   tsl = tsl
 #' )

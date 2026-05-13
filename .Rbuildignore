@@ -21,3 +21,4 @@ vignettes/*
 man/figures/*
 bibliography/*
 ^CLAUDE\.md$
+.claude/*

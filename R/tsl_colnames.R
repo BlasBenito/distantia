@@ -1,4 +1,4 @@
-#' Get Column Names from a Time Series Lists
+#' Get Column Names from Time Series Lists
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (optional, character string) Three different sets of column names can be requested:
@@ -138,7 +138,7 @@ tsl_colnames_get <- function(
 }
 
 
-#' Set Column Names in Time Series Lists
+#' Set Column Names in a Time Series List
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param names (required, list or character vector):
@@ -282,7 +282,7 @@ tsl_colnames_set <- function(
 #' The cleanup operations are applied in the following order:
 #' \itemize{
 #'   \item Remove leading and trailing whitespaces.
-#'   \item Generates syntactically valid names with [base::make.names()].
+#'   \item Generate syntactically valid names with [base::make.names()].
 #'   \item Replaces dots and spaces with the `separator`.
 #'   \item Coerces names to lowercase.
 #'   \item If `capitalize_first = TRUE`, the first letter is capitalized.
@@ -296,11 +296,11 @@ tsl_colnames_set <- function(
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
-#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
-#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
+#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name. Default: FALSE.
+#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name. Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
 #' @param suffix (optional, character string) String to append to the column names. Default: NULL.
-#' @param prefix (optional, character string)  String to prepend to the column names. Default: NULL.
+#' @param prefix (optional, character string) String to prepend to the column names. Default: NULL.
 #'
 #' @return time series list
 #'

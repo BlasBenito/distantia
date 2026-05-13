@@ -5,7 +5,7 @@
 #'
 #' @param x (required, zoo object) Time series to smooth Default: NULL
 #' @param window (optional, integer) Smoothing window width, in number of cases. Default: 3
-#' @param f (optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param f (optional, quoted or unquoted function name) Name of a function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
 #' @param ... (optional, additional arguments) additional arguments to `f`.
 #'
 #' @return zoo object

@@ -1,6 +1,7 @@
 #' Distance Between Two Numeric Vectors
 #'
-#' @description Computes the distance between two numeric vectors with a distance metric included in the data frame `distantia::distances`.
+#' @description
+#' Computes the distance between two numeric vectors using a distance metric included in the data frame `distantia::distances`.
 #' @param x (required, numeric vector).
 #' @param y (required, numeric vector) of same length as `x`.
 #' @param distance (optional, character string) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset `distances`. Default: "euclidean".

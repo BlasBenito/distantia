@@ -16,11 +16,11 @@ utils_line_guide(
 )
 }
 \arguments{
-\item{x}{(required, sequence) a zoo time series or a time series list. Default: NULL}
+\item{x}{(required, sequence) a zoo object or a time series list. Default: NULL}
 
 \item{position}{(optional, vector of xy coordinates or character string). This is a condensed version of the \code{x} and \code{y} arguments of the \code{\link[graphics:legend]{graphics::legend()}} function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".}
 
-\item{line_color}{(optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:hcl.colors]{grDevices::hcl.colors()}}. Default: NULL}
 
 \item{line_width}{(optional, numeric vector) Widths of the time series lines. Default: 1}
 
@@ -28,7 +28,7 @@ utils_line_guide(
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 0.7}
 
-\item{guide_columns}{(optional, integer) Number of columns in which to set the legend items. Default: 1.}
+\item{guide_columns}{(optional, integer) number of columns for the legend items. Default: 1.}
 
 \item{subpanel}{(optional, logical) internal argument used when generating the multipanel plot produced by \code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}}.}
 }
@@ -54,12 +54,12 @@ if(interactive()){
 
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_continuous}()},
-\code{\link{color_discrete}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()}
+Other internal_plotting:
+\code{\link[=color_continuous]{color_continuous()}},
+\code{\link[=color_discrete]{color_discrete()}},
+\code{\link[=utils_color_breaks]{utils_color_breaks()}},
+\code{\link[=utils_line_color]{utils_line_color()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}},
+\code{\link[=utils_matrix_plot]{utils_matrix_plot()}}
 }
 \concept{internal_plotting}

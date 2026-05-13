@@ -20,7 +20,7 @@ tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 \itemize{
 \item \code{name} (string): time series name.
 \item \code{rows} (integer): number of observations.
-\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric."
+\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric"
 \item \code{units} (string): units of the time series.
 \item \code{length} (numeric): total length of the time series expressed in \code{units}.
 \item \code{resolution} (numeric): average interval between observations expressed in \code{units}.
@@ -30,7 +30,7 @@ tsl_time_summary(tsl = NULL, keywords = c("resample", "aggregate"))
 }
 \item \code{\link[=tsl_time_summary]{tsl_time_summary()}}: list with the following objects:
 \itemize{
-\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric."
+\item \code{class} (string): time class, one of "Date", "POSIXct", or "numeric"
 \item \code{units} (string): units of the time series.
 \item \code{begin} (date or numeric): begin time of the time series.
 \item \code{end} (date or numeric): end time of the time series.
@@ -73,25 +73,25 @@ tsl_time_summary(
 )
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

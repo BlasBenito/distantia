@@ -1,4 +1,4 @@
-#' Translates The User's Time Keywords Into Valid Ones
+#' Translate User Time Keywords Into Valid Ones
 #'
 #' @description
 #' Internal function to translate misnamed or abbreviated keywords into valid ones. Uses [utils_time_keywords_dictionary()] as reference dictionary.
@@ -6,7 +6,7 @@
 #'
 #' @param keyword (optional, character string) A time keyword such as "day". Default: NULL
 #'
-#' @return Time keyword.
+#' @return A valid time keyword.
 #' @export
 #' @autoglobal
 #' @examples

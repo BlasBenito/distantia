@@ -1,12 +1,12 @@
 #' Guide for Time Series Plots
 #'
-#' @param x (required, sequence) a zoo time series or a time series list. Default: NULL
+#' @param x (required, sequence) a zoo object or a time series list. Default: NULL
 #' @param position (optional, vector of xy coordinates or character string). This is a condensed version of the `x` and `y` arguments of the [graphics::legend()] function. Coordinates (in the range 0 1) or keyword to position the legend. Accepted keywords are: "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center". Default: "topright".
 #' @param line_color (optional, character vector) vector of colors for the time series columns. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
 #' @param line_width (optional, numeric vector) Widths of the time series lines. Default: 1
 #' @param length (optional, numeric) maps to the argument `seg.len` of [graphics::legend()]. Length of the lines drawn in the legend. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 0.7
-#' @param guide_columns (optional, integer) Number of columns in which to set the legend items. Default: 1.
+#' @param guide_columns (optional, integer) number of columns for the legend items. Default: 1.
 #' @param subpanel (optional, logical) internal argument used when generating the multipanel plot produced by [distantia_dtw_plot()].
 #'
 #' @return plot

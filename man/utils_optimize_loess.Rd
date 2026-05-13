@@ -17,7 +17,7 @@ utils_optimize_loess(x = NULL, y = NULL, max_complexity = FALSE)
 Loess model.
 }
 \description{
-Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds the \code{span} parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing.) model \code{y ~ x} fitted with \code{\link[stats:loess]{stats::loess()}} that minimizes the root mean squared error (rmse) between observations and predictions, and returns a model fitted with such \code{span}.
+Internal function used in \code{\link[=zoo_resample]{zoo_resample()}}. It finds the \code{span} parameter of a univariate Loess (Locally Estimated Scatterplot Smoothing) model \code{y ~ x} fitted with \code{\link[stats:loess]{stats::loess()}} that minimizes the root mean squared error (RMSE) between observations and predictions, and returns a model fitted with such \code{span}.
 }
 \examples{
 
@@ -27,7 +27,7 @@ xy <- zoo_simulate(
   rows = 30
 )
 
-#optimize loess model
+#optimize Loess model
 m <- utils_optimize_loess(
   x = as.numeric(zoo::index(xy)), #predictor
   y = xy[, 1] #response
@@ -56,10 +56,10 @@ points(
 
 }
 \seealso{
-Other tsl_processing_internal: 
-\code{\link{utils_drop_geometry}()},
-\code{\link{utils_global_scaling_params}()},
-\code{\link{utils_optimize_spline}()},
-\code{\link{utils_rescale_vector}()}
+Other tsl_processing_internal:
+\code{\link[=utils_drop_geometry]{utils_drop_geometry()}},
+\code{\link[=utils_global_scaling_params]{utils_global_scaling_params()}},
+\code{\link[=utils_optimize_spline]{utils_optimize_spline()}},
+\code{\link[=utils_rescale_vector]{utils_rescale_vector()}}
 }
 \concept{tsl_processing_internal}

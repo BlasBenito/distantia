@@ -24,19 +24,19 @@ zoo_plot(
 \arguments{
 \item{x}{(required, zoo object) zoo time series. Default: NULL}
 
-\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}. Default: NULL}
 
 \item{line_width}{(optional, numeric vector) Width of the time series lines. Default: 1}
 
 \item{xlim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
 
-\item{ylim}{(optional, numeric vector) Numeric vector with the limits of the x axis. Default: NULL}
+\item{ylim}{(optional, numeric vector) Numeric vector with the limits of the y axis. Default: NULL}
 
 \item{title}{(optional, character string) Main title of the plot. If NULL, it's set to the name of the time series. Default: NULL}
 
 \item{xlab}{(optional, character string) Title of the x axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, the word "Time" is used. Default: NULL}
 
-\item{ylab}{(optional, character string) Title of the x axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, it is left empty. Default: NULL}
+\item{ylab}{(optional, character string) Title of the y axis. Disabled if \code{subpanel} or \code{vertical} are TRUE. If NULL, it is left empty. Default: NULL}
 
 \item{text_cex}{(optional, numeric) Multiplicator of the text size. Default: 1}
 
@@ -73,18 +73,18 @@ if(interactive()){
 }
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_smooth_exponential}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_name_set]{zoo_name_set()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_resample]{zoo_resample()}},
+\code{\link[=zoo_smooth_exponential]{zoo_smooth_exponential()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_time]{zoo_time()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}},
+\code{\link[=zoo_vector_to_matrix]{zoo_vector_to_matrix()}}
 }
 \concept{zoo_functions}
 \keyword{plotting}

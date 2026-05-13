@@ -14,7 +14,7 @@
 #'
 #' Time series resampling \strong{should not be used} to extrapolate new values outside of the original time range of the time series, or to increase the resolution of a time series by a factor of two or more. These operations are known to produce non-sensical results.
 #'
-#' \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end " of the data frame resulting from `df <- tsl_time(tsl = tsl)`. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of `tsl` one by one either using [tsl_subset()] or the syntax `tsl = my_tsl[[i]]`.
+#' \strong{Warning}: This function resamples time series lists \strong{with overlapping times}. Please check such overlap by assessing the columns "begin" and "end" of the data frame resulting from `df <- tsl_time(tsl = tsl)`. Resampling will be limited by the shortest time series in your time series list. To resample non-overlapping time series, please subset the individual components of `tsl` one by one either using [tsl_subset()] or the syntax `tsl = my_tsl[[i]]`.
 #'
 #' \strong{Methods}
 #'
@@ -39,7 +39,7 @@
 #'   \item `zoo object`: a zoo object to be used as template for resampling. Useful when the objective is equalizing the frequency of two separate zoo objects.
 #'   \item `time series list`: a time series list to be used as template. The range of overlapping dates and the average resolution are used to generate the new resampling time. This method cannot be used to align two time series lists, unless the template is resampled beforehand.
 #'   \item `time vector`: a time vector of a class compatible with the time in `x`.
-#'   \item `keyword`: character string defining a resampling keyword, obtained via `zoo_time(x, keywords = "resample")$keywords`..
+#'   \item `keyword`: character string defining a resampling keyword, obtained via `zoo_time(x, keywords = "resample")$keywords`.
 #'   \item `numeric`: a single number representing the desired interval between consecutive samples in the units of `x` (relevant units can be obtained via `zoo_time(x)$units`).
 #' }
 #'
@@ -51,7 +51,7 @@
 #' \enumerate{
 #'   \item The time interpolation range is computed from the intersection of all times in `tsl`. This step ensures that no extrapolation occurs during resampling, but it also makes resampling of non-overlapping time series impossible.
 #'   \item If `new_time` is provided, any values of `new_time` outside of the minimum and maximum interpolation times are removed to avoid extrapolation. If `new_time` is not provided, a regular time within the interpolation time range with the length of the shortest time series in `tsl` is generated.
-#'   \item For each univariate time time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
+#'   \item For each univariate time series, a model `y ~ x`, where `y` is the time series and `x` is its own time coerced to numeric is fitted.
 #'   \itemize{
 #'    \item If `max_complexity == FALSE`, the model with the complexity that minimizes the root mean squared error between the observed and predicted `y` is returned.
 #'    \item If `max_complexity == TRUE` and `method = "spline"` or `method = "loess"`, the first valid model closest to a maximum complexity is returned.
@@ -168,7 +168,7 @@
 #'   tsl_plot(tsl_15_days)
 #' }
 #'
-#' #aligning two time series listsç
+#' #Aligning two time series lists
 #'
 #' #two time series lists with different time ranges
 #' tsl1 <- tsl_simulate(

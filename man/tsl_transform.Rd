@@ -127,10 +127,10 @@ if(interactive()){
 
 }
 \seealso{
-Other tsl_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_smooth}()},
-\code{\link{tsl_stats}()}
+Other tsl_processing:
+\code{\link[=tsl_aggregate]{tsl_aggregate()}},
+\code{\link[=tsl_resample]{tsl_resample()}},
+\code{\link[=tsl_smooth]{tsl_smooth()}},
+\code{\link[=tsl_stats]{tsl_stats()}}
 }
 \concept{tsl_processing}

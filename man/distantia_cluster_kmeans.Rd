@@ -16,7 +16,7 @@ distantia_cluster_kmeans(df = NULL, clusters = NULL, seed = 1)
 \value{
 list:
 \itemize{
-\item \code{cluster_object}: kmeans object object for further analyses and custom plotting.
+\item \code{cluster_object}: kmeans object for further analyses and custom plotting.
 \item \code{clusters}: integer, number of clusters.
 \item \code{silhouette_width}: mean silhouette width of the clustering solution.
 \item \code{df}: data frame with time series names, their cluster label, and their individual silhouette width scores.
@@ -94,18 +94,18 @@ distantia_kmeans$silhouette_width
 # )
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

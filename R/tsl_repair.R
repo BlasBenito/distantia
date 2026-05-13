@@ -7,7 +7,7 @@
 #'
 #' Structure:
 #' \itemize{
-#'   \item The list names match the attributes "name" of the zoo time series
+#'   \item The list names match the attributes "name" of the zoo time series.
 #'   \item All zoo time series must have at least one shared column name.
 #'   \item Data in univariate zoo time series (as extracted by `zoo::coredata(x)`) must be of the class "matrix". Univariate zoo time series are often represented as vectors, but this breaks several subsetting and transformation operations implemented in this package.
 #' }
@@ -18,11 +18,11 @@
 #'   \item There are no NA, Inf, or NaN values in the time series.
 #' }
 #'
-#' This function analyzes a `tsl`, and tries to fix all possible issues to make it comply with the conditions listed above without any user input. Use with care, as it might defile your data.
+#' This function analyzes a `tsl` and tries to fix all possible issues to make it comply with the conditions listed above without any user input. Use with care, as it might modify your data.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
-#' @param full (optional, logical) If TRUE, a full repair (structure and values) is triggered. Otherwise, only the data structure is repaired Default: TRUE
+#' @param full (optional, logical) If TRUE, a full repair (structure and values) is triggered. Otherwise, only the data structure is repaired. Default: TRUE
 #'
 #' @return time series list
 #' @export
@@ -38,7 +38,7 @@
 #'   )
 #'
 #' #with different number of columns
-#' #wit repeated name
+#' #with repeated name
 #' y <- zoo_simulate(
 #'   name = "x",
 #'   cols = 2

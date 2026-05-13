@@ -109,13 +109,13 @@ tsl_aggregated <- tsl_aggregate(
 )
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_as_time}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_keywords_translate}()},
-\code{\link{utils_time_units}()}
+Other internal_time_handling:
+\code{\link[=utils_as_time]{utils_as_time()}},
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_time_keywords]{utils_time_keywords()}},
+\code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}},
+\code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}},
+\code{\link[=utils_time_units]{utils_time_units()}}
 }
 \concept{internal_time_handling}

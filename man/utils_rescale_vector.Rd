@@ -17,11 +17,11 @@ utils_rescale_vector(
 
 \item{new_min}{(optional, numeric) New minimum value. Default: \code{0}}
 
-\item{new_max}{(optional_numeric) New maximum value. Default: \code{1}}
+\item{new_max}{(optional, numeric) New maximum value. Default: \code{1}}
 
 \item{old_min}{(optional, numeric) Old minimum value. Default: \code{NULL}}
 
-\item{old_max}{(optional_numeric) Old maximum value. Default: \code{NULL}}
+\item{old_max}{(optional, numeric) Old maximum value. Default: \code{NULL}}
 }
 \value{
 numeric vector
@@ -41,10 +41,10 @@ Rescale Numeric Vector to a New Data Range
 
 }
 \seealso{
-Other tsl_processing_internal: 
-\code{\link{utils_drop_geometry}()},
-\code{\link{utils_global_scaling_params}()},
-\code{\link{utils_optimize_loess}()},
-\code{\link{utils_optimize_spline}()}
+Other tsl_processing_internal:
+\code{\link[=utils_drop_geometry]{utils_drop_geometry()}},
+\code{\link[=utils_global_scaling_params]{utils_global_scaling_params()}},
+\code{\link[=utils_optimize_loess]{utils_optimize_loess()}},
+\code{\link[=utils_optimize_spline]{utils_optimize_spline()}}
 }
 \concept{tsl_processing_internal}

@@ -16,35 +16,35 @@ list
 Get Number of Columns in Time Series Lists
 }
 \examples{
-#initialize time series list
+#Initialize time series list
 tsl <- tsl_simulate(
   n = 2,
   cols = 6
 )
 
-#number of columns per zoo object
+#Number of columns per zoo object
 tsl_ncol(tsl = tsl)
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

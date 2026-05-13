@@ -8,23 +8,23 @@
 #' \item Time delay from `x` to `y`: `time(y) - time(x)`.
 #' \item Time delay from `y` to `x`: `time(x) - time(y)`
 #'}
-#' In such case, two rows per pair of time series are returend. Otherwise, the time delay is computed as `abs(time(y) - time(x))`, and only one row per pair of time series is returned.
+#' In such case, two rows per pair of time series are returned. Otherwise, the time delay is computed as `abs(time(y) - time(x))`, and only one row per pair of time series is returned.
 #'
-#' If the time series have more than 30 observations, a 5% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
+#' If the time series have more than 30 observations, 5% of cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
 #'
-#' The function returns a data frame with the names of the time series in the columns *x* and *y*, and the stats of the time-delay. The modal and the median are the most generally accurate time-delay metrics
+#' The function returns a data frame with the names of the time series in columns *x* and *y*, and summary statistics of the time delay. The mode and median are generally the most accurate time-delay metrics.
 #'
-#' This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
+#' This function requires scaled and detrended time series. It may yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot()] is a good approach to identify these cases.
 #'
 #' @inheritParams distantia
-#' @param directional (optional, logical) If TRUE, a directional time-delay is computed as `x to y` and `y to x`, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of de delay between `x` and `y` is returned a a single row per pair. Default: TRUE
+#' @param directional (optional, logical) If TRUE, a directional time delay is computed as `x to y` and `y to x`, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of the delay between `x` and `y` is returned as a single row per pair. Default: TRUE
 #'
 #' @return data frame
 #' @export
 #' @autoglobal
 #' @examples
 #' #load two long-term temperature time series
-#' #local scaling to focus in shape rather than values
+#' #local scaling to focus on shape rather than values
 #' #polynomial detrending to make them stationary
 #' tsl <- tsl_init(
 #'   x = cities_temperature[
@@ -220,7 +220,7 @@ distantia_time_delay <- function(
       na.rm = TRUE
     )
 
-    df.i[["q3"]][1] <- stats::quantile(
+    df.i[["q3"]] <- stats::quantile(
       x = delay.x_to_y,
       na.rm = TRUE,
       probs = 0.75

@@ -9,7 +9,7 @@ momentum_aggregate(df = NULL, f = mean, ...)
 \arguments{
 \item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 
-\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
+\item{f}{(optional, function) Function to summarize importance scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
 \item{...}{(optional, arguments of \code{f}) Further arguments to pass to the function \code{f}.}
 }
@@ -19,7 +19,7 @@ data frame
 \description{
 The function \code{\link[=momentum]{momentum()}} allows variable importance assessments based on several combinations of arguments at once. For example, when the argument \code{distance} is set to \code{c("euclidean", "manhattan")}, the output data frame will show two importance scores for each pair of compared time series and variable, one based on euclidean distances, and another based on manhattan distances.
 
-This function computes importance stats across combinations of parameters.
+This function computes importance statistics across combinations of parameters.
 
 If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
 }
@@ -66,11 +66,11 @@ df <- momentum_aggregate(
 df
 }
 \seealso{
-Other momentum_support: 
-\code{\link{momentum_boxplot}()},
-\code{\link{momentum_model_frame}()},
-\code{\link{momentum_spatial}()},
-\code{\link{momentum_stats}()},
-\code{\link{momentum_to_wide}()}
+Other momentum_support:
+\code{\link[=momentum_boxplot]{momentum_boxplot()}},
+\code{\link[=momentum_model_frame]{momentum_model_frame()}},
+\code{\link[=momentum_spatial]{momentum_spatial()}},
+\code{\link[=momentum_stats]{momentum_stats()}},
+\code{\link[=momentum_to_wide]{momentum_to_wide()}}
 }
 \concept{momentum_support}

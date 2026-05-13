@@ -15,9 +15,9 @@ utils_cluster_kmeans_optimizer(d = NULL, seed = 1)
 data frame
 }
 \description{
-Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with a higher silhouette width median. See \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}} for more details.
+Generates k-means solutions from 2 to \code{nrow(d) - 1} number of clusters and returns the number of clusters with the highest silhouette width median. See \code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}} for more details.
 
-This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
+This function supports parallelization via \code{\link[future:plan]{future::plan()}} and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
 \examples{
 
@@ -65,18 +65,18 @@ head(kmeans_optimization)
 
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

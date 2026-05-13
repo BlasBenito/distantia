@@ -24,7 +24,7 @@ tsl_init(x = NULL, name_column = NULL, time_column = NULL, lock_step = FALSE)
 \item{lock_step}{(optional, logical) If TRUE, all input sequences are subsetted to their common times according to the values in \code{time_column}.}
 }
 \value{
-list of matrices
+list of zoo objects (a time series list)
 }
 \description{
 Most functions in this package take a \strong{time series list} (or \strong{tsl} for short) as main input. A \code{tsl} is a list of zoo time series objects (see \code{\link[zoo:zoo]{zoo::zoo()}}). There is not a formal class for \code{tsl} objects, but there are requirements these objects must follow to ensure the stability of the package functionalities (see \code{\link[=tsl_diagnose]{tsl_diagnose()}}). These requirements are:
@@ -43,7 +43,7 @@ The function \code{\link[=tsl_initialize]{tsl_initialize()}} (and its alias \cod
 \item Wide data frame: each column is a time series representing the same variable observed at the same time in different places. Each column is converted to a separate zoo object and renamed.
 \item List of vectors: an object like \code{list(a = runif(10), b = runif(10))} is converted to a time series list with as many zoo objects as vectors are defined in the original list.
 \item List of matrices: a list containing matrices, such as \code{list(a = matrix(runif(30), 10, 3), b = matrix(runif(36), 12, 3))}.
-\item List of zoo objects: a list with zoo objects, such as \code{list(a = zoo_simulate(), b = zoo_simulate())}
+\item List of zoo objects: a list with zoo objects, such as \code{list(a = zoo_simulate(), b = zoo_simulate())}.
 }
 }
 \examples{

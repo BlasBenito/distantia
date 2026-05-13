@@ -17,11 +17,12 @@ data frame:
 \item \code{x}: time series name.
 \item \code{y}: time series name.
 \item \code{distance}: name of the distance metric.
+\item \code{lock_step}: always \code{TRUE}; flags this result as lock-step.
 \item \code{psi}: psi dissimilarity of the sequences \code{x} and \code{y}.
 }
 }
 \description{
-Minimalistic but slightly faster version of \code{\link[=distantia]{distantia()}} to compute lock-step dissimilarity scores.
+A minimalistic but slightly faster version of \code{\link[=distantia]{distantia()}} that computes lock-step dissimilarity scores.
 }
 \examples{
 
@@ -54,9 +55,9 @@ df_ls
 
 }
 \seealso{
-Other distantia: 
-\code{\link{distantia}()},
-\code{\link{distantia_dtw}()},
-\code{\link{distantia_dtw_plot}()}
+Other distantia:
+\code{\link[=distantia]{distantia()}},
+\code{\link[=distantia_dtw]{distantia_dtw()}},
+\code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}}
 }
 \concept{distantia}

@@ -4,20 +4,20 @@
 #'
 #' The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation).
 #'
-#' There are some general guidelines to interpret the  individual silhouette widths of the clustered objects (as returned by this function when `mean = FALSE`):
+#' There are some general guidelines to interpret the individual silhouette widths of the clustered objects (as returned by this function when `mean = FALSE`):
 #'
 #' \itemize{
 #'   \item Close to 1: object is well matched to its own cluster and poorly matched to neighboring clusters.
-#'   \item Close to 0: the object is between two neighboring clusters.
-#'   \item Close to -1: the object is likely to be assigned to the wrong cluster
+#'   \item Values near 0: the object is between two neighboring clusters.
+#'   \item Values near -1: the object is likely to be assigned to the wrong cluster.
 #' }
 #'
 #' When `mean = TRUE`, the overall mean of the silhouette widths of all objects is returned. These values should be interpreted as follows:
 #'
 #' \itemize{
-#'  \item Higher than 0.7: robust clustering .
-#'  \item Higher than 0.5: reasonable clustering.
-#'  \item Higher than 0.25: weak clustering.
+#'  \item Higher than 0.7: robust clustering solution.
+#'  \item Higher than 0.5: reasonable clustering solution.
+#'  \item Higher than 0.25: weak clustering solution.
 #'
 #' }
 #'
@@ -132,6 +132,18 @@ utils_cluster_silhouette <- function(
 
   if(length(labels) != ncol(d)){
     stop("distantia::utils_cluster_silhouette(): argument 'labels' must have the same length as ncol(d) or nrow(d).", call. = FALSE)
+  }
+
+  if(length(unique(labels)) == 1L){
+    if(isTRUE(mean)) return(NA_real_)
+    label_names <- names(labels)
+    if(is.null(label_names)) label_names <- as.character(seq_along(labels))
+    return(data.frame(
+      name = label_names,
+      cluster = unname(labels),
+      silhouette_width = NA_real_,
+      stringsAsFactors = FALSE
+    ))
   }
 
   labels_length <- length(labels)

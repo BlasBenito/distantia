@@ -34,7 +34,7 @@ utils_matrix_plot(
 
 \item{ylab}{(optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix \code{m}. Default: NULL}
 
-\item{text_cex}{(optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1}
+\item{text_cex}{(optional, numeric) multiplier of the text size for the plot labels and titles. Default: 1}
 
 \item{path}{(optional, data frame) least cost path generated with \code{\link[=psi_cost_path]{psi_cost_path()}}. This data frame must have the attribute \verb{type == "cost_path}, and must have been computed from the same sequences used to compute the matrix \code{m}. Default: NULL.}
 
@@ -90,12 +90,12 @@ if(interactive()){
 }
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_continuous}()},
-\code{\link{color_discrete}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()}
+Other internal_plotting:
+\code{\link[=color_continuous]{color_continuous()}},
+\code{\link[=color_discrete]{color_discrete()}},
+\code{\link[=utils_color_breaks]{utils_color_breaks()}},
+\code{\link[=utils_line_color]{utils_line_color()}},
+\code{\link[=utils_line_guide]{utils_line_guide()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}}
 }
 \concept{internal_plotting}

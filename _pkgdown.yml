@@ -7,8 +7,8 @@ llm-docs: false
 
 template:
   bootstrap: 5
-  bootswatch: lumen
-  theme: atom-one-light
+  bootswatch: journal
+  theme: a11y-light
   fonts:
     heading: Montserrat
     body: Montserrat
@@ -20,22 +20,26 @@ authors:
 
 articles:
 
-- title: "Tutorials"
-  navbar: "Tutorials"
+- title: Tutorials
+  navbar: Tutorials
   contents:
   - articles/dynamic_time_warping_and_lock_step
   - articles/time_series_lists
   - articles/mapping_dissimilarity
 
-- title: "Articles"
-  navbar: "Articles"
+- title: Impact
+  navbar: Impact
+  contents:
+  - articles/download_history
+  - articles/distantia_in_the_wild
+
+- title: Articles
+  navbar: Articles
   contents:
   - distantia_gentle_intro
   - distantia_epidemiology
   - dtw_from_scratch
   - articles/dtw_applications
-  - articles/distantia_in_the_wild
-  - articles/download_history
 
 - title: "Original Paper"
   navbar: "Original Paper"

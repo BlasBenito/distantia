@@ -5,9 +5,9 @@
 #' The cleanup operations are applied in the following order:
 #' \itemize{
 #'   \item Remove leading and trailing whitespaces.
-#'   \item Generates syntactically valid names with [base::make.names()].
-#'   \item Replaces dots and spaces with the `separator`.
-#'   \item Coerces names to lowercase.
+#'   \item Generate syntactically valid names with [base::make.names()].
+#'   \item Replace dots and spaces with the `separator`.
+#'   \item Coerce names to lowercase.
 #'   \item If argument `length` is provided, [base::abbreviate()] is used to abbreviate the new column names.
 #'   \item If `suffix` is provided, it is added at the end of the column name using the separator.
 #'   \item If `prefix` is provided, it is added at the beginning of the column name using the separator.
@@ -15,16 +15,16 @@
 #'   \item If `capitalize_all = TRUE`, all letters are capitalized.
 #' }
 #'
-#' @param x (required, character vector) Names to be cleaned. Default: NULL
-#' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
+#' @param x (required, character vector) Names to be cleaned. Default: NULL.
+#' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE.
 #' @param separator (optional, character string) Separator when replacing spaces and dots and appending `suffix` and `prefix` to the main word. Default: "_".
-#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
-#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
+#' @param capitalize_first (optional, logical) Capitalize the first letter of each name. Default: FALSE.
+#' @param capitalize_all (optional, logical) Capitalize all letters of each name. Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
 #' @param suffix (optional, character string) String to append to the cleaned names. Default: NULL.
-#' @param prefix (optional, character string)  String to prepend to the cleaned names. Default: NULL.
+#' @param prefix (optional, character string) String to prepend to the cleaned names. Default: NULL.
 #'
-#' @return character vector
+#' @return A character vector.
 #' @autoglobal
 #' @export
 #' @examples

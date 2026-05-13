@@ -4,12 +4,12 @@
 #'
 #' The function [momentum()] allows variable importance assessments based on several combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two importance scores for each pair of compared time series and variable, one based on euclidean distances, and another based on manhattan distances.
 #'
-#' This function computes importance stats across combinations of parameters.
+#' This function computes importance statistics across combinations of parameters.
 #'
 #' If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
 #'
 #' @param df (required, data frame) Output of [momentum()], [momentum_ls()], or [momentum_dtw()]. Default: NULL
-#' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
+#' @param f (optional, function) Function to summarize importance scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
 #' @param ... (optional, arguments of `f`) Further arguments to pass to the function `f`.
 #'
 #' @return data frame

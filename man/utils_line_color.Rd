@@ -15,15 +15,15 @@ utils_line_color(x = NULL, line_color = NULL)
 color vector
 }
 \description{
-This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.
+Internal function that can be used to better understand how line colors are handled within other plotting functions.
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_continuous}()},
-\code{\link{color_discrete}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()}
+Other internal_plotting:
+\code{\link[=color_continuous]{color_continuous()}},
+\code{\link[=color_discrete]{color_discrete()}},
+\code{\link[=utils_color_breaks]{utils_color_breaks()}},
+\code{\link[=utils_line_guide]{utils_line_guide()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}},
+\code{\link[=utils_matrix_plot]{utils_matrix_plot()}}
 }
 \concept{internal_plotting}

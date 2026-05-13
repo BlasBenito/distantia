@@ -11,7 +11,7 @@ momentum_boxplot(df = NULL, fill_color = NULL, f = median, text_cex = 1)
 
 \item{fill_color}{(optional, character vector) boxplot fill color. Default: NULL}
 
-\item{f}{(optional, function) Function to summarize psi scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
+\item{f}{(optional, function) Function to summarize importance scores (for example, \code{mean}) when there are several combinations of parameters in \code{df}. Ignored when there is a single combination of arguments in the input. Default: \code{mean}}
 
 \item{text_cex}{(optional, numeric) Multiplier of the text size. Default: 1}
 }
@@ -19,7 +19,7 @@ momentum_boxplot(df = NULL, fill_color = NULL, f = median, text_cex = 1)
 boxplot
 }
 \description{
-Boxplot of a data frame returned by \code{\link[=momentum]{momentum()}} summarizing the contribution to similarity (negative) and/or dissimilarity (positive) of individual variables across all time series.
+Creates a boxplot of a data frame returned by \code{\link[=momentum]{momentum()}}, summarizing the contribution to similarity (negative) and/or dissimilarity (positive) of individual variables across all time series.
 }
 \examples{
 tsl <- tsl_initialize(
@@ -41,11 +41,11 @@ momentum_boxplot(
   )
 }
 \seealso{
-Other momentum_support: 
-\code{\link{momentum_aggregate}()},
-\code{\link{momentum_model_frame}()},
-\code{\link{momentum_spatial}()},
-\code{\link{momentum_stats}()},
-\code{\link{momentum_to_wide}()}
+Other momentum_support:
+\code{\link[=momentum_aggregate]{momentum_aggregate()}},
+\code{\link[=momentum_model_frame]{momentum_model_frame()}},
+\code{\link[=momentum_spatial]{momentum_spatial()}},
+\code{\link[=momentum_stats]{momentum_stats()}},
+\code{\link[=momentum_to_wide]{momentum_to_wide()}}
 }
 \concept{momentum_support}

@@ -1,10 +1,9 @@
 #' Optimize the Silhouette Width of K-Means Clustering Solutions
 #'
 #' @description
-#' Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with a higher silhouette width median. See [utils_cluster_silhouette()] for more details.
+#' Generates k-means solutions from 2 to `nrow(d) - 1` number of clusters and returns the number of clusters with the highest silhouette width median. See [utils_cluster_silhouette()] for more details.
 #'
-#' This function supports a parallelization setup via [future::plan()], and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
-#'
+#' This function supports parallelization via [future::plan()] and progress bars provided by the package [progressr](https://CRAN.R-project.org/package=progressr).
 #'
 #' @param d (required, matrix) distance matrix typically resulting from [distantia_matrix()], but any other square matrix should work. Default: NULL
 #' @param seed (optional, integer) Random seed to be used during the K-means computation. Default: 1

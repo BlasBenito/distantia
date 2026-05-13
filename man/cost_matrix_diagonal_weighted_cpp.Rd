@@ -17,10 +17,10 @@ Computes the least cost matrix from a distance matrix.
 Weights diagonals by a factor of 1.414214 (square root of 2) with respect to orthogonal paths.
 }
 \seealso{
-Other Rcpp_matrix: 
-\code{\link{cost_matrix_diagonal_cpp}()},
-\code{\link{cost_matrix_orthogonal_cpp}()},
-\code{\link{distance_ls_cpp}()},
-\code{\link{distance_matrix_cpp}()}
+Other Rcpp_matrix:
+\code{\link[=cost_matrix_diagonal_cpp]{cost_matrix_diagonal_cpp()}},
+\code{\link[=cost_matrix_orthogonal_cpp]{cost_matrix_orthogonal_cpp()}},
+\code{\link[=distance_ls_cpp]{distance_ls_cpp()}},
+\code{\link[=distance_matrix_cpp]{distance_matrix_cpp()}}
 }
 \concept{Rcpp_matrix}

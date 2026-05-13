@@ -1,7 +1,7 @@
 #' Auto Sum
 #'
 #' @description
-#' Demonstration function to computes the sum of distances between consecutive samples in two time series.
+#' Demonstration function to compute the sum of distances between consecutive samples in two time series
 #'
 #' @param x (required, zoo object or numeric matrix) univariate or multivariate time series with no NAs. Default: NULL.
 #' @param y (required, zoo object or numeric matrix) a time series with the same number of columns as `x` and no NAs. Default: NULL.

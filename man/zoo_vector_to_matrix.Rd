@@ -17,7 +17,7 @@ zoo time series
 \description{
 Transforms vector coredata of univariate zoo time series to class matrix. If the input zoo time series has the attribute "name", the output inherits the value of such attribute.
 
-Multivariate zoo objects are returned without changes.
+Multivariate zoo objects (those with multiple columns) are returned unchanged.
 }
 \examples{
 #create zoo object from vector
@@ -37,17 +37,17 @@ y <- zoo_vector_to_matrix(
 is.matrix(zoo::coredata(y))
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_smooth_exponential}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_name_set]{zoo_name_set()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_plot]{zoo_plot()}},
+\code{\link[=zoo_resample]{zoo_resample()}},
+\code{\link[=zoo_smooth_exponential]{zoo_smooth_exponential()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_time]{zoo_time()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}}
 }
 \concept{zoo_functions}

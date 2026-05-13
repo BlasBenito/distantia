@@ -17,10 +17,10 @@ Computes the least cost matrix from a distance matrix.
 Considers diagonals during computation of least-costs.
 }
 \seealso{
-Other Rcpp_matrix: 
-\code{\link{cost_matrix_diagonal_weighted_cpp}()},
-\code{\link{cost_matrix_orthogonal_cpp}()},
-\code{\link{distance_ls_cpp}()},
-\code{\link{distance_matrix_cpp}()}
+Other Rcpp_matrix:
+\code{\link[=cost_matrix_diagonal_weighted_cpp]{cost_matrix_diagonal_weighted_cpp()}},
+\code{\link[=cost_matrix_orthogonal_cpp]{cost_matrix_orthogonal_cpp()}},
+\code{\link[=distance_ls_cpp]{distance_ls_cpp()}},
+\code{\link[=distance_matrix_cpp]{distance_matrix_cpp()}}
 }
 \concept{Rcpp_matrix}

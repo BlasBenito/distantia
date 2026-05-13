@@ -1,8 +1,8 @@
 #' Convert List of Vectors to List of Data Frames
 #'
-#' @param x (required, list of vectors) Default: NULL
+#' @param x (required, list of vectors). Default: NULL.
 #'
-#' @return List of data frames
+#' @return List of data frames.
 #' @export
 #' @autoglobal
 #' @family internal

@@ -31,7 +31,7 @@ distantia_dtw_plot(
 
 \item{matrix_type}{(optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".}
 
-\item{matrix_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: NULL}
+\item{matrix_color}{(optional, character vector) Vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by \code{\link[grDevices:hcl.colors]{grDevices::hcl.colors()}}. Default: NULL}
 
 \item{path_width}{(optional, numeric) width of the least cost path. Default: 1}
 
@@ -41,7 +41,7 @@ distantia_dtw_plot(
 
 \item{diagonal_color}{(optional, character string) color of the diagonal. Default: "white"}
 
-\item{line_color}{(optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of \code{matrix_color}.}
+\item{line_color}{(optional, character vector) Vector of colors for the time series plot. If NULL, defaults to a subset of \code{matrix_color}.}
 
 \item{line_width}{(optional, numeric vector) Width of the time series plot. Default: 1}
 
@@ -119,9 +119,9 @@ if(interactive()){
 }
 }
 \seealso{
-Other distantia: 
-\code{\link{distantia}()},
-\code{\link{distantia_dtw}()},
-\code{\link{distantia_ls}()}
+Other distantia:
+\code{\link[=distantia]{distantia()}},
+\code{\link[=distantia_dtw]{distantia_dtw()}},
+\code{\link[=distantia_ls]{distantia_ls()}}
 }
 \concept{distantia}

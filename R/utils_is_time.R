@@ -1,4 +1,4 @@
-#' Title
+#' Test if Vector is a Valid Time Class
 #'
 #' @param x (required, vector) Vector to test. If the class of the vector elements is 'numeric', 'POSIXct', or 'Date', the function returns TRUE. Default: NULL.
 #'

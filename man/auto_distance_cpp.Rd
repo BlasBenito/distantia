@@ -31,10 +31,10 @@ auto_distance_cpp(
   )
 }
 \seealso{
-Other Rcpp_auto_sum: 
-\code{\link{auto_sum_cpp}()},
-\code{\link{auto_sum_full_cpp}()},
-\code{\link{auto_sum_path_cpp}()},
-\code{\link{subset_matrix_by_rows_cpp}()}
+Other Rcpp_auto_sum:
+\code{\link[=auto_sum_cpp]{auto_sum_cpp()}},
+\code{\link[=auto_sum_full_cpp]{auto_sum_full_cpp()}},
+\code{\link[=auto_sum_path_cpp]{auto_sum_path_cpp()}},
+\code{\link[=subset_matrix_by_rows_cpp]{subset_matrix_by_rows_cpp()}}
 }
 \concept{Rcpp_auto_sum}

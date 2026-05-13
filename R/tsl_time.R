@@ -17,7 +17,7 @@
 #'   \itemize{
 #'     \item `name` (string): time series name.
 #'     \item `rows` (integer): number of observations.
-#'     \item `class` (string): time class, one of "Date", "POSIXct", or "numeric."
+#'     \item `class` (string): time class, one of "Date", "POSIXct", or "numeric"
 #'     \item `units` (string): units of the time series.
 #'     \item `length` (numeric): total length of the time series expressed in `units`.
 #'     \item `resolution` (numeric): average interval between observations expressed in `units`.
@@ -27,7 +27,7 @@
 #'   }
 #'   \item [tsl_time_summary()]: list with the following objects:
 #'   \itemize{
-#'     \item `class` (string): time class, one of "Date", "POSIXct", or "numeric."
+#'     \item `class` (string): time class, one of "Date", "POSIXct", or "numeric"
 #'     \item `units` (string): units of the time series.
 #'     \item `begin` (date or numeric): begin time of the time series.
 #'     \item `end` (date or numeric): end time of the time series.

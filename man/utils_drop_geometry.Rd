@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_drop_geometry.R
 \name{utils_drop_geometry}
 \alias{utils_drop_geometry}
-\title{Removes Geometry Column from SF Data Frames}
+\title{Remove Geometry Column from SF Data Frames}
 \usage{
 utils_drop_geometry(df = NULL)
 }
@@ -10,16 +10,16 @@ utils_drop_geometry(df = NULL)
 \item{df}{(required, data frame) Input data frame. Default: NULL.}
 }
 \value{
-data frame
+A data frame.
 }
 \description{
-Replicates the functionality of  \code{sf::st_drop_geometry()} without depending on the \code{sf} package.
+Replicates the functionality of \code{sf::st_drop_geometry()} without depending on the \code{sf} package.
 }
 \seealso{
-Other tsl_processing_internal: 
-\code{\link{utils_global_scaling_params}()},
-\code{\link{utils_optimize_loess}()},
-\code{\link{utils_optimize_spline}()},
-\code{\link{utils_rescale_vector}()}
+Other tsl_processing_internal:
+\code{\link[=utils_global_scaling_params]{utils_global_scaling_params()}},
+\code{\link[=utils_optimize_loess]{utils_optimize_loess()}},
+\code{\link[=utils_optimize_spline]{utils_optimize_spline()}},
+\code{\link[=utils_rescale_vector]{utils_rescale_vector()}}
 }
 \concept{tsl_processing_internal}

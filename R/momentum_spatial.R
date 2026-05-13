@@ -1,11 +1,11 @@
 #' Spatial Representation of `momentum()` Data Frames
 #'
 #' @description
-#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [momentum()], [momentum_ls()], [momentum_dtw()] to an sf data frame.
+#' Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of [momentum()], [momentum_ls()], or [momentum_dtw()] to an sf data frame.
 #'
-#' If `network = TRUE`, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
+#' If `network = TRUE`, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful for building many-to-many importance maps (see examples).
 #'
-#' If `network = FALSE`, the sf data frame contains the geometry in the input `sf` argument. This output helps build one-to-many dissimilarity maps.
+#' If `network = FALSE`, the sf data frame contains the geometry from the input `sf` argument. This output helps build one-to-many importance maps.
 #'
 #' @inheritParams momentum_to_wide
 #' @inheritParams distantia_spatial

@@ -5,7 +5,7 @@
 \alias{fagus_dynamics}
 \title{Time Series Data from Three Fagus sylvatica Stands}
 \format{
-data frame with 5 columns and 648 rows.
+A data frame with 5 columns and 648 rows.
 }
 \usage{
 data(fagus_dynamics)
@@ -19,7 +19,7 @@ Site coordinates for this dataset are in \link{fagus_coordinates}.
 \examples{
 data("fagus_dynamics")
 
-#to time series list
+#Convert to time series list
 fagus <- tsl_initialize(
   x = fagus_dynamics,
   name_column = "name",
@@ -37,7 +37,7 @@ if(interactive()){
 
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

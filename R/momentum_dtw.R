@@ -1,7 +1,7 @@
 #' Dynamic Time Warping Variable Importance Analysis of Multivariate Time Series Lists
 #'
 #' @description
-#' Minimalistic but slightly faster version of [momentum()] to compute dynamic time warping importance analysis with the "robust" setup in multivariate time series lists.
+#' A minimalistic but slightly faster version of [momentum()] that computes dynamic time warping importance analysis with the "robust" setup in multivariate time series lists.
 #'
 #' @inheritParams momentum
 #'

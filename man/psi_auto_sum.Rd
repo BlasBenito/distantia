@@ -17,7 +17,7 @@ psi_auto_sum(x = NULL, y = NULL, distance = "euclidean")
 numeric vector
 }
 \description{
-Demonstration function to computes the sum of distances between consecutive samples in two time series.
+Demonstration function to compute the sum of distances between consecutive samples in two time series
 }
 \examples{
 #distance metric
@@ -65,13 +65,13 @@ x_sum + y_sum
 
 }
 \seealso{
-Other psi_demo: 
-\code{\link{psi_auto_distance}()},
-\code{\link{psi_cost_matrix}()},
-\code{\link{psi_cost_path}()},
-\code{\link{psi_cost_path_sum}()},
-\code{\link{psi_distance_lock_step}()},
-\code{\link{psi_distance_matrix}()},
-\code{\link{psi_equation}()}
+Other psi_demo:
+\code{\link[=psi_auto_distance]{psi_auto_distance()}},
+\code{\link[=psi_cost_matrix]{psi_cost_matrix()}},
+\code{\link[=psi_cost_path]{psi_cost_path()}},
+\code{\link[=psi_cost_path_sum]{psi_cost_path_sum()}},
+\code{\link[=psi_distance_lock_step]{psi_distance_lock_step()}},
+\code{\link[=psi_distance_matrix]{psi_distance_matrix()}},
+\code{\link[=psi_equation]{psi_equation()}}
 }
 \concept{psi_demo}

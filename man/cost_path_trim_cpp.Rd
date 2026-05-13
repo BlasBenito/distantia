@@ -48,13 +48,13 @@ cost_path_trimmed <- cost_path_trim_cpp(
 nrow(cost_path_trimmed)
 }
 \seealso{
-Other Rcpp_cost_path: 
-\code{\link{cost_path_cpp}()},
-\code{\link{cost_path_diagonal_bandwidth_cpp}()},
-\code{\link{cost_path_diagonal_cpp}()},
-\code{\link{cost_path_orthogonal_bandwidth_cpp}()},
-\code{\link{cost_path_orthogonal_cpp}()},
-\code{\link{cost_path_slotting_cpp}()},
-\code{\link{cost_path_sum_cpp}()}
+Other Rcpp_cost_path:
+\code{\link[=cost_path_cpp]{cost_path_cpp()}},
+\code{\link[=cost_path_diagonal_bandwidth_cpp]{cost_path_diagonal_bandwidth_cpp()}},
+\code{\link[=cost_path_diagonal_cpp]{cost_path_diagonal_cpp()}},
+\code{\link[=cost_path_orthogonal_bandwidth_cpp]{cost_path_orthogonal_bandwidth_cpp()}},
+\code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}},
+\code{\link[=cost_path_slotting_cpp]{cost_path_slotting_cpp()}},
+\code{\link[=cost_path_sum_cpp]{cost_path_sum_cpp()}}
 }
 \concept{Rcpp_cost_path}

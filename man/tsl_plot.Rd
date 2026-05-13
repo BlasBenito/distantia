@@ -30,7 +30,7 @@ tsl_plot(
 \item "relative": each time series is plotted using its own range. Equivalent result can be achieved using \code{ylim = NULL}.
 }}
 
-\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette]{grDevices::palette.colors()}}. Default: NULL}
+\item{line_color}{(optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses an appropriate palette generated with \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}. Default: NULL}
 
 \item{line_width}{(optional, numeric vector) Width of the time series plot. Default: 1}
 
@@ -38,7 +38,7 @@ tsl_plot(
 
 \item{guide}{(optional, logical) If TRUE, plots a legend. Default: TRUE}
 
-\item{guide_columns}{(optional, integer) Columns of the line guide. Default: 1.}
+\item{guide_columns}{(optional, integer) Columns of the line guide. Default: 1}
 
 \item{guide_cex}{(optional, numeric) Size of the guide's text and separation between the guide's rows. Default: 0.7.}
 }

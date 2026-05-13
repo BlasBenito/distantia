@@ -7,7 +7,7 @@
 zoo_smooth_exponential(x = NULL, alpha = 0.2)
 }
 \arguments{
-\item{x}{(required, zoo object) time series to smooth Default: NULL}
+\item{x}{(required, zoo object) Time series to smooth. Default: NULL}
 
 \item{alpha}{(required, numeric) Smoothing factor in the range (0, 1]. Determines the weight of the current value relative to past values. A higher value gives more weight to recent observations, while a lower value gives more weight to past observations. Default: 0.2}
 }
@@ -31,17 +31,17 @@ if(interactive()){
 }
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_name_set}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_name_set]{zoo_name_set()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_plot]{zoo_plot()}},
+\code{\link[=zoo_resample]{zoo_resample()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_time]{zoo_time()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}},
+\code{\link[=zoo_vector_to_matrix]{zoo_vector_to_matrix()}}
 }
 \concept{zoo_functions}

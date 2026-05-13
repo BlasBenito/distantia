@@ -7,37 +7,37 @@
 utils_prepare_time(x = NULL, time_column = NULL, lock_step = FALSE)
 }
 \arguments{
-\item{x}{(required, named list of data frames). List with named data frames. Default: NULL.}
+\item{x}{(required, named list of data frames). Default: NULL.}
 
 \item{time_column}{(optional if \code{lock_step = FALSE}, and required otherwise, column name) Name of numeric column representing time. Default: NULL.}
 
-\item{lock_step}{(optional, logical) If TRUE, all input sequences are subset to their common times according to the values in the \code{time_column}. Default: FALSE.}
+\item{lock_step}{(optional, logical) If \code{TRUE}, all input sequences are subset to their common times according to the values in the \code{time_column}. Default: \code{FALSE}.}
 }
 \value{
-List of data frames
+List of data frames.
 }
 \description{
 Handles Time Column in a List of Data Frames
 }
 \seealso{
-Other internal: 
-\code{\link{utils_boxplot_common}()},
-\code{\link{utils_check_args_distantia}()},
-\code{\link{utils_check_args_matrix}()},
-\code{\link{utils_check_args_momentum}()},
-\code{\link{utils_check_args_path}()},
-\code{\link{utils_check_args_tsl}()},
-\code{\link{utils_check_args_zoo}()},
-\code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_clean_names}()},
-\code{\link{utils_digits}()},
-\code{\link{utils_distantia_df_split}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()},
-\code{\link{utils_tsl_pairs}()}
+Other internal:
+\code{\link[=utils_boxplot_common]{utils_boxplot_common()}},
+\code{\link[=utils_check_args_distantia]{utils_check_args_distantia()}},
+\code{\link[=utils_check_args_matrix]{utils_check_args_matrix()}},
+\code{\link[=utils_check_args_momentum]{utils_check_args_momentum()}},
+\code{\link[=utils_check_args_path]{utils_check_args_path()}},
+\code{\link[=utils_check_args_tsl]{utils_check_args_tsl()}},
+\code{\link[=utils_check_args_zoo]{utils_check_args_zoo()}},
+\code{\link[=utils_check_distance_args]{utils_check_distance_args()}},
+\code{\link[=utils_check_list_class]{utils_check_list_class()}},
+\code{\link[=utils_clean_names]{utils_clean_names()}},
+\code{\link[=utils_digits]{utils_digits()}},
+\code{\link[=utils_distantia_df_split]{utils_distantia_df_split()}},
+\code{\link[=utils_prepare_df]{utils_prepare_df()}},
+\code{\link[=utils_prepare_matrix]{utils_prepare_matrix()}},
+\code{\link[=utils_prepare_matrix_list]{utils_prepare_matrix_list()}},
+\code{\link[=utils_prepare_vector_list]{utils_prepare_vector_list()}},
+\code{\link[=utils_prepare_zoo_list]{utils_prepare_zoo_list()}},
+\code{\link[=utils_tsl_pairs]{utils_tsl_pairs()}}
 }
 \concept{internal}

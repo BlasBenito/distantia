@@ -5,7 +5,7 @@
 \alias{covid_prevalence}
 \title{Time Series of Covid Prevalence in California Counties}
 \format{
-data frame with 3 columns and 51048 rows
+A data frame with 3 columns and 51,048 rows.
 }
 \usage{
 data(covid_prevalence)
@@ -19,7 +19,7 @@ County polygons and additional data for this dataset are in \link{covid_counties
 The full dataset at daily resolution can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/covid_prevalence.rda} (use the "Download raw file" button).
 }
 \examples{
-#to time series list
+#Convert to time series list
 tsl <- tsl_initialize(
   x = covid_prevalence,
   name_column = "name",
@@ -29,7 +29,7 @@ tsl <- tsl_initialize(
 #time series plot
 if(interactive()){
 
- #subset to avoid margin errors
+ #Subset to avoid margin errors
  tsl_plot(
   tsl = tsl_subset(
     tsl = tsl,
@@ -41,7 +41,7 @@ if(interactive()){
 }
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

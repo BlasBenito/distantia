@@ -18,7 +18,7 @@ distantia_time_delay(
 
 \item{bandwidth}{(optional, numeric) Proportion of space at each side of the cost matrix diagonal (aka \emph{Sakoe-Chiba band}) defining a valid region for dynamic time warping, used to control the flexibility of the warping path. This method prevents degenerate alignments due to differences in magnitude between time series when the data is not properly scaled. If \code{1} (default), DTW is unconstrained. If \code{0}, DTW is fully constrained and the warping path follows the matrix diagonal. Recommended values may vary depending on the nature of the data. Ignored if \code{lock_step = TRUE}. Default: 1.}
 
-\item{directional}{(optional, logical) If TRUE, a directional time delay is computed as \verb{x to y} and \verb{y to x}, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of de delay between \code{x} and \code{y} is returned a a single row per pair. Default: TRUE}
+\item{directional}{(optional, logical) If TRUE, a directional time delay is computed as \verb{x to y} and \verb{y to x}, resulting in two rows per pair of time series. Otherwise, the absolute magnitude of the delay between \code{x} and \code{y} is returned as a single row per pair. Default: TRUE}
 }
 \value{
 data frame
@@ -26,17 +26,22 @@ data frame
 \description{
 This function computes an approximation to the time-delay between pairs of time series as the difference between observations connected by the dynamic time warping path.
 
-If the time series have more than 30 observations, a 5\% of the cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
+Given a pair of time series \code{x} and \code{y}, and the time of their samples in the dynamic time warping \code{time(x)} and \code{time(y)}, when the argument \code{directional} is \code{TRUE}, the time delay is computed as follows:
+\itemize{
+\item Time delay from \code{x} to \code{y}: \code{time(y) - time(x)}.
+\item Time delay from \code{y} to \code{x}: \code{time(x) - time(y)}
+}
+In such case, two rows per pair of time series are returned. Otherwise, the time delay is computed as \code{abs(time(y) - time(x))}, and only one row per pair of time series is returned.
 
-The function returns a data frame with the names of the time series in the columns \emph{x} and \emph{y}, and the modal, mean, and median of the time delay. The modal and the median are the most generally accurate time-delay metrics
+If the time series have more than 30 observations, 5\% of cases are omitted at each extreme of the warping path to avoid overestimating time delays due to early misalignments.
 
-This function requires scaled and detrended time series. Still, it might yield non-sensical results in case of degenerate warping paths. Plotting dubious results with [distantia_dtw_plot())] is always a good approach to identify these cases.
+The function returns a data frame with the names of the time series in columns \emph{x} and \emph{y}, and summary statistics of the time delay. The mode and median are generally the most accurate time-delay metrics.
 
-[distantia_dtw_plot())]: R:distantia_dtw_plot())
+This function requires scaled and detrended time series. It may yield non-sensical results in case of degenerate warping paths. Plotting dubious results with \code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}} is a good approach to identify these cases.
 }
 \examples{
 #load two long-term temperature time series
-#local scaling to focus in shape rather than values
+#local scaling to focus on shape rather than values
 #polynomial detrending to make them stationary
 tsl <- tsl_init(
   x = cities_temperature[
@@ -68,23 +73,20 @@ df_shift <- distantia_time_delay(
 )
 
 df_shift
-#positive shift values indicate
-#that the samples in Kinshasa
-#are aligned with older samples in London.
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

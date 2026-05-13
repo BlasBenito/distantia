@@ -47,13 +47,13 @@ If the selected distance function is "chi" or "cosine", pairs of zeros should
 be either removed or replaced with pseudo-zeros (i.e. 0.00001).
 }
 \seealso{
-Other Rcpp_cost_path: 
-\code{\link{cost_path_diagonal_bandwidth_cpp}()},
-\code{\link{cost_path_diagonal_cpp}()},
-\code{\link{cost_path_orthogonal_bandwidth_cpp}()},
-\code{\link{cost_path_orthogonal_cpp}()},
-\code{\link{cost_path_slotting_cpp}()},
-\code{\link{cost_path_sum_cpp}()},
-\code{\link{cost_path_trim_cpp}()}
+Other Rcpp_cost_path:
+\code{\link[=cost_path_diagonal_bandwidth_cpp]{cost_path_diagonal_bandwidth_cpp()}},
+\code{\link[=cost_path_diagonal_cpp]{cost_path_diagonal_cpp()}},
+\code{\link[=cost_path_orthogonal_bandwidth_cpp]{cost_path_orthogonal_bandwidth_cpp()}},
+\code{\link[=cost_path_orthogonal_cpp]{cost_path_orthogonal_cpp()}},
+\code{\link[=cost_path_slotting_cpp]{cost_path_slotting_cpp()}},
+\code{\link[=cost_path_sum_cpp]{cost_path_sum_cpp()}},
+\code{\link[=cost_path_trim_cpp]{cost_path_trim_cpp()}}
 }
 \concept{Rcpp_cost_path}

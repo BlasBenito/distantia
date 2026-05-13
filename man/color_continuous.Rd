@@ -9,7 +9,7 @@ color_continuous(n = 5, palette = "Zissou 1", rev = FALSE)
 \arguments{
 \item{n}{(required, integer) number of colors to generate. Default = NULL}
 
-\item{palette}{(required, character string) Argument \code{palette} of \code{\link[grDevices:palettes]{grDevices::hcl.colors()}}. Default: "Zissou 1"}
+\item{palette}{(required, character string) Argument \code{palette} of \code{\link[grDevices:hcl.colors]{grDevices::hcl.colors()}}. Default: "Zissou 1"}
 
 \item{rev}{(optional, logical) If TRUE, the color palette is reversed. Default: FALSE}
 }
@@ -17,7 +17,7 @@ color_continuous(n = 5, palette = "Zissou 1", rev = FALSE)
 color vector
 }
 \description{
-Uses the function \code{\link[grDevices:palettes]{grDevices::hcl.colors()}} to generate a continuous color palette.
+Uses the function \code{\link[grDevices:hcl.colors]{grDevices::hcl.colors()}} to generate a continuous color palette.
 }
 \examples{
 
@@ -25,12 +25,12 @@ color_continuous(n = 20)
 
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_discrete}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()}
+Other internal_plotting:
+\code{\link[=color_discrete]{color_discrete()}},
+\code{\link[=utils_color_breaks]{utils_color_breaks()}},
+\code{\link[=utils_line_color]{utils_line_color()}},
+\code{\link[=utils_line_guide]{utils_line_guide()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}},
+\code{\link[=utils_matrix_plot]{utils_matrix_plot()}}
 }
 \concept{internal_plotting}

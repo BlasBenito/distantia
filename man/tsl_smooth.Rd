@@ -11,7 +11,7 @@ tsl_smooth(tsl = NULL, window = 3, f = mean, alpha = NULL, ...)
 
 \item{window}{(optional, integer) Smoothing window width, in number of cases. Default: 3}
 
-\item{f}{(optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
+\item{f}{(optional, quoted or unquoted function name) Name of a function to aggregate numeric vectors. Typical examples are \code{mean}, \code{max},\code{min}, \code{median}, and \code{quantile}. Default: \code{mean}.}
 
 \item{alpha}{(required, numeric) Exponential smoothing factor in the range (0, 1]. Determines the weight of the current value relative to past values. If not NULL, the arguments \code{window} and \code{f} are ignored, and exponential smoothing is performed instead. Default: NULL}
 
@@ -23,7 +23,7 @@ time series list
 \description{
 Rolling-window and exponential smoothing of Time Series Lists.
 
-Rolling-window smoothing This computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series.
+Rolling-window smoothing computes a statistic over a fixed-width window of consecutive cases and replaces each central value with the computed statistic. It is commonly used to mitigate noise in high-frequency time series.
 
 Exponential smoothing computes each value as the weighted average of the current value and past smoothed values. This method is useful for reducing noise in time series data while preserving the overall trend.
 
@@ -59,10 +59,10 @@ if(interactive()){
 
 }
 \seealso{
-Other tsl_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_stats}()},
-\code{\link{tsl_transform}()}
+Other tsl_processing:
+\code{\link[=tsl_aggregate]{tsl_aggregate()}},
+\code{\link[=tsl_resample]{tsl_resample()}},
+\code{\link[=tsl_stats]{tsl_stats()}},
+\code{\link[=tsl_transform]{tsl_transform()}}
 }
 \concept{tsl_processing}

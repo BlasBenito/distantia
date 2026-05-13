@@ -4,12 +4,14 @@
 \alias{distantia_dtw}
 \title{Dynamic Time Warping Dissimilarity Analysis of Time Series Lists}
 \usage{
-distantia_dtw(tsl = NULL, distance = "euclidean")
+distantia_dtw(tsl = NULL, distance = "euclidean", bandwidth = 1)
 }
 \arguments{
 \item{tsl}{(required, time series list) list of zoo time series. Default: NULL}
 
 \item{distance}{(optional, character vector) name or abbreviation of the distance method. Valid values are in the columns "names" and "abbreviation" of the dataset \link{distances}. Default: "euclidean".}
+
+\item{bandwidth}{(optional, numeric) Proportion of space at each side of the cost matrix diagonal (aka \emph{Sakoe-Chiba band}) defining a valid region for dynamic time warping, used to control the flexibility of the warping path. This method prevents degenerate alignments due to differences in magnitude between time series when the data is not properly scaled. If \code{1} (default), DTW is unconstrained. If \code{0}, DTW is fully constrained and the warping path follows the matrix diagonal. Recommended values may vary depending on the nature of the data. Ignored if \code{lock_step = TRUE}. Default: 1.}
 }
 \value{
 data frame with columns:
@@ -21,7 +23,7 @@ data frame with columns:
 }
 }
 \description{
-Minimalistic but slightly faster version of \code{\link[=distantia]{distantia()}} to compute dynamic time warping dissimilarity scores using diagonal least cost paths.
+A minimalistic but slightly faster version of \code{\link[=distantia]{distantia()}} that computes dynamic time warping dissimilarity scores using diagonal least cost paths.
 }
 \examples{
 
@@ -64,9 +66,9 @@ if(interactive()){
 
 }
 \seealso{
-Other distantia: 
-\code{\link{distantia}()},
-\code{\link{distantia_dtw_plot}()},
-\code{\link{distantia_ls}()}
+Other distantia:
+\code{\link[=distantia]{distantia()}},
+\code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}},
+\code{\link[=distantia_ls]{distantia_ls()}}
 }
 \concept{distantia}

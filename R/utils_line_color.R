@@ -1,7 +1,7 @@
 #' Handles Line Colors for Sequence Plots
 #'
 #' @description
-#' This is an internal function, but can be used to better understand how line colors are handled within other plotting functions.
+#' Internal function that can be used to better understand how line colors are handled within other plotting functions.
 #'
 #'
 #' @param x (required, sequence) zoo object or time series list. Default: NULL

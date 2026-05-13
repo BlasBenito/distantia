@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_as_time.R
 \name{utils_as_time}
 \alias{utils_as_time}
-\title{Ensures Correct Class for Time Arguments}
+\title{Ensure Correct Class for Time Arguments}
 \usage{
 utils_as_time(x = NULL, to_class = NULL)
 }
@@ -15,7 +15,7 @@ utils_as_time(x = NULL, to_class = NULL)
 time vector
 }
 \description{
-This function guesses the class of a vector based on its elements. It can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.
+Guesses the class of a vector based on its elements. This function can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.
 }
 \examples{
 # numeric
@@ -54,13 +54,13 @@ utils_as_time(
 
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_dictionary}()},
-\code{\link{utils_time_keywords_translate}()},
-\code{\link{utils_time_units}()}
+Other internal_time_handling:
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_new_time]{utils_new_time()}},
+\code{\link[=utils_time_keywords]{utils_time_keywords()}},
+\code{\link[=utils_time_keywords_dictionary]{utils_time_keywords_dictionary()}},
+\code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}},
+\code{\link[=utils_time_units]{utils_time_units()}}
 }
 \concept{internal_time_handling}

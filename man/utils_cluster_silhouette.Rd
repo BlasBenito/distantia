@@ -19,20 +19,20 @@ data frame
 \description{
 The silhouette width is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation).
 
-There are some general guidelines to interpret the  individual silhouette widths of the clustered objects (as returned by this function when \code{mean = FALSE}):
+There are some general guidelines to interpret the individual silhouette widths of the clustered objects (as returned by this function when \code{mean = FALSE}):
 
 \itemize{
 \item Close to 1: object is well matched to its own cluster and poorly matched to neighboring clusters.
-\item Close to 0: the object is between two neighboring clusters.
-\item Close to -1: the object is likely to be assigned to the wrong cluster
+\item Values near 0: the object is between two neighboring clusters.
+\item Values near -1: the object is likely to be assigned to the wrong cluster.
 }
 
 When \code{mean = TRUE}, the overall mean of the silhouette widths of all objects is returned. These values should be interpreted as follows:
 
 \itemize{
-\item Higher than 0.7: robust clustering .
-\item Higher than 0.5: reasonable clustering.
-\item Higher than 0.25: weak clustering.
+\item Higher than 0.7: robust clustering solution.
+\item Higher than 0.5: reasonable clustering solution.
+\item Higher than 0.25: weak clustering solution.
 
 }
 
@@ -120,18 +120,18 @@ utils_cluster_silhouette(
 )
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_block_size}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_block_size]{utils_block_size()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}}
 }
 \concept{distantia_support}

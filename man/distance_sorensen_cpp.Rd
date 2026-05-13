@@ -21,17 +21,17 @@ Computes the Sørensen distance, suitable for presence/absence data.
 distance_sorensen_cpp(x = c(0, 1, 1, 0), y = c(1, 1, 0, 0))
 }
 \seealso{
-Other Rcpp_distance_methods: 
-\code{\link{distance_bray_curtis_cpp}()},
-\code{\link{distance_canberra_cpp}()},
-\code{\link{distance_chebyshev_cpp}()},
-\code{\link{distance_chi_cpp}()},
-\code{\link{distance_cosine_cpp}()},
-\code{\link{distance_euclidean_cpp}()},
-\code{\link{distance_hamming_cpp}()},
-\code{\link{distance_hellinger_cpp}()},
-\code{\link{distance_jaccard_cpp}()},
-\code{\link{distance_manhattan_cpp}()},
-\code{\link{distance_russelrao_cpp}()}
+Other Rcpp_distance_methods:
+\code{\link[=distance_bray_curtis_cpp]{distance_bray_curtis_cpp()}},
+\code{\link[=distance_canberra_cpp]{distance_canberra_cpp()}},
+\code{\link[=distance_chebyshev_cpp]{distance_chebyshev_cpp()}},
+\code{\link[=distance_chi_cpp]{distance_chi_cpp()}},
+\code{\link[=distance_cosine_cpp]{distance_cosine_cpp()}},
+\code{\link[=distance_euclidean_cpp]{distance_euclidean_cpp()}},
+\code{\link[=distance_hamming_cpp]{distance_hamming_cpp()}},
+\code{\link[=distance_hellinger_cpp]{distance_hellinger_cpp()}},
+\code{\link[=distance_jaccard_cpp]{distance_jaccard_cpp()}},
+\code{\link[=distance_manhattan_cpp]{distance_manhattan_cpp()}},
+\code{\link[=distance_russelrao_cpp]{distance_russelrao_cpp()}}
 }
 \concept{Rcpp_distance_methods}

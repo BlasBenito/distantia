@@ -1,7 +1,7 @@
 #' Momentum Data Frame to Wide Format
 #'
 #' @description
-#' Transforms a data frame returned by [momentum()] to wide format with the following columns:
+#' Transforms a data frame returned by [momentum()] into wide format with the following columns:
 #' \itemize{
 #'   \item `most_similar`: name of the variable with the highest contribution to similarity (most negative value in the `importance` column) for each pair of time series.
 #'   \item `most_dissimilar`: name of the variable with the highest contribution to dissimilarity (most positive value in the `importance` column) for each pair of time series.
@@ -12,7 +12,7 @@
 #'
 #'
 #' @inheritParams momentum_aggregate
-#' @param sep (required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".
+#' @param sep (required, character string) Separator between the importance metric name and the time series variable name. Default: "__".
 #'
 #' @return data frame
 #' @export

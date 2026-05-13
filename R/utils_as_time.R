@@ -1,8 +1,8 @@
 # The default formats follow the rules of the ISO 8601 international standard which expresses a day as "2001-02-03".
 
-#' Ensures Correct Class for Time Arguments
+#' Ensure Correct Class for Time Arguments
 #'
-#' This function guesses the class of a vector based on its elements. It can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.
+#' Guesses the class of a vector based on its elements. This function can handle numeric vectors, character vectors that can be coerced to either "Date" or "POSIXct" classes, and vectors already in "Date" or "POSIXct" classes.
 #'
 #' @param x (required, vector) Vectors of the classes 'numeric', 'Date', and 'POSIXct' are valid and returned without any transformation. Character vectors are analyzed to determine their more probable type, and are coerced to 'Date' or 'POSIXct' depending on their number of elements. Generally, any character vector representing an ISO 8601 standard, like "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS" will be converted to a valid class. If a character vector cannot be coerced to date, it is returned as is. Default: NULL
 #' @param to_class (optional, class) Options are: NULL, "numeric", "Date", and "POSIXct". If NULL, 'x' is returned as the most appropriate time class. Otherwise, 'x' is coerced to the given class. Default: NULL

@@ -8,6 +8,7 @@
 #' @param x (required, zoo object or numeric matrix) a time series with no NAs. Default: NULL
 #' @param y (zoo object or numeric matrix) a time series with the same columns as `x` and no NAs. Default: NULL
 #' @inheritParams distantia
+#' @return numeric
 #' @examples
 #' #distance metric
 #' d <- "euclidean"
@@ -40,7 +41,6 @@
 #'   y = y,
 #'   distance = d
 #' )
-#' @return numeric
 #' @export
 #' @autoglobal
 #' @family psi_demo
@@ -53,6 +53,13 @@ psi_distance_lock_step <- function(
   distance <- utils_check_distance_args(
     distance = distance
   )[1]
+
+  if(nrow(as.matrix(x)) != nrow(as.matrix(y))){
+    stop(
+      "distantia::psi_distance_lock_step(): 'x' and 'y' must have the same number of rows for lock-step comparison.",
+      call. = FALSE
+    )
+  }
 
   d <- distance_ls_cpp(
     x,

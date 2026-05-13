@@ -10,7 +10,7 @@
 #' @param subtitle (optional, character string) plot subtitle. Default: NULL
 #' @param xlab (optional, character string) title of the x axis (matrix columns). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
 #' @param ylab (optional, character string) title of the y axis (matrix rows). By default, the name of one of the sequences used to compute the matrix `m`. Default: NULL
-#' @param text_cex (optional, numeric) multiplicator of the text size for the plot labels and titles. Default: 1
+#' @param text_cex (optional, numeric) multiplier of the text size for the plot labels and titles. Default: 1
 #' @param path (optional, data frame) least cost path generated with [psi_cost_path()]. This data frame must have the attribute `type == "cost_path`, and must have been computed from the same sequences used to compute the matrix `m`. Default: NULL.
 #' @inheritParams distantia_dtw_plot
 #' @param guide (optional, logical) if TRUE, a color guide for the matrix `m` is added by [utils_matrix_guide()].

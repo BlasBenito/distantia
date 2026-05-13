@@ -11,7 +11,7 @@ tsl_join(..., na_action = "impute")
 
 \item{na_action}{(required, character) NA handling action. Available options are:
 \itemize{
-\item "impute" (default): NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.approx]{zoo::na.spline()}}).
+\item "impute" (default): NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.spline]{zoo::na.spline()}}).
 \item "omit": rows with NA cases are removed.
 }}
 }
@@ -19,7 +19,7 @@ tsl_join(..., na_action = "impute")
 time series list
 }
 \description{
-Joins an arbitrary of time series lists by name and time. Pairs of zoo objects are joined with \code{\link[zoo:merge.zoo]{zoo::merge.zoo()}}. Names that are not shared across all input TSLs are ignored, and observations with no matching time are filled with NA and then managed via \code{\link[=tsl_handle_NA]{tsl_handle_NA()}} depending on the value of the argument \code{na_action}.
+Joins an arbitrary number of time series lists by name and time. Pairs of zoo objects are joined with \code{\link[zoo:merge.zoo]{zoo::merge.zoo()}}. Names that are not shared across all input TSLs are ignored, and observations with no matching time are filled with NA and then managed via \code{\link[=tsl_handle_NA]{tsl_handle_NA()}} depending on the value of the argument \code{na_action}.
 }
 \examples{
 
@@ -57,25 +57,25 @@ if(interactive()){
 
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

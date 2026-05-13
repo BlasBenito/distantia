@@ -1,8 +1,8 @@
 #' Convert List of Matrices to List of Data Frames
 #'
-#' @param x (required, list of matrices) Default: NULL
+#' @param x (required, list of matrices). Default: NULL.
 #'
-#' @return List of Data Frames
+#' @return List of data frames.
 #' @export
 #' @autoglobal
 #' @family internal

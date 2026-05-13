@@ -9,7 +9,7 @@
 #'   \item keyword: a valid keyword returned by `zoo_time(x)$keywords`, used to generate a time vector with the relevant units.
 #'   \item numeric of length 1: interpreted as new time interval, in the highest resolution units returned by `zoo_time(x)$units`.
 #' }
-#' @param f (optional, quoted or unquoted function name) Name of a standard or custom function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
+#' @param f (optional, quoted or unquoted function name) Name of a function to aggregate numeric vectors. Typical examples are `mean`, `max`,`min`, `median`, and `quantile`. Default: `mean`.
 #' @param ... (optional, additional arguments) additional arguments to `f`.
 #'
 #' @return zoo object
@@ -138,7 +138,7 @@ zoo_aggregate <- function(
   #reset name
   zoo_name_set(
     x = y,
-    name = attributes(x)$name
+    name = attr(x, "name", exact = TRUE)
   )
 
 }

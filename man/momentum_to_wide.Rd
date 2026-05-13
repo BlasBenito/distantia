@@ -9,13 +9,13 @@ momentum_to_wide(df = NULL, sep = "__")
 \arguments{
 \item{df}{(required, data frame) Output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}}. Default: NULL}
 
-\item{sep}{(required, character string) Separator between the name of the importance metric and the time series variable. Default: "__".}
+\item{sep}{(required, character string) Separator between the importance metric name and the time series variable name. Default: "__".}
 }
 \value{
 data frame
 }
 \description{
-Transforms a data frame returned by \code{\link[=momentum]{momentum()}} to wide format with the following columns:
+Transforms a data frame returned by \code{\link[=momentum]{momentum()}} into wide format with the following columns:
 \itemize{
 \item \code{most_similar}: name of the variable with the highest contribution to similarity (most negative value in the \code{importance} column) for each pair of time series.
 \item \code{most_dissimilar}: name of the variable with the highest contribution to dissimilarity (most positive value in the \code{importance} column) for each pair of time series.
@@ -51,11 +51,11 @@ df_wide
 
 }
 \seealso{
-Other momentum_support: 
-\code{\link{momentum_aggregate}()},
-\code{\link{momentum_boxplot}()},
-\code{\link{momentum_model_frame}()},
-\code{\link{momentum_spatial}()},
-\code{\link{momentum_stats}()}
+Other momentum_support:
+\code{\link[=momentum_aggregate]{momentum_aggregate()}},
+\code{\link[=momentum_boxplot]{momentum_boxplot()}},
+\code{\link[=momentum_model_frame]{momentum_model_frame()}},
+\code{\link[=momentum_spatial]{momentum_spatial()}},
+\code{\link[=momentum_stats]{momentum_stats()}}
 }
 \concept{momentum_support}

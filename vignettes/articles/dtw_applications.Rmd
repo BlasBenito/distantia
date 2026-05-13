@@ -23,11 +23,11 @@ options(conflicts.policy = list(warn = FALSE))
 
 # Summary
 
-This article lists open source implementations and interesting applications of dynamic time warping I have found in the literature, patents, and other resources. It is supposed to be a living document, so it will be updated from time to time with new findings.
+This article lists open source implementations and notable applications of Dynamic Time Warping (DTW) identified in the literature, patents, and other resources. It is intended as a living document and will be updated periodically with new findings.
 
 # Open Source Implementations
 
-This section lists several open source implementations of DTW in R and Python, in case you want to play with DTW.
+This section lists several open source implementations of DTW in R and Python, for those who wish to experiment with DTW directly.
 
 ## R 
 
@@ -40,7 +40,7 @@ This section lists several open source implementations of DTW in R and Python, i
   - [dtw-python](https://pypi.org/project/dtw-python/): Python implementation of [dtw](https://dynamictimewarping.github.io/).
   - [dtaidistance](https://github.com/wannesm/dtaidistance): fast C implementation of DTW, with a great documentation page [here](https://dtaidistance.readthedocs.io/en/latest/).
   - [tslearn](https://tslearn.readthedocs.io/en/stable/), by Romain Tavenard: focused on time series clustering via DTW for machine learning modeling.
-  - [fastdtw](https://github.com/slaypni/fastdtw?tab=readme-ov-file), by Stan Salvador and Philip Chan: python implementation of FastDTW, a fast approximation to DTW described in [this paper](https://cs.fit.edu/~pkc/papers/tdm04.pdf).
+  - [fastdtw](https://github.com/slaypni/fastdtw?tab=readme-ov-file), by Stan Salvador and Philip Chan: Python implementation of FastDTW, a fast approximation to DTW described in [this paper](https://cs.fit.edu/~pkc/papers/tdm04.pdf).
   
 ## Other Languages
 
@@ -50,7 +50,7 @@ The [Wikipedia page on Dynamic Time Warping](https://en.wikipedia.org/wiki/Dynam
 
 ## Industry
 
-[**Wave ring**](https://genkiinstruments.com/products/wave) a MIDI controller to create music [patented by Genki](https://patents.google.com/patent/US20220085841A1/en).
+[**Wave ring**](https://genkiinstruments.com/products/wave) is a MIDI controller for music creation, [patented by Genki](https://patents.google.com/patent/US20220085841A1/en).
 
 [**LAMTSS**](https://www.global.toshiba/ww/technology/corporate/rdc/rd/topics/20/2006-01.html), by Toshiba, for prediction and detection of operational failures in heavy machinery.
 

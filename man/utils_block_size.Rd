@@ -7,29 +7,29 @@
 utils_block_size(tsl = NULL, block_size = NULL)
 }
 \arguments{
-\item{tsl}{(required, list) Time series list. Default: NULL}
+\item{tsl}{(required, list) Time series list. Default: NULL.}
 
-\item{block_size}{(optional, integer vector) Row block sizes for restricted permutation tests. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to the 20\% rows of the shortest time series in \code{tsl}. Minimum value is 2, and maximum value is 50\% rows of the shortest time series in \code{tsl}. Default: NULL.}
+\item{block_size}{(optional, integer vector) Row block sizes for restricted permutation tests. Used only when the permutation method is "restricted" or "restricted_by_row". A block of size \code{n} indicates that a row can only be permuted within a block of \code{n} adjacent rows. If NULL, defaults to 20 percent of the rows of the shortest time series in \code{tsl}. Minimum value is 2; maximum value is 50 percent of the rows of the shortest time series in \code{tsl}. Default: NULL.}
 }
 \value{
-integer
+An integer.
 }
 \description{
 Default Block Size for Restricted Permutation in Dissimilarity Analyses
 }
 \seealso{
-Other distantia_support: 
-\code{\link{distantia_aggregate}()},
-\code{\link{distantia_boxplot}()},
-\code{\link{distantia_cluster_hclust}()},
-\code{\link{distantia_cluster_kmeans}()},
-\code{\link{distantia_matrix}()},
-\code{\link{distantia_model_frame}()},
-\code{\link{distantia_spatial}()},
-\code{\link{distantia_stats}()},
-\code{\link{distantia_time_delay}()},
-\code{\link{utils_cluster_hclust_optimizer}()},
-\code{\link{utils_cluster_kmeans_optimizer}()},
-\code{\link{utils_cluster_silhouette}()}
+Other distantia_support:
+\code{\link[=distantia_aggregate]{distantia_aggregate()}},
+\code{\link[=distantia_boxplot]{distantia_boxplot()}},
+\code{\link[=distantia_cluster_hclust]{distantia_cluster_hclust()}},
+\code{\link[=distantia_cluster_kmeans]{distantia_cluster_kmeans()}},
+\code{\link[=distantia_matrix]{distantia_matrix()}},
+\code{\link[=distantia_model_frame]{distantia_model_frame()}},
+\code{\link[=distantia_spatial]{distantia_spatial()}},
+\code{\link[=distantia_stats]{distantia_stats()}},
+\code{\link[=distantia_time_delay]{distantia_time_delay()}},
+\code{\link[=utils_cluster_hclust_optimizer]{utils_cluster_hclust_optimizer()}},
+\code{\link[=utils_cluster_kmeans_optimizer]{utils_cluster_kmeans_optimizer()}},
+\code{\link[=utils_cluster_silhouette]{utils_cluster_silhouette()}}
 }
 \concept{distantia_support}

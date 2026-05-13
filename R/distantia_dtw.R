@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' Minimalistic but slightly faster version of [distantia()] to compute dynamic time warping dissimilarity scores using diagonal least cost paths.
+#' A minimalistic but slightly faster version of [distantia()] that computes dynamic time warping dissimilarity scores using diagonal least cost paths.
 #'
 #' @inheritParams distantia
 #'
@@ -57,18 +57,21 @@
 #' @family distantia
 distantia_dtw <- function(
     tsl = NULL,
-    distance = "euclidean"
+    distance = "euclidean",
+    bandwidth = 1
 ){
 
 
   #check input arguments
   args <- utils_check_args_distantia(
     tsl = tsl,
-    distance = distance
+    distance = distance,
+    bandwidth = bandwidth
   )
 
-  tsl <- args$tsl
-  distance <- args$distance[1]
+  tsl       <- args$tsl
+  distance  <- args$distance[1]
+  bandwidth <- args$bandwidth
 
   df <- utils_tsl_pairs(
     tsl = tsl
@@ -83,11 +86,11 @@ distantia_dtw <- function(
   ) %dofuture% {
 
    psi_dtw_cpp(
-     x = tsl[[df[i, "x"]]],
-     y = tsl[[df[i, "y"]]],
-      distance = distance,
-      diagonal = TRUE,
-      bandwidth = 1
+     x         = tsl[[df[i, "x"]]],
+     y         = tsl[[df[i, "y"]]],
+     distance  = distance,
+     diagonal  = TRUE,   # DTW uses diagonal moves; psi_equation_cpp adds +1 correction accordingly
+     bandwidth = bandwidth
     )
 
   }

@@ -1,8 +1,8 @@
-#' Get Time Series Names from a Time Series Lists
+#' Get Time Series Names from Time Series Lists
 #'
 #' @description
 #'
-#' A time series list has two sets of names: the names of the list items (as returned by `names(tsl)`), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names,
+#' A time series list has two sets of names: the names of the list items (as returned by `names(tsl)`), and the names of the contained zoo objects, as stored in their attribute "name". These names should ideally be the same, for the sake of data consistency. This function extracts either set of names.
 #'
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
@@ -261,17 +261,17 @@ tsl_names_set <- function(
 
 #' Clean Time Series Names in a Time Series List
 #'
-#'@description
+#' @description
 #' Combines [utils_clean_names()] and [tsl_names_set()] to help clean, abbreviate, capitalize, and add a suffix or a prefix to time series list names.
 #'
 #' @param tsl (required, list) Time series list. Default: NULL
 #' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
-#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
-#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
+#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name. Default: FALSE.
+#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name. Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
 #' @param suffix (optional, character string) Suffix for the clean names. Default: NULL.
-#' @param prefix (optional, character string)  Prefix for the clean names. Default: NULL.
+#' @param prefix (optional, character string) Prefix for the clean names. Default: NULL.
 #'
 #' @return time series list
 #'
@@ -376,7 +376,7 @@ tsl_names_clean <- function(
 #'   )
 #'
 #' #with different number of columns
-#' #wit repeated name
+#' #with repeated name
 #' y <- zoo_simulate(
 #'   name = "x",
 #'   cols = 2

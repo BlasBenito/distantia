@@ -45,7 +45,7 @@ data frame with columns:
 \item \code{lock_step}: value of the argument \code{lock_step}.
 \item \code{repetitions} (only if \code{repetitions > 0}): value of the argument \code{repetitions}.
 \item \code{permutation} (only if \code{repetitions > 0}): name of the permutation method used to compute p-values.
-\item \code{seed} (only if \code{repetitions > 0}): random seed used to in the permutations.
+\item \code{seed} (only if \code{repetitions > 0}): random seed used in the permutations.
 \item \code{psi}: psi dissimilarity of the sequences \code{x} and \code{y}.
 \item \code{null_mean} (only if \code{repetitions > 0}): mean of the null distribution of psi scores.
 \item \code{null_sd} (only if \code{repetitions > 0}): standard deviation of the null distribution of psi values.
@@ -53,7 +53,7 @@ data frame with columns:
 }
 }
 \description{
-This function combines \emph{dynamic time warping} or \emph{lock-step comparison} with the \emph{psi dissimilarity score} and \emph{permutation methods} to assess dissimilarity between pairs time series or any other sort of data composed of events ordered across a relevant dimension.
+This function combines \emph{dynamic time warping} or \emph{lock-step comparison} with the \emph{psi dissimilarity score} and \emph{permutation methods} to assess dissimilarity between pairs of time series or any other sort of data composed of events ordered across a relevant dimension.
 
 \strong{Dynamic Time Warping} (DTW) finds the optimal alignment between two time series by minimizing the cumulative distance between their samples. It applies dynamic programming to identify the least-cost path through a distance matrix between all pairs of samples. The resulting sum of distances along the least cost path is a metric of time series similarity. DTW disregards the exact timing of samples and focuses on their order and pattern similarity between time series, making it suitable for comparing both \emph{regular and irregular time series of the same or different lengths}, such as phenological data from different latitudes or elevations, time series from various years or periods, and movement trajectories like migration paths. Additionally, \code{distantia()} implements constrained DTW via Sakoe-Chiba bands with the \code{bandwidth} argument, which defines a region around the distance matrix diagonal to restrict the spread of the least cost path.
 
@@ -69,7 +69,7 @@ When $D_xy$ is computed via dynamic time warping \strong{ignoring the distance m
 
 In both equations, a psi score of zero indicates maximum similarity.
 
-\strong{Permutation methods} are provided here to help assess the robustness of observed psi scores by direct comparison with a null distribution of psi scores resulting from randomized versions of the compared time series. The fraction of null scores smaller than the observed score is returned as a \emph{p_value} in the function output and interpreted as "the probability of finding a higher similarity (lower psi score) by chance".
+\strong{Permutation methods} are provided here to help assess the robustness of observed psi scores by direct comparison with a null distribution of psi scores resulting from randomized versions of the compared time series. The fraction of null scores smaller than the observed score is returned as a \emph{p_value} in the function output and interpreted as "the probability of finding a lower psi score (higher similarity) by chance".
 
 In essence, restricted permutation is useful to answer the question "how robust is the similarity between two time series?"
 
@@ -164,9 +164,9 @@ df_dtw$null_mean[3]
 
 }
 \seealso{
-Other distantia: 
-\code{\link{distantia_dtw}()},
-\code{\link{distantia_dtw_plot}()},
-\code{\link{distantia_ls}()}
+Other distantia:
+\code{\link[=distantia_dtw]{distantia_dtw()}},
+\code{\link[=distantia_dtw_plot]{distantia_dtw_plot()}},
+\code{\link[=distantia_ls]{distantia_ls()}}
 }
 \concept{distantia}

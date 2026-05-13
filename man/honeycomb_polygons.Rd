@@ -14,7 +14,7 @@ data(honeycomb_polygons)
 Sf data frame with hexagonal grid of the dataset \link{honeycomb_climate}.
 }
 \seealso{
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_coordinates}},
 \code{\link{cities_temperature}},

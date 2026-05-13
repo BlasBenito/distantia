@@ -63,13 +63,13 @@ psi_cost_path_sum(
 )
 }
 \seealso{
-Other psi_demo: 
-\code{\link{psi_auto_distance}()},
-\code{\link{psi_auto_sum}()},
-\code{\link{psi_cost_matrix}()},
-\code{\link{psi_cost_path}()},
-\code{\link{psi_distance_lock_step}()},
-\code{\link{psi_distance_matrix}()},
-\code{\link{psi_equation}()}
+Other psi_demo:
+\code{\link[=psi_auto_distance]{psi_auto_distance()}},
+\code{\link[=psi_auto_sum]{psi_auto_sum()}},
+\code{\link[=psi_cost_matrix]{psi_cost_matrix()}},
+\code{\link[=psi_cost_path]{psi_cost_path()}},
+\code{\link[=psi_distance_lock_step]{psi_distance_lock_step()}},
+\code{\link[=psi_distance_matrix]{psi_distance_matrix()}},
+\code{\link[=psi_equation]{psi_equation()}}
 }
 \concept{psi_demo}

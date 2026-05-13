@@ -1,7 +1,7 @@
 #' Momentum Boxplot
 #'
 #' @description
-#' Boxplot of a data frame returned by [momentum()] summarizing the contribution to similarity (negative) and/or dissimilarity (positive) of individual variables across all time series.
+#' Creates a boxplot of a data frame returned by [momentum()], summarizing the contribution to similarity (negative) and/or dissimilarity (positive) of individual variables across all time series.
 #'
 #' @inheritParams momentum_aggregate
 #' @inheritParams distantia_boxplot

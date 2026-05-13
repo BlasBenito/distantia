@@ -7,3 +7,11 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
 }
+
+.navbar,
+.navbar-brand,
+.navbar .nav-link,
+.navbar .dropdown-item,
+.navbar .dropdown-menu {
+  font-family: 'Montserrat', sans-serif;
+}

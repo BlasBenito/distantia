@@ -51,11 +51,11 @@ release_date <- as.Date("2025-01-01")
 
 # Plot monthly downloads
 ggplot(monthly_downloads, aes(x = date, y = count)) +
-  geom_col(fill = "#F5191C", alpha = 0.8) +
+  geom_col(fill = "#eb6864", alpha = 0.8) +
   geom_hline(
     yintercept = avg_monthly,
     linetype = "dashed",
-    color = "#3B99B1",
+    color = "#369fae",
     linewidth = 0.8
   ) +
   geom_vline(

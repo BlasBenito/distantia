@@ -3,21 +3,21 @@
 #' @description
 #' Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', and 'lock_step'.
 #'
-#' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL
+#' @param df (required, data frame) Output of [distantia()] or [distantia_aggregate()]. Default: NULL.
 #'
-#' @return list
+#' @return A list.
 #' @export
 #' @autoglobal
 #' @examples
-#' #three time series
-#' #climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#' #Three time series
+#' #Climate and NDVI in Fagus sylvatica stands in Spain, Germany, and Sweden
 #' tsl <- tsl_initialize(
 #'   x = fagus_dynamics,
 #'   name_column = "name",
 #'   time_column = "time"
 #' )
 #'
-#' #dissimilarity analysis with four combinations of parameters
+#' #Dissimilarity analysis with four combinations of parameters
 #' df <- distantia(
 #'   tsl = tsl,
 #'   distance = c(

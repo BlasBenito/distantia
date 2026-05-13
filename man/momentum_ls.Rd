@@ -23,7 +23,7 @@ data frame:
 }
 }
 \description{
-Minimalistic but slightly faster version of \code{\link[=momentum]{momentum()}} to compute lock-step importance analysis in multivariate time series lists.
+A minimalistic but slightly faster version of \code{\link[=momentum]{momentum()}} that computes lock-step importance analysis in multivariate time series lists.
 }
 \examples{
 
@@ -52,8 +52,8 @@ df[, c(
 
 }
 \seealso{
-Other momentum: 
-\code{\link{momentum}()},
-\code{\link{momentum_dtw}()}
+Other momentum:
+\code{\link[=momentum]{momentum()}},
+\code{\link[=momentum_dtw]{momentum_dtw()}}
 }
 \concept{momentum}

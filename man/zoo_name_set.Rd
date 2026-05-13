@@ -9,13 +9,13 @@ zoo_name_set(x = NULL, name = NULL)
 \arguments{
 \item{x}{(required, zoo object) Zoo time series to analyze. Default: NULL.}
 
-\item{name}{(required, character string) name or new name of the zoo object. If NULL, \code{x} is returned as is. Default: NULL}
+\item{name}{(required, character string) Name or new name of the zoo object. If NULL, \code{x} is returned as is. Default: NULL.}
 }
 \value{
 zoo time series
 }
 \description{
-Zoo time series do not have an attribute 'name'. However, within \code{distantia},  to keep data consistency in several plotting and analysis operations, an attribute 'name' is used for these objects. This function is a convenient wrapper of \code{attr(x = x, which = "name") <- "xxx"}.
+Zoo time series do not have an attribute 'name'. However, within \code{distantia}, to keep data consistency in several plotting and analysis operations, an attribute 'name' is used for these objects. This function is a convenient wrapper of \code{attr(x = x, which = "name") <- "xxx"}.
 }
 \examples{
 #simulate zoo time series
@@ -41,17 +41,17 @@ x <- zoo_name_clean(
 zoo_name_get(x = x)
 }
 \seealso{
-Other zoo_functions: 
-\code{\link{zoo_aggregate}()},
-\code{\link{zoo_name_clean}()},
-\code{\link{zoo_name_get}()},
-\code{\link{zoo_permute}()},
-\code{\link{zoo_plot}()},
-\code{\link{zoo_resample}()},
-\code{\link{zoo_smooth_exponential}()},
-\code{\link{zoo_smooth_window}()},
-\code{\link{zoo_time}()},
-\code{\link{zoo_to_tsl}()},
-\code{\link{zoo_vector_to_matrix}()}
+Other zoo_functions:
+\code{\link[=zoo_aggregate]{zoo_aggregate()}},
+\code{\link[=zoo_name_clean]{zoo_name_clean()}},
+\code{\link[=zoo_name_get]{zoo_name_get()}},
+\code{\link[=zoo_permute]{zoo_permute()}},
+\code{\link[=zoo_plot]{zoo_plot()}},
+\code{\link[=zoo_resample]{zoo_resample()}},
+\code{\link[=zoo_smooth_exponential]{zoo_smooth_exponential()}},
+\code{\link[=zoo_smooth_window]{zoo_smooth_window()}},
+\code{\link[=zoo_time]{zoo_time()}},
+\code{\link[=zoo_to_tsl]{zoo_to_tsl()}},
+\code{\link[=zoo_vector_to_matrix]{zoo_vector_to_matrix()}}
 }
 \concept{zoo_functions}

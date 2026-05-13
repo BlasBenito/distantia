@@ -5,7 +5,7 @@
 \alias{cities_coordinates}
 \title{Coordinates of 100 Major Cities}
 \format{
-sf data frame with 5 columns and 100 rows.
+An sf data frame with 5 columns and 100 rows.
 }
 \usage{
 data(cities_coordinates)
@@ -16,19 +16,7 @@ City coordinates and several environmental variables for the dataset \code{citie
 The full dataset with 100 cities can be downloaded from \url{https://github.com/BlasBenito/distantia/blob/main/data_full/cities_coordinates.rda} (use the "Download raw file" button).
 }
 \seealso{
-Other example_data: 
-\code{\link{albatross}},
-\code{\link{cities_temperature}},
-\code{\link{covid_counties}},
-\code{\link{covid_prevalence}},
-\code{\link{eemian_coordinates}},
-\code{\link{eemian_pollen}},
-\code{\link{fagus_coordinates}},
-\code{\link{fagus_dynamics}},
-\code{\link{honeycomb_climate}},
-\code{\link{honeycomb_polygons}}
-
-Other example_data: 
+Other example_data:
 \code{\link{albatross}},
 \code{\link{cities_temperature}},
 \code{\link{covid_counties}},

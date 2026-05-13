@@ -1,9 +1,9 @@
 #' Default Block Size for Restricted Permutation in Dissimilarity Analyses
 #'
-#' @param tsl (required, list) Time series list. Default: NULL
-#' @param block_size (optional, integer vector) Row block sizes for restricted permutation tests. Only relevant when permutation methods are "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to the 20% rows of the shortest time series in `tsl`. Minimum value is 2, and maximum value is 50% rows of the shortest time series in `tsl`. Default: NULL.
+#' @param tsl (required, list) Time series list. Default: NULL.
+#' @param block_size (optional, integer vector) Row block sizes for restricted permutation tests. Used only when the permutation method is "restricted" or "restricted_by_row". A block of size `n` indicates that a row can only be permuted within a block of `n` adjacent rows. If NULL, defaults to 20 percent of the rows of the shortest time series in `tsl`. Minimum value is 2; maximum value is 50 percent of the rows of the shortest time series in `tsl`. Default: NULL.
 #'
-#' @return integer
+#' @return An integer.
 #' @export
 #' @autoglobal
 #' @family distantia_support

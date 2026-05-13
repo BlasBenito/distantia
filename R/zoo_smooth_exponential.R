@@ -3,7 +3,7 @@
 #' @description
 #' Applies exponential smoothing to a zoo time series object, where each value is a weighted average of the current value and past smoothed values. This method is useful for reducing noise in time series data while preserving the general trend.
 #'
-#' @param x (required, zoo object) time series to smooth Default: NULL
+#' @param x (required, zoo object) Time series to smooth. Default: NULL
 #' @param alpha (required, numeric) Smoothing factor in the range (0, 1]. Determines the weight of the current value relative to past values. A higher value gives more weight to recent observations, while a lower value gives more weight to past observations. Default: 0.2
 #'
 #' @return zoo object

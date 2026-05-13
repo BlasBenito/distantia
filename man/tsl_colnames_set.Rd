@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsl_colnames.R
 \name{tsl_colnames_set}
 \alias{tsl_colnames_set}
-\title{Set Column Names in Time Series Lists}
+\title{Set Column Names in a Time Series List}
 \usage{
 tsl_colnames_set(tsl = NULL, names = NULL)
 }
@@ -19,7 +19,7 @@ tsl_colnames_set(tsl = NULL, names = NULL)
 time series list
 }
 \description{
-Set Column Names in Time Series Lists
+Set Column Names in a Time Series List
 }
 \examples{
 tsl <- tsl_simulate(
@@ -56,25 +56,25 @@ tsl_colnames_get(
 )
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

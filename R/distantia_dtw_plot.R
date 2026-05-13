@@ -10,12 +10,12 @@
 #'
 #' @inheritParams distantia
 #' @param matrix_type (optional, character string): one of "cost" or "distance" (the abbreviation "dist" is accepted as well). Default: "cost".
-#' @param matrix_color (optional, character vector) vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by the function [grDevices::hcl.colors()]. Default: NULL
+#' @param matrix_color (optional, character vector) Vector of colors for the distance or cost matrix. If NULL, uses the palette "Zissou 1" provided by [grDevices::hcl.colors()]. Default: NULL
 #' @param path_width (optional, numeric) width of the least cost path. Default: 1
 #' @param path_color (optional, character string) color of the least-cost path. Default: "black"
 #' @param diagonal_width (optional, numeric) width of the diagonal. Set to 0 to remove the diagonal line. Default: 0.5
 #' @param diagonal_color (optional, character string) color of the diagonal. Default: "white"
-#' @param line_color (optional, character vector) Vector of colors for the time series plot. If not provided, defaults to a subset of `matrix_color`.
+#' @param line_color (optional, character vector) Vector of colors for the time series plot. If NULL, defaults to a subset of `matrix_color`.
 #' @param line_width (optional, numeric vector) Width of the time series plot. Default: 1
 #' @param text_cex (optional, numeric) Multiplier of the text size. Default: 1
 #'

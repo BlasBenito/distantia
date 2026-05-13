@@ -15,7 +15,7 @@ color_discrete(n = NULL, rev = FALSE)
 color vector
 }
 \description{
-Uses the function \code{\link[grDevices:palette]{grDevices::palette.colors()}} to generate discrete color palettes using the following rules:
+Uses the function \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}} to generate discrete color palettes using the following rules:
 \itemize{
 \item \code{n <= 9}: "Okabe-Ito".
 \item \code{n == 10}: "Tableau 10"
@@ -29,12 +29,12 @@ Uses the function \code{\link[grDevices:palette]{grDevices::palette.colors()}} t
 color_discrete(n = 9)
 }
 \seealso{
-Other internal_plotting: 
-\code{\link{color_continuous}()},
-\code{\link{utils_color_breaks}()},
-\code{\link{utils_line_color}()},
-\code{\link{utils_line_guide}()},
-\code{\link{utils_matrix_guide}()},
-\code{\link{utils_matrix_plot}()}
+Other internal_plotting:
+\code{\link[=color_continuous]{color_continuous()}},
+\code{\link[=utils_color_breaks]{utils_color_breaks()}},
+\code{\link[=utils_line_color]{utils_line_color()}},
+\code{\link[=utils_line_guide]{utils_line_guide()}},
+\code{\link[=utils_matrix_guide]{utils_matrix_guide()}},
+\code{\link[=utils_matrix_plot]{utils_matrix_plot()}}
 }
 \concept{internal_plotting}

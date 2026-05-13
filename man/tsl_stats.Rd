@@ -33,7 +33,7 @@ data frame:
 \item range: range of the variable, computed as max - min.
 \item iq_range: interquartile range of the variable, computed as q3 - q1.
 \item skewness: asymmetry of the variable distribution.
-\item kurtosis:"tailedness" of the variable distribution.
+\item kurtosis: "tailedness" of the variable distribution.
 \item ac_lag_1, ac_lag_2, ...: autocorrelation values for the specified lags.
 }
 }
@@ -65,10 +65,10 @@ df <- tsl_stats(
 df
 }
 \seealso{
-Other tsl_processing: 
-\code{\link{tsl_aggregate}()},
-\code{\link{tsl_resample}()},
-\code{\link{tsl_smooth}()},
-\code{\link{tsl_transform}()}
+Other tsl_processing:
+\code{\link[=tsl_aggregate]{tsl_aggregate()}},
+\code{\link[=tsl_resample]{tsl_resample()}},
+\code{\link[=tsl_smooth]{tsl_smooth()}},
+\code{\link[=tsl_transform]{tsl_transform()}}
 }
 \concept{tsl_processing}

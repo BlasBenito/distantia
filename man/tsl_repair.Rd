@@ -9,7 +9,7 @@ tsl_repair(tsl = NULL, full = TRUE)
 \arguments{
 \item{tsl}{(required, list) Time series list. Default: NULL}
 
-\item{full}{(optional, logical) If TRUE, a full repair (structure and values) is triggered. Otherwise, only the data structure is repaired Default: TRUE}
+\item{full}{(optional, logical) If TRUE, a full repair (structure and values) is triggered. Otherwise, only the data structure is repaired. Default: TRUE}
 }
 \value{
 time series list
@@ -21,7 +21,7 @@ The structure and values of a \code{tsl} must fulfill several general conditions
 
 Structure:
 \itemize{
-\item The list names match the attributes "name" of the zoo time series
+\item The list names match the attributes "name" of the zoo time series.
 \item All zoo time series must have at least one shared column name.
 \item Data in univariate zoo time series (as extracted by \code{zoo::coredata(x)}) must be of the class "matrix". Univariate zoo time series are often represented as vectors, but this breaks several subsetting and transformation operations implemented in this package.
 }
@@ -32,7 +32,7 @@ Values (optional, when \code{full = TRUE}):
 \item There are no NA, Inf, or NaN values in the time series.
 }
 
-This function analyzes a \code{tsl}, and tries to fix all possible issues to make it comply with the conditions listed above without any user input. Use with care, as it might defile your data.
+This function analyzes a \code{tsl} and tries to fix all possible issues to make it comply with the conditions listed above without any user input. Use with care, as it might modify your data.
 }
 \examples{
 #creating three zoo time series
@@ -45,7 +45,7 @@ x <- zoo_simulate(
   )
 
 #with different number of columns
-#wit repeated name
+#with repeated name
 y <- zoo_simulate(
   name = "x",
   cols = 2
@@ -86,25 +86,25 @@ tsl_diagnose(
 tsl <- tsl_repair(tsl)
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_handle_NA}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_handle_NA]{tsl_handle_NA()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

@@ -3,7 +3,7 @@
 #' @description
 #' Transforms vector coredata of univariate zoo time series to class matrix. If the input zoo time series has the attribute "name", the output inherits the value of such attribute.
 #'
-#' Multivariate zoo objects are returned without changes.
+#' Multivariate zoo objects (those with multiple columns) are returned unchanged.
 #'
 #' @param x (required, zoo object) zoo time series. Default: NULL
 #' @param name (required, character string) name of the matrix column. Default: NULL
@@ -45,8 +45,7 @@ zoo_vector_to_matrix <- function(
   }
 
   #get name
-  x_name <- zoo_name_get(x = x) |>
-    suppressWarnings()
+  x_name <- attr(x, which = "name", exact = TRUE)
 
   #convert to matrix
   y_data <- as.matrix(x_data)
@@ -64,7 +63,7 @@ zoo_vector_to_matrix <- function(
   if(!is.null(x_name)){
     y <- zoo_name_set(
       x = y,
-      name = y
+      name = x_name
     )
   }
 

@@ -17,7 +17,7 @@ distance(x = NULL, y = NULL, distance = "euclidean")
 numeric value
 }
 \description{
-Computes the distance between two numeric vectors with a distance metric included in the data frame \code{distantia::distances}.
+Computes the distance between two numeric vectors using a distance metric included in the data frame \code{distantia::distances}.
 }
 \examples{
 
@@ -29,8 +29,8 @@ distance(
 
 }
 \seealso{
-Other distances: 
-\code{\link{distance_matrix}()},
+Other distances:
+\code{\link[=distance_matrix]{distance_matrix()}},
 \code{\link{distances}}
 }
 \concept{distances}

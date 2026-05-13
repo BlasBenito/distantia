@@ -11,17 +11,17 @@ momentum_spatial(df = NULL, sf = NULL, network = TRUE)
 
 \item{sf}{(required, sf data frame) Points or polygons representing the location of the time series in argument 'df'. It must have a column with all time series names in \code{df$x} and \code{df$y}. Default: NULL}
 
-\item{network}{(optional, logical) If TRUE, the resulting sf data frame is of time LINESTRING and represent network edges. Default: TRUE}
+\item{network}{(optional, logical) If TRUE, the resulting sf data frame is of type LINESTRING and represents network edges. Default: TRUE}
 }
 \value{
 sf data frame (LINESTRING geometry)
 }
 \description{
-Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, \code{\link[=momentum_dtw]{momentum_dtw()}} to an sf data frame.
+Given an sf data frame with geometry types POLYGON, MULTIPOLYGON, or POINT representing time series locations, this function transforms the output of \code{\link[=momentum]{momentum()}}, \code{\link[=momentum_ls]{momentum_ls()}}, or \code{\link[=momentum_dtw]{momentum_dtw()}} to an sf data frame.
 
-If \code{network = TRUE}, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful to build many-to-many dissimilarity maps (see examples).
+If \code{network = TRUE}, the sf data frame is of type LINESTRING, with edges connecting time series locations. This output is helpful for building many-to-many importance maps (see examples).
 
-If \code{network = FALSE}, the sf data frame contains the geometry in the input \code{sf} argument. This output helps build one-to-many dissimilarity maps.
+If \code{network = FALSE}, the sf data frame contains the geometry from the input \code{sf} argument. This output helps build one-to-many importance maps.
 }
 \examples{
 tsl <- distantia::tsl_initialize(
@@ -57,11 +57,11 @@ sf_momentum <- distantia::momentum_spatial(
 
 }
 \seealso{
-Other momentum_support: 
-\code{\link{momentum_aggregate}()},
-\code{\link{momentum_boxplot}()},
-\code{\link{momentum_model_frame}()},
-\code{\link{momentum_stats}()},
-\code{\link{momentum_to_wide}()}
+Other momentum_support:
+\code{\link[=momentum_aggregate]{momentum_aggregate()}},
+\code{\link[=momentum_boxplot]{momentum_boxplot()}},
+\code{\link[=momentum_model_frame]{momentum_model_frame()}},
+\code{\link[=momentum_stats]{momentum_stats()}},
+\code{\link[=momentum_to_wide]{momentum_to_wide()}}
 }
 \concept{momentum_support}

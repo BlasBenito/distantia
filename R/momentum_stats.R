@@ -1,6 +1,6 @@
-#' Stats of Dissimilarity Data Frame
+#' Summary Statistics of Importance Data Frame
 #' @description
-#' Takes the output of [distantia()] to return a data frame with one row per time series with the stats of its dissimilarity scores with all other time series.
+#' Computes summary statistics from the output of [momentum()], returning a data frame with one row per variable and summary statistics of its importance scores across all time series pairs.
 #'
 #' @inheritParams momentum_aggregate
 #'
@@ -37,18 +37,32 @@ momentum_stats <- function(
     df = df
   )
 
+  #warn and drop NA importance before computing stats
+  df_has_na <- is.na(df[["importance"]])
+  if(any(df_has_na)){
+    warning(
+      "distantia::momentum_stats(): ",
+      sum(df_has_na),
+      " NA importance value(s) excluded from summary statistics.",
+      call. = FALSE
+    )
+    df <- df[!df_has_na, ]
+  }
+
   #stats functions
   q1 <- function(x = NULL){
     stats::quantile(
       x = x,
-      probs = 0.25
+      probs = 0.25,
+      na.rm = TRUE
     )
   }
 
   q3 <- function(x = NULL){
     stats::quantile(
       x = x,
-      probs = 0.75
+      probs = 0.75,
+      na.rm = TRUE
     )
   }
 
@@ -88,8 +102,8 @@ momentum_stats <- function(
     p()
 
     df.i <- stats::aggregate(
-      x = df,
-      by = importance ~ variable,
+      importance ~ variable,
+      data = df,
       FUN = f[[i]]
     )
 

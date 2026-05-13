@@ -1,6 +1,8 @@
 #' Number of Decimal Places
 #'
-#' @param x (required, numeric) Default: NULL
+#' Computes the number of decimal places in a numeric value.
+#'
+#' @param x (required, numeric) Numeric value. Default: NULL
 #'
 #' @return integer
 #' @export

@@ -16,13 +16,13 @@ Called by \code{\link[=utils_time_keywords_translate]{utils_time_keywords_transl
 df <- utils_time_keywords_dictionary()
 }
 \seealso{
-Other internal_time_handling: 
-\code{\link{utils_as_time}()},
-\code{\link{utils_coerce_time_class}()},
-\code{\link{utils_is_time}()},
-\code{\link{utils_new_time}()},
-\code{\link{utils_time_keywords}()},
-\code{\link{utils_time_keywords_translate}()},
-\code{\link{utils_time_units}()}
+Other internal_time_handling:
+\code{\link[=utils_as_time]{utils_as_time()}},
+\code{\link[=utils_coerce_time_class]{utils_coerce_time_class()}},
+\code{\link[=utils_is_time]{utils_is_time()}},
+\code{\link[=utils_new_time]{utils_new_time()}},
+\code{\link[=utils_time_keywords]{utils_time_keywords()}},
+\code{\link[=utils_time_keywords_translate]{utils_time_keywords_translate()}},
+\code{\link[=utils_time_units]{utils_time_units()}}
 }
 \concept{internal_time_handling}

@@ -117,6 +117,10 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
     tsl = tsl
   )
 
+  expect_true(all(c("x", "y", "distance", "lock_step", "psi") %in% colnames(df_ls)))
+  expect_true(all(df_ls$lock_step == TRUE))
+  expect_equal(df_ls$distance[1], "euclidean")
+
   df_ls <- df_ls[, c("x", "y", "psi")]
 
   rownames(df_ls) <- NULL
@@ -179,5 +183,48 @@ test_that("Functions `distantia()`, `distantia_ls()`, and `distantia_dtw()` work
   out <- distantia_dtw(tsl = tsl)$psi
 
   testthat::expect_equal(out, 0)
+
+})
+
+test_that("psi_ls_cpp() uses diagonal=TRUE sign convention (psi = 2a/b)", {
+
+  x_mat <- matrix(c(0, 1, 2), ncol = 1)
+  y_mat <- matrix(c(3, 4, 5), ncol = 1)
+  # a = 9: sum of row-wise euclidean distances (3+3+3)
+  # b = 4: auto-sum of consecutive diffs (x: 1+1=2, y: 1+1=2)
+  # diagonal=TRUE:  (2*9/4) - 1 + 1 = 4.5
+  # diagonal=FALSE: (2*9/4) - 1     = 3.5
+  expect_equal(psi_ls_cpp(x_mat, y_mat, "euclidean"), 4.5)
+  expect_equal(psi_equation_cpp(9, 4, FALSE), 3.5)
+
+})
+
+test_that("distantia() input edge cases are handled safely", {
+
+  tsl <- tsl_initialize(
+    x = fagus_dynamics,
+    name_column = "name",
+    time_column = "time"
+  ) |> tsl_subset(time = c("2010-01-01", "2011-01-01"))
+
+  # Item 1: invalid distance string errors at R level (not C++)
+  expect_error(
+    distantia(tsl = tsl, distance = "not_a_distance"),
+    regexp = "arg"
+  )
+
+  # Item 3: repetitions = NULL behaves like repetitions = 0
+  out_null <- distantia(tsl = tsl, repetitions = NULL)
+  out_zero <- distantia(tsl = tsl, repetitions = 0)
+  expect_equal(out_null, out_zero)
+
+  # Item 5a: pure lock-step output lacks diagonal/bandwidth columns
+  out_ls <- distantia(tsl = tsl, lock_step = TRUE)
+  expect_false("diagonal" %in% colnames(out_ls))
+  expect_false("bandwidth" %in% colnames(out_ls))
+
+  # Item 5b: psi column is always numeric
+  expect_type(out_zero$psi, "double")
+  expect_type(out_ls$psi, "double")
 
 })

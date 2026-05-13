@@ -1,7 +1,7 @@
 #' Lock-Step Variable Importance Analysis of Multivariate Time Series Lists
 #'
 #' @description
-#' Minimalistic but slightly faster version of [momentum()] to compute lock-step importance analysis in multivariate time series lists.
+#' A minimalistic but slightly faster version of [momentum()] that computes lock-step importance analysis in multivariate time series lists.
 #'
 #' @inheritParams momentum
 #'

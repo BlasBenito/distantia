@@ -2,13 +2,13 @@
 #'
 #' @description
 #'
-#' The function [distantia()] allows dissimilarity assessments based on several combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on euclidean distances, and another based on manhattan distances.
+#' The function [distantia()] allows dissimilarity assessments based on several combinations of arguments at once. For example, when the argument `distance` is set to `c("euclidean", "Manhattan")`, the output data frame will show two dissimilarity scores for each pair of compared time series, one based on Euclidean distances, and another based on Manhattan distances.
 #'
 #' This function computes dissimilarity stats across combinations of parameters.
 #'
-#' If psi scores smaller than zero occur in the aggregated output, then the the smaller psi value is added to the column `psi` to start dissimilarity scores at zero.
+#' If psi scores smaller than zero occur in the aggregated output, then the smaller psi value is added to the column `psi` to start dissimilarity scores at zero.
 #'
-#' If there are no different combinations of arguments in the input data frame, no aggregation happens, but all parameter columns are removed.
+#' If there is only one combination of arguments in the input data frame, no aggregation occurs and all parameter columns are removed.
 #'
 #' @param df (required, data frame) Output of [distantia()], [distantia_ls()], [distantia_dtw()], or [distantia_time_delay()]. Default: NULL
 #' @param f (optional, function) Function to summarize psi scores (for example, `mean`) when there are several combinations of parameters in `df`. Ignored when there is a single combination of arguments in the input. Default: `mean`
@@ -96,10 +96,10 @@ distantia_aggregate <- function(
 
   # aggregate ----
     df <- stats::aggregate(
-      x = df,
-      by = psi ~ x + y,
+      psi ~ x + y,
+      data = df,
       FUN = f,
-      ... = ...
+      ...
     )
 
   #start aggregated distances at zero

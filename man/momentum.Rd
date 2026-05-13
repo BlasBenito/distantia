@@ -27,7 +27,7 @@ momentum(
 \item{robust}{(required, logical). If TRUE (default), importance scores are computed using the least cost path of the complete time series as reference. Setting it to FALSE allows to replicate importance scores of the previous versions of this package. This option is irrelevant when \code{lock_step = TRUE}. Default: TRUE}
 }
 \value{
-data frame:
+A data frame with the following columns:
 \itemize{
 \item \code{x}: name of the time series \code{x}.
 \item \code{y}: name of the time series \code{y}.
@@ -45,7 +45,7 @@ data frame:
 }
 }
 \description{
-This function measures the contribution of individual variables to the dissimilarity between pairs of time series to help answer the question \emph{what makes two time series more or less similar?}
+This function measures the contribution of individual variables to dissimilarity between pairs of time series to help answer the question \emph{what makes two time series more or less similar?}
 
 Three key values are required to assess individual variable contributions:
 \itemize{
@@ -54,10 +54,10 @@ Three key values are required to assess individual variable contributions:
 \item \strong{psi_without}: dissimilarity when removing the target variable.
 }
 
-The values \code{psi_only_with} and \code{psi_without} can be computed in two different ways defined by the argument \code{robust}.
+The values \code{psi_only_with} and \code{psi_without} can be computed in two different ways, defined by the argument \code{robust}.
 \itemize{
-\item \code{robust = FALSE}: This method replicates the importance algorithm released with the first version of the package, and it is only recommended when the goal to compare new results with previous studies. It normalizes \code{psi_only_with} and \code{psi_without} using the least cost path obtained from the individual variable. As different variables may have different least cost paths for the same time series, normalization values may change from variable to variable, making individual importance scores harder to compare.
-\item \code{robust = TRUE} (default, recommended): This a novel version of the importance algorithm that yields more stable and comparable solutions. It uses the least cost path of the complete time series to normalize \code{psi_only_with} and \code{psi_without}, making importance scores of separate variables fully comparable.
+\item \code{robust = FALSE}: This method replicates the importance algorithm released with the first version of the package, and it is only recommended when the goal is to compare new results with previous studies. It normalizes \code{psi_only_with} and \code{psi_without} using the least cost path obtained from the individual variable. As different variables may have different least cost paths for the same time series, normalization values may change from variable to variable, making individual importance scores harder to compare.
+\item \code{robust = TRUE} (default, recommended): This is a novel version of the importance algorithm that yields more stable and comparable solutions. It uses the least cost path of the complete time series to normalize \code{psi_only_with} and \code{psi_without}, making importance scores of separate variables fully comparable.
 }
 
 The individual importance score of each variable (column "importance" in the output data frame) is based on different expressions depending on the \code{robust} argument, even when \code{lock_step = TRUE}:
@@ -102,8 +102,8 @@ df[, c(
 
 }
 \seealso{
-Other momentum: 
-\code{\link{momentum_dtw}()},
-\code{\link{momentum_ls}()}
+Other momentum:
+\code{\link[=momentum_dtw]{momentum_dtw()}},
+\code{\link[=momentum_ls]{momentum_ls()}}
 }
 \concept{momentum}

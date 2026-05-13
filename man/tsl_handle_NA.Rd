@@ -17,7 +17,7 @@ tsl_NaN_to_NA(tsl = NULL)
 
 \item{na_action}{(required, character) NA handling action. Available options are:
 \itemize{
-\item "impute" (default): NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.approx]{zoo::na.spline()}}).
+\item "impute" (default): NA cases are interpolated from neighbors as a function of time (see \code{\link[zoo:na.approx]{zoo::na.approx()}} and \code{\link[zoo:na.spline]{zoo::na.spline()}}).
 \item "omit": rows with NA cases are removed.
 }}
 }
@@ -25,7 +25,7 @@ tsl_NaN_to_NA(tsl = NULL)
 time series list
 }
 \description{
-Removes or imputes NA cases in time series lists. Imputation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.approx]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
+Removes or imputes NA cases in time series lists. Imputation is done via interpolation against time via \code{\link[zoo:na.approx]{zoo::na.approx()}}, and if there are still leading or trailing NA cases after NA interpolation, then \code{\link[zoo:na.spline]{zoo::na.spline()}} is applied as well to fill these gaps. Interpolated values are forced to fall within the observed data range.
 
 This function supports a parallelization setup via \code{\link[future:plan]{future::plan()}}, and progress bars provided by the package \href{https://CRAN.R-project.org/package=progressr}{progressr}.
 }
@@ -85,25 +85,25 @@ if(interactive()){
 }
 }
 \seealso{
-Other tsl_management: 
-\code{\link{tsl_burst}()},
-\code{\link{tsl_colnames_clean}()},
-\code{\link{tsl_colnames_get}()},
-\code{\link{tsl_colnames_prefix}()},
-\code{\link{tsl_colnames_set}()},
-\code{\link{tsl_colnames_suffix}()},
-\code{\link{tsl_count_NA}()},
-\code{\link{tsl_diagnose}()},
-\code{\link{tsl_join}()},
-\code{\link{tsl_names_clean}()},
-\code{\link{tsl_names_get}()},
-\code{\link{tsl_names_set}()},
-\code{\link{tsl_names_test}()},
-\code{\link{tsl_ncol}()},
-\code{\link{tsl_nrow}()},
-\code{\link{tsl_repair}()},
-\code{\link{tsl_subset}()},
-\code{\link{tsl_time}()},
-\code{\link{tsl_to_df}()}
+Other tsl_management:
+\code{\link[=tsl_burst]{tsl_burst()}},
+\code{\link[=tsl_colnames_clean]{tsl_colnames_clean()}},
+\code{\link[=tsl_colnames_get]{tsl_colnames_get()}},
+\code{\link[=tsl_colnames_prefix]{tsl_colnames_prefix()}},
+\code{\link[=tsl_colnames_set]{tsl_colnames_set()}},
+\code{\link[=tsl_colnames_suffix]{tsl_colnames_suffix()}},
+\code{\link[=tsl_count_NA]{tsl_count_NA()}},
+\code{\link[=tsl_diagnose]{tsl_diagnose()}},
+\code{\link[=tsl_join]{tsl_join()}},
+\code{\link[=tsl_names_clean]{tsl_names_clean()}},
+\code{\link[=tsl_names_get]{tsl_names_get()}},
+\code{\link[=tsl_names_set]{tsl_names_set()}},
+\code{\link[=tsl_names_test]{tsl_names_test()}},
+\code{\link[=tsl_ncol]{tsl_ncol()}},
+\code{\link[=tsl_nrow]{tsl_nrow()}},
+\code{\link[=tsl_repair]{tsl_repair()}},
+\code{\link[=tsl_subset]{tsl_subset()}},
+\code{\link[=tsl_time]{tsl_time()}},
+\code{\link[=tsl_to_df]{tsl_to_df()}}
 }
 \concept{tsl_management}

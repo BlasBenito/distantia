@@ -7,24 +7,24 @@
 utils_distantia_df_split(df = NULL)
 }
 \arguments{
-\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL}
+\item{df}{(required, data frame) Output of \code{\link[=distantia]{distantia()}} or \code{\link[=distantia_aggregate]{distantia_aggregate()}}. Default: NULL.}
 }
 \value{
-list
+A list.
 }
 \description{
 Internal function to split a distantia data frame by groups of the arguments 'distance', 'diagonal', and 'lock_step'.
 }
 \examples{
-#three time series
-#climate and ndvi in Fagus sylvatica stands in Spain, Germany, and Sweden
+#Three time series
+#Climate and NDVI in Fagus sylvatica stands in Spain, Germany, and Sweden
 tsl <- tsl_initialize(
   x = fagus_dynamics,
   name_column = "name",
   time_column = "time"
 )
 
-#dissimilarity analysis with four combinations of parameters
+#Dissimilarity analysis with four combinations of parameters
 df <- distantia(
   tsl = tsl,
   distance = c(
@@ -50,24 +50,24 @@ class(df_split)
 length(df_split)
 }
 \seealso{
-Other internal: 
-\code{\link{utils_boxplot_common}()},
-\code{\link{utils_check_args_distantia}()},
-\code{\link{utils_check_args_matrix}()},
-\code{\link{utils_check_args_momentum}()},
-\code{\link{utils_check_args_path}()},
-\code{\link{utils_check_args_tsl}()},
-\code{\link{utils_check_args_zoo}()},
-\code{\link{utils_check_distance_args}()},
-\code{\link{utils_check_list_class}()},
-\code{\link{utils_clean_names}()},
-\code{\link{utils_digits}()},
-\code{\link{utils_prepare_df}()},
-\code{\link{utils_prepare_matrix}()},
-\code{\link{utils_prepare_matrix_list}()},
-\code{\link{utils_prepare_time}()},
-\code{\link{utils_prepare_vector_list}()},
-\code{\link{utils_prepare_zoo_list}()},
-\code{\link{utils_tsl_pairs}()}
+Other internal:
+\code{\link[=utils_boxplot_common]{utils_boxplot_common()}},
+\code{\link[=utils_check_args_distantia]{utils_check_args_distantia()}},
+\code{\link[=utils_check_args_matrix]{utils_check_args_matrix()}},
+\code{\link[=utils_check_args_momentum]{utils_check_args_momentum()}},
+\code{\link[=utils_check_args_path]{utils_check_args_path()}},
+\code{\link[=utils_check_args_tsl]{utils_check_args_tsl()}},
+\code{\link[=utils_check_args_zoo]{utils_check_args_zoo()}},
+\code{\link[=utils_check_distance_args]{utils_check_distance_args()}},
+\code{\link[=utils_check_list_class]{utils_check_list_class()}},
+\code{\link[=utils_clean_names]{utils_clean_names()}},
+\code{\link[=utils_digits]{utils_digits()}},
+\code{\link[=utils_prepare_df]{utils_prepare_df()}},
+\code{\link[=utils_prepare_matrix]{utils_prepare_matrix()}},
+\code{\link[=utils_prepare_matrix_list]{utils_prepare_matrix_list()}},
+\code{\link[=utils_prepare_time]{utils_prepare_time()}},
+\code{\link[=utils_prepare_vector_list]{utils_prepare_vector_list()}},
+\code{\link[=utils_prepare_zoo_list]{utils_prepare_zoo_list()}},
+\code{\link[=utils_tsl_pairs]{utils_tsl_pairs()}}
 }
 \concept{internal}

@@ -87,8 +87,8 @@ df <- importance_dtw_legacy_cpp(
 df
 }
 \seealso{
-Other Rcpp_importance: 
-\code{\link{importance_dtw_cpp}()},
-\code{\link{importance_ls_cpp}()}
+Other Rcpp_importance:
+\code{\link[=importance_dtw_cpp]{importance_dtw_cpp()}},
+\code{\link[=importance_ls_cpp]{importance_ls_cpp()}}
 }
 \concept{Rcpp_importance}

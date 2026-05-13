@@ -1,11 +1,11 @@
 #' Set Name of a Zoo Time Series
 #'
 #' @description
-#' Zoo time series do not have an attribute 'name'. However, within `distantia`,  to keep data consistency in several plotting and analysis operations, an attribute 'name' is used for these objects. This function is a convenient wrapper of `attr(x = x, which = "name") <- "xxx"`.
+#' Zoo time series do not have an attribute 'name'. However, within `distantia`, to keep data consistency in several plotting and analysis operations, an attribute 'name' is used for these objects. This function is a convenient wrapper of `attr(x = x, which = "name") <- "xxx"`.
 #'
 #'
 #' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
-#' @param name (required, character string) name or new name of the zoo object. If NULL, `x` is returned as is. Default: NULL
+#' @param name (required, character string) Name or new name of the zoo object. If NULL, `x` is returned as is. Default: NULL.
 #'
 #' @return zoo time series
 #' @export
@@ -45,8 +45,6 @@ zoo_name_set <- function(
   if(!is.character(name)){
     return(x)
   }
-
-  x_name <- attributes(x)$name
 
   attr(
     x = x,
@@ -100,7 +98,7 @@ zoo_name_get <- function(
     stop("distantia::zoo_name_get(): argument 'x' must be a zoo time series", call. = FALSE)
   }
 
-  x_name <- attributes(x)$name
+  x_name <- attr(x, which = "name", exact = TRUE)
 
   if(is.null(x_name)){
     warning("distantia::zoo_name_get(): zoo object 'x' does not have the attribute 'name'.", call. = FALSE)
@@ -112,14 +110,14 @@ zoo_name_get <- function(
 
 #' Clean Name of a Zoo Time Series
 #'
-#'@description
+#' @description
 #' Combines [utils_clean_names()] and [zoo_name_set()] to help clean, abbreviate, capitalize, and add a suffix or a prefix to the name of a zoo object.
 #'
 #' @param x (required, zoo object) Zoo time series to analyze. Default: NULL.
 #' @param lowercase (optional, logical) If TRUE, all names are coerced to lowercase. Default: FALSE
 #' @param separator (optional, character string) Separator when replacing spaces and dots. Also used to separate `suffix` and `prefix` from the main word. Default: "_".
-#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name Default: FALSE.
-#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name Default: FALSE.
+#' @param capitalize_first (optional, logical) Indicates whether to capitalize the first letter of each name. Default: FALSE.
+#' @param capitalize_all (optional, logical) Indicates whether to capitalize all letters of each name. Default: FALSE.
 #' @param length (optional, integer) Minimum length of abbreviated names. Names are abbreviated via [abbreviate()]. Default: NULL.
 #' @param suffix (optional, character string) Suffix for the clean names. Default: NULL.
 #' @param prefix (optional, character string)  Prefix for the clean names. Default: NULL.
