@@ -22,3 +22,4 @@ man/figures/*
 bibliography/*
 ^CLAUDE\.md$
 .claude/*
+^CRAN-SUBMISSION$
