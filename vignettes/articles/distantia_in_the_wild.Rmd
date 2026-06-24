@@ -26,6 +26,10 @@ options(conflicts.policy = list(warn = FALSE))
 This article lists known applications of the R package `distantia` found in the literature.
 # References
 
+## 2026
+
+Talluto, N., Bonalumi, I., Givonetti, A. et al. Combining taxonomic, functional and biomonitoring metrics to evaluate the recovery of alpine stream macroinvertebrate communities after an extreme flood. *Aquatic Ecollogy*, *60*,* 67 (2026). https://doi.org/10.1007/s10452-026-10309-y
+
 ## 2025
 
 Bloom, E. H., Atallah, S. S., & Casteel, C. L. (2025). Sustainable soil management practices are associated with increases in crop defense through soil microbiome changes. *npj Sustainable Agriculture*, *3*, 67. https://doi.org/10.1038/s44264-025-00109-6
