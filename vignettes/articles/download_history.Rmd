@@ -27,10 +27,10 @@ library(cranlogs)
 library(ggplot2)
 
 
-# Get download data from the beginning
+#download data
 distantia_downloads <- cranlogs::cran_downloads(
   packages = "distantia",
-  from = "2019-06-01",  # Earliest available data
+  from = "2019-06-01", 
   to = Sys.Date()
 )
 
